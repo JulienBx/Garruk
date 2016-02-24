@@ -370,7 +370,17 @@ public class Card
 			return true;
 		}
 	}
-
+	public string getName()
+	{
+		if(this.Title!="")
+		{
+			return this.Title;
+		}
+		else
+		{
+			return WordingCardName.getName(this.Skills[0].Id);
+		}
+	}
 	public void parseCard(string s)
 	{
 		string[] cardData = null;

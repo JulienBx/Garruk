@@ -22,6 +22,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject cardbox;
 	public GameObject card;
 	public GameObject cardType;
+	public GameObject name;
 
 	public Card c;
 	public int collectionPointsEarned;
@@ -187,6 +188,8 @@ public class NewFocusedCardController : MonoBehaviour
 		this.renamePopUp = this.gameObject.transform.FindChild ("RenamePopUp").gameObject;
 		this.buyXpPopUp = this.gameObject.transform.FindChild ("BuyXpPopUp").gameObject;
 		this.cardType = this.gameObject.transform.FindChild("Card").FindChild("CardType").gameObject;
+		this.name=this.gameObject.transform.FindChild("Card").FindChild("Name").gameObject;
+
 	}
 	public virtual void getRessources()
 	{
@@ -199,10 +202,11 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void show()
 	{
 		this.applyFrontTexture ();
+		this.name.GetComponent<TextMeshPro>().text=this.c.getName();
 		this.life.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetLifeString();
-		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.LifeLevel - 1];
+		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.LifeLevel);
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
-		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [this.c.AttackLevel - 1];
+		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.AttackLevel);
 		this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(this.c.CardType.getPictureId());
 
 		for(int i=0;i<this.skills.Length;i++)
@@ -587,7 +591,7 @@ public class NewFocusedCardController : MonoBehaviour
 			if (w.text == "")
 			{
 				this.c.Title = newName;
-				//this.name.GetComponent<TextMeshPro> ().text = this.c.Title.ToUpper();
+				this.name.GetComponent<TextMeshPro> ().text = this.c.Title;
 			}
 			else
 			{
@@ -1188,10 +1192,6 @@ public class NewFocusedCardController : MonoBehaviour
 		this.setIsXpBeingUpdated (true);
 		ApplicationModel.player.IsBusy=true;
 		this.experience.GetComponent<NewFocusedCardExperienceController>().startUpdatingXp(this.c.ExperienceLevel,this.c.PercentageToNextLevel);
-	}
-	public virtual Color getColors(int id)
-	{
-		return this.ressources.colors[id];	
 	}
 	public virtual Sprite getSkillSprite(int id)
 	{

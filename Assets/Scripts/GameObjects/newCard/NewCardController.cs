@@ -153,7 +153,7 @@ public class NewCardController : NewFocusedCardController
 					}
 
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power-1));
-					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+1.85f+(-newSkillHovered*0.375f)*(0.5f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
+					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+(-0.3f+0.5f*this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.y/this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y+newSkillHovered*0.19f)*(this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
 					if(newSkillHovered!=0)
 					{
 						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)+WordingCard.getReference(1));
@@ -198,13 +198,13 @@ public class NewCardController : NewFocusedCardController
 		if(cursorPosition.x>this.gameObject.transform.position.x+(0.2f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
 		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
 		{
-			if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.90f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.85f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 0;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 1;
 			}
@@ -213,8 +213,8 @@ public class NewCardController : NewFocusedCardController
 			{
 				return 2;
 			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
+			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
+			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
 			{
 				return 3;
 			}
@@ -251,10 +251,6 @@ public class NewCardController : NewFocusedCardController
 		{
 			base.setCardUpgrade();
 		}
-	}
-	public override Color getColors(int id)
-	{
-		return this.cardRessources.colors[id];	
 	}
 	public override Vector3 getCardUpgradePosition (int caracteristicUpgraded)
 	{

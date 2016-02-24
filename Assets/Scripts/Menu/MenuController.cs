@@ -238,6 +238,7 @@ public class MenuController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.gameObject.transform.FindChild ("MobileCristalsBar").FindChild ("Title").GetComponent<TextMeshPro> ().text = ApplicationModel.player.Money.ToString ();
+			//this.gameObject.transform.FindChild("MobileDivisionIcon
 			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().reset();
