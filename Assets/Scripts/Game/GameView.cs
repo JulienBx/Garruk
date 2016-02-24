@@ -93,6 +93,8 @@ public class GameView : MonoBehaviour
 	public bool isDisplayedPopUp = false ;
 	public int hoveringZone = -1 ;
 	public bool toCountTime = true ;
+
+	public int draggingCard ;
 	
 	void Awake()
 	{
@@ -152,6 +154,8 @@ public class GameView : MonoBehaviour
 			this.turnTime = 480;
 		}
 		toCountTime = true ;
+
+		draggingCard = -1 ;
 	}
 	
 	public void displayLoadingScreen()
@@ -482,12 +486,21 @@ public class GameView : MonoBehaviour
 			this.isHeReadyToFight = true;
 		}
 		nbPlayersReadyToFight++;
+
 		if (nbPlayersReadyToFight == 2)
 		{
 			this.SB.GetComponent<StartButtonController>().show(false);
 			this.removeDestinations();
 			this.displayOpponentCards();
 			this.setNextPlayer();
+		}
+	}
+
+	public void authorizeDrag(){
+		for (int i = 0 ; i < playingCards.Count ; i++){
+			if (this.getCard(i).isMine){
+				this.getPlayingCardController(i).canBeDragged = true ;
+			}
 		}
 	}
 	
@@ -527,30 +540,52 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void clickCharacter(int characterID){
-		if(!this.hasFightStarted){
-			if(characterID==this.currentPlayingCard){
-				this.getPlayingCardController(this.currentPlayingCard).stopAnim();
-				if(this.getCard(this.currentPlayingCard).isMine){
-					this.getMyHoveredCardController().stopAnim();
-				}
-				else{
-					this.getHisHoveredCardController().stopAnim();
-				}
-				this.currentPlayingCard = -1 ;
-			}
-			else{
-				this.changeCurrentClickedCard(characterID);
-				if(this.getCard(this.currentPlayingCard).isMine){
-					this.getMyHoveredCardController().toRun();
-				}
-				else{
-					this.getHisHoveredCardController().toRun();
-				}
-			}
+		Tile origine = this.getPlayingCardController(characterID).getTile();
+		if(!hasFightStarted){
+			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
 		}
 		else{
-			if(this.currentPlayingCard==characterID && ApplicationModel.player.ToLaunchGameTutorial){
+			this.setLaunchability("Déplacement en cours !");
+			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.hideTuto();
+			}
+		}
+		this.draggingCard=characterID;
+	}
+
+	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
+		Tile origine = this.getPlayingCardController(characterID).getTile();
+		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
+			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
+		}
+		else{
+			this.draggingCard=-1;
+			this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+			if(GameView.instance.hasFightStarted){
+				if(!this.getPlayingCardController(characterID).getIsMine()){
+					this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(6);
+				}
+			}
+			if(this.getPlayingCardController(characterID).getIsMine()){
+				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
+			}
+		}
+		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
+		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
+		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
+		if(GameView.instance.hasFightStarted){
+			this.getCard(characterID).setHasMoved(true);
+		}
+	}
+
+	public void dropCharacter(int characterID){
+		print("DROP VIDE");
+		this.draggingCard=-1;
+		Tile t = this.getPlayingCardTile(characterID);
+		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+		if(!hasFightStarted){
+			if(this.getPlayingCardController(characterID).getIsMine()){
+				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
 		}
 	}
@@ -586,41 +621,6 @@ public class GameView : MonoBehaviour
 			this.currentPlayingCard = -1 ;
 			this.getMyHoveredCardController().setNextDisplayedCharacter(-1, new GameCard());
 			this.getHisHoveredCardController().setNextDisplayedCharacter(-1, new GameCard());
-		}
-	}
-
-	public void clickDestination(Tile destination, int c){
-		if(c!=-1 && !this.isFreezed){
-			this.setLaunchability("Déplacement en cours !");
-			Tile origine = this.getPlayingCardController(c).getTile();
-			if(this.getCard(c).isMine || hasFightStarted){
-				this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
-			}
-			if(this.hasFightStarted){
-				this.removeDestinations();
-			}
-			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-
-			this.getPlayingCardController(c).changeTile(new Tile(destination.x,destination.y), this.tiles[destination.x,destination.y].GetComponentInChildren<TileController>().getPosition());
-			this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setCharacterID(c);
-
-			if(GameView.instance.hasFightStarted){
-				this.getCard(GameView.instance.getCurrentPlayingCard()).setHasMoved(true);
-				this.getCard(c).hasMoved = true ;
-
-				if(this.getPlayingCardController(c).getIsMine()){
-					this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setDestination(5);
-				}
-				else{
-					this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setDestination(6);
-				}
-			}
-			else{
-				if(this.getPlayingCardController(c).getIsMine()){
-					this.tiles[destination.x, destination.y].GetComponentInChildren<TileController>().setDestination(5);
-					this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
-				}
-			}
 		}
 	}
 
@@ -1080,7 +1080,12 @@ public class GameView : MonoBehaviour
 				this.resize();
 			}
 		}
-		
+
+		if(this.draggingCard!=-1){
+			Vector3 mousePos = Input.mousePosition;
+			this.getPlayingCardController(draggingCard).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
+		}
+
 		if(anims.Count>0){
 			for(int i = 0 ; i < anims.Count ; i++){
 				this.getTileController(anims[i].x, anims[i].y).addAnimTime(Time.deltaTime);
@@ -2225,6 +2230,18 @@ public class GameView : MonoBehaviour
 		return areMyPlayersDead ;
 	}
 
+	public float getPercentageTotalDamages(bool isMe){
+		float damages = 0;
+		float total = 0;
+		for(int i = 0 ; i < playingCards.Count ; i++){
+			if(this.getCard(i).isMine==isMe){
+				damages+=(this.getCard(i).GetTotalLife()-this.getCard(i).getLife());
+				total+=this.getCard(i).GetTotalLife();
+			}
+		}	
+		return (damages/total);
+	}
+
 	public int attackClosestCharacter(){
 		List<Tile> destinations = this.getPlayingCardController(this.currentPlayingCard).getDestinations();
 		destinations.Add(this.getTile(this.currentPlayingCard));
@@ -2251,7 +2268,7 @@ public class GameView : MonoBehaviour
 
 		if(character!=-1){
 			if(distance > 0){
-				GameController.instance.clickDestination(chosenTile, this.currentPlayingCard);
+				GameController.instance.clickDestination(chosenTile, this.currentPlayingCard, true);
 			}
 		}
 		else{
@@ -2269,7 +2286,7 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-			GameController.instance.clickDestination(chosenTile, this.currentPlayingCard);
+			GameController.instance.clickDestination(chosenTile, this.currentPlayingCard, true);
 		}
 		return character ;
 	}
@@ -2302,7 +2319,7 @@ public class GameView : MonoBehaviour
 
 		if(character!=-1){
 			if(distance > 0){
-				this.clickDestination(chosenTile, this.currentPlayingCard);
+				GameController.instance.clickDestination(chosenTile, this.currentPlayingCard, true);
 			}
 		}
 		else{
@@ -2323,7 +2340,7 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-			this.clickDestination(chosenTile, this.currentPlayingCard);
+			GameController.instance.clickDestination(chosenTile, this.currentPlayingCard, true);
 		}
 		return character ;
 	}

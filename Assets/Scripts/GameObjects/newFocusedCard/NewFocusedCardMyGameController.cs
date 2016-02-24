@@ -7,6 +7,7 @@ public class NewFocusedCardMyGameController : NewFocusedCardController
 	{
 		this.gameObject.transform.FindChild("FocusFeature2").gameObject.SetActive(false);
 	}
+
 	public override void updateFocusFeatures()
 	{
 		this.gameObject.transform.FindChild("FocusFeature0").GetComponent<NewFocusedFeaturesController>().showPrice(true);

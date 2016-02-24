@@ -381,17 +381,16 @@ public class TileController : GameObjectController
 					if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
 						GameView.instance.hitTarget(this.characterID);
 					}
-					GameView.instance.clickCharacter(this.characterID);
+					if((!GameView.instance.hasFightStarted && GameView.instance.getCard(this.characterID).isMine)||(GameView.instance.getCurrentPlayingCard()==this.characterID)){
+						GameView.instance.clickCharacter(this.characterID);
+					}
 				}
 				else{
 					if(this.isDisplayingTarget){
 						GameView.instance.hitTarget(this.tile);
 					}
-					else if(this.isDestination!=0 && this.isDestination!=1){
-						GameView.instance.clickEmpty();
-					}
-					else{
-						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard());
+					else if(this.isDestination==1 && GameView.instance.hasFightStarted){
+						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
 					}
 				}
 				if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -400,7 +399,37 @@ public class TileController : GameObjectController
 			}
 		}
 	}
-	
+
+	public void OnMouseUp()
+	{
+		if(this.characterID!=-1 && GameView.instance.draggingCard==this.characterID){
+			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			int x=-1, y=-1 ;
+			if(GameView.instance.getIsFirstPlayer()){
+				x = Mathf.FloorToInt(vec.x+3);
+				y = Mathf.FloorToInt(vec.y+4);
+				print(x+","+y);
+			}
+			else{
+				x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x+3);
+				y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y+4);
+				print(x+","+y);
+			}
+			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
+				Tile t = new Tile(x,y);
+				if(GameView.instance.getTileController(t).getIsDestination()==0){
+					GameController.instance.clickDestination(t, this.characterID, false);
+				}
+				else{
+					GameView.instance.dropCharacter(characterID); 
+				}
+			}
+			else{
+				GameView.instance.dropCharacter(this.characterID);
+			}
+		}
+	}
+
 	public void OnMouseExit()
 	{
 		this.isHovering = false ;

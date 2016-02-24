@@ -36,6 +36,7 @@ public class PlayingCardController : GameObjectController
 	int actualLife;
 	float timerLife = 0f ; 
 	float lifeTime = 1f ;
+	public bool canBeDragged ;
 	
 	void Awake()
 	{
@@ -391,6 +392,11 @@ public class PlayingCardController : GameObjectController
 	public void setTile(Tile t, Vector3 p)
 	{
 		this.tile = t;
+		p.z = -0.5f;
+		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+	}
+
+	public void setPosition(Vector3 p){
 		p.z = -0.5f;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
 	}

@@ -136,7 +136,6 @@ public class GameController : Photon.MonoBehaviour
 
 	public void findNextPlayer()
 	{
-		print("FINDNEXT");
 		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered);
 	}
 	
@@ -158,15 +157,16 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.getPlayingCardController(id).showIcons();
 	}
 	
-	public void clickDestination(Tile t, int c)
+	public void clickDestination(Tile t, int c, bool toDisplay)
 	{
-		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c);
+		print(c);
+		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c, GameView.instance.getIsFirstPlayer(), toDisplay);
 	}
 	
 	[RPC]
-	public void clickDestinationRPC(int x, int y, int c)
+	public void clickDestinationRPC(int x, int y, int c, bool isFirstP, bool toDisplay)
 	{
-		GameView.instance.clickDestination(new Tile(x,y), c);
+		GameView.instance.dropCharacter(c, new Tile(x,y), isFirstP, toDisplay);
 	}
 	
 	public void setChosenSkill(int target, int result)

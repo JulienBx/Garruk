@@ -59,7 +59,7 @@ public class Desequilibre : GameSkill
 		}
 		if(nextTile.x>=0 && nextTile.x<GameView.instance.getBoardWidth() && nextTile.y>=0 && nextTile.y<GameView.instance.getBoardHeight()){
 			if(!GameView.instance.getTileController(nextTile).isRock() && GameView.instance.getTileController(nextTile).getCharacterID()==-1){
-				GameView.instance.clickDestination(nextTile,target);
+				GameView.instance.dropCharacter(target, nextTile, true, true);
 				text+="\nRepoussé!";
 			}
 		}
