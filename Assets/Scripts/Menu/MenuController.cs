@@ -132,6 +132,7 @@ public class MenuController : MonoBehaviour
 			gameObject.transform.FindChild("MobileNotificationsButton").gameObject.SetActive(false);
 			gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(false);
 			gameObject.transform.FindChild("MobileCristalsBar").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileDivisionIcon").gameObject.SetActive(false);
 
 			float buttonsBorderWidth = 1500f;
 			float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
@@ -205,6 +206,8 @@ public class MenuController : MonoBehaviour
 			gameObject.transform.FindChild("ButtonsBorder").gameObject.SetActive(false);
 			gameObject.transform.FindChild("MobilePicture").transform.localScale=ApplicationDesignRules.thumbScale;
 			gameObject.transform.FindChild("MobilePicture").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x-ApplicationDesignRules.topBarWorldSize.x/2f+ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.thumbWorldSize.x/2f,gameObject.transform.FindChild("TopBar").position.y,gameObject.transform.FindChild("TopBar").position.z);
+			gameObject.transform.FindChild("MobileDivisionIcon").transform.localScale=new Vector3(0.2f,0.2f,0.2f);
+			gameObject.transform.FindChild("MobileDivisionIcon").transform.position=new Vector3(gameObject.transform.FindChild("MobilePicture").position.x+0.1f,gameObject.transform.FindChild("MobilePicture").position.y-0.1f,gameObject.transform.FindChild("MobilePicture").position.z);
 			gameObject.transform.FindChild("MobileCristalsBar").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.35f,0.35f,0.35f);
 
 			Vector2 mobileCristalsWorldSize = new Vector2(gameObject.transform.FindChild("MobileCristalsBar").transform.localScale.y*(700f/ApplicationDesignRules.pixelPerUnit),gameObject.transform.FindChild("MobileCristalsBar").transform.localScale.y*(121f/ApplicationDesignRules.pixelPerUnit));
@@ -238,7 +241,7 @@ public class MenuController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			this.gameObject.transform.FindChild ("MobileCristalsBar").FindChild ("Title").GetComponent<TextMeshPro> ().text = ApplicationModel.player.Money.ToString ();
-			//this.gameObject.transform.FindChild("MobileDivisionIcon
+			this.gameObject.transform.FindChild("MobileDivisionIcon").FindChild("Title").GetComponent<TextMeshPro>().text=ApplicationModel.player.CurrentDivision.Id.ToString();
 			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().reset();
@@ -256,6 +259,7 @@ public class MenuController : MonoBehaviour
 		else
 		{
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.player.Money.ToString();
+			this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").FindChild("Title").GetComponent<TextMeshPro>().text=ApplicationModel.player.CurrentDivision.Id.ToString();
 			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().reset();

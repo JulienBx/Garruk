@@ -52,7 +52,7 @@ public class PlayPopUpModel {
 	private void parseCup(string[] array)
 	{
 		ApplicationModel.player.CurrentCup=new Cup();
-		ApplicationModel.player.CurrentCup.Name= "";
+		ApplicationModel.player.CurrentCup.Id= System.Convert.ToInt32(array[0]);
 		ApplicationModel.player.CurrentCup.IdPicture= System.Convert.ToInt32(array[1]);
 		ApplicationModel.player.CurrentCup.NbRounds = System.Convert.ToInt32(array [2]);
 		ApplicationModel.player.CurrentCup.CupPrize = System.Convert.ToInt32(array [3]);
@@ -64,6 +64,7 @@ public class PlayPopUpModel {
 	private void parseDivision(string[] array)
 	{
 		ApplicationModel.player.CurrentDivision = new Division();
+		ApplicationModel.player.CurrentDivision.Id= System.Convert.ToInt32(array[0]);
 		ApplicationModel.player.CurrentDivision.Name= WordingGameModes.getName(0,System.Convert.ToInt32(array[0])-1);
 		ApplicationModel.player.CurrentDivision.IdPicture= System.Convert.ToInt32(array[1]);
 		ApplicationModel.player.CurrentDivision.NbGames = System.Convert.ToInt32(array [2]);

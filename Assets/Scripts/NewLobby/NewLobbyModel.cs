@@ -9,8 +9,6 @@ public class NewLobbyModel
 	private string URLGetLobbyData = ApplicationModel.host+"get_lobby_data.php";
 
 	public IList<PlayerResult> lastResults;
-	public Cup currentCup;
-	public Division currentDivision;
 	
 	public NewLobbyModel()
 	{
@@ -47,13 +45,11 @@ public class NewLobbyModel
 
 			if(isDivisionLobby)
 			{
-				this.currentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-				ApplicationModel.player.CurrentDivision=this.currentDivision;
+				ApplicationModel.player.CurrentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			}
 			else
 			{
-				this.currentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-				ApplicationModel.player.CurrentCup=this.currentCup;
+				ApplicationModel.player.CurrentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			}
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
@@ -84,6 +80,7 @@ public class NewLobbyModel
 		division.NbLooses= System.Convert.ToInt32(array [2]);
 		division.Status= System.Convert.ToInt32(array [3]);
 		division.Name= WordingGameModes.getName(0,System.Convert.ToInt32(array[4])-1);
+		division.Id=System.Convert.ToInt32(array[4]);
 		division.IdPicture= System.Convert.ToInt32(array[5]);
 		division.TitlePrize = System.Convert.ToInt32(array [6]);
 		division.PromotionPrize = System.Convert.ToInt32(array [7]);

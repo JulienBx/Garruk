@@ -111,7 +111,7 @@ public class NewHomePageModel
 	private Division parseDivision(string[] array)
 	{
 		Division division = new Division ();
-		division.Name= array[0];
+		division.Id= System.Convert.ToInt32(array[0]);
 		division.IdPicture= System.Convert.ToInt32(array[1]);
 		division.NbGames = System.Convert.ToInt32(array [2]);
 		division.TitlePrize = System.Convert.ToInt32(array [3]);
