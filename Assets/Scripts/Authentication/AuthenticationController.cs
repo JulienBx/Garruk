@@ -96,6 +96,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		ApplicationModel.player.Username=lastUsername;
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
+		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
 	}
 	private void initializeBackOffice()
 	{

@@ -302,7 +302,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		if(this.idCardTypeUnlocked!=-1)
 		{
-			BackOfficeController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
+			BackOfficeController.instance.displayNewCardTypePopUp(this.idCardTypeUnlocked);
 		}
 		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
@@ -737,7 +737,7 @@ public class NewFocusedCardController : MonoBehaviour
 				}
 				if(this.idCardTypeUnlocked!=-1)
 				{
-					BackOfficeController.instance.displayNewCardTypePopUp(this.titleCardTypeUnlocked);
+					BackOfficeController.instance.displayNewCardTypePopUp(this.idCardTypeUnlocked);
 				}
 				this.deleteCard();
 			}
