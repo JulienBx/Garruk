@@ -14,7 +14,7 @@ public class WordingGameModes
 	}
 	public static string getName(int idGameType, int id)
 	{
-		return names[10*idGameType+id][ApplicationModel.player.IdLanguage];
+		return names[10*(idGameType-1)+id-1][ApplicationModel.player.IdLanguage];
 	}
 	static WordingGameModes()
 	{

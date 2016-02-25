@@ -62,14 +62,10 @@ public class NewLobbyModel
 		cup.NbWins= System.Convert.ToInt32(array [1]);
 		cup.NbLooses= System.Convert.ToInt32(array [2]);
 		cup.Status= System.Convert.ToInt32(array [3]);
-		cup.Name= WordingGameModes.getName(1,System.Convert.ToInt32(array[4])-1);
+		cup.Id= System.Convert.ToInt32(array [4]);
 		cup.IdPicture= System.Convert.ToInt32(array[5]);
 		cup.CupPrize = System.Convert.ToInt32(array [6]);
 		cup.NbRounds = System.Convert.ToInt32(array [7]);
-		cup.EarnXp_W= System.Convert.ToInt32(array [8]);
-		cup.EarnXp_L= System.Convert.ToInt32(array [9]);
-		cup.EarnCredits_W= System.Convert.ToInt32(array [10]);
-		cup.EarnCredits_L= System.Convert.ToInt32(array [11]);
 		return cup;
 	}
 	private Division parseDivision(string[] array)
@@ -79,7 +75,6 @@ public class NewLobbyModel
 		division.NbWins= System.Convert.ToInt32(array [1]);
 		division.NbLooses= System.Convert.ToInt32(array [2]);
 		division.Status= System.Convert.ToInt32(array [3]);
-		division.Name= WordingGameModes.getName(0,System.Convert.ToInt32(array[4])-1);
 		division.Id=System.Convert.ToInt32(array[4]);
 		division.IdPicture= System.Convert.ToInt32(array[5]);
 		division.TitlePrize = System.Convert.ToInt32(array [6]);
@@ -88,10 +83,6 @@ public class NewLobbyModel
 		division.NbWinsForPromotion = System.Convert.ToInt32(array [9]);
 		division.NbWinsForTitle = System.Convert.ToInt32(array [10]);
 		division.NbGames = System.Convert.ToInt32(array [11]);
-		division.EarnXp_W= System.Convert.ToInt32(array [12]);
-		division.EarnXp_L= System.Convert.ToInt32(array [13]);
-		division.EarnCredits_W= System.Convert.ToInt32(array [14]);
-		division.EarnCredits_L= System.Convert.ToInt32(array [15]);
 		return division;
 	}
 	private void parseUser(string[] array)
@@ -122,6 +113,7 @@ public class NewLobbyModel
 			results[i].Opponent.CollectionRanking=System.Convert.ToInt32(resultData[5]);
 			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultData[6]);
 			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
+			results[i].Opponent.Division=System.Convert.ToInt32(resultData[8]);
 		}
 		return results;
 	}

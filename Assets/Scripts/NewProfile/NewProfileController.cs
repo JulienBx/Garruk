@@ -29,6 +29,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject friendshipStatus;
 	private GameObject[] friendshipStatusButtons;
 	private GameObject profilePicture;
+	private GameObject profileDivisionIcon;
 	private GameObject profileEditPictureButton;
 	private GameObject profileEditInformationsButton;
 	private GameObject profileEditPasswordButton;
@@ -188,6 +189,7 @@ public class NewProfileController : MonoBehaviour
 		}
 		if (this.isMyProfile && friendsCheckTimer > friendsRefreshInterval && this.isSceneLoaded) 
 		{
+			this.friendsCheckTimer=0;
 			this.checkFriendsOnlineStatus();
 		}
 	}
@@ -296,6 +298,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(true);
 			this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(true);
+			this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
 			this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		this.drawChallengesRecords ();
@@ -310,6 +313,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(false);
 			this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(false);
+			this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
 			this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		}
 		this.drawTrophies ();
@@ -324,6 +328,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(false);
 			this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(false);
+			this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
 		}
 		this.drawConfrontations ();
 	}
@@ -458,6 +463,7 @@ public class NewProfileController : MonoBehaviour
 		this.profileBlockTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.profilePicture = GameObject.Find ("ProfilePicture");
 		this.profilePicture.AddComponent<NewProfilePictureButtonController> ();
+		this.profileDivisionIcon = GameObject.Find("ProfileDivisionIcon");
 		this.profileEditPictureButton = GameObject.Find ("EditProfilePicture");
 		this.profileEditPictureButton.AddComponent<NewProfileEditPictureButtonController> ();
 		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(0);
@@ -730,6 +736,9 @@ public class NewProfileController : MonoBehaviour
 		this.profilePicture.transform.position = new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.profilePictureWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y / 2f, 0f);
 		this.profilePicture.transform.localScale = ApplicationDesignRules.profilePictureScale;
 
+		this.profileDivisionIcon.transform.position=this.profilePicture.transform.position+new Vector3(0.62f,-0.62f,0f);
+		this.profileDivisionIcon.transform.localScale=new Vector3(0.3f,0.3f,0.3f);
+
 		this.profileBlockTitle.transform.position = new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing+ApplicationDesignRules.profilePictureWorldSize.x+0.3f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.profileBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 		
@@ -818,11 +827,13 @@ public class NewProfileController : MonoBehaviour
 			this.friendsContents[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
 			this.friendsContents[i].transform.FindChild("picture").localPosition=new Vector3(-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(friendsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
 			this.friendsContents[i].transform.FindChild("username").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(friendsWidth/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.friendsContents[i].transform.FindChild("username").localPosition=new Vector3(-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,friendsHeight-(friendsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(friendsWidth/2f)-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.friendsContents[i].transform.FindChild("username").localPosition=new Vector3(-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,friendsHeight-(friendsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
 			this.friendsContents[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*friendsWidth-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.friendsContents[i].transform.FindChild("description").localPosition=new Vector3(-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,friendsHeight/2f,0f);
+			this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*friendsWidth-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.friendsContents[i].transform.FindChild("description").localPosition=new Vector3(-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,friendsHeight-(friendsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f-0.25f,0f);
+			this.friendsContents[i].transform.FindChild("divisionIcon").localScale=ApplicationDesignRules.divisionIconScale;
+			this.friendsContents[i].transform.FindChild("divisionIcon").localPosition=new Vector3(ApplicationDesignRules.divisionIconDistance.x-friendsWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(friendsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f+ApplicationDesignRules.divisionIconDistance.y,0f);
 			//this.friendsContents[i].transform.FindChild("date").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
 			//this.friendsContents[i].transform.FindChild("date").GetComponent<TextMeshPro>().textContainer.width=(contentBlockSize.x/4f);
 			//this.friendsContents[i].transform.FindChild("date").localPosition=new Vector3(contentBlockSize.x/2f,contentBlockSize.y-(contentBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
@@ -879,11 +890,13 @@ public class NewProfileController : MonoBehaviour
 			this.resultsContents[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
 			this.resultsContents[i].transform.FindChild("picture").localPosition=new Vector3(-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(resultsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
 			this.resultsContents[i].transform.FindChild("title").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().textContainer.width=(resultsWidth/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.resultsContents[i].transform.FindChild("title").localPosition=new Vector3(-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,resultsHeight-(resultsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().textContainer.width=(resultsWidth/2f)-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.resultsContents[i].transform.FindChild("title").localPosition=new Vector3(-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,resultsHeight-(resultsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
 			this.resultsContents[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=resultsWidth-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.resultsContents[i].transform.FindChild("description").localPosition=new Vector3(-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,resultsHeight/2f,0f);
+			this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=resultsWidth-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.resultsContents[i].transform.FindChild("description").localPosition=new Vector3(-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,resultsHeight-(resultsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f-0.25f,0f);
+			this.resultsContents[i].transform.FindChild("divisionIcon").localScale=ApplicationDesignRules.divisionIconScale;
+			this.resultsContents[i].transform.FindChild("divisionIcon").localPosition=new Vector3(ApplicationDesignRules.divisionIconDistance.x-resultsWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(resultsHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f+ApplicationDesignRules.divisionIconDistance.y,0f);
 			//this.resultsContents[i].transform.FindChild("date").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
 			//this.resultsContents[i].transform.FindChild("date").GetComponent<TextMeshPro>().textContainer.width=(resultsContentBlockSize.x/4f);
 			//this.resultsContents[i].transform.FindChild("date").localPosition=new Vector3(resultsContentBlockSize.x/2f,resultsContentBlockSize.y-(resultsContentBlockSize.y-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
@@ -953,6 +966,10 @@ public class NewProfileController : MonoBehaviour
 				this.friendshipStatusButtons[i].transform.position = new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.profilePictureWorldSize.x+0.3f+ApplicationDesignRules.button61WorldSize.x/2f, profileBlockUpperLeftPosition.y - 0.2f - ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.button61WorldSize.y / 2f-i*(ApplicationDesignRules.button61WorldSize.y), 0f);
 				this.friendshipStatusButtons[i].transform.localScale = ApplicationDesignRules.button62Scale;
 			}
+			for(int i=0;i<this.profileInformations.Length;i++)
+			{
+				this.profileInformations[i].GetComponent<TextContainer>().width=profileBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.profilePictureWorldSize.x - 0.3f;
+			}
 		}
 		else
 		{
@@ -989,6 +1006,10 @@ public class NewProfileController : MonoBehaviour
 			{
 				this.friendshipStatusButtons[i].transform.position = new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.profilePictureWorldSize.x+0.3f+ApplicationDesignRules.button61WorldSize.x/2f+i*(ApplicationDesignRules.button61WorldSize.x+0.05f), profileBlockUpperLeftPosition.y - 0.2f - ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.button61WorldSize.y / 2f, 0f);
 				this.friendshipStatusButtons[i].transform.localScale = ApplicationDesignRules.button62Scale;
+			}
+			for(int i=0;i<this.profileInformations.Length;i++)
+			{
+				this.profileInformations[i].GetComponent<TextContainer>().width=profileBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-2f*ApplicationDesignRules.roundButtonWorldSize.x-ApplicationDesignRules.profilePictureWorldSize.x - 0.3f;
 			}
 		}
 		this.searchBar.GetComponent<NewProfileSearchBarController>().resize();
@@ -1101,6 +1122,8 @@ public class NewProfileController : MonoBehaviour
 				this.challengesRecordsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Username;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
+				this.resultsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Division);
+
 				int nbWins = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbWins;
 				int nbLooses = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbLooses;
 				if(nbWins>nbLooses)
@@ -1165,6 +1188,7 @@ public class NewProfileController : MonoBehaviour
 				}
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Username;
+				this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Division);
 				this.friendsContents[i].SetActive(true);
 			}
 			else
@@ -1183,8 +1207,11 @@ public class NewProfileController : MonoBehaviour
 			if(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i<this.friendsToBeDisplayed.Count)
 			{
 				this.friendsDisplayed.Add (this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i);
+				this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().reset();
+				this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().reset();
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Username;
+				this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Division);
 				this.friendsContents[i].SetActive(true);
 				string connectionState="";
 				Color connectionStateColor=new Color();
@@ -1300,6 +1327,7 @@ public class NewProfileController : MonoBehaviour
 			this.drawPersonalInformations ();
 		}
 		this.drawProfilePicture ();
+		this.profileDivisionIcon.transform.GetComponent<DivisionIconController>().setDivision(model.displayedUser.Division);
 	}
 	private void drawPersonalInformations()
 	{
@@ -1719,7 +1747,11 @@ public class NewProfileController : MonoBehaviour
 	}
 	public string checkname(string name)
 	{
-		if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
+		if(name.Length>20)
+		{
+			return WordingProfile.getReference(37);
+		}
+		else if(!Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
 		{
 			return WordingProfile.getReference(34);
 		}   
@@ -1727,7 +1759,11 @@ public class NewProfileController : MonoBehaviour
 	}
 	public string checkEmail(string email)
 	{
-		if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+		if(name.Length>40)
+		{
+			return WordingProfile.getReference(38);
+		}
+		else if(!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
 		{
 			return WordingProfile.getReference(35);
 		}

@@ -11,11 +11,13 @@ public class NewProfileResultsContentPictureController : SpriteButtonController
 	{
 		base.setHoveredState ();
 		gameObject.transform.parent.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.blueColor;
+		gameObject.transform.parent.gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setHoveredState();
 	}
 	public override void setInitialState()
 	{
 		base.setInitialState ();
 		gameObject.transform.parent.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		gameObject.transform.parent.gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setInitialState();
 	}
 }
 

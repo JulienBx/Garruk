@@ -274,6 +274,11 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 buttonMenuMobileScale = new Vector3 (0.8f, 0.8f, 0.8f);
 	static public Vector3 buttonMenuScale;
 
+	static private Vector3 divisionIconOriginalScale = new Vector3 (0.15f, 0.15f, 0.15f);
+	static private Vector3 divisionIconMobileScale = new Vector3(0.15f,0.15f,0.15f);
+	static public Vector3 divisionIconScale;
+	static public Vector3 divisionIconDistance;
+
 	static public float gapBetweenCardsLine;
 	static public float gapBetweenMarketCardsLine = 0.55f;
 	static public float gapBetweenPacksLine = 0.25f;
@@ -350,6 +355,7 @@ public class ApplicationDesignRules : MonoBehaviour
 			buttonVerticalSpacing=0.2f;
 			subMainTitleVerticalSpacing=0.95f;
 			gapBetweenCardsLine = 0.1f;
+			divisionIconDistance=new Vector3(0.3f,-0.3f,0f);
 		}
 		else
 		{
@@ -376,7 +382,7 @@ public class ApplicationDesignRules : MonoBehaviour
 			subMainTitleVerticalSpacing=1.2f;
 			buttonVerticalSpacing=0.2f;
 			gapBetweenCardsLine = 0.25f;
-
+			divisionIconDistance=new Vector3(0.2f,-0.2f,0f);
 		}
 
 		largeBlockHeight = 10f - upMargin - downMargin;
@@ -503,6 +509,8 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		newSkillsPopUpScale = toNewScale (newSkillsPopUpOriginalScale,newSkillsPopUpMobileScale);
 		newSkillsPopUpWorldSize = toWorldSize (newSkillsPopUpSize, newSkillsPopUpScale);
+
+		divisionIconScale = toNewScale (divisionIconOriginalScale,divisionIconMobileScale);
 
 		packWorldSize.x = blockWidth - 2f * blockHorizontalSpacing;
 		packWorldSize.y = 2.5f;

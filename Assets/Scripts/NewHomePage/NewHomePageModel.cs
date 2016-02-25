@@ -47,7 +47,7 @@ public class NewHomePageModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.users = parseUsers(data[9].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[8].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.users.Add(ApplicationModel.player);
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
@@ -56,7 +56,6 @@ public class NewHomePageModel
 			ApplicationModel.player.CurrentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			ApplicationModel.player.CurrentCup=parseCup(data[6].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.packs=parsePacks(data[7].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
-			ApplicationModel.player.CurrentFriendlyGame = this.parseFriendlyGame(data[8].Split(new string[] { "//" }, System.StringSplitOptions.None));
 
 			this.lookForNonReadNotification();
 			this.competitions.Add (ApplicationModel.player.CurrentDivision);
@@ -98,27 +97,21 @@ public class NewHomePageModel
 	private Cup parseCup(string[] array)
 	{
 		Cup cup = new Cup ();
-		cup.Name= array[0];
-		cup.IdPicture= System.Convert.ToInt32(array[1]);
-		cup.NbRounds = System.Convert.ToInt32(array [2]);
-		cup.CupPrize = System.Convert.ToInt32(array [3]);
-		cup.EarnXp_W = System.Convert.ToInt32 (array [4]);
-		cup.EarnXp_L = System.Convert.ToInt32 (array [5]);
-		cup.EarnCredits_W = System.Convert.ToInt32 (array [6]);
-		cup.EarnCredits_L = System.Convert.ToInt32 (array [7]);
+		cup.GamesPlayed= System.Convert.ToInt32(array[0]);
+		cup.Id= System.Convert.ToInt32(array[1]);
+		cup.IdPicture= System.Convert.ToInt32(array[2]);
+		cup.NbRounds = System.Convert.ToInt32(array [3]);
+		cup.CupPrize = System.Convert.ToInt32(array [4]);
 		return cup;
 	}
 	private Division parseDivision(string[] array)
 	{
 		Division division = new Division ();
-		division.Id= System.Convert.ToInt32(array[0]);
-		division.IdPicture= System.Convert.ToInt32(array[1]);
-		division.NbGames = System.Convert.ToInt32(array [2]);
-		division.TitlePrize = System.Convert.ToInt32(array [3]);
-		division.EarnXp_W = System.Convert.ToInt32 (array [4]);
-		division.EarnXp_L = System.Convert.ToInt32 (array [5]);
-		division.EarnCredits_W = System.Convert.ToInt32 (array [6]);
-		division.EarnCredits_L = System.Convert.ToInt32 (array [7]);
+		division.GamesPlayed = System.Convert.ToInt32 (array [0]);
+		division.Id= System.Convert.ToInt32(array[1]);
+		division.IdPicture= System.Convert.ToInt32(array[2]);
+		division.NbGames = System.Convert.ToInt32(array [3]);
+		division.TitlePrize = System.Convert.ToInt32(array [4]);
 		return division;
 	}
 	private void parsePlayer(string[] array)
@@ -135,10 +128,6 @@ public class NewHomePageModel
 		ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
 		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
 		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
-		ApplicationModel.player.Division = System.Convert.ToInt32 (array [12]);
-		ApplicationModel.player.NbGamesDivision = System.Convert.ToInt32 (array [13]);
-		ApplicationModel.player.Cup = System.Convert.ToInt32 (array [14]);
-		ApplicationModel.player.NbGamesCup = System.Convert.ToInt32 (array [15]);
 	}
 	private IList<User> parseUsers(string[] array)
 	{
@@ -157,6 +146,7 @@ public class NewHomePageModel
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
 			users[i].TotalNbWins = System.Convert.ToInt32 (userData[6]);
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
+			users[i].Division = System.Convert.ToInt32 (userData [8]);
 		}
 		return users;
 	}
@@ -379,15 +369,6 @@ public class NewHomePageModel
 			return text;
 		}
 		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
-	}
-	private FriendlyGame parseFriendlyGame(string[] friendlyGameData)
-	{
-		FriendlyGame friendlyGame =new FriendlyGame();
-		friendlyGame.EarnXp_W = System.Convert.ToInt32 (friendlyGameData [0]);
-		friendlyGame.EarnXp_L = System.Convert.ToInt32 (friendlyGameData [1]);
-		friendlyGame.EarnCredits_W = System.Convert.ToInt32 (friendlyGameData [2]);
-		friendlyGame.EarnCredits_L = System.Convert.ToInt32 (friendlyGameData [3]);
-		return friendlyGame;
 	}
 	private List<Deck> parseDecks(string[] decksData)
 	{

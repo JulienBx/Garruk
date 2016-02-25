@@ -473,11 +473,13 @@ public class NewLobbyController : MonoBehaviour
 			this.results[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
 			this.results[i].transform.FindChild("picture").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
 			this.results[i].transform.FindChild("username").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(lastResultWidth/2f)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.results[i].transform.FindChild("username").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultHeight-(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(lastResultWidth/2f)-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("username").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,lastResultHeight-(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.results[i].transform.FindChild("divisionIcon").localScale=ApplicationDesignRules.divisionIconScale;
+			this.results[i].transform.FindChild("divisionIcon").localPosition=new Vector3(ApplicationDesignRules.divisionIconDistance.x-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f+ApplicationDesignRules.divisionIconDistance.y,0f);
 			this.results[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*lastResultWidth-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.results[i].transform.FindChild("description").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,lastResultHeight/2f,0f);
+			this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=0.75f*lastResultWidth-0.2f-ApplicationDesignRules.thumbWorldSize.x;
+			this.results[i].transform.FindChild("description").localPosition=new Vector3(-lastResultWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,lastResultHeight-(lastResultHeight-ApplicationDesignRules.thumbWorldSize.y)/2f-0.35f,0f);
 		}
 
 		this.setLastResults ();
@@ -573,8 +575,7 @@ public class NewLobbyController : MonoBehaviour
 			{
 				this.resultsDisplayed.Add (this.pagination.chosenPage*this.pagination.nbElementsPerPage+i);
 				this.results[i].SetActive(true);
-
-
+	
 				string description="";
 				Color textColor=new Color();
 				if(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].HasWon)
@@ -587,13 +588,11 @@ public class NewLobbyController : MonoBehaviour
 					description=WordingLobby.getReference(11)+model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.redColor;
 				}
-
-
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=textColor;
 				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.IdProfilePicture);
 				this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Username;
-				
+				this.results[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Division);
 			}
 			else
 			{
@@ -614,7 +613,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isDivisionLobby)
 		{
-			this.mainBlockTitle.GetComponent<TextMeshPro>().text=ApplicationModel.player.CurrentDivision.Name;
+			this.mainBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(1,ApplicationModel.player.CurrentDivision.Id);
 			string description=WordingLobby.getReference(12)+ApplicationModel.player.CurrentDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
 			if(ApplicationModel.player.CurrentDivision.NbWinsForPromotion!=-1)
 			{
@@ -625,7 +624,7 @@ public class NewLobbyController : MonoBehaviour
 		}
 		else
 		{
-			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=ApplicationModel.player.CurrentCup.Name;
+			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(2,ApplicationModel.player.CurrentCup.Id);
 			string description=WordingLobby.getReference(15)+ApplicationModel.player.CurrentCup.CupPrize.ToString()+WordingLobby.getReference(14);
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
 			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentCup.IdPicture);

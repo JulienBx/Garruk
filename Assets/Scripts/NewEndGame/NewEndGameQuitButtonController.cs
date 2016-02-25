@@ -10,7 +10,7 @@ public class NewEndGameQuitButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		NewEndGameController.instance.quitEndSceneHandler ();
+		NewEndGameController.instance.quitEndGameHandler ();
 	}
 }
 

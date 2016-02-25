@@ -76,6 +76,7 @@ public class NewHomePageController : MonoBehaviour
 	private IList<int> friendsToBeDisplayed;
 
 	private IList<int> friendsOnline;
+	private bool toUpdateFriends;
 	
 	private Pagination newsfeedPagination;
 
@@ -158,6 +159,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		if (checkForFriendsOnlineTimer > refreshInterval && this.isSceneLoaded) 
 		{
+			this.checkForFriendsOnlineTimer=0;
 			this.checkFriendsOnlineStatus();
 		}
 		if(this.sliderTimer>this.sliderRefreshInterval)
@@ -739,12 +741,14 @@ public class NewHomePageController : MonoBehaviour
 			this.contents[i].transform.FindChild("line").localScale=new Vector3(lineScale,1f,1f);
 			this.contents[i].transform.FindChild("picture").localScale=ApplicationDesignRules.thumbScale;
 			this.contents[i].transform.FindChild("picture").localPosition=new Vector3(-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f,0f);
+			this.contents[i].transform.FindChild("divisionIcon").localScale=ApplicationDesignRules.divisionIconScale;
+			this.contents[i].transform.FindChild("divisionIcon").localPosition=new Vector3(ApplicationDesignRules.divisionIconDistance.x-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x/2f,(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f+ApplicationDesignRules.thumbWorldSize.y/2f+ApplicationDesignRules.divisionIconDistance.y,0f);
 			this.contents[i].transform.FindChild("username").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(contentWidth)-0.1f-ApplicationDesignRules.thumbWorldSize.x;
-			this.contents[i].transform.FindChild("username").localPosition=new Vector3(-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,contentHeight-(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
+			this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().textContainer.width=(contentWidth)-0.2f-2f*ApplicationDesignRules.button31WorldSize.x;
+			this.contents[i].transform.FindChild("username").localPosition=new Vector3(-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,contentHeight-(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
 			this.contents[i].transform.FindChild("description").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
-			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=contentWidth-ApplicationDesignRules.thumbWorldSize.x-ApplicationDesignRules.button62WorldSize.x;
-			this.contents[i].transform.FindChild("description").localPosition=new Vector3(-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.1f,contentHeight/2f,0f);
+			this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().textContainer.width=contentWidth-0.2f-ApplicationDesignRules.thumbWorldSize.x-2f*ApplicationDesignRules.button31WorldSize.x;
+			this.contents[i].transform.FindChild("description").localPosition=new Vector3(-contentWidth/2f+ApplicationDesignRules.thumbWorldSize.x+0.2f,contentHeight-(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f-0.25f,0f);
 			this.contents[i].transform.FindChild("date").localScale=new Vector3(ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio,ApplicationDesignRules.reductionRatio);
 			this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().textContainer.width=(contentWidth/4f);
 			this.contents[i].transform.FindChild("date").localPosition=new Vector3(contentWidth/2f,contentHeight-(contentHeight-ApplicationDesignRules.thumbWorldSize.y)/2f,0f);
@@ -1213,10 +1217,9 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
+				this.drawContentUser(i,model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.IdProfilePicture);
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.Date.ToString(WordingDates.getDateFormat());
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].SendingUser.Username;
 				if(!model.notifications[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Notification.IsRead)
 				{
 					this.contents[i].transform.FindChild("new").gameObject.SetActive(true);
@@ -1235,6 +1238,7 @@ public class NewHomePageController : MonoBehaviour
 					this.friendsStatusButtons[2*i].SetActive(false);
 					this.friendsStatusButtons[2*i+1].SetActive(false);
 				}
+
 			}
 			else
 			{
@@ -1254,11 +1258,9 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.newsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
+				this.drawContentUser(i,model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].Content;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].News.Date.ToString("dd/MM/yyyy");
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.news[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i].User.Username;
-
 			}
 			else
 			{
@@ -1295,8 +1297,7 @@ public class NewHomePageController : MonoBehaviour
 				}
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
-				this.contents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].IdProfilePicture);
-				this.contents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].Username;
+				this.drawContentUser(i,model.users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]]);
 			}
 			else
 			{
@@ -1304,6 +1305,14 @@ public class NewHomePageController : MonoBehaviour
 				this.challengeButtons[i].SetActive(false);
 			}
 		}
+	}
+	public void drawContentUser(int contentId, User user)
+	{
+		this.contents[contentId].transform.FindChild("picture").GetComponent<NewHomePageContentPictureController>().reset();
+		this.contents[contentId].transform.FindChild("username").GetComponent<NewHomePageContentUsernameController>().reset();
+		this.contents[contentId].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(user.IdProfilePicture);
+		this.contents[contentId].transform.FindChild("username").GetComponent<TextMeshPro>().text=user.Username;
+		this.contents[contentId].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(user.Division);
 	}
 	public void drawPack()
 	{
@@ -1318,7 +1327,7 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(2);
 
 		string divisionState;
-		if(ApplicationModel.player.NbGamesDivision>0)
+		if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
 		{
 			divisionState=WordingGameModes.getReference(3);
 		}
@@ -1389,11 +1398,11 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public int getNbGamesCup()
 	{
-		return ApplicationModel.player.NbGamesCup;
+		return ApplicationModel.player.CurrentCup.GamesPlayed;
 	}
 	public int getNbGamesDivision()
 	{
-		return ApplicationModel.player.NbGamesCup;
+		return ApplicationModel.player.CurrentDivision.GamesPlayed;
 	}
 	public void displayConnectionBonusPopUp()
 	{
@@ -1704,6 +1713,7 @@ public class NewHomePageController : MonoBehaviour
 			this.challengeButtons[i].AddComponent<NewHomePageChallengeButtonController>();
 			this.challengeButtons[i].GetComponent<NewHomePageChallengeButtonController>().setId(i);
 			this.challengeButtons[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(0);
+			this.challengeButtons[i].SetActive(false);
 		}
 	}
 	public void initializeFriendsStatusButton()

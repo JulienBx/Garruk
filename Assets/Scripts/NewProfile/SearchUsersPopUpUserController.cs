@@ -21,8 +21,9 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 		if(!isHovering)
 		{
 			this.isHovering=true;
-			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
+			gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setHoveredState();
 		}
 	}
 	void OnMouseExit()
@@ -30,8 +31,9 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 		if(isHovering)
 		{
 			this.isHovering=false;
-			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			gameObject.transform.FindChild("Username").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+			gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setInitialState();
 		}
 	}
 	void OnMouseDown()
@@ -43,6 +45,7 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
 		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture(this.u.IdProfilePicture);
+		gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(this.u.Division);
 	}
 	public void setId(int Id)
 	{

@@ -35,6 +35,7 @@ public class SearchUsersPopUpModel
 				this.users.Add (new User());
 				this.users[i].Username= userData[0];
 				this.users[i].IdProfilePicture= System.Convert.ToInt32(userData[1]);
+				this.users[i].Division= System.Convert.ToInt32(userData[2]);
 			}
 		}
 	}
