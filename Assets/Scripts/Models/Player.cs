@@ -80,6 +80,8 @@ public class Player : User
 	public string FacebookId;
 	public bool IsAccountCreated;
 	public bool ToChangePassword;
+	public Deck MyDeck;
+	public int PercentageLooser;
 
 	public Player()
 	{
@@ -96,7 +98,6 @@ public class Player : User
 		this.HasWonLastGame=false;
 		this.PackToBuy=-1;
 		this.ChosenGameType=0;
-		this.MacAdress=SystemInfo.deviceUniqueIdentifier;
 		this.URLGetUserGameProfile = ApplicationModel.host + "get_user_game_profile.php";
 		this.URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defaultprofilepicture.png";
 		this.URLDefaultThumbProfilePicture = ApplicationModel.host + "img/profile/defaultthumbprofilepicture.png";

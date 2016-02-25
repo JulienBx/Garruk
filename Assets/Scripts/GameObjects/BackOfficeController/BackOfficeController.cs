@@ -140,10 +140,10 @@ public class BackOfficeController : MonoBehaviour
 		}
 		this.newSkillsPopUpsResize ();
 	}
-	public void displayNewCardTypePopUp(string titleCardTypeUnlocked)
+	public void displayNewCardTypePopUp(int idCardTypeUnlocked)
 	{
 		this.displayTransparentBackground ();
-		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (titleCardTypeUnlocked);
+		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (WordingCardTypes.getName(idCardTypeUnlocked));
 		this.isNewCardTypePopUpDisplayed = true;
 		this.newCardTypePopUp.SetActive (true);
 		this.newCardTypePopUpResize();

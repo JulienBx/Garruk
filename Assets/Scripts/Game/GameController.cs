@@ -315,19 +315,23 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void quitGameRPC(bool hasFirstPlayerWon)
 	{
+		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
 		if (hasFirstPlayerWon == GameView.instance.getIsFirstPlayer())
 		{
 			GameView.instance.getMyHoveredCardController().lowerCharacter();
 			GameView.instance.getHisHoveredCardController().lowerCharacter();
-			EndSceneController.instance.displayEndScene(true);
+			ApplicationModel.player.HasWonLastGame=true;
+
 		} 
 		else
 		{
 			GameView.instance.getMyHoveredCardController().lowerCharacter();
 			GameView.instance.getHisHoveredCardController().lowerCharacter();
-			EndSceneController.instance.displayEndScene(false);
+			ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(false);
+			ApplicationModel.player.HasWonLastGame=false;
 		}
 		PhotonNetwork.LeaveRoom ();
+		SceneManager.LoadScene("EndGame");
 	}
 	
 	public void addGameEvent(string action, string targetName)

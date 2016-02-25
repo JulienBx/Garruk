@@ -1986,7 +1986,7 @@ public class GameView : MonoBehaviour
 		this.deads.Add(c);
 	}
 	
-	IEnumerator sendStat(string user1, string user2, bool isTutorialGame)
+	IEnumerator sendStat(string user1, string user2, bool isTutorialGame, int percentageTotalDamages)
 	{
 		int isTutorialGameInt = 0;
 		if(isTutorialGame)
@@ -2000,6 +2000,7 @@ public class GameView : MonoBehaviour
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
 		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType);
 		form.AddField ("myform_istutorialgame", isTutorialGameInt);
+		form.AddField("myform_percentagelooser",percentageTotalDamages);
 		
 		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
@@ -2023,11 +2024,11 @@ public class GameView : MonoBehaviour
 			if(this.areAllMyPlayersDead())
 			{
 				hasFirstPlayerWon=true;
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true)));
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true,0)));
 			}
 			else
 			{
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true)));
+				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true,0)));
 			}
 		}
 		else
@@ -2036,7 +2037,7 @@ public class GameView : MonoBehaviour
 			{
 				hasFirstPlayerWon=true;
 			}
-			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false)));
+			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false,getPercentageTotalDamages(false))));
 		}
 		
 		GameController.instance.quitGame(hasFirstPlayerWon);
@@ -2230,16 +2231,19 @@ public class GameView : MonoBehaviour
 		return areMyPlayersDead ;
 	}
 
-	public float getPercentageTotalDamages(bool isMe){
-		float damages = 0;
-		float total = 0;
+	public int getPercentageTotalDamages(bool isMe){
+		int damages = 0;
+		int total = 0;
 		for(int i = 0 ; i < playingCards.Count ; i++){
 			if(this.getCard(i).isMine==isMe){
 				damages+=(this.getCard(i).GetTotalLife()-this.getCard(i).getLife());
 				total+=this.getCard(i).GetTotalLife();
 			}
-		}	
-		return (damages/total);
+		}
+		print(damages);
+		print(total);
+		print(Mathf.FloorToInt(100*damages/total));	
+		return Mathf.FloorToInt(100*damages/total);
 	}
 
 	public int attackClosestCharacter(){
