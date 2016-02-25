@@ -5,12 +5,8 @@ using System.Collections.Generic;
 public class Competition
 {
 	public int Id;
-	public int IdPicture;
 	public string Name;
-	public int EarnXp_W;
-	public int EarnXp_L;
-	public int EarnCredits_W;
-	public int EarnCredits_L;
+	public int IdPicture;
 	public int GamesPlayed;
 	public int NbWins;
 	public int NbLooses;

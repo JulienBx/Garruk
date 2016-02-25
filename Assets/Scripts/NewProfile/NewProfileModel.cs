@@ -129,6 +129,7 @@ public class NewProfileModel
 			users[i].Ranking = System.Convert.ToInt32 (userData [5]);
 			users[i].TotalNbWins = System.Convert.ToInt32 (userData[6]);
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
+			users[i].Division = System.Convert.ToInt32 (userData [8]);
 		}
 		return users;
 	}

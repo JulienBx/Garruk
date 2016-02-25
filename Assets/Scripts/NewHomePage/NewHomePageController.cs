@@ -1318,7 +1318,7 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(2);
 
 		string divisionState;
-		if(ApplicationModel.player.NbGamesDivision>0)
+		if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
 		{
 			divisionState=WordingGameModes.getReference(3);
 		}
@@ -1389,11 +1389,11 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public int getNbGamesCup()
 	{
-		return ApplicationModel.player.NbGamesCup;
+		return ApplicationModel.player.CurrentCup.GamesPlayed;
 	}
 	public int getNbGamesDivision()
 	{
-		return ApplicationModel.player.NbGamesCup;
+		return ApplicationModel.player.CurrentDivision.GamesPlayed;
 	}
 	public void displayConnectionBonusPopUp()
 	{

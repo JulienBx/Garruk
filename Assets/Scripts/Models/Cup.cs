@@ -10,13 +10,6 @@ public class Cup : Competition
 	public Cup()
 	{
 	}
-	public Cup(int id, int nbrounds, int cupprize, string name)
-	{
-		this.Id = id;
-		this.NbRounds = nbrounds;
-		this.CupPrize = cupprize;
-		this.Name = name;
-	}
 }
 
 

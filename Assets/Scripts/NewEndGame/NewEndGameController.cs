@@ -157,7 +157,7 @@ public class NewEndGameController : MonoBehaviour
 			}
 		}
 	}
-	public void quitEndSceneHandler()
+	public void quitEndGameHandler()
 	{
 		ApplicationModel.player.ToLaunchEndGameSequence=true;
 		if(ApplicationModel.player.ChosenGameType==1 || ApplicationModel.player.ChosenGameType==2)

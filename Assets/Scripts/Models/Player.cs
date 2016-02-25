@@ -56,7 +56,6 @@ public class Player : User
 	public int ConnectionBonus;
 	public bool DisplayTutorial;
 	public int NbNotificationsNonRead;
-	public FriendlyGame CurrentFriendlyGame;
 	public Cup CurrentCup;
 	public Division CurrentDivision;
 	public string ProfileChosen;
