@@ -134,12 +134,6 @@ public class InterludeController : MonoBehaviour
 				}
 			}
 			if(!GameView.instance.deads.Contains(GameView.instance.getCurrentPlayingCard())){
-				if (GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					GameView.instance.myTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
-				}
-				else{
-					GameView.instance.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
-				}
 				GameView.instance.recalculateDestinations();
 				GameView.instance.removeDestinations();
 				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());

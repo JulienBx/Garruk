@@ -187,22 +187,6 @@ public class PlayingCardController : GameObjectController
 		this.timerLife = 0f ;
 		this.actualLife = value;
 		this.isUpdatingLife = true ;
-
-		string title = "Points de vie";
-		string description = "Points de vie de base : "+this.card.Life+"\n";
-		List<string> textes = this.card.getIconLife();
-		for(int i = 0 ; i < textes.Count ; i++){
-			description += "<b>"+textes[i]+" : "+"</b>";
-			i++;
-			description += textes[i]+"\n";
-		}
-		if (textes.Count>0){
-			description += "---> TOTAL : "+this.card.getLife();
-		}
-		else{
-			description += "Pas de bonus ou malus en cours";
-		}
-		this.setPVDescription(title, description);
 	}
 	
 	public void updateLifePercentage(float percentage){
@@ -237,44 +221,48 @@ public class PlayingCardController : GameObjectController
 	
 	public void moveForward(){
 		Transform t = gameObject.transform;
-		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 10 ;
-		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 12 ;
-		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 11 ;
-		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 14 ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 15 ;
-		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 14 ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 15 ;
-		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 14 ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 15 ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 15 ;
-		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 16 ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 15 ;
-		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 16 ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 13 ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 13 ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 14 ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 14 ;
+		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
+		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 33 ;
+		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
+		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
+		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 36 ;
+		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
+		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
+		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
+		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
+		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
+		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
+		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
+		t.Find("Background").FindChild("HoverLayer").GetComponent<SpriteRenderer>().sortingOrder = 41 ;
+		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 38 ;
 	}
 	
 	public void moveBackward(){
 		Transform t = gameObject.transform;
-		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 0 ;
-		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 2 ;
-		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 1 ;
-		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 4 ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 5 ;
-		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 4 ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 5 ;
-		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 4 ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 5 ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 5 ;
-		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 6 ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 5 ;
-		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 6 ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 3 ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 4 ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 4 ;
+		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
+		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 23 ;
+		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 22 ;
+		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
+		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 26 ;
+		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
+		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
+		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("HoverLayer").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
+		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 28 ;
 	}
 	
 	public Tile getTile()
@@ -317,66 +305,69 @@ public class PlayingCardController : GameObjectController
 		if(!this.isHidden){
 			string text = "";
 			int compteurIcones = 1;
-			List<string> listeTextes = this.card.getEsquiveIcon();
-			if(listeTextes.Count>0){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[1];
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Protection";
-			
-				for(int i = 0 ; i < listeTextes.Count ; i++){
-					text+="<b>"+listeTextes[i]+"</b> : ";
-					i++;
-					text+=listeTextes[i]+"\n";
-				}
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
-				compteurIcones++;
-			}
-			
-			listeTextes = this.card.getMoveIcon();
-			if(listeTextes.Count>0){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
-				if(this.card.getMove()<this.card.Move){
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-				}
-				else if(this.card.getMove()>this.card.Move){
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
-				}
-				else{
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
-				}
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Déplacement";
-				
-				for(int i = 0 ; i < listeTextes.Count ; i++){
-					text+="<b>"+listeTextes[i]+"</b> : ";
-					i++;
-					text+=listeTextes[i]+"\n";
-				}
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = text;
-				compteurIcones++;
-			}
-			
+
 			if(this.card.isStateModifyed){
 				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
 				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<BoxCollider>().enabled = true;
 				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.card.state.title;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.card.state.description;
 				compteurIcones++;
 			}
-			
+			if(this.card.getBouclier()>0){
+				if(compteurIcones>3){
+					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
+				}
+				else{
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[1];
+				}
+				compteurIcones++;
+			}
+			if(this.card.getEsquive()>0){
+				if(compteurIcones>3){
+					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
+				}
+				else{
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[6];
+				}
+				compteurIcones++;
+			}
+			if(this.card.Move<this.card.getMove()){
+				if(compteurIcones>3){
+					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
+				}
+				else{
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
+				}
+				compteurIcones++;
+			}
+			if(this.card.Move>this.card.getMove()){
+				if(compteurIcones>3){
+					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
+				}
+				else{
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[7];
+				}
+				compteurIcones++;
+			}
+
 			for(int j = compteurIcones ; j < 4 ; j++){
 				gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<SpriteRenderer>().enabled = false;
 				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = false;
-				gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<BoxCollider>().enabled = false;
 			}
 		}
 	}
@@ -488,22 +479,6 @@ public class PlayingCardController : GameObjectController
 				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			}
 			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
-			
-			string title = "Points d'attaque";
-			string description = "Attaque de base : "+this.card.Attack+"\n";
-			List<string> textes = this.card.getIconAttack();
-			for(int i = 0 ; i < textes.Count ; i++){
-				description += "<b>"+textes[i]+" : "+"</b>";
-				i++;
-				description += textes[i]+"\n";
-			}
-			if (textes.Count>0){
-				description += "---> TOTAL : "+this.card.getAttack();
-			}
-			else{
-				description += "Pas de bonus ou malus en cours";
-			}
-			this.setAttackDescription(title, description);
 		}
 	}
 	
@@ -546,32 +521,6 @@ public class PlayingCardController : GameObjectController
 	public void changeScale(float f)
 	{
 		gameObject.transform.localScale = new Vector3(f,f,f);
-	}
-	
-	public void showDescriptionIcon(int i, bool b){
-		transform.Find("Background").FindChild("Icon"+i).FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled=b;
-		transform.Find("Background").FindChild("Icon"+i).FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
-		transform.Find("Background").FindChild("Icon"+i).FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
-	}
-	
-	public void showDescriptionAttack(bool b){
-		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").GetComponent<SpriteRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("AttackValue").FindChild("AttackDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
-	}
-	
-	public void showDescriptionLife(bool b){
-		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").GetComponent<SpriteRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=b;
-		gameObject.transform.FindChild("Background").FindChild("PVValue").FindChild("PVDB").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=b;
-	}
-
-	public void setAttackDescription(string title, string description){
-		gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<AttackPictoController>().setTexts(title, description);
-	}
-	
-	public void setPVDescription(string title, string description){
-		gameObject.transform.FindChild("Background").FindChild("PVValue").GetComponent<PVPictoController>().setTexts(title, description);
 	}
 	
 	public void displayDead(bool b){

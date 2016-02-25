@@ -381,7 +381,7 @@ public class TileController : GameObjectController
 					if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
 						GameView.instance.hitTarget(this.characterID);
 					}
-					if((!GameView.instance.hasFightStarted && GameView.instance.getCard(this.characterID).isMine)||(GameView.instance.getCurrentPlayingCard()==this.characterID)){
+					if((!GameView.instance.hasFightStarted && GameView.instance.getCard(this.characterID).isMine)||(GameView.instance.getCurrentPlayingCard()==this.characterID && !GameView.instance.getCard(this.characterID).hasMoved)){
 						GameView.instance.clickCharacter(this.characterID);
 					}
 				}
@@ -417,7 +417,10 @@ public class TileController : GameObjectController
 			}
 			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
 				Tile t = new Tile(x,y);
-				if(GameView.instance.getTileController(t).getIsDestination()==0){
+				if(!GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==0){
+					GameController.instance.clickDestination(t, this.characterID, false);
+				}
+				else if(GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==1){
 					GameController.instance.clickDestination(t, this.characterID, false);
 				}
 				else{

@@ -57,7 +57,6 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void show(bool b){
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
-		gameObject.transform.FindChild("SkillTextZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.GetComponent<BoxCollider>().enabled = b;
 	}

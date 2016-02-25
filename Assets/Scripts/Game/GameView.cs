@@ -44,9 +44,6 @@ public class GameView : MonoBehaviour
 	GameObject validationSkill;
 
 	GameObject tutorial;
-	public GameObject myTimerGO;
-	public GameObject hisTimerGO;
-	
 	public GameObject SB;
 	GameObject interlude;
 	public GameObject passZone;
@@ -108,10 +105,6 @@ public class GameView : MonoBehaviour
 		this.passButton = GameObject.Find("PassButton");
 		this.myHoveredRPC = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredRPC = GameObject.Find("HisHoveredPlayingCard");
-		this.myTimerGO = GameObject.Find("MyTimer");
-		this.myTimerGO.GetComponent<TimerController>().setIsMine(true);
-		this.hisTimerGO = GameObject.Find("HisTimer");
-		this.hisTimerGO.GetComponent<TimerController>().setIsMine(false);
 		
 		this.SB = GameObject.Find("SB");
 		this.interlude = GameObject.Find("Interlude");
@@ -371,10 +364,9 @@ public class GameView : MonoBehaviour
 			this.myDeck = deck;
 			this.setInitialDestinations(this.isFirstPlayer);
 			this.showStartButton();
-			this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
 		}
 		else{
-			this.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(true);
+
 		}
 	}
 	
@@ -418,7 +410,6 @@ public class GameView : MonoBehaviour
 	
 	public void playerReadyR(bool b){
 		if(this.isFirstPlayer==b){
-			this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
 			this.amIReadyToFight = true;
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.hideTuto();
@@ -482,7 +473,6 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			this.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
 			this.isHeReadyToFight = true;
 		}
 		nbPlayersReadyToFight++;
@@ -556,6 +546,7 @@ public class GameView : MonoBehaviour
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
 		Tile origine = this.getPlayingCardController(characterID).getTile();
 		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
+			this.setLaunchability("Déplacement en cours !");
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
 		}
 		else{
@@ -569,17 +560,18 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
+			if(GameView.instance.hasFightStarted){
+				this.recalculateDestinations();
+				this.updateActionStatus();
+			}
 		}
+		this.getCard(characterID).setHasMoved(true);
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
-		if(GameView.instance.hasFightStarted){
-			this.getCard(characterID).setHasMoved(true);
-		}
 	}
 
 	public void dropCharacter(int characterID){
-		print("DROP VIDE");
 		this.draggingCard=-1;
 		Tile t = this.getPlayingCardTile(characterID);
 		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
@@ -876,13 +868,6 @@ public class GameView : MonoBehaviour
 			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
 			this.getCard(nextPlayingCard).setHasMoved(hasMoved);
 			this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
-			
-			if(this.getCurrentCard().isMine){
-				this.myTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
-			}
-			else{
-				this.hisTimerGO.GetComponent<TimerController>().setIsMyTurn(false);
-			}
 		}
 		else{
 			this.hasFightStarted = true ;
@@ -1145,25 +1130,6 @@ public class GameView : MonoBehaviour
 		for (int i = 0 ; i < this.targets.Count; i++){
 			this.getTileController(this.targets[i].x, this.targets[i].y).addTargetTime(Time.deltaTime);
 		}
-		
-		if(toCountTime){
-			if(this.hasFightStarted){
-				if(this.getCard(currentPlayingCard).isMine){
-					this.myTimerGO.GetComponent<TimerController>().addTime(Time.deltaTime);
-				}
-				else{
-					this.hisTimerGO.GetComponent<TimerController>().addTime(Time.deltaTime);
-				}
-			}
-			else{
-				if(!amIReadyToFight){
-					this.myTimerGO.GetComponent<TimerController>().addTime(Time.deltaTime);
-				}
-				if(!isHeReadyToFight){
-					this.hisTimerGO.GetComponent<TimerController>().addTime(Time.deltaTime);
-				}
-			}
-		}
 	}
 	
 	public MyHoveredCardController getMyHoveredCardController(){
@@ -1206,12 +1172,6 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
 			this.horizontalBorders [i] = (GameObject)Instantiate(this.horizontalBorderModel);
-		}
-		
-		GameObject go = GameObject.Find("toDisplay");
-		foreach (Transform child in go.transform)
-		{
-			child.gameObject.SetActive(true);
 		}
 		
 		this.isBackgroundLoaded = true ;
@@ -1307,46 +1267,6 @@ public class GameView : MonoBehaviour
 		position.x = 0.48f*this.realwidth;
 		tempGO.transform.position = position;
 		tempGO.GetComponent<TextContainer>().width = 0.48f*this.realwidth-3f ;
-		
-		GameObject llbl = GameObject.Find("LLBLeft");
-		llbl.transform.position = new Vector3(-this.realwidth/2f+0.25f, 4.5f, 0);
-		
-		GameObject llbr = GameObject.Find("LLBRight");
-		llbr.transform.position = new Vector3(-1.2f, 4.5f, 0);
-		
-		GameObject llbc = GameObject.Find("LLBCenter");
-		llbc.transform.position = new Vector3((llbl.transform.position.x+llbr.transform.position.x)/2f, 4.5f, 0);
-		llbc.transform.localScale = new Vector3((-llbl.transform.position.x+llbr.transform.position.x-0.49f)/10f, 0.5f, 1f);
-		
-		GameObject leb = GameObject.Find("LLBRightEnd");
-		leb.transform.position = new Vector3(-1.2f, 4.5f, 0);
-		
-		GameObject lcb = GameObject.Find("LLBLeftEnd");
-		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+100f*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
-		
-		GameObject llbb = GameObject.Find("LLBBar");
-		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
-		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
-		
-		GameObject rlbl = GameObject.Find("RLBLeft");
-		rlbl.transform.position = new Vector3(1.2f, 4.5f, 0);
-		
-		GameObject rlbr = GameObject.Find("RLBRight");
-		rlbr.transform.position = new Vector3(this.realwidth/2f-0.25f, 4.5f, 0);
-		
-		GameObject rlbc = GameObject.Find("RLBCenter");
-		rlbc.transform.position = new Vector3((rlbl.transform.position.x+rlbr.transform.position.x)/2f, 4.5f, 0);
-		rlbc.transform.localScale = new Vector3((-rlbl.transform.position.x+rlbr.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
-		
-		GameObject reb = GameObject.Find("RLBRightEnd");
-		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+100f*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
-		
-		GameObject rcb = GameObject.Find("RLBLeftEnd");
-		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
-		
-		GameObject rlbb = GameObject.Find("RLBBar");
-		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
-		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
 		
 		this.getMyHoveredCardController().resize(realwidth, tileScale);
 		this.getHisHoveredCardController().resize(realwidth, tileScale);
