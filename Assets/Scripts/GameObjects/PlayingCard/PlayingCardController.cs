@@ -41,11 +41,6 @@ public class PlayingCardController : GameObjectController
 	void Awake()
 	{
 		this.isDisabled = false;
-		this.showDescriptionAttack(false);
-		this.showDescriptionLife(false);
-		this.showDescriptionIcon(1, false);
-		this.showDescriptionIcon(2, false);
-		this.showDescriptionIcon(3, false);
 		this.showHover(false);
 		this.displayDead(false);
 		Transform t = gameObject.transform;
@@ -165,8 +160,6 @@ public class PlayingCardController : GameObjectController
 		}
 		
 		transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
-		transform.Find("Background").FindChild("AttackValue").GetComponent<AttackPictoController>().setIDCard(i);
-		transform.Find("Background").FindChild("PVValue").GetComponent<PVPictoController>().setIDCard(i);
 
 		this.card.isMine = b ;
 		
