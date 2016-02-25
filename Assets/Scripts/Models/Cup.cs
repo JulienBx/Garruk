@@ -9,7 +9,9 @@ public class Cup : Competition
 
 	public Cup()
 	{
+		this.GameType=2;
 	}
+
 }
 
 

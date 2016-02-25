@@ -98,6 +98,8 @@ public class newMyGameController : MonoBehaviour
 	private bool editDeckPopUpDisplayed;
 	private GameObject deleteDeckPopUp;
 	private bool deleteDeckPopUpDisplayed;
+	private GameObject permuteCardPopUp;
+	private bool permuteCardPopUpDisplayed;
 
 	private bool isDragging;
 	private bool isLeftClicked;
@@ -460,6 +462,8 @@ public class newMyGameController : MonoBehaviour
 		this.editDeckPopUp.SetActive (false);
 		this.deleteDeckPopUp = GameObject.Find ("deleteDeckPopUp");
 		this.deleteDeckPopUp.SetActive (false);
+		this.permuteCardPopUp = GameObject.Find("permuteCardPopUp");
+		this.permuteCardPopUp.SetActive(false);
 	}
 	private void resetFiltersValue()
 	{
@@ -913,6 +917,10 @@ public class newMyGameController : MonoBehaviour
 		else if(deleteDeckPopUpDisplayed)
 		{
 			this.deleteDeckPopUpResize();
+		}
+		else if(permuteCardPopUpDisplayed)
+		{
+			this.permuteCardPopUpResize();
 		}
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(1);
@@ -1500,6 +1508,15 @@ public class newMyGameController : MonoBehaviour
 		this.deleteDeckPopUpResize ();
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
+	public void displayPermuteCardPopUp(int position)
+	{
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.permuteCardPopUp.transform.GetComponent<PermuteCardPopUpController> ().reset (position);
+		this.permuteCardPopUpDisplayed = true;
+		this.permuteCardPopUp.SetActive (true);
+		this.permuteCardPopUpResize ();
+		TutorialObjectController.instance.tutorialTrackPoint();
+	}
 	public void hideNewDeckPopUp()
 	{
 		this.newDeckPopUp.SetActive (false);
@@ -1521,6 +1538,13 @@ public class newMyGameController : MonoBehaviour
 		this.deleteDeckPopUpDisplayed = false;
 		TutorialObjectController.instance.tutorialTrackPoint();
 	}
+	public void hidePermuteCardPopUp()
+	{
+		this.permuteCardPopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.permuteCardPopUpDisplayed = false;
+		TutorialObjectController.instance.tutorialTrackPoint();
+	}
 	public void newDeckPopUpResize()
 	{
 		this.newDeckPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
@@ -1538,6 +1562,12 @@ public class newMyGameController : MonoBehaviour
 		this.deleteDeckPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.deleteDeckPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.deleteDeckPopUp.GetComponent<DeleteDeckPopUpController> ().resize ();
+	}
+	public void permuteCardPopUpResize()
+	{
+		this.permuteCardPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.permuteCardPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.permuteCardPopUp.GetComponent<PermuteCardPopUpController> ().resize ();
 	}
 	public void createNewDeckHandler()
 	{
@@ -1602,6 +1632,11 @@ public class newMyGameController : MonoBehaviour
 		this.initializeCards ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		TutorialObjectController.instance.tutorialTrackPoint ();
+	}
+	public void permuteCardHandler(int position)
+	{
+		this.moveToDeckCards(position);
+		this.hidePermuteCardPopUp();
 	}
 	public void removeDeckFromAllCards(int id)
 	{
@@ -1682,14 +1717,15 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void startDragging()
 	{
+		int identicalSkillPosition = this.checkForIdenticalSkills();
 		if(this.deckDisplayed==-1)
 		{
-			BackOfficeController.instance.displayErrorPopUp(WordingDeck.getReference(11));
+			this.displayNewDeckPopUp();
 			this.isLeftClicked=false;
 		}
-		else if(!isDeckCardClicked && this.checkForIdenticalSkills())
+		else if(!isDeckCardClicked && identicalSkillPosition>-1)
 		{
-			BackOfficeController.instance.displayErrorPopUp(WordingDeck.getReference(12));
+			this.displayPermuteCardPopUp(identicalSkillPosition);
 			this.isLeftClicked=false;
 		}
 		else
@@ -1976,13 +2012,17 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.createNewDeckHandler();
 		}
-		else if(this.editDeckPopUp)
+		else if(this.editDeckPopUpDisplayed)
 		{
 			this.editDeckHandler();
 		}
 		else if(this.deleteDeckPopUpDisplayed)
 		{
 			this.deleteDeckHandler();
+		}
+		else if(this.permuteCardPopUpDisplayed)
+		{
+			
 		}
 	}
 	public void escapePressed()
@@ -1995,13 +2035,17 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.hideNewDeckPopUp();
 		}
-		else if(this.editDeckPopUp)
+		else if(this.editDeckPopUpDisplayed)
 		{
 			this.hideEditDeckPopUp();
 		}
 		else if(this.deleteDeckPopUpDisplayed)
 		{
 			this.hideDeleteDeckPopUp();
+		}
+		else if(this.permuteCardPopUpDisplayed)
+		{
+			this.hidePermuteCardPopUp();
 		}
 		else
 		{
@@ -2022,8 +2066,11 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.hideDeleteDeckPopUp();
 		}
+		if(this.permuteCardPopUpDisplayed)
+		{
+			this.hidePermuteCardPopUp();
+		}
 	}
-
 	public bool isDeckCompleted()
 	{
 		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
@@ -2089,19 +2136,21 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 	}
-	public bool checkForIdenticalSkills()
+	public int checkForIdenticalSkills()
 	{
+		int position =-1;
 		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
 				if(model.cards.getCard(this.cardsDisplayed[idCardClicked]).Skills[0].Id==model.cards.getCard(this.deckCardsDisplayed[i]).Skills[0].Id)
 				{
-					return true;
+					position =i;
+					break;
 				}
 			}
 		}
-		return false;
+		return position;
 	}
 	private string removeDiacritics(string text) 
 	{

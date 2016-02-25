@@ -13,7 +13,9 @@ public class Division : Competition
 	
 	public Division()
 	{
+		this.GameType=1;
 	}
+
 }
 
 

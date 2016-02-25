@@ -70,8 +70,8 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1);
 		//gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
-		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentDivision.IdPicture);
-		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentCup.IdPicture);
+		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
+		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentCup.getPictureId());
 	}
 	public void selectDeck(int id)
 	{

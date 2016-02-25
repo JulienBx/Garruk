@@ -131,6 +131,8 @@ public class Player : User
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
+		this.CurrentCup=new Cup();
+		this.CurrentDivision=new Division();
 	}
 	public IEnumerator updateInformations(){
 

@@ -620,14 +620,14 @@ public class NewLobbyController : MonoBehaviour
 				description=description+WordingLobby.getReference(13)+ApplicationModel.player.CurrentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
 			}
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentDivision.IdPicture);
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
 		}
 		else
 		{
 			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(2,ApplicationModel.player.CurrentCup.Id);
 			string description=WordingLobby.getReference(15)+ApplicationModel.player.CurrentCup.CupPrize.ToString()+WordingLobby.getReference(14);
 			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentCup.IdPicture);
+			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentCup.getPictureId());
 		}
 	}
 	private void displayPopUp()

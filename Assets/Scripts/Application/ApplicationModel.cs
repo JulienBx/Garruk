@@ -26,7 +26,7 @@ public class ApplicationModel
 
 	static ApplicationModel()
 	{
-		host = "http://54.77.118.214/GarrukServer/"; // local http://localhost/GarrukServer/ 
+		host = "https://www.techticalwars.com/GarrukServer/"; // local http://localhost/GarrukServer/ 
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";	 
 		nbCardsByDeck=4;

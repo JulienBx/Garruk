@@ -180,8 +180,8 @@ public class NewProfileModel
 			trophies.Add (new Trophy());
 			trophies[i].competition=new Competition();
 			trophies[i].Date=DateTime.ParseExact(trophyData[0], "yyyy-MM-dd HH:mm:ss", null);
-			trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[1])-1,System.Convert.ToInt32(trophyData[2])-1);
-			trophies[i].competition.IdPicture=System.Convert.ToInt32(trophyData[3]);
+			trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[1]),System.Convert.ToInt32(trophyData[2]));
+			trophies[i].competition.GameType=System.Convert.ToInt32(trophyData[1]);
 		}
 		return trophies;
 	}

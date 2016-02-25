@@ -99,7 +99,7 @@ public class NewHomePageModel
 		Cup cup = new Cup ();
 		cup.GamesPlayed= System.Convert.ToInt32(array[0]);
 		cup.Id= System.Convert.ToInt32(array[1]);
-		cup.IdPicture= System.Convert.ToInt32(array[2]);
+		//cup.IdPicture= System.Convert.ToInt32(array[2]);
 		cup.NbRounds = System.Convert.ToInt32(array [3]);
 		cup.CupPrize = System.Convert.ToInt32(array [4]);
 		return cup;
@@ -109,7 +109,7 @@ public class NewHomePageModel
 		Division division = new Division ();
 		division.GamesPlayed = System.Convert.ToInt32 (array [0]);
 		division.Id= System.Convert.ToInt32(array[1]);
-		division.IdPicture= System.Convert.ToInt32(array[2]);
+		//division.IdPicture= System.Convert.ToInt32(array[2]);
 		division.NbGames = System.Convert.ToInt32(array [3]);
 		division.TitlePrize = System.Convert.ToInt32(array [4]);
 		return division;

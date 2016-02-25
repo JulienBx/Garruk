@@ -1284,6 +1284,7 @@ public class NewHomePageController : MonoBehaviour
 				case 0:
 					connectionState = WordingSocial.getReference(3);
 					connectionStateColor=ApplicationDesignRules.whiteTextColor;
+					this.challengeButtons[i].SetActive(false);
 					break;
 				case 1:
 					connectionState = WordingSocial.getReference(4);
@@ -1293,6 +1294,7 @@ public class NewHomePageController : MonoBehaviour
 				case 2:
 					connectionState = WordingSocial.getReference(5);
 					connectionStateColor=ApplicationDesignRules.redColor;
+					this.challengeButtons[i].SetActive(false);
 					break;
 				}
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;

@@ -587,6 +587,10 @@ public class BackOfficeController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 			this.displayInvitationPopUp();
+
+			Invitation invitation = new Invitation ();
+			invitation.Id = ApplicationModel.player.ChosenGameType-2;
+			StartCoroutine(invitation.changeStatus(-1));
 		}
 		if(ApplicationModel.player.IsInviting && ApplicationModel.player.Error!="")
 		{

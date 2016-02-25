@@ -6,11 +6,11 @@ public class Competition
 {
 	public int Id;
 	public string Name;
-	public int IdPicture;
 	public int GamesPlayed;
 	public int NbWins;
 	public int NbLooses;
 	public int Status;
+	public int GameType;
 
 	// Status pour division
 	// - 1 -> Relégation (fin de saison)
@@ -25,6 +25,12 @@ public class Competition
 	// 20 -> Promotion (vient juste d'être obtenu + fin de saison)
 	// 3 -> Titre (fin de saison) + Promotion
 	// 31 -> Titre (fin de saison)
+
+	public int getPictureId()
+	{
+		return this.GameType;
+	}
+
 }
 
 
