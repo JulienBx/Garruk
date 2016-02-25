@@ -38,6 +38,7 @@ TextureImporter:
     21300062: 51
     21300064: 52
     21300066: 53
+    21300068: 54
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -87,8 +88,8 @@ TextureImporter:
     - name: 19
       rect:
         serializedVersion: 2
-        x: 2163
-        y: 1181
+        x: 869
+        y: 305
         width: 432
         height: 432
       alignment: 0
@@ -102,7 +103,7 @@ TextureImporter:
     - name: 21
       rect:
         serializedVersion: 2
-        x: 1
+        x: 435
         y: 305
         width: 432
         height: 432
@@ -132,8 +133,8 @@ TextureImporter:
     - name: 25
       rect:
         serializedVersion: 2
-        x: 435
-        y: 305
+        x: 2381
+        y: 1615
         width: 432
         height: 432
       alignment: 0
@@ -147,7 +148,7 @@ TextureImporter:
     - name: 26
       rect:
         serializedVersion: 2
-        x: 1303
+        x: 1
         y: 305
         width: 432
         height: 432
@@ -195,8 +196,8 @@ TextureImporter:
     - name: 30
       rect:
         serializedVersion: 2
-        x: 3465
-        y: 1739
+        x: 2815
+        y: 1305
         width: 400
         height: 200
       alignment: 0
@@ -221,7 +222,7 @@ TextureImporter:
     - name: 31
       rect:
         serializedVersion: 2
-        x: 745
+        x: 1177
         y: 281
         width: 90
         height: 22
@@ -254,8 +255,8 @@ TextureImporter:
     - name: 34
       rect:
         serializedVersion: 2
-        x: 2163
-        y: 1181
+        x: 869
+        y: 305
         width: 432
         height: 432
       alignment: 0
@@ -269,7 +270,7 @@ TextureImporter:
     - name: 35
       rect:
         serializedVersion: 2
-        x: 869
+        x: 1303
         y: 305
         width: 432
         height: 432
@@ -308,19 +309,19 @@ TextureImporter:
         - {x: 65, y: 37}
         - {x: 121, y: 138}
         - {x: 120, y: 147}
-      - - {x: -149, y: -93}
-        - {x: -152, y: -93}
+      - - {x: -150, y: -95}
+        - {x: -152, y: -95}
         - {x: -152, y: -116}
-        - {x: -137, y: -116}
-        - {x: -135, y: -115}
-        - {x: -135, y: -110}
-        - {x: -136, y: -107}
-      - - {x: -150, y: -57}
-        - {x: -152, y: -57}
+        - {x: -139, y: -116}
+        - {x: -137, y: -114}
+        - {x: -137, y: -110}
+      - - {x: -149, y: -55}
+        - {x: -152, y: -55}
         - {x: -152, y: -78}
-        - {x: -139, y: -78}
-        - {x: -137, y: -76}
-        - {x: -137, y: -72}
+        - {x: -137, y: -78}
+        - {x: -135, y: -77}
+        - {x: -135, y: -72}
+        - {x: -136, y: -69}
       - - {x: -152, y: 2}
         - {x: -152, y: -20}
         - {x: -150, y: -20}
@@ -350,8 +351,8 @@ TextureImporter:
     - name: 39
       rect:
         serializedVersion: 2
-        x: 3465
-        y: 1941
+        x: 2815
+        y: 1507
         width: 538
         height: 106
       alignment: 9
@@ -365,18 +366,18 @@ TextureImporter:
     - name: 40
       rect:
         serializedVersion: 2
-        x: 2163
-        y: 1015
+        x: 1069
+        y: 233
         width: 106
         height: 70
       alignment: 9
       pivot: {x: 0.49074075, y: 0.5138889}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -52.018555, y: 34.027832}
-        - {x: -52.018555, y: -35.972168}
-        - {x: 53.981445, y: -35.972168}
-        - {x: 53.981445, y: 34.027832}
+      - - {x: -52.018555, y: 34.02777}
+        - {x: -52.018555, y: -35.97223}
+        - {x: 53.981445, y: -35.97223}
+        - {x: 53.981445, y: 34.02777}
     - name: 41
       rect:
         serializedVersion: 2
@@ -428,7 +429,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 777
+        y: 739
         width: 1999
         height: 36
       alignment: 9
@@ -532,7 +533,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 739
+        y: 777
         width: 1999
         height: 36
       alignment: 9
@@ -596,8 +597,8 @@ TextureImporter:
     - name: 48
       rect:
         serializedVersion: 2
-        x: 651
-        y: 211
+        x: 1737
+        y: 535
         width: 92
         height: 92
       alignment: 0
@@ -611,8 +612,8 @@ TextureImporter:
     - name: 49
       rect:
         serializedVersion: 2
-        x: 2163
-        y: 1087
+        x: 651
+        y: 211
         width: 416
         height: 92
       alignment: 0
@@ -626,8 +627,8 @@ TextureImporter:
     - name: 50
       rect:
         serializedVersion: 2
-        x: 3031
-        y: 1615
+        x: 2381
+        y: 1181
         width: 432
         height: 432
       alignment: 0
@@ -641,7 +642,7 @@ TextureImporter:
     - name: 52
       rect:
         serializedVersion: 2
-        x: 2597
+        x: 3249
         y: 1615
         width: 432
         height: 432
@@ -656,7 +657,7 @@ TextureImporter:
     - name: 53
       rect:
         serializedVersion: 2
-        x: 2163
+        x: 2815
         y: 1615
         width: 432
         height: 432
@@ -668,6 +669,21 @@ TextureImporter:
         - {x: -216, y: -216}
         - {x: 216, y: -216}
         - {x: 216, y: 216}
+    - name: 54
+      rect:
+        serializedVersion: 2
+        x: 2163
+        y: 1183
+        width: 216
+        height: 864
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -108, y: 432}
+        - {x: -108, y: -432}
+        - {x: 108, y: -432}
+        - {x: 108, y: 432}
     outline: []
   spritePackingTag: 
   userData: 

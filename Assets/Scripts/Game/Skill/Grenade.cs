@@ -8,7 +8,7 @@ public class Grenade : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Grenade";
 		base.ciblage = -2 ;
-		base.auto = false;
+		base.auto = true;
 	}
 	
 	public override void launch()
