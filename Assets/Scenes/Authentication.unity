@@ -9691,7 +9691,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9699,8 +9699,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1

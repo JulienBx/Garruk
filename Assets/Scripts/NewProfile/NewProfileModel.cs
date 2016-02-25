@@ -100,15 +100,18 @@ public class NewProfileModel
 		this.displayedUser.CollectionPoints = System.Convert.ToInt32 (array [6]);
 		this.displayedUser.CollectionRanking = System.Convert.ToInt32 (array [7]);
 		this.displayedUser.IdProfilePicture = System.Convert.ToInt32(array [8]);
+
 		if(isMyProfile)
 		{
-			ApplicationModel.player.FirstName = array [9];
-			ApplicationModel.player.Surname = array [10];
-			ApplicationModel.player.Mail = array [11];
+			this.displayedUser.Division = ApplicationModel.player.CurrentDivision.Id;
+			ApplicationModel.player.FirstName = array [10];
+			ApplicationModel.player.Surname = array [11];
+			ApplicationModel.player.Mail = array [12];
 			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
 		}
 		else
 		{
+			this.displayedUser.Division = System.Convert.ToInt32(array [9]);
 			this.displayedUser.Id = System.Convert.ToInt32(array[0]);
 		}
 	}
