@@ -530,7 +530,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		this.displayLoadingScreen ();
-		print("toto2");
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
