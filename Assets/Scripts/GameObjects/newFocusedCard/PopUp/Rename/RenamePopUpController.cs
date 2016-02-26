@@ -14,6 +14,7 @@ public class RenamePopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingRenamePopUp.getReference(2);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (name);
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Button").GetComponent<RenamePopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<RenamePopUpCloseButtonController> ().reset ();
 	}

@@ -1196,7 +1196,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_text
-      value: Courant
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: checkPaddingRequired
@@ -2806,7 +2806,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_text
-      value: Courant
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: checkPaddingRequired
@@ -2828,6 +2828,10 @@ Prefab:
     - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_Size.y
       value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
@@ -3361,6 +3365,14 @@ Prefab:
     - target: {fileID: 155616, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Name
       value: CardHalo1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -4650,6 +4662,14 @@ Prefab:
       propertyPath: m_Name
       value: CardHalo2
       objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
   m_IsPrefabParent: 0
@@ -5233,6 +5253,10 @@ Prefab:
     - target: {fileID: 11414112, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_rect.width
       value: 7.43173981
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -5985,11 +6009,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -5998,6 +6022,14 @@ Prefab:
     - target: {fileID: 3325310, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -7324,7 +7356,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
@@ -7337,6 +7369,14 @@ Prefab:
     - target: {fileID: 3325310, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -7969,6 +8009,14 @@ Prefab:
       propertyPath: m_Name
       value: CardHalo3
       objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
   m_IsPrefabParent: 0
@@ -8270,7 +8318,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_text
-      value: Courant
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: checkPaddingRequired
@@ -8292,6 +8340,10 @@ Prefab:
     - target: {fileID: 6167804, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
       propertyPath: m_Size.y
       value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465190, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}

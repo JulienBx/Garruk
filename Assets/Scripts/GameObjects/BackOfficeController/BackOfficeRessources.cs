@@ -8,11 +8,11 @@ using TMPro;
 
 public class BackOfficeRessources : MonoBehaviour
 {
-	public GameObject loadingScreenObject;
 	public GameObject playPopUpObject;
 	public GameObject newSkillPopUpObject;
 	public GameObject transparentBackgroundObject;
 	public GameObject invitationPopUpObject;
+	public Sprite[] loadingScreenBackgrounds;
 	public Sprite[] profilePictures;
 	public Sprite[] largeProfilePictures;
 	public Sprite[] packPictures;

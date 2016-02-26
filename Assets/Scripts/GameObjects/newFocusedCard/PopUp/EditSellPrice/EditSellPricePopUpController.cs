@@ -14,6 +14,7 @@ public class EditSellPricePopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingEditSellPricePopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (price.ToString());
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Button").GetComponent<EditSellPricePopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<EditSellPricePopUpCloseButtonController> ().reset ();
 	}

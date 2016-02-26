@@ -983,7 +983,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8427973, y: -0.6186367, z: 0}
+  m_LocalPosition: {x: -0.6083025, y: 41.17912, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 405548}
@@ -2554,7 +2554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: CRISTALOPEDIA
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2623,7 +2623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: RECRUTER
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2781,7 +2781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: JOUER
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2850,7 +2850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: "LE MARCH\xC9"
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -2919,7 +2919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Store
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3048,7 +3048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Market
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3137,7 +3137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: ACCUEIL
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3266,7 +3266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Wiki
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3355,7 +3355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Play
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3424,7 +3424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: "MES UNIT\xC9S"
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3493,7 +3493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 0
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3582,7 +3582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: yoann
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
@@ -4000,7 +4000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 0
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -4158,7 +4158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Units
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -4287,7 +4287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: Home
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -4431,7 +4431,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300038, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4881,7 +4881,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300048, guid: 01c29fae0f15e4304959e90eb0ff2d05, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -257,6 +257,7 @@ public class NewHomePageController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<HomePageTutorialController>();
 		this.tutorial.GetComponent<HomePageTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{

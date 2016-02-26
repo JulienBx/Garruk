@@ -685,7 +685,7 @@ public class Player : User
 			}
 			else
 			{
-				Error="";
+				Error=WordingAuthentication.getReference(13);
 				this.Id=-1;
 			}												
 		}

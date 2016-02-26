@@ -33,6 +33,7 @@ public class BackOfficeController : MonoBehaviour
 	private bool isTransparentBackgroundDisplayed;
 
 	private bool isMenuLoaded;
+	private bool isTutorialLoaded;
 
 	private float speed;
 	private float timer;
@@ -83,7 +84,6 @@ public class BackOfficeController : MonoBehaviour
 		this.ressources = this.gameObject.GetComponent<BackOfficeRessources> ();
 		this.photon = this.gameObject.GetComponent<BackOfficePhotonController> ();
 		this.isMenuLoaded=false;
-		this.displayLoadingScreen();
 		this.timer=0f;
 		this.speed=5f;
 		this.refreshInterval=5f;
@@ -91,10 +91,22 @@ public class BackOfficeController : MonoBehaviour
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
 		this.newCardTypePopUp = this.gameObject.transform.FindChild ("newCardTypePopUp").gameObject;
+		this.loadingScreen=this.gameObject.transform.FindChild("loadingScreen").gameObject;
+		this.loadingScreen.transform.FindChild("background2").GetComponent<SpriteRenderer>().sprite=ressources.loadingScreenBackgrounds[this.getLoadingScreenBackground()];
+		this.resize();
+		this.displayLoadingScreen();
 	}
 	public void setIsMenuLoaded(bool value)
 	{
 		this.isMenuLoaded=value;
+	}
+	public void setIsTutorialLoaded(bool value)
+	{
+		this.isTutorialLoaded=value;
+	}
+	public virtual int getLoadingScreenBackground()
+	{
+		return 0;
 	}
 	public void displayErrorPopUp(string error)
 	{
@@ -155,6 +167,10 @@ public class BackOfficeController : MonoBehaviour
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 			this.transparentBackgroundResize();
+			if(this.isTutorialLoaded)
+			{
+				TutorialObjectController.instance.freeze();
+			}
 		}
 	}
 	public void displayInvitationPopUp()
@@ -246,12 +262,21 @@ public class BackOfficeController : MonoBehaviour
 		this.isPlayPopUpDisplayed = false;
 		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
+	public void failPlayPopUp()
+	{
+		this.hidePlayPopUp();
+		this.displayErrorPopUp(WordingDeck.getReference(13));
+	}
 	public void hideTransparentBackground()
 	{
 		if(this.isTransparentBackgroundDisplayed)
 		{
 			this.isTransparentBackgroundDisplayed = false;
 			Destroy (this.transparentBackground);
+			if(this.isTutorialLoaded)
+			{
+				TutorialObjectController.instance.show();
+			}
 		}
 	}
 	public virtual void resizeAll()
@@ -261,6 +286,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		ApplicationDesignRules.computeDesignRules();
 
+		this.loadingScreen.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -9f);
 		if(this.isCollectionPointsPopUpDisplayed)
 		{
 			this.collectionPointsPopUpResize();
@@ -404,22 +430,31 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(!isLoadingScreenDisplayed)
 		{
-			this.loadingScreen=Instantiate(this.ressources.loadingScreenObject) as GameObject;
+			this.loadingScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+			if(this.isTutorialLoaded)
+			{
+				TutorialObjectController.instance.freeze();
+			}
 		}
 	}
 	public void hideLoadingScreen()
 	{
 		if(isLoadingScreenDisplayed)
 		{
-			Destroy (this.loadingScreen);
+			this.loadingScreen.SetActive(false);
 			this.isLoadingScreenDisplayed=false;
+			if(this.isTutorialLoaded)
+			{
+				TutorialObjectController.instance.show();
+			}
 		}
 		if(ApplicationModel.player.IsInviting)
 		{
 			ApplicationModel.player.IsInviting=false;
 		}
+
 	}
 	public void changeLoadingScreenLabel(string label)
 	{

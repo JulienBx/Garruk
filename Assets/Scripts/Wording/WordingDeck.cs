@@ -27,5 +27,6 @@ public class WordingDeck
 		references.Add(new string[]{"Veuillez saisir un nom",""}); //10
 		references.Add(new string[]{"Vous devez créer un deck avant de sélectionner une carte",""}); //11
 		references.Add(new string[]{"Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive",""}); //12
+		references.Add(new string[]{"Vous ne pouvez pas lancer de match sans avoir au préalable créé un deck",""}); //13
 	}
 }

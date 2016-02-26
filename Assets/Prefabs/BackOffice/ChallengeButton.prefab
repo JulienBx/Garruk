@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.09973526, y: 1.64444447, z: 0}
-  m_LocalScale: {x: .600000024, y: .600000024, z: .600000024}
+  m_LocalPosition: {x: 7.0997353, y: 1.6444445, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 474038}
   m_Father: {fileID: 0}
@@ -82,7 +82,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
@@ -101,12 +101,13 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170862}
   m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3.30555558, y: 1.11111116}
+  m_Size: {x: 3.3055556, y: 1.1111112}
 --- !u!114 &11409462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: .5, y: .5}
+  m_pivot: {x: 0.5, y: 0.5}
   m_anchorPosition: 4
   m_rect:
     serializedVersion: 2
@@ -138,14 +139,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: TITLE
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291085508
-  m_fontColor: {r: .768627465, g: .768627465, b: .768627465, a: 1}
+  m_fontColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -177,7 +178,7 @@ MonoBehaviour:
   checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
-  m_wordWrappingRatios: .400000006
+  m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
@@ -217,13 +218,15 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300050, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -236,6 +239,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300050, guid: ec8fe55bfa35c4d46ba7d026602e8928,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 170862}

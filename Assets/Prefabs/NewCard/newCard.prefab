@@ -1185,7 +1185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.445772, y: 42.03228, z: 0}
+  m_LocalPosition: {x: -1.56409, y: -3.7633345, z: 0}
   m_LocalScale: {x: 0.26944447, y: 0.26944447, z: 0.26944447}
   m_Children:
   - {fileID: 487878}
@@ -1956,7 +1956,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2129278, guid: f179af0ea69274726baaefe1d3191113, type: 2}
+  - {fileID: 2163612, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -3108,7 +3108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 00
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3367,7 +3367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: Furie
-  m_fontAsset: {fileID: 11400000, guid: f179af0ea69274726baaefe1d3191113, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -3564,7 +3564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 00
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -5060,7 +5060,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300002, guid: 6d66ae4680f644018a11386266e41346, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5120,7 +5120,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300100, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5150,7 +5150,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300008, guid: fc5e269ca67b74355a1e8521b84b2d19, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5240,7 +5240,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5270,7 +5270,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300098, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5450,7 +5450,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300102, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5721,7 +5721,7 @@ SpriteRenderer:
   m_SortingLayerID: -483395861
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300002, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  m_Color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &21285108
@@ -5961,7 +5961,7 @@ SpriteRenderer:
   m_SortingLayerID: -483395861
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300014, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  m_Color: {r: 0.29411766, g: 0.6392157, b: 0.68235296, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &21298432

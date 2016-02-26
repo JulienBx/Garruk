@@ -21,6 +21,7 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Information4").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Input1").GetComponent<InputTextGuiController> ().setText ("");
+		gameObject.transform.FindChild ("Input1").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input2").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Input3").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Input4").GetComponent<InputTextGuiController> ().setText (mail);

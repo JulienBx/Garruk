@@ -89,34 +89,42 @@ public class MyGameTutorialController : TutorialObjectController
 			}
 			if(ApplicationDesignRules.isMobileScreen)
 			{
-				this.displayDragHelp(true,false);
-				this.resizeBackground(new Rect(0,-0.5f,ApplicationDesignRules.worldWidth+1,7f),1f,0.9f);
+				this.resizeBackground(new Rect(0,-0.425f,ApplicationDesignRules.worldWidth+1,7f),1f,1f);
 				this.resizePopUp(new Vector3(0,-3.6f,-9.5f));
+				this.displayDragHelp(true,false);
 			}
 			else
 			{
+				this.resizePopUp(new Vector3(0,3.4f,-9.5f));
+				this.resizeBackground(new Rect(0,-2f,ApplicationDesignRules.worldWidth+1,8f),1f,1f);
 				this.displayDragHelp(true,true);
-				this.resizeBackground(new Rect(0,-2f,ApplicationDesignRules.worldWidth+1,8f),1f,0.9f);
-				this.resizePopUp(new Vector3(0,-3f,-9.5f));
 			}
 			this.resizeDragHelp(new Vector3(0f,0f,0f));
-
 			break;
 		case 4: 
 			if(!isResizing)
 			{
-				this.displayPopUp(-1);
-				this.setDownArrow();
-				this.displayNextButton(false);
-				this.displayBackground(true);
-				this.displayExitButton(false);
 				this.displayDragHelp(false,false);
+				this.displayArrow(true);
+				this.setDownArrow();
+				this.drawDownArrow();
+				this.displayPopUp(-1);
+				this.displaySquareBackground(true);
 				this.displayExitButton(true);
+				this.setIsScrolling(false);
+			}
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				this.resizeBackground(new Rect(0,0.1f,ApplicationDesignRules.worldWidth+1,7.8f),1f,1f);
+			}
+			else
+			{
+				this.resizeBackground(new Rect(0,-1f,ApplicationDesignRules.worldWidth+1f,8f),1f,1f);
 			}
 			gameObjectPosition = this.getCardFocused().transform.FindChild("FocusFeature4").position;
-			gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
-			this.resizeBackground(new Rect(gameObjectPosition.x,gameObjectPosition.y,ApplicationDesignRules.roundButtonWorldSize.x+0.75f,ApplicationDesignRules.roundButtonWorldSize.y+0.75f),1f,1f);
-			this.drawDownArrow();
+			gameObjectPosition=new Vector3(gameObjectPosition.x-ApplicationDesignRules.focusedCardPosition.x,gameObjectPosition.y+1.5f*ApplicationDesignRules.roundButtonWorldSize.y-ApplicationDesignRules.focusedCardPosition.y-System.Convert.ToInt32(!ApplicationDesignRules.isMobileScreen)*ApplicationDesignRules.upMargin/2f,0f);
+			this.resizeArrow(gameObjectPosition);
+			this.setStartTranslation(gameObjectPosition.y);
 			break;
 		case 5: 
 			if(!isResizing)
@@ -201,10 +209,6 @@ public class MyGameTutorialController : TutorialObjectController
 			{
 				this.sequenceID=5;
 			}
-		}
-		else if(newMyGameController.instance.isAPopUpDisplayed())
-		{
-			this.sequenceID=2;
 		}
 		else if(newMyGameController.instance.getIsFocusedCardDisplayed())
 		{

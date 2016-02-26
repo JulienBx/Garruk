@@ -240,9 +240,8 @@ public class NewCardController : NewFocusedCardController
 			base.setHighlightedSkills();
 		}
 	}
-	public void endUpdatingCardToNextLevel()
+	public override void endUpdatingCardToNextLevel()
 	{
-		this.hideNextLevelPopUp ();
 		if(this.c.GetNewSkill)
 		{
 			this.c.GetNewSkill=false;

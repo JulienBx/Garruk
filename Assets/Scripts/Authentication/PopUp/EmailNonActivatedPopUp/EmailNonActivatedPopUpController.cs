@@ -15,6 +15,7 @@ public class EmailNonActivatedPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Title1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (mail);
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Button").GetComponent<EmailNonActivatedPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("Button2").GetComponent<EmailNonActivatedPopUpCancelButtonController> ().reset ();
 		gameObject.transform.FindChild("CloseButton").GetComponent<EmailNonActivatedPopUpCloseButtonController>().reset();

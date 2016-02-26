@@ -14,6 +14,7 @@ public class EditDeckPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingEditDeckPopUp.getReference(1);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (deckName);
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Button").GetComponent<EditDeckPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<EditDeckPopUpCloseButtonController> ().reset ();
 	}

@@ -340,6 +340,22 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
   m_IsPrefabParent: 0
@@ -1085,6 +1101,14 @@ Prefab:
     - target: {fileID: 3325310, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -3529,11 +3553,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -3545,7 +3569,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -3844,6 +3872,22 @@ Prefab:
     - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -4505,6 +4549,14 @@ Prefab:
       propertyPath: m_Name
       value: StoreBlockTitle
       objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
   m_IsPrefabParent: 0
@@ -4780,6 +4832,10 @@ Prefab:
       propertyPath: m_Name
       value: CardHalo0
       objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
   m_IsPrefabParent: 0
@@ -4965,6 +5021,22 @@ Prefab:
     - target: {fileID: 3370706, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11425186, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aa37b69b9e9e444d9854cd4da148b90, type: 2}
@@ -5242,6 +5314,14 @@ Prefab:
     - target: {fileID: 3325310, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}

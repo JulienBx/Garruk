@@ -142,7 +142,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.40997, y: -7.834718, z: 0}
+  m_LocalPosition: {x: -1.5147738, y: 42.57146, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 478216}
@@ -330,9 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillsPictos:
-  - {fileID: 21300038, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300030, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
-  - {fileID: 21300036, guid: 93aa04ff847cf4287b8b32a81c753a46, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11453080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: "Collectionn\xE9e au niveau 10"
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: ATTAQUE 360
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -627,7 +627,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300008, guid: fc5e269ca67b74355a1e8521b84b2d19, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -657,7 +657,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300056, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

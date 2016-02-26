@@ -220,6 +220,7 @@ public class NewStoreController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<StoreTutorialController>();
 		this.tutorial.GetComponent<StoreTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{

@@ -87,13 +87,13 @@ public class StoreTutorialController : TutorialObjectController
 				}
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					this.resizeBackground(new Rect(0,0.1f,ApplicationDesignRules.worldWidth+1,7.8f),1f,1f);
+					this.resizeBackground(new Rect(0,1f,ApplicationDesignRules.worldWidth+1,6f),1f,1f);
 					this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
 				}
 				else
 				{
-					this.resizeBackground(new Rect(0,-1f,ApplicationDesignRules.worldWidth+1f,8f),1f,1f);
-					this.resizePopUp(new Vector3(0,-3.5f,-9.5f));
+					this.resizeBackground(new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1f,5.5f),1f,1f);
+					this.resizePopUp(new Vector3(0,3.6f,-9.5f));
 				}
 			}
 			else

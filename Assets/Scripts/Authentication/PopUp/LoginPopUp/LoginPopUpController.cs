@@ -22,6 +22,7 @@ public class LoginPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("LostLoginButton").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (login);
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<LoginPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild("InscriptionButton").GetComponent<LoginPopUpInscriptionButtonController>().reset();

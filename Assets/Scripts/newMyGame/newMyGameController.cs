@@ -259,6 +259,7 @@ public class newMyGameController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<MyGameTutorialController>();
 		this.tutorial.GetComponent<MyGameTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -1488,7 +1489,6 @@ public class newMyGameController : MonoBehaviour
 		this.newDeckPopUpDisplayed = true;
 		this.newDeckPopUp.SetActive (true);
 		this.newDeckPopUpResize ();
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayEditDeckPopUp()
 	{
@@ -1497,7 +1497,6 @@ public class newMyGameController : MonoBehaviour
 		this.editDeckPopUpDisplayed = true;
 		this.editDeckPopUp.SetActive (true);
 		this.editDeckPopUpResize ();
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayDeleteDeckPopUp()
 	{
@@ -1506,7 +1505,6 @@ public class newMyGameController : MonoBehaviour
 		this.deleteDeckPopUpDisplayed = true;
 		this.deleteDeckPopUp.SetActive (true);
 		this.deleteDeckPopUpResize ();
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void displayPermuteCardPopUp(int position)
 	{
@@ -1515,7 +1513,6 @@ public class newMyGameController : MonoBehaviour
 		this.permuteCardPopUpDisplayed = true;
 		this.permuteCardPopUp.SetActive (true);
 		this.permuteCardPopUpResize ();
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideNewDeckPopUp()
 	{
@@ -1529,21 +1526,18 @@ public class newMyGameController : MonoBehaviour
 		this.editDeckPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.editDeckPopUpDisplayed = false;
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hideDeleteDeckPopUp()
 	{
 		this.deleteDeckPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.deleteDeckPopUpDisplayed = false;
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void hidePermuteCardPopUp()
 	{
 		this.permuteCardPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.permuteCardPopUpDisplayed = false;
-		TutorialObjectController.instance.tutorialTrackPoint();
 	}
 	public void newDeckPopUpResize()
 	{
@@ -1705,10 +1699,7 @@ public class newMyGameController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			if(!TutorialObjectController.instance.getIsTutorialDisplayed())
-			{
-				this.showCardFocused ();
-			}
+			this.showCardFocused ();
 		}
 		else if(isDragging)
 		{
@@ -2244,22 +2235,6 @@ public class newMyGameController : MonoBehaviour
 	public bool getFiltersDisplayed()
 	{
 		return this.filtersDisplayed;
-	}
-	public bool isAPopUpDisplayed()
-	{
-		if(this.deleteDeckPopUpDisplayed)
-		{
-			return true;
-		}
-		else if(this.editDeckPopUpDisplayed)
-		{
-			return true;
-		}
-		else if(this.newDeckPopUpDisplayed)
-		{
-			return true;
-		}
-		return false;
 	}
 	public bool getIsMainContentDisplayed()
 	{

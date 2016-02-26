@@ -25,5 +25,9 @@ public class BackOfficeEndGameController : BackOfficeController
 		base.resize ();
 		NewEndGameController.instance.resize ();
 	}
+	public override int getLoadingScreenBackground()
+	{
+		return 1;
+	}
 }
 

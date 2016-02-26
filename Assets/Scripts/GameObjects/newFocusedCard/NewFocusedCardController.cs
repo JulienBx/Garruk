@@ -150,6 +150,7 @@ public class NewFocusedCardController : MonoBehaviour
 			if(!this.isNextLevelPopUpHiding)
 			{
 				BackOfficeController.instance.hideTransparentBackground ();
+				this.hideNextLevelPopUp ();
 				this.endUpdatingCardToNextLevel();
 			}
 		}
@@ -288,7 +289,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		this.setIsXpBeingUpdated (false);
 	}
-	public void endUpdatingCardToNextLevel()
+	public virtual void endUpdatingCardToNextLevel()
 	{
 		if(this.c.GetNewSkill)
 		{
@@ -529,6 +530,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		this.displayLoadingScreen ();
+		print("toto2");
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -723,6 +725,7 @@ public class NewFocusedCardController : MonoBehaviour
 					this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
 				}
 				int newIdOwner = System.Convert.ToInt32(data[2]);
+				this.newCollectionRanking= System.Convert.ToInt32(data[3]);
 				Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");
 				StartCoroutine(tempNotification.add ());
 				this.c.IdOWner=newIdOwner;

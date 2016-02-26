@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.07069445, y: 2.96606493, z: 0}
-  m_LocalScale: {x: .600000024, y: .600000024, z: .600000024}
+  m_LocalPosition: {x: 7.0706944, y: 2.966065, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 439674}
   m_Father: {fileID: 0}
@@ -82,7 +82,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
@@ -101,12 +101,13 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115368}
   m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.66666663, y: .57407409}
+  m_Size: {x: 1.6666666, y: 0.5740741}
 --- !u!114 &11426810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,14 +119,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: TITLE
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291085508
-  m_fontColor: {r: .768627465, g: .768627465, b: .768627465, a: 1}
+  m_fontColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -157,7 +158,7 @@ MonoBehaviour:
   checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
-  m_wordWrappingRatios: .400000006
+  m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
@@ -187,14 +188,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: .5, y: .5}
+  m_pivot: {x: 0.5, y: 0.5}
   m_anchorPosition: 4
   m_rect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 3
-    height: .5
+    height: 0.5
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!212 &21281128
 SpriteRenderer:
@@ -217,20 +218,26 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300244, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 115368}

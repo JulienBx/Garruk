@@ -15,6 +15,7 @@ public class ChangePasswordPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingChangePasswordPopUp.getReference(2);
 		gameObject.transform.FindChild ("Input").GetComponent<InputPasswordGuiController> ().setText ("");
+		gameObject.transform.FindChild ("Input").GetComponent<InputPasswordGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input2").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<ChangePasswordPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild ("CloseButton").GetComponent<ChangePasswordPopUpCloseButtonController> ().reset ();

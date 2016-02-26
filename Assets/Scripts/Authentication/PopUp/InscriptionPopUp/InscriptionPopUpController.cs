@@ -19,6 +19,7 @@ public class InscriptionPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Title4").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Input1").GetComponent<InputTextGuiController> ().setText ("");
+		gameObject.transform.FindChild ("Input1").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input2").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Input3").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Input4").GetComponent<InputTextGuiController> ().setText ("");

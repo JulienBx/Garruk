@@ -130,6 +130,14 @@ public class TutorialObjectController : MonoBehaviour
 			MenuController.instance.setFlashingHelp(true);
 		}
 	}
+	public void freeze()
+	{
+		this.gameObject.SetActive(false);
+	}
+	public void show()
+	{
+		this.gameObject.SetActive(true);
+	}
 	public void startHelp()
 	{
 		this.isHelpLaunched = true;
@@ -526,7 +534,7 @@ public class TutorialObjectController : MonoBehaviour
 		}
 		else
 		{
-			this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, -ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.buttonVerticalSpacing+ApplicationDesignRules.button62WorldSize.y/2f+ApplicationDesignRules.downMargin,-9.5f);
+			this.exitButton.transform.localPosition=new Vector3(ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.buttonVerticalSpacing-ApplicationDesignRules.button62WorldSize.y/2f,-9.5f);
 		}
 		if(this.isTutorialLaunched)
 		{
@@ -765,11 +773,9 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public IEnumerator endTutorial()
 	{
-		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
 		this.isTutorialLaunched = false;
 		this.disableTutorial ();
-		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public void disableTutorial()
 	{
@@ -784,6 +790,7 @@ public class TutorialObjectController : MonoBehaviour
 		this.isHelpLaunched = false;
 		ApplicationModel.player.IsBusy=false;
 		this.disableTutorial ();
+		BackOfficeController.instance.hideLoadingScreen();
 	}
 	public virtual GameObject getCardFocused()
 	{

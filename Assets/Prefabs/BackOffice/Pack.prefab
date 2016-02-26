@@ -127,8 +127,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.02999997, y: -.0199999996, z: 0}
-  m_LocalScale: {x: 1.29999995, y: 1.29999995, z: 1.29999995}
+  m_LocalPosition: {x: 1.03, y: -0.02, z: 0}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_Children: []
   m_Father: {fileID: 438734}
   m_RootOrder: 1
@@ -151,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.57999992, y: -3.54999995, z: 0}
+  m_LocalPosition: {x: 1.3188785, y: 43.14333, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 443826}
@@ -167,7 +167,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.38000011, y: .870000005, z: 0}
+  m_LocalPosition: {x: -3.38, y: 0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 438734}
@@ -179,7 +179,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25800002, y: 0, z: 0}
+  m_LocalPosition: {x: 1.258, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 466408}
@@ -191,8 +191,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.21000004, y: -.589999974, z: 0}
-  m_LocalScale: {x: .600000024, y: .600000024, z: .600000024}
+  m_LocalPosition: {x: -2.21, y: -0.59, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 471988}
   - {fileID: 459276}
@@ -205,7 +205,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 186180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.62546813, y: 0, z: 0}
+  m_LocalPosition: {x: -1.6254681, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 466408}
@@ -231,7 +231,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
@@ -257,7 +257,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
@@ -283,12 +283,13 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152670}
   m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3.30555558, y: 1.11111116}
+  m_Size: {x: 3.3055556, y: 1.1111112}
 --- !u!114 &11414492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,14 +301,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: MON DECK
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291085508
-  m_fontColor: {r: .768627465, g: .768627465, b: .768627465, a: 1}
+  m_fontColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -320,10 +321,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 2.79999995
+  m_fontSize: 2.8
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontSizeBase: 2.79999995
+  m_fontSizeBase: 2.8
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -339,7 +340,7 @@ MonoBehaviour:
   checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
-  m_wordWrappingRatios: .400000006
+  m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
@@ -369,14 +370,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: 0, y: .5}
+  m_pivot: {x: 0, y: 0.5}
   m_anchorPosition: 3
   m_rect:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 2.59481788
-    height: 1.00000155
+    width: 2.5948179
+    height: 1.0000015
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11452142
 MonoBehaviour:
@@ -389,14 +390,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 10000
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
     serializedVersion: 2
     rgba: 4291085508
-  m_fontColor: {r: .768627465, g: .768627465, b: .768627465, a: 1}
+  m_fontColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
@@ -428,7 +429,7 @@ MonoBehaviour:
   checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
-  m_wordWrappingRatios: .400000006
+  m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
@@ -469,14 +470,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: 0, y: .5}
+  m_pivot: {x: 0, y: 0.5}
   m_anchorPosition: 3
   m_rect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 2
-    height: .358445168
+    height: 0.35844517
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11499234
 MonoBehaviour:
@@ -510,13 +511,15 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -483395861
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300010, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!212 &21241484
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -538,13 +541,15 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300254, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!212 &21248840
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -566,13 +571,15 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300050, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!212 &21251406
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -594,20 +601,30 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300064, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154312}

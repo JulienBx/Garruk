@@ -56,14 +56,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void autoLogging()
 	{
-		this.displayLoginPopUp();
 		if(ApplicationModel.player.ToDeconnect)
 		{
+			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 		else if(this.isConnectedToFB())
 		{
+			this.displayLoginPopUp();
 			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
 			ApplicationModel.player.FacebookId=aToken.UserId;
 			StartCoroutine(this.login());
@@ -118,6 +119,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 				ApplicationModel.player.Error="";
 			}
 			BackOfficeController.instance.hideLoadingScreen();
+			this.displayLoginPopUp();
 		}
 	}
 	public void initializeScene()

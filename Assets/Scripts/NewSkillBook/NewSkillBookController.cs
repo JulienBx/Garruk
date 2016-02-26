@@ -211,6 +211,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<SkillBookTutorialController>();
 		this.tutorial.GetComponent<SkillBookTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -1140,7 +1141,7 @@ public class NewSkillBookController : MonoBehaviour
 				this.skillsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingSkillTypes.getDescription(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
-				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture(model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].IdPicture);
+				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture (model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Id);
 				this.contents[i].transform.FindChild("skillTypePicture").FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getLetter(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getName(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 			}

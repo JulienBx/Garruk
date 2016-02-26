@@ -9,7 +9,7 @@ using TMPro;
 public class PaginationController : MonoBehaviour 
 {	
 	public Pagination p;
-	private GameObject[] buttons;
+	public GameObject[] buttons;
 
 	public void initialize()
 	{
@@ -21,7 +21,7 @@ public class PaginationController : MonoBehaviour
 			this.buttons[i].GetComponent<PaginationButtonController>().setId(i);
 		}
 	}
-	public void resize()
+	public virtual void resize()
 	{
 		for (int i=0;i<buttons.Length;i++)
 		{

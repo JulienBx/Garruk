@@ -258,6 +258,7 @@ public class NewMarketController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<MarketTutorialController>();
 		this.tutorial.GetComponent<MarketTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{

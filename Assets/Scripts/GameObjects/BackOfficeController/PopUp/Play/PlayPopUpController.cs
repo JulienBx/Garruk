@@ -46,12 +46,23 @@ public class PlayPopUpController : MonoBehaviour
 	public IEnumerator initialization()
 	{
 		yield return StartCoroutine (model.loadUserData ());
-		this.retrieveDefaultDeck ();
-		this.retrieveDecksList ();
-		this.drawDeck ();
 		BackOfficeController.instance.hideLoadingScreen ();
-		this.show ();
-		TutorialObjectController.instance.tutorialTrackPoint ();
+		if(model.decks.Count>0)
+		{
+			this.retrieveDefaultDeck ();
+			this.retrieveDecksList ();
+			this.drawDeck ();
+			this.show ();
+			TutorialObjectController.instance.tutorialTrackPoint ();
+			if(TutorialObjectController.instance.getSequenceID()!=102)
+			{
+				TutorialObjectController.instance.freeze();
+			}
+		}
+		else
+		{
+			BackOfficeController.instance.failPlayPopUp();
+		}
 	}
 	private void initializePopUp()
 	{
@@ -72,6 +83,13 @@ public class PlayPopUpController : MonoBehaviour
 		//gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
 		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
 		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentCup.getPictureId());
+		if(model.decks.Count<2)
+		{
+			this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
+			Vector3 deckNamePosition = this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("deckName").localPosition;
+			deckNamePosition.x=0;
+			this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("deckName").localPosition=deckNamePosition;
+		}
 	}
 	public void selectDeck(int id)
 	{

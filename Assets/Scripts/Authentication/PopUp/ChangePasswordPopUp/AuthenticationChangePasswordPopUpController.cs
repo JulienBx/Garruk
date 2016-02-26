@@ -16,6 +16,7 @@ public class AuthenticationChangePasswordPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Title2").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().setText ("");
+		gameObject.transform.FindChild ("Input1").GetComponent<InputPasswordGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input2").GetComponent<InputPasswordGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<AuthenticationChangePasswordPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild("CloseButton").GetComponent<AuthenticationChangePasswordPopUpCloseButtonController>().reset();

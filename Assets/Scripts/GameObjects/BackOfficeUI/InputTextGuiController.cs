@@ -12,6 +12,23 @@ public class InputTextGuiController : InterfaceController
 	public GUISkin popUpGUISkin;
 	private string text;
 	private Rect rect;
+	private bool keyReturnPressed;
+	private bool keyEscapePressed;
+	private bool toFocus;
+
+	void Update()
+	{
+		if(keyReturnPressed)
+		{
+			keyReturnPressed=false;
+			BackOfficeController.instance.returnPressed();
+		}
+		if(keyEscapePressed)
+		{
+			keyEscapePressed=false;
+			BackOfficeController.instance.escapePressed();
+		}
+	}
 
 	public void resize()
 	{
@@ -27,10 +44,28 @@ public class InputTextGuiController : InterfaceController
 		GUILayout.BeginArea (rect);
 		{
 			GUILayout.FlexibleSpace();
+			GUI.SetNextControlName("TextField");
 			text = GUILayout.TextField(text,popUpGUISkin.textField);
+			if(this.toFocus)
+			{
+				GUI.FocusControl("TextField");
+				this.toFocus=false;
+			}
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea ();
+		if (Event.current.keyCode == KeyCode.Return) 
+		{
+			this.keyReturnPressed=true;
+ 		}
+ 		if (Event.current.keyCode == KeyCode.Escape) 
+		{
+			this.keyEscapePressed=true;
+ 		}
+	}
+	public void setFocused()
+	{
+		this.toFocus=true;
 	}
 	public void setText(string text)
 	{

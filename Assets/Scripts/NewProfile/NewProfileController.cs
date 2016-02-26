@@ -224,6 +224,7 @@ public class NewProfileController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<ProfileTutorialController>();
 		this.tutorial.GetComponent<ProfileTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{

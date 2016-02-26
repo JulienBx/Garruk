@@ -176,6 +176,7 @@ public class NewLobbyController : MonoBehaviour
 		this.tutorial = GameObject.Find ("Tutorial");
 		this.tutorial.AddComponent<LobbyTutorialController>();
 		this.tutorial.GetComponent<LobbyTutorialController>().initialize();
+		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
 	{

@@ -16,6 +16,7 @@ public class EditInformationsPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text =WordingEditInformationsPopUp.getReference(3);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText (input1);
+		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Input2").GetComponent<InputTextGuiController> ().setText (input2);
 		gameObject.transform.FindChild ("Input3").GetComponent<InputTextGuiController> ().setText (input3);
 		gameObject.transform.FindChild ("Button").GetComponent<EditInformationsPopUpConfirmButtonController> ().reset ();

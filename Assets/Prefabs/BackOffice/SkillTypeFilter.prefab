@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.041646, y: 6.04899979, z: 0}
+  m_LocalPosition: {x: -4.041646, y: 6.049, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 420230}
@@ -79,8 +79,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
@@ -99,12 +101,13 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101800}
   m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .00462964177, y: .00462964177}
+  m_Offset: {x: 0.004629642, y: 0.004629642}
   serializedVersion: 2
-  m_Size: {x: .935185194, y: .935185194}
+  m_Size: {x: 0.9351852, y: 0.9351852}
 --- !u!114 &11428368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: .5, y: .5}
+  m_pivot: {x: 0.5, y: 0.5}
   m_anchorPosition: 4
   m_rect:
     serializedVersion: 2
@@ -136,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: C
+  m_text: 
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -175,38 +178,23 @@ MonoBehaviour:
   checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
-  m_wordWrappingRatios: .400000006
+  m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 1
-  havePropertiesChanged: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isRightToLeft: 0
   m_inputSource: 0
   m_renderer: {fileID: 2335380}
   m_ignoreCulling: 1
   m_isOrthographic: 0
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
-  m_fontAssetArray:
-  - {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_maskType: 0
   m_enableAutoSizing: 0
 --- !u!212 &21256270
@@ -227,21 +215,29 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300162, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101800}
