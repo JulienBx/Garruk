@@ -19,6 +19,9 @@ public class NewEndGameController : MonoBehaviour
 	private GameObject credits;
 	private GameObject button;
 
+	private GameObject mainCamera;
+	private GameObject sceneCamera;
+
 	private bool toUpdateCredits;
 	private bool toStartExperienceUpdate;
 	private bool areCreditsUpdated;
@@ -43,6 +46,7 @@ public class NewEndGameController : MonoBehaviour
 	private IList<int> idCardsToNextLevel;
 
 	private bool isNextLevelPopUpDisplayed;
+	private bool hasFinishedCardUpgrade;
 
 	private string URLGetMyGameData = ApplicationModel.host + "get_end_game_data.php";
 	private string urlUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
@@ -86,6 +90,10 @@ public class NewEndGameController : MonoBehaviour
 				this.cards[i].GetComponent<NewCardEndGameController>().animateExperience();
 			}
 		}
+		if(this.hasFinishedCardUpgrade)
+		{
+			this.switchToNextLevelPopUp();
+		}
 	}
 	private void initializeBackOffice()
 	{
@@ -95,6 +103,8 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void initializeScene()
 	{
+		this.mainCamera = gameObject;
+		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.title = GameObject.Find ("MainTitle");
 		this.title.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.title.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(1);
@@ -121,12 +131,14 @@ public class NewEndGameController : MonoBehaviour
 		{
 			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(3);
 			this.showEndButton();
+			BackOfficeController.instance.hideLoadingScreen();
 			yield break;
 		}
 		else if(!ApplicationModel.player.HasWonLastGame && ApplicationModel.player.PercentageLooser==0)
 		{
 			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(2);
 			this.showEndButton();
+			BackOfficeController.instance.hideLoadingScreen();
 			yield break;
 		}
 		else
@@ -176,25 +188,32 @@ public class NewEndGameController : MonoBehaviour
 	public void displayNextLevelPopUp(int indexCard)
 	{
 		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
-		this.nextLevelPopUp.transform.localPosition = new Vector3 (0, 0, -1f);
+		this.nextLevelPopUp.transform.position = new Vector3 (0, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndGame> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDeck.getCard(indexCard));
 		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
 	{
-		this.idCardsToNextLevel.RemoveAt(0);
 		Destroy (this.nextLevelPopUp);
 		this.isNextLevelPopUpDisplayed=false;
+	}
+	public void switchToNextLevelPopUp()
+	{
+		BackOfficeController.instance.hideLoadingScreen();
+		this.hasFinishedCardUpgrade=false;
+		this.idCardsToNextLevel.RemoveAt(0);
 		if(this.idCardsToNextLevel.Count>0)
 		{
-			this.displayNextLevelPopUp(this.idCardsToNextLevel[0]);
+			this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDeck.getCard(this.idCardsToNextLevel[0]));
 		}
 		else
 		{
+			this.hideNextLevelPopUp();
 			this.showEndButton();
 			for(int i=0;i<this.cards.Length;i++)
 			{
+				this.cards[i].GetComponent<NewCardEndGameController>().show();
 				this.cards[i].GetComponent<NewCardEndGameController>().endUpdatingCardToNextLevel();
 			}
 			if(this.collectionPointsEarned>0)
@@ -213,6 +232,10 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void resize()
 	{
+		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
+		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.sceneCamera.transform.position = new Vector3(0f,0f,-10f);
 		this.title.GetComponent<TextContainer>().width=ApplicationDesignRules.worldWidth-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.credits.GetComponent<TextContainer>().width=ApplicationDesignRules.worldWidth-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		float gapBetweenCards = (ApplicationDesignRules.worldWidth-2f*ApplicationDesignRules.blockHorizontalSpacing-4f*ApplicationDesignRules.cardWorldSize.x)/3f;
@@ -224,22 +247,25 @@ public class NewEndGameController : MonoBehaviour
 
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
-			cards[i].transform.position=new Vector3((i-1.5f)*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),-1f,-8f);
+			cards[i].transform.position=new Vector3((i-1.5f)*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),-1f,0f);
 			cards[i].transform.localScale=ApplicationDesignRules.cardScale;
 		}
 	}
 	public void upgradeCardAttributeHandler(int attributeToUpgrade, int newPower, int newLevel)
 	{
-		StartCoroutine(this.upgradeCardAttribute(attributeToUpgrade,newPower,newLevel));
+		BackOfficeController.instance.displayLoadingScreen();
+		StartCoroutine(this.launchUpgradeCardAttribute(attributeToUpgrade,newPower,newLevel));
+	}
+	public IEnumerator launchUpgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
+	{
+		yield return StartCoroutine(this.upgradeCardAttribute(attributeToUpgrade, newPower, newLevel));
+		this.hasFinishedCardUpgrade=true;
 	}
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
-		BackOfficeController.instance.displayLoadingScreen();
-		Deck myDeck = GameView.instance.getMyDeck();
-		
 		WWWForm form = new WWWForm(); 								
 		form.AddField("myform_hash", ApplicationModel.hash); 		
-		form.AddField("myform_idcard", myDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
+		form.AddField("myform_idcard", ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
@@ -254,17 +280,15 @@ public class NewEndGameController : MonoBehaviour
 			{
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				myDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
+				ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
 				this.titleCardTypeUnlocked=experienceData[1];
 				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
 				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
 				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
 				this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
 				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-				this.hideNextLevelPopUp();
 			}
 		}
-		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public IEnumerator initializeEndGame()
 	{
