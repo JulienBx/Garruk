@@ -29,7 +29,7 @@ public class PistoLest : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				int amount = Random.Range(1,2*level+1);
+				int amount = Random.Range(1,2*level+10);
 				GameController.instance.applyOn2(target, amount);
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
@@ -58,7 +58,7 @@ public class PistoLest : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV\n"+move+"MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV\n"+move+"MOV pour un tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
 	}	
 
@@ -73,7 +73,7 @@ public class PistoLest : GameSkill
 		GameView.instance.recalculateDestinations();
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n-"+damages+"PV\n-"+move+"MOV pour un tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
 	}	
 
@@ -81,7 +81,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level);
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level+10);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n-2MOV. Actif 1 tour";
 		

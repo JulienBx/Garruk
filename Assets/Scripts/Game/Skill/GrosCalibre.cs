@@ -68,8 +68,8 @@ public class GrosCalibre : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1f+level/10f)));
-		string text = "-"+damages+"PV";				
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f)));
+		string text = base.name+"\n-"+damages+"PV";				
 		if(value==-1){
 			text+="\nse trompe de cible!";
 		}
@@ -83,7 +83,7 @@ public class GrosCalibre : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1f+level/10f)));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f)));
 		string text = "-"+damages+"PV";		
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

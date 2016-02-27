@@ -24,14 +24,15 @@ public class Frenesie : GameSkill
 	}
 	
 	public override void applyOn(int i){
-		string text = base.name;
-		int level = GameView.instance.getCurrentSkill().Power;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int level = 5+GameView.instance.getCurrentSkill().Power;
+		int life = Mathf.RoundToInt(0.2f*currentCard.GetTotalLife());
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(22-level*2,-1,18,base.name,(22-level*2)+" dégats subis"));
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(5, -1, 18, base.name, "+5 ATK. Permanent"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(life,-1,18,base.name,(22-level*2)+" dégats subis"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, base.name, "+"+level+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, "+"+5+" ATK\n-"+(22-level*2)+"PV", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+level+" ATK\n-"+life+"PV", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 18);
 	}
 }

@@ -57,11 +57,11 @@ public class Criderage : GameSkill
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
+		int level = GameView.instance.getCurrentSkill().Power+5;
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 19, base.name, "+"+level+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+level+"ATK", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 19);
 	}
 }

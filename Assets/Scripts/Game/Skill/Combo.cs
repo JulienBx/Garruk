@@ -21,7 +21,7 @@ public class Combo : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		int max = 5+GameView.instance.getCurrentSkill().Power;
+		int max = 6+GameView.instance.getCurrentSkill().Power;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
@@ -42,19 +42,19 @@ public class Combo : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
-		string text = "HIT X"+value+"\n-"+damages+"PV";
+		string text = base.name+"\nHIT X"+value+"\n-"+damages+"PV";
 
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text = "HIT X"+value+"\n-"+damages+"PV\n(lache)";
+					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
-					text = "HIT X"+value+"\n-"+damages+"PV\n(lache)";
+					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class Combo : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(20*currentCard.getAttack()/100f));
-		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
+		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(6+GameView.instance.getCurrentSkill().Power)*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
 		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
 
 		if (currentCard.isLache()){

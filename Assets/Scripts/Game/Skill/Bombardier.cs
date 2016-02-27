@@ -20,7 +20,7 @@ public class Bombardier : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
-		int maxdamages = GameView.instance.getCurrentSkill().Power*3;
+		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
 		int proba = GameView.instance.getCurrentSkill().proba;
 		if(currentCard.isSniper()){
 			proba = 100 ;
@@ -47,7 +47,7 @@ public class Bombardier : GameSkill
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"));
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 24);
 	}	
 }

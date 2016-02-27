@@ -59,10 +59,10 @@ public class PerfoTir : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.Min(currentCard.getLife(),GameView.instance.getCurrentSkill().Power);
+		int level = Mathf.Min(currentCard.getLife(),5+GameView.instance.getCurrentSkill().Power);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"));
-		string text = "-"+level+"PV";
+		string text = base.name+"\n-"+level+"PV";
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
 		}
@@ -76,7 +76,7 @@ public class PerfoTir : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.Min(currentCard.getLife(),GameView.instance.getCurrentSkill().Power);
+		int level = Mathf.Min(currentCard.getLife(),5+GameView.instance.getCurrentSkill().Power);
 
 		string text = "-"+level+"PV";
 		if(targetCard.getBouclier()>0){

@@ -30,7 +30,7 @@ public class Massue : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(Mathf.RoundToInt(currentCard.getAttack()*50f/100f),Mathf.RoundToInt(currentCard.getAttack()*(100f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f)));
+				GameController.instance.applyOn2(target, Random.Range(Mathf.RoundToInt(currentCard.getAttack()*50f/100f),Mathf.RoundToInt(currentCard.getAttack()*(120f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f)));
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -44,7 +44,7 @@ public class Massue : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,base.name,damages+" dégats subis"));
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 63);
 	}
 
@@ -53,7 +53,7 @@ public class Massue : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f)); ;
-		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(100f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f));
+		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(120f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f));
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-damagesMin)+"-"+(targetCard.getLife()-damagesMax)+"]";
 		
 		int probaEsquive = targetCard.getEsquive();

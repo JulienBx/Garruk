@@ -23,6 +23,8 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
+		int level = GameView.instance.getCurrentSkill().Power;
+
 		if(currentCard.isSniper()){
 			proba = 100 ;
 		}
@@ -47,7 +49,12 @@ public class Laser : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, isFou);
+				if(isFou==-1){
+					GameController.instance.applyOn(target);
+				}
+				else{
+					GameController.instance.applyOn2(target, Random.Range(10+level, 20+3*level+1));
+				}
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -59,15 +66,22 @@ public class Laser : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level);
-		string text = "-"+damages+"PV";
-		if(value==-1){
-			text+="\nse trompe de cible!";
-		}
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
+		string text = base.name+"\n-"+damages+"PV";
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, base.name, damages+" dégats subis"));
 		GameView.instance.displaySkillEffect(target, text, 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 22);
+	}
+
+	public override void applyOn(int target){
+		if(target==-1){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Fou!\nse trompe de cible!", 0);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 22);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);	
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 22);
+		}
 	}
 	
 	public override string getTargetText(int target){

@@ -41,19 +41,19 @@ public class CoupeJambes : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
-		string text = "-"+damages+"PV\n-2MOV";				
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
+		string text = base.name+"\n-"+damages+"PV\n-2MOV";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)\n-2MOV";
+					text=base.name+"\n-"+damages+"PV"+"\n(lache)\n-2MOV";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)\n-2MOV";
+					text=base.name+"\n-"+damages+"PV"+"\n(lache)\n-2MOV";
 				}
 			}
 		}
@@ -69,7 +69,7 @@ public class CoupeJambes : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nMOV : "+targetCard.getMove()+" -> "+Mathf.Max(1, targetCard.getMove()-2)+" pour 1 tour";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
@@ -87,10 +87,10 @@ public class CoupeJambes : GameSkill
 		}
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
-		int probaEsquive = targetCard.getMagicalEsquive();
+		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\nHIT% : "+probaHit;
+		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
 	}

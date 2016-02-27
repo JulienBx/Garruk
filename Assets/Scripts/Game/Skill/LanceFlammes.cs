@@ -57,8 +57,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+2*level);
+							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -76,8 +76,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+2*level);
+							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -97,8 +97,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+2*level);
+							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -116,8 +116,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+2*level);
+							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -133,7 +133,7 @@ public class LanceFlammes : GameSkill
 	
 	public override void applyOn(int target, int value){
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, base.name, value+" dégats subis"));
-		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 27);
 	}
 
@@ -152,8 +152,8 @@ public class LanceFlammes : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int minDamages = currentCard.getMagicalDamagesAgainst(targetCard, level);
-		int maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+2*level);
+		int minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
+		int maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		

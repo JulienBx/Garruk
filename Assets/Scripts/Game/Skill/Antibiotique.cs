@@ -44,7 +44,7 @@ public class Antibiotique : GameSkill
 		
 		GameView.instance.getCard(target).emptyModifiers();
 		GameView.instance.getPlayingCardController(target).show();
-		GameView.instance.displaySkillEffect(target, "Effets dissipés", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\nEffets dissipés", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 7);
 	}	
 	

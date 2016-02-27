@@ -24,8 +24,8 @@ public class Agilite : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		int esquive = GameView.instance.getCurrentSkill().Power*5;
-		string text = "Esquive : "+esquive+"%";
+		int esquive = GameView.instance.getCurrentSkill().Power*5+10;
+		string text = "Agilité\nEsquive : "+esquive+"%";
 		
 		GameView.instance.getCurrentCard().addEsquiveModifyer(new Modifyer(esquive, -1, 14, base.name, text));
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).showIcons();

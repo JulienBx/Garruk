@@ -49,9 +49,9 @@ public class Poison : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		int level = GameView.instance.getCurrentSkill().Power*2;
+		int level = 10+GameView.instance.getCurrentSkill().Power*2;
 
-		GameView.instance.getCard(target).setState(new Modifyer(level*100, -1, 4, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setState(new Modifyer(level, -1, 4, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Poison\nPerd "+level+"PV par tour", 0);	
@@ -62,19 +62,19 @@ public class Poison : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		int level = Mathf.RoundToInt(GameView.instance.getCurrentSkill().Power*2f*value/100f);
+		int level = Mathf.RoundToInt((10f+GameView.instance.getCurrentSkill().Power)*value/100f);
 
 		GameView.instance.getCard(target).setState(new Modifyer(level, -1, 4, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Virus\nPoison\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.displaySkillEffect(target, "Poison\n(Virus)\nPerd "+level+"PV par tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
 	}
 	
 	public override string getTargetText(int target){	
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power*2;
+		int level = GameView.instance.getCurrentSkill().Power+10;
 
 		string text = "Poison\nPerd "+level+"PV en fin de tour";
 		

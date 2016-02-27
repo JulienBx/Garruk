@@ -31,19 +31,19 @@ public class CoupPrecis : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
-		string text = "-"+damages+"PV";				
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
+		string text = base.name+"\n-"+damages+"PV";				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
+					text=base.name+"\n-"+damages+"PV"+"\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
+					text=base.name+"\n-"+damages+"PV"+"\n(lache)";
 				}
 			}
 		}
@@ -56,7 +56,7 @@ public class CoupPrecis : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){

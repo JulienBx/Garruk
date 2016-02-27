@@ -48,8 +48,8 @@ public class Implosion : GameSkill
 					else{
 						if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(tempInt);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, -1+2*GameView.instance.getCurrentSkill().Power);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 1+4*GameView.instance.getCurrentSkill().Power);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+2*GameView.instance.getCurrentSkill().Power);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 20+3*GameView.instance.getCurrentSkill().Power);
 							GameController.instance.applyOn2(tempInt, Random.Range(minDamages, maxDamages+1));
 						}
 						else{
@@ -65,7 +65,7 @@ public class Implosion : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+value+"PV", 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value,-1,28,base.name,value+" dégats subis"));
 		GameView.instance.addAnim(GameView.instance.getTile(target), 28);
 	}

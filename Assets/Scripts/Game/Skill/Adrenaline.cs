@@ -50,20 +50,20 @@ public class Adrenaline : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		int level = GameView.instance.getCurrentSkill().Power*2;
+		int level = GameView.instance.getCurrentSkill().Power*2+5;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		if(soin==0){
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "+2MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n+2MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+2MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV\n+2MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		GameView.instance.recalculateDestinations();
@@ -74,21 +74,21 @@ public class Adrenaline : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		int level = Mathf.RoundToInt(GameView.instance.getCurrentSkill().Power*2f*value/100f);
+		int level = Mathf.RoundToInt((GameView.instance.getCurrentSkill().Power*2f+5f)*value/100f);
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 		int move = Mathf.RoundToInt(2f*value/100f);
 
 		if(soin==0){
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "Virus\n+"+move+"MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n(Virus)\n+"+move+"MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV\n+"+move+"MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n(Virus)\n+"+soin+"PV\n+"+move+"MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		GameView.instance.recalculateDestinations();
@@ -97,7 +97,7 @@ public class Adrenaline : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
+		int level = GameView.instance.getCurrentSkill().Power*2+5;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+2MOV. Actif 1 tour";

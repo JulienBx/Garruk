@@ -42,34 +42,34 @@ public class Pistolero : GameSkill
 	public int getValue(int level){
 		int value = -1;
 		if(level==1){
-			value=Random.Range(1,3);
+			value=Random.Range(1,8);
 		}
 		else if(level==2){
-			value=Random.Range(1,5);
+			value=Random.Range(2,10);
 		}
 		else if(level==3){
-			value=Random.Range(2,6);
+			value=Random.Range(3,12);
 		}
 		else if(level==4){
-			value=Random.Range(2,8);
-		}
-		else if(level==5){
-			value=Random.Range(3,9);
-		}
-		else if(level==6){
-			value=Random.Range(3,11);
-		}
-		else if(level==7){
-			value=Random.Range(4,12);
-		}
-		else if(level==8){
 			value=Random.Range(4,14);
 		}
+		else if(level==5){
+			value=Random.Range(5,16);
+		}
+		else if(level==6){
+			value=Random.Range(6,18);
+		}
+		else if(level==7){
+			value=Random.Range(7,20);
+		}
+		else if(level==8){
+			value=Random.Range(8,22);
+		}
 		else if(level==9){
-			value=Random.Range(5,15);
+			value=Random.Range(9,24);
 		}
 		else if(level==10){
-			value=Random.Range(5,17);
+			value=Random.Range(10,26);
 		}
 		return value;
 	}

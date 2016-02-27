@@ -22,7 +22,7 @@ public class Senilite : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		int max = 2 * GameView.instance.getCurrentSkill().Power+1;
+		int max = 2 * GameView.instance.getCurrentSkill().Power+5;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);
@@ -54,7 +54,7 @@ public class Senilite : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, value+" ATK", 0);
+		GameView.instance.displaySkillEffect(target, base.name+"\n"+value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}
 
@@ -65,14 +65,14 @@ public class Senilite : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, "Virus\n"+value+" ATK", 0);
+		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n"+value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = 2*GameView.instance.getCurrentSkill().Power;
+		int level = 5+2*GameView.instance.getCurrentSkill().Power;
 		string text = "";
 
 		if(targetCard.getAttack()>2){

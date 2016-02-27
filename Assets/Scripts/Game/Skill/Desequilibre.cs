@@ -44,8 +44,8 @@ public class Desequilibre : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*level/10f));
-		string text = "-"+damages+"PV";
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
+		string text = base.name+"\n-"+damages+"PV";
 
 		Tile targetTile = GameView.instance.getPlayingCardController(target).getTile();
 		Tile currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
@@ -73,7 +73,7 @@ public class Desequilibre : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*level/10f));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
 
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nrepousse l'unité";
 		

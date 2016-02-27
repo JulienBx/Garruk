@@ -29,7 +29,7 @@ public class PistoSoin : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				int amount = Random.Range(1*level,3*level+1);
+				int amount = Random.Range(1*level,3*level+12);
 				GameController.instance.applyOn2(target, amount);
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
@@ -53,7 +53,7 @@ public class PistoSoin : GameSkill
 		int soin = Mathf.Min(amount,targetCard.GetTotalLife()-targetCard.getLife());
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"));
-		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 1);	
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	
 
@@ -63,7 +63,7 @@ public class PistoSoin : GameSkill
 		int soin = Mathf.Min(Mathf.RoundToInt(amount*amount2/100f),targetCard.GetTotalLife()-targetCard.getLife());
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"));
-		GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV", 1);	
+		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n+"+soin+"PV", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	
 	
@@ -72,7 +72,7 @@ public class PistoSoin : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int soinMin = 1*level;
-		int soinMax = 3*level;
+		int soinMax = 3*level+12;
 			
 		string text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)+"-"+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)+"]";
 		

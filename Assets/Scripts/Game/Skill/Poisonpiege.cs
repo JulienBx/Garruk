@@ -25,7 +25,7 @@ public class Poisonpiege : GameSkill
 	}
 	
 	public override string getTargetText(int i){
-		int amount = 2+GameView.instance.getCurrentSkill().Power;
+		int amount = 10+GameView.instance.getCurrentSkill().Power;
 		string s = "Pose un piège qui empoisonnera l'unité touchée : "+amount+" dégats par tour";
 		return s ;
 	}

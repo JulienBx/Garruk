@@ -31,7 +31,7 @@ public class Mitraillette : GameSkill
 		if(currentCard.isSniper()){
 			proba = 100 ;
 		}
-		int maxDamages = GameView.instance.getCurrentSkill().Power*2;
+		int maxDamages = 5+GameView.instance.getCurrentSkill().Power*2;
 
 		for(int i = 0 ; i < potentialTargets.Count ; i++){
 			targetTile = GameView.instance.getTile(potentialTargets[i]); 
@@ -76,7 +76,7 @@ public class Mitraillette : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
 
-		string text = "-"+damages+"PV";
+		string text = base.name+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"));
 		GameView.instance.addAnim(GameView.instance.getTile(target), 30);

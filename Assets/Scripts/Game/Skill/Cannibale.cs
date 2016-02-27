@@ -40,13 +40,13 @@ public class Cannibale : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = 10+GameView.instance.getCurrentSkill().Power*5;
+		int percentage = 30+GameView.instance.getCurrentSkill().Power*5;
 
 		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f),currentCard.GetTotalLife()-currentCard.getLife());
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
-		string text = "";
+		string text = base.name+"\n";
 		if(bonusLife>0){
-			text+="+"+bonusLife+"PV\n";
+			text+=base.name+"\n+"+bonusLife+"PV\n";
 		}
 		text+="+"+bonusAttack+"ATK";
 
@@ -60,7 +60,7 @@ public class Cannibale : GameSkill
 		GameView.instance.displaySkillEffect(targetMe, text, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
 
-		GameView.instance.displaySkillEffect(target, "Dévoré", 0);
+		GameView.instance.displaySkillEffect(target, base.name+"\nDévoré!", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 21);
 	}
 
@@ -69,7 +69,7 @@ public class Cannibale : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = 10+GameView.instance.getCurrentSkill().Power*5;
+		int percentage = 30+GameView.instance.getCurrentSkill().Power*5;
 
 		int bonusLife = -1*Mathf.RoundToInt(damages*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);

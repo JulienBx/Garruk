@@ -41,10 +41,10 @@ public class Berserk : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1f+level/20f)));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/20f)));
 		int autoDamages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*25f/100f));
-		string text = "-"+damages+"PV";				
-		string autotext = "S'inflige "+autoDamages+" dégats";				
+		string text = base.name+"\n-"+damages+"PV";				
+		string autotext = base.name+"\nS'inflige "+autoDamages+" dégats";				
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"));
 		GameView.instance.displaySkillEffect(target, text, 0);
@@ -59,7 +59,7 @@ public class Berserk : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1f+level/20f)));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/20f)));
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
