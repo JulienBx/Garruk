@@ -84,13 +84,13 @@ public class Pistolero : GameSkill
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y>GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y<GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text="-"+damages+"PV"+"\n(lache)";
 				}
 			}

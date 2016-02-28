@@ -515,7 +515,7 @@ public class PlayingCardController : GameObjectController
 	public void checkPaladin(bool toDisplay){
 		if((card.Skills[0].Id == 73)){
 			int level = card.Skills[0].Power;
-			int bonusAttack = Mathf.RoundToInt(level*10f*card.getAttack()/100f);
+			int bonusAttack = Mathf.RoundToInt((20f+level*10f)*card.getAttack()/100f);
 			int bonusMove = -1*Mathf.Min(card.getMove()-1,2);
 
 			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, card.Skills[0].Name, "+"+bonusAttack+" ATK. Permanent"));
@@ -534,7 +534,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 66)){
 			int level = card.Skills[0].Power*5;
 						
-			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive aux compétences de contact : "+level+"%"));
+			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact : "+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){
@@ -546,7 +546,7 @@ public class PlayingCardController : GameObjectController
 
 	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
-			int bonusAttack = card.Skills[0].Power;
+			int bonusAttack = 5+card.Skills[0].Power;
 			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Psycho", "+"+bonusAttack+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
 			if(toDisplay){
@@ -558,7 +558,7 @@ public class PlayingCardController : GameObjectController
 
 	public void checkCuirasse(bool toDisplay){
 		if((card.Skills[0].Id == 70)){
-			int bonusShield = card.Skills[0].Power*4;
+			int bonusShield = card.Skills[0].Power*3+20;
 			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%. Permanent"));
 			GameView.instance.displaySkillEffect(this.id, "Bouclier "+bonusShield+"%", 1);
 			if(toDisplay){
@@ -570,9 +570,9 @@ public class PlayingCardController : GameObjectController
 
 	public void checkRapide(bool toDisplay){
 		if((card.Skills[0].Id == 71)){
-			int level = 11-card.Skills[0].Power;
+			int level = 10-card.Skills[0].Power;
 		
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+2MOV. Permanent"));
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+1MOV. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();

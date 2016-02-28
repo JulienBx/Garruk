@@ -46,13 +46,13 @@ public class Estoc : GameSkill
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text=base.name+"\n-"+damages+"PV"+"\n(lache)\n-10ATK";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text=base.name+"\n-"+damages+"PV"+"\n(lache)\n-10ATK";
 				}
 			}
@@ -73,13 +73,13 @@ public class Estoc : GameSkill
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)\nATK : "+targetCard.getAttack()+" -> "+Mathf.Max(1, targetCard.getAttack()-10)+" pour 1 tour";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Power+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
 					text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)\nATK : "+targetCard.getAttack()+" -> "+Mathf.Max(1, targetCard.getAttack()-10)+" pour 1 tour";
 				}
 			}

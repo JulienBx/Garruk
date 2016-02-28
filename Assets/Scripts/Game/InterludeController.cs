@@ -44,11 +44,9 @@ public class InterludeController : MonoBehaviour
 	
 	public void pause(){
 		this.isPaused = true;
-		Debug.Log("Je pause");
 	}
 	
 	public void unPause(){
-		Debug.Log("Je unpause");
 		this.isPaused = false;
 		GameView.instance.blockFury = true ;
 	}

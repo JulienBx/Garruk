@@ -115,7 +115,7 @@ public class GameController : Photon.MonoBehaviour
 	[RPC]
 	public void sendShurikenRPC(int target, int nb, int currentCard)
 	{	
-		int damages = GameView.instance.getCard(currentCard).Skills[0].Power*nb;
+		int damages = (5+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
 		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"));

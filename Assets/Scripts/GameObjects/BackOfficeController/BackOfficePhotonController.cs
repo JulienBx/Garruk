@@ -39,6 +39,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	public void CreateNewRoom()
 	{
+		ApplicationModel.player.IsFirstPlayer = true;
 		this.nbPlayers = 0;
 		RoomOptions newRoomOptions = new RoomOptions();
 		newRoomOptions.isOpen = true;
@@ -49,13 +50,13 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
 		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-		ApplicationModel.player.IsFirstPlayer = true;
 	}
 	
 	void OnJoinedRoom()
 	{
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 
+		//ApplicationModel.player.ToLaunchGameTutorial=true;
 		if (ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			print("Le tuto est lancé");

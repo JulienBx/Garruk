@@ -47,13 +47,13 @@ public class Combo : GameSkill
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damages);
 					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damages);
+					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damages);
 					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
 				}
 			}
@@ -74,15 +74,15 @@ public class Combo : GameSkill
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damagesMin = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damagesMin);
-					damagesMax = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damagesMax);
+					damagesMin = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMin);
+					damagesMax = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMax);
 					text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damagesMin = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damagesMin);
-					damagesMax = Mathf.Min(targetCard.getLife(), currentCard.getSkills()[0].Level+damagesMax);
+					damagesMin = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMin);
+					damagesMax = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMax);
 					text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]\n(lache)";
 				}
 			}

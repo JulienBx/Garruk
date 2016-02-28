@@ -22,6 +22,7 @@ public class GameView : MonoBehaviour
 	public Sprite[] skillSprites;
 	public Sprite[] skillTypeSprites;
 	public Sprite[] cardTypeSprites;
+	public Sprite[] iconSprites;
 
 	public int boardWidth ;
 	public int boardHeight ;
@@ -41,6 +42,7 @@ public class GameView : MonoBehaviour
 	GameObject[] horizontalBorders ;
 	List<GameObject> playingCards ;
 	GameObject popUp;
+	GameObject endTurnPopUp;
 	GameObject validationSkill;
 
 	GameObject tutorial;
@@ -92,6 +94,8 @@ public class GameView : MonoBehaviour
 	public bool toCountTime = true ;
 
 	public int draggingCard ;
+	int nbTurns ;
+	bool hasFoundEndTurn ;
 	
 	void Awake()
 	{
@@ -111,6 +115,8 @@ public class GameView : MonoBehaviour
 		this.passZone = GameObject.Find("PassZone");
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
+		this.endTurnPopUp = GameObject.Find("EndTurnPopUp");
+
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.popUp.GetComponent<PopUpGameController>().show (false);
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
@@ -128,8 +134,8 @@ public class GameView : MonoBehaviour
 		this.deads = new List<int>();
 		//this.destinations
 
-		this.lastMyPlayingCardDeckOrder = 3 ; 
-		this.lastHisPlayingCardDeckOrder = 3 ; 
+		this.lastMyPlayingCardDeckOrder = -1 ; 
+		this.lastHisPlayingCardDeckOrder = -1 ; 
 		
 		if (this.isFirstPlayer)
 		{
@@ -149,6 +155,8 @@ public class GameView : MonoBehaviour
 		toCountTime = true ;
 
 		draggingCard = -1 ;
+		this.nbTurns = 0 ;
+		this.hasFoundEndTurn = false ;
 	}
 	
 	public void displayLoadingScreen()
@@ -294,7 +302,7 @@ public class GameView : MonoBehaviour
 		if(gc.isPiegeur() && this.isFirstPlayer){
 			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
 			for (int i = 0 ; i < tiles2.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles2[i], 2*gc.getPassiveSkillLevel(), gc.isMine);
+				GameController.instance.addPiegeurTrap(tiles2[i], 5+2*gc.getPassiveSkillLevel(), gc.isMine);
 			}
 		}
 	}
@@ -322,8 +330,8 @@ public class GameView : MonoBehaviour
 							level = this.getCard(i).getSkills()[0].Power;
 							for(int j = 0 ; j < playingCards.Count ; j++){
 								if(this.getCard(j).isMine && i!=j){
-									attackValue = Mathf.RoundToInt(level*3f*this.getCard(j).getAttack()/100f);
-									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
+									attackValue = level+2;
+									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
@@ -729,7 +737,7 @@ public class GameView : MonoBehaviour
 		}
 		int card = -1;
 		while(i != o && card==-1){ 
-			if(!this.getCard(this.findCardWithDO(i,isM)).isDead){
+			if(!this.getCard(this.findCardWithDO(i,isM)).isDead && !this.deads.Contains(i)){
 				card = this.findCardWithDO(i,isM) ;
 			}
 			if(card==-1){
@@ -753,7 +761,45 @@ public class GameView : MonoBehaviour
 		int length = this.playingCards.Count;
 		this.hideButtons();
 		this.hoveringZone=-1 ;
-		StartCoroutine(launchEndTurnEffects());
+		if(this.hasFightStarted){
+			if(this.getCurrentCard().isMine){
+				if(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)<=this.lastHisPlayingCardDeckOrder){
+					if(!hasFoundEndTurn){
+						this.isFreezed = true ;
+						this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						nbTurns++;
+						hasFoundEndTurn = true ;
+					}
+					else{
+						hasFoundEndTurn = false ;
+						StartCoroutine(launchEndTurnEffects());
+					}
+				}
+				else{
+					StartCoroutine(launchEndTurnEffects());
+				}
+			}
+			else{
+				if(this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true)<=this.lastMyPlayingCardDeckOrder){
+					if(!hasFoundEndTurn){
+						this.isFreezed = true ;
+						this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						nbTurns++;
+						hasFoundEndTurn = true ;
+					}
+					else{
+						hasFoundEndTurn = false ;
+						StartCoroutine(launchEndTurnEffects());
+					}
+				}
+				else{
+					StartCoroutine(launchEndTurnEffects());
+				}
+			}
+		}
+		else{
+			StartCoroutine(launchEndTurnEffects());
+		}
 	}
 
 	public IEnumerator launchEndTurnEffects(){
@@ -798,10 +844,10 @@ public class GameView : MonoBehaviour
 
 				}
 				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-					int level = GameView.instance.getCurrentCard().Skills[0].Power;
+					int level = GameView.instance.getCurrentCard().Skills[0].Power+5;
 					int target = GameView.instance.getCurrentPlayingCard();
 
-					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(5,-1,69,"Frenetique","5 dégats subis"));
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"));
 					GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, "Frenetique", "+"+level+"ATK. Permanent"));
 					GameView.instance.getPlayingCardController(target).updateAttack();
 					GameView.instance.displaySkillEffect(target, "+"+level+" ATK\n-5PV", 1);
@@ -1142,6 +1188,10 @@ public class GameView : MonoBehaviour
 	
 	public Sprite getSprite(int i){
 		return this.sprites[i];
+	}
+
+	public Sprite getIconSprite(int i){
+		return this.iconSprites[i];
 	}
 	
 	public void loadHisHoveredPC(int c){
@@ -2492,6 +2542,75 @@ public class GameView : MonoBehaviour
 
 	public void stopCountingTime(){
 		this.toCountTime = false ;
+	}
+
+	public void hideEndTurnPopUp(){
+		this.isFreezed = false ;
+		Tile t ;
+		int amount ;
+
+		for(int i = 0 ; i < boardWidth ; i++){
+			t = new Tile(i,0);
+			if(this.getTileController(t).getCharacterID()!=-1){
+				amount = 5*(this.nbTurns);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+			}
+			t = new Tile(i,boardHeight-1);
+			if(this.getTileController(t).getCharacterID()!=-1){
+				amount = 5*(this.nbTurns);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+			}
+		}
+
+		if(nbTurns>=1){
+			for(int i = 0 ; i < boardWidth ; i++){
+				t = new Tile(i,1);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+				t = new Tile(i,boardHeight-2);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+			}
+		}
+
+		if(nbTurns>=2){
+			for(int i = 0 ; i < boardWidth ; i++){
+				t = new Tile(i,2);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns-1);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+				t = new Tile(i,boardHeight-3);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns-1);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+			}
+		}
+
+		StartCoroutine(this.waitThenLaunchEDE());
+	}
+
+	public IEnumerator waitThenLaunchEDE(){
+		yield return new WaitForSeconds(2f);
+		StartCoroutine(this.launchEndTurnEffects());
+		yield break ;
 	}
 }
 

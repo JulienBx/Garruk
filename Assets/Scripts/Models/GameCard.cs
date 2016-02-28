@@ -272,28 +272,52 @@ public class GameCard : Card
 				this.states.RemoveAt(i);
 			}
 		}
-		
+	}
 
+	public List<Modifyer> getEffects(){
+		List<Modifyer> effects = new List<Modifyer>();
+		for(int i = 0 ; i < states.Count;i++){
+			effects.Add(states[i]);
+		}
+		for(int i = 0 ; i < attackModifyers.Count;i++){
+			effects.Add(attackModifyers[i]);
+			effects[effects.Count-1].type = 1;
+		}
+		for(int i = 0 ; i < pvModifyers.Count;i++){
+			effects.Add(pvModifyers[i]);
+			effects[effects.Count-1].type = 0;
+		}
+		for(int i = 0 ; i < moveModifyers.Count;i++){
+			effects.Add(moveModifyers[i]);
+			effects[effects.Count-1].type = 2;
+		}
+		for(int i = 0 ; i < esquiveModifyers.Count;i++){
+			effects.Add(esquiveModifyers[i]);
+			effects[effects.Count-1].type = 3;
+		}
+		for(int i = 0 ; i < magicalEsquiveModifyers.Count;i++){
+			effects.Add(magicalEsquiveModifyers[i]);
+			effects[effects.Count-1].type = 4;
+		}
+		for(int i = 0 ; i < bouclierModifyers.Count;i++){
+			effects.Add(bouclierModifyers[i]);
+			effects[effects.Count-1].type = 5;
+		}
+		for(int i = 0 ; i < magicalBonusModifyers.Count;i++){
+			effects.Add(magicalBonusModifyers[i]);
+			effects[effects.Count-1].type = 6;
+		}
+		return effects ;
 	}
 
 	public List<Modifyer> getIconAttack()
 	{
-		List<Modifyer> iconAttackTexts = new List<Modifyer>();
-
-		return iconAttackTexts;
+		return attackModifyers;
 	}
-	
-	public List<string> getIconLife()
+
+	public List<Modifyer> getIconLife()
 	{
-		List<string> iconLifeTexts = new List<string>();
-		int i = 0;
-		while (i < this.pvModifyers.Count)
-		{
-			iconLifeTexts.Add(this.pvModifyers [i].title);
-			iconLifeTexts.Add(this.pvModifyers [i].description);
-			i++;
-		}
-		return iconLifeTexts;
+		return pvModifyers;
 	}
 	
 	public void removeLeaderEffect(){
