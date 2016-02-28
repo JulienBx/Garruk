@@ -361,8 +361,8 @@ public class GameView : MonoBehaviour
 							level = this.getCard(i).getSkills()[0].Power;
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
-									attackValue = 2*level+5;
-									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
+									attackValue = level+2;
+									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
