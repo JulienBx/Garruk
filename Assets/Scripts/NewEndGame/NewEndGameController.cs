@@ -79,7 +79,16 @@ public class NewEndGameController : MonoBehaviour
 			{
 				this.currentCredits=this.startCredits+(int)(this.updateRatio*this.bonus);
 			}
-			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(4)+ this.bonus.ToString()+ WordingEndGame.getReference(5)+this.currentCredits.ToString()+WordingEndGame.getReference(6);
+			string creditsText = "";
+			if(ApplicationModel.player.HasWonLastGame)
+			{
+				creditsText=WordingEndGame.getReference(4);
+			}
+			else
+			{
+				creditsText=WordingEndGame.getReference(10);
+			}
+			this.credits.GetComponent<TextMeshPro>().text=creditsText+ this.bonus.ToString()+ WordingEndGame.getReference(5)+this.currentCredits.ToString()+WordingEndGame.getReference(6);
 			this.credits.GetComponent<TextMeshPro>().text+=WordingEndGame.getReference(7)+this.xpWon.ToString()+WordingEndGame.getReference(8);
 		}
 		if(this.areCreditsUpdated)
@@ -129,7 +138,14 @@ public class NewEndGameController : MonoBehaviour
 		this.resize();
 		if(ApplicationModel.player.ChosenGameType>3)
 		{
-			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(3);
+			if(ApplicationModel.player.HasWonLastGame)
+			{
+				this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(3);
+			}
+			else
+			{
+				this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(9);
+			}
 			this.showEndButton();
 			BackOfficeController.instance.hideLoadingScreen();
 			yield break;
