@@ -15,8 +15,8 @@ public class GameCard : Card
 	public List<Modifyer> bouclierModifyers = new List<Modifyer>();
 	public List<Modifyer> magicalBonusModifyers = new List<Modifyer>();
 	public List<Modifyer> bonusModifyers = new List<Modifyer>();
+	public List<Modifyer> states ;
 
-	public Modifyer state ;
 	public bool isStateModifyed;
 	public int nbTurnsToWait ;
 	public bool isDead;
@@ -34,7 +34,7 @@ public class GameCard : Card
 		base.Move = move;
 		base.deckOrder = deckorder;
 		base.PowerLevel = powerlevel;
-		this.state = new Modifyer();
+		this.states = new List<Modifyer>();
 		this.isStateModifyed = false;
 	}
 
@@ -56,13 +56,8 @@ public class GameCard : Card
 		base.deckOrder = c.deckOrder;
 		base.PowerLevel = c.PowerLevel;
 		this.isDead=false;
-		this.state = new Modifyer();
+		this.states = new List<Modifyer>();
 		this.isStateModifyed = false;
-	}
-	
-	public void setState(Modifyer m){
-		this.isStateModifyed = true ;
-		this.state = m;
 	}
 	
 	public int getNbTurnsToWait(){
@@ -255,68 +250,36 @@ public class GameCard : Card
 				this.esquiveModifyers.RemoveAt(i);
 			}
 		}
+
+		for (int i = this.states.Count-1 ; i >=0 ; i--){
+			if (this.states [i].duration > 2){
+				this.states [i].description.Replace(this.states [i].duration+" tours", (this.states [i].duration-1)+" tours");
+			}
+			else if (this.states [i].duration > 1){
+				this.states [i].description.Replace(this.states [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.states [i].duration > 0)
+			{
+				this.states[i].duration--;
+			}
+			else if (this.states [i].duration == -2){
+				this.states [i].duration = 1;
+			}
+			
+			if (this.states [i].duration == 0)
+			{
+				this.states.RemoveAt(i);
+			}
+		}
 		
-		if (state.duration > 2){
-			state.description.Replace(state.duration+" tours", (state.duration-1)+" tours");
-		}
-		else if (state.duration > 1){
-			state.description.Replace(state.duration+" tours", "1 tour");
-		}
-		
-		if (state.duration > 0)
-		{
-			state.duration--;
-		}
-		else if (state.duration == -2){
-			state.duration = 1;
-		}
-		
-		if (state.duration == 0)
-		{
-			this.state = new Modifyer();
-			this.isStateModifyed=false;
-		}
+
 	}
-	
-	public int getSleepingPercentage(){
-		if(this.state.type==101){
-			return this.state.amount;
-		}
-		else{
-			return -1;
-		}
-	}
-	
-	public void removeSleeping()
+
+	public List<Modifyer> getIconAttack()
 	{
-		this.state = new Modifyer();
-	}
-	
-	public bool isParalyzed(){
-		return(this.state.type==3);
-	}
-	
-	public bool isFurious(){
-		return(this.state.type==2);
-	}
-	
-	public List<string> getIconAttack()
-	{
-		List<string> iconAttackTexts = new List<string>();
-		int i = 0;
-		while (i < this.attackModifyers.Count)
-		{			
-			iconAttackTexts.Add(this.attackModifyers [i].title);
-			iconAttackTexts.Add(this.attackModifyers [i].description);
-			i++;
-		}
-		i = 0;
-		while (i < this.magicalBonusModifyers.Count)
-		{			
-			iconAttackTexts.Add(this.magicalBonusModifyers [i].title);
-			iconAttackTexts.Add(this.magicalBonusModifyers [i].description);
-			i++;
-		}
+		List<Modifyer> iconAttackTexts = new List<Modifyer>();
+
 		return iconAttackTexts;
 	}
 	
@@ -530,16 +493,77 @@ public class GameCard : Card
 		this.magicalEsquiveModifyers = new List<Modifyer>();
 		this.bouclierModifyers = new List<Modifyer>();
 		this.isStateModifyed = false ;
-		this.state = new Modifyer();
-	}
-	
-	public bool isIntouchable()
-	{
-		return (this.state.type==11);
+		this.states = new List<Modifyer>();
 	}
 
 	public bool isPoisoned()
 	{
-		return (this.state.type==4);
+		bool hasFound = false ;
+		for (int i = 0 ; i < states.Count && !hasFound ; i++){
+			if(states[i].type==58 || states[i].type==94){
+				hasFound = true ;
+			}
+		}
+		return (hasFound);
+	}
+
+	public bool isFurious()
+	{
+		bool hasFound = false ;
+		for (int i = 0 ; i < states.Count && !hasFound ; i++){
+			if(states[i].type==93){
+				hasFound = true ;
+			}
+		}
+		return (hasFound);
+	}
+
+	public int getPoisonAmount(){
+		int amount = -1 ;
+		for (int i = 0 ; i < states.Count ; i++){
+			if(states[i].type==58 || states[i].type==94){
+				amount = states[i].amount ;
+			}
+		}
+
+		return amount ;
+	}
+
+	public void setFurious(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+			if(this.states[i].type==93){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+	}
+
+	public void setPoison(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+			if(states[i].type==58 || states[i].type==94){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+	}
+
+	public void setTerreur(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+			if(states[i].type==20){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+	}
+
+	public bool isEffraye()
+	{
+		bool hasFound = false ;
+		for (int i = 0 ; i < states.Count && !hasFound ; i++){
+			if(states[i].type==20){
+				hasFound = true ;
+			}
+		}
+		return (hasFound);
 	}
 }

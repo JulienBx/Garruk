@@ -42,7 +42,7 @@ public class Benediction : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 103, base.name, "Bénédiction. ATK augmentée de 2"));
+		//GameView.instance.getCard(target).setState(new Modifyer(0, 1, 103, base.name, "Bénédiction. ATK augmentée de 2"));
 		GameView.instance.displaySkillEffect(target, "Béni!", 0);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 103);

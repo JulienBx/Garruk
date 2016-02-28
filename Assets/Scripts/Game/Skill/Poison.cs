@@ -51,7 +51,7 @@ public class Poison : GameSkill
 
 		int level = 10+GameView.instance.getCurrentSkill().Power*2;
 
-		GameView.instance.getCard(target).setState(new Modifyer(level, -1, 4, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Poison\nPerd "+level+"PV par tour", 0);	
@@ -64,7 +64,7 @@ public class Poison : GameSkill
 
 		int level = Mathf.RoundToInt((10f+GameView.instance.getCurrentSkill().Power)*value/100f);
 
-		GameView.instance.getCard(target).setState(new Modifyer(level, -1, 4, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "Empoisonné. Perd "+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Poison\n(Virus)\nPerd "+level+"PV par tour", 0);	

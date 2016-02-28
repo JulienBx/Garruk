@@ -40,7 +40,7 @@ public class Fatalite : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 101, base.name, "Condamné. l'unité sera anéantie dans 2 tours"));
+		//GameView.instance.getCard(target).setState(new Modifyer(0, 1, 101, base.name, "Condamné. l'unité sera anéantie dans 2 tours"));
 		GameView.instance.displaySkillEffect(target, "Comdamné!", 0);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 101);

@@ -170,7 +170,7 @@ public class TileController : GameObjectController
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
 			}
 			else if(this.trap.getType()==2){	
-				GameView.instance.getCard(this.characterID).setState(new Modifyer(this.trap.getAmount(), -1, 4, "Poison", "Empoisonné. Perd "+this.trap.getAmount()+"PV par tour"));
+				GameView.instance.getCard(this.characterID).setPoison(new Modifyer(this.trap.getAmount(), -1, 58, "Poison", "Empoisonné. Perd "+this.trap.getAmount()+"PV par tour"));
 				GameView.instance.getPlayingCardController(this.characterID).showIcons();
 
 				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	

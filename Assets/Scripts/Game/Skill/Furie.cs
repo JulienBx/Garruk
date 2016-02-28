@@ -41,7 +41,7 @@ public class Furie : GameSkill
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 93);
 
-		GameView.instance.getCard(target).setState(new Modifyer(0, -1, 2, base.name, "Se déplace et attaque seul, amis et ennemis"));
+		GameView.instance.getCard(target).setFurious(new Modifyer(0, -1, 93, base.name, "Se déplace et attaque seul, amis et ennemis"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 	}
 }

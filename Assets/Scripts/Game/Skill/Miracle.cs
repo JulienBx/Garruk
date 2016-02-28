@@ -42,7 +42,7 @@ public class Miracle : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setState(new Modifyer(0, 1, 107, base.name, "Miracle. l'unité se régènere"));
+		//GameView.instance.getCard(target).setState(new Modifyer(0, 1, 107, base.name, "Miracle. l'unité se régènere"));
 		GameView.instance.displaySkillEffect(target, "Miraculé", 0);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 107);

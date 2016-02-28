@@ -145,18 +145,6 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.setNextPlayer();
 	}
 	
-	public void wakeUp(int id)
-	{
-		photonView.RPC("wakeUpRPC", PhotonTargets.AllBuffered, id);
-	}
-	
-	[RPC]
-	public void wakeUpRPC(int id)
-	{
-		GameView.instance.getCard(id).removeSleeping();
-		GameView.instance.getPlayingCardController(id).showIcons();
-	}
-	
 	public void clickDestination(Tile t, int c, bool toDisplay)
 	{
 		print(c);

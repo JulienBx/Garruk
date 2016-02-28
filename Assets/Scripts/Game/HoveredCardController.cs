@@ -64,8 +64,60 @@ public class HoveredCardController : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 		}
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.Skills[0].Id);
-		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkills()[0].Name;
-		gameObject.transform.FindChild("Title").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getCardTypeSprite(c.CardType.Id);
+		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.getName();
+		gameObject.transform.FindChild("Title").FindChild("PVText").GetComponent<TextMeshPro>().text = c.GetLifeString();
+		if(c.getLife()>c.Life){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+		}
+		else if(c.getLife()<c.Life){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+		}
+		else{
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+		}
+		gameObject.transform.FindChild("Title").FindChild("AttackText").GetComponent<TextMeshPro>().text = c.GetAttackString();
+		if(c.getAttack()>c.Attack){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+		}
+		else if(c.getAttack()<c.Attack){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+		}
+		else{
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+		}
+		int nbSkills = 0 ;
+		for(int i = 0 ; i < c.Skills.Count;i++){
+			if(c.Skills[i].IsActivated==1){
+				gameObject.transform.FindChild("Skill"+i).FindChild("Text").GetComponent<TextMeshPro>().text = c.Skills [i].Description;
+				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.Skills[i].Id);
+				gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().text = ""+c.Skills[i].Power;
+				if(c.Skills[i].Level==1){
+					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f);
+				}
+				else if(c.Skills[i].Level==2){
+					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+					gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().enabled=true;
+				gameObject.transform.FindChild("Skill"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled=true;
+				gameObject.transform.FindChild("Skill"+i).FindChild("Level").GetComponent<MeshRenderer>().enabled=true;
+				gameObject.transform.FindChild("Skill"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled=true;
+				nbSkills++;
+			}
+		}
+		for (int j = nbSkills ; j < 4 ; j++){
+			gameObject.transform.FindChild("Skill"+j).GetComponent<SpriteRenderer>().enabled=false;
+			gameObject.transform.FindChild("Skill"+j).FindChild("Text").GetComponent<MeshRenderer>().enabled=false;
+			gameObject.transform.FindChild("Skill"+j).FindChild("Level").GetComponent<MeshRenderer>().enabled=false;
+			gameObject.transform.FindChild("Skill"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled=false;
+		}
+
+		List<Modifyer> attackm = c.getIconAttack();
 
 		this.resetTimerC();
 		this.isRunning=false;

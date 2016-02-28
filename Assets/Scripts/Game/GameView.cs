@@ -763,7 +763,7 @@ public class GameView : MonoBehaviour
 				
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
-					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).state.amount, GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
+					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
 					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"));
 					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
@@ -857,7 +857,7 @@ public class GameView : MonoBehaviour
 			hasMoved = false ;
 			hasPlayed = false ;
 			
-			if (this.getCard(nextPlayingCard).isParalyzed()){
+			if (this.getCard(nextPlayingCard).isEffraye()){
 				hasPlayed = true ;
 			}
 			else if (this.getCard(nextPlayingCard).isFurious()){

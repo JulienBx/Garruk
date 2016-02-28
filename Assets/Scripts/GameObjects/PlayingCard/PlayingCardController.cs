@@ -289,12 +289,12 @@ public class PlayingCardController : GameObjectController
 			string text = "";
 			int compteurIcones = 1;
 
-			if(this.card.isStateModifyed){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
-				compteurIcones++;
-			}
+//			if(this.card.isStateModifyed){
+//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
+//				compteurIcones++;
+//			}
 			if(this.card.getBouclier()>0){
 				if(compteurIcones>3){
 					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
@@ -488,7 +488,7 @@ public class PlayingCardController : GameObjectController
 	
 	public bool canBeTargeted()
 	{
-		return (!this.card.isDead && !this.card.isIntouchable());
+		return (!this.card.isDead);
 	}
 	
 	public void showDisplay()

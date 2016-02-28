@@ -104,7 +104,7 @@ public class GameSkill
 		else if(gc.isFurious()){
 			launchability = "Furie : les compétences sont indisponibles";
 		}
-		else if(gc.isParalyzed()){
+		else if(gc.isEffraye()){
 			launchability = "Paralysé : Ne peut utiliser ses compétences";
 		}
 		else{
