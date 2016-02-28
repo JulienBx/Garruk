@@ -851,7 +851,7 @@ public class GameView : MonoBehaviour
 					isSuccess = true ;
 				}
 				if(this.getCard(this.currentPlayingCard).isNurse()){
-					int power = this.getCurrentCard().Skills[0].Power;
+					int power = 5+this.getCurrentCard().Skills[0].Power;
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;

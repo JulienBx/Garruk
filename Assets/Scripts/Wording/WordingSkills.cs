@@ -1688,16 +1688,16 @@ public class WordingSkills
 		//75 - Infirmier
 		idSkills.Add(75);
 		names.Add(new string[]{"Infirmier",""}); 
-		descriptions.Add(new string[]{"Rend 1 PV aux alliés adjacents en fin de tour",""}); 
-		descriptions.Add(new string[]{"Rend 2 PV aux alliés adjacents en fin de tour",""}); 
-		descriptions.Add(new string[]{"Rend 3 PV aux alliés adjacents en fin de tour",""}); 
-		descriptions.Add(new string[]{"Rend 4 PV aux alliés adjacents en fin de tour",""}); 
-		descriptions.Add(new string[]{"Rend 5 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 6 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 7 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 8 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 9 PV aux alliés adjacents en fin de tour",""}); 
 		descriptions.Add(new string[]{"Rend 10 PV aux alliés adjacents en fin de tour",""}); 
+		descriptions.Add(new string[]{"Rend 11 PV aux alliés adjacents en fin de tour",""}); 
+		descriptions.Add(new string[]{"Rend 12 PV aux alliés adjacents en fin de tour",""}); 
+		descriptions.Add(new string[]{"Rend 13 PV aux alliés adjacents en fin de tour",""}); 
+		descriptions.Add(new string[]{"Rend 14 PV aux alliés adjacents en fin de tour",""}); 
+		descriptions.Add(new string[]{"Rend 15 PV aux alliés adjacents en fin de tour",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
