@@ -12,6 +12,7 @@ public class InterludeController : MonoBehaviour
 	public Sprite[] sprites ;
 	public Sprite[] characterSprites ;
 	bool isEnabledUnderText ;
+	bool isEndTurn ;
 	
 	bool isPaused ;
 		
@@ -51,7 +52,8 @@ public class InterludeController : MonoBehaviour
 		GameView.instance.blockFury = true ;
 	}
 	
-	public void set(string s, bool isMine){
+	public void set(string s, int type){
+		this.isEndTurn = (type==3);
 		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
 		Vector3 position ;
 		position = gameObject.transform.FindChild("Bar1").localPosition ;
@@ -63,15 +65,20 @@ public class InterludeController : MonoBehaviour
 		position = gameObject.transform.FindChild("Bar3").localPosition ;
 		position.x = realwidth/2f+10f;
 		gameObject.transform.FindChild("Bar3").localPosition = position;
-		if(isMine){
+		if(type==1){
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[0];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[1];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[2];
 		}
-		else{
+		else if(type==2){
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[3];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
+		}
+		else if(type==3){
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
 		}
 
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
@@ -105,68 +112,73 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("UnderText").GetComponent<MeshRenderer>().enabled = false ;
 			isEnabledUnderText = true;
 
-			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
-				GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
-				GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					List<int> opponents = GameView.instance.getOpponents();
-					List<int> nbHits = new List<int>();
-					for (int i = 0 ; i < opponents.Count ; i++){
-						nbHits.Add(0);
-					}
-					int nbShurikens = UnityEngine.Random.Range(1,4);
-					for (int i = 1 ; i < nbShurikens+1 ;i++){
-						int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
-						nbHits[chosenOne]++;
-					}
-					for (int i = 0 ; i < nbHits.Count ; i++){
-						if(nbHits[i]>0){
-							if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
-								GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
-							}
-							else{
-								GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+			if(!isEndTurn){
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
+					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
+					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
+					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+						List<int> opponents = GameView.instance.getOpponents();
+						List<int> nbHits = new List<int>();
+						for (int i = 0 ; i < opponents.Count ; i++){
+							nbHits.Add(0);
+						}
+						int nbShurikens = UnityEngine.Random.Range(1,4);
+						for (int i = 1 ; i < nbShurikens+1 ;i++){
+							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
+							nbHits[chosenOne]++;
+						}
+						for (int i = 0 ; i < nbHits.Count ; i++){
+							if(nbHits[i]>0){
+								if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
+									GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
+								}
+								else{
+									GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+								}
 							}
 						}
 					}
 				}
-			}
-			if(!GameView.instance.deads.Contains(GameView.instance.getCurrentPlayingCard())){
-				GameView.instance.recalculateDestinations();
-				GameView.instance.removeDestinations();
-				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
-			
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!GameView.instance.getCurrentCard().isMine){
-						StartCoroutine(GameView.instance.launchIABourrin());
+				if(!GameView.instance.deads.Contains(GameView.instance.getCurrentPlayingCard())){
+					GameView.instance.recalculateDestinations();
+					GameView.instance.removeDestinations();
+					GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
+				
+					if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(!GameView.instance.getCurrentCard().isMine){
+							StartCoroutine(GameView.instance.launchIABourrin());
+						}
 					}
-				}
-				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
-					StartCoroutine(GameView.instance.launchFury());
-				}
-				GameView.instance.runningSkill = -1;
+					if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+						StartCoroutine(GameView.instance.launchFury());
+					}
+					GameView.instance.runningSkill = -1;
 
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
-					GameView.instance.updateActionStatus();
-					GameView.instance.getMyHoveredCardController().lowerCharacter();
-				}
-				else{
-					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
-					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
-					GameView.instance.getPassZoneController().show(false);
-					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
-					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
-					GameView.instance.getHisHoveredCardController().lowerCharacter();
-				}
-			}
-			if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!GameView.instance.hasStep2){
-						GameView.instance.launchTutoStep(2);
-						GameView.instance.hasStep2 = true ;
+					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+						GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
+						GameView.instance.updateActionStatus();
+						GameView.instance.getMyHoveredCardController().lowerCharacter();
+					}
+					else{
+						GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
+						GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
+						GameView.instance.getPassZoneController().show(false);
+						GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
+						GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+						GameView.instance.getHisHoveredCardController().lowerCharacter();
 					}
 				}
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+					if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(!GameView.instance.hasStep2){
+							GameView.instance.launchTutoStep(2);
+							GameView.instance.hasStep2 = true ;
+						}
+					}
+				}
+			}
+			else{
+				GameView.instance.hideEndTurnPopUp();
 			}
 
 			GameView.instance.isFreezed = false ;

@@ -19883,6 +19883,9 @@ MonoBehaviour:
   - {fileID: 21300044, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300046, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   - {fileID: 21300048, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  - {fileID: 21300078, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  - {fileID: 21300080, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  - {fileID: 21300082, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
   characterSprites:
   - {fileID: 21300112, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
   - {fileID: 21300072, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}

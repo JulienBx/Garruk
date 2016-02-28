@@ -339,7 +339,7 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Inflige 080%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige 085%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
 		descriptions.Add(new string[]{"Inflige 090%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
-		descriptions.Add(new string[]{"Inflige 095%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
+		descriptions.Add(new string[]{"Inflige 095%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""});
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats et enlève 2 MOV à l'unité ciblée (minimum 1)",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -492,16 +492,16 @@ public class WordingSkills
 		//22 - Laser
 		idSkills.Add(22);
 		names.Add(new string[]{"Laser",""}); 
-		descriptions.Add(new string[]{"Inflige [11-23] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [12-26] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [13-29] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [14-32] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [15-35] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [16-38] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [17-41] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [18-44] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [19-47] dégats à l'unité ciblée",""}); 
-		descriptions.Add(new string[]{"Inflige [20-50] dégats à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [11-23] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [12-26] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [13-29] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [14-32] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [15-35] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [16-38] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [17-41] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [18-44] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [19-47] dégats à distance à l'unité ciblée",""}); 
+		descriptions.Add(new string[]{"Inflige [20-50] dégats à distance à l'unité ciblée",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -1601,7 +1601,7 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 7 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 6 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 5 ATK. Permanent.",""}); 
-		descriptions.Add(new string[]{"Gagne 1 MOV et perd 4 ATK. Permanent.",""}); 
+		descriptions.Add(new string[]{"Gagne 1 MOV et perd 4 ATK. Permanent.",""});
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 3 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 2 ATK. Permanent.",""}); 
 		descriptions.Add(new string[]{"Gagne 1 MOV et perd 1 ATK. Permanent.",""}); 

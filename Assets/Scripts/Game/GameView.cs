@@ -40,7 +40,7 @@ public class GameView : MonoBehaviour
 	GameObject hisHoveredRPC ;
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
-	List<GameObject> playingCards ;
+	GameObject[] playingCards ;
 	GameObject popUp;
 	GameObject endTurnPopUp;
 	GameObject validationSkill;
@@ -96,13 +96,16 @@ public class GameView : MonoBehaviour
 	public int draggingCard ;
 	int nbTurns ;
 	bool hasFoundEndTurn ;
+	int numberDeckLoaded ;
+
+	int nbCards = 8 ;
 	
 	void Awake()
 	{
 		instance = this;
 		this.displayLoadingScreen ();
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
-		this.playingCards = new List<GameObject>();
+		this.playingCards = new GameObject[100];
 		this.verticalBorders = new GameObject[this.boardWidth+1];
 		this.horizontalBorders = new GameObject[this.boardHeight+1];
 		this.attackButton = GameObject.Find("AttackButton");
@@ -157,6 +160,7 @@ public class GameView : MonoBehaviour
 		draggingCard = -1 ;
 		this.nbTurns = 0 ;
 		this.hasFoundEndTurn = false ;
+		this.numberDeckLoaded = 0 ;
 	}
 	
 	public void displayLoadingScreen()
@@ -245,7 +249,6 @@ public class GameView : MonoBehaviour
 		yield return StartCoroutine(myDeck.LoadDeck());
 		
 		GameController.instance.spawnCharacter(myDeck.Id);
-		GameView.instance.hideLoadingScreen ();
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			this.launchTutoStep(1);
 		}
@@ -272,13 +275,15 @@ public class GameView : MonoBehaviour
 	public void createPlayingCard(GameCard c, bool isFirstP)
 	{
 		int hauteur = 0 ;
+		int baseIndex = 0 ;
 		
 		if (!isFirstP){
 			hauteur = this.boardHeight-1 ;
+			baseIndex = 4;
 		}
-		this.playingCards.Add((GameObject)Instantiate(this.playingCardModel));
-		int index = this.playingCards.Count-1;
-		
+		int index = baseIndex+c.deckOrder;
+		this.playingCards[c.deckOrder+baseIndex] = (GameObject)Instantiate(this.playingCardModel);
+
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
 
 		if (!isFirstP){
@@ -316,19 +321,23 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++){
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
+		this.numberDeckLoaded++;
+		if(this.numberDeckLoaded==2){
+			GameView.instance.hideLoadingScreen ();
+		}
 		
-		if(this.playingCards.Count==8 || ApplicationModel.player.ToLaunchGameTutorial){
+		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial){
 			bool hasFoundMine = false;
 			bool hasFoundHis = false;
 			int level;
 			int attackValue ;
 			int pvValue ;
-			for(int i = 0 ; i < playingCards.Count ; i++){
+			for(int i = 0 ; i < nbCards ; i++){
 				if(this.getCard(i).isMine){
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
-							for(int j = 0 ; j < playingCards.Count ; j++){
+							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
 									attackValue = level+2;
 									pvValue = 2*level+5;
@@ -350,7 +359,7 @@ public class GameView : MonoBehaviour
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
-							for(int j = 0 ; j < playingCards.Count ; j++){
+							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
 									attackValue = Mathf.RoundToInt(level*3f*this.getCard(j).getAttack()/100f);
 									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
@@ -495,7 +504,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void authorizeDrag(){
-		for (int i = 0 ; i < playingCards.Count ; i++){
+		for (int i = 0 ; i < this.nbCards ; i++){
 			if (this.getCard(i).isMine){
 				this.getPlayingCardController(i).canBeDragged = true ;
 			}
@@ -503,7 +512,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void displayOpponentCards(){
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			if(!this.getCard(i).isMine){
 				this.playingCards [i].GetComponentInChildren<PlayingCardController>().display();
@@ -553,6 +562,15 @@ public class GameView : MonoBehaviour
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
 		Tile origine = this.getPlayingCardController(characterID).getTile();
+		if(this.hasFightStarted){
+			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
+			this.removeDestinations();
+		}
+		else{
+			if(this.getCard(characterID).isMine){
+				this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
+			}
+		}
 		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
 			this.setLaunchability("Déplacement en cours !");
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
@@ -575,9 +593,6 @@ public class GameView : MonoBehaviour
 		}
 		this.getCard(characterID).setHasMoved(true);
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
-		if(this.hasFightStarted){
-			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
-		}
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 	}
 
@@ -719,7 +734,7 @@ public class GameView : MonoBehaviour
 	public int findCardWithDO(int o, bool isM){
 		int i = 0 ;
 		int card = -1;
-		while(i < this.playingCards.Count ){ 
+		while(i < this.nbCards ){ 
 			if(this.getCard(i).isMine==isM && this.getCard(i).deckOrder==o){
 				card = i ;
 				i = 100 ;
@@ -760,19 +775,27 @@ public class GameView : MonoBehaviour
 	public void setNextPlayer(){
 
 		isFreezed = true ;
-		int length = this.playingCards.Count;
+		int length = this.nbCards;
 		this.hideButtons();
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
 				if(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)<=this.lastHisPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
+						print("J'affiche le endturn");
+
 						this.isFreezed = true ;
-						this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						if(ApplicationModel.player.ToLaunchGameTutorial){
+							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						}
+						else{
+							this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
+						}
 						nbTurns++;
 						hasFoundEndTurn = true ;
 					}
 					else{
+						print("J'ai trouvé une fin de tour avant");
 						hasFoundEndTurn = false ;
 						StartCoroutine(launchEndTurnEffects());
 					}
@@ -784,12 +807,20 @@ public class GameView : MonoBehaviour
 			else{
 				if(this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true)<=this.lastMyPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
+						print("J'affiche le endturn");
+
 						this.isFreezed = true ;
-						this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						if(ApplicationModel.player.ToLaunchGameTutorial){
+							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
+						}
+						else{
+							this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
+						}
 						nbTurns++;
 						hasFoundEndTurn = true ;
 					}
 					else{
+						print("J'ai trouvé une fin de tour avant");
 						hasFoundEndTurn = false ;
 						StartCoroutine(launchEndTurnEffects());
 					}
@@ -871,7 +902,6 @@ public class GameView : MonoBehaviour
 				nextPlayingCard = this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true);
 				this.lastMyPlayingCardDeckOrder = this.getCard(nextPlayingCard).deckOrder;
 			}
-			this.checkField();
 		}
 		else{
 			nextPlayingCard = this.findCardWithDO(0, this.isFirstPlayer);
@@ -886,10 +916,10 @@ public class GameView : MonoBehaviour
 		bool hasPlayed = false ;
 		
 		if (this.getCard(nextPlayingCard).isMine){
-			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", true);
+			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
 		}
 		else{
-			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", false);
+			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				if(!this.hasStep3){
 					interlude.GetComponent<InterludeController>().pause();
@@ -922,65 +952,6 @@ public class GameView : MonoBehaviour
 		}
 		this.changeCurrentClickedCard(nextPlayingCard) ;
 		yield break ; 
-	}
-	
-	public void checkField(){
-		bool toDestroy = false ;
-		bool isDestroyed = true ;
-		int i = 0 ;
-		while(isDestroyed && !toDestroy){
-			isDestroyed = true ;
-			toDestroy = true ;
-			for(int j = 0 ; j < 6 ; j++){
-				if(this.getTileController(j,i).getTileType()!=1){
-					isDestroyed = false ;
-				}
-				if(this.getTileController(j,i).getCharacterID()!=-1){
-					toDestroy = false ;
-				}
-			}
-			if(toDestroy){
-				this.getTileController(0,i).changeType(2);
-				this.getTileController(1,i).changeType(2);
-				this.getTileController(2,i).changeType(2);
-				this.getTileController(3,i).changeType(2);
-				this.getTileController(4,i).changeType(2);
-				this.getTileController(5,i).changeType(2);
-				isDestroyed = true;
-				toDestroy = false ;
-			}
-			i++;
-		}
-		i--;
-		
-		
-		toDestroy = false ;
-		isDestroyed = true ;
-		i = 7 ;
-		while(isDestroyed && !toDestroy){
-			isDestroyed = true ;
-			toDestroy = true ;
-			for(int j = 0 ; j < 6 ; j++){
-				if(this.getTileController(j,i).getTileType()!=1){
-					isDestroyed = false ;
-				}
-				if(this.getTileController(j,i).getCharacterID()!=-1){
-					toDestroy = false ;
-				}
-			}
-			if(toDestroy){
-				this.getTileController(0,i).changeType(2);
-				this.getTileController(1,i).changeType(2);
-				this.getTileController(2,i).changeType(2);
-				this.getTileController(3,i).changeType(2);
-				this.getTileController(4,i).changeType(2);
-				this.getTileController(5,i).changeType(2);
-				isDestroyed = true;
-				toDestroy = false ;
-			}
-			i--;
-		}
-		i++;	
 	}
 	
 	public IEnumerator launchFury(){
@@ -1063,13 +1034,6 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().showSkillButtons(false);
 	}
 	
-	public void setTurn(int id, int rank){
-		this.getCard(id).setNbTurnsToWait(rank);
-		if(id == this.playingCards.Count-1){
-			this.setNextPlayer();
-		}
-	}
-	
 	public void setRankedCharacter(int id, int rank){
 		this.getCard(id).setNbTurnsToWait(rank);
 	}
@@ -1150,17 +1114,19 @@ public class GameView : MonoBehaviour
 		if(this.getHisHoveredCardController().getIsRunning()){
 			this.getHisHoveredCardController().addTimeC(Time.deltaTime);
 		}
-		
-		for(int i = 0 ; i < this.playingCards.Count ; i++){
-			if(this.getPlayingCardController(i).isUpdatingLife){
-				this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
-			}
-			if(!this.getCard(i).isDead){
-				if(this.getPlayingCardController(i).getIsRunning()){
-					this.getPlayingCardController(i).addTime(Time.deltaTime);
+
+		if(this.numberDeckLoaded==2){
+			for(int i = 0 ; i < this.nbCards ; i++){
+				if(this.getPlayingCardController(i).isUpdatingLife){
+					this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
 				}
-				if(this.getPlayingCardController(i).getIsMoving()){
-					this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
+				if(!this.getCard(i).isDead){
+					if(this.getPlayingCardController(i).getIsRunning()){
+						this.getPlayingCardController(i).addTime(Time.deltaTime);
+					}
+					if(this.getPlayingCardController(i).getIsMoving()){
+						this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
+					}
 				}
 			}
 		}
@@ -1331,7 +1297,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public int getNbPlayingCards(){
-		return this.playingCards.Count;
+		return this.nbCards;
 	}
 	
 	public Tile getPlayingCardTile(int i){
@@ -1422,7 +1388,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void recalculateDestinations(){
-		for (int i = 0 ; i < playingCards.Count ; i++){
+		for (int i = 0 ; i < this.nbCards ; i++){
 			if(!this.getCard(i).isDead){
 				this.calculateDestinations(i);
 			}
@@ -1444,7 +1410,7 @@ public class GameView : MonoBehaviour
 	
 	public List<Tile> getMyPlayingCardsTiles(){
 		List<Tile> tiles = new List<Tile>();
-		for (int i = 0 ; i < this.playingCards.Count ; i++){
+		for (int i = 0 ; i < this.nbCards ; i++){
 			if (this.getCard(i).isMine){
 				tiles.Add(this.getPlayingCardTile(i));
 			}
@@ -1539,7 +1505,7 @@ public class GameView : MonoBehaviour
 		Tile tile ;
 		this.targets = new List<Tile>();
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (this.getCard(i).isMine && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
@@ -1558,7 +1524,7 @@ public class GameView : MonoBehaviour
 		Tile tile ;
 		this.targets = new List<Tile>();
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (pcc.canBeTargeted() &&  i != this.currentPlayingCard)
@@ -1577,7 +1543,7 @@ public class GameView : MonoBehaviour
 		Tile tile ;
 		this.targets = new List<Tile>();
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (!this.getCard(i).isMine && pcc.canBeTargeted())
@@ -1820,7 +1786,7 @@ public class GameView : MonoBehaviour
 		
 		PlayingCardController pcc;
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (!this.getCard(i).isMine && pcc.canBeTargeted())
@@ -1837,7 +1803,7 @@ public class GameView : MonoBehaviour
 		
 		PlayingCardController pcc;
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (pcc.canBeTargeted() && i != this.currentPlayingCard)
@@ -1854,7 +1820,7 @@ public class GameView : MonoBehaviour
 		
 		PlayingCardController pcc;
 		
-		for (int i = 0; i < this.playingCards.Count; i++)
+		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (this.getCard(i).isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
@@ -1894,10 +1860,14 @@ public class GameView : MonoBehaviour
 	public void displaySkillEffect(int target, string text, int type){
 		this.getTileController(target).setSkillEffect(text,type);
 	}
+
+	public void displaySkillEffect(Tile t, string text, int type){
+		this.getTileController(t).setSkillEffect(text,type);
+	}
 	
 	public void removeLeaderEffect(int target, bool b){
 		if(b){
-			for(int j = 0 ; j < playingCards.Count ; j++){
+			for(int j = 0 ; j < this.nbCards ; j++){
 				if(this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
@@ -1908,7 +1878,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			for(int j = 0 ; j < playingCards.Count ; j++){
+			for(int j = 0 ; j < this.nbCards ; j++){
 				if(!this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
@@ -1926,7 +1896,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			if(c!=this.currentPlayingCard){
-				for (int i = 0 ; i < this.playingCards.Count ; i++){
+				for (int i = 0 ; i < this.nbCards ; i++){
 					if(this.getCard(i).nbTurnsToWait>this.getCard(c).nbTurnsToWait){
 						this.getCard(i).nbTurnsToWait--;
 						if(i!=this.currentPlayingCard){
@@ -2120,7 +2090,7 @@ public class GameView : MonoBehaviour
 	public List<int> getAllys(){
 		List<int> allys = new List<int>();
 		int CPC = GameView.instance.getCurrentPlayingCard();
-		for(int i = 0 ; i < this.playingCards.Count; i++){
+		for(int i = 0 ; i < this.nbCards; i++){
 			if(i!=CPC && !GameView.instance.getCard(i).isDead && GameView.instance.getCard(i).isMine){
 				allys.Add(i);
 			}
@@ -2130,7 +2100,7 @@ public class GameView : MonoBehaviour
 	
 	public List<int> getOpponents(){
 		List<int> opponents = new List<int>();
-		for(int i = 0 ; i < this.playingCards.Count;i++){
+		for(int i = 0 ; i < this.nbCards;i++){
 			if(!this.getCard(i).isDead && !this.getCard(i).isMine){
 				opponents.Add(i);
 			}
@@ -2140,7 +2110,7 @@ public class GameView : MonoBehaviour
 	
 	public List<int> getEveryone(){
 		List<int> everyone = new List<int>();
-		for(int i = 0 ; i < this.playingCards.Count;i++){
+		for(int i = 0 ; i < this.nbCards;i++){
 			if(!this.getCard(i).isDead){
 				everyone.Add(i);
 			}
@@ -2150,7 +2120,7 @@ public class GameView : MonoBehaviour
 	
 	public List<int> getEveryoneButMe(){
 		List<int> everyone = new List<int>();
-		for(int i = 0 ; i < this.playingCards.Count;i++){
+		for(int i = 0 ; i < this.nbCards;i++){
 			if(!this.getCard(i).isDead && i!=this.currentPlayingCard){
 				everyone.Add(i);
 			}
@@ -2160,7 +2130,7 @@ public class GameView : MonoBehaviour
 	
 	public int countAlive(){
 		int compteur = 0 ;
-		for (int i = 0 ; i < this.playingCards.Count ; i++){
+		for (int i = 0 ; i < this.nbCards ; i++){
 			if (!this.getCard(i).isDead){
 				compteur++;
 			}
@@ -2172,7 +2142,7 @@ public class GameView : MonoBehaviour
 		bool areMyPlayersDead = true ;
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			areMyPlayersDead = false ;
-			for (int i = 0 ; i < this.playingCards.Count ; i++){
+			for (int i = 0 ; i < 8 ; i++){
 				if (this.getCard(i).isMine){
 					if (!this.getCard(i).isDead){
 						areMyPlayersDead = false ;
@@ -2181,7 +2151,7 @@ public class GameView : MonoBehaviour
 			}
 			if(!areMyPlayersDead){
 				areMyPlayersDead = true ;
-				for (int i = 0 ; i < this.playingCards.Count ; i++){
+				for (int i = 0 ; i < 8 ; i++){
 					if (!this.getCard(i).isMine){
 						if (!this.getCard(i).isDead){
 							areMyPlayersDead = false ;
@@ -2192,7 +2162,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			areMyPlayersDead = true ;
-			for (int i = 0 ; i < this.playingCards.Count ; i++){
+			for (int i = 0 ; i < 8 ; i++){
 				if (this.getCard(i).isMine){
 					if (!this.getCard(i).isDead){
 						areMyPlayersDead = false ;
@@ -2206,7 +2176,7 @@ public class GameView : MonoBehaviour
 	public int getPercentageTotalDamages(bool isMe){
 		int damages = 0;
 		int total = 0;
-		for(int i = 0 ; i < playingCards.Count ; i++){
+		for(int i = 0 ; i < this.nbCards ; i++){
 			if(this.getCard(i).isMine==isMe){
 				damages+=(this.getCard(i).GetTotalLife()-this.getCard(i).getLife());
 				total+=this.getCard(i).GetTotalLife();
@@ -2519,8 +2489,9 @@ public class GameView : MonoBehaviour
 	}
 
 	public void addCharacter(int id, int atk, int pv, int x, int y, bool isFirstP){
-		this.playingCards.Add((GameObject)Instantiate(this.playingCardModel));
-		int index = this.playingCards.Count-1;
+		this.playingCards[nbCards]=(GameObject)Instantiate(this.playingCardModel);
+		this.nbCards++;
+		int index = this.nbCards-1;
 		GameCard c = null ;
 		if(id==6){
 			c = new GameCard(atk, pv, "Bouclier", 0, 11, 0);
@@ -2559,6 +2530,10 @@ public class GameView : MonoBehaviour
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 			}
+			else{
+				GameView.instance.displaySkillEffect(t, "", 0);
+				GameView.instance.addAnim(t, 0);
+			}
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				amount = 5*(this.nbTurns);
@@ -2566,42 +2541,62 @@ public class GameView : MonoBehaviour
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 			}
-		}
-
-		if(nbTurns>=1){
-			for(int i = 0 ; i < boardWidth ; i++){
-				t = new Tile(i,1);
-				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns);
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
-				}
-				t = new Tile(i,boardHeight-2);
-				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns);
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
-				}
+			else{
+				GameView.instance.displaySkillEffect(t, "", 0);
+				GameView.instance.addAnim(t, 0);
 			}
 		}
 
 		if(nbTurns>=2){
 			for(int i = 0 ; i < boardWidth ; i++){
-				t = new Tile(i,2);
+				t = new Tile(i,1);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-1);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 				}
-				t = new Tile(i,boardHeight-3);
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(t, 0);
+				}
+				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-1);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(t, 0);
+				}
+			}
+		}
+
+		if(nbTurns>=3){
+			for(int i = 0 ; i < boardWidth ; i++){
+				t = new Tile(i,2);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns-2);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(t, 0);
+				}
+				t = new Tile(i,boardHeight-3);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					amount = 5*(this.nbTurns-2);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
+				}
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(t, 0);
 				}
 			}
 		}

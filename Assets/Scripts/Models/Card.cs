@@ -314,7 +314,7 @@ public class Card
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
 			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
-			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+5,s.Length-index-5);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
 		}
 		return s;
 	}

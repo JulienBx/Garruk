@@ -97,16 +97,6 @@ public class GameController : Photon.MonoBehaviour
 	{	
 		GameView.instance.playerReadyR(b);
 	}
-	
-	public void addRankedCharacter(int id, int rank){
-		photonView.RPC("addRankedCharacterRPC", PhotonTargets.AllBuffered, id, rank);
-	}
-	
-	[RPC]
-	public void addRankedCharacterRPC(int id, int rank)
-	{	
-		GameView.instance.setTurn(id, rank);
-	}
 
 	public void sendShuriken(int target, int nb, int currentCard){
 		photonView.RPC("sendShurikenRPC", PhotonTargets.AllBuffered, target, nb, currentCard);
