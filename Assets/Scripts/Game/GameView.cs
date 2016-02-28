@@ -361,7 +361,7 @@ public class GameView : MonoBehaviour
 							level = this.getCard(i).getSkills()[0].Power;
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
-									attackValue = Mathf.RoundToInt(level*3f*this.getCard(j).getAttack()/100f);
+									attackValue = 2*level+5;
 									pvValue = Mathf.RoundToInt(level*3f*this.getCard(j).GetTotalLife()/100f);
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
@@ -591,7 +591,9 @@ public class GameView : MonoBehaviour
 				this.updateActionStatus();
 			}
 		}
-		this.getCard(characterID).setHasMoved(true);
+		if(this.hasFightStarted){
+			this.getCard(characterID).setHasMoved(true);
+		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 	}
