@@ -1941,6 +1941,7 @@ public class newMyGameController : MonoBehaviour
 		if(this.cardsArea.Contains(cursorPosition) && isDeckCardClicked)
 		{
 			this.moveToCards();
+			this.endHoveringCard();
 		}
 		else
 		{
