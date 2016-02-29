@@ -1711,16 +1711,16 @@ public class WordingSkills
 		//76 - Leader
 		idSkills.Add(76);
 		names.Add(new string[]{"Leader",""}); 
-		descriptions.Add(new string[]{"Bonus de 3ATK et 7PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 4ATK et 9PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 5ATK et 11PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 6ATK et 13PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 7ATK et 15PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 8ATK et 17PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 9ATK et 19PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 10ATK et 21PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 11ATK et 23PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 12ATK et 25PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 3ATK et 2PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 4ATK et 4PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 5ATK et 6PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 6ATK et 8PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 7ATK et 10PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 8ATK et 12PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 9ATK et 14PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 10ATK et 16PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 11ATK et 18PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"Bonus de 12ATK et 20PV aux alliés tant que le leader est en vie",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

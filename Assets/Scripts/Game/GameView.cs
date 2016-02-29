@@ -343,7 +343,7 @@ public class GameView : MonoBehaviour
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
 									attackValue = level+2;
-									pvValue = 2*level+5;
+									pvValue = 2*level;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
@@ -365,7 +365,7 @@ public class GameView : MonoBehaviour
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
 									attackValue = level+2;
-									pvValue = 2*level+5;
+									pvValue = 2*level;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
@@ -911,7 +911,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			nextPlayingCard = this.findCardWithDO(0, (this.isFirstPlayer==this.isFirstPlayerStarting));
-			if(this.isFirstPlayer){
+			if(this.isFirstPlayer==this.isFirstPlayerStarting){
 				this.lastMyPlayingCardDeckOrder = 0;
 			}
 			else{
