@@ -782,13 +782,16 @@ public class GameView : MonoBehaviour
 	
 	public void setNextPlayer(){
 
+		print("blabla");
+
 		isFreezed = true ;
 		int length = this.nbCards;
 		this.hideButtons();
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
-				if(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)<=this.lastHisPlayingCardDeckOrder){
+				print(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)+","+this.lastHisPlayingCardDeckOrder);
+				if(this.getCard(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)).deckOrder<=this.lastHisPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
 						print("J'affiche le endturn");
 
@@ -813,7 +816,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
-				if(this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true)<=this.lastMyPlayingCardDeckOrder){
+				if(this.getCard(this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true)).deckOrder<=this.lastMyPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
 						print("J'affiche le endturn");
 
