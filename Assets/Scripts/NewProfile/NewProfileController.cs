@@ -110,6 +110,9 @@ public class NewProfileController : MonoBehaviour
 	private GameObject chooseLanguagePopUp;
 	private bool isChooseLanguagePopUpDisplayed;
 
+	private GameObject messagePopUp;
+	private bool isMessagePopUpDisplayed;
+
 	private string searchValue;
 	private bool isScrolling;
 
@@ -593,6 +596,8 @@ public class NewProfileController : MonoBehaviour
 		this.editInformationsPopUp.SetActive (false);
 		this.chooseLanguagePopUp = GameObject.Find("chooseLanguagePopUp");
 		this.chooseLanguagePopUp.SetActive(false);
+		this.messagePopUp=GameObject.Find("profileMessagePopUp");
+		this.messagePopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.tutorialCamera = GameObject.Find ("TutorialCamera");
@@ -1587,6 +1592,14 @@ public class NewProfileController : MonoBehaviour
 		this.editInformationsPopUp.SetActive (true);
 		this.editInformationsPopUpResize ();
 	}
+	public void displayMessagePopUp(int messageId)
+	{
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.messagePopUp.transform.GetComponent<ProfileMessagePopUpController> ().reset (messageId);
+		this.isMessagePopUpDisplayed = true;
+		this.messagePopUp.SetActive (true);
+		this.messagePopUpResize ();
+	}
 	public void checkPasswordPopUpResize()
 	{
 		this.checkPasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
@@ -1605,6 +1618,12 @@ public class NewProfileController : MonoBehaviour
 		this.editInformationsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.editInformationsPopUp.GetComponent<EditInformationsPopUpController> ().resize ();
 	}
+	public void messagePopUpResize()
+	{
+		this.messagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.messagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.messagePopUp.GetComponent<ProfileMessagePopUpController> ().resize ();
+	}
 	public void hideCheckPasswordPopUp()
 	{
 		this.checkPasswordPopUp.SetActive (false);
@@ -1622,6 +1641,12 @@ public class NewProfileController : MonoBehaviour
 		this.editInformationsPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isEditInformationsPopUpDisplayed = false;
+	}
+	public void hideMessagePopUp()
+	{
+		this.messagePopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.isMessagePopUpDisplayed = false;
 	}
 	public void checkPasswordHandler(string password)
 	{
@@ -1729,22 +1754,39 @@ public class NewProfileController : MonoBehaviour
 				error = this.checkEmail (mail);
 				if(error=="")
 				{
-					StartCoroutine(updateUserInformations(firstname,surname,mail));
+					bool isNewEmail=false;
+					if(mail!=ApplicationModel.player.Mail)
+					{
+						isNewEmail=true;
+					}
+					StartCoroutine(updateUserInformations(firstname,surname,mail,isNewEmail));
 				}
 			}
 		}
 		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (error);
 	}
-	private IEnumerator updateUserInformations(string firstname, string surname, string mail)
+	private IEnumerator updateUserInformations(string firstname, string surname, string mail, bool isNewEmail)
 	{
-		ApplicationModel.player.FirstName = firstname;
-		ApplicationModel.player.Surname = surname;
-		ApplicationModel.player.Mail = mail;
-		this.hideEditInformationsPopUp ();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.updateInformations ());
+		this.editInformationsPopUp.SetActive(false);
+		yield return StartCoroutine (ApplicationModel.player.updateInformations (firstname,surname,mail,isNewEmail));
+		this.editInformationsPopUp.SetActive(true);
+		if(ApplicationModel.player.Error=="")
+		{
+			this.hideEditInformationsPopUp ();
+			if(isNewEmail)
+			{
+				this.displayMessagePopUp(1);
+			}
+			this.drawPersonalInformations ();
+		}
+		else
+		{
+			this.editInformationsPopUp.SetActive(true);
+			this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
+		}
 		BackOfficeController.instance.hideLoadingScreen ();
-		this.drawPersonalInformations ();
 	}
 	public string checkname(string name)
 	{

@@ -134,19 +134,40 @@ public class Player : User
 		this.CurrentCup=new Cup();
 		this.CurrentDivision=new Division();
 	}
-	public IEnumerator updateInformations(){
+	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail){
+
+		string isNewEmailString="0";
+		if(isNewEmail)
+		{
+			isNewEmailString="1";
+		}
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_id",this.Id);
-		form.AddField("myform_firstname", this.FirstName); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_surname", this.Surname);
-		form.AddField("myform_mail", this.Mail);
+		form.AddField("myform_firstname", firstname); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_surname", surname);
+		form.AddField("myform_mail", mail);
+		form.AddField("myform_isnewemail", isNewEmailString);
 		
 		WWW w = new WWW(URLUpdateUserInformations, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 		if (w.error != null){ 
-			Debug.Log (w.error); 
+			this.Error=w.error; 
+		}
+		else 
+		{
+			if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.Error=errors[1];
+			}
+			else
+			{
+				this.FirstName=firstname;
+				this.Surname=surname;
+				this.Mail=mail;
+			}
 		}
 	}
 	public IEnumerator setProfilePicture(int idprofilepicture)
@@ -205,10 +226,6 @@ public class Player : User
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 
-		}
-		else
-		{
-			this.Money=System.Convert.ToInt32(w.text);
 		}
 	}
 	public IEnumerator getMoney()

@@ -882,6 +882,7 @@ public class NewStoreController : MonoBehaviour
 					BackOfficeController.instance.displayNewSkillsPopUps(model.NewSkills);
 				}
 			}
+			StartCoroutine(BackOfficeController.instance.getUserData ());
 		}
 		else
 		{

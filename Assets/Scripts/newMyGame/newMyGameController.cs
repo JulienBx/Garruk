@@ -130,6 +130,8 @@ public class newMyGameController : MonoBehaviour
 	private float filtersPositionX;
 	private float mainContentPositionX;
 
+	private bool toMoveFirstDeckCard;
+
 	void Update()
 	{	
 		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
@@ -1582,6 +1584,11 @@ public class newMyGameController : MonoBehaviour
 			this.initializeCards();
 			BackOfficeController.instance.hideLoadingScreen();
 			TutorialObjectController.instance.tutorialTrackPoint();
+			if(this.toMoveFirstDeckCard)
+			{
+				this.moveToDeckCards(0);
+				this.toMoveFirstDeckCard=false;
+			}
 		}
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().setError (error);
 	}
@@ -1713,6 +1720,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.displayNewDeckPopUp();
 			this.isLeftClicked=false;
+			this.toMoveFirstDeckCard=true;
 		}
 		else if(!isDeckCardClicked && identicalSkillPosition>-1)
 		{

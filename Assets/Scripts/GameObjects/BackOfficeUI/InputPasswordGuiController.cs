@@ -53,14 +53,19 @@ public class InputPasswordGuiController : InterfaceController
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea ();
-		if (Event.current.keyCode == KeyCode.Return) 
+		Event e = Event.current;
+		if (e.isKey && e.type == EventType.KeyUp && GUI.GetNameOfFocusedControl()=="PasswordField")
 		{
-			this.keyReturnPressed=true;
- 		}
- 		if (Event.current.keyCode == KeyCode.Escape) 
-		{
-			this.keyEscapePressed=true;
- 		}
+             switch(e.keyCode)
+             {
+                 case KeyCode.Return: 
+                 	this.keyReturnPressed=true; 
+                 	break;
+                 case KeyCode.Escape: 
+                 	this.keyEscapePressed=true; 
+                 	break;    
+             }
+         }
 	}
 	public void setFocused()
 	{
