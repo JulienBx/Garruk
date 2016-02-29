@@ -23,51 +23,43 @@ public class PerfoTir : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
-		}
-		int isFou = 1 ;
-		if(currentCard.isFou()){
-			if(Random.Range(1,101)<26){
-				isFou = -1 ;
-				List<int> potentialTargets = GameView.instance.getEveryoneButMe();
-				List<int> targets = new List<int>();
-				for (int i = 0 ; i < potentialTargets.Count ; i++){
-					if(target!=potentialTargets[i]){
-						targets.Add(potentialTargets[i]);
-					}
-				}
-				if(targets.Count>0){
-					target = targets[Random.Range(0,targets.Count)];
-				}
-			}
-		}
+
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
 			GameController.instance.esquive(target,1);
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, isFou);
+				GameController.instance.applyOn(target);
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(28,GameView.instance.getCurrentPlayingCard());
+		}
+	}
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
-	public override void applyOn(int target, int value){
+	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.Min(currentCard.getLife(),5+GameView.instance.getCurrentSkill().Power);
+		int damages = 5+GameView.instance.getCurrentSkill().Power;
+		if(currentCard.isFou()){
+			damages = Mathf.RoundToInt(1.25f*damages);
+		}
+		int level = Mathf.Min(currentCard.getLife(),damages);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"));
 		string text = base.name+"\n-"+level+"PV";
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
-		}
-		if(value==-1){
-			text+="\nse trompe de cible!";
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 31);
@@ -76,9 +68,13 @@ public class PerfoTir : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = Mathf.Min(currentCard.getLife(),5+GameView.instance.getCurrentSkill().Power);
+		int damages = 5+GameView.instance.getCurrentSkill().Power;
+		if(currentCard.isFou()){
+			damages = Mathf.RoundToInt(1.25f*damages);
+		}
+		int level = Mathf.Min(currentCard.getLife(),damages);
 
-		string text = "-"+level+"PV";
+		string text = "PV : "+currentCard.getLife()+" -> "+(currentCard.getLife()-level);
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
 		}

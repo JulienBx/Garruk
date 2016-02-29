@@ -268,11 +268,6 @@ public class Card
 		}
 	}
 	
-	public int getPassiveManacost()
-	{
-		return (this.Skills[0].ManaCost);
-	}
-	
 	public bool hasSkill(string s)
 	{
 		bool b = false;
@@ -437,8 +432,8 @@ public class Card
 				this.Skills[j-1].Level=System.Convert.ToInt32(cardInfo[4]);
 				this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[5]);
 				this.Skills[j-1].Upgrades=System.Convert.ToInt32(cardInfo[6]);
-				this.Skills[j-1].Description=cardInfo[7];
-				this.Skills[j-1].proba=System.Convert.ToInt32(cardInfo[8]);
+				this.Skills[j-1].Description=WordingSkills.getDescription(this.Skills[j-1].Id,this.Skills[j-1].Power-1);
+				this.Skills[j-1].proba=WordingSkills.getProba(this.Skills[j-1].Id,this.Skills[j-1].Power-1);
 				this.Skills[j-1].nextDescription=cardInfo[9];
 				this.Skills[j-1].nextProba=System.Convert.ToInt32(cardInfo[10]);
 				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);

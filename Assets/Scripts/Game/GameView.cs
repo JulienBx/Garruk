@@ -99,6 +99,7 @@ public class GameView : MonoBehaviour
 	int numberDeckLoaded ;
 
 	int nbCards = 8 ;
+	bool isFirstPlayerStarting ;
 	
 	void Awake()
 	{
@@ -501,6 +502,9 @@ public class GameView : MonoBehaviour
 			this.displayOpponentCards();
 			this.setNextPlayer();
 		}
+		else{
+			this.isFirstPlayerStarting = b;
+		}
 	}
 
 	public void authorizeDrag(){
@@ -529,8 +533,7 @@ public class GameView : MonoBehaviour
 		else{
 			this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
 		}
-		this.getPlayingCardController(characterID).showHover(true);
-		
+
 		if(this.currentPlayingCard!=-1){
 			if(!this.getCard(characterID).isMine && this.getCard(this.currentPlayingCard).isMine){
 				this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
@@ -558,6 +561,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		this.draggingCard=characterID;
+		this.getPlayingCardController(characterID).moveForward();
 	}
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
@@ -596,6 +600,7 @@ public class GameView : MonoBehaviour
 		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
+		this.getPlayingCardController(characterID).moveBackward();
 	}
 
 	public void dropCharacter(int characterID){
@@ -607,6 +612,7 @@ public class GameView : MonoBehaviour
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
 		}
+		this.getPlayingCardController(characterID).moveBackward();
 	}
 	
 	public void changeCurrentClickedCard(int characterID){
@@ -906,7 +912,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			nextPlayingCard = this.findCardWithDO(0, this.isFirstPlayer);
+			nextPlayingCard = this.findCardWithDO(0, (this.isFirstPlayer==this.isFirstPlayerStarting));
 			if(this.isFirstPlayer){
 				this.lastMyPlayingCardDeckOrder = 0;
 			}
@@ -937,7 +943,10 @@ public class GameView : MonoBehaviour
 			hasMoved = false ;
 			hasPlayed = false ;
 			
-			if (this.getCard(nextPlayingCard).isEffraye()){
+			if (this.getCard(nextPlayingCard).isSniper()){
+				hasMoved = true ;
+			}
+			else if (this.getCard(nextPlayingCard).isEffraye()){
 				hasPlayed = true ;
 			}
 			else if (this.getCard(nextPlayingCard).isFurious()){
@@ -2528,6 +2537,9 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,0);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				amount = 5*(this.nbTurns);
+				if(this.getCard(this.getTileController(t).getCharacterID()).isSniper()){
+					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
@@ -2539,6 +2551,9 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				amount = 5*(this.nbTurns);
+				if(this.getCard(this.getTileController(t).getCharacterID()).isSniper()){
+					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);

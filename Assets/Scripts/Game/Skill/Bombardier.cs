@@ -21,10 +21,13 @@ public class Bombardier : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
 		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
-		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
+		int level = GameView.instance.getCurrentSkill().Power;
+		int myLevel = currentCard.Skills[0].Power;
+
+		if(currentCard.isFou()){
+			maxdamages = Mathf.RoundToInt(1.25f*maxdamages);
 		}
+		int proba = GameView.instance.getCurrentSkill().proba;
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) <= GameView.instance.getCard(targets[i]).getMagicalEsquive()){
 				GameController.instance.esquive(targets[i],1);
@@ -39,6 +42,15 @@ public class Bombardier : GameSkill
 			}
 		}
 		GameController.instance.endPlay();
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(24,GameView.instance.getCurrentPlayingCard());
+		}
+	}
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
 	public override void applyOn(int target, int amount){

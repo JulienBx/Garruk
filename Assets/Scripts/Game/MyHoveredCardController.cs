@@ -16,6 +16,11 @@ public class MyHoveredCardController : HoveredCardController
 		position = tempTransform.localPosition ;
 		position.x = -0.50f*this.realwidth-7f;
 		tempTransform.localPosition = position;	
+
+		gameObject.transform.Find("Skill0").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
+		gameObject.transform.Find("Skill1").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
+		gameObject.transform.Find("Skill2").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
+		gameObject.transform.Find("Skill3").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
 	}
 	
 	public void addTime(float f){

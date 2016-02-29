@@ -21,9 +21,6 @@ public class Implosion : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
-		}
 		List<Tile> tempTiles;
 		Tile t = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());
 		tempTiles = t.getImmediateNeighbourTiles();
@@ -50,6 +47,9 @@ public class Implosion : GameSkill
 							targetCard = GameView.instance.getCard(tempInt);
 							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+2*GameView.instance.getCurrentSkill().Power);
 							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 20+3*GameView.instance.getCurrentSkill().Power);
+							if(currentCard.isFou()){
+								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+							}
 							GameController.instance.applyOn2(tempInt, Random.Range(minDamages, maxDamages+1));
 						}
 						else{
@@ -62,6 +62,16 @@ public class Implosion : GameSkill
 		}
 		GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), currentCard.getLife());
 		GameController.instance.endPlay();
+		int myLevel = currentCard.Skills[0].Power;
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(28,GameView.instance.getCurrentPlayingCard());
+		}
+	}
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
 	public override void applyOn(int target, int value){

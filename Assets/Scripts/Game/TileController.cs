@@ -459,7 +459,7 @@ public class TileController : GameObjectController
 			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
 		}
 		else{
-			GameView.instance.getPlayingCardController(characterID).showHover(false);
+			
 		}
 		
 		if(this.type==1 || this.type==2 || this.isTrapped){

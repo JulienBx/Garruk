@@ -41,7 +41,6 @@ public class PlayingCardController : GameObjectController
 	void Awake()
 	{
 		this.isDisabled = false;
-		this.showHover(false);
 		this.displayDead(false);
 		Transform t = gameObject.transform;
 		this.toStop = false ;
@@ -78,10 +77,6 @@ public class PlayingCardController : GameObjectController
 	public List<Tile> getDestinations()
 	{
 		return this.destinations;
-	}
-	
-	public void showHover(bool b){
-		gameObject.transform.Find("Background").FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = b ;
 	}
 	
 	public void hide()
@@ -204,9 +199,9 @@ public class PlayingCardController : GameObjectController
 	
 	public void moveForward(){
 		Transform t = gameObject.transform;
-		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
-		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 33 ;
-		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
+		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
+		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
+		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 33 ;
 		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
 		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 36 ;
@@ -221,15 +216,14 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
 		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
 		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("HoverLayer").GetComponent<SpriteRenderer>().sortingOrder = 41 ;
 		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 38 ;
 	}
 	
 	public void moveBackward(){
 		Transform t = gameObject.transform;
-		t.FindChild("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
-		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 23 ;
-		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 22 ;
+		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
+		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 22 ;
+		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 23 ;
 		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
 		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 26 ;
@@ -244,7 +238,6 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
 		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
 		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
-		t.Find("Background").FindChild("HoverLayer").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
 		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 28 ;
 	}
 	
@@ -559,7 +552,7 @@ public class PlayingCardController : GameObjectController
 	public void checkCuirasse(bool toDisplay){
 		if((card.Skills[0].Id == 70)){
 			int bonusShield = card.Skills[0].Power*3+20;
-			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%. Permanent"));
+			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%"));
 			GameView.instance.displaySkillEffect(this.id, "Bouclier "+bonusShield+"%", 1);
 			if(toDisplay){
 				GameView.instance.getPlayingCardController(this.id).showIcons();

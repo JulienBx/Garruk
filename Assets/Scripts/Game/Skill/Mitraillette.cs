@@ -28,10 +28,10 @@ public class Mitraillette : GameSkill
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
 		Tile targetTile ; 
 		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
-		}
 		int maxDamages = 5+GameView.instance.getCurrentSkill().Power*2;
+		if(currentCard.isFou()){
+			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+		}
 
 		for(int i = 0 ; i < potentialTargets.Count ; i++){
 			targetTile = GameView.instance.getTile(potentialTargets[i]); 
@@ -69,6 +69,16 @@ public class Mitraillette : GameSkill
 			nbTargets++ ;
 		}
 		GameController.instance.endPlay();
+		int myLevel = currentCard.Skills[0].Power;
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(30,GameView.instance.getCurrentPlayingCard());
+		}
+	}
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
 	public override void applyOn(int target, int value){

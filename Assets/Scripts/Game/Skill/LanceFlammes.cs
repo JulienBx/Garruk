@@ -29,23 +29,6 @@ public class LanceFlammes : GameSkill
 		int maxDamages ;
 		GameCard targetCard ;
 		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
-		}
-		int isFou = 1 ;
-		if(currentCard.isFou()){
-			if(Random.Range(1,101)<26){
-				isFou = -1 ;
-				List<Tile> potentialTiles = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles() ;
-				List<Tile> potentialTargets = new List<Tile>();
-				for (int i = 0 ; i < potentialTiles.Count ; i++){
-					if(tile.x!=potentialTiles[i].x || tile.y!=potentialTiles[i].y){
-						potentialTargets.Add(potentialTiles[i]);
-					}
-				}
-				tile = potentialTargets[Random.Range(0,potentialTargets.Count)];
-			}
-		}
 
 		if(tile.x==currentTile.x){
 			if(tile.y<currentTile.y){
@@ -59,6 +42,10 @@ public class LanceFlammes : GameSkill
 							targetCard = GameView.instance.getCard(playerID);
 							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
 							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							if(currentCard.isFou()){
+								minDamages = Mathf.RoundToInt(1.25f*minDamages);
+								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+							}
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -78,6 +65,10 @@ public class LanceFlammes : GameSkill
 							targetCard = GameView.instance.getCard(playerID);
 							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
 							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							if(currentCard.isFou()){
+								minDamages = Mathf.RoundToInt(1.25f*minDamages);
+								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+							}
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -99,6 +90,10 @@ public class LanceFlammes : GameSkill
 							targetCard = GameView.instance.getCard(playerID);
 							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
 							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							if(currentCard.isFou()){
+								minDamages = Mathf.RoundToInt(1.25f*minDamages);
+								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+							}
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -118,6 +113,11 @@ public class LanceFlammes : GameSkill
 							targetCard = GameView.instance.getCard(playerID);
 							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
 							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+
+							if(currentCard.isFou()){
+								minDamages = Mathf.RoundToInt(1.25f*minDamages);
+								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+							}
 							GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 						}
 						else{
@@ -127,8 +127,17 @@ public class LanceFlammes : GameSkill
 				}
 			}
 		}
-		GameController.instance.applyOn(isFou);
 		GameController.instance.endPlay();
+		int myLevel = currentCard.Skills[0].Power;
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(27,GameView.instance.getCurrentPlayingCard());
+		}
+	}
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
 	public override void applyOn(int target, int value){
@@ -136,24 +145,22 @@ public class LanceFlammes : GameSkill
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 27);
 	}
-
-	public override void applyOn(int target){
-		if(target==-1){
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Fou!\nse trompe de cible!", 0);	
-			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
-		}
-		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);	
-			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 23);
-		}
-	}
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-		int maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+
+		int damages = 5+level;
+		if(currentCard.isFou()){
+			damages = Mathf.RoundToInt(1.25f*damages);
+		}
+		int minDamages = currentCard.getMagicalDamagesAgainst(targetCard, damages);
+		damages = 10+3*level;
+		if(currentCard.isFou()){
+			damages = Mathf.RoundToInt(1.25f*damages);
+		}
+		int maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, damages);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		

@@ -84,7 +84,12 @@ public class GameSkill
 	{ 
 		Debug.Log("Skill non implémenté");
 	}
-	
+
+	public virtual void launchFou(int target)
+	{ 
+		Debug.Log("Skill non implémenté");
+	}
+
 	public virtual void activateTrap(int[] targets, int[] args)
 	{
 		Debug.Log("Skill non implémenté");

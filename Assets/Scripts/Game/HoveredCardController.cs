@@ -118,14 +118,17 @@ public class HoveredCardController : MonoBehaviour
 		List<Modifyer> effects = c.getEffects();
 		for(int i = 0 ; i < effects.Count ; i++){
 			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<TextMeshPro>().text = effects[i].description;
+			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<TextMeshPro>().text = effects[i].title;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getIconSprite(effects[i].type);
 			gameObject.transform.FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = true ;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
 		}
 		for(int i = effects.Count ; i < 10 ; i++){
 			gameObject.transform.FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<MeshRenderer>().enabled = false;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
 		}
 

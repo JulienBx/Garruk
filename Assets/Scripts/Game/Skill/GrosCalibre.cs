@@ -23,31 +23,7 @@ public class GrosCalibre : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		if(currentCard.isSniper()){
-			proba = 100 ;
-		}
-		int isFou = 1 ;
-		if(currentCard.isFou()){
-			if(Random.Range(1,101)<26){
-				isFou = -1 ;
-				List<Tile> potentialTiles = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles() ;
-				List<int> potentialTargets = new List<int>();
-				for (int i = 0 ; i < potentialTiles.Count ; i++){
-					if(GameView.instance.getTileController(potentialTiles[i]).getCharacterID()!=-1){
-						potentialTargets.Add(GameView.instance.getTileController(potentialTiles[i]).getCharacterID());
-					}
-				}
-				if(potentialTargets.Count>1){
-					List<int> targets = new List<int>();
-					for (int i = 0 ; i < potentialTargets.Count ; i++){
-						if(potentialTargets[i]!=target){
-							targets.Add(potentialTargets[i]);
-						}
-					}
-					target = targets[Random.Range(0,targets.Count)];
-				}
-			}
-		}
+		int myLevel = currentCard.Skills[0].Power;
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
@@ -55,27 +31,36 @@ public class GrosCalibre : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, isFou);
+				GameController.instance.applyOn(target);
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
 			}
 		}
 		GameController.instance.endPlay();
+		if(currentCard.isFou()){
+			GameController.instance.launchFou(26,GameView.instance.getCurrentPlayingCard());
+		}
 	}
-	
-	public override void applyOn(int target, int value){
+
+	public override void launchFou(int c){
+		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
+	}
+
+	public override void applyOn(int target){
+		int level = GameView.instance.getCurrentSkill().Power;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f)));
-		string text = base.name+"\n-"+damages+"PV";				
-		if(value==-1){
-			text+="\nse trompe de cible!";
+		int maxDamages = Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f));
+		if(currentCard.isFou()){
+			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,26,base.name,damages+" dégats subis"));
-		GameView.instance.displaySkillEffect(target, text, 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, base.name, damages+" dégats subis"));
+		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 26);
 	}
 	
@@ -83,7 +68,11 @@ public class GrosCalibre : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f)));
+		int maxDamages = Mathf.RoundToInt(currentCard.getAttack()*(1.2f+level/10f));
+		if(currentCard.isFou()){
+			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+		}
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 		string text = "-"+damages+"PV";		
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

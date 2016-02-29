@@ -180,6 +180,17 @@ public class GameController : Photon.MonoBehaviour
 		GameSkills.instance.getCurrentGameSkill().esquive(target, s);
 	}
 	
+	public void launchFou(int idSkill, int target)
+	{
+		photonView.RPC("launchFouRPC", PhotonTargets.AllBuffered, idSkill, target);
+	}
+	
+	[RPC]
+	public void launchFouRPC(int idSkill, int target)
+	{
+		GameSkills.instance.getSkill(idSkill).launchFou(target);
+	}
+
 	public void applyOn(int target)
 	{
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, target);
