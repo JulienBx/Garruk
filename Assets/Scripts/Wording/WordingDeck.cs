@@ -18,8 +18,8 @@ public class WordingDeck
 		references.Add(new string[]{"2ème à jouer",""}); //1
 		references.Add(new string[]{"3ème à jouer",""}); //2
 		references.Add(new string[]{"4ème à jouer",""}); //3
-		references.Add(new string[]{"Aucune armée formée",""}); //4
-		references.Add(new string[]{"Aucune armée",""});//5 <-- libellé nécessairement court
+		references.Add(new string[]{"Aucune armée créée",""}); //4
+		references.Add(new string[]{"Aucune armée complète",""}); //5
 		references.Add(new string[]{"Armée sélectionnée",""}); //6
 		references.Add(new string[]{"Le nom ne doit pas dépasser 12 caractères",""}); //7
 		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux",""}); //8

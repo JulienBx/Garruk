@@ -29,7 +29,6 @@ public class InputTextGuiController : InterfaceController
 			BackOfficeController.instance.escapePressed();
 		}
 	}
-
 	public void resize()
 	{
 		float x = ((this.gameObject.transform.position.x +ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.largeInputTextWorldSize.x/2f+0.15f + ApplicationDesignRules.worldWidth / 2f) / ApplicationDesignRules.worldWidth) * Screen.width;
@@ -54,14 +53,20 @@ public class InputTextGuiController : InterfaceController
 			GUILayout.FlexibleSpace();
 		}
 		GUILayout.EndArea ();
-		if (Event.current.keyCode == KeyCode.Return) 
+
+		Event e = Event.current;
+		if (e.isKey && e.type == EventType.KeyUp && GUI.GetNameOfFocusedControl()=="TextField")
 		{
-			this.keyReturnPressed=true;
- 		}
- 		if (Event.current.keyCode == KeyCode.Escape) 
-		{
-			this.keyEscapePressed=true;
- 		}
+             switch(e.keyCode)
+             {
+                 case KeyCode.Return: 
+                 	this.keyReturnPressed=true; 
+                 	break;
+                 case KeyCode.Escape: 
+                 	this.keyEscapePressed=true; 
+                 	break;    
+             }
+         }
 	}
 	public void setFocused()
 	{

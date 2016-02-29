@@ -1253,10 +1253,6 @@ public class NewSkillBookController : MonoBehaviour
 		
 		for(int i=0;i<max;i++)
 		{
-			if(this.isOwnFilterOn && model.ownSkillsIdList.Contains(model.skillsList[i].Id))
-			{
-				continue;
-			}
 			if(this.isNotOwnFilterOn && !model.ownSkillsIdList.Contains(model.skillsList[i].Id))
 			{
 				continue;
@@ -1301,7 +1297,18 @@ public class NewSkillBookController : MonoBehaviour
 					continue;
 				}
 			}
-			this.skillsToBeDisplayed.Add(i);
+			if(this.isOwnFilterOn && model.ownSkillsIdList.Contains(model.skillsList[i].Id))
+			{
+				continue;
+			}
+			if(model.ownSkillsIdList.Contains(model.skillsList[i].Id))
+			{
+				this.skillsToBeDisplayed.Insert(0,i);
+			}
+			else
+			{
+				this.skillsToBeDisplayed.Add(i);
+			}
 		}
 	}
 	private void computeIndicators()
