@@ -28,8 +28,7 @@ public class GameView : MonoBehaviour
 	public int boardHeight ;
 	public int nbCardsPerPlayer ;
 	public int nbFreeRowsAtBeginning ;
-	public int turnTime ;
-	
+
 	bool isLoadingScreenDisplayed = false ;
 	
 	GameObject loadingScreen;
@@ -100,6 +99,9 @@ public class GameView : MonoBehaviour
 
 	int nbCards = 8 ;
 	bool isFirstPlayerStarting ;
+
+	float timerTurn ; 
+	public float turnTime = 30f;
 	
 	void Awake()
 	{
@@ -782,19 +784,14 @@ public class GameView : MonoBehaviour
 	
 	public void setNextPlayer(){
 
-		print("blabla");
-
 		isFreezed = true ;
 		int length = this.nbCards;
 		this.hideButtons();
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
-				print(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)+","+this.lastHisPlayingCardDeckOrder);
 				if(this.getCard(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)).deckOrder<=this.lastHisPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
-						print("J'affiche le endturn");
-
 						this.isFreezed = true ;
 						if(ApplicationModel.player.ToLaunchGameTutorial){
 							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
@@ -806,7 +803,6 @@ public class GameView : MonoBehaviour
 						hasFoundEndTurn = true ;
 					}
 					else{
-						print("J'ai trouvé une fin de tour avant");
 						hasFoundEndTurn = false ;
 						StartCoroutine(launchEndTurnEffects());
 					}
@@ -818,8 +814,7 @@ public class GameView : MonoBehaviour
 			else{
 				if(this.getCard(this.findNextAlivePlayer(this.lastMyPlayingCardDeckOrder, true)).deckOrder<=this.lastMyPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
-						print("J'affiche le endturn");
-
+						
 						this.isFreezed = true ;
 						if(ApplicationModel.player.ToLaunchGameTutorial){
 							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
@@ -831,7 +826,7 @@ public class GameView : MonoBehaviour
 						hasFoundEndTurn = true ;
 					}
 					else{
-						print("J'ai trouvé une fin de tour avant");
+
 						hasFoundEndTurn = false ;
 						StartCoroutine(launchEndTurnEffects());
 					}
@@ -850,7 +845,7 @@ public class GameView : MonoBehaviour
 		int nextPlayingCard = -1;
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
-				
+			int previousCard = this.currentPlayingCard	;
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
@@ -1904,7 +1899,7 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public void killHandle(int c){
+	public void killHandle(int c, bool endTurn){
 		if(this.areAllMyPlayersDead()){
 			StartCoroutine(quitGame());
 		}
@@ -1923,7 +1918,9 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
-				this.toPassDead = true ;
+				if(!endTurn){
+					this.toPassDead = true ;
+				}
 			}
 		}
 

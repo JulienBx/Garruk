@@ -268,7 +268,12 @@ public class PlayingCardController : GameObjectController
 		}
 		else{
 			if (this.card.getLife()-m.amount<=0){
-				this.kill();
+				if(m.type==69){
+					this.kill(true);
+				}
+				else{
+					this.kill(false);
+				}
 			}
 			else{
 	
@@ -437,6 +442,9 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.emptyTile(this.id);
 			GameView.instance.recalculateDestinations();
 			GameView.instance.removeDead(this.id);
+			if(GameView.instance.areAllMyPlayersDead()){
+				StartCoroutine(GameView.instance.quitGame());
+			}
 		}
 	}
 
@@ -458,7 +466,7 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 	
-	public void kill()
+	public void kill(bool endTurn)
 	{
 		this.card.isDead = true;
 		
@@ -466,7 +474,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.removeLeaderEffect(this.id, this.card.isMine);
 		}
 				
-		GameView.instance.killHandle (this.id);
+		GameView.instance.killHandle (this.id, endTurn);
 	}
 	
 	public void moveToDeadZone(){

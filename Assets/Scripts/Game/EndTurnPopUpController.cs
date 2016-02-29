@@ -29,10 +29,7 @@ public class EndTurnPopUpController : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled=true;
 		gameObject.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled=true;
 		gameObject.transform.FindChild("Description").GetComponent<MeshRenderer>().enabled=true;
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled=true;
-
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Fin du tour "+nbTurns;
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=this.pictos[Mathf.Min(2,nbTurns)];
 	}
 
 	public void hide(){
@@ -40,7 +37,6 @@ public class EndTurnPopUpController : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled=false;
 		gameObject.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled=false;
 		gameObject.transform.FindChild("Description").GetComponent<MeshRenderer>().enabled=false;
-		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().enabled=false;
 	}
 }
 
