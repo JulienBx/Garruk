@@ -1711,16 +1711,16 @@ public class WordingSkills
 		//76 - Leader
 		idSkills.Add(76);
 		names.Add(new string[]{"Leader",""}); 
-		descriptions.Add(new string[]{"Bonus de 3ATK et 2PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 4ATK et 4PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 5ATK et 6PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 6ATK et 8PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 7ATK et 10PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 8ATK et 12PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 9ATK et 14PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 10ATK et 16PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 11ATK et 18PV aux alliés tant que le leader est en vie",""}); 
-		descriptions.Add(new string[]{"Bonus de 12ATK et 20PV aux alliés tant que le leader est en vie",""}); 
+		descriptions.Add(new string[]{"+6ATK, +7PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+7ATK, +9PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+8ATK, +11PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+9ATK, +13PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+10ATK, +15PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+11ATK, +17PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+12ATK, +19PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+13ATK, +21PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+14ATK, +23PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
+		descriptions.Add(new string[]{"+15ATK, +25PV aux alliés tant qu'il est en vie. Démarre avec la moitié de ses PV",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

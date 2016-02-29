@@ -164,6 +164,63 @@ public class GameView : MonoBehaviour
 		this.nbTurns = 0 ;
 		this.hasFoundEndTurn = false ;
 		this.numberDeckLoaded = 0 ;
+		this.isFirstPlayerStarting=true;
+
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			this.hideTuto();
+				
+			List<Skill> skills = new List<Skill>();
+			skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 16, skills);
+			c1.deckOrder=0;
+			GameCard g1 = new GameCard(c1);
+			g1.LifeLevel=1;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
+			c1.deckOrder=1;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=3;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
+			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Alien", 38, 2, 0, 3, 21, skills);
+			c1.deckOrder=2;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills);
+			c1.deckOrder=3;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+		}
 	}
 	
 	public void displayLoadingScreen()
@@ -335,7 +392,7 @@ public class GameView : MonoBehaviour
 			int level;
 			int attackValue ;
 			int pvValue ;
-			for(int i = 0 ; i < nbCards ; i++){
+			for(int i = 0 ; i < this.nbCards ; i++){
 				if(this.getCard(i).isMine){
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
@@ -431,73 +488,13 @@ public class GameView : MonoBehaviour
 	public void playerReadyR(bool b){
 		if(this.isFirstPlayer==b){
 			this.amIReadyToFight = true;
-			if(ApplicationModel.player.ToLaunchGameTutorial){
-				this.hideTuto();
-				
-				List<Skill> skills = new List<Skill>();
-				skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 16, skills);
-				c1.deckOrder=0;
-				GameCard g1 = new GameCard(c1);
-				g1.LifeLevel=1;
-				g1.AttackLevel=1;
-				g1.PowerLevel=1;
-				this.createPlayingCard(g1, false);
-				
-				skills = new List<Skill>();
-				skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
-				skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
-				c1.deckOrder=1;
-				g1 = new GameCard(c1);
-				g1.LifeLevel=2;
-				g1.AttackLevel=3;
-				g1.PowerLevel=1;
-				this.createPlayingCard(g1, false);
-				
-				skills = new List<Skill>();
-				skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
-				skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				c1 = new Card(-1, "Alien", 38, 2, 0, 3, 21, skills);
-				c1.deckOrder=2;
-				g1 = new GameCard(c1);
-				g1.LifeLevel=2;
-				g1.AttackLevel=1;
-				g1.PowerLevel=1;
-				this.createPlayingCard(g1, false);
-				
-				skills = new List<Skill>();
-				skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-				c1 = new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills);
-				c1.deckOrder=3;
-				g1 = new GameCard(c1);
-				g1.LifeLevel=2;
-				g1.AttackLevel=1;
-				g1.PowerLevel=1;
-				this.createPlayingCard(g1, false);
-				
-				this.SB.GetComponent<StartButtonController>().show(false);
-				this.removeDestinations();
-				this.displayOpponentCards();
-				this.setNextPlayer();
-			}
 		}
 		else{
 			this.isHeReadyToFight = true;
 		}
 		nbPlayersReadyToFight++;
 
-		if (nbPlayersReadyToFight == 2)
+		if (nbPlayersReadyToFight == 2 ||ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.SB.GetComponent<StartButtonController>().show(false);
 			this.removeDestinations();
@@ -1124,7 +1121,7 @@ public class GameView : MonoBehaviour
 			this.getHisHoveredCardController().addTimeC(Time.deltaTime);
 		}
 
-		if(this.numberDeckLoaded==2){
+		if(this.numberDeckLoaded==2 || (ApplicationModel.player.ToLaunchGameTutorial && numberDeckLoaded==1)){
 			for(int i = 0 ; i < this.nbCards ; i++){
 				if(this.getPlayingCardController(i).isUpdatingLife){
 					this.getPlayingCardController(i).addLifeTime(Time.deltaTime);

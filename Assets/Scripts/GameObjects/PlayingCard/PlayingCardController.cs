@@ -174,6 +174,7 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void addTime(float t){
+
 		this.timerSelection += t ;
 		if (this.timerSelection>this.selectionTime){
 			if(!this.isGettingBigger && this.toStop){
