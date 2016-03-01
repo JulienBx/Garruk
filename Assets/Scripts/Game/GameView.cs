@@ -790,7 +790,7 @@ public class GameView : MonoBehaviour
 				if(this.getCard(this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false)).deckOrder<=this.lastHisPlayingCardDeckOrder){
 					if(!hasFoundEndTurn){
 						this.isFreezed = true ;
-						if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(ApplicationModel.player.ToLaunchGameTutorial && this.nbTurns==0){
 							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
 						}
 						else{
@@ -813,7 +813,7 @@ public class GameView : MonoBehaviour
 					if(!hasFoundEndTurn){
 						
 						this.isFreezed = true ;
-						if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(ApplicationModel.player.ToLaunchGameTutorial && this.nbTurns==0){
 							this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
 						}
 						else{

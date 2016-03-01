@@ -29,7 +29,7 @@ public class EndTurnPopUpController : MonoBehaviour
 		gameObject.GetComponent<BoxCollider>().enabled=true;
 		gameObject.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled=true;
 		gameObject.transform.FindChild("Description").GetComponent<MeshRenderer>().enabled=true;
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Fin du tour "+nbTurns;
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text="Fin du tour";
 	}
 
 	public void hide(){
