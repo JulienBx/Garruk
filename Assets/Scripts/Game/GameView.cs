@@ -548,7 +548,9 @@ public class GameView : MonoBehaviour
 		
 		if(this.hasFightStarted){
 			this.removeDestinations();
-			this.displayDestinations(characterID);
+			if(!this.getCard(characterID).isSniper()){
+				this.displayDestinations(characterID);
+			}
 		}
 	}
 	
@@ -593,10 +595,6 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
-			if(GameView.instance.hasFightStarted){
-				this.recalculateDestinations();
-				this.updateActionStatus();
-			}
 		}
 		if(this.hasFightStarted){
 			this.getCard(characterID).setHasMoved(true);
@@ -604,6 +602,12 @@ public class GameView : MonoBehaviour
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 		this.getPlayingCardController(characterID).moveBackward();
+
+		if(GameView.instance.hasFightStarted){
+			this.removeDestinations();
+			this.recalculateDestinations();
+			this.updateActionStatus();
+		}
 	}
 
 	public void dropCharacter(int characterID){
@@ -616,6 +620,9 @@ public class GameView : MonoBehaviour
 			}
 		}
 		this.getPlayingCardController(characterID).moveBackward();
+		if(GameView.instance.hasFightStarted){
+			this.updateActionStatus();
+		}
 	}
 	
 	public void changeCurrentClickedCard(int characterID){
