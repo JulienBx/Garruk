@@ -62,13 +62,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
 		}
-		else if(this.isConnectedToFB())
-		{
-			this.displayLoginPopUp();
-			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-			ApplicationModel.player.FacebookId=aToken.UserId;
-			StartCoroutine(this.login());
-		}
+//		else if(this.isConnectedToFB())
+//		{
+//			this.displayLoginPopUp();
+//			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
+//			ApplicationModel.player.FacebookId=aToken.UserId;
+//			StartCoroutine(this.login());
+//		}
 		else
 		{
 			StartCoroutine (this.checkPermanentConnection ());
