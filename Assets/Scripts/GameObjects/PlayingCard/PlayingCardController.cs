@@ -285,15 +285,26 @@ public class PlayingCardController : GameObjectController
 
 	public void showIcons(){
 		if(!this.isHidden){
-			string text = "";
 			int compteurIcones = 1;
 
-//			if(this.card.isStateModifyed){
-//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-//				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[this.card.state.type];
-//				compteurIcones++;
-//			}
+			if(this.card.isPoisoned()){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[4];
+				compteurIcones++;
+			}
+			if(this.card.isFurious()){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[2];
+				compteurIcones++;
+			}
+			if(this.card.isEffraye()){
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[3];
+				compteurIcones++;
+			}
 			if(this.card.getBouclier()>0){
 				if(compteurIcones>3){
 					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;

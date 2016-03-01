@@ -397,10 +397,12 @@ public class GameView : MonoBehaviour
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
+							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"));
+		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
 									attackValue = level+2;
-									pvValue = 2*level;
+									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();
@@ -419,10 +421,12 @@ public class GameView : MonoBehaviour
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
+							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"));
+		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
 									attackValue = level+2;
-									pvValue = 2*level;
+									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
 									this.getCard(j).pvModifyers.Add(new Modifyer(pvValue, -1, 76, "Leader", "+"+pvValue+"PV. Permanent"));
 									this.getPlayingCardController(j).show();

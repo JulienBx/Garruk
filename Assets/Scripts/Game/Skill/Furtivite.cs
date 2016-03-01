@@ -30,8 +30,8 @@ public class Furtivite : GameSkill
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(attack, 2, 9, base.name, "+"+attack+" ATK"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 
-//		GameView.instance.getCard(target).magicalEsquiveModifyers.Add(new Modifyer(100, 2, 9, base.name, "Esquive les attaques à distance"));
-//		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.getCard(target).magicalEsquiveModifyers.Add(new Modifyer(100, 2, 9, base.name, "Esquive les attaques à distance"));
+		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK\nInvisible", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 9);

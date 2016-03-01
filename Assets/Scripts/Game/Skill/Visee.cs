@@ -28,7 +28,7 @@ public class Visee : GameSkill
 		target = GameView.instance.getCurrentPlayingCard();
 		int bonus = 50 + GameView.instance.getCurrentSkill().Power*10;
 
-		GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, 2, 25, base.name, "+"+bonus+"% aux dégats à distance. Actif 1 tour"));
+		GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 25);
