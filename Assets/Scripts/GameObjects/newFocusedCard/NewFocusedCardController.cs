@@ -149,6 +149,7 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			if(!this.isNextLevelPopUpHiding)
 			{
+				BackOfficeController.instance.playSound(7,ApplicationModel.volBackOfficeFx);
 				BackOfficeController.instance.hideTransparentBackground ();
 				this.hideNextLevelPopUp ();
 				this.endUpdatingCardToNextLevel();
@@ -281,6 +282,7 @@ public class NewFocusedCardController : MonoBehaviour
 				this.setHighlightedSkills();
 			}
 			this.isNextLevelPopUpDisplaying=true;
+			BackOfficeController.instance.playSound(7,ApplicationModel.volBackOfficeFx);
 			BackOfficeController.instance.displayTransparentBackground ();
 		}
 		else
@@ -493,6 +495,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator sellCard()
 	{
+		BackOfficeController.instance.playSound(5,ApplicationModel.volBackOfficeFx);
 		this.hideSellPopUp ();
 		this.displayLoadingScreen ();
 
@@ -1309,6 +1312,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public void displaySkillFocused(int idSkill)
 	{
+		BackOfficeController.instance.playSound(0,ApplicationModel.volBackOfficeFx);
 		this.isSkillFocusedDisplayed=true;
 		this.skillFocused = Instantiate(ressources.skillFocusedObject) as GameObject;
 		this.skillFocused.transform.parent=this.gameObject.transform;

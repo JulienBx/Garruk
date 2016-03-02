@@ -12,6 +12,7 @@ public class BackOfficeController : MonoBehaviour
 	public static BackOfficeController instance;
 	private BackOfficePhotonController photon;
 	private BackOfficeRessources ressources;
+	private AudioSource audio;
 
 	private GameObject loadingScreen;
 	private bool isLoadingScreenDisplayed;
@@ -83,6 +84,7 @@ public class BackOfficeController : MonoBehaviour
 		}
 		this.ressources = this.gameObject.GetComponent<BackOfficeRessources> ();
 		this.photon = this.gameObject.GetComponent<BackOfficePhotonController> ();
+		this.audio = GetComponent<AudioSource>();
 		this.isMenuLoaded=false;
 		this.timer=0f;
 		this.speed=5f;
@@ -634,6 +636,10 @@ public class BackOfficeController : MonoBehaviour
 			ApplicationModel.player.IsInviting=false;
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 		}
+	}
+	public void playSound(int i, float vol)
+	{
+		audio.PlayOneShot(ressources.sounds[i],vol);
 	}
 	#region TUTORIAL FUNCTIONS
 

@@ -78,6 +78,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	}
 	public virtual void startUpdatingXp(int endLevel, int endPercentage)
 	{
+		BackOfficeController.instance.playSound(6,ApplicationModel.volBackOfficeFx);
 		this.hasLevelChanged = false;
 		this.startLevel = this.currentLevel;
 		this.startPercentage = this.currentPercentage;

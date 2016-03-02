@@ -48,6 +48,7 @@ GameObject:
   - 114: {fileID: 11486180}
   - 114: {fileID: 11477052}
   - 114: {fileID: 11433898}
+  - 82: {fileID: 8276448}
   m_Layer: 0
   m_Name: BackOfficeController
   m_TagString: Untagged
@@ -1305,6 +1306,80 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 3.9351852, y: 0.9722222}
+--- !u!82 &8276448
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108250}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &11401800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2855,6 +2930,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: 7ba27653277c54744b76df29b92cd694, type: 3}
+  - {fileID: 8300000, guid: 4475e5ebb53064070a128f8fe3b07ac1, type: 3}
+  - {fileID: 8300000, guid: 65bea2ccfa4504da39b5818fc19e642f, type: 3}
+  - {fileID: 8300000, guid: aeb361536b2d84d94bd64fa6c4cb0f21, type: 3}
+  - {fileID: 8300000, guid: f7e3180cf3b604a3b85bb276f1326198, type: 3}
+  - {fileID: 8300000, guid: f14908cef3eec4f9285f5092afca3bf8, type: 3}
+  - {fileID: 8300000, guid: fd9cde4472dcf47df9fca4f16d2c673f, type: 3}
+  - {fileID: 8300000, guid: 36cd169e5b294452d91115c7e9762a67, type: 3}
+  - {fileID: 8300000, guid: dd0293380838445eeb8fc330e18240b2, type: 3}
 --- !u!114 &11486238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3491,7 +3576,35 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: aeb361536b2d84d94bd64fa6c4cb0f21, type: 3}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: f7e3180cf3b604a3b85bb276f1326198, type: 3}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: f14908cef3eec4f9285f5092afca3bf8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: fd9cde4472dcf47df9fca4f16d2c673f, type: 3}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 36cd169e5b294452d91115c7e9762a67, type: 3}
+    - target: {fileID: 0}
+      propertyPath: sounds.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: dd0293380838445eeb8fc330e18240b2, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108250}
