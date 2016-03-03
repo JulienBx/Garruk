@@ -19,6 +19,7 @@ public class ApplicationModel
 	static public string hisPlayerName; // A voir si on le met pas dans un objet user ?
 
 	static public float volBackOfficeFx;
+	static public float volMusic;
 
 
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
@@ -32,6 +33,7 @@ public class ApplicationModel
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
 		volBackOfficeFx=1f;
+		volMusic=0.5f;
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";

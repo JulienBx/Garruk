@@ -62,6 +62,7 @@ public class NewEndGameController : MonoBehaviour
 		this.idCardsToNextLevel = new List<int> ();
 		this.initializeScene ();
 		this.initializeBackOffice();
+		MusicController.instance.playMusic(new int[]{1,2});
 		StartCoroutine (this.initialization ());
 	}
 	void Update () 
