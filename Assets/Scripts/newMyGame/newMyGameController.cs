@@ -2147,6 +2147,10 @@ public class newMyGameController : MonoBehaviour
 	public int checkForIdenticalSkills()
 	{
 		int position =-1;
+		if(this.isDeckCardClicked)
+		{
+			return position;
+		}
 		for(int i=0;i<this.deckCardsDisplayed.Length;i++)
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
