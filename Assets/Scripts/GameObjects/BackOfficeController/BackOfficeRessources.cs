@@ -27,6 +27,5 @@ public class BackOfficeRessources : MonoBehaviour
 	public Sprite[] smallCardsCaracters;
 	public Sprite[] largeCardsCaracters;
 	public Sprite[] caractersAvatars;
-	public AudioClip[] sounds;
 }
 

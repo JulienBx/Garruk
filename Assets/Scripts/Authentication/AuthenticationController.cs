@@ -15,7 +15,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	public Sprite[] languagesSprites;
 	
 	private GameObject backOfficeController;
-	private GameObject musicController;
+	private GameObject soundController;
 	private GameObject mainLogo;
 	private GameObject chooseLanguageButton;
 	private GameObject facebookButton;
@@ -60,7 +60,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(ApplicationModel.player.ToDeconnect)
 		{
-			MusicController.instance.playMusic(new int[]{0});
+			SoundController.instance.playMusic(new int[]{0});
 			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			BackOfficeController.instance.hideLoadingScreen();
@@ -110,8 +110,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void initializeMusic()
 	{
-		this.musicController = GameObject.Find ("MusicController");
-		this.musicController.GetComponent<MusicController>().initialize();
+		this.soundController = GameObject.Find ("SoundController");
+		this.soundController.GetComponent<SoundController>().initialize();
 	}
 	private IEnumerator checkPermanentConnection()
 	{
@@ -122,7 +122,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else
 		{
-			MusicController.instance.playMusic(new int[]{0});
+			SoundController.instance.playMusic(new int[]{0});
 			if(ApplicationModel.player.Error!="")
 			{
 				ApplicationModel.player.Error="";
@@ -859,7 +859,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void OnJoinedLobby()
 	{
-		MusicController.instance.playMusic(new int[]{1,2});
+		SoundController.instance.playMusic(new int[]{1,2});
 		this.loadLevels();
 	}
 

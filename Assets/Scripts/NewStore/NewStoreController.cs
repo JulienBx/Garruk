@@ -144,6 +144,10 @@ public class NewStoreController : MonoBehaviour
 						if(i<model.packList[this.selectedPackIndex].NbCards-1)
 						{
 							this.toRotate[i+1]=true;
+							if(!isCardFocusedDisplayed)
+							{
+								SoundController.instance.playSound(7);
+							}
 						}
 						else
 						{
@@ -680,6 +684,7 @@ public class NewStoreController : MonoBehaviour
 		this.startRotation = true;
 		this.toRotate [0] = true;
 		this.angle = 180;
+		SoundController.instance.playSound(7);
 	}
 	public void createSingleCard()
 	{
@@ -698,6 +703,7 @@ public class NewStoreController : MonoBehaviour
 		this.startRotation = true;
 		this.toRotate [0] = true;
 		this.angle = 180;
+		SoundController.instance.playSound(7);
 	}
 	public void cleanCards()
 	{
@@ -715,6 +721,8 @@ public class NewStoreController : MonoBehaviour
 	public void backToPacksHandler()
 	{
 		this.displayBackUI (true);
+		SoundController.instance.stopPlayingSound();
+		SoundController.instance.playSound(9);
 	}
 	public void displayBackUI(bool value)
 	{
@@ -846,6 +854,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public IEnumerator buyPack()
 	{
+		SoundController.instance.playSound(6);
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, TutorialObjectController.instance.getIsTutorialLaunched()));
 		BackOfficeController.instance.hideLoadingScreen ();
@@ -917,6 +926,8 @@ public class NewStoreController : MonoBehaviour
 		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 		this.displayCardFocused ();
+		SoundController.instance.stopPlayingSound();
+		SoundController.instance.playSound(4);
 	}
 	public void displayCardFocused()
 	{

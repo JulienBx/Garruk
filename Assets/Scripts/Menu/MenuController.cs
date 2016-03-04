@@ -291,6 +291,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void changePage(int i)
 	{
+		SoundController.instance.playSound(10);
 		switch(i)
 		{
 		case 0:

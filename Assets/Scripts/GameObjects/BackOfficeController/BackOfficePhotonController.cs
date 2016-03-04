@@ -62,7 +62,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			print("Le tuto est lancé");
 			PhotonNetwork.room.open = false;
 			SceneManager.LoadScene("Game");
-			MusicController.instance.playMusic(new int[]{3,4});
+			SoundController.instance.playMusic(new int[]{3,4});
 			ApplicationModel.player.IsFirstPlayer = true ;
 		}
 	}
@@ -89,7 +89,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 				PhotonNetwork.room.open = false;
 			}
 			SceneManager.LoadScene("Game");
-			MusicController.instance.playMusic(new int[]{3,4});
+			SoundController.instance.playMusic(new int[]{3,4});
 		}
 	}
 	void OnDisconnectedFromPhoton()

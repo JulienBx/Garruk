@@ -637,10 +637,6 @@ public class BackOfficeController : MonoBehaviour
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 		}
 	}
-	public void playSound(int i)
-	{
-		audio.PlayOneShot(ressources.sounds[i],ApplicationModel.volBackOfficeFx);
-	}
 	#region TUTORIAL FUNCTIONS
 
 	public bool getIsPlayPopUpDisplayed()

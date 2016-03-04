@@ -70,7 +70,7 @@ public class NextLevelPopUpAttributeController :MonoBehaviour
 	{
 		if(!this.isNotClickable)
 		{
-			BackOfficeController.instance.playSound(8);
+			SoundController.instance.playSound(8);
 			gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().clickOnAttribute (this.index, this.newPower, this.newLevel);
 		}
 	}

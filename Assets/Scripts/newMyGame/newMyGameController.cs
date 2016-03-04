@@ -323,6 +323,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.drawPaginationNumber ();
 		this.drawCards ();
 		if(ApplicationDesignRules.isMobileScreen && toScrollCards)
@@ -1023,7 +1024,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void showCardFocused()
 	{
-		BackOfficeController.instance.playSound(4);
+		SoundController.instance.playSound(4);
 		this.isCardFocusedDisplayed = true;
 		this.isHovering=false;
 		this.displayBackUI (false);
@@ -1143,6 +1144,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void cardTypeFilterHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
 			if(this.filtersCardType.Contains(id))
@@ -1162,6 +1164,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void sortButtonHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
 			if(this.sortingOrder==id)
@@ -1487,7 +1490,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayNewDeckPopUp()
 	{
-		BackOfficeController.instance.playSound(3);
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().reset ();
 		this.newDeckPopUpDisplayed = true;
@@ -1496,7 +1499,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayEditDeckPopUp()
 	{
-		BackOfficeController.instance.playSound(3);
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.editDeckPopUpDisplayed = true;
@@ -1505,7 +1508,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayDeleteDeckPopUp()
 	{
-		BackOfficeController.instance.playSound(3);
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.deleteDeckPopUpDisplayed = true;
@@ -1514,7 +1517,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayPermuteCardPopUp(int position)
 	{
-		BackOfficeController.instance.playSound(3);
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.permuteCardPopUp.transform.GetComponent<PermuteCardPopUpController> ().reset (position);
 		this.permuteCardPopUpDisplayed = true;
@@ -1572,6 +1575,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void createNewDeckHandler()
 	{
+		SoundController.instance.playSound(8);
 		StartCoroutine (this.createNewDeck ());
 	}
 	private IEnumerator createNewDeck()
@@ -1642,7 +1646,7 @@ public class newMyGameController : MonoBehaviour
 	public void permuteCardHandler(int position)
 	{
 		this.moveToDeckCards(position);
-		BackOfficeController.instance.playSound(1);
+		SoundController.instance.playSound(1);
 		this.hidePermuteCardPopUp();
 	}
 	public void removeDeckFromAllCards(int id)
@@ -1735,7 +1739,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		else
 		{
-			BackOfficeController.instance.playSound(2);
+			SoundController.instance.playSound(2);
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 			if(!isDeckCardClicked)
@@ -1965,7 +1969,7 @@ public class newMyGameController : MonoBehaviour
 				if(this.deckCardsArea[i].Contains(cursorPosition))
 				{
 					this.moveToDeckCards(i);
-					BackOfficeController.instance.playSound(1);
+					SoundController.instance.playSound(1);
 					break;
 				}
 			}
