@@ -33,7 +33,7 @@ public class ApplicationModel
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
 		volBackOfficeFx=1f;
-		volMusic=0.2f;
+		volMusic=0f;
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";

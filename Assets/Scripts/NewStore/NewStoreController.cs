@@ -854,7 +854,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public IEnumerator buyPack()
 	{
-		SoundController.instance.playSound(6);
+		SoundController.instance.playSound(11);
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, TutorialObjectController.instance.getIsTutorialLaunched()));
 		BackOfficeController.instance.hideLoadingScreen ();

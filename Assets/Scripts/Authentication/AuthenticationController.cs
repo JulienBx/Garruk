@@ -181,6 +181,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 				ApplicationModel.player.Password=password;
 				ApplicationModel.player.ToRememberLogins=this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe();
 				StartCoroutine(this.login());
+				SoundController.instance.playSound(12);
 			}
 		}
 		this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(error);

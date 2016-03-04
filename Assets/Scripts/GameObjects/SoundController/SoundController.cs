@@ -116,5 +116,24 @@ public class SoundController : MonoBehaviour
 	{
 		sfxSource.Stop();
 	}
+
+
+	//0-> ShowFocusedSkill
+	//1-> DropCard
+	//2-> PickCard
+	//3-> Notification
+	//4-> ShowFocusedCard
+	//5-> DeleteCard
+	//6-> LevelUp
+	//7-> FlipCard
+	//8-> PopUpButton
+	//9-> Filter
+	//10-> Menu
+	//11-> PackOpening
+	//12-> Login
+	//13-> Error
+
+
+
 }
 
