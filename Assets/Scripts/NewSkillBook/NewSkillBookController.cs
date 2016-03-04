@@ -1484,6 +1484,7 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void showFocusedSkill(int id)
 	{
+		SoundController.instance.playSound(0);
 		this.isFocusedSkillDisplayed= true;
 		this.displayBackUI (false);
 		this.focusedSkill.SetActive (true);

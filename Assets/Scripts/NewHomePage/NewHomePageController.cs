@@ -1087,6 +1087,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(!this.isDragging)
 		{
+			SoundController.instance.playSound(2);
 			this.isDragging=true;
 			Cursor.SetCursor (this.cursorTextures[1], new Vector2(this.cursorTextures[1].width/2f,this.cursorTextures[1].width/2f), CursorMode.Auto);
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().changeLayer(10,"Foreground");
@@ -1115,6 +1116,8 @@ public class NewHomePageController : MonoBehaviour
 		{
 			if(this.deckCardsArea[i].Contains(cursorPosition))
 			{
+				
+				SoundController.instance.playSound(1);
 				this.moveToDeckCards(i);
 				break;
 			}
