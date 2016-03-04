@@ -28,7 +28,12 @@ public class MyHoveredCardController : HoveredCardController
 		
 		if(base.getStatus()>0){
 			Vector3 position = gameObject.transform.localPosition;
-			position.x = (-0.5f*this.realwidth-7f)+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-1f);
+			if(!GameView.instance.isMobile){
+				position.x = (-0.5f*this.realwidth-7f)+(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-1f);
+			}
+			else{
+				position.x = (-0.5f*this.realwidth-5f)+(Mathf.Min(1,this.timer/this.animationTime))*(realwidth);
+			}
 			gameObject.transform.localPosition = position ;
 			
 			if (this.timer>this.animationTime){
@@ -43,7 +48,12 @@ public class MyHoveredCardController : HoveredCardController
 		}
 		else if(base.getStatus()<0){
 			Vector3 position = gameObject.transform.localPosition;
-			position.x = (-10f)-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-1f);
+			if(!GameView.instance.isMobile){
+				position.x = (-10f)-(Mathf.Min(1,this.timer/this.animationTime))*(0.5f*realwidth-1f);
+			}
+			else{
+				position.x = (0.5f*realwidth-5f)-(Mathf.Min(1,this.timer/this.animationTime))*(realwidth);
+			}
 			gameObject.transform.localPosition = position ;
 			
 			if (this.timer>this.animationTime){

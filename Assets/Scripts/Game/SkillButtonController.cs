@@ -69,14 +69,19 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseEnter(){
-		if (this.launchabilityText.Length<2){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+		if(GameView.instance.isMobile){
+
 		}
-		GameView.instance.runningSkill = this.skill.Id ;
-		if(!GameSkills.instance.getCurrentGameSkill().auto){
-			GameSkills.instance.getSkill(this.skill.Id).launch();
+		else{
+			if (this.launchabilityText.Length<2){
+				gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			}
+			GameView.instance.runningSkill = this.skill.Id ;
+			if(!GameSkills.instance.getCurrentGameSkill().auto){
+				GameSkills.instance.getSkill(this.skill.Id).launch();
+			}
+			this.showDescription(true);
 		}
-		this.showDescription(true);
 	}
 	
 	public void OnMouseExit(){
@@ -91,17 +96,56 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void OnMouseDown(){
 		if (this.launchabilityText.Length<2){
-			if(GameSkills.instance.getSkill(this.skill.Id).ciblage==0){
+			if(!GameView.instance.isMobile){
+				if(GameSkills.instance.getSkill(this.skill.Id).ciblage==0){
+					GameSkills.instance.getSkill(this.skill.Id).launch();
+				}
+				GameView.instance.getSkillZoneController().isRunningSkill = true ;
+				GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 				GameSkills.instance.getSkill(this.skill.Id).launch();
+				this.showDescription(false);
 			}
-			GameView.instance.getSkillZoneController().isRunningSkill = true ;
-			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
-			GameSkills.instance.getSkill(this.skill.Id).launch();
-			this.showDescription(false);
+			else{
+				GameView.instance.clickSkillButton(this.id);
+			}
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
 		}
+	}
+
+	public void OnMouseUp(){
+		print(GameView.instance.draggingCard+","+this.id);
+		if(GameView.instance.draggingCard==this.id){
+			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			int x=-1, y=-1 ;
+			if(GameView.instance.getIsFirstPlayer()){
+				x = Mathf.FloorToInt(vec.x+3);
+				y = Mathf.FloorToInt(vec.y+4);
+			}
+			else{
+				x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x+3);
+				y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y+4);
+			}
+
+			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
+				if(GameView.instance.getTileController(new Tile(x,y)).isDisplayingTarget){
+					
+				}
+				else{
+					GameView.instance.dropSkillButton(this.id);
+				}
+			}
+			else{
+				GameView.instance.dropSkillButton(this.id);
+			}
+		}
+	}
+
+	public void setPosition(Vector3 p){
+		p.z = -0.5f;
+		p.x -= GameView.instance.stepButton;
+		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
 	}
 }
 

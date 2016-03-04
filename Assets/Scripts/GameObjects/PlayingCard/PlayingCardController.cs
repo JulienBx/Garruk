@@ -614,7 +614,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 35)){
 			int bonus = 5*card.Skills[0].Power;
 		
-			GameView.instance.getCard(this.id).magicalBonusModifyers.Add(new Modifyer(-1*bonus, -1, 35, "Sniper", "-"+bonus+"% aux dégats à distance. Permanent"));
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 35, "Sniper", "Immobile. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
 
 			if(toDisplay){

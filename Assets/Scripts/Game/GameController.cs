@@ -307,15 +307,11 @@ public class GameController : Photon.MonoBehaviour
 		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
 		if (hasFirstPlayerWon == GameView.instance.getIsFirstPlayer())
 		{
-			GameView.instance.getMyHoveredCardController().lowerCharacter();
-			GameView.instance.getHisHoveredCardController().lowerCharacter();
 			ApplicationModel.player.HasWonLastGame=true;
 
 		} 
 		else
 		{
-			GameView.instance.getMyHoveredCardController().lowerCharacter();
-			GameView.instance.getHisHoveredCardController().lowerCharacter();
 			ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(false);
 			ApplicationModel.player.HasWonLastGame=false;
 		}

@@ -34,9 +34,7 @@ public class SkillZoneController : MonoBehaviour
 	}
 	
 	public void showCancelButton(bool b){
-		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
-		gameObject.GetComponent<BoxCollider>().enabled = b;
 	}
 	
 	public void updateButtonStatus(GameCard g){
@@ -85,24 +83,6 @@ public class SkillZoneController : MonoBehaviour
 	
 	public void showSkills(GameCard card){
 		if(card.getSkills()[3].IsActivated==1){
-			Vector3 position;
-			Transform tempGO = gameObject.transform.FindChild("AttackButton");
-			position = tempGO.transform.localPosition;
-			position.x = -1.5f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton0");
-			position = tempGO.transform.localPosition;
-			position.x = -0.5f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton1");
-			position = tempGO.transform.localPosition;
-			position.x = 0.5f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton2");
-			position = tempGO.transform.localPosition;
-			position.x = 1.5f;
-			tempGO.transform.localPosition = position;
-			
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
@@ -117,20 +97,6 @@ public class SkillZoneController : MonoBehaviour
 			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(true);	
 		}
 		else if(card.getSkills()[2].IsActivated==1){
-			Vector3 position;
-			Transform tempGO = gameObject.transform.FindChild("AttackButton");
-			position = tempGO.transform.localPosition;
-			position.x = -1.1f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton0");
-			position = tempGO.transform.localPosition;
-			position.x = 0f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton1");
-			position = tempGO.transform.localPosition;
-			position.x = 1.1f;
-			tempGO.transform.localPosition = position;
-			
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
@@ -143,16 +109,6 @@ public class SkillZoneController : MonoBehaviour
 			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
 		}
 		else{
-			Vector3 position;
-			Transform tempGO = gameObject.transform.FindChild("AttackButton");
-			position = tempGO.transform.localPosition;
-			position.x = -0.8f;
-			tempGO.transform.localPosition = position;
-			tempGO = gameObject.transform.FindChild("SkillButton0");
-			position = tempGO.transform.localPosition;
-			position.x = 0.8f;
-			tempGO.transform.localPosition = position;
-			
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
@@ -161,6 +117,15 @@ public class SkillZoneController : MonoBehaviour
 			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
 			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(false);
 			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+		}
+	}
+
+	public SkillButtonController getSkillButtonController(int i){
+		if(i<3){
+			return gameObject.transform.FindChild("SkillButton"+i).GetComponent<SkillButtonController>();
+		}
+		else{
+			return gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>();
 		}
 	}
 }

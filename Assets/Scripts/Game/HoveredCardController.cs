@@ -33,6 +33,7 @@ public class HoveredCardController : MonoBehaviour
 	}
 	
 	public virtual void setNextDisplayedCharacter(int i, GameCard c){
+		print("BLABLA");
 		if(this.nextDisplayedCharacter!=i){
 			this.nextDisplayedCharacter = i;
 			this.nextDisplayedCard = c;
@@ -207,15 +208,6 @@ public class HoveredCardController : MonoBehaviour
 		if(status==0 && this.currentCharacter==GameView.instance.getCurrentPlayingCard()){
 			this.run (); 
 		}
-	}
-	
-	public void raiseCharacter(){
-		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 15;
-		print("Je raise ");
-	}
-	
-	public void lowerCharacter(){
-		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
 	}
 }
 
