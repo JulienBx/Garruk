@@ -25,10 +25,12 @@ public class PermuteCardPopUpController : MonoBehaviour
 	}
 	public void permuteCardHandler()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.permuteCardHandler(this.deckPosition);	
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.hidePermuteCardPopUp();
 	}
 }

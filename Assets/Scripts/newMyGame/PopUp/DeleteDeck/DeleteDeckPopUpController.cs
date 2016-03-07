@@ -20,10 +20,12 @@ public class DeleteDeckPopUpController : MonoBehaviour
 	}
 	public void deleteDeckHandler()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.deleteDeckHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.hideDeleteDeckPopUp ();
 	}
 }

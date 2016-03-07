@@ -49,6 +49,7 @@ public class NewCardPanelMarketController : MonoBehaviour
 	{
 		if(isClickable)
 		{
+			SoundController.instance.playSound(8);
 			this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
 		}
 	}

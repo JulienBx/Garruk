@@ -20,10 +20,12 @@ public class BuyXpPopUpController : MonoBehaviour
 	}
 	public void buyXpHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().buyXpCardHandler ();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideBuyXpPopUp ();
 	}
 	

@@ -2117,6 +2117,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.upperScrollCamera.GetComponent<ScrollingController>().reset();
@@ -2129,6 +2130,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.filtersDisplayed=false;

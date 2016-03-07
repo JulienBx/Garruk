@@ -451,13 +451,17 @@ PlayerSettings:
   WebGL::dataCaching: 0
   WebGL::useEmbeddedResources: 0
   stringPropertyNames:
+  - Build_ServiceEnabled::Build_ServiceEnabled
+  - UNet_ServiceEnabled::UNet_ServiceEnabled
   - WebGL::emscriptenArgs
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
+  Build_ServiceEnabled::Build_ServiceEnabled: True
+  UNet_ServiceEnabled::UNet_ServiceEnabled: True
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default
   additionalIl2CppArgs::additionalIl2CppArgs: 
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 4cd174d8-3e7c-4f0b-bf34-ff2307175330
+  projectName: TechticalWars
+  organizationId: yoann-bourges
   cloudEnabled: 0

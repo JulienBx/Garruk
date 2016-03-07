@@ -35,10 +35,12 @@ public class SelectPicturePopUpController : MonoBehaviour
 	}
 	public void confirmPicture()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.changeUserPictureHandler(this.activeButton);
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideSelectPicturePopUp ();
 	}
 }

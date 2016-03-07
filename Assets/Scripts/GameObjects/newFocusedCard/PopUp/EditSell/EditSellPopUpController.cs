@@ -22,14 +22,17 @@ public class EditSellPopUpController : MonoBehaviour
 	}
 	public void unsellHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().unsellCardHandler ();
 	}
 	public void editPriceHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().displayEditSellPriceCardPopUp();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideEditSellPopUp ();
 	}
 	

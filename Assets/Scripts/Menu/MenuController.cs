@@ -337,6 +337,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void profileLink() 
 	{
+		SoundController.instance.playSound(10);
 		SceneManager.LoadScene("NewProfile");
 	}
 	public void myGameLink() 

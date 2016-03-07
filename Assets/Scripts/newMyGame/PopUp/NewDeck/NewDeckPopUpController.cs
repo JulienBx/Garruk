@@ -28,10 +28,12 @@ public class NewDeckPopUpController : MonoBehaviour
 	}
 	public void newDeckHandler()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.createNewDeckHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.hideNewDeckPopUp ();
 	}
 	public string getInputText()

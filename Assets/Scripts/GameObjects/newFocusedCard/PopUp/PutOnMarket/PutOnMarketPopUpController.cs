@@ -28,10 +28,12 @@ public class PutOnMarketPopUpController : MonoBehaviour
 	}
 	public void putOnMarketHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().putOnMarketCardHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hidePutOnMarketPopUp ();
 	}
 	public string getFirstInput()

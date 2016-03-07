@@ -28,10 +28,12 @@ public class EditSellPricePopUpController : MonoBehaviour
 	}
 	public void editSellPriceHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().editSellPriceCardHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideEditSellPricePopUp();
 	}
 	public string getFirstInput()

@@ -16,6 +16,7 @@ public class NewStoreController : MonoBehaviour
 	public GameObject packObject;
 	public GameObject blockObject;
 	public GUISkin popUpSkin;
+	public Sprite[] productsIcons;
 
 	private GameObject backOfficeController;
 	private GameObject menu;
@@ -29,6 +30,9 @@ public class NewStoreController : MonoBehaviour
 	private GameObject packsNumberTitle;
 	private GameObject bottomPacksScrollLine;
 	private GameObject topPacksScrollLine;
+
+	private GameObject[] products;
+	private GameObject productsPaginationButtons;
 
 	private GameObject storeBlock;
 	private GameObject storeBlockTitle;
@@ -59,13 +63,15 @@ public class NewStoreController : MonoBehaviour
 	private Vector3 lowerScrollCameraStorePosition;
 
 	private IList<int> packsDisplayed;
+	private IList<int> productsDisplayed;
 	
-	private GameObject addCreditsPopUp;
-	private bool isAddCreditsPopUpDisplayed;
+	private GameObject productsPopUp;
+	private bool isProductsPopUpDisplayed;
 	private GameObject selectCardTypePopUp;
 	private bool isSelectCardTypePopUpDisplayed;
 
 	private Pagination packsPagination;
+	private Pagination productsPagination;
 
 	private Rect centralWindow;
 	private Rect selectCardTypeWindow;
@@ -249,6 +255,12 @@ public class NewStoreController : MonoBehaviour
 		this.packsNumberTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 
 		this.packs = new GameObject[0];
+		this.products = new GameObject[4];
+
+		for(int i=0;i<this.products.Length;i++)
+		{
+			this.products[i]=GameObject.Find("product"+i);
+		}
 
 		this.packsPaginationButtons = GameObject.Find("Pagination");
 		this.packsPaginationButtons.AddComponent<NewStorePaginationController> ();
@@ -289,6 +301,10 @@ public class NewStoreController : MonoBehaviour
 		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(6);
 		this.buyCreditsButton.AddComponent<NewStoreBuyCreditsButtonController> ();
 
+		this.productsPaginationButtons = GameObject.Find("ProductsPagination");
+		this.productsPaginationButtons.AddComponent<NewStoreProductsPaginationController> ();
+		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().initialize ();
+
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
@@ -302,8 +318,8 @@ public class NewStoreController : MonoBehaviour
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
 		this.selectCardTypePopUp = GameObject.Find ("SelectCardTypePopUp");
 		this.selectCardTypePopUp.SetActive (false);
-		this.addCreditsPopUp = GameObject.Find ("AddCreditsPopUp");
-		this.addCreditsPopUp.SetActive (false);
+		this.productsPopUp = GameObject.Find ("ProductsPopUp");
+		this.productsPopUp.SetActive (false);
 	}
 	private IEnumerator initialization()
 	{
@@ -311,7 +327,7 @@ public class NewStoreController : MonoBehaviour
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
 		this.initializePacks ();
-		this.initializeBuyCreditsButton ();
+		this.initializeProducts();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		if(ApplicationModel.player.PackToBuy!=-1)
@@ -326,8 +342,14 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.drawPaginationNumber();
 		this.drawPacks();
+	}
+	public void paginationProductsHandler()
+	{
+		SoundController.instance.playSound(9);
+		this.drawProducts();
 	}
 	public void initializePacks()
 	{
@@ -338,16 +360,13 @@ public class NewStoreController : MonoBehaviour
 		this.drawPaginationNumber ();
 		this.drawPacks ();
 	}
-	private void initializeBuyCreditsButton()
+	public void initializeProducts()
 	{
-		if(!ApplicationModel.player.IsAdmin)
-		{
-			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(false);
-		}
-		else
-		{
-			this.buyCreditsButton.GetComponent<NewStoreBuyCreditsButtonController>().setIsActive(true);
-		}
+		this.productsPagination.chosenPage = 0;
+		this.productsPagination.totalElements = model.productList.Count;
+		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().p = productsPagination;
+		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().setPagination ();
+		this.drawProducts ();
 	}
 	public void drawPaginationNumber()
 	{
@@ -375,6 +394,8 @@ public class NewStoreController : MonoBehaviour
 		float buyCreditsBlockHeight;
 
 		this.packsPagination = new Pagination ();
+		this.productsPagination = new Pagination();
+		this.productsPagination.nbElementsPerPage=4;
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
@@ -595,9 +616,9 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.selectCardPopUpResize();
 		}
-		if(isAddCreditsPopUpDisplayed)
+		if(isProductsPopUpDisplayed)
 		{
-			this.addCreditsPopUpResize();
+			this.productsPopUpResize();
 		}
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(2);
@@ -781,6 +802,24 @@ public class NewStoreController : MonoBehaviour
 			this.mediumScrollCamera.GetComponent<ScrollingController>().setEndPositionY();
 		}
 		this.updatePackPrices ();
+	}
+	public void drawProducts()
+	{
+		this.productsDisplayed = new List<int> ();
+		
+		for(int i=0;i<this.productsPagination.nbElementsPerPage;i++)
+		{
+			if(this.productsPagination.chosenPage*(this.productsPagination.nbElementsPerPage)+i<model.productList.Count)
+			{
+				this.productsDisplayed.Add (this.productsPagination.chosenPage*(this.productsPagination.nbElementsPerPage)+i);
+				this.products[i].GetComponent<ProductsPopUpProductController>().show(model.productList[this.productsDisplayed[i]]);
+				this.products[i].SetActive(true);
+			}
+			else
+			{
+				this.products[i].SetActive(false);
+			}
+		}
 	}
 	public void cleanPacks()
 	{
@@ -983,10 +1022,6 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.focusedCard.GetComponent<NewFocusedCardStoreController>().returnPressed();
 		}
-		else if(this.isAddCreditsPopUpDisplayed)
-		{
-			this.addCreditsHandler();
-		}
 	}
 	public void escapePressed()
 	{
@@ -998,12 +1033,14 @@ public class NewStoreController : MonoBehaviour
 		{
 			this.displayBackUI(true);
 		}
-		else if(this.isAddCreditsPopUpDisplayed)
+		else if(this.isProductsPopUpDisplayed)
 		{
-			this.hideAddCreditsPopUp();
+			SoundController.instance.playSound(8);
+			this.hideProductsPopUp();
 		}
 		else if(this.isSelectCardTypePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideSelectCardPopUp();
 		}
 		else
@@ -1013,9 +1050,9 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void closeAllPopUp()
 	{
-		if(this.isAddCreditsPopUpDisplayed)
+		if(this.isProductsPopUpDisplayed)
 		{
-			this.hideAddCreditsPopUp();
+			this.hideProductsPopUp();
 		}
 		else if(this.isSelectCardTypePopUpDisplayed)
 		{
@@ -1037,27 +1074,34 @@ public class NewStoreController : MonoBehaviour
 			}
 		}
 	}
-	public void displayAddCreditsPopUp()
+	public void displayProductsPopUp()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
-		this.isAddCreditsPopUpDisplayed = true;
-		this.addCreditsPopUp.SetActive (true);
-		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().reset ();
-		this.addCreditsPopUpResize ();
+		this.isProductsPopUpDisplayed = true;
+		this.productsPopUp.SetActive (true);
+		this.productsPopUpResize ();
+		this.productsPopUp.transform.FindChild("closebutton").GetComponent<ProductsPopUpCloseButtonController>().reset();
+		this.productsPopUp.transform.FindChild("ProductsPagination").GetComponent<NewStoreProductsPaginationController>().reset();
+		if(this.productsPagination.chosenPage!=0)
+		{
+			this.initializeProducts();	
+		}
 	}
 	public void displaySelectCardTypePopUp()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.isSelectCardTypePopUpDisplayed = true;
 		this.selectCardTypePopUp.SetActive (true);
 		this.selectCardTypePopUp.transform.GetComponent<SelectCardTypePopUpController> ().reset (ApplicationModel.player.CardTypesAllowed);
 		this.selectCardPopUpResize ();
 	}
-	public void addCreditsPopUpResize()
+	public void productsPopUpResize()
 	{
-		this.addCreditsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
-		this.addCreditsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
-		this.addCreditsPopUp.GetComponent<AddCreditsPopUpController> ().resize ();
+		this.productsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.productsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.productsPopUp.transform.FindChild("ProductsPagination").GetComponent<NewStoreProductsPaginationController>().resize();
 	}
 	private void selectCardPopUpResize()
 	{
@@ -1071,43 +1115,43 @@ public class NewStoreController : MonoBehaviour
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isSelectCardTypePopUpDisplayed = false;
 	}
-	public void hideAddCreditsPopUp()
+	public void hideProductsPopUp()
 	{
-		this.addCreditsPopUp.SetActive (false);
+		this.productsPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
-		this.isAddCreditsPopUpDisplayed = false;
+		this.isProductsPopUpDisplayed = false;
 	}
-	public void addCreditsHandler()
-	{
-		int tempInt = addCreditsSyntaxCheck ();
-		if(tempInt!=-1)
-		{
-			StartCoroutine (addCredits (tempInt));
-		}
-	}
-	public IEnumerator addCredits(int value)
-	{
-		this.hideAddCreditsPopUp ();
-		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.addMoney (value));
-		StartCoroutine(BackOfficeController.instance.getUserData ());
-		BackOfficeController.instance.hideLoadingScreen ();
-	}
-	public int addCreditsSyntaxCheck()
-	{
-		int n;
-		string credits = this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().getFirstInput ();
-		bool isNumeric = int.TryParse(credits, out n);
-		if(credits!="" && isNumeric)
-		{
-			if(System.Convert.ToInt32(credits)>0)
-			{
-				return System.Convert.ToInt32(credits);
-			}
-		}
-		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController>().setError(WordingStore.getReference(7));
-		return -1;
-	}
+//	public void addCreditsHandler()
+//	{
+//		int tempInt = addCreditsSyntaxCheck ();
+//		if(tempInt!=-1)
+//		{
+//			StartCoroutine (addCredits (tempInt));
+//		}
+//	}
+//	public IEnumerator addCredits(int value)
+//	{
+//		this.hideAddCreditsPopUp ();
+//		BackOfficeController.instance.displayLoadingScreen ();
+//		yield return StartCoroutine (ApplicationModel.player.addMoney (value));
+//		StartCoroutine(BackOfficeController.instance.getUserData ());
+//		BackOfficeController.instance.hideLoadingScreen ();
+//	}
+//	public int addCreditsSyntaxCheck()
+//	{
+//		int n;
+//		string credits = this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController> ().getFirstInput ();
+//		bool isNumeric = int.TryParse(credits, out n);
+//		if(credits!="" && isNumeric)
+//		{
+//			if(System.Convert.ToInt32(credits)>0)
+//			{
+//				return System.Convert.ToInt32(credits);
+//			}
+//		}
+//		this.addCreditsPopUp.transform.GetComponent<AddCreditsPopUpController>().setError(WordingStore.getReference(7));
+//		return -1;
+//	}
 	public void moneyUpdate()
 	{
 		if(isSceneLoaded)
@@ -1125,6 +1169,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.mediumScrollCamera.GetComponent<ScrollingController>().reset();
@@ -1136,6 +1181,7 @@ public class NewStoreController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideRight=true;
 		this.toSlideLeft=false;
 		this.storeDisplayed=false;

@@ -31,10 +31,12 @@ public class ChangePasswordPopUpController : MonoBehaviour
 	}
 	public void checkPasswordHandler()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.editPasswordHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideChangePasswordPopUp ();
 	}
 	public string getFirstPassword()

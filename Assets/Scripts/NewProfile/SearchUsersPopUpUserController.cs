@@ -38,6 +38,7 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
+		SoundController.instance.playSound(8);
 		ApplicationModel.player.ProfileChosen = gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text;
 		SceneManager.LoadScene ("NewProfile");	
 	}

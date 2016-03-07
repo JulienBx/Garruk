@@ -317,6 +317,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void selectATabHandler(int idTab)
 	{
+		SoundController.instance.playSound(9);
 		this.activeTab = idTab;
 		StartCoroutine(this.selectATab ());
 	}
@@ -1022,6 +1023,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void showCardFocused()
 	{
+		SoundController.instance.playSound(4);
 		this.isCardFocusedDisplayed = true;
 		this.displayBackUI (false);
 		this.focusedCard.SetActive (true);
@@ -1081,6 +1083,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void cardTypeFilterHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
 			if(this.filtersCardType.Contains(id))
@@ -1100,6 +1103,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void sortButtonHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(!ApplicationDesignRules.isMobileScreen || this.filtersDisplayed)
 		{
 			if(this.sortingOrder==id)
@@ -1212,6 +1216,7 @@ public class NewMarketController : MonoBehaviour
 		
 		if(isMoved)
 		{
+			SoundController.instance.playSound(9);
 			switch (cursorId) 
 			{
 			case 0:
@@ -1500,6 +1505,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void filterASkill(int id)
 	{
+		SoundController.instance.playSound(9);
 		this.isSearchingSkill = false;
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
@@ -1673,6 +1679,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void displayNewCards()
 	{
+		SoundController.instance.playSound(9);
 		this.areNewCardsAvailable = false;
 		this.refreshMarketButton.SetActive (false);
 		for(int i=0;i<model.newCards.getCount();i++)
@@ -1728,6 +1735,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
@@ -1752,6 +1760,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.lowerScrollCamera.GetComponent<ScrollingController>().reset();

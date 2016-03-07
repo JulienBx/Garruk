@@ -1423,6 +1423,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void displayConnectionBonusPopUp()
 	{
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.connectionBonusPopUp.transform.GetComponent<ConnectionBonusPopUpController> ().reset (ApplicationModel.player.ConnectionBonus);
 		this.isConnectionBonusPopUpDisplayed = true;
@@ -1659,12 +1660,14 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideRight=true;
 		this.toSlideLeft=false;
 		this.newsfeedDisplayed=false;
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.mainContentDisplayed=false;

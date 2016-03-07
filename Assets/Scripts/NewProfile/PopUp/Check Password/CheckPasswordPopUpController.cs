@@ -28,13 +28,15 @@ public class CheckPasswordPopUpController : MonoBehaviour
 	}
 	public void checkPasswordHandler()
 	{
-		NewProfileController.instance.checkPasswordHandler(this.getPassword());
+		SoundController.instance.playSound(8);
+		NewProfileController.instance.checkPasswordHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideCheckPasswordPopUp ();
 	}
-	private string getPassword()
+	public string getPassword()
 	{
 		return gameObject.transform.FindChild ("Input").GetComponent<InputPasswordGuiController> ().getText ();
 	}

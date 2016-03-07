@@ -188,6 +188,7 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void quitEndGameHandler()
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.ToLaunchEndGameSequence=true;
 		if(ApplicationModel.player.ChosenGameType==1 || ApplicationModel.player.ChosenGameType==2)
 		{
@@ -204,6 +205,7 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void displayNextLevelPopUp(int indexCard)
 	{
+		SoundController.instance.playSound(3);
 		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.position = new Vector3 (0, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndGame> ();
@@ -222,6 +224,7 @@ public class NewEndGameController : MonoBehaviour
 		this.idCardsToNextLevel.RemoveAt(0);
 		if(this.idCardsToNextLevel.Count>0)
 		{
+			SoundController.instance.playSound(3);
 			this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDeck.getCard(this.idCardsToNextLevel[0]));
 		}
 		else

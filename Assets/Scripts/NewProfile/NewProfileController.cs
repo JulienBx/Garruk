@@ -387,6 +387,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void selectAResultsTabHandler(int idTab)
 	{
+		SoundController.instance.playSound(9);
 		this.activeResultsTab = idTab;
 		this.selectAResultsTab ();
 	}
@@ -445,6 +446,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void selectAFriendsTabHandler(int idTab)
 	{
+		SoundController.instance.playSound(9);
 		this.activeFriendsTab = idTab;
 		this.selectAFriendsTab ();
 	}
@@ -1049,14 +1051,17 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(this.isCheckPasswordPopUpDisplayed)
 		{
-			this.checkPasswordPopUp.transform.GetComponent<CheckPasswordPopUpController>().checkPasswordHandler();
+			SoundController.instance.playSound(8);
+			this.checkPasswordHandler();
 		}
 		else if(this.isChangePasswordPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.editPasswordHandler();
 		}
 		else if(this.isEditInformationsPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.updateUserInformationsHandler();
 		}
 	}
@@ -1064,26 +1069,32 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(this.isSelectPicturePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideSelectPicturePopUp();
 		}
 		else if(this.isCheckPasswordPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideCheckPasswordPopUp();
 		}
 		else if(this.isChangePasswordPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideChangePasswordPopUp();
 		}
 		else if(this.isEditInformationsPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideEditInformationsPopUp();
 		}
 		else if(this.isSearchUsersPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideSearchUsersPopUp();
 		}
 		else if(this.isChooseLanguagePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideChooseLanguagePopUp();
 		}
 		else
@@ -1430,6 +1441,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void sendInvitationHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(!ApplicationModel.player.HasDeck)
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
@@ -1451,14 +1463,17 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.confirmFriendRequest (id));
 	}
 	public void declineFriendsRequestHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.removeFriendRequest (id));
 	}
 	public void cancelFriendsRequestHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.removeFriendRequest (id));
 	}
 	public void startHoveringProfilePicture()
@@ -1487,6 +1502,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(this.isMyProfile)
 		{
+			SoundController.instance.playSound(9);
 			this.displaySelectPicturePopUp ();
 		}
 	}
@@ -1528,6 +1544,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void displayChooseLanguagePopUp()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.chooseLanguagePopUp.SetActive (true);
 		this.chooseLanguagePopUp.GetComponent<ChooseLanguagePopUpController> ().reset();
@@ -1570,6 +1587,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void displayCheckPasswordPopUp()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.checkPasswordPopUp.transform.GetComponent<CheckPasswordPopUpController> ().reset ();
 		this.isCheckPasswordPopUpDisplayed = true;
@@ -1586,6 +1604,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void displayEditInformationsPopUp()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().reset (ApplicationModel.player.FirstName,ApplicationModel.player.Surname,ApplicationModel.player.Mail);
 		this.isEditInformationsPopUpDisplayed = true;
@@ -1648,8 +1667,9 @@ public class NewProfileController : MonoBehaviour
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isMessagePopUpDisplayed = false;
 	}
-	public void checkPasswordHandler(string password)
+	public void checkPasswordHandler()
 	{
+		string password = this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().getPassword();
 		StartCoroutine (checkPassword (password));
 	}
 	private IEnumerator checkPassword(string password)
@@ -1669,12 +1689,14 @@ public class NewProfileController : MonoBehaviour
 			}
 			else
 			{
+				SoundController.instance.playSound(13);
 				this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().setError(ApplicationModel.player.Error);
 				ApplicationModel.player.Error="";
 			}
 		}
 		else
 		{
+			SoundController.instance.playSound(13);
 			this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().setError(checkPassword);
 		}
 	}
@@ -1704,6 +1726,10 @@ public class NewProfileController : MonoBehaviour
 				StartCoroutine(this.editPassword());
 			}
 		}
+		if(passwordCheck!="")
+		{
+			SoundController.instance.playSound(13);
+		}
 		this.changePasswordPopUp.transform.GetComponent<ChangePasswordPopUpController> ().setError (passwordCheck);
 
 	}
@@ -1718,6 +1744,7 @@ public class NewProfileController : MonoBehaviour
 		}
 		else
 		{
+			SoundController.instance.playSound(13);
 			this.changePasswordPopUp.GetComponent<ChangePasswordPopUpController>().setError(ApplicationModel.player.Error);
 			ApplicationModel.player.Error="";
 		}
@@ -1763,6 +1790,10 @@ public class NewProfileController : MonoBehaviour
 				}
 			}
 		}
+		if(error!="")
+		{
+			SoundController.instance.playSound(13);
+		}
 		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (error);
 	}
 	private IEnumerator updateUserInformations(string firstname, string surname, string mail, bool isNewEmail)
@@ -1785,6 +1816,7 @@ public class NewProfileController : MonoBehaviour
 			this.editInformationsPopUp.SetActive(true);
 			this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (ApplicationModel.player.Error);
 			ApplicationModel.player.Error="";
+			SoundController.instance.playSound(13);
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -1814,6 +1846,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void searchUsersHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.searchValue = this.searchBar.GetComponent<NewProfileSearchBarController>().getInputText();
 		if(this.searchValue.Length>2)
 		{
@@ -1962,6 +1995,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void friendshipStateHandler(int buttonId)
 	{
+		SoundController.instance.playSound(9);
 		if(model.displayedUser.IsConnectedToPlayer)
 		{
 			if(model.displayedUser.ConnectionWithPlayer.IsAccepted)
@@ -1991,6 +2025,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void cleanCardsHandler()
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.cleanCards ());
 	}
 	public IEnumerator cleanCards()
@@ -2001,16 +2036,19 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void clickOnFriendsContentProfile(int id)
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.friendsContents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		SceneManager.LoadScene("NewProfile");
 	}
 	public void clickOnResultsContentProfile(int id)
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.resultsContents [id].transform.FindChild ("title").GetComponent<TextMeshPro> ().text;
 		SceneManager.LoadScene("NewProfile");
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.mainContentDisplayed=false;
@@ -2034,6 +2072,7 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.mainContentDisplayed=false;

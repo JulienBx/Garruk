@@ -341,6 +341,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void nextStepHandler()
 	{
+		SoundController.instance.playSound(8);
 		if(this.isTutorialLaunched)
 		{
 			this.actionIsDone ();
@@ -762,6 +763,7 @@ public class TutorialObjectController : MonoBehaviour
 	}
 	public void quitButtonHandler()
 	{
+		SoundController.instance.playSound(8);
 		if(this.isTutorialLaunched)
 		{
 			this.hideTutorial ();

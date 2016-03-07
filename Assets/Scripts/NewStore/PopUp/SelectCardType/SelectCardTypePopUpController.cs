@@ -30,10 +30,12 @@ public class SelectCardTypePopUpController : MonoBehaviour
 	}
 	public void selectCardTypeHandler(int id)
 	{
+		SoundController.instance.playSound(8);
 		NewStoreController.instance.buyPackWidthCardTypeHandler(id);
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewStoreController.instance.hideSelectCardPopUp ();
 	}
 }

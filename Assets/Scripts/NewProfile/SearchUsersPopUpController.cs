@@ -34,6 +34,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 		BackOfficeController.instance.displayLoadingScreen ();
 		this.gameObject.transform.FindChild ("Button").GetComponent<SearchUsersPopUpButtonController> ().reset ();
 		this.gameObject.transform.FindChild ("CloseButton").GetComponent<SearchUsersPopUpCloseButtonController> ().reset ();
+		this.gameObject.transform.FindChild("Pagination").GetComponent<SearchUsersPopUpPaginationController>().reset();
 		yield return StartCoroutine (model.searchForUsers (search));
 		this.initializeUsers ();
 		if(model.users.Count==0)
@@ -56,6 +57,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.drawUsers ();
 	}
 	public void initializePopUp()
@@ -76,6 +78,7 @@ public class SearchUsersPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideSearchUsersPopUp ();
 	}
 	public void drawUsers()
