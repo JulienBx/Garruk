@@ -56,10 +56,12 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 	}
 	public void inscriptionFacebookHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.inscriptionFacebookHandler();
 	}
 	public void existingAccountHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayExistingAccountPopUp();
 		AuthenticationController.instance.hideInscriptionFacebookPopUp();
 	}
@@ -81,6 +83,7 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideInscriptionFacebookPopUp();
 	}

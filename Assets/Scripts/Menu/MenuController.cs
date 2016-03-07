@@ -320,6 +320,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void notificationsLink()
 	{
+		SoundController.instance.playSound(10);
 		ApplicationModel.player.GoToNotifications = true;
 		if(Application.loadedLevelName=="NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()>0)
 		{
@@ -371,6 +372,7 @@ public class MenuController : MonoBehaviour
 
 	public void helpHandler()
 	{
+		SoundController.instance.playSound(10);
 		TutorialObjectController.instance.helpClicked ();
 	}
 	public void setFlashingHelp (bool value)

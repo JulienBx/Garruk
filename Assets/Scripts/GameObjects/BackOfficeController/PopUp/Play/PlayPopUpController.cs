@@ -93,6 +93,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void selectDeck(int id)
 	{
+		SoundController.instance.playSound(8);
 		this.deckDisplayed = this.decksDisplayed [id];
 		this.cleanDeckList ();
 		this.isSearchingDeck = false;
@@ -148,6 +149,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void displayDeckList()
 	{
+		SoundController.instance.playSound(8);
 		this.cleanDeckList ();
 		if(!isSearchingDeck)
 		{
@@ -183,6 +185,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(deckDisplayed!=-1)
 		{
+			SoundController.instance.playSound(8);
 			ApplicationModel.player.ChosenGameType = id;
 			StartCoroutine (this.setSelectedDeck ());
 		}
@@ -206,6 +209,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void quitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.hidePlayPopUp ();
 	}
 	public void mouseOnSelectDeckButton(bool value)

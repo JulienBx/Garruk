@@ -71,6 +71,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void selectDeck(int id)
 	{
+		SoundController.instance.playSound(8);
 		this.deckDisplayed = this.decksDisplayed [id];
 		this.cleanDeckList ();
 		this.isSearchingDeck = false;
@@ -126,6 +127,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void displayDeckList()
 	{
+		SoundController.instance.playSound(8);
 		this.cleanDeckList ();
 		if(!isSearchingDeck)
 		{
@@ -159,6 +161,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void quitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.hideInvitationPopUp ();
 	}
 	public void mouseOnSelectDeckButton(bool value)
@@ -171,6 +174,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	private IEnumerator acceptInvitation()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
 		ApplicationModel.player.ChosenGameType = 2 + model.invitation.Id;
@@ -180,6 +184,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void declineInvitationHandler()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.hideInvitationPopUp ();
 		StartCoroutine(model.invitation.changeStatus(-1));
 	}

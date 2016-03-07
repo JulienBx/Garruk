@@ -23,7 +23,6 @@ public class PlayPopUpCompetitionButtonController : MonoBehaviour
 			gameObject.transform.FindChild("Border").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 		}
-
 	}
 	void OnMouseExit()
 	{

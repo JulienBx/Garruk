@@ -37,10 +37,12 @@ public class EmailNonActivatedPopUpController : MonoBehaviour
 	}
 	public void emailNonActivatedHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.emailNonActivatedHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideEmailNonActivatedPopUp();
 	}

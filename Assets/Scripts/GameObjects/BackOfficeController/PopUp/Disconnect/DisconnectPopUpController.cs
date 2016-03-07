@@ -22,10 +22,12 @@ public class DisconnectPopUpController : MonoBehaviour
 	}
 	public void quitGameHandler()
 	{
+		SoundController.instance.playSound(8);
 		MenuController.instance.logOutLink();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.hideDisconnectedPopUp ();
 	}
 }

@@ -35,10 +35,12 @@ public class LostLoginPopUpController : MonoBehaviour
 	}
 	public void lostLoginHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.lostLoginHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideLostLoginPopUp();
 	}

@@ -29,6 +29,7 @@ public class AuthenticationMessagePopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideAuthenticationMessagePopUp();
 	}

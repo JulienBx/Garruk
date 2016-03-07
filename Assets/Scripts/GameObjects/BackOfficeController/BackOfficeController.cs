@@ -112,6 +112,7 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayErrorPopUp(string error)
 	{
+		SoundController.instance.playSound(3);
 		this.displayTransparentBackground ();
 		this.errorPopUp.transform.GetComponent<ErrorPopUpController> ().reset (error);
 		this.isErrorPopUpDisplayed = true;
@@ -156,6 +157,7 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayNewCardTypePopUp(int idCardTypeUnlocked)
 	{
+		SoundController.instance.playSound(3);
 		this.displayTransparentBackground ();
 		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (WordingCardTypes.getName(idCardTypeUnlocked));
 		this.isNewCardTypePopUpDisplayed = true;
@@ -177,6 +179,7 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayInvitationPopUp()
 	{
+		SoundController.instance.playSound(3);
 		this.closeAllPopUp ();
 		this.displayTransparentBackground ();
 		this.invitationPopUp=Instantiate(this.ressources.invitationPopUpObject) as GameObject;
@@ -327,18 +330,22 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(isErrorPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideErrorPopUp();
 		}
 		else if(isDisconnectedPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.toDisconnect();
 		}
 		else if(isNewCardTypePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideNewCardTypePopUp();
 		}
 		else if(isInvitationPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			InvitationPopUpController.instance.acceptInvitationHandler();
 		}
 		else
@@ -353,25 +360,30 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(isErrorPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideErrorPopUp();
 		}
 		else if(isPlayPopUpDisplayed)
 		{
 			if(!isLoadingScreenDisplayed)
 			{
+				SoundController.instance.playSound(8);
 				this.hidePlayPopUp();
 			}
 		}
 		else if(isDisconnectedPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideDisconnectedPopUp();
 		}
 		else if(isNewCardTypePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideNewCardTypePopUp();
 		}
 		else if(isInvitationPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			InvitationPopUpController.instance.declineInvitationHandler();
 		}
 		else
@@ -410,6 +422,7 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayDisconnectedPopUp()
 	{
+		SoundController.instance.playSound(9);
 		this.displayTransparentBackground ();
 		this.disconnectedPopUp.transform.GetComponent<DisconnectPopUpController> ().reset ();
 		this.isDisconnectedPopUpDisplayed = true;
