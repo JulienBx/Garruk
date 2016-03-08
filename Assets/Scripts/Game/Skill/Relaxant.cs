@@ -52,7 +52,7 @@ public class Relaxant : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, level+"ATK. Actif 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK pour 1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
@@ -64,7 +64,7 @@ public class Relaxant : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, level+"ATK. Actif 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK pour 1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
@@ -73,9 +73,10 @@ public class Relaxant : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = -5-2*GameView.instance.getCurrentSkill().Power;
+		int minLevel = Mathf.Min(GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
+		int maxLevel = Mathf.Min(10+2*GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 
-		string text = ""+level+" ATK\nActif 1 tour";
+		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()-minLevel)+"-"+(targetCard.getAttack()-maxLevel)+"]\nActif 1 tour";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();

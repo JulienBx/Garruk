@@ -446,16 +446,16 @@ public class WordingSkills
 		//20 - Terreur
 		idSkills.Add(20);
 		names.Add(new string[]{"Terreur","Terror"}); 
-		descriptions.Add(new string[]{"Inflige 055%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 055%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 060%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 060%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 065%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 065%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 070%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 070%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 075%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 075%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 080%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 080%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 085%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 085%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 090%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 090%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 095%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 095%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
-		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de le paralyser pour 1 tour","Inflige 100%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 055%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 055%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 060%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 060%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 065%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 065%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 070%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 070%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 075%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 075%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 080%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyserr","Inflige 080%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 085%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 085%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 090%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 090%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 095%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 095%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi adjacent ciblé. 25% de chances de paralyser","Inflige 100%ATK damage points to a neighbouring enemy target. 25% chances of paralyzing him for 1 turn"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

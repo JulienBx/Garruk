@@ -117,6 +117,18 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 35);
 	}
+
+	public bool isSniperActive()
+	{
+		bool hasFound = false ;
+		for (int i = moveModifyers.Count-1 ; i >= 0 ; i--)
+		{
+			if(moveModifyers[i].type==35){
+				hasFound = true;
+			}
+		}
+		return hasFound ;
+	}
 	
 	public bool isNurse()
 	{

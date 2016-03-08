@@ -34,13 +34,13 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.skill.Description+"\n\n"+this.launchabilityText;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(this.skill.Description)+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.skill.Description;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(this.skill.Description);
 		}
 	}
 
@@ -50,13 +50,13 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.skill.Description+"\n\n"+this.launchabilityText;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(this.skill.Description)+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.skill.Description;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(this.skill.Description);
 		}
 	}
 	
@@ -103,8 +103,16 @@ public class SkillButtonController : MonoBehaviour
 		if (this.launchabilityText.Length<2){
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 		}
-		if(!GameView.instance.getSkillZoneController().isRunningSkill){
-			GameView.instance.hideTargets();
+		if(GameView.instance.isMobile){
+			if(!GameView.instance.getSkillZoneController().isRunningSkill){
+				GameView.instance.hideTargets();
+				this.showDescription(false);
+			}
+		}
+		else{
+			if(!GameView.instance.getSkillZoneController().isRunningSkill){
+				GameView.instance.hideTargets();
+			}
 			this.showDescription(false);
 		}
 	}

@@ -120,6 +120,15 @@ public class HoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<TextMeshPro>().text = effects[i].description;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<TextMeshPro>().text = effects[i].title;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getIconSprite(effects[i].type);
+			if(effects[i].amount>0){
+				gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+			}
+			else if(effects[i].amount<0){
+				gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else{
+
+			}
 			gameObject.transform.FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = true ;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
 			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;

@@ -14,7 +14,7 @@ public class WordingEndGame
 	static WordingEndGame()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Cristalia","Cristalia"}); //0
+		references.Add(new string[]{"Retour","Retour"}); //0
 		references.Add(new string[]{"Récompenses","Rewards"}); //1
 		references.Add(new string[]{"Vous n'avez pas infligé de dégats à votre adversaire, vous ne gagnez donc ni points d'expérience ni cristaux","As you have not inflicted any damages to your opponent units, Cristalian authorities decided not to give you any rewards"}); //2
 		references.Add(new string[]{"Vous avez gagné!\nVous ne gagnez pas de points d'expérience et de cristaux lors de batailles avec vos amis","You are the strongest !\nYou don't get to earn rewards as you have been fighting a friend"}); //3

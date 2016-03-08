@@ -34,15 +34,17 @@ public class SkillZoneController : MonoBehaviour
 	}
 	
 	public void showCancelButton(bool b){
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
+		gameObject.transform.FindChild("CancelZone").GetComponent<CancelZoneController>().show(b);
 	}
 	
 	public void updateButtonStatus(GameCard g){
 		if(this.isRunningSkill){
-			//gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-			//gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours : "+GameSkills.instance.getCurrentGameSkill().name;
-			//this.showSkillButtons(false);
-			//this.showCancelButton (true);
+			if(!GameView.instance.isMobile){
+				gameObject.transform.FindChild("CancelZone").FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
+				gameObject.transform.FindChild("CancelZone").FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours\n-"+GameSkills.instance.getCurrentGameSkill().name+"-";
+				this.showSkillButtons(false);
+				this.showCancelButton (true);
+			}
 		}
 		else if(g.hasPlayed){
 			this.showSkillButtons(false);
@@ -51,32 +53,6 @@ public class SkillZoneController : MonoBehaviour
 		else{
 			this.showCancelButton (false);
 			this.showSkills(g);
-		}
-	}
-	
-	public void OnMouseEnter(){
-		if(this.isRunningSkill){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f) ;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-		}
-	}
-	
-	public void OnMouseExit(){
-		if(this.isRunningSkill){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-		}
-	}
-
-	public void OnMouseDown(){
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			GameView.instance.hideTuto();
-		}
-		if(this.isRunningSkill){
-			GameView.instance.hideValidationButton();
-			GameView.instance.hideTargets();
-			this.updateButtonStatus(GameView.instance.getCurrentCard());
-			this.isRunningSkill = false ;
 		}
 	}
 	

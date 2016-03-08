@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Adrenaline : GameSkill
+public class Vitamines : GameSkill
 {
-	public Adrenaline()
+	public Vitamines()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Adrénaline";
+		base.name = "Vitamines";
 		base.ciblage = 2 ;
 		base.auto = false;
 	}
@@ -54,16 +54,16 @@ public class Adrenaline : GameSkill
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		if(soin==0){
-			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, base.name, "+1MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, base.name+"\n+2MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n+1MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
-			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(2, 1, 6, base.name, "+2MOV. Actif 1 tour"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, base.name, "+1MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV\n+2MOV pour un tour", 1);	
+			GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV\n+1MOV pour un tour", 1);	
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		GameView.instance.recalculateDestinations();
@@ -76,7 +76,7 @@ public class Adrenaline : GameSkill
 
 		int level = Mathf.RoundToInt((GameView.instance.getCurrentSkill().Power*2f+5f)*value/100f);
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
-		int move = Mathf.RoundToInt(2f*value/100f);
+		int move = Mathf.RoundToInt(1f*value/100f);
 
 		if(soin==0){
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
@@ -100,7 +100,7 @@ public class Adrenaline : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power*2+5;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
-		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+2MOV. Actif 1 tour";
+		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+1MOV\nActif 1 tour";
 
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();

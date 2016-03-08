@@ -29,7 +29,7 @@ public class PistoLest : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				int amount = Random.Range(1,2*level+10);
+				int amount = Random.Range(1,2*level+10+1);
 				GameController.instance.applyOn2(target, amount);
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
@@ -51,7 +51,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
-		int move = -1*Mathf.Min(targetCard.getMove()-1,2);
+		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
 		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
@@ -66,7 +66,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = Mathf.RoundToInt(currentCard.getMagicalDamagesAgainst(targetCard, amount)*amount2/100f);
-		int move = -1*Mathf.Min(targetCard.getMove(), Mathf.RoundToInt(2*amount2/100f));
+		int move = -1*Mathf.Min(targetCard.getMove()-1, Mathf.RoundToInt(1*amount2/100f));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"));
 		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
@@ -82,8 +82,9 @@ public class PistoLest : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level+10);
+		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
-		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n-2MOV. Actif 1 tour";
+		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n"+move+"MOV\nActif 1 tour";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getMagicalEsquive();

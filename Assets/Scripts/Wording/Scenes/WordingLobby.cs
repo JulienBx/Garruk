@@ -27,7 +27,7 @@ public class WordingLobby
 		references.Add(new string[]{"Victoire le ","Won, "}); //10
 		references.Add(new string[]{"Défaite le ","Lost, "}); //11
 		references.Add(new string[]{"Champion : ","Champion : "}); //12
-		references.Add(new string[]{"\nColon : ","Settler : "}); //13
+		references.Add(new string[]{"\nColon : ","\nSettler : "}); //13
 		references.Add(new string[]{" cristaux"," cristals"}); //14
 		references.Add(new string[]{"Victoire : ","Win : "}); //15
 		references.Add(new string[]{"Bravo, vous avez été nommé champion du satellite! Il est désormais temps de partir à la conquête du satellite suivant et de combattre des adversaires encore plus redoutables","Congratulations, you have been awarded the title of Champion by the satellite inhabitants. Now it's time to move on to the next satellite and to fight stronger challengers"}); //16
@@ -40,7 +40,7 @@ public class WordingLobby
 		references.Add(new string[]{"Cette victoire vous assure de garder votre place sur ce satellite!","Following this success, Cristalian War Council guarantees you that you will be authorized to stay on this satellite."}); //23
 		references.Add(new string[]{"Le conseil de guerre Cristalien a décidé de vous renvoyer au satellite précédent suite à vos résultats récents.","Cristalian War Council decided that you may go back to the previous satellite due to your recent fight results"}); //24
 		references.Add(new string[]{"Continuer","Next fight"}); //25
-		references.Add(new string[]{"Fight","Fight"}); //26
+		references.Add(new string[]{"Combattre","Fight"}); //26
 		references.Add(new string[]{" Victoires"," Won"}); //27
 		references.Add(new string[]{"Champion","Champion"}); //28
 		references.Add(new string[]{"Colon","Settler"}); //29

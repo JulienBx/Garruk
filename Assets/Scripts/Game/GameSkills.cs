@@ -16,12 +16,12 @@ public class GameSkills : MonoBehaviour
 		this.skills [3] = new Fortifiant();
 		this.skills [4] = new Relaxant();
 		this.skills [5] = new PistoLest();
-		this.skills [6] = new Adrenaline();
+		this.skills [6] = new Vitamines();
 		this.skills [7] = new Antibiotique();
 		this.skills [8] = new Pistolero();
 		this.skills [9] = new Furtivite();
 		this.skills [10] = new Assassinat();
-		this.skills [11] = new Estoc();
+		this.skills [11] = new Blesser();
 		this.skills [12] = new Combo();
 		this.skills [13] = new Electropiege();
 		this.skills [14] = new Agilite();

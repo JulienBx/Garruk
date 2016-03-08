@@ -554,7 +554,7 @@ public class GameView : MonoBehaviour
 		
 		if(this.hasFightStarted){
 			this.removeDestinations();
-			if(!this.getCard(characterID).isSniper()){
+			if(!this.getCard(characterID).isSniperActive()){
 				this.displayDestinations(characterID);
 			}
 		}
@@ -949,7 +949,7 @@ public class GameView : MonoBehaviour
 			hasMoved = false ;
 			hasPlayed = false ;
 			
-			if (this.getCard(nextPlayingCard).isSniper()){
+			if (this.getCard(nextPlayingCard).isSniperActive()){
 				hasMoved = true ;
 			}
 			else if (this.getCard(nextPlayingCard).isEffraye()){
@@ -1360,10 +1360,16 @@ public class GameView : MonoBehaviour
 		position = tempTransform.position ;
 		position.x = Mathf.Min(2.5f, 0.5f*this.realwidth-0.5f);
 		tempTransform.position = position;
+	
+		if(this.isMobile){
+			tempTransform = this.skillZone.transform.FindChild("CancelZone");
+			position = tempTransform.position ;
+			position.x = 2.5f * (realwidth/6f);
+			tempTransform.position = position;
 
-		tempTransform = this.skillZone.transform.FindChild("Text");
-		tempTransform.GetComponent<TextContainer>().width = realwidth ;
-
+			tempTransform = this.skillZone.transform.FindChild("CancelZone").FindChild("Text");
+			tempTransform.GetComponent<TextContainer>().width = 3.5f*(realwidth/6f) ;
+		}
 		this.getMyHoveredCardController().resize(realwidth, tileScale);
 		this.getHisHoveredCardController().resize(realwidth, tileScale);
 		this.interlude.GetComponent<InterludeController>().resize(realwidth);
@@ -1540,7 +1546,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void displayAdjacentUnitsTargets(){
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+		List<Tile> neighbourTiles = this.getCharacterImmediateNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 		this.targets = new List<Tile>();
 		int playerID;
 		foreach (Tile t in neighbourTiles)
@@ -1772,6 +1778,7 @@ public class GameView : MonoBehaviour
 			this.getTileController(this.targets[i].x, this.targets[i].y).displayTarget(false);
 		}
 		this.targets = new List<Tile>();
+		this.getSkillZoneController().showCancelButton(false);
 		this.getSkillZoneController().isRunningSkill = false ;
 	}
 
@@ -1808,7 +1815,7 @@ public class GameView : MonoBehaviour
 	{
 		string isLaunchable = "Aucune unité à proximité";
 		
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(this.currentPlayingCard));
+		List<Tile> neighbourTiles = this.getCharacterImmediateNeighbours(this.getPlayingCardTile(this.currentPlayingCard));
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
@@ -2401,12 +2408,27 @@ public class GameView : MonoBehaviour
 		this.runningSkill = r ;
 		string s = GameSkills.instance.getSkill(this.runningSkill).name;
 		this.getPassZoneController().show(false);
-		this.getSkillZoneController().showCancelButton(false);
+		if(GameView.instance.isMobile){
+			this.getSkillZoneController().showCancelButton(false);
+		}
+		else{
+			if(this.getCurrentCard().isMine){
+				this.getSkillZoneController().showCancelButton(false);
+			}
+		}
 		this.getSkillZoneController().showSkillButtons(false);
 		this.hoverTile();
 		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0){
-			this.displaySkillEffect(this.currentPlayingCard,s,1);
-			this.addSE(this.getTile(this.currentPlayingCard));
+			if(GameSkills.instance.getSkill(this.runningSkill).ciblage==6){
+				if(this.getCurrentCard().isMine){
+					this.displaySkillEffect(this.currentPlayingCard,s,1);
+					this.addSE(this.getTile(this.currentPlayingCard));
+				}
+			}
+			else{
+				this.displaySkillEffect(this.currentPlayingCard,s,1);
+				this.addSE(this.getTile(this.currentPlayingCard));
+			}
 		}
 	}
 	
@@ -2595,7 +2617,7 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,0);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				amount = 5*(this.nbTurns);
-				if(this.getCard(this.getTileController(t).getCharacterID()).isSniper()){
+				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
 					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
@@ -2609,7 +2631,7 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				amount = 5*(this.nbTurns);
-				if(this.getCard(this.getTileController(t).getCharacterID()).isSniper()){
+				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
 					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
@@ -2708,6 +2730,11 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition(mousePos);
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
 		this.draggingSkillButton=-1;
+	}
+
+	public void cancelSkill(){
+		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
+		this.getSkillZoneController().isRunningSkill = false ;
 	}
 }
 
