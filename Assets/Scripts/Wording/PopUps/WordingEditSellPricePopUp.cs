@@ -14,7 +14,7 @@ public class WordingEditSellPricePopUp
 	static WordingEditSellPricePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Changer le prix de vente de l'unité sur le marché",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Changer le prix de vente de l'unité sur le marché","Change the unit selling price"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

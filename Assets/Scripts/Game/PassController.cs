@@ -41,32 +41,32 @@ public class PassController : MonoBehaviour
 			this.launchabilityText = "Le personnage est furieux et ne plus être controlé" ;
 		}
 		if(this.launchabilityText.Length>1){
-			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active"+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active";
 		}
-		gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().text = this.launchabilityText;
 	}
 
 	public void setLaunchability(string s){
 		this.launchabilityText = s ;
 		if(this.launchabilityText.Length>1){
-			gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active"+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active";
 		}
-		gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<TextMeshPro>().text = this.launchabilityText;
 	}
 	
 	public void OnMouseEnter(){
@@ -80,7 +80,6 @@ public class PassController : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b ;
-		gameObject.transform.FindChild("DescriptionZone").FindChild("LaunchabilityText").GetComponent<MeshRenderer>().enabled = b ;
 	}
 	
 	public void OnMouseExit(){

@@ -3202,8 +3202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musics:
   - {fileID: 8300000, guid: 1d58ae93644c2434a92cfaea06dd290d, type: 3}
-  - {fileID: 8300000, guid: 2a383088ac0a5b74c8d7c6048c624f8c, type: 3}
-  - {fileID: 8300000, guid: 2a383088ac0a5b74c8d7c6048c624f8c, type: 3}
+  - {fileID: 8300000, guid: 4f8bcbec5ddf575489b939e65947a76e, type: 3}
+  - {fileID: 8300000, guid: 4f8bcbec5ddf575489b939e65947a76e, type: 3}
   - {fileID: 8300000, guid: e2f2bb508082edc44aadd656fee2a89f, type: 3}
   - {fileID: 8300000, guid: 14712cf48d855244eacfb563800a0c5c, type: 3}
   backOfficeSfx:

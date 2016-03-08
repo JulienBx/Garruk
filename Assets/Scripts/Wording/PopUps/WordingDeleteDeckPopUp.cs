@@ -14,8 +14,8 @@ public class WordingDeleteDeckPopUp
 	static WordingDeleteDeckPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Confirmez vous la suppression de l'équipe ",""}); //0
-		references.Add(new string[]{".\n\n Attention cette action est irréversible ! \n Vous perdrez définitivement votre deck mais vous conserverez vos unités.\n",""}); //1
-		references.Add(new string[]{"Confirmer",""}); //2
+		references.Add(new string[]{"Voulez-vous vraiment supprimer cette équipe ?","Do you really want to suppress this team ?"}); //0
+		references.Add(new string[]{".\n\n Attention cette action est irréversible ! \n Vos unités ne seront en revanche pas supprimées.\n",".\n\n This action can not be undone. You will not lose your units by destroying the team.\n"}); //1
+		references.Add(new string[]{"Oui!","Yes!"}); //2
 	}
 }

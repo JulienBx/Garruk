@@ -14,6 +14,6 @@ public class WordingErrorPopUp
 	static WordingErrorPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Continuer",""}); //0
+		references.Add(new string[]{"OK!","OK!"}); //0
 	}
 }

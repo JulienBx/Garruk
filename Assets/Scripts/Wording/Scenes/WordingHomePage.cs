@@ -14,12 +14,11 @@ public class WordingHomePage
 	static WordingHomePage()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Mon armée",""}); //0
-		references.Add(new string[]{"Jouer",""}); //1
-		references.Add(new string[]{"Recruter",""}); //2
-		references.Add(new string[]{"Alertes",""}); //3
-		references.Add(new string[]{"News",""}); //4
-		references.Add(new string[]{"Amis",""}); //5
-
+		references.Add(new string[]{"Mon équipe","My team"}); //0
+		references.Add(new string[]{"Combattre","Fight"}); //1
+		references.Add(new string[]{"Recruter","Enlistment"}); //2
+		references.Add(new string[]{"Alertes","Alerts"}); //3
+		references.Add(new string[]{"Fil d'actualités","Newsfeed"}); //4
+		references.Add(new string[]{"Amis","Friends"}); //5
 	}
 }

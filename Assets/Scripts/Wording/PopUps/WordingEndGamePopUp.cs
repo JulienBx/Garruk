@@ -14,8 +14,8 @@ public class WordingEndGamePopUp
 	static WordingEndGamePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"BRAVO !\n\nVenez en match officiel vous mesurer aux meilleurs joueurs !",""}); //0
-		references.Add(new string[]{"DOMMAGE !\n\nC'est en s'entrainant qu'on progresse ! Courage !",""}); //1
-		references.Add(new string[]{"Continuer",""}); //2
+		references.Add(new string[]{"BRAVO !\n\nTestez le mode conquête pour gagner plus de cristaux !","CONGRATULATIONS!\n\nNow try the conquest mode to earn more cristals!"}); //0
+		references.Add(new string[]{"DOMMAGE !\n\nEntrainez-vous dans l'arène ou essayez le mode conquête pour gagner plus de cristaux","WHAT A PITY !\n\nPractice in the arena or try the conquest mode to earn more cristals"}); //1
+		references.Add(new string[]{"OK!","OK!"}); //2
 	}
 }

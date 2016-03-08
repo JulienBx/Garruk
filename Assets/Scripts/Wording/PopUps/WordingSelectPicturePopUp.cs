@@ -14,7 +14,7 @@ public class WordingSelectPicturePopUp
 	static WordingSelectPicturePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Sélectionnez un avatar",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Sélectionnez un avatar","Select an avatar"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

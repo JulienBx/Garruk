@@ -19,67 +19,67 @@ public class WordingCardName
 
 		//32 - Embusqué
 		idSkills.Add(32);
-		names.Add(new string[]{"Loke",""}); 
+		names.Add(new string[]{"Loke","Loke"}); 
 
 		//33 - Fou
 		idSkills.Add(33);
-		names.Add(new string[]{"Loggs",""}); 
+		names.Add(new string[]{"Loggs","Loggs"}); 
 
 		//34 - Sanguinaire
 		idSkills.Add(34);
-		names.Add(new string[]{"Bawen",""}); 
+		names.Add(new string[]{"Bawen","Bawen"}); 
 
 		//35 - Sniper
 		idSkills.Add(35);
-		names.Add(new string[]{"Leïane",""}); 
+		names.Add(new string[]{"Leïane","Leïane"}); 
 
 		//64 - Piégeur
 		idSkills.Add(64);
-		names.Add(new string[]{"Deegan",""}); 
+		names.Add(new string[]{"Deegan","Deegan"}); 
 		 
 		//65 - Lâche
 		idSkills.Add(65);
-		names.Add(new string[]{"Rolik",""}); 
+		names.Add(new string[]{"Rolik","Rolik"}); 
 
 		//66 - Agile
 		idSkills.Add(66);
-		names.Add(new string[]{"Lono",""}); 
+		names.Add(new string[]{"Lono","Lono"}); 
 		 
 		//67 - Ninja
 		idSkills.Add(67);
-		names.Add(new string[]{"Mudo",""}); 
+		names.Add(new string[]{"Mudo","Mudo"}); 
 		 
 		//68 - Aguerri
 		idSkills.Add(68);
-		names.Add(new string[]{"Garruk",""}); 
+		names.Add(new string[]{"Garruk","Garruk"}); 
 		  
 		//69 - Frénétique
 		idSkills.Add(69);
-		names.Add(new string[]{"Gunno",""}); 
+		names.Add(new string[]{"Gunno","Gunno"}); 
 		  
 		//70 - Cuirassé
 		idSkills.Add(70);
-		names.Add(new string[]{"Dundge",""}); 
+		names.Add(new string[]{"Dundge","Dundge"}); 
 		 
 		//71 - Rapide
 		idSkills.Add(71);
-		names.Add(new string[]{"Thanba",""}); 
+		names.Add(new string[]{"Thanba","Thanba"}); 
 
 		//72 - Virologue
 		idSkills.Add(72);
-		names.Add(new string[]{"Rheïane",""}); 
+		names.Add(new string[]{"Rhea","Rhea"}); 
 
 		//73 - Paladin
 		idSkills.Add(73);
-		names.Add(new string[]{"Vanrell",""}); 
+		names.Add(new string[]{"Vanrell","Vanrell"}); 
 
 		//75 - Infirmier
 		idSkills.Add(75);
-		names.Add(new string[]{"Aessa",""}); 
+		names.Add(new string[]{"Aessa","Aessa"}); 
 
 		//76 - Leader
 		idSkills.Add(76);
-		names.Add(new string[]{"Dacus",""}); 
+		names.Add(new string[]{"Dacus","Dacus"}); 
 
 	}
 }

@@ -14,9 +14,9 @@ public class WordingEditInformationsPopUp
 	static WordingEditInformationsPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Prénom",""}); //0
-		references.Add(new string[]{"Nom",""}); //1
-		references.Add(new string[]{"Mail",""}); //2
-		references.Add(new string[]{"Confirmer",""}); //3
+		references.Add(new string[]{"Prénom","First Name"}); //0
+		references.Add(new string[]{"Nom","Surname"}); //1
+		references.Add(new string[]{"Adresse Email","Email address"}); //2
+		references.Add(new string[]{"Confirmer","Confirm"}); //3
 	}
 }

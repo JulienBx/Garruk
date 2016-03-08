@@ -7,7 +7,6 @@ public class ForfeitController : MonoBehaviour
 	bool isHovered = false ;
 	
 	public void OnMouseEnter(){
-		Debug.Log("HoverForfeit");
 		if(!isHovered){
 			gameObject.GetComponent<SpriteRenderer>().color=new Color(255/255f,120f/255f,120f/255f, 1f);
 			isHovered = true ;

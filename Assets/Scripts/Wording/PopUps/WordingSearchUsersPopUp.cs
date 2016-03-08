@@ -14,8 +14,8 @@ public class WordingSearchUsersPopUp
 	static WordingSearchUsersPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Résultats",""}); //0
-		references.Add(new string[]{"Quitter",""}); //1
-		references.Add(new string[]{"Désolé, aucun résultat ne correspond à votre recherche !",""}); //2
+		references.Add(new string[]{"Résultats de la recheche","Search results"}); //0
+		references.Add(new string[]{"Quitter","Quit"}); //1
+		references.Add(new string[]{"Désolé, aucun résultat ne correspond à votre recherche !","Sorry ! We have not found any user corresonding to your search input"}); //2
 	}
 }

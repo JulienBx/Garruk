@@ -14,14 +14,14 @@ public class WordingStore
 	static WordingStore()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Acheter",""}); //0
-		references.Add(new string[]{"Retour",""}); //1
-		references.Add(new string[]{"La boutique",""}); //2
-		references.Add(new string[]{"Faites l'acquisition de nouvelles recrues en sélectionnant le pack qui vous intéresse.",""}); //3
-		references.Add(new string[]{"Le meilleur moyen d'accéder aux cartes rares",""}); //4
-		references.Add(new string[]{"Gagner des crédits",""}); //5
-		references.Add(new string[]{"J'y vais",""}); //6
-		references.Add(new string[]{"Merci de bien vouloir saisir une valeur",""}); //7
-		references.Add(new string[]{"Vendre",""}); //8
+		references.Add(new string[]{"Acheter","Buy"}); //0
+		references.Add(new string[]{"Retour","Go back"}); //1
+		references.Add(new string[]{"Recrutement","Enlistment"}); //2
+		references.Add(new string[]{"Enrolez de nouvelles unités en sélectionnant le pack que vous souhaitez","Click on the pack you want to enlist new units"}); //3
+		references.Add(new string[]{"Echanger l'argent de votre planète au bureau de change de Cristalia","Use the Cristalian foreign exchange office to buy cristals"}); //4
+		references.Add(new string[]{"Acheter des cristaux","Buy cristals"}); //5
+		references.Add(new string[]{"Boutique","Shop"}); //6
+		references.Add(new string[]{"Merci de bien vouloir saisir une valeur","Please type a number"}); //7
+		references.Add(new string[]{"Vendre","Sell"}); //8
 	}
 }

@@ -14,8 +14,8 @@ public class WordingCard
 	static WordingCard()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{". P : ",""}); //0
-		references.Add(new string[]{"%",""}); //1
+		references.Add(new string[]{". P : ",". P : "}); //0
+		references.Add(new string[]{"%","%"}); //1
 		references.Add(new string[]{"VENDU","SOLD"}); //2
 	}
 }

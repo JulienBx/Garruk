@@ -64,7 +64,7 @@ public class GameView : MonoBehaviour
 	public bool hasFightStarted = false ;
 	bool isBackgroundLoaded ;
 	
-	float realwidth ;
+	public float realwidth ;
 	
 	public bool isDisplayedMyDestination;
 	public int runningSkill ;
@@ -103,7 +103,7 @@ public class GameView : MonoBehaviour
 
 	float timerTurn ; 
 	public float turnTime = 30f;
-	float tileScale;
+	public float tileScale;
 
 	public bool isMobile;
 	public float stepButton;
@@ -1352,13 +1352,13 @@ public class GameView : MonoBehaviour
 
 		tempTransform = this.skillZone.transform;
 		position = tempTransform.position ;
-		position.x = -0.5f*this.realwidth;
-		this.stepButton = -0.5f*this.realwidth;
+		position.x = Mathf.Max(-3,-0.5f*this.realwidth);
+		this.stepButton = Mathf.Max(-3,-0.5f*this.realwidth);
 		tempTransform.position = position;
 
 		tempTransform = this.passZone.transform;
 		position = tempTransform.position ;
-		position.x = 0.5f*this.realwidth-0.5f;
+		position.x = Mathf.Min(2.5f, 0.5f*this.realwidth-0.5f);
 		tempTransform.position = position;
 
 		tempTransform = this.skillZone.transform.FindChild("Text");
@@ -2687,26 +2687,27 @@ public class GameView : MonoBehaviour
 
 	public void clickSkillButton(int i){
 		this.draggingSkillButton=i;
+		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showCollider(false);
 	}
 
 	public void dropSkillButton(int i){
-		//print("DROP");
-		this.draggingSkillButton=-1;
 		Vector3 mousePos;
 		if(i==0){
-			mousePos = new Vector3(1.6f, -4.4f, 0f);
+			mousePos = new Vector3(1.6f+stepButton, -4.4f, 0f);
 		}
 		else if(i==1){
-			mousePos = new Vector3(2.6f, -4.4f, 0f);
+			mousePos = new Vector3(2.6f+stepButton, -4.4f, 0f);
 		}
 		else if(i==2){
-			mousePos = new Vector3(3.6f, -4.4f, 0f);
+			mousePos = new Vector3(3.6f+stepButton, -4.4f, 0f);
 		}
 		else {
-			mousePos = new Vector3(0.5f, -4.4f, 0f);
+			mousePos = new Vector3(0.5f+stepButton, -4.4f, 0f);
 		}
 
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition(mousePos);
+		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
+		this.draggingSkillButton=-1;
 	}
 }
 

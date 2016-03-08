@@ -14,7 +14,7 @@ public class WordingAddCreditsPopUp
 	static WordingAddCreditsPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Combien de crédits souhaitez-vous ajouter ?",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Combien de crédits souhaitez-vous ajouter ?","How many cristals do you want to buy ?"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

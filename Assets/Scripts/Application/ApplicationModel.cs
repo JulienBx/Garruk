@@ -32,8 +32,8 @@ public class ApplicationModel
 		host = "https://www.techticalwars.com/GarrukServer/"; // local http://localhost/GarrukServer/ 
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
-		volBackOfficeFx=1f;
-		volMusic=0.2f;
+		volBackOfficeFx=0f;
+		volMusic=0f;
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";

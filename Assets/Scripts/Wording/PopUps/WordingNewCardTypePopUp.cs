@@ -14,7 +14,7 @@ public class WordingNewCardTypePopUp
 	static WordingNewCardTypePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Félicications !!\n\nVous avez débloqué la faction :\n\n",""}); //0
-		references.Add(new string[]{"Continuer",""}); //1
+		references.Add(new string[]{"Félicitations !!\n\nVous avez débloqué la faction :\n\n","Congratulations!!\n\nYou unlocked a new unit faction :\n\n"}); //0
+		references.Add(new string[]{"OK!","OK!"}); //1
 	}
 }

@@ -232,7 +232,10 @@ public class TileController : GameObjectController
 	public void OnMouseEnter()
 	{
 		if(GameView.instance.isMobile){
-
+			if(this.characterID != -1 && this.isDisplayingTarget && GameView.instance.draggingSkillButton!=-1){
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
+			}
 		}
 		else{
 			this.isHovering = true ;
@@ -422,33 +425,40 @@ public class TileController : GameObjectController
 
 	public void OnMouseExit()
 	{
-		this.isHovering = false ;
-		if(this.isDisplayingTarget){
-			this.showDescription(false);
-			if(this.isTargetDisplayed){
-				gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
+		if(GameView.instance.isMobile){
+			if(this.isDisplayingTarget && GameView.instance.draggingSkillButton!=-1){
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
 			}
-			else{
-				gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[1] ;
-			}
-		}
-		if(this.characterID==-1){
-			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
-			if(this.isDisplayingTarget){
-				gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
-				gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
-			}
-		}
-		else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
-			gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
 		}
 		else{
+			this.isHovering = false ;
+			if(this.isDisplayingTarget){
+				this.showDescription(false);
+				if(this.isTargetDisplayed){
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
+				}
+				else{
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[1] ;
+				}
+			}
+			if(this.characterID==-1){
+				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
+				if(this.isDisplayingTarget){
+					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
+					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
+				}
+			}
+			else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
+			}
+			else{
+				
+			}
 			
-		}
-		
-		if(this.type==1 || this.type==2 || this.isTrapped){
-			this.showDescription(false);
+			if(this.type==1 || this.type==2 || this.isTrapped){
+				this.showDescription(false);
+			}
 		}
 	}
 	

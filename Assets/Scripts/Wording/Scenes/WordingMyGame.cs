@@ -14,7 +14,7 @@ public class WordingMyGame
 	static WordingMyGame()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Mes unités",""}); //0
-		references.Add(new string[]{"Mes armées",""}); //1
+		references.Add(new string[]{"Mes unités","My units"}); //0
+		references.Add(new string[]{"Mes équipes","My teams"}); //1
 	}
 }

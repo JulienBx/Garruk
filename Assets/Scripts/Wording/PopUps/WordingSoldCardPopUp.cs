@@ -14,7 +14,7 @@ public class WordingSoldCardPopUp
 	static WordingSoldCardPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Votre carte vient d'être vendue.",""}); //0
-		references.Add(new string[]{"Quitter",""}); //1
+		references.Add(new string[]{"Cette carte vient d'être vendue.","This unit has just been sold."}); //0
+		references.Add(new string[]{"OK!","OK!"}); //1
 	}
 }

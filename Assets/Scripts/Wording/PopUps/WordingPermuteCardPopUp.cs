@@ -14,8 +14,8 @@ public class WordingPermuteCardPopUp
 	static WordingPermuteCardPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Vous ne pouvez pas posséder dans votre équipe 2 cartes ayant la même compétence passive, souhaitez-vous permuter les deux cartes ?",""}); //0
-		references.Add(new string[]{"Permuter",""}); //1
-		references.Add(new string[]{"Annuler",""}); //2
+		references.Add(new string[]{"Le code de guerre de Cristalia impose de ne pas sélectionner deux unités de même type au sein d'une équipe, souhaitez-vous remplacer l'unité de votre deck par cette unité de même type ?","Cristalian War Code, article 3 : You shall not select two units of the same type in your team. Do you want to replace your deck unit with this new one ? "}); //0
+		references.Add(new string[]{"Remplacer","Replace"}); //1
+		references.Add(new string[]{"Annuler","Cancel"}); //2
 	}
 }

@@ -33,7 +33,6 @@ public class HoveredCardController : MonoBehaviour
 	}
 	
 	public virtual void setNextDisplayedCharacter(int i, GameCard c){
-		print("BLABLA");
 		if(this.nextDisplayedCharacter!=i){
 			this.nextDisplayedCharacter = i;
 			this.nextDisplayedCard = c;

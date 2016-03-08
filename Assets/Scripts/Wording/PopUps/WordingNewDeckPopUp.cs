@@ -14,7 +14,7 @@ public class WordingNewDeckPopUp
 	static WordingNewDeckPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisissez le nom de votre nouvelle équipe",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Choisissez le nom de votre nouvelle équipe","Choose a name for your new team"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

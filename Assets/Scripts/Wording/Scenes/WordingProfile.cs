@@ -14,44 +14,44 @@ public class WordingProfile
 	static WordingProfile()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Modifier",""}); //0
-		references.Add(new string[]{"- Vider -",""}); //1
-		references.Add(new string[]{"Victoires",""}); //2
-		references.Add(new string[]{"Défaites",""}); //3
-		references.Add(new string[]{"Classement combattant",""}); //4
-		references.Add(new string[]{"Classement collectionneur",""}); //5
-		references.Add(new string[]{"Rechercher",""}); //6
-		references.Add(new string[]{"Trouver un ami à l'aide de son pseudo",""}); //7
-		references.Add(new string[]{"Entrez un pseudo",""}); //8
-		references.Add(new string[]{"OK",""}); //9
-		references.Add(new string[]{"Conquêtes",""}); //10
-		references.Add(new string[]{"Défis",""}); //11
-		references.Add(new string[]{"Confrontations",""}); //12
-		references.Add(new string[]{"Amis",""}); //13
-		references.Add(new string[]{"Invitations",""}); //14
-		references.Add(new string[]{"Votre ami mène avec ",""}); //15
-		references.Add(new string[]{" Victoire(s) contre ",""}); //16
-		references.Add(new string[]{" défaite(s)",""}); //17
-		references.Add(new string[]{"Vous menez avec ",""}); //18
-		references.Add(new string[]{" Victoire(s) contre ",""}); //19
-		references.Add(new string[]{" défaite(s)",""}); //20
-		references.Add(new string[]{"Ex eaquo ! vous avez gagné chacun ",""}); //21
-		references.Add(new string[]{" victoire(s)",""}); //22
-		references.Add(new string[]{"Hégémonie atteinte le ",""}); //23
-		references.Add(new string[]{"(",""}); //24
-		references.Add(new string[]{" pts)",""}); //25
-		references.Add(new string[]{"prénom : ",""}); //26
-		references.Add(new string[]{"nom : ",""}); //27
-		references.Add(new string[]{"mail : ",""}); //28
-		references.Add(new string[]{"Le mot de passe doit comporter au moins 5 caractères",""}); //29
-		references.Add(new string[]{"Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .",""}); //30
-		references.Add(new string[]{"Veuillez saisir un mot de passe",""}); //31
-		references.Add(new string[]{"Veuillez confirmer votre mot de passe",""}); //32
-		references.Add(new string[]{"Les deux mots de passes doivent être identiques",""}); //33
-		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux",""}); //34
-		references.Add(new string[]{"Veuillez saisir une adresse email valide",""}); //35
-		references.Add(new string[]{"2 caractères minimum pour lancer la recherche",""}); //36
-		references.Add(new string[]{"20 caractères maximum pour le nom ou le prénom",""}); //37
-		references.Add(new string[]{"40 caractères maximum pour l'email",""}); //38
+		references.Add(new string[]{"Modifier","Edit"}); //0
+		references.Add(new string[]{"- Vider -","- Empty -"}); //1
+		references.Add(new string[]{"Victoires","Won"}); //2
+		references.Add(new string[]{"Défaites","Loss"}); //3
+		references.Add(new string[]{"Classement bataille","Fighter ranking"}); //4
+		references.Add(new string[]{"Classement collection","Collection ranking"}); //5
+		references.Add(new string[]{"Rechercher","Search"}); //6
+		references.Add(new string[]{"Trouver un ami à l'aide de son pseudo","Find a friend by typing his player name"}); //7
+		references.Add(new string[]{"Entrez un pseudo","Type a player name"}); //8
+		references.Add(new string[]{"OK","OK"}); //9
+		references.Add(new string[]{"Conquêtes","Conquest"}); //10
+		references.Add(new string[]{"Défis","Challenges"}); //11
+		references.Add(new string[]{"Confrontations","Fights with you"}); //12
+		references.Add(new string[]{"Amis","Friends"}); //13
+		references.Add(new string[]{"Invitations","Requests"}); //14
+		references.Add(new string[]{"Votre ami mène avec ","Your friend leads with "}); //15
+		references.Add(new string[]{" Victoire(s) contre "," wins against "}); //16
+		references.Add(new string[]{" défaite(s)"," loss"}); //17
+		references.Add(new string[]{"Vous menez avec ","You lead with "}); //18
+		references.Add(new string[]{" Victoire(s) contre "," wins against "}); //19
+		references.Add(new string[]{" défaite(s)"," loss"}); //20
+		references.Add(new string[]{"Vous êtes à égalité avec ","You tie with"}); //21
+		references.Add(new string[]{" victoire(s)"," win(s)"}); //22
+		references.Add(new string[]{"Vous êtes devenu champion ","You have become champion on"}); //23
+		references.Add(new string[]{"(","("}); //24
+		references.Add(new string[]{" pts)"," pts)"}); //25
+		references.Add(new string[]{"prénom : ","First name: "}); //26
+		references.Add(new string[]{"nom : ","Surname: "}); //27
+		references.Add(new string[]{"adresse mail : ","mail address: "}); //28
+		references.Add(new string[]{"Le mot de passe doit comporter au moins 5 caractères","Password must be made of at least 3 characters"}); //29
+		references.Add(new string[]{"Le mot de passe ne peut comporter de caractères spéciaux hormis @ _ et .","Password cannot be made of special characters except for @ _ ."}); //30
+		references.Add(new string[]{"Veuillez saisir un mot de passe","Please fill your password"}); //31
+		references.Add(new string[]{"Veuillez confirmer votre mot de passe","Confirm your password"}); //32
+		references.Add(new string[]{"Les deux mots de passes doivent être identiques","Passwords must be identical"}); //33
+		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux","You cannot use special characters"}); //34
+		references.Add(new string[]{"Veuillez saisir une adresse email valide","Please type a valid mail address"}); //35
+		references.Add(new string[]{"Le nom recherché doit comporter au moins 2 caractères","The name you are searching is too short (less than 2 characters)"}); //36
+		references.Add(new string[]{"Les prénoms et noms doivent comporter moins de 20 caractères","First name and surname are too long (more than 20 characters)"}); //37
+		references.Add(new string[]{"L'adresse mail est trop longue (plus de 40 caractères)","Email address is too long (more than 40 characters)"}); //38
 	}
 }

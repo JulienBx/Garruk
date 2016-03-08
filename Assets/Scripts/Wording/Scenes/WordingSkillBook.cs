@@ -14,22 +14,22 @@ public class WordingSkillBook
 	static WordingSkillBook()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Compétences",""}); //0
-		references.Add(new string[]{"Cristalopedia",""}); //1
-		references.Add(new string[]{"Progression",""}); //2
-		references.Add(new string[]{"Disciplines",""}); //3
-		references.Add(new string[]{"Factions",""}); //4
-		references.Add(new string[]{"Compétence active, que vous possédez",""}); //5
-		references.Add(new string[]{"Compétence passive, que vous possédez",""}); //6
-		references.Add(new string[]{"Compétence que vous ne possédez pas",""}); //7
-		references.Add(new string[]{"Compétences acquises",""}); //8
-		references.Add(new string[]{"Niveau de la collection",""}); //9
-		references.Add(new string[]{"Points de collection",""}); //10
-		references.Add(new string[]{"Classement de la collection",""}); //11
-		references.Add(new string[]{"Cristalopédia présente les compétences du jeu. Une compétence est déclinable en 10 niveaux. Sélectionnez une compétence pour en savoir plus.",""}); //12
-		references.Add(new string[]{"Ces indicateurs mesurent votre progression dans l'acquisition des compétences. Essayez de toute les collectionner !",""}); //13
-		references.Add(new string[]{"Non acquise",""}); //14
-		references.Add(new string[]{"Acquise (niveau ",""}); //15
-		references.Add(new string[]{")",""}); //16
+		references.Add(new string[]{"Compétences","Skills"}); //0
+		references.Add(new string[]{"Cristalopedia","Cristalopedia"}); //1
+		references.Add(new string[]{"Statistiques","Stats"}); //2
+		references.Add(new string[]{"Skills","Skill types"}); //3
+		references.Add(new string[]{"Factions","Factions"}); //4
+		references.Add(new string[]{"Compétence découverte","Discovered skill"}); //5
+		references.Add(new string[]{"Compétence passive découverte","Discovered passive skill"}); //6
+		references.Add(new string[]{"Compétence non découverte","Undiscovered skill"}); //7
+		references.Add(new string[]{"Compétences découvertes","Discovered skills"}); //8
+		references.Add(new string[]{"Avancement de la collection ","Collection progress"}); //9
+		references.Add(new string[]{"Points de collection","Collection points"}); //10
+		references.Add(new string[]{"Classement collection","Collection ranking"}); //11
+		references.Add(new string[]{"La Cristalopédia rassemble l'ensemble des connaissances que vous possédez sur les unités et compétences cristaliennes.","The Cristalopedia gathers all your knowledge about Cristalian units and their skills"}); //12
+		references.Add(new string[]{"Ces statistiques votre degré de connaissance de Cristalia. Mieux vous maitriserez les compétences, plus les combats vous sembleront faciles","These stats will help you understand how much information you have gathered about Cristalia. The more information you have, the more wins you will get during fights"}); //13
+		references.Add(new string[]{"Non découverte","Undiscovered"}); //14
+		references.Add(new string[]{"Découverte (niveau ","Discovered (level "}); //15
+		references.Add(new string[]{")",")"}); //16
 	}
 }

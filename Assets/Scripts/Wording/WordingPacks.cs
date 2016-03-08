@@ -19,12 +19,12 @@ public class WordingPacks
 	static WordingPacks()
 	{
 		names=new List<string[]>();
-		names.Add(new string[]{"1 Cristalien au hasard",""});
-		names.Add(new string[]{"5 Cristaliens au hasard",""});
-		names.Add(new string[]{"1 Cristalien de faction",""});
-		names.Add(new string[]{"5 Cristaliens de faction",""});
+		names.Add(new string[]{"Solo pack aléatoire","Solo random pack"});
+		names.Add(new string[]{"Multi-5 pack aléatoire","Multi-5 random pack"});
+		names.Add(new string[]{"Solo pack - choix de la faction","Solo pack - choose your faction"});
+		names.Add(new string[]{"Multi-5 pack - choix de la faction","Multi-5 pack - choose your faction"});
 
 		references=new List<string[]>();
-		references.Add(new string[]{"Payer ",""});
+		references.Add(new string[]{"Payer ","Buy "});
 	}
 }

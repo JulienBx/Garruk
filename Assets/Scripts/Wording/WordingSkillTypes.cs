@@ -24,30 +24,30 @@ public class WordingSkillTypes
 	static WordingSkillTypes()
 	{
 		names=new List<string[]>();
-		names.Add(new string[]{"Combat","X"});
-		names.Add(new string[]{"Tir","X"});
-		names.Add(new string[]{"Soutien","X"});
-		names.Add(new string[]{"Dégénrescence","X"});
-		names.Add(new string[]{"Auto","X"});
-		names.Add(new string[]{"Piège","X"});
-		names.Add(new string[]{"Passive","X"});
+		names.Add(new string[]{"Combat","Close attack"});
+		names.Add(new string[]{"Tir","Distant attack"});
+		names.Add(new string[]{"Soutien","Help"});
+		names.Add(new string[]{"Affaiblissement","Weaken"});
+		names.Add(new string[]{"Auto","Auto"});
+		names.Add(new string[]{"Piège","Trap"});
+		names.Add(new string[]{"Passive","Passive"});
 
 		descriptions=new List<string[]>();
-		descriptions.Add(new string[]{"Compétence d'attaque directe (sur un personnage adjacent)",""});
-		descriptions.Add(new string[]{"Compétence d'attaque à distance",""});
-		descriptions.Add(new string[]{"Compétence permettant d'aider un allié pendant le combat",""});
-		descriptions.Add(new string[]{"Compétence permettant d'affaiblir un ennemi",""});
-		descriptions.Add(new string[]{"Compétence permettant à une unité de se renforcer elle-même",""});
-		descriptions.Add(new string[]{"Compétence permettant de poser un piège sur le champ de bataille",""});
-		descriptions.Add(new string[]{"A compléter",""});
+		descriptions.Add(new string[]{"Attaque directe sur un personnage adjacent (pas d'attaque en diagonale)","Direct attack on a neighbour (no diagonal attack is allowed)"});
+		descriptions.Add(new string[]{"Attaque à distance","Distant attack"});
+		descriptions.Add(new string[]{"Donne un bonus à une unité alliée","Gives a bonus to an ally unit"});
+		descriptions.Add(new string[]{"Donne un malus à une unité ennemie","Gives a malus to an ennemy unit"});
+		descriptions.Add(new string[]{"L'unité se donne un bonus","The unit gives itself a bonus"});
+		descriptions.Add(new string[]{"Pose un piège sur le champ de bataille","Sets a trap on the battlefield"});
+		descriptions.Add(new string[]{"Les compétences passives se déclenchent automatiquement et ne peuvent êre utilisées par le joueur","Players cannot launch passive skills. They trigger automatically during the fight"});
 
 		letter=new List<string[]>();
-		letter.Add(new string[]{"C","X"});
-		letter.Add(new string[]{"T","X"});
-		letter.Add(new string[]{"S","X"});
-		letter.Add(new string[]{"D","X"});
-		letter.Add(new string[]{"A","X"});
-		letter.Add(new string[]{"Pi","X"});
-		letter.Add(new string[]{"Pa","X"});
+		letter.Add(new string[]{"C","C"});
+		letter.Add(new string[]{"T","D"});
+		letter.Add(new string[]{"S","H"});
+		letter.Add(new string[]{"A","W"});
+		letter.Add(new string[]{"A","A"});
+		letter.Add(new string[]{"Pi","T"});
+		letter.Add(new string[]{"Pa","P"});
 	}
 }

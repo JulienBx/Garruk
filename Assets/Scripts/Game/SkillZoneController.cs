@@ -39,11 +39,10 @@ public class SkillZoneController : MonoBehaviour
 	
 	public void updateButtonStatus(GameCard g){
 		if(this.isRunningSkill){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours : "+GameSkills.instance.getCurrentGameSkill().name;
-			this.showSkillButtons(false);
-			this.showCancelButton (true);
+			//gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
+			//gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours : "+GameSkills.instance.getCurrentGameSkill().name;
+			//this.showSkillButtons(false);
+			//this.showCancelButton (true);
 		}
 		else if(g.hasPlayed){
 			this.showSkillButtons(false);

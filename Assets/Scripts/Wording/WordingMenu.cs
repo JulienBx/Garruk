@@ -17,20 +17,20 @@ public class WordingMenu
 
 		// Libellés menu desktop
 
-		references.Add(new string[]{"Accueil",""}); //0
-		references.Add(new string[]{"Mes unités",""}); //1
-		references.Add(new string[]{"Recruter",""}); //2
-		references.Add(new string[]{"Le marché",""}); //3
-		references.Add(new string[]{"Cristalopedia",""}); //4
-		references.Add(new string[]{"Jouer",""}); //5
+		references.Add(new string[]{"Accueil","Home"}); //0
+		references.Add(new string[]{"Mes unités","My units"}); //1
+		references.Add(new string[]{"Recruter","Enlist"}); //2
+		references.Add(new string[]{"Le marché","Trade market"}); //3
+		references.Add(new string[]{"Cristalopedia","Cristalopedia"}); //4
+		references.Add(new string[]{"Combattre","Fight"}); //5
 
 		// Libellés menu mobile
 
-		references.Add(new string[]{"Home",""}); //6
-		references.Add(new string[]{"Units",""}); //7
-		references.Add(new string[]{"Shop",""}); //8
-		references.Add(new string[]{"Market",""}); //9
-		references.Add(new string[]{"Wiki",""}); //10
-		references.Add(new string[]{"Play",""}); //11
+		references.Add(new string[]{"Home","Home"}); //6
+		references.Add(new string[]{"Units","Units"}); //7
+		references.Add(new string[]{"Enlist","Enlist"}); //8
+		references.Add(new string[]{"Market","Market"}); //9
+		references.Add(new string[]{"Wiki","Wiki"}); //10
+		references.Add(new string[]{"Fight","Fight"}); //11
 	}
 }

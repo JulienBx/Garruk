@@ -14,8 +14,8 @@ public class WordingConnectionBonusPopUp
 	static WordingConnectionBonusPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Première connection de la journée, vous gagnez ",""}); //0
-		references.Add(new string[]{" cristaux",""}); //1
-		references.Add(new string[]{"Confirmer",""}); //2
+		references.Add(new string[]{"Un nouveau jour sur Cristalia se lève. Vous recevez ","This is your first appearance on Cristalia today. You receive "}); //0
+		references.Add(new string[]{" cristaux de votre terre mère"," cristals from your mother earth"}); //1
+		references.Add(new string[]{"OK!","OK!"}); //2
 	}
 }

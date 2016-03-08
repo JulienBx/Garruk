@@ -14,9 +14,9 @@ public class WordingInvitationPopUp
 	static WordingInvitationPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Vous a lancé un défi",""}); //0
-		references.Add(new string[]{"Accepter",""}); //1
-		references.Add(new string[]{"Refuser",""}); //2
+		references.Add(new string[]{"vous a lancé un défi","wants to challenge you"}); //0
+		references.Add(new string[]{"Accepter","Accept"}); //1
+		references.Add(new string[]{"Refuser","Decline"}); //2
 
 	}
 }

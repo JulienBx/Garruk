@@ -14,7 +14,7 @@ public class WordingEditDeckPopUp
 	static WordingEditDeckPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisissez le nom de votre nouvelle équipe",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Choisissez un nom pour votre nouvelle équipe","Please choose a name for your team"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

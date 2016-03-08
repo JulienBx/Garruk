@@ -14,6 +14,6 @@ public class WordingChooseLanguagePopUp
 	static WordingChooseLanguagePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Sélectionnez la langue de votre choix",""}); //0
+		references.Add(new string[]{"Sélectionnez la langue de votre choix","Choose your favorite language"}); //0
 	}
 }

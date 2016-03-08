@@ -14,10 +14,10 @@ public class WordingExistingAccountPopUp
 	static WordingExistingAccountPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Renseignez vos identifiants habituels pour lier votre compte Facebok",""}); //0
-		references.Add(new string[]{"Pseudo",""}); //1
-		references.Add(new string[]{"Mot de passe",""}); //3
-		references.Add(new string[]{"Valider",""}); //4
-		references.Add(new string[]{"Login ou mot de passe oublié",""}); //5
+		references.Add(new string[]{"Merci de remplir les informations suivantes pour finaliser la création de votre compte","Please fill the following form to complete your registration"}); //0
+		references.Add(new string[]{"Pseudo","Player name"}); //1
+		references.Add(new string[]{"Mot de passe","Password"}); //3
+		references.Add(new string[]{"Valider","Confirm"}); //4
+		references.Add(new string[]{"Pseudo ou mot de passe non renseigné","Missing player name or password information"}); //5
 	}
 }

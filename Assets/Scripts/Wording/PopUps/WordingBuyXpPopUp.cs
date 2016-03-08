@@ -14,8 +14,8 @@ public class WordingBuyXpPopUp
 	static WordingBuyXpPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Confirmer la montée de niveau de l'unité (coûte ",""}); //0
-		references.Add(new string[]{" cristaux)",""}); //1
-		references.Add(new string[]{"Confirmer",""}); //2
+		references.Add(new string[]{"Entrainer l'unité pour ","Training this unit will cost you "}); //0
+		references.Add(new string[]{" cristaux"," cristals"}); //1
+		references.Add(new string[]{"Confirmer","Confirm"}); //2
 	}
 }

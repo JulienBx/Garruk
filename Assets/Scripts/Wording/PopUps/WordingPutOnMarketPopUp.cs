@@ -14,7 +14,7 @@ public class WordingPutOnMarketPopUp
 	static WordingPutOnMarketPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisir le prix en vente de la carte sur le marché",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Choisir le prix de vente de la carte","Choose your unit selling price"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

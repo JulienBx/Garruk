@@ -21,8 +21,8 @@ public class WordingNews
 		references=new List<string[]>();
 
 		contents=new List<string[]>();
-		contents.Add(new string[]{"est désormais ami avec #*user*#","#*user*#"}); //0
-		contents.Add(new string[]{"a conquis #*trophy*#","#*trophy*#"}); //1
-		contents.Add(new string[]{"a remporté #*trophy*#","#*trophy*#"}); //2
+		contents.Add(new string[]{"est désormais ami avec #*user*#","is now friend with #*user*#"}); //0
+		contents.Add(new string[]{"a conquis #*trophy*#"," has conquished #*trophy*#"}); //1
+		contents.Add(new string[]{"a remporté #*trophy*#","has won #*trophy*#"}); //2
 	}
 }

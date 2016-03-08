@@ -14,7 +14,7 @@ public class WordingCheckPasswordPopUp
 	static WordingCheckPasswordPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Saisissez votre mot de passe",""}); //0
-		references.Add(new string[]{"Confirmer",""}); //1
+		references.Add(new string[]{"Saisissez votre mot de passe","Fill a password to secure your account"}); //0
+		references.Add(new string[]{"Confirmer","Confirm"}); //1
 	}
 }

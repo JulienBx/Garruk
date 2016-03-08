@@ -59,7 +59,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [46] = new Resurrection();
 		this.skills [47] = new Vampire();
 		this.skills [48] = new Grizzly();
-		this.skills [49] = new AppositionDesMains();
+		this.skills [49] = new GameSkill();
 		this.skills [50] = new Guerison();
 		this.skills [51] = new EauBenite();
 		this.skills [52] = new GameSkill();
