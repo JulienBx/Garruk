@@ -48,7 +48,7 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isSellPopUpDisplayed;
 	private GameObject renamePopUp;
 	private bool isRenamePopUpDisplayed;
-	private GameObject buyPopUp;
+	public GameObject buyPopUp;
 	private bool isBuyPopUpDisplayed;
 	private GameObject buyXpPopUp;
 	private bool isBuyXpPopUpDisplayed;
@@ -217,7 +217,7 @@ public class NewFocusedCardController : MonoBehaviour
 			{
 				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);
 				string description = this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1));
-				if(i!=0)
+				if(i!=0 && this.c.Skills[i].getProba(c.Skills[i].Power-1)<100)
 				{
 					description +=WordingCard.getReference(0)+this.c.Skills[i].getProba(c.Skills[i].Power-1)+WordingCard.getReference(1);
 				}

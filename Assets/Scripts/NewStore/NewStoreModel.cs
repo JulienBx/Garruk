@@ -10,7 +10,7 @@ public class NewStoreModel
 {
 	public IList<string> cardTypeList;
 	public IList<Pack> packList;
-	public IList<Product> productList;
+	public IList<DisplayedProduct> productList;
 	public IList<Skill> NewSkills;
 	public int CollectionPointsEarned;
 	public int CollectionPointsRanking;
@@ -74,17 +74,22 @@ public class NewStoreModel
 		}
 		return packList;
 	}
-	private IList<Product> parseProducts(string[] array)
+	private IList<DisplayedProduct> parseProducts(string[] array)
 	{
-		IList<Product> productList = new List<Product> ();
+		IList<DisplayedProduct> productList = new List<DisplayedProduct> ();
 		
 		for(int i=0;i<array.Length-1;i++)
 		{
-			string[] productInformation = array[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-			productList.Add (new Product());
-			productList[i].Id = System.Convert.ToInt32(productInformation[0]);
-			productList[i].Price = float.Parse(productInformation[1]);
-			productList[i].Crystals=float.Parse(productInformation[2]);
+			string[] PurchaseInformation = array[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+			productList.Add (new DisplayedProduct());
+			productList[i].Id = System.Convert.ToInt32(PurchaseInformation[0]);
+			productList[i].PriceEUR = float.Parse(PurchaseInformation[1]);
+			productList[i].Crystals=float.Parse(PurchaseInformation[2]);
+			productList[i].ProductID=PurchaseInformation[3];
+			productList[i].ProductNameApple=PurchaseInformation[4];
+			productList[i].ProductNameGooglePlay=PurchaseInformation[5];
+			productList[i].PriceUSD = float.Parse(PurchaseInformation[6]);
+			productList[i].PriceGBP = float.Parse(PurchaseInformation[7]);
 		}
 		return productList;
 	}

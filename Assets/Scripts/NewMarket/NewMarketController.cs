@@ -1008,7 +1008,7 @@ public class NewMarketController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			int nbLinesToDisplay = Mathf.CeilToInt ((float)this.cardsDisplayed.Count / (float)this.cardsPerLine);
-			float contentHeight = 1f+(nbLinesToDisplay-1)*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
+			float contentHeight = 1.7f+(nbLinesToDisplay-1f)*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setContentHeight(contentHeight);
 			this.lowerScrollCamera.GetComponent<ScrollingController>().setEndPositionY();
 		}

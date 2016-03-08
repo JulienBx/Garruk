@@ -5,12 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEngine.Purchasing;
 using TMPro;
 
-public class NewStoreController : MonoBehaviour
+public class NewStoreController : MonoBehaviour, IStoreListener
 {
 	public static NewStoreController instance;
 	private NewStoreModel model;
+
+	private IStoreController m_StoreController;
+	private IExtensionProvider m_StoreExtensionProvider;
 
 	public GameObject cardObject;
 	public GameObject packObject;
@@ -245,6 +249,25 @@ public class NewStoreController : MonoBehaviour
 		this.backOfficeController.AddComponent<BackOfficeStoreController>();
 		this.backOfficeController.GetComponent<BackOfficeStoreController>().initialize();
 	}
+	public void InitializePurchasing() 
+	{
+	    if (IsInitialized())
+	    {
+	        return;
+	    }
+	    
+	   	var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+
+	    for(int i=0;i<model.productList.Count;i++)
+	    {
+			builder.AddProduct(model.productList[i].ProductID, ProductType.Consumable, new IDs(){{ model.productList[i].ProductNameApple,AppleAppStore.Name },{ model.productList[i].ProductNameGooglePlay,GooglePlay.Name },});
+	    }
+	    UnityPurchasing.Initialize(this, builder);
+	}
+	private bool IsInitialized()
+	{
+   		return m_StoreController != null && m_StoreExtensionProvider != null;
+	}
 	private void initializeScene()
 	{
 		this.packsBlock = Instantiate (this.blockObject) as GameObject;
@@ -319,6 +342,7 @@ public class NewStoreController : MonoBehaviour
 		this.selectCardTypePopUp = GameObject.Find ("SelectCardTypePopUp");
 		this.selectCardTypePopUp.SetActive (false);
 		this.productsPopUp = GameObject.Find ("ProductsPopUp");
+		this.productsPopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(1);
 		this.productsPopUp.SetActive (false);
 	}
 	private IEnumerator initialization()
@@ -326,8 +350,11 @@ public class NewStoreController : MonoBehaviour
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
+		if (m_StoreController == null)
+       	{
+       		InitializePurchasing();
+        }
 		this.initializePacks ();
-		this.initializeProducts();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
 		if(ApplicationModel.player.PackToBuy!=-1)
@@ -1083,6 +1110,10 @@ public class NewStoreController : MonoBehaviour
 		this.productsPopUpResize ();
 		this.productsPopUp.transform.FindChild("closebutton").GetComponent<ProductsPopUpCloseButtonController>().reset();
 		this.productsPopUp.transform.FindChild("ProductsPagination").GetComponent<NewStoreProductsPaginationController>().reset();
+		for(int i=0;i<productsPagination.nbElementsPerPage;i++)
+		{
+			this.productsPopUp.transform.FindChild("product"+i).GetComponent<ProductsPopUpProductController>().reset();
+		}
 		if(this.productsPagination.chosenPage!=0)
 		{
 			this.initializeProducts();	
@@ -1190,6 +1221,100 @@ public class NewStoreController : MonoBehaviour
 	{
 		return this.sceneCamera.GetComponent<Camera>();
 	}
+	public string getProductsPrice(int id)
+	{
+		Product product = m_StoreController.products.WithID(model.productList[this.productsDisplayed[id]].ProductID);
+		if(product!=null)
+		{
+			return product.metadata.localizedPriceString;
+		}
+		else
+		{
+			return WordingProducts.getReferences(0);
+		}
+	}
+	public void buyProductHandler(int id)
+	{
+		BackOfficeController.instance.displayLoadingScreen();
+		this.BuyProductID(model.productList[this.productsDisplayed[id]].ProductID);
+		this.hideProductsPopUp();
+	}
+	void BuyProductID(string productId)
+	{
+	    // If the stores throw an unexpected exception, use try..catch to protect my logic here.
+	    try
+	    {
+	        // If Purchasing has been initialized ...
+	        if (IsInitialized())
+	        {
+	            // ... look up the Product reference with the general product identifier and the Purchasing system's products collection.
+	            Product product = m_StoreController.products.WithID(productId);
+
+	            // If the look up found a product for this device's store and that product is ready to be sold ... 
+	            if (product != null && product.availableToPurchase)
+	            {
+	                Debug.Log (string.Format("Purchasing product asychronously: '{0}'", product.definition.id));// ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed asynchronously.
+	                m_StoreController.InitiatePurchase(product);
+	            }
+	            // Otherwise ...
+	            else
+	            {
+	                // ... report the product look-up failure situation  
+	                Debug.Log ("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
+	            }
+	        }
+	        // Otherwise ...
+	        else
+	        {
+	            // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or retrying initiailization.
+	            Debug.Log("BuyProductID FAIL. Not initialized.");
+	        }
+	    }
+	    // Complete the unexpected exception handling ...
+	    catch (Exception e)
+	    {
+	        // ... by reporting any unexpected exception for later diagnosis.
+	        Debug.Log ("BuyProductID: FAIL. Exception during purchase. " + e);
+	    }
+	}
+	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+	{
+	    // Purchasing has succeeded initializing. Collect our Purchasing references.
+	    Debug.Log("OnInitialized: PASS");
+	    
+	    // Overall Purchasing system, configured with products for this application.
+	    m_StoreController = controller;
+	    // Store specific subsystem, for accessing device-specific store features.
+	    m_StoreExtensionProvider = extensions;
+		this.initializeProducts();
+	}
+	public void OnInitializeFailed(InitializationFailureReason error)
+	{
+	    // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
+	    Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+		this.initializeProducts();
+	} 
+	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
+	{
+	    // A consumable product has been purchased by this user.
+
+	    for(int i=0;i<model.productList.Count;i++)
+	    {
+			if (String.Equals(args.purchasedProduct.definition.id, model.productList[i].ProductID, StringComparison.Ordinal))
+		    {
+		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+		        StartCoroutine	(ApplicationModel.player.addMoney((int)model.productList[i].Crystals));
+    		}
+	    }
+	    BackOfficeController.instance.hideLoadingScreen();
+	    return PurchaseProcessingResult.Complete;
+	} 
+	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+	{
+	    // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing this reason with the user.
+	    Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}",product.definition.storeSpecificId, failureReason));
+	    BackOfficeController.instance.hideLoadingScreen();
+	} 
 	#region TUTORIAL FUNCTIONS
 
 	public Vector3 returnBuyPackButtonPosition(int id)

@@ -332,7 +332,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(false);
 			this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(false);
-			this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
+			this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
 		}
 		this.drawConfrontations ();
 	}
@@ -1305,7 +1305,6 @@ public class NewProfileController : MonoBehaviour
 					break;
 				}
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=gameTypeName;
-				print (model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType);
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCompetitionPicture(idCompetitionPicture);
 				string description="";
 				Color textColor=new Color();

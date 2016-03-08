@@ -72,7 +72,6 @@ public class DivisionProgressionController : MonoBehaviour
 		this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs (this.gameObject.transform.FindChild ("Gauge").FindChild ("TitleNbWins").position.x - (parentBlock.x + parentBlock.width/2f-ApplicationDesignRules.blockHorizontalSpacing));
 		this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("PromotionTitle").transform.position.x - (parentBlock.x - parentBlock.width / 2f+ApplicationDesignRules.blockHorizontalSpacing));
 		this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").GetComponent<TextContainer> ().width = 1f/emptyGaugeScale*Mathf.Abs(this.gameObject.transform.FindChild ("Gauge").FindChild ("RelegationTitle").transform.position.x - (parentBlock.x - parentBlock.width / 2f+ApplicationDesignRules.blockHorizontalSpacing));
-
 	}
 	public void drawGauge(Division d, bool showGaugeStateBeforeLastWin)
 	{

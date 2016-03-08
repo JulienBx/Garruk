@@ -1370,7 +1370,14 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
-		BackOfficeController.instance.leaveGame();
+		if(isFocusedSkillDisplayed)
+		{
+			this.hideFocusedSkill();
+		}
+		else
+		{
+			BackOfficeController.instance.leaveGame();
+		}
 	}
 	public void closeAllPopUp()
 	{
