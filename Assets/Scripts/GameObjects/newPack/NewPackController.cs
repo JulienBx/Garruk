@@ -33,8 +33,15 @@ public class NewPackController : MonoBehaviour
 		this.gameObject.transform.FindChild("PackButton").localScale = ApplicationDesignRules.button62Scale;
 		this.gameObject.transform.FindChild("PackButton").transform.position  = new Vector3 (this.gameObject.transform.position.x - ApplicationDesignRules.packWorldSize.x / 2f + ApplicationDesignRules.button62WorldSize.x / 2f + 0.15f, this.gameObject.transform.position.y - ApplicationDesignRules.packWorldSize.y / 2f + ApplicationDesignRules.button62WorldSize.y / 2f +0.15f, 0f);
 		this.gameObject.transform.FindChild("PackTitle").transform.localScale = ApplicationDesignRules.subMainTitleScale;
-		this.gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro> ().textContainer.width = ApplicationDesignRules.packWorldSize.x/2f;
 		this.gameObject.transform.FindChild("PackTitle").transform.position = new Vector3 (this.gameObject.transform.position.x - ApplicationDesignRules.packWorldSize.x / 2f +0.15f, this.gameObject.transform.position.y + ApplicationDesignRules.packWorldSize.y / 2f -0.4f, 0f);
+		if(ApplicationDesignRules.isMobileScreen)
+		{
+			this.gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro> ().textContainer.width = ApplicationDesignRules.packWorldSize.x/1.3f;
+		}
+		else
+		{
+			this.gameObject.transform.FindChild("PackTitle").GetComponent<TextMeshPro> ().textContainer.width = ApplicationDesignRules.packWorldSize.x/2.1f;
+		}
 	}
 	public void show(Pack p)
 	{

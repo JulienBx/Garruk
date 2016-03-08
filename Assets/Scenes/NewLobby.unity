@@ -3071,7 +3071,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 18
 --- !u!114 &1217270442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4046,7 +4046,7 @@ Transform:
   - {fileID: 1279092239}
   - {fileID: 1733156785}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 26
 --- !u!114 &1717024384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4676,7 +4676,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_rect.width
-      value: 4.30000019
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_enableAutoSizing
@@ -4684,7 +4684,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_fontSize
-      value: 2.29999995
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_fontSizeMin
@@ -4692,7 +4692,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_fontSizeMax
-      value: 2.79999995
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_havePropertiesChanged
@@ -4700,7 +4700,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_fontSizeBase
-      value: 2.29999995
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_anchorPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_rect.height
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_enableWordWrapping
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
@@ -4784,7 +4800,7 @@ MonoBehaviour:
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
   checkPaddingRequired: 1
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
   m_horizontalMapping: 0

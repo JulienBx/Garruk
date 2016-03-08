@@ -423,7 +423,8 @@ public class NewLobbyController : MonoBehaviour
 		this.mainBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
 		this.mainBlockSubTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
-		this.mainBlockSubTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+mainBlockUpperLeftPosition.x, mainBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
+		this.mainBlockSubTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+mainBlockUpperLeftPosition.x, mainBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing +0.2f, 0f);
+		this.mainBlockSubTitle.transform.GetComponent<TextContainer>().width=mainBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 
 		this.playButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		this.playButton.transform.position = new Vector3 (mainBlockUpperRightPosition.x -ApplicationDesignRules.blockHorizontalSpacing-ApplicationDesignRules.button62WorldSize.x/2f, mainBlockUpperLeftPosition.y - ApplicationDesignRules.button62WorldSize.y/2f - ApplicationDesignRules.buttonVerticalSpacing-System.Convert.ToInt32(ApplicationDesignRules.isMobileScreen)*(ApplicationDesignRules.roundButtonWorldSize.y +ApplicationDesignRules.buttonVerticalSpacing), 0f);

@@ -10,8 +10,6 @@ public class NewCardController : NewFocusedCardController
 	private int layerVariation;
 	private string layerName;
 
-	private GameObject buyPopUp;
-
 	public override void Update()
 	{
 		base.Update ();
@@ -154,7 +152,7 @@ public class NewCardController : NewFocusedCardController
 
 					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power-1));
 					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+(-0.3f+0.5f*this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.y/this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y+newSkillHovered*0.19f)*(this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
-					if(newSkillHovered!=0)
+					if(newSkillHovered!=0 && this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)<100)
 					{
 						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)+WordingCard.getReference(1));
 					}
