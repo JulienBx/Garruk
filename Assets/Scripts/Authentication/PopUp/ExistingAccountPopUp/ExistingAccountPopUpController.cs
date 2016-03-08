@@ -42,10 +42,12 @@ public class ExistingAccountPopUpController : MonoBehaviour
 	}
 	public void existingAccountHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.existingAccountHandler();
 	}
 	public void lostLoginHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLostLoginPopUp();
 		AuthenticationController.instance.hideExistingAccountPopUp();
 	}
@@ -59,6 +61,7 @@ public class ExistingAccountPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideExistingAccountPopUp();
 	}

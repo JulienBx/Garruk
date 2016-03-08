@@ -20,6 +20,7 @@ public class SoldCardPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideSoldCardPopUp ();
 	}
 	public string getFirstInput()

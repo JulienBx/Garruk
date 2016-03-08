@@ -20,6 +20,7 @@ public class ConnectionBonusPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewHomePageController.instance.hideConnectionBonusPopUp ();
 	}
 }

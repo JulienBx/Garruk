@@ -30,6 +30,7 @@ public class LoadingScreenButtonController : MonoBehaviour
 	}
 	void OnMouseDown()
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.leaveRandomRoomHandler ();
 	}
 	public bool getIsHovering()

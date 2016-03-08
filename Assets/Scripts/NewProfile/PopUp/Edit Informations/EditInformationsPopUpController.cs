@@ -34,10 +34,12 @@ public class EditInformationsPopUpController : MonoBehaviour
 	}
 	public void editInformationsHandler()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.updateUserInformationsHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideEditInformationsPopUp ();
 	}
 	public string getFirstInput()

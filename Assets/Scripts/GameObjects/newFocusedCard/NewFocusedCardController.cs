@@ -574,6 +574,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator renameCard(string newName)
 	{
+		SoundController.instance.playSound(15);
 		this.hideRenamePopUp ();
 		this.displayLoadingScreen ();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -669,6 +670,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator buyCard()
 	{
+		SoundController.instance.playSound(14);
 		this.hideBuyPopUp ();
 		this.displayLoadingScreen ();
 
@@ -768,6 +770,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator editSellPrice(int newPrice)
 	{
+		SoundController.instance.playSound(14);
 		this.hideEditSellPricePopUp ();
 		this.displayLoadingScreen ();
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -803,6 +806,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator unsellCard()
 	{
+		SoundController.instance.playSound(14);
 		this.hideEditSellPopUp ();
 		this.displayLoadingScreen ();
 
@@ -842,6 +846,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public IEnumerator putOnMarketCard(int price)
 	{
+		SoundController.instance.playSound(14);
 		this.hidePutOnMarketPopUp ();
 		this.displayLoadingScreen ();
 
@@ -903,6 +908,10 @@ public class NewFocusedCardController : MonoBehaviour
 			tempString="";
 		}
 		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().setError (error);
+		if(error!="")
+		{
+			SoundController.instance.playSound(13);
+		}
 		return tempString;
 	}
 	public int editSellPriceSyntaxCheck()
@@ -917,6 +926,7 @@ public class NewFocusedCardController : MonoBehaviour
 				return System.Convert.ToInt32(priceString);
 			}
 		}
+		SoundController.instance.playSound(13);
 		this.editSellPricePopUp.transform.GetComponent<EditSellPricePopUpController> ().setError(WordingFocusedCard.getReference(5));
 		return -1;
 	}
@@ -932,6 +942,7 @@ public class NewFocusedCardController : MonoBehaviour
 				return System.Convert.ToInt32(priceString);
 			}
 		}
+		SoundController.instance.playSound(13);
 		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().setError(WordingFocusedCard.getReference(5));
 		return -1;
 	}
@@ -990,6 +1001,7 @@ public class NewFocusedCardController : MonoBehaviour
 	}
 	public virtual void selectAFeature(int feature)
 	{
+		SoundController.instance.playSound(8);
 	}
 	public void updateFocus()
 	{
@@ -1043,34 +1055,42 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		if(isEditSellPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.editSellPriceCardHandler();
 		}
 		else if(isSellPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.sellCardHandler();
 		}
 		else if(isRenamePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.renameCardHandler();
 		}
 		else if(isBuyXpPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.buyXpCardHandler();
 		}
 		else if(isBuyPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.buyCardHandler();
 		}
 		else if(isEditSellPricePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.editSellPriceCardHandler();
 		}
 		else if(isPutOnMarketPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.putOnMarketCardHandler();
 		}
 		else if(isSoldCardPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.exitCard();
 		}
 	}
@@ -1121,6 +1141,7 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		else
 		{
+			SoundController.instance.playSound(8);
 			this.exitCard();
 		}
 	}

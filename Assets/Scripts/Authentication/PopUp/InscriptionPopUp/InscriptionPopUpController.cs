@@ -58,6 +58,7 @@ public class InscriptionPopUpController : MonoBehaviour
 	}
 	public void inscriptionHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.inscriptionHandler();
 	}
 	public string getLogin()
@@ -78,6 +79,7 @@ public class InscriptionPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideInscriptionPopUp();
 	}

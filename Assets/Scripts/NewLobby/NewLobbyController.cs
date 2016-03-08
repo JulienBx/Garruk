@@ -232,6 +232,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.drawResults ();
 	}
 	private void initializeCompetitions()
@@ -546,6 +547,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hidePopUp();
 		}
 	}
@@ -553,6 +555,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		if(this.isPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hidePopUp();
 		}
 		else
@@ -633,6 +636,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	private void displayPopUp()
 	{
+		SoundController.instance.playSound(3);
 		this.isPopUpDisplayed = true;
 		this.popUp.SetActive (true);
 		BackOfficeController.instance.displayTransparentBackground ();
@@ -645,6 +649,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void playHandler()
 	{
+		SoundController.instance.playSound(9);
 		if(this.isEndCompetition)
 		{
 			SceneManager.LoadScene("NewLobby");
@@ -792,6 +797,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void clickOnResultsProfile(int id)
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		SceneManager.LoadScene("NewProfile");
 	}
@@ -808,6 +814,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.activeGaugeCamera(false);
@@ -832,6 +839,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.activeGaugeCamera(false);

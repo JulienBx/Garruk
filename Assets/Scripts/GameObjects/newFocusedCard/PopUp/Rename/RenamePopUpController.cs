@@ -28,10 +28,12 @@ public class RenamePopUpController : MonoBehaviour
 	}
 	public void renameHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().renameCardHandler ();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideRenamePopUp ();
 	}
 	public string getFirstInput()

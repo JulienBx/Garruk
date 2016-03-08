@@ -54,6 +54,7 @@ public class NewFocusedCardHomePageController : NewFocusedCardController
 	}
 	public override void selectAFeature(int feature)
 	{
+		base.selectAFeature(feature);
 		switch(feature)
 		{
 		case 0:

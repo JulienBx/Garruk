@@ -5,7 +5,7 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		NewStoreController.instance.displayAddCreditsPopUp ();
+		NewStoreController.instance.displayProductsPopUp ();
 	}
 	public override void setIsActive(bool value)
 	{

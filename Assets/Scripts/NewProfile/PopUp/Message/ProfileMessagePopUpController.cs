@@ -28,6 +28,7 @@ public class ProfileMessagePopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideMessagePopUp();
 	}
 }

@@ -33,10 +33,12 @@ public class ChooseLanguagePopUpController : MonoBehaviour
 	}
 	public void chooseLanguageHandler(int idLanguage)
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.chooseLanguageHandler(idLanguage);	
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		NewProfileController.instance.hideChooseLanguagePopUp();
 	}
 

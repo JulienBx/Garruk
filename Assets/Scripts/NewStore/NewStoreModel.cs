@@ -10,6 +10,7 @@ public class NewStoreModel
 {
 	public IList<string> cardTypeList;
 	public IList<Pack> packList;
+	public IList<Product> productList;
 	public IList<Skill> NewSkills;
 	public int CollectionPointsEarned;
 	public int CollectionPointsRanking;
@@ -41,6 +42,7 @@ public class NewStoreModel
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.parsePlayer(data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.packList=parsePacks(data[2].Split (new string[] {"PACK"}, System.StringSplitOptions.None));
+			this.productList=parseProducts(data[3].Split(new string[]{"PRODUCT"},System.StringSplitOptions.None));
 		}
 	}
 	private void parsePlayer(string[] array)
@@ -71,6 +73,20 @@ public class NewStoreModel
 			packList[i].IdPicture=System.Convert.ToInt32(packInformation[5]);
 		}
 		return packList;
+	}
+	private IList<Product> parseProducts(string[] array)
+	{
+		IList<Product> productList = new List<Product> ();
+		
+		for(int i=0;i<array.Length-1;i++)
+		{
+			string[] productInformation = array[i].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+			productList.Add (new Product());
+			productList[i].Id = System.Convert.ToInt32(productInformation[0]);
+			productList[i].Price = float.Parse(productInformation[1]);
+			productList[i].Crystals=float.Parse(productInformation[2]);
+		}
+		return productList;
 	}
 	public IEnumerator buyPack(int packId, int cardType, bool isTutorialPack)
 	{

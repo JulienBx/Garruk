@@ -20,6 +20,7 @@ public class ErrorPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		BackOfficeController.instance.hideErrorPopUp ();
 	}
 }

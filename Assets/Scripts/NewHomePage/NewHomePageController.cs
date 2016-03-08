@@ -319,6 +319,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void selectATabHandler(int idTab)
 	{
+		SoundController.instance.playSound(9);
 		this.activeTab = idTab;
 		this.selectATab ();
 	}
@@ -412,6 +413,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(8);
 		switch(this.activeTab)
 		{
 		case 0:
@@ -932,6 +934,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void selectDeck(int id)
 	{
+		SoundController.instance.playSound(9);
 		this.deckDisplayed = this.decksDisplayed [id];
 		this.isSearchingDeck = false;
 		this.cleanDeckList ();
@@ -940,6 +943,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void deckSelectionButtonHandler()
 	{
+		SoundController.instance.playSound(9);
 		if(this.deckDisplayed!=-1)
 		{
 			this.displayDeckList();
@@ -1004,10 +1008,12 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else if(isEndGamePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideEndGamePopUp();
 		}
 		else if(isConnectionBonusPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideConnectionBonusPopUp();
 		}
 	}
@@ -1019,14 +1025,17 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else if(isEndGamePopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideEndGamePopUp();
 		}
 		else if(isConnectionBonusPopUpDisplayed)
 		{
+			SoundController.instance.playSound(8);
 			this.hideConnectionBonusPopUp();
 		}
 		else
 		{
+			SoundController.instance.playSound(8);
 			BackOfficeController.instance.leaveGame();
 		}
 	}
@@ -1058,6 +1067,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
+			SoundController.instance.playSound(4);
 			this.showCardFocused ();
 		}
 	}
@@ -1357,6 +1367,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void buyPackHandler()
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
 		PhotonNetwork.Disconnect();
 		SceneManager.LoadScene ("NewStore");
@@ -1412,6 +1423,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void displayConnectionBonusPopUp()
 	{
+		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.connectionBonusPopUp.transform.GetComponent<ConnectionBonusPopUpController> ().reset (ApplicationModel.player.ConnectionBonus);
 		this.isConnectionBonusPopUpDisplayed = true;
@@ -1452,6 +1464,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void joinGameHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		if(this.deckDisplayed==-1)
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
@@ -1559,6 +1572,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void sendInvitationHandler(int challengeButtonId)
 	{
+		SoundController.instance.playSound(9);
 		if(this.deckDisplayed==-1)
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
@@ -1590,19 +1604,23 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void clickOnContentProfile(int id)
 	{
+		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
 		SceneManager.LoadScene("NewProfile");
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.confirmFriendRequest (id));
 	}
 	public void declineFriendsRequestHandler(int id)
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine (this.removeFriendRequest (id));
 	}
 	public IEnumerator confirmFriendRequest(int id)
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayLoadingScreen ();
 		Connection connection = new Connection ();
 		connection.Id = System.Convert.ToInt32(model.notifications [this.notificationsDisplayed [id]].Notification.HiddenParam);
@@ -1620,6 +1638,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator removeFriendRequest(int id)
 	{
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayLoadingScreen ();
 		Connection connection = new Connection ();
 		connection.Id = System.Convert.ToInt32(model.notifications [this.notificationsDisplayed [id]].Notification.HiddenParam);
@@ -1641,12 +1660,14 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideRight=true;
 		this.toSlideLeft=false;
 		this.newsfeedDisplayed=false;
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.mainContentDisplayed=false;

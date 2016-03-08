@@ -58,20 +58,24 @@ public class LoginPopUpController : MonoBehaviour
 	}
 	public void rememberMeHandler()
 	{
+		SoundController.instance.playSound(8);
 		this.rememberMe=!this.rememberMe;
 		this.applyRememberMeSprites();
 	}
 	public void loginHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.loginHandler();
 	}
 	public void inscriptionHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayInscriptionPopUp();
 		AuthenticationController.instance.hideLoginPopUp();
 	}
 	public void lostLoginHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLostLoginPopUp();
 		AuthenticationController.instance.hideLoginPopUp();
 	}

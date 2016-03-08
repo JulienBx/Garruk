@@ -1084,6 +1084,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void selectDeck(int id)
 	{
+		SoundController.instance.playSound(9);
 		this.deckDisplayed = this.decksDisplayed [id];
 		this.cleanDeckList ();
 		this.isSearchingDeck = false;
@@ -1094,6 +1095,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		if(!isSearchingDeck)
 		{
+			SoundController.instance.playSound(9);
 			this.setDeckList ();
 			this.isSearchingDeck=true;
 		}
@@ -1299,6 +1301,7 @@ public class newMyGameController : MonoBehaviour
 				this.valueFilters[3].transform.FindChild("Icon").GetComponent<SpriteRenderer>().color=getColorFilterIcon(quicknessVal);
 				break;
 			}
+			SoundController.instance.playSound(9);
 			this.cardsPagination.chosenPage = 0;
 			this.applyFilters();
 		}
@@ -1475,6 +1478,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void filterASkill(int id)
 	{
+		SoundController.instance.playSound(9);
 		this.isSearchingSkill = false;
 		this.valueSkill = this.skillChoices[id].transform.FindChild("Title").GetComponent<TextMeshPro>().text;
 		this.isSkillChosen = true;
@@ -1490,7 +1494,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayNewDeckPopUp()
 	{
-		SoundController.instance.playSound(3);
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().reset ();
 		this.newDeckPopUpDisplayed = true;
@@ -1499,7 +1503,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayEditDeckPopUp()
 	{
-		SoundController.instance.playSound(3);
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.editDeckPopUpDisplayed = true;
@@ -1508,7 +1512,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void displayDeleteDeckPopUp()
 	{
-		SoundController.instance.playSound(3);
+		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
 		this.deleteDeckPopUpDisplayed = true;
@@ -2113,6 +2117,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void slideRight()
 	{
+		SoundController.instance.playSound(16);
 		if(this.mainContentDisplayed)
 		{
 			this.upperScrollCamera.GetComponent<ScrollingController>().reset();
@@ -2125,6 +2130,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void slideLeft()
 	{
+		SoundController.instance.playSound(16);
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.filtersDisplayed=false;

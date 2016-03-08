@@ -41,6 +41,7 @@ public class AuthenticationChangePasswordPopUpController : MonoBehaviour
 	}
 	public void changePasswordHandler()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.changePasswordHandler();
 	}
 	public string getFirstPassword()
@@ -53,6 +54,7 @@ public class AuthenticationChangePasswordPopUpController : MonoBehaviour
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideChangePasswordPopUp();
 	}

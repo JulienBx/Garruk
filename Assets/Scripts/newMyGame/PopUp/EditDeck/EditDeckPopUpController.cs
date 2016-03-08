@@ -28,10 +28,12 @@ public class EditDeckPopUpController : MonoBehaviour
 	}
 	public void editDeckHandler()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.editDeckHandler();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		newMyGameController.instance.hideEditDeckPopUp ();
 	}
 	public string getInputText()

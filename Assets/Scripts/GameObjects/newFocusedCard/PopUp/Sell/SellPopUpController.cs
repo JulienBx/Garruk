@@ -20,10 +20,12 @@ public class SellPopUpController : MonoBehaviour
 	}
 	public void sellHandler()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().sellCardHandler ();
 	}
 	public void exitPopUp()
 	{
+		SoundController.instance.playSound(8);
 		gameObject.transform.parent.GetComponent<NewFocusedCardController> ().hideSellPopUp ();
 	}
 

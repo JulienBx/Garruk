@@ -21,6 +21,13 @@ public class PaginationController : MonoBehaviour
 			this.buttons[i].GetComponent<PaginationButtonController>().setId(i);
 		}
 	}
+	public void reset()
+	{
+		for (int i=0;i<buttons.Length;i++)
+		{
+			this.buttons[i].GetComponent<PaginationButtonController>().reset();
+		}
+	}
 	public virtual void resize()
 	{
 		for (int i=0;i<buttons.Length;i++)

@@ -103,6 +103,7 @@ public class TutorialController : MonoBehaviour
 	}
 	public void nextButtonHandler()
 	{
+		SoundController.instance.playSound(9);
 		StartCoroutine(this.quitTutorial());
 	}
 }
