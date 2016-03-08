@@ -577,6 +577,7 @@ public class GameView : MonoBehaviour
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
 		Tile origine = this.getPlayingCardController(characterID).getTile();
+
 		if(this.hasFightStarted){
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
 			this.removeDestinations();
@@ -588,6 +589,8 @@ public class GameView : MonoBehaviour
 		}
 		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
 			this.setLaunchability("Déplacement en cours !");
+			print("Je put forward");
+			this.getPlayingCardController(characterID).moveForward();
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
 		}
 		else{
@@ -601,13 +604,13 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
+			this.getPlayingCardController(characterID).moveBackward();
 		}
 		if(this.hasFightStarted){
 			this.getCard(characterID).setHasMoved(true);
 		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
-		this.getPlayingCardController(characterID).moveBackward();
 
 		if(GameView.instance.hasFightStarted){
 			this.removeDestinations();
@@ -2488,17 +2491,17 @@ public class GameView : MonoBehaviour
 	
 	public void launchTutoStep(int i){
 		if (i==1){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia, conforme aux normes UWA1954 du code de guerre cristalien.\nLe terrain est constitué de cases, celles contenant du Cristal ne pouvant être franchies. Certaines cases peuvent réserver des surprises... que vous découvrirez bien assez tôt.\n\nAvant le début du combat, vous pouvez déplacer vos unités sur les deux premières rangées. Protégez les faibles (et sacrifiez les forts)!");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia!\n\nL'arène est constitué de cases sur lesquels vos personnages peuvent se déplacer (sauf les cases cristal). Attention, certaines cases peuvent être piégées!\n\n Vous pouvez positionner vos unités avant le combat (le premier à terminer son positionnement démarre le combat), et elles pourront se déplacer 1 fois par tour de jeu\n\nLe positionnement des unités est important, les attaques en diagonale étant interdites (Code de guerre de Cristalia, article 1)");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
 		else if (i==2){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Chaque colon joue à son tour, selon l'ordre de ses unités dans l'équipe. Chacune d'entre elles peut à chaque tour se déplacer ET utiliser une compétence, dans n'importe quel ordre.\n\nCristalia et ses lunes ne possèdent pas d'atmosphère, ce qui rend les combats difficiles : prenez bien garde à ne pas épuiser vos réserves d'oxygène ou vous unités perdront le combat !\n\nA vous de jouer désormais, profitez de votre tour pour vous rapprocher des unités du colon ennemi.");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Les colons jouent chacun leur tour, selon l'ordre des unités dans leurs équipes.\n\nUne unité peut SE DEPLACER et UTILISER UNE COMPETENCE par tour, dans n'importe quel ordre (Code de Guerre cristalien, article 2)\n\nLorsque que vous utilisez une compétence ciblant une unité, pensez à vérifier les effets de la compétence en survolant votre cible!");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}
 		else if (i==3){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres, chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre OU s'il a épuisé le temps mis à sa disposition. Je vous laisse désormais seul pour terminer le combat, bon courage !");
+			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres, chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre.\n\nJe vous laisse désormais seul pour terminer le combat, bon courage !");
 			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
 			this.popUp.GetComponent<PopUpGameController>().show(true);
 		}

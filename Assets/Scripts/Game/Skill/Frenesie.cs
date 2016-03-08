@@ -25,14 +25,15 @@ public class Frenesie : GameSkill
 	
 	public override void applyOn(int i){
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = 5+GameView.instance.getCurrentSkill().Power;
-		int life = Mathf.RoundToInt(0.2f*currentCard.GetTotalLife());
+		int level = GameView.instance.getCurrentSkill().Power;
+		int life = Mathf.RoundToInt((0.75f-level*0.05f)*currentCard.getAttack());
 		int target = GameView.instance.getCurrentPlayingCard();
+		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(life,-1,18,base.name,(22-level*2)+" dégats subis"));
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, base.name, "+"+level+" ATK. Permanent"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(10, -1, 18, base.name, "+10ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+level+" ATK\n-"+life+"PV", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\n+10ATK\n-"+damages+"PV", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 18);
 	}
 }

@@ -28,7 +28,14 @@ public class Terreur : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn(target);
+				int result = -1 ;
+				if (Random.Range(1,101)<26){
+					result = 1;
+				}
+				else{
+					result = 0;
+				}
+				GameController.instance.applyOn2(target,result);
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -37,15 +44,21 @@ public class Terreur : GameSkill
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(int target, int result){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
-		string text = "-"+damages+"PV\nEffrayé";				
+		int level = GameView.instance.getCurrentSkill().Power;
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*level)));
+
+		string text = "-"+damages+"PV";				
+		if(result==1){
+			text+="\nEffrayé";
+			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, base.name, "Ne peut pas utiliser ses compétences au prochain tour"));
+			GameView.instance.getPlayingCardController(target).showIcons();
+		}
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"));
-		GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, base.name, "Ne peut pas utiliser ses compétences au prochain tour"));
-		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 20);
@@ -55,8 +68,9 @@ public class Terreur : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nEffrayé";				
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*level)));
+
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n25% de chances de paralyser";				
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();

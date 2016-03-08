@@ -57,7 +57,7 @@ public class Criderage : GameSkill
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power+5;
+		int level = GameView.instance.getCurrentSkill().Power+2;
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 19, base.name, "+"+level+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();

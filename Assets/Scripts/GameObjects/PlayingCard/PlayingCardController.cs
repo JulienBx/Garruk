@@ -199,6 +199,8 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void moveForward(){
+		print("Je put forward");
+			
 		Transform t = gameObject.transform;
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
@@ -221,7 +223,8 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void moveBackward(){
-		Transform t = gameObject.transform;
+		print("Je put backward");
+			Transform t = gameObject.transform;
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 22 ;
 		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 23 ;
@@ -395,6 +398,7 @@ public class PlayingCardController : GameObjectController
 			if(GameView.instance.hasFightStarted){
 				GameView.instance.updateActionStatus();
 			}
+			this.moveBackward();
 		}
 		else{
 			float rapport = this.timerMove/this.MoveTime;
@@ -535,7 +539,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 66)){
 			int level = card.Skills[0].Power*5;
 						
-			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact : "+level+"%"));
+			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){
@@ -588,7 +592,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 32)){
 			int level = 5*card.Skills[0].Power;
 		
-			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive aux compétences à distance : "+level+"%"));
+			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){
