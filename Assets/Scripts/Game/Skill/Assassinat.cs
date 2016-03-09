@@ -42,7 +42,7 @@ public class Assassinat : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, base.name, damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, base.name, damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, base.name+"\nRéussi", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 10);
 	}

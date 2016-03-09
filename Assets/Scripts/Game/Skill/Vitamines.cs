@@ -60,7 +60,7 @@ public class Vitamines : GameSkill
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		else{
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"), false);
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, base.name, "+1MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV\n+1MOV pour un tour", 1);	
@@ -85,7 +85,7 @@ public class Vitamines : GameSkill
 			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
 		}
 		else{
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"));
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"), false);
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, base.name+"\n(Virus)\n+"+soin+"PV\n+"+move+"MOV pour un tour", 1);	

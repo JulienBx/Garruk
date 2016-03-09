@@ -43,7 +43,7 @@ public class PerfoTir : GameSkill
 
 	public override void launchFou(int c){
 		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
@@ -56,7 +56,7 @@ public class PerfoTir : GameSkill
 		}
 		int level = Mathf.Min(currentCard.getLife(),damages);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"), false);
 		string text = base.name+"\n-"+level+"PV";
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";

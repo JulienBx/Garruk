@@ -43,7 +43,7 @@ public class Massue : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 63);
 	}

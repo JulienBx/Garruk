@@ -265,19 +265,14 @@ public class PlayingCardController : GameObjectController
 		gameObject.SetActive(b);
 	}
 	
-	public void addDamagesModifyer(Modifyer m){
+	public void addDamagesModifyer(Modifyer m, bool endTurn){
 		this.updateLife(this.card.getLife());
 		if(m.amount<0){
 			m.amount = Mathf.Min(m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
 		}
 		else{
 			if (this.card.getLife()-m.amount<=0){
-				if(m.type==69){
-					this.kill(true);
-				}
-				else{
-					this.kill(false);
-				}
+				this.kill(endTurn);
 			}
 			else{
 	

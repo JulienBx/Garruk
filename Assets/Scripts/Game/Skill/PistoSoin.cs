@@ -52,7 +52,7 @@ public class PistoSoin : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int soin = Mathf.Min(amount,targetCard.GetTotalLife()-targetCard.getLife());
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false);
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	
@@ -62,7 +62,7 @@ public class PistoSoin : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int soin = Mathf.Min(Mathf.RoundToInt(amount*amount2/100f),targetCard.GetTotalLife()-targetCard.getLife());
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"),false);
 		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n+"+soin+"PV", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	

@@ -20,6 +20,9 @@ public class CancelZoneController : MonoBehaviour
 		}
 		GameView.instance.hideValidationButton();
 		GameView.instance.hideTargets();
+		if(GameView.instance.hoveringZone!=-1){
+			GameView.instance.hideAllTargets();
+		}
 		GameView.instance.cancelSkill();
 	}
 

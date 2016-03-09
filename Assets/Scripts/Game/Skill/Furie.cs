@@ -35,7 +35,7 @@ public class Furie : GameSkill
 			text+="\n+"+bonusLife+"PV";
 		}
 		 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 93, base.name, "+"+bonusLife+"PV"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 93, base.name, "+"+bonusLife+"PV"), false);
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonusAttack, -1, 93, base.name, "+"+bonusAttack+"ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, text, 1);

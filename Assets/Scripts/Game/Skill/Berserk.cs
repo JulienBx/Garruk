@@ -46,11 +46,11 @@ public class Berserk : GameSkill
 		string text = base.name+"\n-"+damages+"PV";				
 		string autotext = base.name+"\nS'inflige "+autoDamages+" dégats";				
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 16);
 
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,base.name,autoDamages+" dégats subis"));
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,base.name,autoDamages+" dégats subis"), true);
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), autotext, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 16);
 	}

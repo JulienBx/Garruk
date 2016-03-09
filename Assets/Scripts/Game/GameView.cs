@@ -403,7 +403,7 @@ public class GameView : MonoBehaviour
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
-							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"));
+							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
 		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
@@ -427,7 +427,7 @@ public class GameView : MonoBehaviour
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
 							level = this.getCard(i).getSkills()[0].Power;
-							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"));
+							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
 		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
@@ -552,7 +552,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		
-		if(this.hasFightStarted){
+		if(this.hasFightStarted && this.hoveringZone==-1){
 			this.removeDestinations();
 			if(!this.getCard(characterID).isSniperActive()){
 				this.displayDestinations(characterID);
@@ -588,8 +588,9 @@ public class GameView : MonoBehaviour
 			}
 		}
 		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
-			this.setLaunchability("Déplacement en cours !");
-			print("Je put forward");
+			if(GameView.instance.hasFightStarted){
+				this.setLaunchability("Déplacement en cours !");
+			}
 			this.getPlayingCardController(characterID).moveForward();
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
 		}
@@ -861,7 +862,7 @@ public class GameView : MonoBehaviour
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
-					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"));
+					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
 					isSuccess = true ;
 				}
@@ -884,7 +885,7 @@ public class GameView : MonoBehaviour
 									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 								}
 								else{
-									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"));
+									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false);
 									GameView.instance.displaySkillEffect(playerID, "Infirmier\n+"+soin+"PV", 1);	
 									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 								}
@@ -897,7 +898,7 @@ public class GameView : MonoBehaviour
 					int level = GameView.instance.getCurrentCard().Skills[0].Power+5;
 					int target = GameView.instance.getCurrentPlayingCard();
 
-					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"));
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"), false);
 					GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, "Frenetique", "+"+level+"ATK. Permanent"));
 					GameView.instance.getPlayingCardController(target).updateAttack();
 					GameView.instance.displaySkillEffect(target, "+"+level+" ATK\n-5PV", 1);
@@ -2624,7 +2625,7 @@ public class GameView : MonoBehaviour
 					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 			}
 			else{
@@ -2638,7 +2639,7 @@ public class GameView : MonoBehaviour
 					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 			}
 			else{
@@ -2653,7 +2654,7 @@ public class GameView : MonoBehaviour
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-1);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 				}
 				else{
@@ -2664,7 +2665,7 @@ public class GameView : MonoBehaviour
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-1);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 				}
 				else{
@@ -2680,7 +2681,7 @@ public class GameView : MonoBehaviour
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-2);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 				}
 				else{
@@ -2691,7 +2692,7 @@ public class GameView : MonoBehaviour
 				if(this.getTileController(t).getCharacterID()!=-1){
 					amount = 5*(this.nbTurns-2);
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 0);
 				}
 				else{
@@ -2738,6 +2739,7 @@ public class GameView : MonoBehaviour
 	public void cancelSkill(){
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 		this.getSkillZoneController().isRunningSkill = false ;
+		this.hoveringZone = -1;
 	}
 }
 

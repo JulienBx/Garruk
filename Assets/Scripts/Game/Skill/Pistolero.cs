@@ -96,7 +96,7 @@ public class Pistolero : GameSkill
 			}
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,9,"Pistolero",damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,9,"Pistolero",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 8);
 	}
 }

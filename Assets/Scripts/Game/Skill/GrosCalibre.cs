@@ -45,7 +45,7 @@ public class GrosCalibre : GameSkill
 
 	public override void launchFou(int c){
 		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 
@@ -59,7 +59,7 @@ public class GrosCalibre : GameSkill
 		}
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, base.name, damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, base.name, damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 26);
 	}

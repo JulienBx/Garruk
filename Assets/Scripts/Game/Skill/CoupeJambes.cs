@@ -59,7 +59,7 @@ public class CoupeJambes : GameSkill
 		}
 		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(-2, 1, 11, base.name, "-2MOV. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 15);
 		GameView.instance.recalculateDestinations();

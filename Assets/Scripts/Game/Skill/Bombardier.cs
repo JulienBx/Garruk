@@ -49,7 +49,7 @@ public class Bombardier : GameSkill
 
 	public override void launchFou(int c){
 		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), (c==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
@@ -58,7 +58,7 @@ public class Bombardier : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 24);
 	}	

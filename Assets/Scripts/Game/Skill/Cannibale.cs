@@ -53,9 +53,9 @@ public class Cannibale : GameSkill
 
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"), false);
 		GameView.instance.getCard(targetMe).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, base.name, "+"+bonusAttack+" ATK. Permanent"));
-		GameView.instance.getCard(targetMe).damagesModifyers.Add(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"));
+		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"), false);
 		GameView.instance.getPlayingCardController(targetMe).updateAttack();
 		GameView.instance.displaySkillEffect(targetMe, text, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
@@ -69,9 +69,9 @@ public class Cannibale : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = 30+GameView.instance.getCurrentSkill().Power*5;
+		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
 
-		int bonusLife = -1*Mathf.RoundToInt(damages*percentage/100f);
+		int bonusLife = Mathf.RoundToInt(damages*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 		

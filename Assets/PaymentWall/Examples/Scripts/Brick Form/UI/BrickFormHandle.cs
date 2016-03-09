@@ -84,7 +84,7 @@ public class BrickFormHandle : MonoBehaviour
 		}
 
 		if (!flagCreditCard || !flagExpDate || !flagCVV || !flagEmail) {
-			return false;
+			yield return false;
 		}
 
 		string cardNumber = inputCardNumber.text;

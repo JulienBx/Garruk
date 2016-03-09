@@ -27,8 +27,8 @@ public class TileController : GameObjectController
 	bool isShowingSE ;
 	float timerSE;
 	float timerAnim = 0 ;
-	float animTime = 0.08f ;
-	float skillEffectTime = 0.5f ;
+	float animTime = 0.06f ;
+	float skillEffectTime = 0.6f ;
 	int animIndex;
 	int basicAnimIndex ;
 
@@ -165,7 +165,7 @@ public class TileController : GameObjectController
 		bool isSuccess = false ;
 		if(this.isTrapped){
 			if(this.trap.getType()==1){
-				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"));
+				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"), true);
 				GameView.instance.displaySkillEffect(this.characterID, "Piège!\n-"+this.trap.getAmount()+"PV", 0);
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
 			}

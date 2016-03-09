@@ -146,12 +146,12 @@ public class Grenade : GameSkill
 
 	public override void launchFou(int c){
 		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), (c==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 
 	public override void applyOn(int target, int value){
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 23, base.name, value+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 23, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 23);
 	}

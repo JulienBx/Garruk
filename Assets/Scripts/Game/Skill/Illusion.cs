@@ -44,7 +44,7 @@ public class Illusion : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1f+level/10f)));
 		string text = "-"+damages+"PV";				
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,26,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,26,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 26);
 	}

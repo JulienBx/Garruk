@@ -77,7 +77,7 @@ public class Mitraillette : GameSkill
 
 	public override void launchFou(int c){
 		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"));
+		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
@@ -88,7 +88,7 @@ public class Mitraillette : GameSkill
 
 		string text = base.name+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 30);
 	}
 }

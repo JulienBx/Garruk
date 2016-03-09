@@ -30,7 +30,7 @@ public class Frenesie : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"), true);
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(10, -1, 18, base.name, "+10ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n+10ATK\n-"+damages+"PV", 1);

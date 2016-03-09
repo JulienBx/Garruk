@@ -62,7 +62,7 @@ public class Attaque360 : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, percentage);
 		
 		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,base.name,damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 17);
 	}
 }

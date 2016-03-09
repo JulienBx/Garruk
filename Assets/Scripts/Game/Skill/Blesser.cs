@@ -62,7 +62,7 @@ public class Blesser : GameSkill
 		}
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*malus, 1, 11, base.name, (-1*malus)+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 11);
 	}

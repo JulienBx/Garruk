@@ -108,7 +108,7 @@ public class GameController : Photon.MonoBehaviour
 		int damages = (5+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
 		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
 	}
 
