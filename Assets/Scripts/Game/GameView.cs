@@ -854,7 +854,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public IEnumerator launchEndTurnEffects(){
-		int nextPlayingCard = -1;
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
 			int previousCard = this.currentPlayingCard	;
@@ -911,6 +910,27 @@ public class GameView : MonoBehaviour
 			}
 		}
 
+		if (this.getCard(nextPlayingCard).isMine){
+			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+		}
+		else{
+			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				if(!this.hasStep3){
+					interlude.GetComponent<InterludeController>().pause();
+					this.launchTutoStep(3);
+					this.blockFury = false;
+					this.hasStep3 = true;
+				}
+			}
+		}
+
+		this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
+		yield break ; 
+	}
+
+	public void changePlayer(){
+		int nextPlayingCard = -1;
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMine){
 				nextPlayingCard = this.findNextAlivePlayer(this.lastHisPlayingCardDeckOrder, false);
@@ -930,28 +950,11 @@ public class GameView : MonoBehaviour
 				this.lastHisPlayingCardDeckOrder = 0;
 			}
 		}
-		bool hasMoved = false ;
-		bool hasPlayed = false ;
-		
-		if (this.getCard(nextPlayingCard).isMine){
-			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
-		}
-		else{
-			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
-			if(ApplicationModel.player.ToLaunchGameTutorial){
-				if(!this.hasStep3){
-					interlude.GetComponent<InterludeController>().pause();
-					this.launchTutoStep(3);
-					this.blockFury = false;
-					this.hasStep3 = true;
-				}
-			}
-		}
-		
+
 		if(this.hasFightStarted){
 			this.hideTargets();
-			hasMoved = false ;
-			hasPlayed = false ;
+			bool hasMoved = false ;
+			bool hasPlayed = false ;
 			
 			if (this.getCard(nextPlayingCard).isSniperActive()){
 				hasMoved = true ;
@@ -964,7 +967,6 @@ public class GameView : MonoBehaviour
 				hasMoved = true ;
 			}
 		
-			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
 			this.getCard(nextPlayingCard).setHasMoved(hasMoved);
 			this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
 		}
@@ -972,7 +974,6 @@ public class GameView : MonoBehaviour
 			this.hasFightStarted = true ;
 		}
 		this.changeCurrentClickedCard(nextPlayingCard) ;
-		yield break ; 
 	}
 	
 	public IEnumerator launchFury(){
