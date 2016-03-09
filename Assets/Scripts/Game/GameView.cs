@@ -909,18 +909,36 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-
-		if (!this.getCurrentCard().isMine){
-			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+		if(!this.hasFightStarted){
+			this.changePlayer();
+			if (this.getCurrentCard().isMine){
+				this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+			}
+			else{
+				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					if(!this.hasStep3){
+						interlude.GetComponent<InterludeController>().pause();
+						this.launchTutoStep(3);
+						this.blockFury = false;
+						this.hasStep3 = true;
+					}
+				}
+			}
 		}
 		else{
-			this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
-			if(ApplicationModel.player.ToLaunchGameTutorial){
-				if(!this.hasStep3){
-					interlude.GetComponent<InterludeController>().pause();
-					this.launchTutoStep(3);
-					this.blockFury = false;
-					this.hasStep3 = true;
+			if (!this.getCurrentCard().isMine){
+				this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+			}
+			else{
+				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					if(!this.hasStep3){
+						interlude.GetComponent<InterludeController>().pause();
+						this.launchTutoStep(3);
+						this.blockFury = false;
+						this.hasStep3 = true;
+					}
 				}
 			}
 		}
@@ -969,9 +987,6 @@ public class GameView : MonoBehaviour
 		
 			this.getCard(nextPlayingCard).setHasMoved(hasMoved);
 			this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
-		}
-		else{
-			this.hasFightStarted = true ;
 		}
 		this.changeCurrentClickedCard(nextPlayingCard) ;
 	}

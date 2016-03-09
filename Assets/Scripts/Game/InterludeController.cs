@@ -95,13 +95,6 @@ public class InterludeController : MonoBehaviour
 		}
 		
 		if(this.time>4f*this.animationTime){
-			this.isRunning = false ;
-			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
-
 			if(!isEndTurn){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
@@ -129,33 +122,40 @@ public class InterludeController : MonoBehaviour
 						}
 					}
 				}
-				if(!GameView.instance.deads.Contains(GameView.instance.getCurrentPlayingCard())){
-					GameView.instance.recalculateDestinations();
-					GameView.instance.removeDestinations();
-					GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
-				
-					if(ApplicationModel.player.ToLaunchGameTutorial){
-						if(!GameView.instance.getCurrentCard().isMine){
-							StartCoroutine(GameView.instance.launchIABourrin());
-						}
-					}
-					if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
-						StartCoroutine(GameView.instance.launchFury());
-					}
-					GameView.instance.runningSkill = -1;
 
-					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-						GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
-						GameView.instance.updateActionStatus();
-					}
-					else{
-						GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
-						GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
-						GameView.instance.getPassZoneController().show(false);
-						GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
-						GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+				if(GameView.instance.hasFightStarted){
+					GameView.instance.changePlayer();
+				}
+				else{
+					GameView.instance.hasFightStarted = true ;
+				}
+
+				GameView.instance.recalculateDestinations();
+				GameView.instance.removeDestinations();
+				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
+			
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					if(!GameView.instance.getCurrentCard().isMine){
+						StartCoroutine(GameView.instance.launchIABourrin());
 					}
 				}
+				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+					StartCoroutine(GameView.instance.launchFury());
+				}
+				GameView.instance.runningSkill = -1;
+
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+					GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
+					GameView.instance.updateActionStatus();
+				}
+				else{
+					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
+					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
+					GameView.instance.getPassZoneController().show(false);
+					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
+					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+				}
+				
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
 					if(ApplicationModel.player.ToLaunchGameTutorial){
 						if(!GameView.instance.hasStep2){
@@ -170,6 +170,12 @@ public class InterludeController : MonoBehaviour
 			}
 
 			GameView.instance.isFreezed = false ;
+			this.isRunning = false ;
+			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		}
 		else if(this.time>3f*this.animationTime){
 			Vector3 position ;
