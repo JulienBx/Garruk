@@ -910,7 +910,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 
-		if (this.getCard(nextPlayingCard).isMine){
+		if (!this.getCurrentCard().isMine){
 			this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
 		}
 		else{
