@@ -249,25 +249,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.backOfficeController.AddComponent<BackOfficeStoreController>();
 		this.backOfficeController.GetComponent<BackOfficeStoreController>().initialize();
 	}
-	public void InitializePurchasing() 
-	{
-	    if (IsInitialized())
-	    {
-	        return;
-	    }
-	    
-	   	var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-
-	    for(int i=0;i<model.productList.Count;i++)
-	    {
-			builder.AddProduct(model.productList[i].ProductID, ProductType.Consumable, new IDs(){{ model.productList[i].ProductNameApple,AppleAppStore.Name },{ model.productList[i].ProductNameGooglePlay,GooglePlay.Name },});
-	    }
-	    UnityPurchasing.Initialize(this, builder);
-	}
-	private bool IsInitialized()
-	{
-   		return m_StoreController != null && m_StoreExtensionProvider != null;
-	}
 	private void initializeScene()
 	{
 		this.packsBlock = Instantiate (this.blockObject) as GameObject;
@@ -352,8 +333,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		yield return(StartCoroutine(this.model.initializeStore()));
 		if (m_StoreController == null)
        	{
-       		InitializePurchasing();
+       		InitializeMobilePurchasing();
         }
+        this.initializeDesktopPurchasing();
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -1221,6 +1203,25 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		return this.sceneCamera.GetComponent<Camera>();
 	}
+	public void InitializeMobilePurchasing() 
+	{
+	    if (IsInitialized())
+	    {
+	        return;
+	    }
+	    
+	   	var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+
+	    for(int i=0;i<model.productList.Count;i++)
+	    {
+			builder.AddProduct(model.productList[i].ProductID, ProductType.Consumable, new IDs(){{ model.productList[i].ProductNameApple,AppleAppStore.Name },{ model.productList[i].ProductNameGooglePlay,GooglePlay.Name },});
+	    }
+	    UnityPurchasing.Initialize(this, builder);
+	}
+	private bool IsInitialized()
+	{
+   		return m_StoreController != null && m_StoreExtensionProvider != null;
+	}
 	public string getProductsPrice(int id)
 	{
 		Product product = m_StoreController.products.WithID(model.productList[this.productsDisplayed[id]].ProductID);
@@ -1314,6 +1315,11 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing this reason with the user.
 	    Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}",product.definition.storeSpecificId, failureReason));
 	    BackOfficeController.instance.hideLoadingScreen();
+	}
+	public void initializeDesktopPurchasing()
+	{
+		
+
 	} 
 	#region TUTORIAL FUNCTIONS
 
