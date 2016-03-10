@@ -37,6 +37,7 @@ public class Player : User
 	private string URLLostLogin;
 	private string URLSentNewEmail;
 	private string URLLinkAccount;
+	private string URLGetPurchasingToken;
 	private int TotalNbResultLimit;
 	public string Error;
 	public string Mail;
@@ -81,6 +82,7 @@ public class Player : User
 	public bool ToChangePassword;
 	public Deck MyDeck;
 	public int PercentageLooser;
+	public string DesktopPurchasingToken;
 
 	public Player()
 	{
@@ -128,6 +130,7 @@ public class Player : User
 		this.URLLostLogin=ApplicationModel.host+"lost_login.php";
 		this.URLSentNewEmail = ApplicationModel.host+"sent_newemail.php";
 		this.URLLinkAccount = ApplicationModel.host+"link_account.php";
+		this.URLGetPurchasingToken = ApplicationModel.host+"/payment/getToken.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -852,6 +855,36 @@ public class Player : User
 			{
 				Error = "";
 			}					
+		}
+	}
+	public IEnumerator getPurchasingToken()
+	{	
+		WWWForm form = new WWWForm();
+		form.AddField("myform_hash", ApplicationModel.hash);
+		form.AddField("myform_id", Id.ToString());
+		form.AddField("myform_nick", Username);
+		form.AddField("myform_email", Mail);
+		
+		WWW w = new WWW(URLGetPurchasingToken, form);
+		yield return w;
+		
+		if (w.error != null)
+		{
+			Error = w.error;
+			Debug.Log(Error);
+		} 
+		else
+		{
+			if (w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				Error = errors [1];
+				Debug.Log(Error);
+			} 
+			else
+			{
+				this.DesktopPurchasingToken=w.text;
+			}							
 		}
 	}
 	#endregion

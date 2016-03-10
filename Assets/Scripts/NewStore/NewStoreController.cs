@@ -331,11 +331,17 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
-		if (m_StoreController == null)
-       	{
-       		InitializeMobilePurchasing();
-        }
-        this.initializeDesktopPurchasing();
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			if (m_StoreController == null)
+	       	{
+	       		InitializeMobilePurchasing();
+	        }
+		}
+		else
+		{
+			this.initializeDesktopPurchasing();
+		}
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -1318,9 +1324,14 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void initializeDesktopPurchasing()
 	{
-		
-
-	} 
+		StartCoroutine(getPurchasingToken());
+	}
+	public IEnumerator getPurchasingToken()
+	{
+		yield return StartCoroutine(ApplicationModel.player.getPurchasingToken());
+		print(ApplicationModel.player.DesktopPurchasingToken);
+	}
+	  
 	#region TUTORIAL FUNCTIONS
 
 	public Vector3 returnBuyPackButtonPosition(int id)
