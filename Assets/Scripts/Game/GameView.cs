@@ -419,8 +419,7 @@ public class GameView : MonoBehaviour
 
 							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
 							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
-							hasFoundMine = true;
-							
+							hasFoundMine = true;	
 						}
 					}	
 				}
@@ -574,8 +573,6 @@ public class GameView : MonoBehaviour
 				this.hideTuto();
 			}
 		}
-		this.draggingCard=characterID;
-		this.getPlayingCardController(characterID).moveForward();
 	}
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
@@ -1994,6 +1991,7 @@ public class GameView : MonoBehaviour
 					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
 				}
 				else{
+
 				}
 			}
 		}

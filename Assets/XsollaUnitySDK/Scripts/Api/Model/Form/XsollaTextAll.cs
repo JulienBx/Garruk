@@ -52,7 +52,7 @@ namespace Xsolla {
 			public string pref { get; private set; }     	//"pref":"",
 			public string parameter { get; private set; }	//"parameter":""
 
-			public Attributes(string newKey, string newPref, string newParameter) {
+			public Attributes(string newKey, string newPref, string newParameter):this (){
 				key = newKey;
 				pref = newPref;
 				parameter = newParameter;

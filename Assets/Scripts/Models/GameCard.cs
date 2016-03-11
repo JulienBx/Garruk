@@ -288,36 +288,30 @@ public class GameCard : Card
 
 	public List<Modifyer> getEffects(){
 		List<Modifyer> effects = new List<Modifyer>();
+
 		for(int i = 0 ; i < states.Count;i++){
 			effects.Add(states[i]);
 		}
 		for(int i = 0 ; i < attackModifyers.Count;i++){
-			effects.Add(attackModifyers[i]);
-			effects[effects.Count-1].type = 1;
+			effects.Add(new Modifyer(attackModifyers[i].amount, -1, 1, attackModifyers[i].title, attackModifyers[i].description));
 		}
 		for(int i = 0 ; i < pvModifyers.Count;i++){
-			effects.Add(pvModifyers[i]);
-			effects[effects.Count-1].type = 0;
+			effects.Add(new Modifyer(pvModifyers[i].amount, -1, 0, pvModifyers[i].title, pvModifyers[i].description));
 		}
 		for(int i = 0 ; i < moveModifyers.Count;i++){
-			effects.Add(moveModifyers[i]);
-			effects[effects.Count-1].type = 2;
+			effects.Add(new Modifyer(moveModifyers[i].amount, -1, 2, moveModifyers[i].title, moveModifyers[i].description));
 		}
 		for(int i = 0 ; i < esquiveModifyers.Count;i++){
-			effects.Add(esquiveModifyers[i]);
-			effects[effects.Count-1].type = 3;
+			effects.Add(new Modifyer(esquiveModifyers[i].amount, -1, 3, esquiveModifyers[i].title, esquiveModifyers[i].description));
 		}
 		for(int i = 0 ; i < magicalEsquiveModifyers.Count;i++){
-			effects.Add(magicalEsquiveModifyers[i]);
-			effects[effects.Count-1].type = 4;
+			effects.Add(new Modifyer(magicalEsquiveModifyers[i].amount, -1, 4, magicalEsquiveModifyers[i].title, magicalEsquiveModifyers[i].description));
 		}
 		for(int i = 0 ; i < bouclierModifyers.Count;i++){
-			effects.Add(bouclierModifyers[i]);
-			effects[effects.Count-1].type = 5;
+			effects.Add(new Modifyer(bouclierModifyers[i].amount, -1, 5, bouclierModifyers[i].title, bouclierModifyers[i].description));
 		}
 		for(int i = 0 ; i < magicalBonusModifyers.Count;i++){
-			effects.Add(magicalBonusModifyers[i]);
-			effects[effects.Count-1].type = 6;
+			effects.Add(new Modifyer(magicalBonusModifyers[i].amount, -1, 6, magicalBonusModifyers[i].title, magicalBonusModifyers[i].description));
 		}
 		return effects ;
 	}
@@ -335,7 +329,7 @@ public class GameCard : Card
 	public void removeLeaderEffect(){
 		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
 		{
-			Debug.Log("ATTACK "+attackModifyers[i].type);
+			Debug.Log("ATTACK "+attackModifyers[i].type+" - "+attackModifyers[i].title);
 			if(attackModifyers[i].type==76){
 				attackModifyers.RemoveAt(i);
 			}
