@@ -169,7 +169,7 @@ public class WordingSkills
 		probas.Add(100);   
 		//8 - Pistolero
 		idSkills.Add(8);
-		names.Add(new string[]{"Pistolero",""}); 
+		names.Add(new string[]{"Kunaï","Kunaï"}); 
 		descriptions.Add(new string[]{"Inflige [1-7] dégats à un ennemi distant aléatoire","Inflicts [1-7] damages points to a random distant enemy"}); 
 		descriptions.Add(new string[]{"Inflige [2-9] dégats à un ennemi distant aléatoire","Inflicts [2-9] damages points to a random distant enemy"}); 
 		descriptions.Add(new string[]{"Inflige [3-11] dégats à un ennemi distant aléatoire","Inflicts [3-11] damages points to a random distant enemy"}); 

@@ -335,6 +335,7 @@ public class GameCard : Card
 	public void removeLeaderEffect(){
 		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
 		{
+			Debug.Log("ATTACK "+attackModifyers[i].type);
 			if(attackModifyers[i].type==76){
 				attackModifyers.RemoveAt(i);
 			}

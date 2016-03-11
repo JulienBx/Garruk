@@ -402,11 +402,12 @@ public class GameView : MonoBehaviour
 				if(this.getCard(i).isMine){
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
+							print("Je met en leader");
 							level = this.getCard(i).getSkills()[0].Power;
 							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
-		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
+									print(j);
 									attackValue = level+2;
 									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
@@ -426,11 +427,13 @@ public class GameView : MonoBehaviour
 				else{
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
+							print("Je met en leader");
 							level = this.getCard(i).getSkills()[0].Power;
 							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
 		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
+									print(j);
 									attackValue = level+2;
 									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
@@ -1305,8 +1308,6 @@ public class GameView : MonoBehaviour
 		this.isMobile = (this.widthScreen<this.heightScreen);
 
 		this.tileScale = Mathf.Min (realwidth/6.05f, 8f / this.boardHeight);
-		print(tileScale);
-		print(realwidth/6.05f);
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
 		{
 			position = new Vector3(0, (-4*tileScale) + tileScale * i, -1f);
@@ -1970,6 +1971,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void removeLeaderEffect(int target, bool b){
+		print("Target "+target);
 		if(b){
 			for(int j = 0 ; j < this.nbCards ; j++){
 				if(this.getCard(j).isMine && target!=j){
@@ -1983,12 +1985,15 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			for(int j = 0 ; j < this.nbCards ; j++){
+				print("Je teste "+j);
 				if(!this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Leader\nPerd ses bonus", 0);
 					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
+				}
+				else{
 				}
 			}
 		}
