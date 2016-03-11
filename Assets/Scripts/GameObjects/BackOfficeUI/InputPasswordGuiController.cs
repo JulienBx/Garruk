@@ -40,19 +40,22 @@ public class InputPasswordGuiController : InterfaceController
 	}
 	void OnGUI()
 	{
-		GUILayout.BeginArea (rect);
+		if(!BackOfficeController.instance.getIsLoadingScreenDisplayed())
 		{
-			GUILayout.FlexibleSpace();
-			GUI.SetNextControlName("PasswordField");
-			text = GUILayout.PasswordField(text,'*',popUpGUISkin.textField);
-			if(this.toFocus)
+			GUILayout.BeginArea (rect);
 			{
-				GUI.FocusControl("PasswordField");
-				this.toFocus=false;
+				GUILayout.FlexibleSpace();
+				GUI.SetNextControlName("PasswordField");
+				text = GUILayout.PasswordField(text,'*',popUpGUISkin.textField);
+				if(this.toFocus)
+				{
+					GUI.FocusControl("PasswordField");
+					this.toFocus=false;
+				}
+				GUILayout.FlexibleSpace();
 			}
-			GUILayout.FlexibleSpace();
+			GUILayout.EndArea ();
 		}
-		GUILayout.EndArea ();
 		Event e = Event.current;
 		if (e.isKey && e.type == EventType.KeyUp && GUI.GetNameOfFocusedControl()=="PasswordField")
 		{

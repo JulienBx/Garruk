@@ -458,6 +458,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(isLoadingScreenDisplayed)
 		{
+			this.displayLoadingScreenButton (false);
 			this.loadingScreen.SetActive(false);
 			this.isLoadingScreenDisplayed=false;
 			if(this.isTutorialLoaded)
@@ -649,6 +650,10 @@ public class BackOfficeController : MonoBehaviour
 			ApplicationModel.player.IsInviting=false;
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 		}
+	}
+	public bool getIsLoadingScreenDisplayed()
+	{
+		return this.isLoadingScreenDisplayed;
 	}
 	#region TUTORIAL FUNCTIONS
 

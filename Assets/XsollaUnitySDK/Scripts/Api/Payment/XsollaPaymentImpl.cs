@@ -529,7 +529,7 @@ namespace Xsolla
 			screenRes = Screen.width + "x" + Screen.height;
 			
 			#if UNITY_IPHONE
-			clientID = iPhoneSettings.uniqueIdentifier;
+			clientID = SystemInfo.deviceUniqueIdentifier;
 			#else
 			clientID = SystemInfo.deviceUniqueIdentifier;
 			#endif
