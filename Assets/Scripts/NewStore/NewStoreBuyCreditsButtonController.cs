@@ -5,7 +5,14 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		NewStoreController.instance.displayProductsPopUp ();
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			NewStoreController.instance.displayProductsPopUp ();
+		}
+		else
+		{
+			NewStoreController.instance.runDesktopPurchasing();
+		}
 	}
 	public override void setIsActive(bool value)
 	{
