@@ -1585,7 +1585,7 @@ public class newMyGameController : MonoBehaviour
 	private IEnumerator createNewDeck()
 	{
 		string name = this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().getInputText ();
-		string error = this.checkDeckName(name);
+		string error = this.checkDeckName(name, true);
 		if(error=="")
 		{
 			this.hideNewDeckPopUp();
@@ -1614,7 +1614,7 @@ public class newMyGameController : MonoBehaviour
 		string newName = this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().getInputText ();
 		if(model.decks[this.deckDisplayed].Name!=newName)
 		{
-			string error=this.checkDeckName(newName);
+			string error=this.checkDeckName(newName, false);
 			this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController>().setError(error);
 			if(error=="")
 			{
@@ -1682,7 +1682,7 @@ public class newMyGameController : MonoBehaviour
 			}
 		}
 	}
-	public string checkDeckName(string name)
+	public string checkDeckName(string name, bool isNewDeck)
 	{
 		if(name.Length>12)
 		{
@@ -1694,7 +1694,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		for(int i=0;i<model.decks.Count;i++)
 		{
-			if(model.decks[i].Name==name && i!=this.deckDisplayed)
+			if(model.decks[i].Name==name && (isNewDeck || i!=this.deckDisplayed))
 			{
 				return WordingDeck.getReference(9);
 			}

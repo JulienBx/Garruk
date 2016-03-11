@@ -40,20 +40,22 @@ public class InputTextGuiController : InterfaceController
 	}
 	void OnGUI()
 	{
-		GUILayout.BeginArea (rect);
+		if(!BackOfficeController.instance.getIsLoadingScreenDisplayed())
 		{
-			GUILayout.FlexibleSpace();
-			GUI.SetNextControlName("TextField");
-			text = GUILayout.TextField(text,popUpGUISkin.textField);
-			if(this.toFocus)
+			GUILayout.BeginArea (rect);
 			{
-				GUI.FocusControl("TextField");
-				this.toFocus=false;
+				GUILayout.FlexibleSpace();
+				GUI.SetNextControlName("TextField");
+				text = GUILayout.TextField(text,popUpGUISkin.textField);
+				if(this.toFocus)
+				{
+					GUI.FocusControl("TextField");
+					this.toFocus=false;
+				}
+				GUILayout.FlexibleSpace();
 			}
-			GUILayout.FlexibleSpace();
+			GUILayout.EndArea ();
 		}
-		GUILayout.EndArea ();
-
 		Event e = Event.current;
 		if (e.isKey && e.type == EventType.KeyUp && GUI.GetNameOfFocusedControl()=="TextField")
 		{
