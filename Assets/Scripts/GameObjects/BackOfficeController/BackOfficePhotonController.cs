@@ -94,6 +94,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	void OnDisconnectedFromPhoton()
 	{
+		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
 	}
 	

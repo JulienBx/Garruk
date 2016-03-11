@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine.Purchasing;
 using TMPro;
+using Xsolla;
 
 public class NewStoreController : MonoBehaviour, IStoreListener
 {
@@ -331,11 +332,17 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
-		if (m_StoreController == null)
-       	{
-       		InitializeMobilePurchasing();
-        }
-        this.initializeDesktopPurchasing();
+		if(ApplicationDesignRules.isMobileDevice)
+		{
+			if (m_StoreController == null)
+	       	{
+	       		InitializeMobilePurchasing();
+	        }
+		}
+		else
+		{
+			this.initializeDesktopPurchasing();
+		}
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -1294,7 +1301,26 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 	    Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
 		this.initializeProducts();
-	} 
+	}
+	public void runDesktopPurchasing()
+	{
+		XsollaSDK sdk = this.gameObject.GetComponent<XsollaSDK>();
+		if(sdk!=null)
+		{
+			XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
+			jsonGenerator.settings.mode="sandbox";
+			jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
+			sdk.CreatePaymentForm(jsonGenerator,Success,Failure);
+		}
+	}
+	void Success (XsollaResult result)
+	{
+		Debug.Log("Sucess");
+	}
+	void Failure (XsollaError error)
+	{
+		Debug.Log("Failure");
+	}
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
 	{
 	    // A consumable product has been purchased by this user.
@@ -1318,9 +1344,14 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void initializeDesktopPurchasing()
 	{
-		
-
-	} 
+		StartCoroutine(getPurchasingToken());
+	}
+	public IEnumerator getPurchasingToken()
+	{
+		yield return StartCoroutine(ApplicationModel.player.getPurchasingToken());
+		print(ApplicationModel.player.DesktopPurchasingToken);
+	}
+	  
 	#region TUTORIAL FUNCTIONS
 
 	public Vector3 returnBuyPackButtonPosition(int id)
