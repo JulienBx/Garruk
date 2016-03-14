@@ -199,8 +199,6 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void moveForward(){
-		print("Je put forward");
-			
 		Transform t = gameObject.transform;
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
@@ -223,7 +221,6 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void moveBackward(){
-		print("Je put backward");
 		Transform t = gameObject.transform;
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 22 ;

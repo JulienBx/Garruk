@@ -70,10 +70,15 @@ public class PassController : MonoBehaviour
 	}
 	
 	public void OnMouseEnter(){
-		if (this.launchabilityText.Length<2){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+		if(GameView.instance.isMobile){
+
 		}
-		this.showDescription(true);
+		else{
+			if (this.launchabilityText.Length<2){
+				gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			}
+			this.showDescription(true);
+		}
 	}
 
 	public void showDescription(bool b){

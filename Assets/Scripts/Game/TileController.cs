@@ -376,6 +376,9 @@ public class TileController : GameObjectController
 					if(GameView.instance.getCard(this.characterID).isMine && (!GameView.instance.hasFightStarted ||(GameView.instance.getCurrentPlayingCard()==this.characterID && !GameView.instance.getCard(this.characterID).hasMoved))){
 						GameView.instance.clickCharacter(this.characterID);
 					}
+					else if(GameView.instance.isMobile){
+						GameView.instance.clickMobileCharacter(this.characterID);
+					}
 				}
 				else{
 					if(this.isDisplayingTarget){
@@ -395,32 +398,44 @@ public class TileController : GameObjectController
 	public void OnMouseUp()
 	{
 		if(this.characterID!=-1 && GameView.instance.draggingCard==this.characterID){
-			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			int x=-1, y=-1 ;
-			if(GameView.instance.getIsFirstPlayer()){
-				x = Mathf.FloorToInt(vec.x+3);
-				y = Mathf.FloorToInt(vec.y+4);
-			}
-			else{
-				x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x+3);
-				y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y+4);
-			}
-			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
-				Tile t = new Tile(x,y);
-				if(!GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==0){
-					GameController.instance.clickDestination(t, this.characterID, false);
-				}
-				else if(GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==1){
-					GameController.instance.clickDestination(t, this.characterID, false);
+			if(GameView.instance.timeDragging>0.2f){
+				Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				int x=-1, y=-1 ;
+				if(GameView.instance.getIsFirstPlayer()){
+					x = Mathf.FloorToInt(vec.x+3);
+					y = Mathf.FloorToInt(vec.y+4);
 				}
 				else{
-					GameView.instance.dropCharacter(characterID); 
+					x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x+3);
+					y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y+4);
+				}
+				if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
+					Tile t = new Tile(x,y);
+					if(!GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==0){
+						GameController.instance.clickDestination(t, this.characterID, false);
+					}
+					else if(GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==1){
+						GameController.instance.clickDestination(t, this.characterID, false);
+					}
+					else{
+						GameView.instance.dropCharacter(this.characterID); 
+					}
+				}
+				else{
+					GameView.instance.dropCharacter(this.characterID);
 				}
 			}
 			else{
 				GameView.instance.dropCharacter(this.characterID);
+				if(GameView.instance.isMobile){
+					GameView.instance.mobileClick(this.characterID);
+				}
 			}
 		}
+		else if(GameView.instance.timeDragging>=0){
+			GameView.instance.mobileClick(this.characterID);
+		}
+		GameView.instance.timeDragging = -1f;
 	}
 
 	public void OnMouseExit()

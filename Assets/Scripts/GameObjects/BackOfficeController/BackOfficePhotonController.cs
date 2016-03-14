@@ -70,8 +70,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	[RPC]
 	void AddPlayerToList(int id, string loginName)
 	{
-		print(loginName+" se connecte");
-		
 		if (ApplicationModel.player.Username == loginName)
 		{
 			ApplicationModel.myPlayerName=loginName;

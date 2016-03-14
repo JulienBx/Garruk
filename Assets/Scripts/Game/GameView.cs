@@ -107,6 +107,8 @@ public class GameView : MonoBehaviour
 
 	public bool isMobile;
 	public float stepButton;
+	public float timeDragging = -1 ;
+	public int clickedCharacterId=-1;
 	
 	void Awake()
 	{
@@ -402,12 +404,10 @@ public class GameView : MonoBehaviour
 				if(this.getCard(i).isMine){
 					if(!hasFoundMine){
 						if(this.getCard(i).isLeader()){
-							print("Je met en leader");
 							level = this.getCard(i).getSkills()[0].Power;
 							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(this.getCard(j).isMine && i!=j){
-									print(j);
 									attackValue = level+2;
 									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
@@ -426,13 +426,11 @@ public class GameView : MonoBehaviour
 				else{
 					if(!hasFoundHis){
 						if(this.getCard(i).isLeader()){
-							print("Je met en leader");
 							level = this.getCard(i).getSkills()[0].Power;
 							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
 		
 							for(int j = 0 ; j < this.nbCards ; j++){
 								if(!this.getCard(j).isMine && i!=j){
-									print(j);
 									attackValue = level+2;
 									pvValue = 2*level+5;
 									this.getCard(j).attackModifyers.Add(new Modifyer(attackValue, -1, 76, "Leader", "+"+attackValue+"ATK. Permanent"));
@@ -561,6 +559,22 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
+
+	public void mobileClick(int characterID){
+		if (this.getPlayingCardController(characterID).getIsMine()){	
+			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+		}
+		else{
+			this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+		}
+		
+		if(this.hasFightStarted && this.hoveringZone==-1){
+			this.removeDestinations();
+			if(!this.getCard(characterID).isSniperActive()){
+				this.displayDestinations(characterID);
+			}
+		}
+	}
 	
 	public void clickCharacter(int characterID){
 		Tile origine = this.getPlayingCardController(characterID).getTile();
@@ -573,6 +587,15 @@ public class GameView : MonoBehaviour
 				this.hideTuto();
 			}
 		}
+		this.clickedCharacterId=characterID;
+		this.draggingCard = this.clickedCharacterId;
+		this.getPlayingCardController(draggingCard).moveForward();
+		this.timeDragging=0f;
+	}
+
+	public void clickMobileCharacter(int characterID){
+		this.clickedCharacterId=characterID;
+		this.timeDragging=0f;
 	}
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
@@ -622,6 +645,20 @@ public class GameView : MonoBehaviour
 
 	public void dropCharacter(int characterID){
 		this.draggingCard=-1;
+		Tile t = this.getPlayingCardTile(characterID);
+		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+		if(!hasFightStarted){
+			if(this.getPlayingCardController(characterID).getIsMine()){
+				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
+			}
+		}
+		this.getPlayingCardController(characterID).moveBackward();
+		if(GameView.instance.hasFightStarted){
+			this.updateActionStatus();
+		}
+	}
+
+	public void dropMobileCharacter(int characterID){
 		Tile t = this.getPlayingCardTile(characterID);
 		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
 		if(!hasFightStarted){
@@ -1115,6 +1152,10 @@ public class GameView : MonoBehaviour
 			}
 		}
 
+		if(this.timeDragging>=0){
+			timeDragging+=Time.deltaTime;
+		}
+
 		if(this.draggingCard!=-1){
 			Vector3 mousePos = Input.mousePosition;
 			this.getPlayingCardController(draggingCard).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
@@ -1303,6 +1344,14 @@ public class GameView : MonoBehaviour
 		Transform tempTransform;
 		this.realwidth = 10f*this.widthScreen/this.heightScreen;
 		this.isMobile = (this.widthScreen<this.heightScreen);
+		if(this.isMobile){
+			this.myHoveredRPC.GetComponent<MyHoveredCardController>().activateCollider(true);
+			this.hisHoveredRPC.GetComponent<HisHoveredCardController>().activateCollider(true);
+		}
+		else{
+			this.myHoveredRPC.GetComponent<MyHoveredCardController>().activateCollider(false);
+			this.hisHoveredRPC.GetComponent<HisHoveredCardController>().activateCollider(false);
+		}
 
 		this.tileScale = Mathf.Min (realwidth/6.05f, 8f / this.boardHeight);
 		for (int i = 0; i < this.horizontalBorders.Length; i++)
@@ -1376,7 +1425,7 @@ public class GameView : MonoBehaviour
 
 		tempTransform = this.passZone.transform;
 		position = tempTransform.position ;
-		position.x = Mathf.Min(2.5f, 0.5f*this.realwidth-0.5f);
+		position.x = Mathf.Min(2.2f, 0.5f*this.realwidth-0.8f);
 		tempTransform.position = position;
 	
 		if(this.isMobile){
@@ -2732,6 +2781,7 @@ public class GameView : MonoBehaviour
 
 	public void clickSkillButton(int i){
 		this.draggingSkillButton=i;
+
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showCollider(false);
 	}
 

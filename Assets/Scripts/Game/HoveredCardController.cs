@@ -27,12 +27,17 @@ public class HoveredCardController : MonoBehaviour
 		this.isGettingBigger = true ;
 		this.toStop = false ;
 	}
-	
+
+	public virtual void activateCollider(bool b){
+		gameObject.transform.GetComponent<BoxCollider>().enabled = b ;
+	}
+
 	public void setStatus(int i){
 		this.status = i ;
 	}
 	
 	public virtual void setNextDisplayedCharacter(int i, GameCard c){
+		print("Je set "+i);
 		if(this.nextDisplayedCharacter!=i){
 			this.nextDisplayedCharacter = i;
 			this.nextDisplayedCard = c;
@@ -147,6 +152,8 @@ public class HoveredCardController : MonoBehaviour
 	}
 	
 	public virtual void empty(){
+		print("Je empty ");
+
 		this.nextDisplayedCharacter = -1;
 		if(this.status==0){
 			this.status = -1;
@@ -215,6 +222,17 @@ public class HoveredCardController : MonoBehaviour
 	public void toRun(){
 		if(status==0 && this.currentCharacter==GameView.instance.getCurrentPlayingCard()){
 			this.run (); 
+		}
+	}
+
+	public void OnMouseDown()
+	{
+		this.empty();
+		GameView.instance.removeDestinations();
+		if(GameView.instance.hasFightStarted){
+			if(!GameView.instance.getCurrentCard().hasMoved){
+				GameView.instance.displayDestinations(GameView.instance.getCurrentPlayingCard());
+			}
 		}
 	}
 }

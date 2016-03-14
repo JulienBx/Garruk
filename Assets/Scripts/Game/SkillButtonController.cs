@@ -124,9 +124,10 @@ public class SkillButtonController : MonoBehaviour
 			}
 			else{
 				GameView.instance.runningSkill = this.skill.Id ;
+				print("Je red "+this.id);
+				gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 				GameView.instance.clickSkillButton(this.id);
 			}
-
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
 			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 			GameSkills.instance.getSkill(this.skill.Id).launch();
@@ -168,6 +169,7 @@ public class SkillButtonController : MonoBehaviour
 				GameView.instance.dropSkillButton(this.id);
 				GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 			}
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 		}
 	}
 
