@@ -140,6 +140,9 @@ public class GameSkill
 			else if(this.ciblage==9){
 				launchability = GameView.instance.canLaunchAdjacentUnits();
 			}
+			else if(this.ciblage==10){
+				launchability = GameView.instance.canLaunchMyUnit();
+			}
 			else{
 				launchability = "";
 			}

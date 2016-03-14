@@ -234,6 +234,12 @@ public class TileController : GameObjectController
 		if(GameView.instance.isMobile){
 			if(this.characterID != -1 && this.isDisplayingTarget && GameView.instance.draggingSkillButton!=-1){
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+				if(this.tile.x==0){
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
+				}
+				else if(this.tile.x==GameView.instance.boardWidth-1){
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+				}
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 			}
 		}

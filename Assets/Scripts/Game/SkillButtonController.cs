@@ -100,20 +100,25 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseExit(){
-		if (this.launchabilityText.Length<2){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-		}
 		if(GameView.instance.isMobile){
-			if(!GameView.instance.getSkillZoneController().isRunningSkill){
-				GameView.instance.hideTargets();
-				this.showDescription(false);
-			}
+
 		}
 		else{
-			if(!GameView.instance.getSkillZoneController().isRunningSkill){
-				GameView.instance.hideTargets();
+			if (this.launchabilityText.Length<2){
+				gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 			}
-			this.showDescription(false);
+			if(GameView.instance.isMobile){
+				if(!GameView.instance.getSkillZoneController().isRunningSkill){
+					GameView.instance.hideTargets();
+					this.showDescription(false);
+				}
+			}
+			else{
+				if(!GameView.instance.getSkillZoneController().isRunningSkill){
+					GameView.instance.hideTargets();
+				}
+				this.showDescription(false);
+			}
 		}
 	}
 	
@@ -173,9 +178,9 @@ public class SkillButtonController : MonoBehaviour
 		}
 	}
 
-	public void setPosition(Vector3 p){
+	public void setPosition2(Vector3 p){
 		Vector3 q;
-		q.x = p.x-(1-Mathf.Min(Mathf.Max((p.x+3),1),2*GameView.instance.realwidth-1));
+		q.x = p.x;
 		q.y = 0.9f;
 		q.z = p.z;
 		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
@@ -183,8 +188,22 @@ public class SkillButtonController : MonoBehaviour
 		p.z = -0.5f;
 		p.x -= GameView.instance.stepButton;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+	}
 
+	public void shiftRight(){
+		Vector3 q;
+		q.x = 0.5f;
+		q.y = 0.9f;
+		q.z = 0;
+		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
+	}
 
+	public void shiftLeft(){
+		Vector3 q;
+		q.x = -0.5f;
+		q.y = 0.9f;
+		q.z = 0;
+		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
 	}
 
 	public void showCollider(bool b){

@@ -1152,6 +1152,11 @@ public class GameView : MonoBehaviour
 			}
 		}
 
+		if(this.draggingSkillButton!=-1){
+			Vector3 mousePos = Input.mousePosition;
+			this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition2(Camera.main.ScreenToWorldPoint(mousePos));
+		}
+
 		if(this.timeDragging>=0){
 			timeDragging+=Time.deltaTime;
 		}
@@ -1159,11 +1164,6 @@ public class GameView : MonoBehaviour
 		if(this.draggingCard!=-1){
 			Vector3 mousePos = Input.mousePosition;
 			this.getPlayingCardController(draggingCard).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
-		}
-
-		if(this.draggingSkillButton!=-1){
-			Vector3 mousePos = Input.mousePosition;
-			this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
 		}
 
 		if(anims.Count>0){
@@ -1612,6 +1612,24 @@ public class GameView : MonoBehaviour
 		}
 	}
 
+	public void displayMyUnitTarget(){
+		PlayingCardController pcc;
+		Tile tile ;
+		this.targets = new List<Tile>();
+		
+		for (int i = 0; i < this.nbCards; i++)
+		{
+			pcc = this.getPlayingCardController(i);
+			if (i == this.currentPlayingCard)
+			{
+				tile = this.getPlayingCardTile(i);
+				this.targets.Add(tile);
+				this.getTileController(tile.x,tile.y).displayTarget(true);
+				this.getTileController(tile).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(i));
+			}
+		}
+	}
+
 	public void displayAdjacentUnitsTargets(){
 		List<Tile> neighbourTiles = this.getCharacterImmediateNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 		this.targets = new List<Tile>();
@@ -1895,6 +1913,12 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+		return isLaunchable;
+	}
+
+	public string canLaunchMyUnit()
+	{
+		string isLaunchable = "";
 		return isLaunchable;
 	}
 	
@@ -2490,7 +2514,7 @@ public class GameView : MonoBehaviour
 		}
 		this.getSkillZoneController().showSkillButtons(false);
 		this.hoverTile();
-		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0){
+		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=10){
 			if(GameSkills.instance.getSkill(this.runningSkill).ciblage==6){
 				if(this.getCurrentCard().isMine){
 					this.displaySkillEffect(this.currentPlayingCard,s,1);
@@ -2800,7 +2824,7 @@ public class GameView : MonoBehaviour
 			mousePos = new Vector3(0.5f+stepButton, -4.4f, 0f);
 		}
 
-		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition(mousePos);
+		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition2(mousePos);
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
 		this.draggingSkillButton=-1;
 	}

@@ -29,7 +29,7 @@ public class ApplicationModel
 
 	static ApplicationModel()
 	{
-		host = "https://www.techticalwars.com/"; // local http://localhost/GarrukServer/ 
+		host = "http://54.77.118.214/GarrukServer/"; // local http://localhost/GarrukServer/ 
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
 		volBackOfficeFx=1f;

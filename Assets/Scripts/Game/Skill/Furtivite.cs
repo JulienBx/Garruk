@@ -5,21 +5,22 @@ public class Furtivite : GameSkill
 {
 	public Furtivite()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Furtivité";
-		base.ciblage = 0 ;
-		base.auto = true;
+		base.ciblage = 10 ;
+		base.auto = false;
 	}
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentSkill().Description);
+		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.displayMyUnitTarget();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
+		GameController.instance.applyOn(targetsPCC[0]);
 		GameController.instance.endPlay();
 	}
 	
@@ -35,5 +36,16 @@ public class Furtivite : GameSkill
 
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK\nFurtif", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 9);
+	}
+
+	public override string getTargetText(int target){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int attack = GameView.instance.getCurrentSkill().Power+5;
+
+		string text = "ATK : "+currentCard.getAttack()+" -> "+(currentCard.getAttack()+attack);
+
+		text += "\n\nHIT% : 100";
+		
+		return text ;
 	}
 }
