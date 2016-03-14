@@ -124,6 +124,7 @@ public class NewSkillBookController : MonoBehaviour
 				if(this.helpContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
 					slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			else if(Input.touches[0].deltaPosition.x>15f)
@@ -132,6 +133,7 @@ public class NewSkillBookController : MonoBehaviour
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
 				{
 					slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -163,6 +165,7 @@ public class NewSkillBookController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -180,6 +183,7 @@ public class NewSkillBookController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			mainCameraPosition.x=camerasXPosition;

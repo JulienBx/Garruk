@@ -35,6 +35,7 @@ public class BackOfficeController : MonoBehaviour
 
 	private bool isMenuLoaded;
 	private bool isTutorialLoaded;
+	private bool isSwiping;
 
 	private float speed;
 	private float timer;
@@ -654,6 +655,14 @@ public class BackOfficeController : MonoBehaviour
 	public bool getIsLoadingScreenDisplayed()
 	{
 		return this.isLoadingScreenDisplayed;
+	}
+	public void setIsSwiping(bool value)
+	{
+		this.isSwiping=value;
+	}
+	public bool getIsSwiping()
+	{
+		return this.isSwiping;
 	}
 	#region TUTORIAL FUNCTIONS
 

@@ -139,6 +139,7 @@ public class NewMarketController : MonoBehaviour
 				if(this.marketContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
 					this.slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			else if(Input.touches[0].deltaPosition.x>15f)
@@ -147,6 +148,7 @@ public class NewMarketController : MonoBehaviour
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
 				{
 					this.slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -210,6 +212,7 @@ public class NewMarketController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -227,6 +230,7 @@ public class NewMarketController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			mainCameraPosition.x=camerasXPosition;

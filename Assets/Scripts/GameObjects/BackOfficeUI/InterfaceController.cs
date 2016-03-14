@@ -52,9 +52,9 @@ public class InterfaceController : MonoBehaviour
 			}
 		}
 	}
-	public void OnMouseDown()
+	public void OnMouseUp()
 	{
-		if(isActive)
+		if(isActive && !BackOfficeController.instance.getIsSwiping())
 		{
 			this.mainInstruction();
 		}
