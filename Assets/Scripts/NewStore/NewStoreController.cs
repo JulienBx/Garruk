@@ -120,6 +120,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				if(this.storeDisplayed || this.toSlideLeft)
 				{
 					this.slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			else if(Input.touches[0].deltaPosition.x>15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
@@ -127,6 +128,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				if(this.mainContentDisplayed || this.toSlideRight)
 				{
 					this.slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -192,6 +194,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 					this.mainContentDisplayed=true;
 					lowerCameraPosition.y=this.lowerScrollCameraStandardPosition.y;
 					lowerCameraXPosition=this.lowerScrollCameraStandardPosition.x;
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -203,6 +206,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 					this.toSlideLeft=false;
 					this.storeDisplayed=true;
 					lowerCameraXPosition=camerasXPosition;
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			upperCameraPosition.x=camerasXPosition;

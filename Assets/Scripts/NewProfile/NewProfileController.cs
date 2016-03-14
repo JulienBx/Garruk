@@ -139,6 +139,7 @@ public class NewProfileController : MonoBehaviour
 				if(this.friendsSliderDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
 					this.slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			if(Input.touches[0].deltaPosition.x>15f)
@@ -146,6 +147,7 @@ public class NewProfileController : MonoBehaviour
 				if(this.mainContentDisplayed || this.resultsSliderDisplayed || this.toSlideRight)
 				{
 					this.slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -168,6 +170,7 @@ public class NewProfileController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -185,6 +188,7 @@ public class NewProfileController : MonoBehaviour
 					{
 						this.mainContentDisplayed=true;
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			sceneCameraPosition.x=camerasXPosition;

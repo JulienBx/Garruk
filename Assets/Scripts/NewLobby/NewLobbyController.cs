@@ -82,6 +82,7 @@ public class NewLobbyController : MonoBehaviour
 				if(this.lastResultsDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
 					this.slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			if(Input.touches[0].deltaPosition.x>15f)
@@ -89,6 +90,7 @@ public class NewLobbyController : MonoBehaviour
 				if(this.mainContentDisplayed || this.statsDisplayed || this.toSlideRight)
 				{
 					this.slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -112,6 +114,7 @@ public class NewLobbyController : MonoBehaviour
 						this.mainContentDisplayed=true;
 						this.activeGaugeCamera(true);
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -130,6 +133,7 @@ public class NewLobbyController : MonoBehaviour
 						this.mainContentDisplayed=true;
 						this.activeGaugeCamera(true);
 					}
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			sceneCameraPosition.x=camerasXPosition;

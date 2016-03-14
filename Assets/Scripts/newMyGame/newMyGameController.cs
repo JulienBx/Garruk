@@ -145,6 +145,7 @@ public class newMyGameController : MonoBehaviour
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.toSlideLeft)
 				{
+					BackOfficeController.instance.setIsSwiping(true);
 					this.slideRight();
 				}
 			}
@@ -153,6 +154,7 @@ public class newMyGameController : MonoBehaviour
 				this.isLeftClicked=false;
 				if(this.filtersDisplayed || this.toSlideRight)
 				{
+					BackOfficeController.instance.setIsSwiping(true);
 					this.slideLeft();
 				}
 			}
@@ -225,6 +227,7 @@ public class newMyGameController : MonoBehaviour
 					this.toSlideRight=false;
 					this.filtersDisplayed=true;
 					TutorialObjectController.instance.tutorialTrackPoint();
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -235,6 +238,7 @@ public class newMyGameController : MonoBehaviour
 					camerasXPosition=this.mainContentPositionX;
 					this.toSlideLeft=false;
 					this.mainContentDisplayed=true;
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			upperScrollCameraPosition.x=camerasXPosition;

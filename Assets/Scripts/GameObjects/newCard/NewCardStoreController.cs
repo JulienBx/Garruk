@@ -16,9 +16,12 @@ public class NewCardStoreController : NewCardController
 //			NewStoreController.instance.rightClickedHandler(this.id);
 //		}
 	}
-	void OnMouseDown()
+	void OnMouseUp()
 	{
-		NewStoreController.instance.leftClickedHandler (this.id);
+		if(!BackOfficeController.instance.getIsSwiping())
+		{
+			NewStoreController.instance.leftClickedHandler (this.id);
+		}
 	}
 	public override void OnMouseExit()
 	{

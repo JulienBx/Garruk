@@ -146,6 +146,7 @@ public class NewHomePageController : MonoBehaviour
 				if(this.newsfeedDisplayed || this.toSlideLeft)
 				{
 					this.slideRight();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging)
@@ -154,6 +155,7 @@ public class NewHomePageController : MonoBehaviour
 				if(this.mainContentDisplayed || this.toSlideRight)
 				{
 					this.slideLeft();
+					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
 		}
@@ -219,6 +221,7 @@ public class NewHomePageController : MonoBehaviour
 					camerasXPosition=this.mainContentPositionX;
 					this.toSlideRight=false;
 					this.mainContentDisplayed=true;
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			else if(toSlideLeft)
@@ -230,6 +233,7 @@ public class NewHomePageController : MonoBehaviour
 					this.toSlideLeft=false;
 					this.newsfeedDisplayed=true;
 					this.manageNonReadsNotifications();
+					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
 			sceneCameraPosition.x=camerasXPosition;
@@ -1065,7 +1069,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.endDragging();
 		}
-		else
+		else if(!BackOfficeController.instance.getIsSwiping())
 		{
 			SoundController.instance.playSound(4);
 			this.showCardFocused ();
