@@ -483,7 +483,6 @@ public class GameView : MonoBehaviour
 	
 	public void removeDestinations()
 	{
-		print("Blabla");
 		this.isDisplayedMyDestination = false ;
 		for (int i = 0; i < this.boardWidth; i++)
 		{
@@ -839,7 +838,6 @@ public class GameView : MonoBehaviour
 	public void setNextPlayer(){
 
 		isFreezed = true ;
-		int length = this.nbCards;
 		this.hideButtons();
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
@@ -898,7 +896,6 @@ public class GameView : MonoBehaviour
 	public IEnumerator launchEndTurnEffects(){
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
-			int previousCard = this.currentPlayingCard	;
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
@@ -1313,34 +1310,6 @@ public class GameView : MonoBehaviour
 			this.resizeBackground();
 		}
 	}
-	
-	public void updateMyTimeBar(float percentage){
-		GameObject llbr = GameObject.Find("LLBRight");	
-		GameObject leb = GameObject.Find("LLBRightEnd");
-		GameObject llbl = GameObject.Find("LLBLeft");	
-		GameObject lcb = GameObject.Find("LLBLeftEnd");
-		lcb.transform.position = new Vector3(llbr.transform.position.x-0.5f+(percentage)*(-llbr.transform.position.x+0.5f+(llbl.transform.position.x+0.1f))/100, 4.5f, 0);
-		
-		GameObject llbb = GameObject.Find("LLBBar");
-		llbb.transform.position = new Vector3((leb.transform.position.x+lcb.transform.position.x)/2f, 4.5f, 0);
-		llbb.transform.localScale = new Vector3((leb.transform.position.x-lcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
-	}
-	
-	public void updateHisTimeBar(float percentage){
-		GameObject rlbl = GameObject.Find("RLBLeft");
-		GameObject rlbr = GameObject.Find("RLBRight");
-		GameObject rlbc = GameObject.Find("RLBCenter");		
-		GameObject reb = GameObject.Find("RLBRightEnd");
-		reb.transform.position = new Vector3(rlbl.transform.position.x+0.5f+(percentage)*(-rlbl.transform.position.x-0.5f+(rlbr.transform.position.x-0.1f))/100, 4.5f, 0);
-		
-		GameObject rcb = GameObject.Find("RLBLeftEnd");
-		rcb.transform.position = new Vector3(1.20f, 4.5f, 0);
-		
-		GameObject rlbb = GameObject.Find("RLBBar");
-		rlbb.transform.position = new Vector3((reb.transform.position.x+rcb.transform.position.x)/2f, 4.5f, 0);
-		rlbb.transform.localScale = new Vector3((reb.transform.position.x-rcb.transform.position.x-0.49f)/10f, 0.5f, 0.5f);
-	}
-	
 	
 	public void resizeBackground()
 	{		
@@ -2371,7 +2340,6 @@ public class GameView : MonoBehaviour
 		}
 		print(damages);
 		print(total);
-		print(Mathf.FloorToInt(100*damages/total));	
 		return Mathf.FloorToInt(100*damages/total);
 	}
 

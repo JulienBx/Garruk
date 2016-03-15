@@ -75,7 +75,6 @@ namespace Xsolla {
 			string myString = tempAsset.text;
 			JSONNode node = JSONNode.Parse (myString);
 			JSONArray colorArray = node["theme"][theme]["colors"].AsArray;
-			JSONArray colorNames = node["colors_map"].AsArray;
 			colorsMap = new Dictionary<BaseColor, Color32>(colorArray.Count);
 			for (int i = 0; i < colorArray.Count; i++) {
 				int colorInt = Convert.ToInt32(colorArray[i].Value, 16);//colorArray[i].AsInt;//
@@ -109,7 +108,6 @@ namespace Xsolla {
 				newTheme = "dark";
 			}
 			JSONArray colorArray = node["theme"][newTheme]["colors"].AsArray;
-			JSONArray colorNames = node["colors_map"].AsArray;
 			colorsMap = new Dictionary<BaseColor, Color32>(colorArray.Count);
 			for(int i = 0; i < colorArray.Count; i++){
 				int colorInt = Convert.ToInt32(colorArray[i].Value, 16);//colorArray[i].AsInt;//

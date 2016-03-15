@@ -1353,7 +1353,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public IEnumerator getPurchasingToken()
 	{
 		yield return StartCoroutine(ApplicationModel.player.getPurchasingToken());
-		print(ApplicationModel.player.DesktopPurchasingToken);
+		//print(ApplicationModel.player.DesktopPurchasingToken);
 	}
 	  
 	#region TUTORIAL FUNCTIONS

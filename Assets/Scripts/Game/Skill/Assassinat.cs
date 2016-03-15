@@ -39,7 +39,6 @@ public class Assassinat : GameSkill
 
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, base.name, damages+" dégats subis"), false);

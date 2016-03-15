@@ -179,7 +179,7 @@ public class NewCardController : NewFocusedCardController
 	public override void exitCard ()
 	{
 	}
-	private void hideSkillPopUp()
+	new private void hideSkillPopUp()
 	{
 		if(isCardSkillPopUpDisplayed)
 		{
@@ -284,7 +284,7 @@ public class NewCardController : NewFocusedCardController
 		Vector3 refPosition =refObject.transform.position;
 		return new Vector3 (refPosition.x+gap+refSizeX/2f,refPosition.y,0f);
 	}
-	public virtual Sprite getSkillSprite(int id)
+	new public virtual Sprite getSkillSprite(int id)
 	{
 		return this.cardRessources.skills [id];
 	}

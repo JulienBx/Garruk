@@ -18,7 +18,7 @@ public class GameFocusedCardController : MonoBehaviour
 	public GameObject cardbox;
 	public GameObject card;
 	public GameObject cardType;
-	public GameObject name;
+	new public GameObject name;
 
 	public Card c;
 	public int collectionPointsEarned;

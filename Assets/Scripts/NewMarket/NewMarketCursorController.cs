@@ -11,7 +11,7 @@ public class NewMarketCursorController : SpriteButtonController
 	{
 		NewMarketController.instance.startSlidingCursors();
 	}
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		NewMarketController.instance.endSlidingCursors();
 	}

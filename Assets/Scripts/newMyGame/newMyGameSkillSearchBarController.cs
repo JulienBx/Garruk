@@ -48,7 +48,7 @@ public class newMyGameSkillSearchBarController : InterfaceController
 			keyboard.active=false;
 		}
 	}
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
 		{

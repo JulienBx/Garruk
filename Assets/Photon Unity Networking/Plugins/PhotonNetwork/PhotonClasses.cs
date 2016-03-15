@@ -477,7 +477,7 @@ namespace Photon
         /// public PhotonView networkView
         /// </remarks>
         [Obsolete("Use a photonView")]
-        new public PhotonView networkView
+        public PhotonView networkView
         {
             get
             {

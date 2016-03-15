@@ -7,11 +7,10 @@ using System.Reflection;
 
 public class LobbyTutorialController : TutorialObjectController 
 {
-	public static LobbyTutorialController instance;
+	new public static LobbyTutorialController instance;
 
 	public override void launchSequence(int sequenceID)
 	{
-		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{

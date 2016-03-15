@@ -49,7 +49,7 @@ public class NewProfileSearchBarController : InterfaceController
 			keyboard.active=false;
 		}
 	}
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		this.startInput();
 	}

@@ -61,35 +61,5 @@ public class TimerController : MonoBehaviour
 		}
 		return s;
 	}
-	
-	public void addTime(float f){
-		this.timer-=f;
-		this.timerDisplay+=f;
-		if(timer>=0){
-			int newMinuts = Mathf.FloorToInt(this.timer/60);
-			int newSeconds = Mathf.FloorToInt(this.timer-timerMinuts*60);
-			if(this.isMine){
-				GameView.instance.updateMyTimeBar(100.0f*this.timer/globalTime);
-			}
-			else{
-				GameView.instance.updateHisTimeBar(100.0f*this.timer/globalTime);
-			}
-			if(timerSeconds!=newSeconds){
-				this.timerMinuts = newMinuts;
-				this.timerSeconds = newSeconds;
-				
-				this.displayTime();
-			}
-			if(this.timerDisplay>this.displayTiming){
-				this.display(!this.isDisplayed);
-			}
-		}
-		else{
-			GameView.instance.stopCountingTime();
-			if(isMine){
-				GameController.instance.quitGameHandler();
-			}
-		}
-	}
 }
 

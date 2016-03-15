@@ -91,7 +91,7 @@ namespace Xsolla {
 
 		}
 
-		public new void OnStatusReceived(XsollaStatus status){
+		public void OnStatusReceived(XsollaStatus status){
 			OnPaymentSuccessRecieved (status);
 		}
 

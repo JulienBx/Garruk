@@ -7,11 +7,10 @@ using System.Reflection;
 
 public class MarketTutorialController : TutorialObjectController 
 {
-	public static MarketTutorialController instance;
+	new public static MarketTutorialController instance;
 
 	public override void launchSequence(int sequenceID)
 	{
-		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{

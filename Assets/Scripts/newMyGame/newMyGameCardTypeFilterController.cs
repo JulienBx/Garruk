@@ -3,7 +3,7 @@ using TMPro;
 
 public class newMyGameCardTypeFilterController : SpriteButtonController
 {	
-	public void OnMouseUp()
+	new public void OnMouseUp()
 	{
 		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
 		{

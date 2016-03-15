@@ -13,7 +13,6 @@ public class NewBlockController : MonoBehaviour
 	{
 		Vector2 blockOrigin = new Vector3 (-ApplicationDesignRules.worldWidth/2f+leftMargin+width/2f, ApplicationDesignRules.worldHeight / 2f - upMargin - height / 2,0f);
 
-		float blockSize = 100f;
 		float blockWorldSize = 100f / (ApplicationDesignRules.pixelPerUnit);
 		float blockScaleX = width / (blockWorldSize);
 		float blockScaleY = height / (blockWorldSize);

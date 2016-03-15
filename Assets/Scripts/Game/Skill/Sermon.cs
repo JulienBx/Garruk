@@ -17,7 +17,6 @@ public class Sermon : GameSkill
 
 	public override void resolve(List<int> targetsPCC)
 	{	
-		bool isSuccess = false ;
 		GameController.instance.play(GameView.instance.runningSkill);
 		
 		List<Tile> tempTiles;
@@ -40,7 +39,6 @@ public class Sermon : GameSkill
 					}
 					else{
 						GameController.instance.applyOn(tempInt);
-						isSuccess = true ;
 					}
 				}
 			}

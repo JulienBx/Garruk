@@ -41,7 +41,6 @@ public class Virus : GameSkill
 //		Tile t = GameController.instance.getCurrentPCC().tile;
 //		
 //		tempTiles = t.getImmediateNeighbouringTiles();
-		bool isLaunchable = false ;
 //		int i = 0 ;
 //		int tempInt ; 
 //

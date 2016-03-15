@@ -623,7 +623,7 @@ public class BackOfficeController : MonoBehaviour
 		}
 		if(nbNotificationsNonReads!=ApplicationModel.player.NbNotificationsNonRead)
 		{
-			if(Application.loadedLevelName=="NewHomePage")
+			if(SceneManager.GetActiveScene().name=="NewHomePage")
 			{
 				MenuController.instance.setNbNotificationsNonRead(NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()+ApplicationModel.player.NbNotificationsNonRead);
 			}

@@ -440,7 +440,6 @@ public class TutorialObjectController : MonoBehaviour
 	{
 		Vector3 gameObjectPosition = new Vector3 ();
 		Vector3 gameObjectPosition2 = new Vector3 ();
-		Vector2 gameObjectSize = new Vector2 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{
@@ -757,7 +756,6 @@ public class TutorialObjectController : MonoBehaviour
 			{
 				return 100;
 			}
-			break;
 		}
 		return 0;
 	}

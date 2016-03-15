@@ -7,7 +7,7 @@ using System.Reflection;
 
 public class HomePageTutorialController : TutorialObjectController 
 {
-	public static HomePageTutorialController instance;
+	new public static HomePageTutorialController instance;
 	
 	public override void startTutorial()
 	{

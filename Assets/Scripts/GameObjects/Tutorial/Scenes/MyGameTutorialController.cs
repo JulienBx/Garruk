@@ -7,7 +7,7 @@ using System.Reflection;
 
 public class MyGameTutorialController : TutorialObjectController 
 {
-	public static MyGameTutorialController instance;
+	new public static MyGameTutorialController instance;
 
 	#region TUTORIAL SEQUENCES
 

@@ -1218,7 +1218,6 @@ public class newMyGameController : MonoBehaviour
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
 	
 		int value = -1;
-		string label = "";
 
 		bool isMoved = true ;
 
@@ -2222,7 +2221,6 @@ public class newMyGameController : MonoBehaviour
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
-		return new Vector3 ();
 	}
 	public Vector3 getFiltersBlockOrigin()
 	{

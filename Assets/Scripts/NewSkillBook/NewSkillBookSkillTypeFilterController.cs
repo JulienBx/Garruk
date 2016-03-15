@@ -3,7 +3,7 @@ using TMPro;
 
 public class NewSkillBookSkillTypeFilterController : SimpleButtonController
 {	
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		NewSkillBookController.instance.skillTypeFilterHandler (base.getId());	
 	}

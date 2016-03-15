@@ -48,7 +48,7 @@ public class NewSkillBookSkillSearchBarController : InterfaceController
 			keyboard.active=false;
 		}
 	}
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		this.startInput();
 	}

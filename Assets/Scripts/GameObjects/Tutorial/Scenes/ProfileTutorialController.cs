@@ -7,11 +7,10 @@ using System.Reflection;
 
 public class ProfileTutorialController : TutorialObjectController 
 {
-	public static ProfileTutorialController instance;
+	new public static ProfileTutorialController instance;
 
 	public override void launchSequence(int sequenceID)
 	{
-		Vector3 gameObjectPosition = new Vector3 ();
 		this.sequenceID = sequenceID;
 		switch(this.sequenceID)
 		{

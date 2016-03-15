@@ -17,7 +17,7 @@ public class newMyGameCursorController : SpriteButtonController
 			newMyGameController.instance.startSlidingCursors();
 		}
 	}
-	void OnMouseUp()
+	new void OnMouseUp()
 	{
 		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
 		{

@@ -16,7 +16,6 @@ namespace Xsolla {
 
 		protected int _limit;
 		protected bool _isValid = false;
-		private bool isActive = false;
 		private bool isErrorShowed = false;
 
 		private List<IValidator> validators;

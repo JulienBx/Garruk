@@ -38,8 +38,6 @@ public class Antibiotique : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
-		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		
 		GameView.instance.getCard(target).emptyModifiers();
@@ -50,8 +48,7 @@ public class Antibiotique : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
-		
+
 		string text = "Dissipe les effets";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

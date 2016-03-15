@@ -311,7 +311,6 @@ namespace Xsolla
 			// check for errors
 			if (www.error == null)
 			{
-				string data = www.text;
 				JSONNode rootNode = JSON.Parse(www.text);
 				if(rootNode != null && rootNode.Count > 2 || rootNode["error"] == null) {
 					switch(type)
