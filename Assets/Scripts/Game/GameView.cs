@@ -483,6 +483,7 @@ public class GameView : MonoBehaviour
 	
 	public void removeDestinations()
 	{
+		print("Blabla");
 		this.isDisplayedMyDestination = false ;
 		for (int i = 0; i < this.boardWidth; i++)
 		{
@@ -1249,14 +1250,14 @@ public class GameView : MonoBehaviour
 		Card card = this.playingCards[c].GetComponent<PlayingCardController>().getCard();
 		List<Skill> skills = this.playingCards[c].GetComponent<PlayingCardController>().getCard().getSkills();
 		GameObject.Find("Title").GetComponent<TextMeshPro>().text = card.Title;
-		GameObject.Find("HisSpecialite").GetComponent<TextMeshPro>().text = skills[0].Name;
-		GameObject.Find("HisSpecialiteDescription").GetComponent<TextMeshPro>().text = skills[0].Description;
+		GameObject.Find("HisSpecialite").GetComponent<TextMeshPro>().text = WordingSkills.getName(skills[0].Id);
+		GameObject.Find("HisSpecialiteDescription").GetComponent<TextMeshPro>().text = WordingSkills.getDescription(skills[0].Id, skills[0].Power);
 		
 		this.hisHoveredRPC.GetComponent<SpriteRenderer>().sprite = this.sprites[card.ArtIndex];
 		
 		for (int i = 1 ; i < skills.Count ; i++){
-			GameObject.Find("Skill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = skills[i].Name;
-			GameObject.Find(("Skill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text = skills[i].Description;
+			GameObject.Find("Skill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(skills[i].Id);
+			GameObject.Find(("Skill"+(i-1)+"Description")).GetComponent<TextMeshPro>().text =  WordingSkills.getDescription(skills[i].Id, skills[i].Power);
 		}
 		for (int i = skills.Count ; i < 4 ; i++){
 			GameObject.Find("Skill"+(i-1)+"Title").GetComponent<TextMeshPro>().text = "";

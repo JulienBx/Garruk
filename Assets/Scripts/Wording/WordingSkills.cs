@@ -29,6 +29,29 @@ public class WordingSkills
 		idSkills=new List<int>();
 		probas = new List<int>();
 
+		//0 - Attack
+		idSkills.Add(0);
+		names.Add(new string[]{"Attaque","Attack"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [1-15] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [2-18] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [3-21] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [4-24] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [5-27] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [6-30] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [7-33] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [8-36] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [9-39] HP"}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK dégats à l'ennemi  adjacent ciblé","Distant ally target gains [10-42] HP"});
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
 		//2 - PistoSoin
 		idSkills.Add(2);
 		names.Add(new string[]{"PistoSoin","HealShot"}); 

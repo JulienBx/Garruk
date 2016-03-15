@@ -13,7 +13,7 @@ public class Furie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentSkill().Description);
+		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
 	}
 	
 	public override void resolve(List<int> targetsPCC)

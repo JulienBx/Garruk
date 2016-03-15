@@ -515,9 +515,9 @@ public class PlayingCardController : GameObjectController
 			int bonusAttack = Mathf.RoundToInt((20f+level*10f)*card.getAttack()/100f);
 			int bonusMove = -1*Mathf.Min(card.getMove()-1,2);
 
-			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, card.Skills[0].Name, "+"+bonusAttack+" ATK. Permanent"));
+			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), "+"+bonusAttack+" ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, card.Skills[0].Name, bonusMove+"MOV. Permanent"));
+			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, WordingSkills.getName(card.Skills[0].Id), bonusMove+"MOV. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){

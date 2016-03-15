@@ -100,7 +100,7 @@ public class Vitamines : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power*2+5;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
-		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+1MOV\nActif 1 tour";
+		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+1MOV, Actif 1 tour";
 
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();

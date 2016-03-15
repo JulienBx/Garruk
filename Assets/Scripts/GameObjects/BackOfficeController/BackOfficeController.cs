@@ -98,6 +98,7 @@ public class BackOfficeController : MonoBehaviour
 		this.loadingScreen.transform.FindChild("background2").GetComponent<SpriteRenderer>().sprite=ressources.loadingScreenBackgrounds[this.getLoadingScreenBackground()];
 		this.resize();
 		this.displayLoadingScreen();
+		this.gameObject.GetComponent<PhotonView>().viewID = 1 ;
 	}
 	public void setIsMenuLoaded(bool value)
 	{

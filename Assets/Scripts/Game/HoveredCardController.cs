@@ -152,8 +152,6 @@ public class HoveredCardController : MonoBehaviour
 	}
 	
 	public virtual void empty(){
-		print("Je empty ");
-
 		this.nextDisplayedCharacter = -1;
 		if(this.status==0){
 			this.status = -1;
@@ -228,8 +226,8 @@ public class HoveredCardController : MonoBehaviour
 	public void OnMouseDown()
 	{
 		this.empty();
-		GameView.instance.removeDestinations();
 		if(GameView.instance.hasFightStarted){
+			GameView.instance.removeDestinations();
 			if(!GameView.instance.getCurrentCard().hasMoved){
 				GameView.instance.displayDestinations(GameView.instance.getCurrentPlayingCard());
 			}

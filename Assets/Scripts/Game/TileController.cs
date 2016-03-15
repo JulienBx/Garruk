@@ -252,14 +252,15 @@ public class TileController : GameObjectController
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 				}
-				else if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentSkill().Description);
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
-				}
 				else{
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+					if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+					}
+					else{
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+					}
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 				}
 			}
 		}
