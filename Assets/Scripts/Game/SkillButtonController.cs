@@ -152,7 +152,13 @@ public class SkillButtonController : MonoBehaviour
 					}
 					else{
 						GameView.instance.hitTarget(new Tile(x,y));
+						GameView.instance.dropSkillButton(this.id);
 					}
+				}
+				else if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+					GameSkills.instance.getCurrentGameSkill().resolve(new List<int>());
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
+					GameView.instance.dropSkillButton(this.id);
 				}
 				else{
 					GameView.instance.dropSkillButton(this.id);

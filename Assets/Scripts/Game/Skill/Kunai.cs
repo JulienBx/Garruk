@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Pistolero : GameSkill
+public class Kunai : GameSkill
 {
-	public Pistolero()
+	public Kunai()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Pistolero";
+		base.name = "Kunaï";
 		base.ciblage = 0 ;
 		base.auto = true;
 	}

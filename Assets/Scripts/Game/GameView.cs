@@ -2652,9 +2652,11 @@ public class GameView : MonoBehaviour
 	}
 
 	public void launchValidationButton(string s, string d){
-		this.validationSkill.GetComponent<SkillValidationController>().setTexts(s,d,"Lancer");
-		this.validationSkill.GetComponent<SkillValidationController>().show(true);
-		this.isDisplayedPopUp = true ;
+		if(!GameView.instance.isMobile){
+			this.validationSkill.GetComponent<SkillValidationController>().setTexts(s,d,"Lancer");
+			this.validationSkill.GetComponent<SkillValidationController>().show(true);
+			this.isDisplayedPopUp = true ;
+		}
 	}
 
 	public void hideValidationButton(){

@@ -233,8 +233,13 @@ public class TileController : GameObjectController
 	{
 		if(GameView.instance.isMobile){
 			if(GameView.instance.draggingSkillButton!=-1){
-				if(this.characterID != -1 && this.isDisplayingTarget){
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+				if(this.isDisplayingTarget){
+					if(this.characterID!=-1){
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+					}
+					else{
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
+					}
 					if(this.tile.x==0){
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
 					}
@@ -244,6 +249,11 @@ public class TileController : GameObjectController
 					else{
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
 					}
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
+				}
+				else if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentSkill().Description);
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 				}
