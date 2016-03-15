@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -23,7 +23,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
 		ApplicationModel.player.IsFirstPlayer = false;
-		PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+		PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 	void OnPhotonRandomJoinFailed()
 	{
@@ -67,7 +67,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		}
 	}
 	
-	[RPC]
+	[PunRPC]
 	void AddPlayerToList(int id, string loginName)
 	{
 		if (ApplicationModel.player.Username == loginName)
@@ -93,7 +93,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	void OnDisconnectedFromPhoton()
 	{
 		ApplicationModel.player.ToDeconnect=true;
-		SceneManager.LoadScene("Authentication");
+		SceneManager.LoadScene("NewMarket");
 	}
 	
 }

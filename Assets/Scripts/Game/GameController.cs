@@ -17,7 +17,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("AddTileToBoard", PhotonTargets.AllBuffered, x, y, type);
 	}
 	
-	[RPC]
+	[PunRPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
 		GameView.instance.createTile(x, y, type, GameView.instance.getIsFirstPlayer());
@@ -27,7 +27,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("launchCardCreationRPC", PhotonTargets.AllBuffered);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void launchCardCreationRPC(){
 		StartCoroutine(GameView.instance.loadMyDeck());
 	}
@@ -37,7 +37,7 @@ public class GameController : Photon.MonoBehaviour
 	}
 	
 	
-	[RPC]
+	[PunRPC]
 	IEnumerator SpawnCharacterRPC(bool isFirstP, int idDeck)
 	{
 		Deck deck;
@@ -50,7 +50,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level){
 		string description = "Inflige "+level+" dégats/tour à l'unité touchée" ;
 		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), "Poisonpiège", description);
@@ -61,7 +61,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addCharacterRPC", PhotonTargets.AllBuffered, id, atk, pv, t.x, t.y, GameView.instance.getIsFirstPlayer());
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addCharacterRPC(int id, int atk, int pv, int x, int y, bool isFirstP){
 		GameView.instance.addCharacter(id, atk, pv, x, y, isFirstP);
 	}
@@ -70,7 +70,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addElectropiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addElectropiegeRPC(int amount, int x, int y){
 		string description = "Inflige "+amount+" dégats à l'unité piégée" ;
 		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, "Electropiège", description);
@@ -81,7 +81,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addPoisonpiegeRPC(int amount, int x, int y){
 		string description = "Empoisonné. Inflige "+amount+" dégats en fin de tour" ;
 		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, "Poisonpiège", description);
@@ -92,7 +92,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, isFirstP);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void playerReadyRPC(bool b)
 	{	
 		GameView.instance.playerReadyR(b);
@@ -102,7 +102,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("sendShurikenRPC", PhotonTargets.AllBuffered, target, nb, currentCard);
 	}
 
-	[RPC]
+	[PunRPC]
 	public void sendShurikenRPC(int target, int nb, int currentCard)
 	{	
 		int damages = (5+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
@@ -116,7 +116,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("sendEsquiveShurikenRPC", PhotonTargets.AllBuffered, target, currentCard);
 	}
 
-	[RPC]
+	[PunRPC]
 	public void sendEsquiveShurikenRPC(int target, int currentCard)
 	{	
 		string text = "Shuriken\nEsquive!";
@@ -129,7 +129,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void findNextPlayerRPC()
 	{
 		GameView.instance.setNextPlayer();
@@ -141,7 +141,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c, GameView.instance.getIsFirstPlayer(), toDisplay);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void clickDestinationRPC(int x, int y, int c, bool isFirstP, bool toDisplay)
 	{
 		GameView.instance.dropCharacter(c, new Tile(x,y), isFirstP, toDisplay);
@@ -152,7 +152,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addTargetRPC", PhotonTargets.AllBuffered, target, result);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addTargetRPC(int target, int result)
 	{
 		GameSkills.instance.getCurrentGameSkill().addTarget(target, result);
@@ -163,7 +163,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("esquiveRPC", PhotonTargets.AllBuffered, target, result);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void esquiveRPC(int target, int result)
 	{
 		GameSkills.instance.getCurrentGameSkill().esquive(target, result);
@@ -174,7 +174,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("esquiveSRPC", PhotonTargets.AllBuffered, target, s);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void esquiveSRPC(int target, string s)
 	{
 		GameSkills.instance.getCurrentGameSkill().esquive(target, s);
@@ -185,7 +185,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("launchFouRPC", PhotonTargets.AllBuffered, idSkill, target);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void launchFouRPC(int idSkill, int target)
 	{
 		GameSkills.instance.getSkill(idSkill).launchFou(target);
@@ -196,7 +196,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, target);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnRPC(int target)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOn(target);
@@ -207,7 +207,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnViroRPC", PhotonTargets.AllBuffered, target, perc);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnViroRPC(int target, int value)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOnViro(target, value);
@@ -218,7 +218,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnViro2RPC", PhotonTargets.AllBuffered, target, perc, perc2);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnViro2RPC(int target, int value, int value2)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOnViro2(target, value, value2);
@@ -229,7 +229,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOn2RPC", PhotonTargets.AllBuffered, target, value);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOn2RPC(int target, int value)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOn(target, value);
@@ -240,7 +240,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnTileRPC", PhotonTargets.AllBuffered, t.x, t.y);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnTileRPC(int arg, int arg2)
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOn(new Tile(arg, arg2));
@@ -251,7 +251,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("playRPC", PhotonTargets.AllBuffered, skill);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void playRPC(int skill)
 	{
 		GameView.instance.play(skill);
@@ -262,7 +262,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("endPlayRPC", PhotonTargets.AllBuffered);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void endPlayRPC()
 	{
 		StartCoroutine(GameView.instance.endPlay());
@@ -272,7 +272,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("displaySkillEffectRPC", PhotonTargets.AllBuffered, id, text, color);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void displaySkillEffectRPC(int id, string text, int color){
 		GameView.instance.displaySkillEffect(id, text, color);
 	}
@@ -301,7 +301,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, hasFirstPlayerWon);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void quitGameRPC(bool hasFirstPlayerWon)
 	{
 		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
@@ -354,7 +354,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnRPC5", PhotonTargets.AllBuffered);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnRPC5()
 	{
 		GameSkills.instance.getCurrentGameSkill().applyOn();
@@ -365,7 +365,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnRPC(int[] targets)
 	{
 		//GameSkills.instance.getCurrentGameSkill().applyOn(targets);
@@ -376,7 +376,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnRPC4", PhotonTargets.AllBuffered, target);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnRPC4(int target)
 	{
 		//GameSkills.instance.getCurrentGameSkill().applyOn(target);
@@ -387,7 +387,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addTargetValueRPC", PhotonTargets.AllBuffered, target, result, value);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addTargetValueRPC(int target, int result, int value)
 	{
 		GameSkills.instance.getCurrentGameSkill().addTarget(target, result, value);
@@ -398,7 +398,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("addTargetTileRPC", PhotonTargets.AllBuffered, tileX, tileY, result);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void addTargetTileRPC(int tileX, int tileY, int result)
 	{
 		GameSkills.instance.getCurrentGameSkill().addTarget(new Tile(tileX, tileY), result);
@@ -409,7 +409,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("applyOnRPC2", PhotonTargets.AllBuffered, targets, args);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void applyOnRPC2(int[] targets, int[] args)
 	{
 		//GameSkills.instance.getCurrentGameSkill().applyOn(targets, args);
@@ -420,7 +420,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("activateTrapRPC", PhotonTargets.AllBuffered, idSkill, targets, args);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void activateTrapRPC(int idSkill, int[] targets, int[] args)
 	{
 		GameSkills.instance.getSkill(idSkill).activateTrap(targets, args);
@@ -431,7 +431,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("hideTrapRPC", PhotonTargets.AllBuffered, targets);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void hideTrapRPC(int[] targets)
 	{
 		GameView.instance.hideTrap(targets [0], targets [1]);
@@ -442,7 +442,7 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, targets, failures);
 	}
 	
-	[RPC]
+	[PunRPC]
 	public void failedToCastOnSkillRPC(int[] targets, int[] failures)
 	{
 		//GameSkills.instance.getCurrentGameSkill().failedToCastOn(targets, failures);

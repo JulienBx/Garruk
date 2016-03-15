@@ -15,9 +15,11 @@ MonoBehaviour:
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
-  PreferredRegion: 0
   AppID: b788d9f3-8ff2-44dd-880b-e6fe40f6b315
-  PingCloudServersOnAwake: 0
+  PreferredRegion: 0
+  EnabledRegions: -1
+  JoinLobby: 1
+  EnableLobbyStatistics: 0
   RpcList:
   - AddPlayerToList
   - Chat
@@ -40,4 +42,37 @@ MonoBehaviour:
   - StartFight
   - TaggedPlayer
   - LoadSelectedDeck
+  - activateTrapRPC
+  - addCharacterRPC
+  - addElectropiegeRPC
+  - addPiegeurTrapRPC
+  - addPoisonpiegeRPC
+  - addTargetRPC
+  - addTargetTileRPC
+  - addTargetValueRPC
+  - AddTileToBoard
+  - applyOn2RPC
+  - applyOnRPC
+  - applyOnRPC2
+  - applyOnRPC4
+  - applyOnRPC5
+  - applyOnTileRPC
+  - applyOnViro2RPC
+  - applyOnViroRPC
+  - clickDestinationRPC
+  - displaySkillEffectRPC
+  - endPlayRPC
+  - esquiveRPC
+  - esquiveSRPC
+  - failedToCastOnSkillRPC
+  - findNextPlayerRPC
+  - hideTrapRPC
+  - launchCardCreationRPC
+  - launchFouRPC
+  - playerReadyRPC
+  - playRPC
+  - quitGameRPC
+  - sendEsquiveShurikenRPC
+  - sendShurikenRPC
+  - SpawnCharacterRPC
   DisableAutoOpenWizard: 0
