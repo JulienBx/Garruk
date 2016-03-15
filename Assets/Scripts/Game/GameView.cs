@@ -633,6 +633,10 @@ public class GameView : MonoBehaviour
 		}
 		if(this.hasFightStarted){
 			this.getCard(characterID).setHasMoved(true);
+			if(this.getCard(characterID).hasPlayed){
+			GameController.instance.findNextPlayer();
+
+			}
 		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);

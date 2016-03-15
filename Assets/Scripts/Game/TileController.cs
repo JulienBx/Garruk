@@ -27,7 +27,7 @@ public class TileController : GameObjectController
 	bool isShowingSE ;
 	float timerSE;
 	float timerAnim = 0 ;
-	float animTime = 0.06f ;
+	float animTime = 0.08f ;
 	float skillEffectTime = 0.6f ;
 	int animIndex;
 	int basicAnimIndex ;
