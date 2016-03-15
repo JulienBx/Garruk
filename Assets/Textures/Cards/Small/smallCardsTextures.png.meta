@@ -87,118 +87,20 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 108
   alphaIsTransparency: 1
-  textureType: 8
-  buildTargetSettings: []
+  textureType: 5
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 4096
+    textureFormat: 33
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
   spriteSheet:
     sprites:
-    - name: assassin
-      rect:
-        serializedVersion: 2
-        x: 1408
-        y: 3439
-        width: 561
-        height: 655
-      alignment: 9
-      pivot: {x: 0.54278076, y: 0.5763359}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 191.5, y: -377.5}
-        - {x: 256.5, y: -377.5}
-        - {x: 256.5, y: -375.5}
-        - {x: 255.5, y: -372.5}
-        - {x: 191.5, y: -283.5}
-        - {x: 198.5, y: -284.5}
-        - {x: 230.5, y: -285.5}
-        - {x: 240.5, y: -277.5}
-        - {x: 241.5, y: -242.5}
-        - {x: 231.5, y: -231.5}
-        - {x: 233.5, y: -176.5}
-        - {x: 221.5, y: -169.5}
-        - {x: 216.5, y: -167.5}
-        - {x: 216.5, y: -152.5}
-        - {x: 194.5, y: -121.5}
-        - {x: 206.5, y: -124.5}
-        - {x: 239.5, y: -108.5}
-        - {x: 238.5, y: -104.5}
-        - {x: 200.5, y: -52.5}
-        - {x: 221.5, y: -37.5}
-        - {x: 212.5, y: -21.5}
-        - {x: 170.5, y: -10.5}
-        - {x: 152.5, y: 11.5}
-        - {x: 125.5, y: 21.5}
-        - {x: 95.5, y: 43.5}
-        - {x: 77.5, y: 31.5}
-        - {x: 47.5, y: -8.5}
-        - {x: 44.5, y: 15.5}
-        - {x: 57.5, y: 44.5}
-        - {x: 74.5, y: 44.5}
-        - {x: 78.5, y: 49.5}
-        - {x: 73.5, y: 68.5}
-        - {x: 114.5, y: 101.5}
-        - {x: 125.5, y: 113.5}
-        - {x: 125.5, y: 118.5}
-        - {x: 86.5, y: 111.5}
-        - {x: 104.5, y: 146.5}
-        - {x: 106.5, y: 178.5}
-        - {x: 102.5, y: 198.5}
-        - {x: 82.5, y: 225.5}
-        - {x: 76.5, y: 227.5}
-        - {x: 72.5, y: 221.5}
-        - {x: 56.5, y: 239.5}
-        - {x: 40.5, y: 254.5}
-        - {x: 33.5, y: 246.5}
-        - {x: -9.5, y: 277.5}
-        - {x: -21.5, y: 277.5}
-        - {x: -33.5, y: 257.5}
-        - {x: -91.5, y: 275.5}
-        - {x: -97.5, y: 268.5}
-        - {x: -102.5, y: 235.5}
-        - {x: -114.5, y: 235.5}
-        - {x: -135.5, y: 224.5}
-        - {x: -152.5, y: 227.5}
-        - {x: -160.5, y: 225.5}
-        - {x: -157.5, y: 204.5}
-        - {x: -153.5, y: 198.5}
-        - {x: -149.5, y: 191.5}
-        - {x: -184.5, y: 241.5}
-        - {x: -198.5, y: 244.5}
-        - {x: -234.5, y: 224.5}
-        - {x: -242.5, y: 200.5}
-        - {x: -229.5, y: 179.5}
-        - {x: -193.5, y: 145.5}
-        - {x: -201.5, y: 135.5}
-        - {x: -211.5, y: 99.5}
-        - {x: -216.5, y: 46.5}
-        - {x: -267.5, y: -62.5}
-        - {x: -295.5, y: -115.5}
-        - {x: -297.5, y: -141.5}
-        - {x: -304.5, y: -157.5}
-        - {x: -304.5, y: -173.5}
-        - {x: -274.5, y: -186.5}
-        - {x: -253.5, y: -203.5}
-        - {x: -249.5, y: -194.5}
-        - {x: -247.5, y: -188.5}
-        - {x: -245.5, y: -180.5}
-        - {x: -206.5, y: -152.5}
-        - {x: -140.5, y: -123.5}
-        - {x: -153.5, y: -169.5}
-        - {x: -153.5, y: -212.5}
-        - {x: -120.5, y: -262.5}
-        - {x: -83.5, y: -292.5}
-        - {x: -112.5, y: -341.5}
-        - {x: -133.5, y: -346.5}
-        - {x: -138.5, y: -350.5}
-        - {x: -150.5, y: -361.5}
-        - {x: -150.5, y: -377.5}
-        - {x: 166.5, y: -377.5}
-        - {x: 168.5, y: -374.5}
-        - {x: 169.5, y: -351.5}
-        - {x: 185.5, y: -372.5}
     - name: atkicon
       rect:
         serializedVersion: 2
         x: 1760
-        y: 3043
+        y: 3700
         width: 97
         height: 122
       alignment: 9
@@ -321,7 +223,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1760
-        y: 3167
+        y: 3824
         width: 219
         height: 50
       alignment: 0
@@ -345,7 +247,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1408
-        y: 3318
+        y: 3975
         width: 505
         height: 119
       alignment: 0
@@ -450,7 +352,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1859
-        y: 3096
+        y: 3753
         width: 90
         height: 69
       alignment: 0
@@ -467,7 +369,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1867
-        y: 3265
+        y: 3922
         width: 100
         height: 3
       alignment: 0
@@ -607,7 +509,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1915
-        y: 3270
+        y: 3927
         width: 112
         height: 167
       alignment: 9
@@ -672,7 +574,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1408
-        y: 3166
+        y: 3823
         width: 350
         height: 150
       alignment: 0
@@ -691,7 +593,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1760
-        y: 3219
+        y: 3876
         width: 105
         height: 97
       alignment: 9
@@ -799,7 +701,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1951
-        y: 3038
+        y: 3695
         width: 80
         height: 127
       alignment: 9

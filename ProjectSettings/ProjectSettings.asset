@@ -101,7 +101,7 @@ PlayerSettings:
   AndroidMinSdkVersion: 15
   AndroidPreferredInstallLocation: 1
   aotOptions: 
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 1
   stripEngineCode: 0
   iPhoneStrippingLevel: 3
   iPhoneScriptCallOptimization: 0
@@ -442,7 +442,7 @@ PlayerSettings:
   WebGL::memorySize: 256
   iOS::Architecture: 0
   iOS::EnableIncrementalBuildSupportForIl2cpp: 1
-  iOS::ScriptingBackend: 0
+  iOS::ScriptingBackend: 1
   boolPropertyNames:
   - WebGL::analyzeBuildSize
   - WebGL::dataCaching
