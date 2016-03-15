@@ -52,8 +52,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[RPC]
 	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level){
-		string description = "Inflige "+level+" dégats à l'unité piégée" ;
-		Trap trap = new Trap(level, 1, (isFirstP==GameView.instance.getIsFirstPlayer()), "Electropiège", description);
+		string description = "Inflige "+level+" dégats/tour à l'unité touchée" ;
+		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), "Poisonpiège", description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 

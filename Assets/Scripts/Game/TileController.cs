@@ -232,15 +232,25 @@ public class TileController : GameObjectController
 	public void OnMouseEnter()
 	{
 		if(GameView.instance.isMobile){
-			if(this.characterID != -1 && this.isDisplayingTarget && GameView.instance.draggingSkillButton!=-1){
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
-				if(this.tile.x==0){
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
+			if(GameView.instance.draggingSkillButton!=-1){
+				if(this.characterID != -1 && this.isDisplayingTarget){
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+					if(this.tile.x==0){
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
+					}
+					else if(this.tile.x==GameView.instance.boardWidth-1){
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+					}
+					else{
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+					}
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 				}
-				else if(this.tile.x==GameView.instance.boardWidth-1){
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+				else{
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
 				}
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 			}
 		}
 		else{
@@ -447,9 +457,7 @@ public class TileController : GameObjectController
 	public void OnMouseExit()
 	{
 		if(GameView.instance.isMobile){
-			if(this.isDisplayingTarget && GameView.instance.draggingSkillButton!=-1){
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
-			}
+			
 		}
 		else{
 			this.isHovering = false ;

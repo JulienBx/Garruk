@@ -2826,12 +2826,15 @@ public class GameView : MonoBehaviour
 
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition2(mousePos);
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
+		this.hideTargets();
+		this.cancelSkill();
 		this.draggingSkillButton=-1;
 	}
 
 	public void cancelSkill(){
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 		this.getSkillZoneController().isRunningSkill = false ;
+		this.runningSkill = -1;
 		this.hoveringZone = -1;
 	}
 }

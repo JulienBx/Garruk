@@ -1435,16 +1435,16 @@ public class WordingSkills
 		//64 - Piégeur
 		idSkills.Add(64);
 		names.Add(new string[]{"Piégeur",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 7 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 9 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 11 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 13 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 15 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 17 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 19 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 électropièges (infligent 21 dégats à l'unité touchée) avant le combat",""}); 
-		descriptions.Add(new string[]{"Pose trois pièges (infligent 23 dégats) aléatoire avant le début du combat",""}); 
-		descriptions.Add(new string[]{"Pose quatre pièges (infligent 25 dégats) aléatoire avant le début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (7 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (9 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (11 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (13 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (15 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (17 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (19 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (21 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (23 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (25 dégats/tour) au début du combat",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -1458,7 +1458,7 @@ public class WordingSkills
 		//65 - Lâche
 		idSkills.Add(65);
 		names.Add(new string[]{"Lâche",""}); 
-		descriptions.Add(new string[]{"Les attaques par derrière infligent 6 dégat supplémentaire",""}); 
+		descriptions.Add(new string[]{"Les attaques par derrière infligent 6 dégats supplémentaire",""}); 
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 7 dégats supplémentaires",""}); 
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 8 dégats supplémentaires",""}); 
 		descriptions.Add(new string[]{"Les attaques par derrière infligent 9 dégats supplémentaires",""}); 
@@ -1481,15 +1481,15 @@ public class WordingSkills
 		//66 - Agile
 		idSkills.Add(66);
 		names.Add(new string[]{"Agile",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 5%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 10%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 15%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 20%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 25%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 30%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 23%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 26%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 29%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 32%",""}); 
 		descriptions.Add(new string[]{"L'unité a une esquive permanente de 35%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 40%",""}); 
-		descriptions.Add(new string[]{"L'unité a une esquive permanente de 45%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 38%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 41%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 44%",""}); 
+		descriptions.Add(new string[]{"L'unité a une esquive permanente de 47%",""}); 
 		descriptions.Add(new string[]{"L'unité a une esquive permanente de 50%",""});
 		probas.Add(100); 
 		probas.Add(100); 

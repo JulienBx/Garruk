@@ -70,17 +70,6 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b ;
-		if(b){
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-		}
-		else{
-			if(this.launchabilityText.Length>1){
-				gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			}
-			else{
-				gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			}
-		}
 	}
 	
 	public void OnMouseEnter(){
@@ -101,7 +90,7 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void OnMouseExit(){
 		if(GameView.instance.isMobile){
-
+			this.showDescription(false);
 		}
 		else{
 			if (this.launchabilityText.Length<2){
@@ -179,12 +168,6 @@ public class SkillButtonController : MonoBehaviour
 	}
 
 	public void setPosition2(Vector3 p){
-		Vector3 q;
-		q.x = p.x;
-		q.y = 0.9f;
-		q.z = p.z;
-		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
-
 		p.z = -0.5f;
 		p.x -= GameView.instance.stepButton;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
@@ -192,7 +175,7 @@ public class SkillButtonController : MonoBehaviour
 
 	public void shiftRight(){
 		Vector3 q;
-		q.x = 0.5f;
+		q.x = 1f;
 		q.y = 0.9f;
 		q.z = 0;
 		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
@@ -200,7 +183,15 @@ public class SkillButtonController : MonoBehaviour
 
 	public void shiftLeft(){
 		Vector3 q;
-		q.x = -0.5f;
+		q.x = -1f;
+		q.y = 0.9f;
+		q.z = 0;
+		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
+	}
+
+	public void shiftCenter(){
+		Vector3 q;
+		q.x = 0f;
 		q.y = 0.9f;
 		q.z = 0;
 		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
@@ -209,6 +200,19 @@ public class SkillButtonController : MonoBehaviour
 	public void showCollider(bool b){
 		gameObject.GetComponent<BoxCollider>().enabled = b;
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<MeshRenderer>().enabled = b ;
+	}
+
+	public void setRed(){
+		gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+			
+	}
+
+	public void setWhite(){
+		gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
+	}
+
+	public void setBlue(){
+		gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 	}
 }
 
