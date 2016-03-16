@@ -205,6 +205,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 packPictureMobileScale = new Vector3(0.9f,0.9f,0.9f);
 	static public Vector3 packPictureScale;
 
+	static private Vector2 companionSize=new Vector2(581f,742f);
+	static public Vector2 companionWorldSize;
+	static private Vector3 companionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 companionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static public Vector3 companionScale;
+
 	static private Vector2 skillSize=new Vector2(1599f,355f);
 	static public Vector2 skillWorldSize;
 	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
@@ -499,6 +505,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		popUpScale = toNewScale (popUpOriginalScale, popUpMobileScale);
 		popUpWorldSize = toWorldSize(popUpSize,popUpScale);
+
+		companionScale = toNewScale (companionOriginalScale, companionMobileScale);
+		companionWorldSize = toWorldSize(companionSize,companionScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

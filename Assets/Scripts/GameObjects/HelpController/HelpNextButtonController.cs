@@ -5,7 +5,7 @@ public class HelpNextButtonController : SimpleButtonController
 {
 	public override void mainInstruction()
 	{
-		HelpController.instance.nextButtonHandler();	
+		HelpController.instance.companionNextButtonHandler();	
 	}
 }
 
