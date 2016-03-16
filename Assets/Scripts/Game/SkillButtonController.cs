@@ -136,9 +136,10 @@ public class SkillButtonController : MonoBehaviour
 		if(GameView.instance.draggingSkillButton==this.id){
 			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			int x=-1, y=-1 ;
+			x = Mathf.FloorToInt(vec.x/GameView.instance.tileScale)+3;
+			y = Mathf.FloorToInt(vec.y/GameView.instance.tileScale)+4;
 			if(GameView.instance.getIsFirstPlayer()){
-				x = Mathf.FloorToInt(vec.x/GameView.instance.tileScale)+3;
-				y = Mathf.FloorToInt(vec.y/GameView.instance.tileScale)+4;
+				
 			}
 			else{
 				x = (GameView.instance.boardWidth-1)-x;

@@ -1354,11 +1354,6 @@ public class GameView : MonoBehaviour
 		tempGO.transform.position = position;
 		tempGO.GetComponent<TextContainer>().width = realwidth/2f-1 ;
 
-		tempGO = GameObject.Find("mainLogo");
-		position = tempGO.transform.position ;
-		position.y = 4*tileScale+0.3f;
-		tempGO.transform.position = position;
-
 		tempTransform = this.interlude.transform.FindChild("Bar1");
 		scale = tempTransform.transform.localScale ;
 		scale.x = 1f*realwidth/20f;
