@@ -7,5 +7,9 @@ public class NewHomePageDeckChoiceController : SimpleButtonController
 	{
 		NewHomePageController.instance.selectDeck (base.getId());	
 	}
+	public void OnMouseDown()
+	{
+		base.OnMouseUp ();
+	}
 }
 

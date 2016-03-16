@@ -102,17 +102,13 @@ public class HomePageTutorialController : TutorialObjectController
 		{
 		case 3:
 			return 0;
-			break;
 		case 4:
 			return 1;
-			break;
 		default:
 			return base.getStartSequenceId(tutorialStep);
-			break;
 		}
 		return 0;
 	}
-
 	#endregion
 
 	#region HELP SEQUENCES

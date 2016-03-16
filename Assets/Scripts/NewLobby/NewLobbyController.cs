@@ -27,6 +27,7 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject backOfficeController;
 	private GameObject menu;
 	private GameObject tutorial;
+	private GameObject help;
 	private GameObject[] results;
 	private GameObject[] stats;
 	private GameObject competitionPicture;
@@ -173,6 +174,7 @@ public class NewLobbyController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
 	private void initializeTutorial()
@@ -181,6 +183,13 @@ public class NewLobbyController : MonoBehaviour
 		this.tutorial.AddComponent<LobbyTutorialController>();
 		this.tutorial.GetComponent<LobbyTutorialController>().initialize();
 		BackOfficeController.instance.setIsTutorialLoaded(true);
+	}
+	private void initializeHelp()
+	{
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<LobbyHelpController>();
+		this.help.GetComponent<LobbyHelpController>().initialize();
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -547,6 +556,7 @@ public class NewLobbyController : MonoBehaviour
 		MenuController.instance.setCurrentPage(5);
 		MenuController.instance.refreshMenuObject();
 		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	public void returnPressed()
 	{

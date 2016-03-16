@@ -374,7 +374,14 @@ public class MenuController : MonoBehaviour
 	public void helpHandler()
 	{
 		SoundController.instance.playSound(10);
-		TutorialObjectController.instance.helpClicked ();
+		if(SceneManager.GetActiveScene().name!="NewLobby")
+		{
+			TutorialObjectController.instance.helpClicked ();
+		}
+		else
+		{
+			HelpController.instance.helpHandler();
+		}
 	}
 	public void setFlashingHelp (bool value)
 	{

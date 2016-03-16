@@ -182,7 +182,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 largeInputTextSize = new Vector2(731f,81f);
 	static public Vector2 largeInputTextWorldSize;
 	static private Vector3 largeInputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
-	static private Vector3 largeInputTextMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static private Vector3 largeInputTextMobileScale = new Vector3 (0.55f, 0.55f, 0.55f);
 	static public Vector3 largeInputTextScale;
 
 	static private Vector3 valueFilterOriginalScale = new Vector3 (1f, 1f, 1f);
@@ -205,6 +205,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 packPictureMobileScale = new Vector3(0.9f,0.9f,0.9f);
 	static public Vector3 packPictureScale;
 
+	static private Vector2 companionSize=new Vector2(581f,742f);
+	static public Vector2 companionWorldSize;
+	static private Vector3 companionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 companionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static public Vector3 companionScale;
+
 	static private Vector2 skillSize=new Vector2(1599f,355f);
 	static public Vector2 skillWorldSize;
 	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
@@ -215,7 +221,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 popUpWorldSize;
 	static public Vector3 popUpScale;
 	static private Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
-	static private Vector3 popUpMobileScale = new Vector3 (0.55f, 0.55f, 0.55f);
+	static private Vector3 popUpMobileScale = new Vector3 (0.585f, 0.585f, 0.585f);
 
 	static public Vector3 profileStatScale;
 	static private Vector3 profileStatOriginalScale = new Vector3 (1f, 1f, 1f);
@@ -499,6 +505,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		popUpScale = toNewScale (popUpOriginalScale, popUpMobileScale);
 		popUpWorldSize = toWorldSize(popUpSize,popUpScale);
+
+		companionScale = toNewScale (companionOriginalScale, companionMobileScale);
+		companionWorldSize = toWorldSize(companionSize,companionScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

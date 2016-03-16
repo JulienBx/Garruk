@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd41c89eba15c214b847cdd452544b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckListObject: {fileID: 0}
+  deckListObject: {fileID: 126134, guid: dda041c341b4041429f0b6e5dac1c14c, type: 2}
 --- !u!114 &11460298
 MonoBehaviour:
   m_ObjectHideFlags: 1

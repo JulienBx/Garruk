@@ -7,5 +7,9 @@ public class newMyGameDeckChoiceController : SimpleButtonController
 	{
 		newMyGameController.instance.selectDeck (base.getId());	
 	}
+	public void OnMouseDown()
+	{
+		base.OnMouseUp ();
+	}
 }
 

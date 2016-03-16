@@ -312,8 +312,8 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*value*#",newsObjectData[1]);
 					break;
 				case "trophy":
-					news[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1])-1,System.Convert.ToInt32(newsObjectData[1])-1));
-					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1])-1,System.Convert.ToInt32(newsObjectData[1])-1));
+					news[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1]),System.Convert.ToInt32(newsObjectData[2])));
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1]),System.Convert.ToInt32(newsObjectData[2])));
 					break;
 				}
 			}

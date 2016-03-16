@@ -36,7 +36,6 @@ public class MarketTutorialController : TutorialObjectController
 		{
 		default:
 			return base.getStartSequenceId(tutorialStep);
-			break;
 		}
 		return 0;
 	}

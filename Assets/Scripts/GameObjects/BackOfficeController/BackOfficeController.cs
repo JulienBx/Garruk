@@ -35,6 +35,7 @@ public class BackOfficeController : MonoBehaviour
 
 	private bool isMenuLoaded;
 	private bool isTutorialLoaded;
+	private bool isHelpLoaded;
 	private bool isSwiping;
 
 	private float speed;
@@ -107,6 +108,10 @@ public class BackOfficeController : MonoBehaviour
 	public void setIsTutorialLoaded(bool value)
 	{
 		this.isTutorialLoaded=value;
+	}
+	public void setIsHelpLoaded(bool value)
+	{
+		this.isHelpLoaded=value;
 	}
 	public virtual int getLoadingScreenBackground()
 	{
