@@ -279,7 +279,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -287,8 +287,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2008,8 +2008,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2162,8 +2162,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3438,7 +3438,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -3446,8 +3446,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4260,7 +4260,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -4268,8 +4268,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5581,7 +5581,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.962963, y: 1.8425926, z: 3}
-  m_Center: {x: 0.009259284, y: 0.004629612, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &528760119
 GameObject:
   m_ObjectHideFlags: 0
@@ -5660,7 +5660,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -5668,8 +5668,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9073,7 +9073,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9081,8 +9081,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10736,7 +10736,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10744,8 +10744,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11325,7 +11325,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11333,8 +11333,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12962,7 +12962,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -12970,8 +12970,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13617,7 +13617,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13625,8 +13625,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -14363,7 +14363,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14371,8 +14371,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -14880,7 +14880,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14888,8 +14888,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -17146,7 +17146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1733651963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19894,7 +19894,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -19902,8 +19902,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1

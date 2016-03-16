@@ -49,7 +49,6 @@ public class Relaxant : GameSkill
 	public override void applyOn(int target, int value){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
@@ -61,7 +60,6 @@ public class Relaxant : GameSkill
 	public override void applyOnViro2(int target, int value, int amount){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
@@ -72,7 +70,6 @@ public class Relaxant : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int minLevel = Mathf.Min(GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 		int maxLevel = Mathf.Min(10+2*GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 

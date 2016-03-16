@@ -38,7 +38,6 @@ public class Renaissance : GameSkill
 
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = level*5;
 		
@@ -49,9 +48,8 @@ public class Renaissance : GameSkill
 	}	
 
 	public override string getTargetText(int target){
-		
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
+
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 5*level;
 		

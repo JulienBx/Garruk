@@ -49,7 +49,6 @@ public class PistoSoin : GameSkill
 	
 	public override void applyOn(int target, int amount){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int soin = Mathf.Min(amount,targetCard.GetTotalLife()-targetCard.getLife());
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false);
@@ -59,7 +58,6 @@ public class PistoSoin : GameSkill
 
 	public override void applyOnViro2(int target, int amount, int amount2){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int soin = Mathf.Min(Mathf.RoundToInt(amount*amount2/100f),targetCard.GetTotalLife()-targetCard.getLife());
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"),false);
@@ -69,7 +67,6 @@ public class PistoSoin : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int soinMin = 1*level;
 		int soinMax = 3*level+12;

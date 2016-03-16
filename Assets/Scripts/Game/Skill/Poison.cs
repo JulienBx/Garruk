@@ -47,7 +47,6 @@ public class Poison : GameSkill
 	
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int level = 10+GameView.instance.getCurrentSkill().Power*2;
 
@@ -60,7 +59,6 @@ public class Poison : GameSkill
 
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int level = Mathf.RoundToInt((10f+GameView.instance.getCurrentSkill().Power)*value/100f);
 
@@ -73,7 +71,6 @@ public class Poison : GameSkill
 	
 	public override string getTargetText(int target){	
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power+10;
 
 		string text = "Poison\nPerd "+level+"PV en fin de tour";

@@ -34,8 +34,7 @@ public class BlockController : MonoBehaviour
 	{
 		bool shadow = true ;
 		float pixelPerUnit = 108f;
-		float pixelSize = (2f * Camera.main.GetComponent<Camera> ().orthographicSize)/Screen.height ;
-		
+
 		Vector3 cornerSize = new Vector3 (200f, 200f,0)/pixelPerUnit;
 		Vector3 lineSize = new Vector3 (500f, 10f,0)/pixelPerUnit;
 		Vector3 areaSize = new Vector3 (500f, 500f,0)/pixelPerUnit;
@@ -123,8 +122,7 @@ public class BlockController : MonoBehaviour
 	public void resize(Rect block, bool shadow)
 	{
 		float pixelPerUnit = 108f;
-		float pixelSize = (2f * Camera.main.GetComponent<Camera> ().orthographicSize)/Screen.height ;
-		
+
 		Vector3 cornerSize = new Vector3 (200f, 200f,0)/pixelPerUnit;
 		Vector3 lineSize = new Vector3 (500f, 10f,0)/pixelPerUnit;
 		Vector3 areaSize = new Vector3 (500f, 500f,0)/pixelPerUnit;

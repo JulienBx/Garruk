@@ -47,7 +47,6 @@ public class Renfoderme : GameSkill
 
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+level*4;
 		
@@ -59,7 +58,6 @@ public class Renfoderme : GameSkill
 
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = Mathf.RoundToInt((10+level*4)*value/100f);
 		
@@ -72,7 +70,6 @@ public class Renfoderme : GameSkill
 	public override string getTargetText(int target){
 		
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+4*level;
 		

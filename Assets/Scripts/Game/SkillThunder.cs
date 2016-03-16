@@ -30,7 +30,6 @@ public class SkillThunder : MonoBehaviour
 	
 	public void addTime(float delta){
 		this.actualTime += delta;
-		Quaternion rotation = gameObject.transform.rotation ;
 		if(this.actualTime<=1){
 			//rotation = Quaternion.Euler(rotation.x, rotation.y, 720f*(this.actualTime));
 			Vector3 scale = new Vector3(1f*this.actualTime,1f*this.actualTime,1f*this.actualTime);
