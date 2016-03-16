@@ -27,7 +27,6 @@ public class HelpController : MonoBehaviour
 
 	// Companion settings
 
-	private string companionTextToDisplay;
 	private string companionTextDisplayed;
 	private bool toWriteCompanionText;
 	private float companionTextTimer;
@@ -51,13 +50,13 @@ public class HelpController : MonoBehaviour
 	{
 		if(toWriteCompanionText)
 		{
+
 			this.companionTextTimer=this.companionTextTimer+Time.deltaTime;
 			if(this.companionTextTimer>0.03f)
 			{
 				this.companionTextTimer=0f;
-				this.companionTextDisplayed=this.companionTextToDisplay.Substring(0,this.companionTextDisplayed.Length+1);
-				this.companionDialogTitle.GetComponent<TextMeshPro>().text=this.companionTextDisplayed;
-				if(this.companionTextDisplayed.Length>=this.companionTextToDisplay.Length)
+				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters+1;
+				if(this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters>=this.companionTextDisplayed.Length)
 				{
 					this.toWriteCompanionText=false;
 				}
@@ -120,7 +119,7 @@ public class HelpController : MonoBehaviour
 	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide)
 	{
 		this.toShowCompanion=true;
-		this.companionTextToDisplay=textToDisplay;
+		this.companionTextDisplayed=textToDisplay;
 		this.displayCompanionNextButton=displayNextButton;
 		this.isLeftSide=isLeftSide;
 	}
@@ -129,19 +128,19 @@ public class HelpController : MonoBehaviour
 		if(this.toShowCompanion)
 		{
 			this.companion.SetActive(true);
-			if(this.companionTextToDisplay!="")
+			if(this.companionTextDisplayed!="")
 			{
 				this.companionDialogBox.SetActive(true);
 				this.companionDialogTitle.SetActive(true);
 				Vector3 dialogBoxPosition = this.companionDialogBox.transform.localPosition;
 				Vector3 dialogTitlePosition = this.companionDialogTitle.transform.localPosition;
-				if (companionTextToDisplay.Length < 100) 
+				if (this.companionTextDisplayed.Length < 100) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [0];
 					dialogBoxPosition.y=2.4f;
 					dialogTitlePosition.y=0.86f;
 				} 
-				else if (companionTextToDisplay.Length< 300) 
+				else if (companionTextDisplayed.Length< 300) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [1];
 					dialogBoxPosition.y=3f;
@@ -154,7 +153,8 @@ public class HelpController : MonoBehaviour
 					dialogTitlePosition.y=1.92f;
 				}
 				this.companionDialogBox.transform.localPosition=dialogBoxPosition;
-				this.companionTextDisplayed="";
+				this.companionDialogTitle.GetComponent<TextMeshPro>().text=this.companionTextDisplayed;
+				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=0;
 				this.toWriteCompanionText=true;
 			}
 			else
