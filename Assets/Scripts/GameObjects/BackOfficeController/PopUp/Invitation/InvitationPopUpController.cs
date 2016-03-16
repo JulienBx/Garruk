@@ -153,7 +153,6 @@ public class InvitationPopUpController : MonoBehaviour
 		{  
 			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
 			this.deckList[this.deckList.Count-1].transform.parent=gameObject.transform;
-			this.deckList[this.deckList.Count-1].transform.localScale=new Vector3(2.6f,2.6f,2.6f);
 			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, -1.88f+(this.deckList.Count-1)*(-0.62f),-1f);
 			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListInvitationPopUpController>().setId(i);
@@ -161,8 +160,7 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	public void quitPopUp()
 	{
-		SoundController.instance.playSound(8);
-		BackOfficeController.instance.hideInvitationPopUp ();
+		this.declineInvitationHandler ();
 	}
 	public void mouseOnSelectDeckButton(bool value)
 	{

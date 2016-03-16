@@ -987,10 +987,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
 			ApplicationModel.player.FacebookId=aToken.UserId;
-			foreach (string perm in aToken.Permissions)
-			{
-				//Debug.Log(perm);
-			}
+//			foreach (string perm in aToken.Permissions)
+//			{
+//				//Debug.Log(perm);
+//			}
 			FB.API("/me?fields=email",HttpMethod.GET,GraphResult =>
 			{
 				if(string.IsNullOrEmpty(GraphResult.Error)==false)

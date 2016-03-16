@@ -252,10 +252,8 @@ public class MyGameTutorialController : TutorialObjectController
 			{
 				goto default;
 			}
-			break;
 		default:
 			return base.getStartSequenceId(tutorialStep);
-			break;
 		}
 		return 0;
 	}

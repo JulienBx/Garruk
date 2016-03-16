@@ -182,7 +182,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 largeInputTextSize = new Vector2(731f,81f);
 	static public Vector2 largeInputTextWorldSize;
 	static private Vector3 largeInputTextOriginalScale=new Vector3(0.6f,0.6f,0.6f);
-	static private Vector3 largeInputTextMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static private Vector3 largeInputTextMobileScale = new Vector3 (0.55f, 0.55f, 0.55f);
 	static public Vector3 largeInputTextScale;
 
 	static private Vector3 valueFilterOriginalScale = new Vector3 (1f, 1f, 1f);
@@ -215,7 +215,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 popUpWorldSize;
 	static public Vector3 popUpScale;
 	static private Vector3 popUpOriginalScale = new Vector3 (0.7f, 0.7f, 0.7f);
-	static private Vector3 popUpMobileScale = new Vector3 (0.55f, 0.55f, 0.55f);
+	static private Vector3 popUpMobileScale = new Vector3 (0.585f, 0.585f, 0.585f);
 
 	static public Vector3 profileStatScale;
 	static private Vector3 profileStatOriginalScale = new Vector3 (1f, 1f, 1f);

@@ -9,13 +9,11 @@ public class DeckBoardDeckListInvitationPopUpController : MonoBehaviour
 	
 	void OnMouseOver()
 	{
-		gameObject.transform.GetComponent<SpriteRenderer> ().sprite = this.sprites [1];
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(0f,0f,0f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 	}
 	void OnMouseExit()
 	{
-		gameObject.transform.GetComponent<SpriteRenderer> ().sprite = this.sprites [0];
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 	}
 	void OnMouseDown()
 	{
