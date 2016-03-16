@@ -32,6 +32,7 @@ public class HelpController : MonoBehaviour
 	private bool toWriteCompanionText;
 	private float companionTextTimer;
 	private bool displayCompanionNextButton;
+	private bool isLeftSide;
 
 	// Background settings
 
@@ -81,14 +82,7 @@ public class HelpController : MonoBehaviour
 	{
 		this.gameObject.transform.position=ApplicationDesignRules.tutorialPosition;
 		this.companion.transform.localScale=ApplicationDesignRules.companionScale;
-		if(ApplicationDesignRules.isMobileScreen)
-		{
-			this.companion.transform.localPosition=new Vector3(-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2+ApplicationDesignRules.companionWorldSize.y/2f,0);
-		}
-		else
-		{
-			this.companion.transform.localPosition=new Vector3(-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,0);
-		}
+
 
 	}
 	public void helpHandler()
@@ -123,11 +117,12 @@ public class HelpController : MonoBehaviour
 	public virtual void getSequenceSettings()
 	{
 	}
-	public void setCompanion(string textToDisplay, bool displayNextButton)
+	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide)
 	{
 		this.toShowCompanion=true;
 		this.companionTextToDisplay=textToDisplay;
 		this.displayCompanionNextButton=displayNextButton;
+		this.isLeftSide=isLeftSide;
 	}
 	private void showCompanion()
 	{
@@ -139,20 +134,24 @@ public class HelpController : MonoBehaviour
 				this.companionDialogBox.SetActive(true);
 				this.companionDialogTitle.SetActive(true);
 				Vector3 dialogBoxPosition = this.companionDialogBox.transform.localPosition;
+				Vector3 dialogTitlePosition = this.companionDialogTitle.transform.localPosition;
 				if (companionTextToDisplay.Length < 100) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [0];
-					dialogBoxPosition.y=2.42f;
+					dialogBoxPosition.y=2.4f;
+					dialogTitlePosition.y=0.86f;
 				} 
 				else if (companionTextToDisplay.Length< 300) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [1];
-					dialogBoxPosition.y=2.75f;
+					dialogBoxPosition.y=3f;
+					dialogTitlePosition.y=1.42f;
 				} 
 				else 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [2];
-					dialogBoxPosition.y=3.02f;
+					dialogBoxPosition.y=3.55f;
+					dialogTitlePosition.y=1.92f;
 				}
 				this.companionDialogBox.transform.localPosition=dialogBoxPosition;
 				this.companionTextDisplayed="";
@@ -164,6 +163,34 @@ public class HelpController : MonoBehaviour
 				this.companionDialogTitle.SetActive(false);
 			}
 			this.companionNextButton.SetActive(this.displayCompanionNextButton);
+			if(this.isLeftSide)
+			{
+				this.companion.transform.rotation=Quaternion.Euler(0,0,0);
+				this.companionDialogTitle.transform.rotation=Quaternion.Euler(0,0,0);
+				this.companionNextButtonTitle.transform.rotation=Quaternion.Euler(0,0,0);
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					this.companion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2+ApplicationDesignRules.companionWorldSize.y/2f,0);
+				}
+				else
+				{
+					this.companion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,0);
+				}
+			}
+			else
+			{
+				this.companion.transform.localRotation=Quaternion.Euler(0,180,0);
+				this.companionDialogTitle.transform.localRotation=Quaternion.Euler(0,180,0);
+				this.companionNextButtonTitle.transform.localRotation=Quaternion.Euler(0,180,0);
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					this.companion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2+ApplicationDesignRules.companionWorldSize.y/2f,0);
+				}
+				else
+				{
+					this.companion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,0);
+				}
+			}
 		}
 		else
 		{

@@ -18,8 +18,8 @@ public class LobbyHelpController : HelpController
 		case 0:
 			gameObjectPosition=NewLobbyController.instance.getMainBlockOrigin();
 			gameObjectSize=NewLobbyController.instance.getMainBlockSize();
-			this.setCompanion(WordingLobbyTutorial.getHelpContent(1),true);
-			this.setBackground(true,new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			this.setCompanion(WordingLobbyTutorial.getHelpContent(1),true,false);
+			this.setBackground(false,new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x+3f,gameObjectSize.y+3f),0f,0f);
 			break;
 		}
 	}
