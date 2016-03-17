@@ -208,7 +208,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector2 companionSize=new Vector2(581f,742f);
 	static public Vector2 companionWorldSize;
 	static private Vector3 companionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
-	static private Vector3 companionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static private Vector3 companionMobileScale = new Vector3 (0.42f, 0.42f, 0.42f);
 	static public Vector3 companionScale;
 
 	static private Vector2 skillSize=new Vector2(1599f,355f);

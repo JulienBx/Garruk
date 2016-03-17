@@ -115,7 +115,7 @@ Transform:
   - {fileID: 1100045365}
   - {fileID: 331418639}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
 --- !u!212 &15933736
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2311,6 +2311,18 @@ Prefab:
     - target: {fileID: 3339268, guid: c28e9fce1efea4ef8bd46d57ebaff6b4, type: 2}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 21273474, guid: c28e9fce1efea4ef8bd46d57ebaff6b4, type: 2}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 21273474, guid: c28e9fce1efea4ef8bd46d57ebaff6b4, type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 21273474, guid: c28e9fce1efea4ef8bd46d57ebaff6b4, type: 2}
+      propertyPath: m_Color.b
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c28e9fce1efea4ef8bd46d57ebaff6b4, type: 2}

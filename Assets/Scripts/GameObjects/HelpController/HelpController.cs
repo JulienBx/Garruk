@@ -23,6 +23,24 @@ public class HelpController : MonoBehaviour
 
 	private GameObject background;
 
+	// arrow gameobject
+
+	private GameObject arrow;
+
+	// scrolling gameobject
+
+	private GameObject scrolling;
+
+	// drag gameobject
+
+	private GameObject drag;
+	private GameObject dragCard0;
+	private GameObject dragCard1;
+
+	// miniCopanion gameobejct
+
+	private GameObject minicompanion;
+
 	public int sequenceId;
 
 	// Companion settings
@@ -31,7 +49,12 @@ public class HelpController : MonoBehaviour
 	private bool toWriteCompanionText;
 	private float companionTextTimer;
 	private bool displayCompanionNextButton;
-	private bool isLeftSide;
+	private bool isCompanionOnLeftSide;
+	private bool toSlideCompanion;
+	private bool isSlidingCompanion;
+	private Vector3 startCompanionSlidingPosition;
+	private Vector3 endCompanionSlidingPosition;
+	private float companionYPosition;
 
 	// Background settings
 
@@ -39,6 +62,23 @@ public class HelpController : MonoBehaviour
 	private Rect backgroundRect;
 	private float backgroundClickableSectionXRatio;
 	private float backgroundClickableSectionYRatio;
+
+	// FlashingBlock settings
+
+	private bool toFlashBlock;
+	private bool isFlashingBlock;
+	private float flashingBlockTimer;
+	private GameObject blockToFlash;
+	private bool isFlashingBlockDark;
+
+	// Arrow settings
+
+	private string arrowOrientation;
+	private Vector3 startArrowPosition;
+	private Vector3 currentArrowPosition;
+	private Vector3 endArrowPosition;
+	private bool toMoveArrow;
+	private bool isMovingArrow;
 
 	// General settings
 
@@ -50,9 +90,8 @@ public class HelpController : MonoBehaviour
 	{
 		if(toWriteCompanionText)
 		{
-
 			this.companionTextTimer=this.companionTextTimer+Time.deltaTime;
-			if(this.companionTextTimer>0.03f)
+			if(this.companionTextTimer>0.015f)
 			{
 				this.companionTextTimer=0f;
 				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters+1;
@@ -60,6 +99,47 @@ public class HelpController : MonoBehaviour
 				{
 					this.toWriteCompanionText=false;
 				}
+			}
+		}
+		if (isSlidingCompanion) 
+		{
+			Vector3 companionCurrentPosition = this.companion.transform.localPosition;
+			if (this.isCompanionOnLeftSide) 
+			{
+				companionCurrentPosition.x = companionCurrentPosition.x + 20f*Time.deltaTime;
+				if (companionCurrentPosition.x >= this.endCompanionSlidingPosition.x) 
+				{
+					this.isSlidingCompanion = false;
+					companionCurrentPosition.x = endCompanionSlidingPosition.x;
+				}
+			} 
+			else 
+			{
+				companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
+				if (companionCurrentPosition.x <= this.endCompanionSlidingPosition.x) 
+				{
+					this.isSlidingCompanion = false;
+					companionCurrentPosition.x = endCompanionSlidingPosition.x;
+				}
+			}
+			this.companion.transform.localPosition = companionCurrentPosition;
+		}
+		if (this.isFlashingBlock) 
+		{
+			this.flashingBlockTimer = this.flashingBlockTimer + Time.deltaTime;
+			if (this.flashingBlockTimer > 0.5f) 
+			{
+				if (this.isFlashingBlockDark) 
+				{
+					this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
+					this.isFlashingBlockDark = false;
+				} 
+				else 
+				{
+					this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (0.5f, 0.5f, 0.5f);
+					this.isFlashingBlockDark = true;
+				}
+				this.flashingBlockTimer = 0f;
 			}
 		}
 	}
@@ -74,15 +154,24 @@ public class HelpController : MonoBehaviour
 		this.companionNextButton = this.companion.transform.FindChild ("NextButton").gameObject;
 		this.companionNextButtonTitle = this.companionNextButton.transform.FindChild ("Title").gameObject;
 		this.background=this.gameObject.transform.FindChild("Background").gameObject;
+		this.arrow = this.gameObject.transform.FindChild ("Arrow").gameObject;
+		this.scrolling = this.gameObject.transform.FindChild ("Scrolling").gameObject;
+		this.drag = this.gameObject.transform.FindChild ("Drag").gameObject;
+		this.dragCard0 = this.drag.transform.FindChild ("Card0").gameObject;
+		this.dragCard1 = this.drag.transform.FindChild ("Card1").gameObject;
+		this.minicompanion = this.minicompanion.transform.FindChild ("miniCompanion").gameObject;
 		this.companion.SetActive(false);
 		this.background.SetActive(false);
+		this.arrow.SetActive (false);
+		this.scrolling.SetActive (false);
+		this.drag.SetActive (false);
+		this.minicompanion.SetActive (false);
 	}
 	public void resize()
 	{
 		this.gameObject.transform.position=ApplicationDesignRules.tutorialPosition;
 		this.companion.transform.localScale=ApplicationDesignRules.companionScale;
-
-
+		this.launchSequence ();
 	}
 	public void helpHandler()
 	{
@@ -101,6 +190,16 @@ public class HelpController : MonoBehaviour
 		this.toShowCompanion = false;
 		this.toWriteCompanionText=false;
 		this.toShowBackground = false;
+		this.toSlideCompanion = false;
+		this.toFlashBlock = false;
+		this.isFlashingBlock = false;
+		if (this.isFlashingBlockDark) 
+		{
+			this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
+		}
+		this.isFlashingBlockDark = false;
+		this.toMoveArrow = false;
+		this.isMovingArrow = false;
 	}
 	public void launchSequence()
 	{
@@ -112,22 +211,29 @@ public class HelpController : MonoBehaviour
 	{
 		this.showCompanion();
 		this.showBackground();
+		this.showFlashingBlock ();
 	}
 	public virtual void getSequenceSettings()
 	{
 	}
-	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide)
+	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide, bool toSlideCompanion, float companionYPosition)
 	{
 		this.toShowCompanion=true;
 		this.companionTextDisplayed=textToDisplay;
 		this.displayCompanionNextButton=displayNextButton;
-		this.isLeftSide=isLeftSide;
+		this.isCompanionOnLeftSide=isLeftSide;
+		this.toSlideCompanion = toSlideCompanion;
+		this.companionYPosition = companionYPosition;
 	}
 	private void showCompanion()
 	{
 		if(this.toShowCompanion)
 		{
 			this.companion.SetActive(true);
+			if (this.toSlideCompanion) 
+			{
+				
+			}
 			if(this.companionTextDisplayed!="")
 			{
 				this.companionDialogBox.SetActive(true);
@@ -153,6 +259,7 @@ public class HelpController : MonoBehaviour
 					dialogTitlePosition.y=1.92f;
 				}
 				this.companionDialogBox.transform.localPosition=dialogBoxPosition;
+				this.companionDialogTitle.transform.localPosition = dialogTitlePosition;
 				this.companionDialogTitle.GetComponent<TextMeshPro>().text=this.companionTextDisplayed;
 				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=0;
 				this.toWriteCompanionText=true;
@@ -163,18 +270,19 @@ public class HelpController : MonoBehaviour
 				this.companionDialogTitle.SetActive(false);
 			}
 			this.companionNextButton.SetActive(this.displayCompanionNextButton);
-			if(this.isLeftSide)
+			this.companionNextButton.GetComponent<HelpCompanionNextButtonController> ().reset ();
+			if(this.isCompanionOnLeftSide)
 			{
 				this.companion.transform.rotation=Quaternion.Euler(0,0,0);
 				this.companionDialogTitle.transform.rotation=Quaternion.Euler(0,0,0);
 				this.companionNextButtonTitle.transform.rotation=Quaternion.Euler(0,0,0);
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					this.companion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2+ApplicationDesignRules.companionWorldSize.y/2f,0);
+					this.endCompanionSlidingPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,this.companionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.companionWorldSize.y/2f,-9.5f);
 				}
 				else
 				{
-					this.companion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,0);
+					this.endCompanionSlidingPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.companionWorldSize.x/2f,this.companionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,-9.5f);
 				}
 			}
 			else
@@ -184,18 +292,40 @@ public class HelpController : MonoBehaviour
 				this.companionNextButtonTitle.transform.localRotation=Quaternion.Euler(0,180,0);
 				if(ApplicationDesignRules.isMobileScreen)
 				{
-					this.companion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.bottomBarWorldSize.y/2+ApplicationDesignRules.companionWorldSize.y/2f,0);
+					this.endCompanionSlidingPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,this.companionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.companionWorldSize.y/2f,-9.5f);
 				}
 				else
 				{
-					this.companion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,0);
+					this.endCompanionSlidingPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.companionWorldSize.x/2f,this.companionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.companionWorldSize.y/2f,-9.5f);
 				}
+			}
+			if (this.toSlideCompanion) 
+			{
+				if (this.isCompanionOnLeftSide) 
+				{
+					this.startCompanionSlidingPosition = new Vector3 (this.endCompanionSlidingPosition.x - 5f, this.endCompanionSlidingPosition.y, this.endCompanionSlidingPosition.z);
+				} 
+				else 
+				{
+					this.startCompanionSlidingPosition = new Vector3 (this.endCompanionSlidingPosition.x + 5f, this.endCompanionSlidingPosition.y, this.endCompanionSlidingPosition.z);
+				}
+				this.isSlidingCompanion = true;
+				this.companion.transform.localPosition = this.startCompanionSlidingPosition;
+			} 
+			else 
+			{
+				this.companion.transform.localPosition = this.endCompanionSlidingPosition;
 			}
 		}
 		else
 		{
 			this.companion.SetActive(false);
 		}
+	}
+	public void setFlashingBlock(GameObject blockToFlash)
+	{
+		this.toFlashBlock = true;
+		this.blockToFlash = blockToFlash;
 	}
 	public void setBackground(bool isSquareBackground, Rect backgroundRect, float backgroundClickableSectionXRatio, float backgroundClickableSectionYRatio)
 	{
@@ -204,6 +334,12 @@ public class HelpController : MonoBehaviour
 		this.backgroundRect=backgroundRect;
 		this.backgroundClickableSectionXRatio=backgroundClickableSectionXRatio;
 		this.backgroundClickableSectionYRatio=backgroundClickableSectionYRatio;
+	}
+	public void setArrow(string orientation, Vector3 position)
+	{
+		this.arrowOrientation = orientation;
+		this.endArrowPosition = position;
+		this.toMoveArrow = true;
 	}
 	private void showBackground()
 	{
@@ -224,6 +360,54 @@ public class HelpController : MonoBehaviour
 		{
 			this.background.SetActive(false);
 		}
+	}
+	private void showFlashingBlock()
+	{
+		if (this.toFlashBlock) 
+		{
+			this.background.SetActive (true);
+			this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
+			Vector3 gameObjectPosition = this.blockToFlash.GetComponent<NewBlockController> ().getOriginPosition ();
+			Vector2 gameObjectSize=this.blockToFlash.GetComponent<NewBlockController> ().getSize ();
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
+			} 
+			else 
+			{
+				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			}
+			this.isFlashingBlock = true;
+		}
+	}
+	private void showArrow()
+	{
+		if (this.toMoveArrow) 
+		{
+			if (this.arrowOrientation == "left") 
+			{
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x-2f,this.endArrowPosition.y,this.endArrowPosition.z);
+			} 
+			else if (this.arrowOrientation == "right") 
+			{
+			} 
+			else if (this.arrowOrientation == "up") 
+			{
+			} 
+			else if (this.arrowOrientation == "down") 
+			{
+			}
+			this.isMovingArrow = true;
+		} 
+		else 
+		{
+		}
+	}
+	public void quitHelp()
+	{
+		this.sequenceId = -1;
+		this.resetSettings ();
+		this.showSequence ();
 	}
 }
 
