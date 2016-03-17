@@ -16,7 +16,6 @@ public class LobbyHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			
 			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock ());
 			if (ApplicationDesignRules.isMobileScreen) 
 			{
@@ -73,17 +72,20 @@ public class LobbyHelpController : HelpController
 				this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
 			}
 			break;
+		case 4:
+			this.setArrow("down",new Vector3(0f,0f,0f));
+			break;
 		}
 	}
 	public override void companionNextButtonHandler()
 	{
 		switch (this.sequenceId) 
 		{
-		case 0: case 1: case 2:
+		case 0: case 1: case 2: case 3:
 			this.sequenceId++;
 			this.launchSequence();
 			break;
-		case 3:
+		case 4:
 			this.quitHelp ();
 			break;
 		}

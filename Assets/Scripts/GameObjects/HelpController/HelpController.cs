@@ -79,6 +79,9 @@ public class HelpController : MonoBehaviour
 	private Vector3 endArrowPosition;
 	private bool toMoveArrow;
 	private bool isMovingArrow;
+	private bool isArrowMovingBack;
+	private float arrowTimer;
+	private float arrowSpeed;
 
 	// General settings
 
@@ -142,11 +145,100 @@ public class HelpController : MonoBehaviour
 				this.flashingBlockTimer = 0f;
 			}
 		}
+		if(isMovingArrow)
+		{
+			if(this.arrowOrientation=="left")
+			{
+				if(this.isArrowMovingBack)
+				{
+					this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.x>=this.startArrowPosition.x)
+					{
+						this.isArrowMovingBack=false;
+						this.currentArrowPosition=this.startArrowPosition;
+					}
+				}
+				else
+				{
+					this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.x<=this.endArrowPosition.x)
+					{
+						this.isArrowMovingBack=true;
+						this.currentArrowPosition=this.endArrowPosition;
+					}
+				}
+			}
+			else if(this.arrowOrientation=="right")
+			{
+				if(this.isArrowMovingBack)
+				{
+					this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.x<=this.startArrowPosition.x)
+					{
+						this.isArrowMovingBack=false;
+						this.currentArrowPosition=this.startArrowPosition;
+					}
+				}
+				else
+				{
+					this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.x>=this.endArrowPosition.x)
+					{
+						this.isArrowMovingBack=true;
+						this.currentArrowPosition=this.endArrowPosition;
+					}
+				}
+			}
+			else if(this.arrowOrientation=="up")
+			{
+				if(this.isArrowMovingBack)
+				{
+					this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.y<=this.startArrowPosition.y)
+					{
+						this.isArrowMovingBack=false;
+						this.currentArrowPosition=this.startArrowPosition;
+					}
+				}
+				else
+				{
+					this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.y>=this.endArrowPosition.y)
+					{
+						this.isArrowMovingBack=true;
+						this.currentArrowPosition=this.endArrowPosition;
+					}
+				}
+			}
+			else if(this.arrowOrientation=="down")
+			{
+				if(this.isArrowMovingBack)
+				{
+					this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.y>=this.startArrowPosition.y)
+					{
+						this.isArrowMovingBack=false;
+						this.currentArrowPosition=this.startArrowPosition;
+					}
+				}
+				else
+				{
+					this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
+					if(this.currentArrowPosition.y<=this.endArrowPosition.y)
+					{
+						this.isArrowMovingBack=true;
+						this.currentArrowPosition=this.endArrowPosition;
+					}
+				}
+			}
+			this.arrow.transform.localPosition=this.currentArrowPosition;
+		}
 	}
 	public void initialize()
 	{
 		instance = this;
 		this.sequenceId=-1;
+		this.arrowSpeed=2.5f;
 		this.ressources = this.gameObject.GetComponent<HelpRessources> ();
 		this.companion = this.gameObject.transform.FindChild ("Companion").gameObject;
 		this.companionDialogBox = this.companion.transform.FindChild ("Dialog").gameObject;
@@ -159,7 +251,7 @@ public class HelpController : MonoBehaviour
 		this.drag = this.gameObject.transform.FindChild ("Drag").gameObject;
 		this.dragCard0 = this.drag.transform.FindChild ("Card0").gameObject;
 		this.dragCard1 = this.drag.transform.FindChild ("Card1").gameObject;
-		this.minicompanion = this.minicompanion.transform.FindChild ("miniCompanion").gameObject;
+		this.minicompanion = this.gameObject.transform.FindChild ("miniCompanion").gameObject;
 		this.companion.SetActive(false);
 		this.background.SetActive(false);
 		this.arrow.SetActive (false);
@@ -171,6 +263,7 @@ public class HelpController : MonoBehaviour
 	{
 		this.gameObject.transform.position=ApplicationDesignRules.tutorialPosition;
 		this.companion.transform.localScale=ApplicationDesignRules.companionScale;
+		this.arrow.transform.localScale=ApplicationDesignRules.helpArrowScale;
 		this.launchSequence ();
 	}
 	public void helpHandler()
@@ -212,6 +305,7 @@ public class HelpController : MonoBehaviour
 		this.showCompanion();
 		this.showBackground();
 		this.showFlashingBlock ();
+		this.showArrow();
 	}
 	public virtual void getSequenceSettings()
 	{
@@ -384,23 +478,38 @@ public class HelpController : MonoBehaviour
 	{
 		if (this.toMoveArrow) 
 		{
+			this.arrow.SetActive(true);
 			if (this.arrowOrientation == "left") 
 			{
-				this.startArrowPosition = new Vector3(this.endArrowPosition.x-2f,this.endArrowPosition.y,this.endArrowPosition.z);
+				this.endArrowPosition.x=this.endArrowPosition.x+ApplicationDesignRules.helpArrowWorldSize.x/2f;
+				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,180f);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x+1f,this.endArrowPosition.y,this.endArrowPosition.z);
 			} 
 			else if (this.arrowOrientation == "right") 
 			{
+				this.endArrowPosition.x=this.endArrowPosition.x-ApplicationDesignRules.helpArrowWorldSize.x/2f;
+				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,0f);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x-1f,this.endArrowPosition.y,this.endArrowPosition.z);
 			} 
 			else if (this.arrowOrientation == "up") 
 			{
+				this.endArrowPosition.y=this.endArrowPosition.y-ApplicationDesignRules.helpArrowWorldSize.x/2f;
+				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,90f);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y-1f,this.endArrowPosition.z);
 			} 
 			else if (this.arrowOrientation == "down") 
 			{
+				this.endArrowPosition.y=this.endArrowPosition.y+ApplicationDesignRules.helpArrowWorldSize.x/2f;
+				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,270f);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y+1f,this.endArrowPosition.z);
 			}
 			this.isMovingArrow = true;
+			this.isArrowMovingBack=false;
+			this.currentArrowPosition=this.startArrowPosition;
 		} 
 		else 
 		{
+			this.arrow.SetActive(false);
 		}
 	}
 	public void quitHelp()
