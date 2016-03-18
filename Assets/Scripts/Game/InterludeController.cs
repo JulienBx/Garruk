@@ -96,33 +96,6 @@ public class InterludeController : MonoBehaviour
 		
 		if(this.time>4f*this.animationTime){
 			if(!isEndTurn){
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
-					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
-					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
-					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-						List<int> opponents = GameView.instance.getOpponents();
-						List<int> nbHits = new List<int>();
-						for (int i = 0 ; i < opponents.Count ; i++){
-							nbHits.Add(0);
-						}
-						int nbShurikens = UnityEngine.Random.Range(1,4);
-						for (int i = 1 ; i < nbShurikens+1 ;i++){
-							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
-							nbHits[chosenOne]++;
-						}
-						for (int i = 0 ; i < nbHits.Count ; i++){
-							if(nbHits[i]>0){
-								if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
-									GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
-								}
-								else{
-									GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
-								}
-							}
-						}
-					}
-				}
-
 				if(GameView.instance.hasFightStarted){
 					GameView.instance.changePlayer();
 				}
@@ -161,6 +134,33 @@ public class InterludeController : MonoBehaviour
 						if(!GameView.instance.hasStep2){
 							GameView.instance.launchTutoStep(2);
 							GameView.instance.hasStep2 = true ;
+						}
+					}
+				}
+
+				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
+					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
+					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
+					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+						List<int> opponents = GameView.instance.getOpponents();
+						List<int> nbHits = new List<int>();
+						for (int i = 0 ; i < opponents.Count ; i++){
+							nbHits.Add(0);
+						}
+						int nbShurikens = UnityEngine.Random.Range(1,4);
+						for (int i = 1 ; i < nbShurikens+1 ;i++){
+							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
+							nbHits[chosenOne]++;
+						}
+						for (int i = 0 ; i < nbHits.Count ; i++){
+							if(nbHits[i]>0){
+								if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
+									GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
+								}
+								else{
+									GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+								}
+							}
 						}
 					}
 				}
