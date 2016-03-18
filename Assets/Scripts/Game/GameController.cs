@@ -316,6 +316,10 @@ public class GameController : Photon.MonoBehaviour
 			ApplicationModel.player.HasWonLastGame=false;
 		}
 		PhotonNetwork.LeaveRoom ();
+	}
+
+	void OnLeftRoom()
+	{
 		SceneManager.LoadScene("EndGame");
 	}
 	
