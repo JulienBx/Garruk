@@ -33,13 +33,13 @@ public class HelpController : MonoBehaviour
 
 	// drag gameobject
 
-	private GameObject drag;
-	private GameObject dragCard0;
-	private GameObject dragCard1;
+	private GameObject dragging;
+	private GameObject draggingCard0;
+	private GameObject draggingCard1;
 
-	// miniCopanion gameobejct
+	// miniCompanion gameobejct
 
-	private GameObject minicompanion;
+	private GameObject miniCompanion;
 
 	public int sequenceId;
 
@@ -96,15 +96,38 @@ public class HelpController : MonoBehaviour
 	private float scrollingTimer;
 	private float scrollingSpeed;
 
+	// Dragging settings
+
+	private string draggingOrientation;
+	private Vector3 currentDraggingPosition;
+	private Vector3 startDraggingPosition;
+	private Vector3 endDraggingPosition;
+	private bool toMoveDragging;
+	private bool isMovingDragging;
+	private float draggingTimer;
+	private float draggingSpeed;
+
+	// Mini companion settings
+
+	private bool isMiniCompanionOnLeftSide;
+	private bool toShowMiniCompanion;
+	private float miniCompanionYPosition;
+	private bool isFlashingMiniCompanion;
+	private bool isMiniCompanionOnHoveredState;
+	private float miniCompanionTimer;
+	private float miniCompanionSpeed;
+
 	// General settings
 
-	private bool toDisplayHelp;
-
-
+	private bool toDisplayHelpController;
+	private bool isTutorial;
+	public bool isMiniCompanionClicked;
+	private bool canSwipe;
+	private bool canScroll;
 
 	void Update()
 	{
-		if(this.toDisplayHelp)
+		if(this.toDisplayHelpController)
 		{
 			if(this.toWriteCompanionText)
 			{
@@ -126,6 +149,14 @@ public class HelpController : MonoBehaviour
 			{
 				this.drawScrolling();
 			}
+			if (this.isMovingDragging) 
+			{
+				this.drawDragging ();
+			}
+			if (this.isFlashingMiniCompanion) 
+			{
+				this.drawMiniCompanion ();
+			}
 		}
 	}
 	public void initialize()
@@ -134,6 +165,7 @@ public class HelpController : MonoBehaviour
 		this.sequenceId=-1;
 		this.arrowSpeed=2.5f;
 		this.scrollingSpeed=2f;
+		this.draggingSpeed = 2f;
 		this.ressources = this.gameObject.GetComponent<HelpRessources> ();
 		this.companion = this.gameObject.transform.FindChild ("Companion").gameObject;
 		this.companionDialogBox = this.companion.transform.FindChild ("Dialog").gameObject;
@@ -143,24 +175,33 @@ public class HelpController : MonoBehaviour
 		this.background=this.gameObject.transform.FindChild("Background").gameObject;
 		this.arrow = this.gameObject.transform.FindChild ("Arrow").gameObject;
 		this.scrolling = this.gameObject.transform.FindChild ("Scrolling").gameObject;
-		this.drag = this.gameObject.transform.FindChild ("Drag").gameObject;
-		this.dragCard0 = this.drag.transform.FindChild ("Card0").gameObject;
-		this.dragCard1 = this.drag.transform.FindChild ("Card1").gameObject;
-		this.minicompanion = this.gameObject.transform.FindChild ("miniCompanion").gameObject;
+		this.dragging = this.gameObject.transform.FindChild ("Drag").gameObject;
+		this.draggingCard0 = this.dragging.transform.FindChild ("Card0").gameObject;
+		this.draggingCard1 = this.dragging.transform.FindChild ("Card1").gameObject;
+		this.miniCompanion = this.gameObject.transform.FindChild ("miniCompanion").gameObject;
 		this.companion.SetActive(false);
 		this.background.SetActive(false);
 		this.arrow.SetActive (false);
 		this.scrolling.SetActive (false);
-		this.drag.SetActive (false);
-		this.minicompanion.SetActive (false);
+		this.dragging.SetActive (false);
+		this.miniCompanion.SetActive (false);
 	}
 	public void resize()
 	{
-		this.gameObject.transform.position=ApplicationDesignRules.tutorialPosition;
+		this.gameObject.transform.position=ApplicationDesignRules.helpPosition;
 		this.companion.transform.localScale=ApplicationDesignRules.companionScale;
 		this.arrow.transform.localScale=ApplicationDesignRules.helpArrowScale;
 		this.scrolling.transform.localScale=ApplicationDesignRules.helpScrollingScale;
-		this.launchSequence ();
+		this.dragging.transform.localScale = ApplicationDesignRules.helpDraggingScale;
+		this.miniCompanion.transform.localScale = ApplicationDesignRules.miniCompanionScale;
+		if (!this.isTutorial) 
+		{
+			this.launchHelpSequence ();
+		} 
+		else 
+		{
+			this.launchTutorialSequence ();
+		}
 	}
 	public void helpHandler()
 	{
@@ -168,11 +209,45 @@ public class HelpController : MonoBehaviour
 	}
 	public virtual void startHelp()
 	{
-		this.sequenceId = 0;
-		this.toDisplayHelp=true;
-		this.launchSequence ();
+		this.sequenceId = -1;
+		this.getHelpNextAction ();
+		this.toDisplayHelpController=true;
+		this.isTutorial = false;
 	}
-	public virtual void companionNextButtonHandler()
+	public virtual void startTutorial()
+	{
+		this.sequenceId = -1;
+		this.getTutorialNextAction ();
+		this.toDisplayHelpController = true;
+		this.isTutorial = true;
+	}
+	public void companionNextButtonHandler()
+	{
+		if (!this.isTutorial) 
+		{
+			this.getHelpNextAction ();
+		} 
+		else 
+		{
+			this.getTutorialNextAction ();
+		}
+	}
+	public virtual void miniCompanionHandler()
+	{
+		this.isMiniCompanionClicked = true;
+		if (!this.isTutorial) 
+		{
+			this.getHelpNextAction ();
+		} 
+		else 
+		{
+			this.getTutorialNextAction ();
+		}
+	}
+	public virtual void getHelpNextAction()
+	{
+	}
+	public virtual void getTutorialNextAction()
 	{
 	}
 	private void resetSettings()
@@ -192,11 +267,37 @@ public class HelpController : MonoBehaviour
 		this.isMovingArrow = false;
 		this.toMoveScrolling = false;
 		this.isMovingScrolling = false;
+		this.isMovingDragging = false;
+		this.toMoveDragging = false;
+		this.toShowMiniCompanion = false;
+		this.isFlashingMiniCompanion = false;
+		this.canSwipe = false;
+		this.canScroll = false;
 	}
-	public void launchSequence()
+	public void launchHelpSequence()
 	{
 		this.resetSettings();
-		this.getSequenceSettings();
+		if (ApplicationDesignRules.isMobileScreen) 
+		{
+			this.getMobileHelpSequenceSettings ();
+		} 
+		else 
+		{
+			this.getDesktopHelpSequenceSettings ();
+		}
+		this.showSequence();
+	}
+	public void launchTutorialSequence()
+	{
+		this.resetSettings();
+		if (ApplicationDesignRules.isMobileScreen) 
+		{
+			this.getMobileTutorialSequenceSettings ();
+		} 
+		else 
+		{
+			this.getDesktopTutorialSequenceSettings ();
+		}
 		this.showSequence();
 	}
 	private void showSequence()
@@ -206,18 +307,60 @@ public class HelpController : MonoBehaviour
 		this.showFlashingBlock ();
 		this.showArrow();
 		this.showScrolling();
+		this.showDragging ();
+		this.showMiniCompanion ();
 	}
-	public virtual void getSequenceSettings()
+	public virtual void getDesktopHelpSequenceSettings()
 	{
 	}
-
+	public virtual void getMobileHelpSequenceSettings()
+	{
+	}
+	public virtual void getDesktopTutorialSequenceSettings()
+	{
+	}
+	public virtual void getMobileTutorialSequenceSettings()
+	{
+	}
 	public void quitHelp()
 	{
 		this.sequenceId = -1;
 		this.resetSettings ();
 		this.showSequence ();
-		this.toDisplayHelp=false;
+		this.toDisplayHelpController=false;
 	}
+	public void tutorialTrackPoint()
+	{
+		this.getTutorialNextAction ();
+	}
+	public IEnumerator setTutorialStep(int id)
+	{
+		BackOfficeController.instance.displayLoadingScreen ();
+		yield return StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
+		BackOfficeController.instance.hideLoadingScreen ();
+		this.sequenceId++;
+		this.launchTutorialSequence ();
+	}
+	#region General Settings Methods
+
+	public void setCanSwipe()
+	{
+		this.canSwipe = true;
+	}
+	public void setCanScroll()
+	{
+		this.canScroll = true;
+	}
+	public bool getCanSwipe()
+	{
+		return canSwipe;
+	}
+	public bool getCanScroll()
+	{
+		return canScroll;
+	}
+
+	#endregion
 
 	#region Companion Methods
 
@@ -635,6 +778,163 @@ public class HelpController : MonoBehaviour
 			}
 		}
 		this.scrolling.transform.localPosition=this.currentScrollingPosition;
+	}
+
+	#endregion
+
+	#region Dragging Methods
+
+	public void setDragging(string orientation, Vector3 position)
+	{
+		this.toMoveDragging = true;
+		this.endDraggingPosition = position;
+		this.draggingOrientation = orientation;
+	}
+	private void showDragging()
+	{
+		if(this.toMoveDragging)
+		{
+			this.dragging.SetActive(true);
+			this.dragging.transform.localPosition = this.endDraggingPosition;
+			if (this.draggingOrientation == "left") 
+			{
+				this.startDraggingPosition = new Vector3 (1f, 0f,0f);
+				this.endDraggingPosition = new Vector3 (-1f, 0f,0f);
+			} 
+			else if (this.draggingOrientation == "right") 
+			{
+				this.startDraggingPosition = new Vector3 (-1f, 0f,0f);
+				this.endDraggingPosition = new Vector3 (1f, 0f,0f);
+			} 
+			else if (this.draggingOrientation == "up") 
+			{
+				this.startDraggingPosition = new Vector3 (0f, -1f,0f);
+				this.endDraggingPosition = new Vector3 (0f, 1f,0f);
+			} 
+			else if (this.draggingOrientation == "down") 
+			{
+				this.startDraggingPosition = new Vector3 (0f, 1f,0f);
+				this.endDraggingPosition = new Vector3 (0f, -1f,0f);
+			} 
+			this.isMovingDragging=true;
+			this.draggingCard0.transform.localPosition = this.startDraggingPosition;
+			this.draggingCard1.transform.localPosition = this.endDraggingPosition;
+			this.currentDraggingPosition = this.startDraggingPosition;
+		}
+		else
+		{
+			this.dragging.SetActive(false);
+		}
+	}
+	private void drawDragging()
+	{
+		if(this.draggingOrientation=="left")
+		{
+			this.currentDraggingPosition.x=this.currentDraggingPosition.x-Time.deltaTime*this.draggingSpeed;
+			if(this.currentDraggingPosition.x<=this.endDraggingPosition.x)
+			{
+				this.currentDraggingPosition=this.startDraggingPosition;
+			}
+		}
+		else if(this.draggingOrientation=="right")
+		{
+			this.currentDraggingPosition.x=this.currentDraggingPosition.x+Time.deltaTime*this.draggingSpeed;
+			if(this.currentDraggingPosition.x>=this.endDraggingPosition.x)
+			{
+				this.currentDraggingPosition=this.startDraggingPosition;
+			}
+		}
+		else if(this.draggingOrientation=="up")
+		{
+			this.currentDraggingPosition.y=this.currentDraggingPosition.y+Time.deltaTime*this.draggingSpeed;
+			if(this.currentDraggingPosition.y>=this.endDraggingPosition.y)
+			{
+				this.currentDraggingPosition=this.startDraggingPosition;
+			}
+		}
+		else if(this.draggingOrientation=="down")
+		{
+			this.currentDraggingPosition.y=this.currentDraggingPosition.y-Time.deltaTime*this.draggingSpeed;
+			if(this.currentDraggingPosition.y<=this.endDraggingPosition.y)
+			{
+				this.currentDraggingPosition=this.startDraggingPosition;
+			}
+		}
+		this.draggingCard0.transform.localPosition=this.currentDraggingPosition;
+	}
+
+	#endregion
+
+	#region miniCompanion Methods
+
+	public void setMiniCompanion(bool isMiniCompanionOnLeftSide, float miniCompanionPositionY)
+	{
+		this.toShowMiniCompanion = true;
+		this.isMiniCompanionOnLeftSide = isMiniCompanionOnLeftSide;
+		this.miniCompanionYPosition = miniCompanionPositionY;
+	}
+	private void showMiniCompanion()
+	{
+		if(this.toShowMiniCompanion)
+		{
+			this.miniCompanion.SetActive(true);
+			this.miniCompanion.GetComponent<HelpMiniCompanionController> ().reset ();
+			if(this.isCompanionOnLeftSide)
+			{
+				this.miniCompanion.transform.rotation=Quaternion.Euler(0,0,0);
+
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					this.miniCompanion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.miniCompanionWorldSize.x/2f,this.miniCompanionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.miniCompanionWorldSize.y/2f,-9.5f);
+				}
+				else
+				{
+					this.miniCompanion.transform.localPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.leftMargin+ApplicationDesignRules.miniCompanionWorldSize.x/2f,this.miniCompanionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.miniCompanionWorldSize.y/2f,-9.5f);
+				}
+			}
+			else
+			{
+				this.miniCompanion.transform.rotation=Quaternion.Euler(0,180,0);
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					this.miniCompanion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.miniCompanionWorldSize.x/2f,this.miniCompanionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.miniCompanionWorldSize.y/2f,-9.5f);
+				}
+				else
+				{
+					this.miniCompanion.transform.localPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.rightMargin-ApplicationDesignRules.miniCompanionWorldSize.x/2f,this.miniCompanionYPosition+0.2f-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.miniCompanionWorldSize.y/2f,-9.5f);
+				}
+			}
+			this.isFlashingMiniCompanion = true;
+			this.isMiniCompanionOnHoveredState = false;
+		}
+		else
+		{
+			this.miniCompanion.SetActive(false);
+		}
+	}
+	private void drawMiniCompanion()
+	{
+		this.miniCompanionTimer = this.miniCompanionTimer + Time.deltaTime;
+		if (this.miniCompanionTimer > 0.5f) 
+		{
+			if (this.isMiniCompanionOnHoveredState) 
+			{
+				this.isMiniCompanionOnHoveredState = false;
+				if (!this.miniCompanion.GetComponent<HelpMiniCompanionController> ().getIsHovered ()) 
+				{
+					this.miniCompanion.GetComponent<HelpMiniCompanionController> ().setInitialState ();
+				}	
+			} 
+			else 
+			{
+				this.isMiniCompanionOnHoveredState = true;
+				if (!this.miniCompanion.GetComponent<HelpMiniCompanionController> ().getIsHovered ()) 
+				{
+					this.miniCompanion.GetComponent<HelpMiniCompanionController> ().setHoveredState ();
+				}	
+			}
+			this.miniCompanionTimer = 0f;
+		}
 	}
 
 	#endregion

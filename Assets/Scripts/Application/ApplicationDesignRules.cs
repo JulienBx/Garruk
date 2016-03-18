@@ -211,6 +211,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 companionMobileScale = new Vector3 (0.42f, 0.42f, 0.42f);
 	static public Vector3 companionScale;
 
+	static private Vector2 miniCompanionSize=new Vector2(300f,299f);
+	static public Vector2 miniCompanionWorldSize;
+	static private Vector3 miniCompanionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 miniCompanionMobileScale = new Vector3 (0.42f, 0.42f, 0.42f);
+	static public Vector3 miniCompanionScale;
+
 	static private Vector2 helpArrowSize=new Vector2(396f,230f);
 	static public Vector2 helpArrowWorldSize;
 	static private Vector3 helpArrowOriginalScale=new Vector3(0.4f,0.4f,0.4f);
@@ -220,6 +226,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 helpScrollingOriginalScale=new Vector3(0.5f,0.5f,0.5f);
 	static private Vector3 helpScrollingMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
 	static public Vector3 helpScrollingScale;
+
+	static private Vector3 helpDraggingOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 helpDraggingMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static public Vector3 helpDraggingScale;
 
 	static private Vector2 skillSize=new Vector2(1599f,355f);
 	static public Vector2 skillWorldSize;
@@ -259,7 +269,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 subMainTitleScale;
 
 	static public Vector3 menuPosition = new Vector3(0f,40f,0f);
-	static public Vector3 tutorialPosition = new Vector3(0f,200f,0f);
+	static public Vector3 helpPosition = new Vector3(0f,200f,0f);
 	static public Vector3 backgroundPosition = new Vector3(0f,20f,0f);
 	static public Vector3 focusedCardPosition;
 	static public Vector3 nextLevelPopUpPosition;
@@ -272,7 +282,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 sceneCameraFocusedCardPosition;
 	static public Vector3 sceneCameraRandomCardsPosition;
 	static public Vector3 scrollCameraStartPosition;
-	static public Vector3 tutorialCameraPositiion = new Vector3 (tutorialPosition.x, tutorialPosition.y, -10f);
+	static public Vector3 helpCameraPositiion = new Vector3 (helpPosition.x, helpPosition.y, -10f);
 	static public Vector3 backgroundCameraPosition = new Vector3 (backgroundPosition.x, backgroundPosition.y, -10f);
 
 	static private Vector2 topBarSize = new Vector2(1580f,198f);
@@ -519,10 +529,15 @@ public class ApplicationDesignRules : MonoBehaviour
 		companionScale = toNewScale (companionOriginalScale, companionMobileScale);
 		companionWorldSize = toWorldSize(companionSize,companionScale);
 
+		miniCompanionScale = toNewScale (miniCompanionOriginalScale, miniCompanionMobileScale);
+		miniCompanionWorldSize = toWorldSize(miniCompanionSize,miniCompanionScale);
+
 		helpArrowScale = toNewScale (helpArrowOriginalScale, helpArrowMobileScale);
 		helpArrowWorldSize = toWorldSize(helpArrowSize,helpArrowScale);
 
 		helpScrollingScale = toNewScale (helpScrollingOriginalScale, helpScrollingMobileScale);
+
+		helpDraggingScale = toNewScale (helpDraggingOriginalScale, helpDraggingMobileScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

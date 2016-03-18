@@ -8,88 +8,78 @@ using TMPro;
 
 public class LobbyHelpController : HelpController 
 {
-	public override void getSequenceSettings()
-	{
-		Vector3 gameObjectPosition = new Vector3 ();
-		Vector2 gameObjectSize = new Vector2 ();
 
+	#region Help
+
+	public override void getDesktopHelpSequenceSettings()
+	{
 		switch (this.sequenceId) 
 		{
 		case 0:
 			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock ());
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				if (NewLobbyController.instance.getAreResultsDisplayed ()) 
-				{
-					NewLobbyController.instance.slideRight ();
-				} 
-				else if (NewLobbyController.instance.getAreStatsDisplayed ()) 
-				{
-					NewLobbyController.instance.slideLeft ();
-				}
-				this.setCompanion (WordingLobbyTutorial.getHelpContent (1), true, true, true, 0f);
-			} 
-			else 
-			{
-				this.setCompanion (WordingLobbyTutorial.getHelpContent (1), true, false, true, 0f);
-			}
+			this.setCompanion (WordingLobbyTutorial.getHelpContent (0), true, false, true, 0f);
 			break;
 		case 1:
 			this.setFlashingBlock (NewLobbyController.instance.returnStatsBlock ());
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				NewLobbyController.instance.slideRight ();
-				this.setCompanion(WordingLobbyTutorial.getHelpContent(7),true,true,false,0f);
-			} 
-			else 
-			{
-				this.setCompanion(WordingLobbyTutorial.getHelpContent(7),true,false,false,0f);
-			}
+			this.setCompanion(WordingLobbyTutorial.getHelpContent(3),true,false,false,0f);
 			break;
 		case 2:
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				NewLobbyController.instance.slideLeft ();
-				this.setCompanion (WordingLobbyTutorial.getHelpContent (5), true, false, false, 4f);
-				this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
-			} 
-			else 
-			{
-				this.setCompanion (WordingLobbyTutorial.getHelpContent (3), true, true, true, 0f);
-				this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
-			}	
+			this.setCompanion (WordingLobbyTutorial.getHelpContent (1), true, true, true, 0f);
+			this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
 			break;
 		case 3:
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				NewLobbyController.instance.slideLeft ();
-				this.setCompanion(WordingLobbyTutorial.getHelpContent(3),true,false,false,0f);
-				this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
-			} 
-			else 
-			{
-				this.setCompanion(WordingLobbyTutorial.getHelpContent(5),true,true,false,0f);
-				this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
-			}
-			break;
-		case 4:
-			this.setScrolling("up",new Vector3(0f,0f,0f));
+			this.setCompanion(WordingLobbyTutorial.getHelpContent(2),true,true,false,0f);
+			this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
 			break;
 		}
 	}
-	public override void companionNextButtonHandler()
+	public override void getMobileHelpSequenceSettings()
 	{
 		switch (this.sequenceId) 
 		{
-		case 0: case 1: case 2: case 3:
-			this.sequenceId++;
-			this.launchSequence();
+		case 0:
+			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock ());
+			if (NewLobbyController.instance.getAreResultsDisplayed ()) 
+			{
+				NewLobbyController.instance.slideRight ();
+			} 
+			else if (NewLobbyController.instance.getAreStatsDisplayed ()) 
+			{
+				NewLobbyController.instance.slideLeft ();
+			}
+			this.setCompanion (WordingLobbyTutorial.getHelpContent (0), true, true, true, 0f);
 			break;
-		case 4:
-			this.quitHelp ();
+		case 1:
+			this.setFlashingBlock (NewLobbyController.instance.returnStatsBlock ());
+			NewLobbyController.instance.slideRight ();
+			this.setCompanion(WordingLobbyTutorial.getHelpContent(3),true,true,false,0f);
+			break;
+		case 2:
+			NewLobbyController.instance.slideLeft ();
+			this.setCompanion (WordingLobbyTutorial.getHelpContent (2), true, false, false, 4f);
+			this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());	
+			break;
+		case 3:
+			NewLobbyController.instance.slideLeft ();
+			this.setCompanion(WordingLobbyTutorial.getHelpContent(1),true,false,false,0f);
+			this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
 			break;
 		}
 	}
+	public override void getHelpNextAction()
+	{
+		if (sequenceId < 3) 
+		{
+			this.sequenceId++;
+			this.launchHelpSequence ();
+		} 
+		else 
+		{
+			StartCoroutine (NewLobbyController.instance.endHelp ());
+			this.quitHelp ();
+		}
+	}
 
+	#endregion
 }
 

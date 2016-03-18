@@ -147,68 +147,6 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!1001 &32944085
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 480340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463628, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: checkPaddingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463628, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463628, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3341886, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 180340, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-      propertyPath: m_Name
-      value: Tutorial
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 1474ad9f863d24afcaf1180c03ae5275, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &229566735
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +511,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
 --- !u!212 &361759778
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1091,7 +1029,7 @@ Transform:
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
 --- !u!1001 &634591926
 Prefab:
   m_ObjectHideFlags: 0
@@ -2541,7 +2479,7 @@ Transform:
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
 --- !u!1001 &979657625
 Prefab:
   m_ObjectHideFlags: 0
@@ -2955,7 +2893,7 @@ Transform:
   - {fileID: 416767017}
   - {fileID: 380354294}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
 --- !u!114 &1163768034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3145,7 +3083,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
 --- !u!114 &1217270442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4120,7 +4058,7 @@ Transform:
   - {fileID: 1279092239}
   - {fileID: 1733156785}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
 --- !u!114 &1717024384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4642,7 +4580,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 177254, guid: 473c32f6d1e834550a95046c7388a580, type: 2}
       propertyPath: m_Name
-      value: TutorialCamera
+      value: HelpCamera
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 473c32f6d1e834550a95046c7388a580, type: 2}

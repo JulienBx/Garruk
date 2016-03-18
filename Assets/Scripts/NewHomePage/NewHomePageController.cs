@@ -53,11 +53,11 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject popUp;
 	private GameObject mainCamera;
 	private GameObject sceneCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private GameObject menu;
-	private GameObject tutorial;
+	private GameObject help;
 	private GameObject[] deckCards;
 
 	private GameObject socialButton;
@@ -134,7 +134,7 @@ public class NewHomePageController : MonoBehaviour
 		this.sliderTimer += Time.deltaTime;
 		this.checkForFriendsOnlineTimer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded &&  TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded &&  HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -253,15 +253,15 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<HomePageTutorialController>();
-		this.tutorial.GetComponent<HomePageTutorialController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<HomePageHelpController>();
+		this.help.GetComponent<HomePageHelpController>().initialize();
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -298,7 +298,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial();
+			HelpController.instance.startTutorial();
 		}
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{
@@ -538,7 +538,7 @@ public class NewHomePageController : MonoBehaviour
 
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.connectionBonusPopUp = GameObject.Find ("connectionBonusPopUp");
 		this.connectionBonusPopUp.SetActive (false);
@@ -575,12 +575,12 @@ public class NewHomePageController : MonoBehaviour
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 
@@ -829,7 +829,7 @@ public class NewHomePageController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(0);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	private void retrieveDefaultDeck()
 	{
@@ -1765,6 +1765,22 @@ public class NewHomePageController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 
+	public GameObject returnStoreBlock()
+	{
+		return this.storeBlock;
+	}
+	public GameObject returnPlayBlock()
+	{
+		return this.playBlock;
+	}
+	public GameObject returnNewsfeedBlock()
+	{
+		return this.newsfeedBlock;
+	}
+	public GameObject returnDeckBlock()
+	{
+		return this.deckBlock;
+	}
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;

@@ -419,7 +419,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
@@ -1307,9 +1307,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		if(sdk!=null)
 		{
 			XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
-			jsonGenerator.settings.mode="sandbox";
-			jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
-			sdk.CreatePaymentForm(jsonGenerator,Success,Failure);
+			//jsonGenerator.settings.mode="sandbox";
+			//jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
+			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
 		}
 	}
 	void Success (XsollaResult result)
@@ -1348,7 +1348,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public IEnumerator getPurchasingToken()
 	{
 		yield return StartCoroutine(ApplicationModel.player.getPurchasingToken());
-		//print(ApplicationModel.player.DesktopPurchasingToken);
+		print(ApplicationModel.player.DesktopPurchasingToken);
 	}
 	  
 	#region TUTORIAL FUNCTIONS

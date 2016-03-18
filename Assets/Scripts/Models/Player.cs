@@ -22,7 +22,7 @@ public class Player : User
 	private string URLSetMarketTutorial;
 	private string URLSetProfileTutorial;
 	private string URLSetSkillBookTutorial;
-	private string URLSetLobbyTutorial;
+	private string URLSetLobbyHelp;
 	private string URLUpdateEndGameData;
 	private string URLInvitePlayer;
 	private string URLSetProfilePicture;
@@ -53,7 +53,7 @@ public class Player : User
 	public bool MarketTutorial;
 	public bool ProfileTutorial;
 	public bool SkillBookTutorial;
-	public bool LobbyTutorial;
+	public bool LobbyHelp;
 	public int ConnectionBonus;
 	public bool DisplayTutorial;
 	public int NbNotificationsNonRead;
@@ -115,7 +115,7 @@ public class Player : User
 		this.URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
 		this.URLSetProfileTutorial = ApplicationModel.host + "set_profileTutorial.php";
 		this.URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
-		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
+		this.URLSetLobbyHelp = ApplicationModel.host + "set_lobbyTutorial.php";
 		this.URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 		this.URLInvitePlayer = ApplicationModel.host + "invite_player.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
@@ -425,7 +425,7 @@ public class Player : User
 			this.SkillBookTutorial=step;
 		}
 	}
-	public IEnumerator setLobbyTutorial(bool step)
+	public IEnumerator setLobbyHelp(bool step)
 	{
 		string tempString;
 		if(step)
@@ -441,7 +441,7 @@ public class Player : User
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
 		
-		WWW w = new WWW (URLSetLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW (URLSetLobbyHelp, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -449,7 +449,7 @@ public class Player : User
 		} 
 		else 
 		{
-			this.LobbyTutorial=step;
+			this.LobbyHelp=step;
 		}
 	}
 	public IEnumerator updateEndGameData()

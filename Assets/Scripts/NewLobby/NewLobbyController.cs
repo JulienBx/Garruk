@@ -26,7 +26,6 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject popUp;
 	private GameObject backOfficeController;
 	private GameObject menu;
-	private GameObject tutorial;
 	private GameObject help;
 	private GameObject[] results;
 	private GameObject[] stats;
@@ -38,7 +37,7 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject paginationButtons;
 	private GameObject mainCamera;
 	private GameObject sceneCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 	private GameObject slideLeftButton;
 	private GameObject slideRightButton;
@@ -76,7 +75,7 @@ public class NewLobbyController : MonoBehaviour
 	
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{
@@ -173,16 +172,8 @@ public class NewLobbyController : MonoBehaviour
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
 		this.initializeHelp();
 		StartCoroutine (this.initialization ());
-	}
-	private void initializeTutorial()
-	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<LobbyTutorialController>();
-		this.tutorial.GetComponent<LobbyTutorialController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeHelp()
 	{
@@ -229,11 +220,11 @@ public class NewLobbyController : MonoBehaviour
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial();
+			HelpController.instance.startTutorial();
 		}
-		else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.LobbyTutorial)
+		else if(!ApplicationModel.player.LobbyHelp)
 		{
-			TutorialObjectController.instance.startHelp();
+			HelpController.instance.startHelp();
 		}
 	}
 	public void initializeResults()
@@ -328,7 +319,7 @@ public class NewLobbyController : MonoBehaviour
 
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	public void resize()
@@ -356,12 +347,12 @@ public class NewLobbyController : MonoBehaviour
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.tutorialCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 
@@ -555,7 +546,6 @@ public class NewLobbyController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(5);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
 		HelpController.instance.resize();
 	}
 	public void returnPressed()
@@ -898,7 +888,7 @@ public class NewLobbyController : MonoBehaviour
 			this.results[i].SetActive(false);
 		}
 	}
-	#region TUTORIAL FUNCTIONS
+	#region HELP FUNCTIONS
 	
 	public GameObject returnMainBlock()
 	{
@@ -916,44 +906,12 @@ public class NewLobbyController : MonoBehaviour
 	{
 		return this.competitionBlock;
 	}
-	public Vector3 getMainBlockOrigin()
-	{
-		return this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getMainBlockSize()
-	{
-		return this.mainBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getStatsBlockOrigin()
-	{
-		return this.statsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getStatsBlockSize()
-	{
-		return this.statsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getLastResultsBlockOrigin()
-	{
-		return this.lastResultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getLastResultsBlockSize()
-	{
-		return this.lastResultsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getCompetitionBlockOrigin()
-	{
-		return this.competitionBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getCompetitionBlockSize()
-	{
-		return this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
-	}
 	public IEnumerator endHelp()
 	{
-		if(!ApplicationModel.player.LobbyTutorial)
+		if(!ApplicationModel.player.LobbyHelp)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setLobbyTutorial(true));
+			yield return StartCoroutine(ApplicationModel.player.setLobbyHelp(true));
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}

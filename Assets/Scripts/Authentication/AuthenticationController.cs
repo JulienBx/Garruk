@@ -895,13 +895,18 @@ public class AuthenticationController : Photon.MonoBehaviour
 				SceneManager.LoadScene("Tutorial");	
 				break;
 			case 1:
-				SceneManager.LoadScene("NewStore");	
+
+				//launch game
+
 				break;
-			case 2:
-				SceneManager.LoadScene("newMyGame");	
+			case 2: case 3:
+				SceneManager.LoadScene("NewHomePage");	
 				break;
-			case 3:case 4:
-				SceneManager.LoadScene("NewHomePage");
+			case 4:
+				SceneManager.LoadScene("NewStore");
+				break;
+			case 5:
+				SceneManager.LoadScene("newMyGame");
 				break;
 			default:
 				SceneManager.LoadScene("NewHomePage");
