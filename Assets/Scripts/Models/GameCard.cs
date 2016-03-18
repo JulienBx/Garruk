@@ -561,7 +561,7 @@ public class GameCard : Card
 	}
 
 	public void setFurious(Modifyer m){
-		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
 			if(this.states[i].type==93){
 				this.states.RemoveAt(i);
 			}
@@ -570,7 +570,7 @@ public class GameCard : Card
 	}
 
 	public void setPoison(Modifyer m){
-		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
 			if(states[i].type==58 || states[i].type==94){
 				this.states.RemoveAt(i);
 			}
@@ -579,7 +579,7 @@ public class GameCard : Card
 	}
 
 	public void setTerreur(Modifyer m){
-		for (int i = this.states.Count-1 ; i >= 0 ; i++){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
 			if(states[i].type==20){
 				this.states.RemoveAt(i);
 			}

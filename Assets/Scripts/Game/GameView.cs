@@ -110,6 +110,7 @@ public class GameView : MonoBehaviour
 	List<int> orderCards ; 
 	int meteoritesCounter = 8 ; 
 	int meteoritesStep = 1 ; 
+	int lastPlayingCard = -1 ;
 	
 	void Awake()
 	{
@@ -1009,53 +1010,58 @@ public class GameView : MonoBehaviour
 		yield break ; 
 	}
 
-	public void changePlayer(){
-		int nextPlayingCard = -1;
+	public void updateTimeline(){
 		List<int> idCards = new List<int>();
-		if(this.hasFightStarted){
-			this.orderCards.RemoveAt(0);
-			idCards.Add(currentPlayingCard);
-
-			if(this.getCard(this.orderCards[5]).isMine){
-				nextPlayingCard = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, false);
-			}
-			else{
-				nextPlayingCard = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, true);
-			}
-			this.orderCards.Add(nextPlayingCard);
-			int i = 0 ; 
-			int j = this.meteoritesCounter ; 
-			int l = this.meteoritesStep ; 
-			while (idCards.Count<9){
-				if(j==0){
-					idCards.Add(-1*l);
-					if(l==1){
-						j = 6 ;
-						l = 2 ;
-					}
-					else if(l==2){
-						j = 4 ;
-						l = 3 ;
-					}
-					else if(l==3){
-						j = 2 ;
-						l = 4 ;
-					}
-					else{
-						j = 2 ;
-					}
+		idCards.Add(this.lastPlayingCard);
+		int i = 0 ; 
+		int j = this.meteoritesCounter ; 
+		int l = this.meteoritesStep ; 
+		while (idCards.Count<8){
+			if(j==0){
+				idCards.Add(-1*l);
+				if(l==1){
+					j = 6 ;
+					l = 2 ;
+				}
+				else if(l==2){
+					j = 4 ;
+					l = 3 ;
+				}
+				else if(l==3){
+					j = 2 ;
+					l = 4 ;
 				}
 				else{
-					idCards.Add(orderCards[i]);
-					i++;
-					j--;
+					j = 2 ;
 				}
 			}
-			this.timeline.changeFaces(idCards);
-			nextPlayingCard = idCards[1];
+			else{
+				print(i);
+				idCards.Add(orderCards[i]);
+				i++;
+				j--;
+			}
+		}
+		this.timeline.changeFaces(idCards);
+		this.timeline.show(true);
+	}
+
+	public void changePlayer(){
+		if(this.hasFightStarted){
+			int tempInt=-1;
+			this.orderCards.RemoveAt(0);
+			this.lastPlayingCard = currentPlayingCard;
+			if(this.getCard(this.orderCards[5]).isMine){
+				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, false);
+			}
+			else{
+				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, true);
+			}
+			this.orderCards.Add(tempInt);
+			this.updateTimeline();
 		}
 		else{
-			idCards.Add(-10);
+			this.lastPlayingCard = -10;
 			if(this.isFirstPlayer==this.isFirstPlayerStarting){
 				orderCards.Add(this.findCardWithDO(0, true));
 				orderCards.Add(this.findCardWithDO(0, false));
@@ -1064,14 +1070,6 @@ public class GameView : MonoBehaviour
 				orderCards.Add(this.findCardWithDO(2, true));
 				orderCards.Add(this.findCardWithDO(2, false));
 				orderCards.Add(this.findCardWithDO(3, true));
-
-				idCards.Add(this.findCardWithDO(0, true));
-				idCards.Add(this.findCardWithDO(0, false));
-				idCards.Add(this.findCardWithDO(1, true));
-				idCards.Add(this.findCardWithDO(1, false));
-				idCards.Add(this.findCardWithDO(2, true));
-				idCards.Add(this.findCardWithDO(2, false));
-				idCards.Add(this.findCardWithDO(3, true));
 			}
 			else{
 				orderCards.Add(this.findCardWithDO(0, false));
@@ -1081,21 +1079,10 @@ public class GameView : MonoBehaviour
 				orderCards.Add(this.findCardWithDO(2, false));
 				orderCards.Add(this.findCardWithDO(2, true));
 				orderCards.Add(this.findCardWithDO(3, false));
-
-				idCards.Add(this.findCardWithDO(0, false));
-				idCards.Add(this.findCardWithDO(0, true));
-				idCards.Add(this.findCardWithDO(1, false));
-				idCards.Add(this.findCardWithDO(1, true));
-				idCards.Add(this.findCardWithDO(2, false));
-				idCards.Add(this.findCardWithDO(2, true));
-				idCards.Add(this.findCardWithDO(3, false));
 			}
-
-			this.timeline.changeFaces(idCards);
-			this.timeline.show(true);
-			nextPlayingCard = idCards[1];
+			this.updateTimeline();
 		}
-
+		int nextPlayingCard = orderCards[0];
 		if(this.hasFightStarted){
 			this.hideTargets();
 			bool hasMoved = false ;
@@ -2132,23 +2119,43 @@ public class GameView : MonoBehaviour
 			StartCoroutine(quitGame());
 		}
 		else{
-			if(c!=this.currentPlayingCard){
-				for (int i = 0 ; i < this.nbCards ; i++){
-					if(this.getCard(i).nbTurnsToWait>this.getCard(c).nbTurnsToWait){
-						this.getCard(i).nbTurnsToWait--;
-						if(i!=this.currentPlayingCard){
-							this.getPlayingCardController(i).show();
-						}
-						else{
-							this.getPlayingCardController(i).show();
-						}
-					}
-				}
+			List<int> newOrderCards = new List<int>();
+			List<int> idCards = new List<int>();
+			
+			int i = 0 ; 
+			int jMine = 0 ;
+			int jHis = 0 ;
+			while (i<orderCards.Count && orderCards[i]!=c){
+				newOrderCards.Add(orderCards[i]);
+				i++;
+			}
+			jMine = i ;
+			jHis = i;
+			if (i==0){
+				
 			}
 			else{
-				if(!endTurn){
-					this.toPassDead = true ;
+				while(i<8){
+					if(i==1){
+						if(this.getCard(this.orderCards[0]).isMine){
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,false));
+						}
+						else{
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,true));
+						}
+					}
+					if(this.getCard(this.orderCards[i-1]).isMine){
+						newOrderCards.Add(this.findNextAlivePlayer(this.getCard(this.orderCards[i-2]).deckOrder,false));
+					}
+					else{
+						newOrderCards.Add(this.findNextAlivePlayer(this.getCard(this.orderCards[i-2]).deckOrder,true));
+					}
 				}
+				orderCards = new List<int>();
+				for(int k = 0 ; k < newOrderCards.Count ; k++){
+					orderCards.Add(newOrderCards[k]);
+				}
+				this.updateTimeline();
 			}
 		}
 

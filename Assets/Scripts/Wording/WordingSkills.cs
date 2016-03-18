@@ -1458,16 +1458,16 @@ public class WordingSkills
 		//64 - Piégeur
 		idSkills.Add(64);
 		names.Add(new string[]{"Piégeur",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (7 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (9 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (11 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (13 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (15 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (17 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (19 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (21 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (23 dégats/tour) au début du combat",""}); 
-		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le champ de bataille (25 dégats/tour) au début du combat",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (7 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (9 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (11 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (13 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (15 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (17 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (19 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (21 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (23 dégats par tour) au début de la bataille",""}); 
+		descriptions.Add(new string[]{"Pose 4 poisonpièges sur le terrain (25 dégats par tour) au début de la bataille",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
