@@ -73,7 +73,7 @@ public class LobbyHelpController : HelpController
 			}
 			break;
 		case 4:
-			this.setArrow("down",new Vector3(0f,0f,0f));
+			this.setScrolling("up",new Vector3(0f,0f,0f));
 			break;
 		}
 	}

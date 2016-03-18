@@ -217,6 +217,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 helpArrowMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
 	static public Vector3 helpArrowScale;
 
+	static private Vector3 helpScrollingOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 helpScrollingMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static public Vector3 helpScrollingScale;
+
 	static private Vector2 skillSize=new Vector2(1599f,355f);
 	static public Vector2 skillWorldSize;
 	static private Vector3 skillOriginalScale=new Vector3(0.53f,0.53f,0.53f);
@@ -517,6 +521,8 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		helpArrowScale = toNewScale (helpArrowOriginalScale, helpArrowMobileScale);
 		helpArrowWorldSize = toWorldSize(helpArrowSize,helpArrowScale);
+
+		helpScrollingScale = toNewScale (helpScrollingOriginalScale, helpScrollingMobileScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

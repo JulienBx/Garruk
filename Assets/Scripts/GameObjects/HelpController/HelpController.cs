@@ -45,6 +45,7 @@ public class HelpController : MonoBehaviour
 
 	// Companion settings
 
+	private bool toShowCompanion;
 	private string companionTextDisplayed;
 	private bool toWriteCompanionText;
 	private float companionTextTimer;
@@ -58,6 +59,7 @@ public class HelpController : MonoBehaviour
 
 	// Background settings
 
+	private bool toShowBackground;
 	private bool isSquareBackground;
 	private Rect backgroundRect;
 	private float backgroundClickableSectionXRatio;
@@ -83,155 +85,47 @@ public class HelpController : MonoBehaviour
 	private float arrowTimer;
 	private float arrowSpeed;
 
+	// Scrolling settings
+
+	private string scrollingOrientation;
+	private Vector3 startScrollingPosition;
+	private Vector3 currentScrollingPosition;
+	private Vector3 endScrollingPosition;
+	private bool toMoveScrolling;
+	private bool isMovingScrolling;
+	private float scrollingTimer;
+	private float scrollingSpeed;
+
 	// General settings
 
-	private bool toShowCompanion;
-	private bool toShowBackground;
+	private bool toDisplayHelp;
+
 
 
 	void Update()
 	{
-		if(toWriteCompanionText)
+		if(this.toDisplayHelp)
 		{
-			this.companionTextTimer=this.companionTextTimer+Time.deltaTime;
-			if(this.companionTextTimer>0.015f)
+			if(this.toWriteCompanionText)
 			{
-				this.companionTextTimer=0f;
-				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters+1;
-				if(this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters>=this.companionTextDisplayed.Length)
-				{
-					this.toWriteCompanionText=false;
-				}
+				this.drawCompanionText();
 			}
-		}
-		if (isSlidingCompanion) 
-		{
-			Vector3 companionCurrentPosition = this.companion.transform.localPosition;
-			if (this.isCompanionOnLeftSide) 
+			if (this.isSlidingCompanion) 
 			{
-				companionCurrentPosition.x = companionCurrentPosition.x + 20f*Time.deltaTime;
-				if (companionCurrentPosition.x >= this.endCompanionSlidingPosition.x) 
-				{
-					this.isSlidingCompanion = false;
-					companionCurrentPosition.x = endCompanionSlidingPosition.x;
-				}
-			} 
-			else 
-			{
-				companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
-				if (companionCurrentPosition.x <= this.endCompanionSlidingPosition.x) 
-				{
-					this.isSlidingCompanion = false;
-					companionCurrentPosition.x = endCompanionSlidingPosition.x;
-				}
+				this.slideCompanion();
 			}
-			this.companion.transform.localPosition = companionCurrentPosition;
-		}
-		if (this.isFlashingBlock) 
-		{
-			this.flashingBlockTimer = this.flashingBlockTimer + Time.deltaTime;
-			if (this.flashingBlockTimer > 0.5f) 
+			if (this.isFlashingBlock) 
 			{
-				if (this.isFlashingBlockDark) 
-				{
-					this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
-					this.isFlashingBlockDark = false;
-				} 
-				else 
-				{
-					this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (0.5f, 0.5f, 0.5f);
-					this.isFlashingBlockDark = true;
-				}
-				this.flashingBlockTimer = 0f;
+				this.drawFlashingBlock();
 			}
-		}
-		if(isMovingArrow)
-		{
-			if(this.arrowOrientation=="left")
+			if(this.isMovingArrow)
 			{
-				if(this.isArrowMovingBack)
-				{
-					this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.x>=this.startArrowPosition.x)
-					{
-						this.isArrowMovingBack=false;
-						this.currentArrowPosition=this.startArrowPosition;
-					}
-				}
-				else
-				{
-					this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.x<=this.endArrowPosition.x)
-					{
-						this.isArrowMovingBack=true;
-						this.currentArrowPosition=this.endArrowPosition;
-					}
-				}
+				this.drawArrow();
 			}
-			else if(this.arrowOrientation=="right")
+			if(this.isMovingScrolling)
 			{
-				if(this.isArrowMovingBack)
-				{
-					this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.x<=this.startArrowPosition.x)
-					{
-						this.isArrowMovingBack=false;
-						this.currentArrowPosition=this.startArrowPosition;
-					}
-				}
-				else
-				{
-					this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.x>=this.endArrowPosition.x)
-					{
-						this.isArrowMovingBack=true;
-						this.currentArrowPosition=this.endArrowPosition;
-					}
-				}
+				this.drawScrolling();
 			}
-			else if(this.arrowOrientation=="up")
-			{
-				if(this.isArrowMovingBack)
-				{
-					this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.y<=this.startArrowPosition.y)
-					{
-						this.isArrowMovingBack=false;
-						this.currentArrowPosition=this.startArrowPosition;
-					}
-				}
-				else
-				{
-					this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.y>=this.endArrowPosition.y)
-					{
-						this.isArrowMovingBack=true;
-						this.currentArrowPosition=this.endArrowPosition;
-					}
-				}
-			}
-			else if(this.arrowOrientation=="down")
-			{
-				if(this.isArrowMovingBack)
-				{
-					this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.y>=this.startArrowPosition.y)
-					{
-						this.isArrowMovingBack=false;
-						this.currentArrowPosition=this.startArrowPosition;
-					}
-				}
-				else
-				{
-					this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
-					if(this.currentArrowPosition.y<=this.endArrowPosition.y)
-					{
-						this.isArrowMovingBack=true;
-						this.currentArrowPosition=this.endArrowPosition;
-					}
-				}
-			}
-			this.arrow.transform.localPosition=this.currentArrowPosition;
 		}
 	}
 	public void initialize()
@@ -239,6 +133,7 @@ public class HelpController : MonoBehaviour
 		instance = this;
 		this.sequenceId=-1;
 		this.arrowSpeed=2.5f;
+		this.scrollingSpeed=2f;
 		this.ressources = this.gameObject.GetComponent<HelpRessources> ();
 		this.companion = this.gameObject.transform.FindChild ("Companion").gameObject;
 		this.companionDialogBox = this.companion.transform.FindChild ("Dialog").gameObject;
@@ -264,6 +159,7 @@ public class HelpController : MonoBehaviour
 		this.gameObject.transform.position=ApplicationDesignRules.tutorialPosition;
 		this.companion.transform.localScale=ApplicationDesignRules.companionScale;
 		this.arrow.transform.localScale=ApplicationDesignRules.helpArrowScale;
+		this.scrolling.transform.localScale=ApplicationDesignRules.helpScrollingScale;
 		this.launchSequence ();
 	}
 	public void helpHandler()
@@ -273,6 +169,7 @@ public class HelpController : MonoBehaviour
 	public virtual void startHelp()
 	{
 		this.sequenceId = 0;
+		this.toDisplayHelp=true;
 		this.launchSequence ();
 	}
 	public virtual void companionNextButtonHandler()
@@ -293,6 +190,8 @@ public class HelpController : MonoBehaviour
 		this.isFlashingBlockDark = false;
 		this.toMoveArrow = false;
 		this.isMovingArrow = false;
+		this.toMoveScrolling = false;
+		this.isMovingScrolling = false;
 	}
 	public void launchSequence()
 	{
@@ -306,10 +205,22 @@ public class HelpController : MonoBehaviour
 		this.showBackground();
 		this.showFlashingBlock ();
 		this.showArrow();
+		this.showScrolling();
 	}
 	public virtual void getSequenceSettings()
 	{
 	}
+
+	public void quitHelp()
+	{
+		this.sequenceId = -1;
+		this.resetSettings ();
+		this.showSequence ();
+		this.toDisplayHelp=false;
+	}
+
+	#region Companion Methods
+
 	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide, bool toSlideCompanion, float companionYPosition)
 	{
 		this.toShowCompanion=true;
@@ -416,11 +327,94 @@ public class HelpController : MonoBehaviour
 			this.companion.SetActive(false);
 		}
 	}
+	private void slideCompanion()
+	{
+		Vector3 companionCurrentPosition = this.companion.transform.localPosition;
+		if (this.isCompanionOnLeftSide) 
+		{
+			companionCurrentPosition.x = companionCurrentPosition.x + 20f*Time.deltaTime;
+			if (companionCurrentPosition.x >= this.endCompanionSlidingPosition.x) 
+			{
+				this.isSlidingCompanion = false;
+				companionCurrentPosition.x = endCompanionSlidingPosition.x;
+			}
+		} 
+		else 
+		{
+			companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
+			if (companionCurrentPosition.x <= this.endCompanionSlidingPosition.x) 
+			{
+				this.isSlidingCompanion = false;
+				companionCurrentPosition.x = endCompanionSlidingPosition.x;
+			}
+		}
+		this.companion.transform.localPosition = companionCurrentPosition;
+	}
+	private void drawCompanionText()
+	{
+		this.companionTextTimer=this.companionTextTimer+Time.deltaTime;
+		if(this.companionTextTimer>0.015f)
+		{
+			this.companionTextTimer=0f;
+			this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters+1;
+			if(this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters>=this.companionTextDisplayed.Length)
+			{
+				this.toWriteCompanionText=false;
+			}
+		}
+	}
+
+	#endregion
+
+	#region Flashing block Methods
+
 	public void setFlashingBlock(GameObject blockToFlash)
 	{
 		this.toFlashBlock = true;
 		this.blockToFlash = blockToFlash;
 	}
+	private void showFlashingBlock()
+	{
+		if (this.toFlashBlock) 
+		{
+			this.background.SetActive (true);
+			this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
+			Vector3 gameObjectPosition = this.blockToFlash.GetComponent<NewBlockController> ().getOriginPosition ();
+			Vector2 gameObjectSize=this.blockToFlash.GetComponent<NewBlockController> ().getSize ();
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
+			} 
+			else 
+			{
+				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+			}
+			this.isFlashingBlock = true;
+		}
+	}
+	private void drawFlashingBlock()
+	{
+		this.flashingBlockTimer = this.flashingBlockTimer + Time.deltaTime;
+		if (this.flashingBlockTimer > 0.5f) 
+		{
+			if (this.isFlashingBlockDark) 
+			{
+				this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f);
+				this.isFlashingBlockDark = false;
+			} 
+			else 
+			{
+				this.blockToFlash.GetComponent<SpriteRenderer> ().color = new Color (0.5f, 0.5f, 0.5f);
+				this.isFlashingBlockDark = true;
+			}
+			this.flashingBlockTimer = 0f;
+		}
+	}
+
+	#endregion
+
+	#region Background Methods
+
 	public void setBackground(bool isSquareBackground, Rect backgroundRect, float backgroundClickableSectionXRatio, float backgroundClickableSectionYRatio)
 	{
 		this.toShowBackground=true;
@@ -428,12 +422,6 @@ public class HelpController : MonoBehaviour
 		this.backgroundRect=backgroundRect;
 		this.backgroundClickableSectionXRatio=backgroundClickableSectionXRatio;
 		this.backgroundClickableSectionYRatio=backgroundClickableSectionYRatio;
-	}
-	public void setArrow(string orientation, Vector3 position)
-	{
-		this.arrowOrientation = orientation;
-		this.endArrowPosition = position;
-		this.toMoveArrow = true;
 	}
 	private void showBackground()
 	{
@@ -455,24 +443,16 @@ public class HelpController : MonoBehaviour
 			this.background.SetActive(false);
 		}
 	}
-	private void showFlashingBlock()
+
+	#endregion
+
+	#region Arrow Methods
+
+	public void setArrow(string orientation, Vector3 position)
 	{
-		if (this.toFlashBlock) 
-		{
-			this.background.SetActive (true);
-			this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
-			Vector3 gameObjectPosition = this.blockToFlash.GetComponent<NewBlockController> ().getOriginPosition ();
-			Vector2 gameObjectSize=this.blockToFlash.GetComponent<NewBlockController> ().getSize ();
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
-			} 
-			else 
-			{
-				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
-			}
-			this.isFlashingBlock = true;
-		}
+		this.arrowOrientation = orientation;
+		this.endArrowPosition = position;
+		this.toMoveArrow = true;
 	}
 	private void showArrow()
 	{
@@ -512,11 +492,151 @@ public class HelpController : MonoBehaviour
 			this.arrow.SetActive(false);
 		}
 	}
-	public void quitHelp()
+	private void drawArrow()
 	{
-		this.sequenceId = -1;
-		this.resetSettings ();
-		this.showSequence ();
+		if(this.arrowOrientation=="left")
+		{
+			if(this.isArrowMovingBack)
+			{
+				this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.x>=this.startArrowPosition.x)
+				{
+					this.isArrowMovingBack=false;
+					this.currentArrowPosition=this.startArrowPosition;
+				}
+			}
+			else
+			{
+				this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.x<=this.endArrowPosition.x)
+				{
+					this.isArrowMovingBack=true;
+					this.currentArrowPosition=this.endArrowPosition;
+				}
+			}
+		}
+		else if(this.arrowOrientation=="right")
+		{
+			if(this.isArrowMovingBack)
+			{
+				this.currentArrowPosition.x=this.currentArrowPosition.x-Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.x<=this.startArrowPosition.x)
+				{
+					this.isArrowMovingBack=false;
+					this.currentArrowPosition=this.startArrowPosition;
+				}
+			}
+			else
+			{
+				this.currentArrowPosition.x=this.currentArrowPosition.x+Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.x>=this.endArrowPosition.x)
+				{
+					this.isArrowMovingBack=true;
+					this.currentArrowPosition=this.endArrowPosition;
+				}
+			}
+		}
+		else if(this.arrowOrientation=="up")
+		{
+			if(this.isArrowMovingBack)
+			{
+				this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.y<=this.startArrowPosition.y)
+				{
+					this.isArrowMovingBack=false;
+					this.currentArrowPosition=this.startArrowPosition;
+				}
+			}
+			else
+			{
+				this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.y>=this.endArrowPosition.y)
+				{
+					this.isArrowMovingBack=true;
+					this.currentArrowPosition=this.endArrowPosition;
+				}
+			}
+		}
+		else if(this.arrowOrientation=="down")
+		{
+			if(this.isArrowMovingBack)
+			{
+				this.currentArrowPosition.y=this.currentArrowPosition.y+Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.y>=this.startArrowPosition.y)
+				{
+					this.isArrowMovingBack=false;
+					this.currentArrowPosition=this.startArrowPosition;
+				}
+			}
+			else
+			{
+				this.currentArrowPosition.y=this.currentArrowPosition.y-Time.deltaTime*this.arrowSpeed;
+				if(this.currentArrowPosition.y<=this.endArrowPosition.y)
+				{
+					this.isArrowMovingBack=true;
+					this.currentArrowPosition=this.endArrowPosition;
+				}
+			}
+		}
+		this.arrow.transform.localPosition=this.currentArrowPosition;
 	}
+
+	#endregion
+
+	#region Scrolling Methods
+
+	public void setScrolling(string orientation, Vector3 position)
+	{
+		this.scrollingOrientation=orientation;
+		this.endScrollingPosition=position;
+		this.toMoveScrolling = true;
+	}
+	private void showScrolling()
+	{
+		if(this.toMoveScrolling)
+		{
+			this.scrolling.SetActive(true);
+			if (this.scrollingOrientation == "up") 
+			{
+				this.endScrollingPosition.y=this.endScrollingPosition.y+1f;
+				this.scrolling.GetComponent<SpriteRenderer>().sprite=ressources.scrollingSprites[0];
+				this.startScrollingPosition.y = this.endScrollingPosition.y-2f;
+			} 
+			else if (this.scrollingOrientation == "down") 
+			{
+				this.endScrollingPosition.y=this.endScrollingPosition.y-1f;
+				this.scrolling.GetComponent<SpriteRenderer>().sprite=ressources.scrollingSprites[1];
+				this.startScrollingPosition.y = this.endScrollingPosition.y+2f;
+			}
+			this.isMovingScrolling=true;
+			this.currentScrollingPosition=this.startScrollingPosition;
+		}
+		else
+		{
+			this.scrolling.SetActive(false);
+		}
+	}
+	private void drawScrolling()
+	{
+		if(this.scrollingOrientation=="up")
+		{
+			this.currentScrollingPosition.y=this.currentScrollingPosition.y+Time.deltaTime*this.scrollingSpeed;
+			if(this.currentScrollingPosition.y>=this.endScrollingPosition.y)
+			{
+				this.currentScrollingPosition=this.startScrollingPosition;
+			}
+		}
+		else if(this.scrollingOrientation=="down")
+		{
+			this.currentScrollingPosition.y=this.currentScrollingPosition.y-Time.deltaTime*this.scrollingSpeed;
+			if(this.currentScrollingPosition.y<=this.endScrollingPosition.y)
+			{
+				this.currentScrollingPosition=this.startScrollingPosition;
+			}
+		}
+		this.scrolling.transform.localPosition=this.currentScrollingPosition;
+	}
+
+	#endregion
 }
 
