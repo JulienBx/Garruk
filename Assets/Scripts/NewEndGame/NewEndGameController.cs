@@ -23,7 +23,6 @@ public class NewEndGameController : MonoBehaviour
 	private GameObject sceneCamera;
 
 	private bool toUpdateCredits;
-	private bool toStartExperienceUpdate;
 	private bool areCreditsUpdated;
 
 	private float updateSpeed;
@@ -45,7 +44,6 @@ public class NewEndGameController : MonoBehaviour
 
 	private IList<int> idCardsToNextLevel;
 
-	private bool isNextLevelPopUpDisplayed;
 	private bool hasFinishedCardUpgrade;
 
 	private string URLGetMyGameData = ApplicationModel.host + "get_end_game_data.php";
@@ -57,7 +55,6 @@ public class NewEndGameController : MonoBehaviour
 		this.updateSpeed = 1.5f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;
-		this.toStartExperienceUpdate = false;
 		this.areCreditsUpdated = false;
 		this.idCardsToNextLevel = new List<int> ();
 		this.initializeScene ();
@@ -210,12 +207,10 @@ public class NewEndGameController : MonoBehaviour
 		this.nextLevelPopUp.transform.position = new Vector3 (0, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndGame> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDeck.getCard(indexCard));
-		this.isNextLevelPopUpDisplayed=true;
 	}
 	public void hideNextLevelPopUp()
 	{
 		Destroy (this.nextLevelPopUp);
-		this.isNextLevelPopUpDisplayed=false;
 	}
 	public void switchToNextLevelPopUp()
 	{

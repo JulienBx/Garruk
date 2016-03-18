@@ -11,7 +11,6 @@ namespace Xsolla
 		private GameObject shopItemPrefab;
 
 		private XsollaGoodsManager manager;
-		private string textValue = "Coins";
 		private string _buyBtnText = "Buy";
 		int current = 0;
 

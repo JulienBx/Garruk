@@ -1156,8 +1156,7 @@ public class NewMarketController : MonoBehaviour
 		float offset = mousePositionX-this.cursors [cursorId].transform.position.x;
 		
 		int value = -1;
-		string label = "";
-		
+
 		bool isMoved = true ;
 		
 		if(cursorPosition.x==-0.67f)
@@ -1670,7 +1669,6 @@ public class NewMarketController : MonoBehaviour
 		yield return StartCoroutine(model.refreshMyGame());
 		if(this.activeTab!=0)
 		{
-			int index;
 			if(isCardFocusedDisplayed && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1)
 			{
 				this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();

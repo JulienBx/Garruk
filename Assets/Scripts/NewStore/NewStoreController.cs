@@ -98,7 +98,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 	private bool isSceneLoaded;
 
-	private bool toUpdatePackPrices;
 	private bool isScrolling;
 	private float scrollIntersection;
 	private float packsCameraIntermediatePosition;
@@ -552,8 +551,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 		this.packs = new GameObject[packsPagination.nbElementsPerPage];
 
-		float upperMargin = 1.6f;
-		float lowerMargin = 0.9f;
 		float lineScale = ApplicationDesignRules.getLineScale (packsBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing);
 		float gapBetweenPacks=ApplicationDesignRules.gapBetweenPacksLine;
 
@@ -1081,7 +1078,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void updatePackPrices()
 	{
-		this.toUpdatePackPrices = false;
 		for(int i=0;i<this.packsDisplayed.Count;i++)
 		{
 			if(ApplicationModel.player.Money<model.packList[this.packsDisplayed[i]].Price)
@@ -1183,7 +1179,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			if(isCardFocusedDisplayed)
 			{
 				this.focusedCard.GetComponent<NewFocusedCardStoreController>().updateFocusFeatures();
-				this.toUpdatePackPrices=true;
 			}
 			else
 			{

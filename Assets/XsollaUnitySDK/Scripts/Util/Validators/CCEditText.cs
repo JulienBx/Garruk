@@ -13,7 +13,7 @@ public class CCEditText : MonoBehaviour{
 
 	void Awake()
 	{
-		GetComponent<InputField>().onValueChange.AddListener(delegate { Correct(); }); 
+		GetComponent<InputField>().onValueChanged.AddListener(delegate { Correct(); }); 
 	}
 
     public void Correct() {

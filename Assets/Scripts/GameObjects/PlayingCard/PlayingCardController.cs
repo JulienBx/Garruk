@@ -78,6 +78,10 @@ public class PlayingCardController : GameObjectController
 	{
 		return this.destinations;
 	}
+
+	public Sprite getBackgroundSprite(int i){
+		return this.backgroundSprites[i];
+	}
 	
 	public void hide()
 	{

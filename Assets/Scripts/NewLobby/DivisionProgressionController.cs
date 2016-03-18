@@ -83,9 +83,6 @@ public class DivisionProgressionController : MonoBehaviour
 			remainingGames=remainingGames+1;
 		}
 
-		float gaugeMinXPosition = -0.815f;
-		float gaugeMaxXPosition = 1.86f;
-
 		this.currentRatio=nbWins / ((float)d.NbWinsForTitle + 2);
 		this.nextWinRatio = (nbWins + 1) / ((float)d.NbWinsForTitle + 2);
 

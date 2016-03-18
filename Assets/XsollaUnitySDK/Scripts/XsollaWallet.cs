@@ -123,7 +123,7 @@ namespace Xsolla {
 		private string language;//"en"
 		private string currency;//"USD"
 		
-		private Dictionary<string, object> requestParams;
+		private Dictionary<string, object> requestParams = null;
 		
 		private XsollaWallet(string token){
 			this.token = token;

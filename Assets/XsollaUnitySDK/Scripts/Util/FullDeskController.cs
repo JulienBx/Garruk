@@ -4,7 +4,6 @@ using System.Collections;
 public class FullDeskController : MonoBehaviour {
 
 	public Transform parent;
-	private bool isFirstTime = true;
 
 	void Start() {
 

@@ -1057,8 +1057,6 @@ public class NewHomePageController : MonoBehaviour
 	public void leftClickedHandler(int id)
 	{
 		this.idCardClicked = id;
-		bool onSale;
-		int idOwner;
 		this.isLeftClicked = true;
 		this.clickInterval = 0f;
 	}

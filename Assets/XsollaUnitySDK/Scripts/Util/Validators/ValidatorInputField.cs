@@ -36,7 +36,7 @@ namespace Xsolla {
 				}
 				SetErrorMsg(validators[0].GetErrorMsg());
 			}
-			_input.onValueChange.AddListener ((s) => Validate (s));
+			_input.onValueChanged.AddListener ((s) => Validate (s));
 		}
 
 		private void InitEventTrigger(){
