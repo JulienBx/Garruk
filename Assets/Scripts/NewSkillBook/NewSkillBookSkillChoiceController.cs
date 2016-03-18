@@ -7,5 +7,9 @@ public class NewSkillBookSkillChoiceController : SimpleButtonController
 	{
 		NewSkillBookController.instance.filterASkill (base.getId());	
 	}
+	public void OnMouseDown()
+	{
+		base.OnMouseUp ();
+	}
 }
 

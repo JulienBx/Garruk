@@ -7,5 +7,9 @@ public class newMyGameSkillChoiceController : SimpleButtonController
 	{
 		newMyGameController.instance.filterASkill (base.getId());	
 	}
+	public void OnMouseDown()
+	{
+		base.OnMouseUp ();
+	}
 }
 

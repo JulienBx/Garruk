@@ -7,5 +7,9 @@ public class NewMarketSkillChoiceController : SimpleButtonController
 	{
 		NewMarketController.instance.filterASkill (base.getId());	
 	}
+	public void OnMouseDown()
+	{
+		base.OnMouseUp ();
+	}
 }
 
