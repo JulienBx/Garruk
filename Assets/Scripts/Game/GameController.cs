@@ -137,7 +137,6 @@ public class GameController : Photon.MonoBehaviour
 	
 	public void clickDestination(Tile t, int c, bool toDisplay)
 	{
-		print(c);
 		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c, GameView.instance.getIsFirstPlayer(), toDisplay);
 	}
 	

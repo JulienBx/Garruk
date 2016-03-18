@@ -1036,7 +1036,6 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
-				print(i);
 				idCards.Add(orderCards[i]);
 				i++;
 				j--;
@@ -2127,6 +2126,7 @@ public class GameView : MonoBehaviour
 			int jHis = 0 ;
 			while (i<orderCards.Count && orderCards[i]!=c){
 				newOrderCards.Add(orderCards[i]);
+				print("j'ajoute "+orderCards[i]);
 				i++;
 			}
 			jMine = i ;
@@ -2137,19 +2137,23 @@ public class GameView : MonoBehaviour
 			else{
 				while(i<8){
 					if(i==1){
-						if(this.getCard(this.orderCards[0]).isMine){
+						if(this.getCard(newOrderCards[0]).isMine){
 							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,false));
 						}
 						else{
 							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,true));
 						}
 					}
-					if(this.getCard(this.orderCards[i-1]).isMine){
-						newOrderCards.Add(this.findNextAlivePlayer(this.getCard(this.orderCards[i-2]).deckOrder,false));
-					}
 					else{
-						newOrderCards.Add(this.findNextAlivePlayer(this.getCard(this.orderCards[i-2]).deckOrder,true));
+						if(this.getCard(newOrderCards[i-1]).isMine){
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,false));
+						}
+						else{
+							print("i : "+i+" /Cherche la suivante de : "+newOrderCards[i-2]+" /j'ajoute "+this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,true));
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,true));
+						}
 					}
+					i++;
 				}
 				orderCards = new List<int>();
 				for(int k = 0 ; k < newOrderCards.Count ; k++){
