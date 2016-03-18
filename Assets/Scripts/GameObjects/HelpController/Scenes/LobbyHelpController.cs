@@ -16,10 +16,64 @@ public class LobbyHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			gameObjectPosition=NewLobbyController.instance.getMainBlockOrigin();
-			gameObjectSize=NewLobbyController.instance.getMainBlockSize();
-			this.setCompanion(WordingLobbyTutorial.getHelpContent(1),true,false);
-			this.setBackground(false,new Rect(gameObjectPosition.x,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x+3f,gameObjectSize.y+3f),0f,0f);
+			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock ());
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				if (NewLobbyController.instance.getAreResultsDisplayed ()) 
+				{
+					NewLobbyController.instance.slideRight ();
+				} 
+				else if (NewLobbyController.instance.getAreStatsDisplayed ()) 
+				{
+					NewLobbyController.instance.slideLeft ();
+				}
+				this.setCompanion (WordingLobbyTutorial.getHelpContent (1), true, true, true, 0f);
+			} 
+			else 
+			{
+				this.setCompanion (WordingLobbyTutorial.getHelpContent (1), true, false, true, 0f);
+			}
+			break;
+		case 1:
+			this.setFlashingBlock (NewLobbyController.instance.returnStatsBlock ());
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				NewLobbyController.instance.slideRight ();
+				this.setCompanion(WordingLobbyTutorial.getHelpContent(7),true,true,false,0f);
+			} 
+			else 
+			{
+				this.setCompanion(WordingLobbyTutorial.getHelpContent(7),true,false,false,0f);
+			}
+			break;
+		case 2:
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				NewLobbyController.instance.slideLeft ();
+				this.setCompanion (WordingLobbyTutorial.getHelpContent (5), true, false, false, 4f);
+				this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
+			} 
+			else 
+			{
+				this.setCompanion (WordingLobbyTutorial.getHelpContent (3), true, true, true, 0f);
+				this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
+			}	
+			break;
+		case 3:
+			if (ApplicationDesignRules.isMobileScreen) 
+			{
+				NewLobbyController.instance.slideLeft ();
+				this.setCompanion(WordingLobbyTutorial.getHelpContent(3),true,false,false,0f);
+				this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock ());
+			} 
+			else 
+			{
+				this.setCompanion(WordingLobbyTutorial.getHelpContent(5),true,true,false,0f);
+				this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock ());
+			}
+			break;
+		case 4:
+			this.setScrolling("up",new Vector3(0f,0f,0f));
 			break;
 		}
 	}
@@ -27,9 +81,12 @@ public class LobbyHelpController : HelpController
 	{
 		switch (this.sequenceId) 
 		{
-		case 0:
+		case 0: case 1: case 2: case 3:
 			this.sequenceId++;
 			this.launchSequence();
+			break;
+		case 4:
+			this.quitHelp ();
 			break;
 		}
 	}

@@ -205,11 +205,21 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 packPictureMobileScale = new Vector3(0.9f,0.9f,0.9f);
 	static public Vector3 packPictureScale;
 
-	static private Vector2 companionSize=new Vector2(581f,742f);
+	static private Vector2 companionSize=new Vector2(396f,742f);
 	static public Vector2 companionWorldSize;
 	static private Vector3 companionOriginalScale=new Vector3(0.5f,0.5f,0.5f);
-	static private Vector3 companionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
+	static private Vector3 companionMobileScale = new Vector3 (0.42f, 0.42f, 0.42f);
 	static public Vector3 companionScale;
+
+	static private Vector2 helpArrowSize=new Vector2(396f,230f);
+	static public Vector2 helpArrowWorldSize;
+	static private Vector3 helpArrowOriginalScale=new Vector3(0.4f,0.4f,0.4f);
+	static private Vector3 helpArrowMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
+	static public Vector3 helpArrowScale;
+
+	static private Vector3 helpScrollingOriginalScale=new Vector3(0.5f,0.5f,0.5f);
+	static private Vector3 helpScrollingMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static public Vector3 helpScrollingScale;
 
 	static private Vector2 skillSize=new Vector2(1599f,355f);
 	static public Vector2 skillWorldSize;
@@ -508,6 +518,11 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		companionScale = toNewScale (companionOriginalScale, companionMobileScale);
 		companionWorldSize = toWorldSize(companionSize,companionScale);
+
+		helpArrowScale = toNewScale (helpArrowOriginalScale, helpArrowMobileScale);
+		helpArrowWorldSize = toWorldSize(helpArrowSize,helpArrowScale);
+
+		helpScrollingScale = toNewScale (helpScrollingOriginalScale, helpScrollingMobileScale);
 
 		profileStatScale = toNewScale (profileStatOriginalScale, profileStatMobileScale);
 

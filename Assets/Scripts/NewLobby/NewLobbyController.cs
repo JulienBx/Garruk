@@ -900,6 +900,22 @@ public class NewLobbyController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 	
+	public GameObject returnMainBlock()
+	{
+		return this.mainBlock;
+	}
+	public GameObject returnStatsBlock()
+	{
+		return this.statsBlock;
+	}
+	public GameObject returnLastResultsBlock()
+	{
+		return this.lastResultsBlock;
+	}
+	public GameObject returnCompetitionBlock()
+	{
+		return this.competitionBlock;
+	}
 	public Vector3 getMainBlockOrigin()
 	{
 		return this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class HelpNextButtonController : SimpleButtonController 
+public class HelpCompanionNextButtonController : SimpleButtonController 
 {
 	public override void mainInstruction()
 	{
