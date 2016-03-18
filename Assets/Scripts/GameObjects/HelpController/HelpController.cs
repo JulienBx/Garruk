@@ -333,14 +333,6 @@ public class HelpController : MonoBehaviour
 	{
 		this.getTutorialNextAction ();
 	}
-	public IEnumerator setTutorialStep(int id)
-	{
-		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
-		BackOfficeController.instance.hideLoadingScreen ();
-		this.sequenceId++;
-		this.launchTutorialSequence ();
-	}
 	#region General Settings Methods
 
 	public void setCanSwipe()

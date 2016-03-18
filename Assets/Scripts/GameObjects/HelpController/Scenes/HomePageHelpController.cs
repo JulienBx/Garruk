@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class HomePageHelpController : HelpController 
@@ -69,9 +70,10 @@ public class HomePageHelpController : HelpController
 			this.sequenceId = 2;
 			this.launchTutorialSequence ();
 		} else if (this.sequenceId == 2) {
+			StartCoroutine(ApplicationModel.player.setTutorialStep(4));
 			this.sequenceId++;
 			this.launchTutorialSequence ();
-		}
+		} 
 	}
 
 	#endregion
