@@ -637,13 +637,6 @@ public class GameView : MonoBehaviour
 			}
 			this.getPlayingCardController(characterID).moveBackward();
 		}
-		if(this.hasFightStarted){
-			
-//			this.getCard(characterID).setHasMoved(true);
-//			if(this.getCard(characterID).hasPlayed){
-//				GameController.instance.findNextPlayer();
-//			}
-		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 
@@ -728,10 +721,10 @@ public class GameView : MonoBehaviour
 			if(this.getCard(c).isMine){
 				if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 					if(isSuccess){
-						yield return new WaitForSeconds(1f);
-						yield return new WaitForSeconds(1f);
+						yield return new WaitForSeconds(2f);
 					}
 					if(!this.deads.Contains(this.currentPlayingCard) && !this.getCurrentCard().isFurious()){
+						yield return new WaitForSeconds(1f);
 						GameController.instance.findNextPlayer ();
 					}
 				}
