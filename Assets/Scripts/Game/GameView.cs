@@ -638,11 +638,11 @@ public class GameView : MonoBehaviour
 			this.getPlayingCardController(characterID).moveBackward();
 		}
 		if(this.hasFightStarted){
-			this.getCard(characterID).setHasMoved(true);
-			if(this.getCard(characterID).hasPlayed){
-			GameController.instance.findNextPlayer();
-
-			}
+			
+//			this.getCard(characterID).setHasMoved(true);
+//			if(this.getCard(characterID).hasPlayed){
+//				GameController.instance.findNextPlayer();
+//			}
 		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
@@ -2126,7 +2126,6 @@ public class GameView : MonoBehaviour
 			int jHis = 0 ;
 			while (i<orderCards.Count && orderCards[i]!=c){
 				newOrderCards.Add(orderCards[i]);
-				print("j'ajoute "+orderCards[i]);
 				i++;
 			}
 			jMine = i ;
@@ -2149,7 +2148,6 @@ public class GameView : MonoBehaviour
 							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,false));
 						}
 						else{
-							print("i : "+i+" /Cherche la suivante de : "+newOrderCards[i-2]+" /j'ajoute "+this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,true));
 							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,true));
 						}
 					}
