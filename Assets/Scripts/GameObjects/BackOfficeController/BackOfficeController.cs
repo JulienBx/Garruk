@@ -530,7 +530,7 @@ public class BackOfficeController : MonoBehaviour
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();
-		ApplicationModel.player.ToLaunchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
+		//ApplicationModel.player.ToLaunchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
 		if(ApplicationModel.player.ChosenGameType<=2 && !ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.displayLoadingScreenButton (true);

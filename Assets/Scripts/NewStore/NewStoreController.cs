@@ -1309,6 +1309,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
 			//jsonGenerator.settings.mode="sandbox";
 			//jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
+			BackOfficeController.instance.displayTransparentBackground();
 			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
 		}
 	}
