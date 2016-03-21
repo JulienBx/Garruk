@@ -538,16 +538,16 @@ public class WordingSkills
 		//23 - Grenade
 		idSkills.Add(23);
 		names.Add(new string[]{"Grenade","Grenade"}); 
-		descriptions.Add(new string[]{"Inflige [6-13] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [6-13] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [7-16] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [7-16] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [8-19] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [8-19] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [9-22] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [9-22] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [10-25] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [10-25] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [11-28] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [11-28] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [12-31] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [12-31] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [13-34] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [13-34] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [14-37] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [14-37] damage points to every unit neighbouring - or on - a target tile"}); 
-		descriptions.Add(new string[]{"Inflige [15-40] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [15-40] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [6-12] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [6-13] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [7-14] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [7-16] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [8-16] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [8-19] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [9-18] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [9-22] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [10-20] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [10-25] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [11-22] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [11-28] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [12-24] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [12-31] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [13-26] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [13-34] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [14-28] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [14-37] damage points to every unit neighbouring - or on - a target tile"}); 
+		descriptions.Add(new string[]{"Inflige [15-30] dégats à toutes les unités adjacentes au terrain ciblé ou sur celui-ci","Inflicts [15-40] damage points to every unit neighbouring - or on - a target tile"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
