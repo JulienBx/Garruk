@@ -426,6 +426,8 @@ public class ApplicationDesignRules : MonoBehaviour
 			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
 		}
 
+		cardFocusedWorldSize = toWorldSize (cardFocusedSize, cardFocusedScale);
+
 		focusedSkillWorldSize.y = worldHeight - upMargin - downMargin;
 		float skillFocusedScale = focusedSkillWorldSize.y / (focusedSkillSize.y / pixelPerUnit);
 		focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale, skillFocusedScale);

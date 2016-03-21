@@ -30,8 +30,8 @@ public class HomePageHelpController : HelpController
 			break;
 		case 3:
 			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), false, false, false, 0f);
-			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (1).x,MenuController.instance.getButtonPosition (1).y-0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (1).x, MenuController.instance.getButtonPosition (1).y, 3, 1), 1f, 1f);
+			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y-0.5f,MenuController.instance.getButtonPosition (1).z));
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 3, 1), 1f, 1f);
 			break;
 		}
 	}
@@ -53,8 +53,8 @@ public class HomePageHelpController : HelpController
 			break;
 		case 3:
 			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), false, false, false, 4f);
-			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (1).x,MenuController.instance.getButtonPosition (1).y+0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (1).x, MenuController.instance.getButtonPosition (1).y, 1, 1), 0.8f, 0.8f);
+			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y+0.5f,MenuController.instance.getButtonPosition (1).z));
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 1, 1), 0.8f, 0.8f);
 			break;
 		}
 	}
@@ -64,7 +64,7 @@ public class HomePageHelpController : HelpController
 			this.sequenceId = 0;
 			this.launchTutorialSequence ();
 		} else if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 3) {
-			this.sequenceId = 0;
+			this.sequenceId = 1;
 			this.launchTutorialSequence ();
 		} else if (this.sequenceId < 2) {
 			this.sequenceId = 2;

@@ -10,10 +10,7 @@ public class NewPackStoreController : NewPackController
 {
 	public override void buyPackHandler ()
 	{
-		if(TutorialObjectController.instance.canAccess(1))
-		{
-			NewStoreController.instance.buyPackHandler (base.getId());
-		}
+		NewStoreController.instance.buyPackHandler (base.getId());
 	}
 
 }

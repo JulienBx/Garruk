@@ -292,5 +292,27 @@ public class NewCardController : NewFocusedCardController
 	{
 		return new Camera();
 	}
+
+	#region Help Functions
+
+	public Vector3 getCardTypePosition()
+	{
+		return this.cardType.transform.position;
+	}
+	public Vector3 getLifePosition()
+	{
+		return this.life.transform.FindChild("Text").position;
+	}
+	public Vector3 getSkillsPosition()
+	{
+		Vector3 skillsPosition = new Vector3();
+		skillsPosition.x = this.skills[1].transform.position.x;
+		skillsPosition.y = (this.skills[1].transform.position.y +this.skills[0].transform.position.y)/2;
+		return skillsPosition;
+	}
+
+	#endregion
+
+
 }
 

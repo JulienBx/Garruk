@@ -124,6 +124,7 @@ public class HelpController : MonoBehaviour
 	public bool isMiniCompanionClicked;
 	private bool canSwipe;
 	private bool canScroll;
+	private bool toDetectScrolling;
 
 	void Update()
 	{
@@ -156,6 +157,10 @@ public class HelpController : MonoBehaviour
 			if (this.isFlashingMiniCompanion) 
 			{
 				this.drawMiniCompanion ();
+			}
+			if(this.toDetectScrolling && this.getIsScrolling())
+			{
+				this.launchTutorialSequence();
 			}
 		}
 	}
@@ -273,6 +278,7 @@ public class HelpController : MonoBehaviour
 		this.isFlashingMiniCompanion = false;
 		this.canSwipe = false;
 		this.canScroll = false;
+		this.toDetectScrolling=false;
 	}
 	public void launchHelpSequence()
 	{
@@ -333,6 +339,11 @@ public class HelpController : MonoBehaviour
 	{
 		this.getTutorialNextAction ();
 	}
+	public virtual bool getIsScrolling()
+	{
+		return false;
+	}
+
 	#region General Settings Methods
 
 	public void setCanSwipe()
@@ -342,6 +353,7 @@ public class HelpController : MonoBehaviour
 	public void setCanScroll()
 	{
 		this.canScroll = true;
+		this.toDetectScrolling=true;
 	}
 	public bool getCanSwipe()
 	{
@@ -351,7 +363,10 @@ public class HelpController : MonoBehaviour
 	{
 		return canScroll;
 	}
-
+	public bool getIsTutorialLaunched()
+	{
+		return this.isTutorial;
+	}
 	#endregion
 
 	#region Companion Methods
@@ -594,33 +609,73 @@ public class HelpController : MonoBehaviour
 		if (this.toMoveArrow) 
 		{
 			this.arrow.SetActive(true);
+			float range=1f;
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				range=0.75f;
+			}
 			if (this.arrowOrientation == "left") 
 			{
 				this.endArrowPosition.x=this.endArrowPosition.x+ApplicationDesignRules.helpArrowWorldSize.x/2f;
 				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,180f);
-				this.startArrowPosition = new Vector3(this.endArrowPosition.x+1f,this.endArrowPosition.y,this.endArrowPosition.z);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x+range,this.endArrowPosition.y,this.endArrowPosition.z);
+				if((this.currentArrowPosition.x>this.startArrowPosition.x || this.currentArrowPosition.x<this.endArrowPosition.x))
+				{
+					this.currentArrowPosition=this.startArrowPosition;
+					this.isArrowMovingBack=false;
+				}
+				else
+				{
+					this.currentArrowPosition.y=this.startArrowPosition.y;
+				}
 			} 
 			else if (this.arrowOrientation == "right") 
 			{
 				this.endArrowPosition.x=this.endArrowPosition.x-ApplicationDesignRules.helpArrowWorldSize.x/2f;
 				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,0f);
-				this.startArrowPosition = new Vector3(this.endArrowPosition.x-1f,this.endArrowPosition.y,this.endArrowPosition.z);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x-range,this.endArrowPosition.y,this.endArrowPosition.z);
+				if((this.currentArrowPosition.x<this.startArrowPosition.x || this.currentArrowPosition.x>this.endArrowPosition.x))
+				{
+					this.currentArrowPosition=this.startArrowPosition;
+					this.isArrowMovingBack=false;
+				}
+				else
+				{
+					this.currentArrowPosition.y=this.startArrowPosition.y;
+				}
 			} 
 			else if (this.arrowOrientation == "up") 
 			{
 				this.endArrowPosition.y=this.endArrowPosition.y-ApplicationDesignRules.helpArrowWorldSize.x/2f;
 				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,90f);
-				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y-1f,this.endArrowPosition.z);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y-range,this.endArrowPosition.z);
+				if((this.currentArrowPosition.y<this.startArrowPosition.y || this.currentArrowPosition.y>this.endArrowPosition.y))
+				{
+					this.currentArrowPosition=this.startArrowPosition;
+					this.isArrowMovingBack=false;
+				}
+				else
+				{
+					this.currentArrowPosition.x=this.startArrowPosition.x;
+				}
 			} 
 			else if (this.arrowOrientation == "down") 
 			{
 				this.endArrowPosition.y=this.endArrowPosition.y+ApplicationDesignRules.helpArrowWorldSize.x/2f;
 				this.arrow.transform.localRotation=Quaternion.Euler(0f,0f,270f);
-				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y+1f,this.endArrowPosition.z);
+				this.startArrowPosition = new Vector3(this.endArrowPosition.x,this.endArrowPosition.y+range,this.endArrowPosition.z);
+				if((this.currentArrowPosition.y<this.startArrowPosition.y || this.currentArrowPosition.y>this.endArrowPosition.y))
+				{
+					this.currentArrowPosition=this.startArrowPosition;
+					this.isArrowMovingBack=false;
+				}
+				else
+				{
+					this.currentArrowPosition.x=this.startArrowPosition.x;
+				}
 			}
 			this.isMovingArrow = true;
-			this.isArrowMovingBack=false;
-			this.currentArrowPosition=this.startArrowPosition;
+
 		} 
 		else 
 		{
@@ -736,15 +791,30 @@ public class HelpController : MonoBehaviour
 				this.endScrollingPosition.y=this.endScrollingPosition.y+1f;
 				this.scrolling.GetComponent<SpriteRenderer>().sprite=ressources.scrollingSprites[0];
 				this.startScrollingPosition.y = this.endScrollingPosition.y-2f;
+				if((this.currentScrollingPosition.y<this.startScrollingPosition.y || this.currentScrollingPosition.y>this.endDraggingPosition.y))
+				{
+					this.currentScrollingPosition=this.startScrollingPosition;
+				}
+				else
+				{
+					this.currentScrollingPosition.x=this.startScrollingPosition.x;
+				}
 			} 
 			else if (this.scrollingOrientation == "down") 
 			{
 				this.endScrollingPosition.y=this.endScrollingPosition.y-1f;
 				this.scrolling.GetComponent<SpriteRenderer>().sprite=ressources.scrollingSprites[1];
 				this.startScrollingPosition.y = this.endScrollingPosition.y+2f;
+				if((this.currentScrollingPosition.y>this.startScrollingPosition.y || this.currentScrollingPosition.y<this.endDraggingPosition.y))
+				{
+					this.currentScrollingPosition=this.startScrollingPosition;
+				}
+				else
+				{
+					this.currentScrollingPosition.x=this.startScrollingPosition.x;
+				}
 			}
 			this.isMovingScrolling=true;
-			this.currentScrollingPosition=this.startScrollingPosition;
 		}
 		else
 		{

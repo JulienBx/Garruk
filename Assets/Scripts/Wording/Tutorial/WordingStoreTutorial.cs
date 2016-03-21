@@ -19,9 +19,7 @@ public class WordingStoreTutorial
 	static WordingStoreTutorial()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Centre de recrutement",""}); //0
-		tutorialContents.Add(new string[]{"Dès leur arrivée sur Cristalia, les colons sont emmenés au centre de recrutement. Mieux vaut en effet ne pas se promener seul sur la planète... Votre planète vous a remis une somme d'argent que vous avez pu échanger contre la monnaie locale (le Cristal, objectif de votre venue ici). Ceci devrait vous permettre de recruter quelques Cristaliens prets à se battre pour vous (ou pour votre argent, c'est selon)",""}); //1
-		tutorialContents.Add(new string[]{"Vos premières unités",""}); //2
+		tutorialContents.Add(new string[]{"Bienvenue sur le centre de recrutement, bla bla. Allons acheter un premier groupe d'unités.",""}); //1
 		tutorialContents.Add(new string[]{"Consultez-les attentivement. Les unités possèdent chacune un type leur conférant des bonus permanents et 1 ou plusieurs compétences. Allons maintenant préparer vos troupes pour la bataille!",""}); //3
 
 		helpContents=new List<string[]>();
