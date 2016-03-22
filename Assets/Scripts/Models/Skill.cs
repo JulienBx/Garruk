@@ -30,7 +30,7 @@ public class Skill
 	public bool hasBeenPlayed ;
 	public bool IsActiveSkill;
 	
-	public Skill(string name, string description, int id, int c, int p)
+	public Skill(string name, string description, int id, int c, int p, int po)
 	{
 		this.Name = name;
 		this.Description = description;
@@ -38,6 +38,7 @@ public class Skill
 		this.cible = c ;
 		this.proba = p ;
 		this.hasBeenPlayed = false ;
+		this.Power = po ;
 	}
 
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost, string description, string action) : this(name, id, isactivated, level, power, manaCost, description)

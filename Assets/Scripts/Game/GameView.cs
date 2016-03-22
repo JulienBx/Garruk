@@ -2079,7 +2079,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void removeLeaderEffect(int target, bool b){
-		print("Target "+target);
 		if(b){
 			for(int j = 0 ; j < this.nbCards ; j++){
 				if(this.getCard(j).isMine && target!=j){
@@ -2093,16 +2092,12 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			for(int j = 0 ; j < this.nbCards ; j++){
-				print("Je teste "+j);
 				if(!this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Leader\nPerd ses bonus", 0);
 					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
-				}
-				else{
-
 				}
 			}
 		}
@@ -2121,8 +2116,10 @@ public class GameView : MonoBehaviour
 			int jHis = 0 ;
 			while (i<orderCards.Count && orderCards[i]!=c){
 				newOrderCards.Add(orderCards[i]);
+				print(i+" - J'add "+orderCards[i]);
 				i++;
 			}
+			i--;
 			jMine = i ;
 			jHis = i;
 			if (i==0){
@@ -2139,11 +2136,13 @@ public class GameView : MonoBehaviour
 						}
 					}
 					else{
-						if(this.getCard(newOrderCards[i-1]).isMine){
-							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,false));
+						if(this.getCard(newOrderCards[i]).isMine){
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-1]).deckOrder,false));
+							print(i+" - MINE "+newOrderCards[newOrderCards.Count-1]);
 						}
 						else{
-							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-2]).deckOrder,true));
+							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(newOrderCards[i-1]).deckOrder,true));
+							print(i+ " - HIS "+newOrderCards[newOrderCards.Count-1]);
 						}
 					}
 					i++;
@@ -2425,8 +2424,6 @@ public class GameView : MonoBehaviour
 				total+=this.getCard(i).GetTotalLife();
 			}
 		}
-		print(damages);
-		print(total);
 		return Mathf.FloorToInt(100*damages/total);
 	}
 
@@ -2597,6 +2594,9 @@ public class GameView : MonoBehaviour
 		}
 		else if(this.runningSkill==93){
 			this.getCard(this.currentPlayingCard).hasMoved = true ;
+		}
+		else if(this.runningSkill==15){
+			this.getCard(this.currentPlayingCard).hasMoved = false ;
 		}
 		this.runningSkill = -1;
 		if(this.getCard(this.currentPlayingCard).isMine){
@@ -2898,6 +2898,26 @@ public class GameView : MonoBehaviour
 		this.getSkillZoneController().isRunningSkill = false ;
 		this.runningSkill = -1;
 		this.hoveringZone = -1;
+	}
+
+	public List<Tile> getAllTilesWithin(Tile t, int r){
+		List<Tile> tiles = new List<Tile>();
+		Tile tempTile ;
+		for (int i = 0 ; i < boardWidth ; i++){
+			for (int j = 0 ; j < boardHeight ; j++){
+				tempTile = new Tile(i,j);
+				if(this.getDistanceBetweenTiles(t,tempTile)<=r){
+					if(this.getTileController(tempTile).getCharacterID()==-1){
+						tiles.Add(tempTile);
+					}
+				}
+			}
+		}
+		return tiles ;
+	}
+
+	public int getDistanceBetweenTiles(Tile t1, Tile t2){
+		return (Math.Abs(t1.x-t2.x)+Math.Abs(t1.y-t2.y));
 	}
 }
 

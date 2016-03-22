@@ -26,7 +26,7 @@ public class Electropiege : GameSkill
 
 	public override string getTargetText(int i){
 		int amount = 10+2*GameView.instance.getCurrentSkill().Power;
-		string s = "Pose un piège qui infligera "+amount+" dégats à l'unité touchée";
+		string s = "Pose un piège. Infligera "+amount+" dégats à l'unité touchée";
 		return s ;
 	}
 }

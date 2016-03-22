@@ -407,7 +407,7 @@ public class GameCard : Card
 	
 	public Skill GetAttackSkill()
 	{
-		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100);
+		return new Skill("Attaque", "Inflige "+this.getAttack()+" dégats au contact",0,1,100,1);
 	}
 	
 	public int getNormalDamagesAgainst(GameCard g, int attack){

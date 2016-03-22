@@ -533,7 +533,7 @@ public class PlayingCardController : GameObjectController
 
 	public void checkAgile(bool toDisplay){
 		if((card.Skills[0].Id == 66)){
-			int level = 20+card.Skills[0].Power*3;
+			int level = 20+card.Skills[0].Power*4;
 						
 			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();

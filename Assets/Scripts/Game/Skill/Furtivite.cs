@@ -8,19 +8,18 @@ public class Furtivite : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Furtivité";
 		base.ciblage = 10 ;
-		base.auto = false;
+		base.auto = true;
 	}
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayMyUnitTarget();
+		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(targetsPCC[0]);
+		GameController.instance.applyOn(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -34,7 +33,7 @@ public class Furtivite : GameSkill
 		GameView.instance.getCard(target).magicalEsquiveModifyers.Add(new Modifyer(100, 2, 9, base.name, "Esquive les attaques à distance"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK\nFurtif", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK", 1);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 9);
 	}
 

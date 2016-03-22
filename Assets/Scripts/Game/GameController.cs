@@ -87,6 +87,17 @@ public class GameController : Photon.MonoBehaviour
 		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, "Poisonpiège", description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
+
+	public void addTelepiege(int amount, Tile t){
+		photonView.RPC("addTelepiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	}
+	
+	[PunRPC]
+	public void addTelepiegeRPC(int amount, int x, int y){
+		string description = "Téléportera dans un rayon de "+amount+" cases l'unité touchée" ;
+		Trap trap = new Trap(amount, 3, GameView.instance.getCurrentCard().isMine, "Télépiège", description);
+		GameView.instance.getTileController(x,y).setTrap(trap);
+	}
 	
 	public void playerReady(bool isFirstP){
 		photonView.RPC("playerReadyRPC", PhotonTargets.AllBuffered, isFirstP);
@@ -105,7 +116,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	public void sendShurikenRPC(int target, int nb, int currentCard)
 	{	
-		int damages = (5+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
+		int damages = (2+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
 		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false);

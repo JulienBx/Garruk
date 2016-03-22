@@ -25,7 +25,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [12] = new Combo();
 		this.skills [13] = new Electropiege();
 		this.skills [14] = new Agilite();
-		this.skills [15] = new CoupeJambes();
+		this.skills [15] = new Guerilla();
 		this.skills [16] = new Berserk();
 		this.skills [17] = new Attaque360();
 		this.skills [18] = new Frenesie();
@@ -68,7 +68,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [55] = new GameSkill();
 		this.skills [56] = new Steroide();
 		this.skills [57] = new Senilite();
-		this.skills [58] = new Poisonpiege();
+		this.skills [58] = new Telepiege();
 		this.skills [59] = new CoupPrecis();
 		this.skills [60] = new GameSkill();
 		this.skills [61] = new GameSkill();

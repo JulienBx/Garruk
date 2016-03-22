@@ -176,6 +176,15 @@ public class TileController : GameObjectController
 				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 58);
 			}
+			else if(this.trap.getType()==3){	
+				List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
+				Tile tile = tiles[Random.Range(0,tiles.Count)];
+
+				GameController.instance.clickDestination(tile, this.characterID, true);
+
+				GameView.instance.displaySkillEffect(GameView.instance.getTileController(tile).getCharacterID(), "Téléporté !", 0);	
+				GameView.instance.addAnim(tile, 58);
+			}
 			this.isTrapped=false;
 			this.showTrap(false);
 			this.showDescription(false);

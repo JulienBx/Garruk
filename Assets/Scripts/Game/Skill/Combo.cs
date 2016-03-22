@@ -29,7 +29,7 @@ public class Combo : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(1,max));
+				GameController.instance.applyOn2(target, Random.Range(1,max+1));
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -44,20 +44,11 @@ public class Combo : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
 		string text = base.name+"\nHIT X"+value+"\n-"+damages+"PV";
 
-		if (currentCard.isLache()){
-			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damages);
-					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
-				}
-			}
-			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damages);
-					text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lache)";
-				}
-			}
+		if (currentCard.isLache() && !currentCard.hasMoved){
+			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
+			text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lâche)";			
 		}
+
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,12,base.name,damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 12);
@@ -71,21 +62,11 @@ public class Combo : GameSkill
 		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(6+GameView.instance.getCurrentSkill().Power)*Mathf.RoundToInt(20*currentCard.getAttack()/100f));
 		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
 
-		if (currentCard.isLache()){
-			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damagesMin = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMin);
-					damagesMax = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMax);
-					text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]\n(lache)";
-				}
-			}
-			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damagesMin = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMin);
-					damagesMax = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Level+damagesMax);
-					text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]\n(lache)";
-				}
-			}
+		if (currentCard.isLache() && !currentCard.hasMoved){
+			damagesMin = currentCard.getNormalDamagesAgainst(targetCard,damagesMin+5+currentCard.getSkills()[0].Power);
+			damagesMax = currentCard.getNormalDamagesAgainst(targetCard,damagesMax+5+currentCard.getSkills()[0].Power);
+		
+			text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";	
 		}
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

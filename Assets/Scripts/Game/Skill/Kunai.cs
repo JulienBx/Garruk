@@ -13,7 +13,7 @@ public class Kunai : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -78,23 +78,13 @@ public class Kunai : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
-
 		string text = "-"+damages+"PV";
-						
-		if (currentCard.isLache()){
-			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y>GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
-				}
-			}
-			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y<GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
-				}
-			}
+
+		if (currentCard.isLache() && !currentCard.hasMoved){
+			damages = currentCard.getMagicalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
+			text = "-"+damages+"PV\n(lâche)";
 		}
+
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,9,"Pistolero",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 8);
