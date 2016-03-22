@@ -5,7 +5,7 @@ public class newMyGameSortButtonController : SpriteButtonController
 {	
 	new public void OnMouseUp()
 	{
-		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		if(!HelpController.instance.getIsTutorialLaunched())
 		{
 			newMyGameController.instance.sortButtonHandler (base.getId());
 		}

@@ -5,21 +5,21 @@ public class newMyGameCursorController : SpriteButtonController
 {
 	void OnMouseDrag()
 	{
-		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		if(!HelpController.instance.getIsTutorialLaunched())
 		{
 			newMyGameController.instance.moveCursors (base.getId ());
 		}
 	}
 	void OnMouseDown()
 	{
-		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		if(!HelpController.instance.getIsTutorialLaunched())
 		{
 			newMyGameController.instance.startSlidingCursors();
 		}
 	}
 	new void OnMouseUp()
 	{
-		if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+		if(!HelpController.instance.getIsTutorialLaunched())
 		{
 			newMyGameController.instance.endSlidingCursors();
 		}

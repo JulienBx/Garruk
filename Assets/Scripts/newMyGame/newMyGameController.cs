@@ -1503,6 +1503,7 @@ public class newMyGameController : MonoBehaviour
 		this.newDeckPopUpDisplayed = true;
 		this.newDeckPopUp.SetActive (true);
 		this.newDeckPopUpResize ();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void displayEditDeckPopUp()
 	{
@@ -1591,15 +1592,14 @@ public class newMyGameController : MonoBehaviour
 		string error = this.checkDeckName(name, true);
 		if(error=="")
 		{
-			this.hideNewDeckPopUp();
 			BackOfficeController.instance.displayLoadingScreen();
 			model.decks.Add(new Deck());
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(name));
 			this.deckDisplayed=model.decks.Count-1;
 			this.initializeDecks();
 			this.initializeCards();
+			this.hideNewDeckPopUp();
 			BackOfficeController.instance.hideLoadingScreen();
-			HelpController.instance.tutorialTrackPoint();
 			if(this.toMoveFirstDeckCard)
 			{
 				this.moveToDeckCards(0);
@@ -2221,6 +2221,10 @@ public class newMyGameController : MonoBehaviour
 	public Vector3 getCardsPosition(int id)
 	{
 		return cards[id].transform.position;
+	}
+	public bool getIsNewDeckPopUpDisplayed()
+	{
+		return newDeckPopUpDisplayed;
 	}
 	public Vector3 getFiltersBlockOrigin()
 	{

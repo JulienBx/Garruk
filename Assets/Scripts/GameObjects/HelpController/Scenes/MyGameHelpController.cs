@@ -25,6 +25,41 @@ public class MyGameHelpController : HelpController
 			this.setArrow("right",new Vector3(newMyGameController.instance.getNewDeckButtonPosition().x-0.5f,newMyGameController.instance.getNewDeckButtonPosition().y,newMyGameController.instance.getNewDeckButtonPosition().z));
 			this.setBackground (false,new Rect (newMyGameController.instance.getNewDeckButtonPosition().x, newMyGameController.instance.getNewDeckButtonPosition().y, 1.5f, 1.5f), 0.75f, 0.75f);
 			break;
+		case 2:
+			break;
+		case 3:
+			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			break;
+		case 4:
+			//this.setMiniCompanion(true,7.5f);
+			this.setBackground(true,new Rect(0,-1.5f,20,7),1f,1f);
+			this.setDragging("right",new Vector3(0f,0f,0f));
+			break;
+		case 5:
+			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, true, true, 0f);
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			break;
+		case 6:
+			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), true, false, false, 0f);
+			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (5).x,MenuController.instance.getButtonPosition (5).y-0.5f,MenuController.instance.getButtonPosition (1).z));
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (5).x, MenuController.instance.getButtonPosition (5).y, 3, 1), 1f, 1f);
+			break;
+		case 7:
+			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), true, false, false, 0f);
+			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (4).x,MenuController.instance.getButtonPosition (4).y-0.5f,MenuController.instance.getButtonPosition (1).z));
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (4).x, MenuController.instance.getButtonPosition (4).y, 3, 1), 1f, 1f);
+			break;
+		case 8:
+			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), true, false, false, 0f);
+			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (3).x,MenuController.instance.getButtonPosition (3).y-0.5f,MenuController.instance.getButtonPosition (1).z));
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 3, 1), 1f, 1f);
+			break;
+		case 9:
+			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), true, false, false, 0f);
+			this.setArrow ("up", new Vector3(MenuController.instance.getHelpButtonPosition().x,MenuController.instance.getHelpButtonPosition().y-0.5f,MenuController.instance.getHelpButtonPosition().z));
+			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 1f, 1f);
+			break;
 		}
 	}
 	public override void getMobileTutorialSequenceSettings()
@@ -40,20 +75,86 @@ public class MyGameHelpController : HelpController
 			this.setArrow("right",new Vector3(newMyGameController.instance.getNewDeckButtonPosition().x-0.5f,newMyGameController.instance.getNewDeckButtonPosition().y,newMyGameController.instance.getNewDeckButtonPosition().z));
 			this.setBackground (false,new Rect (newMyGameController.instance.getNewDeckButtonPosition().x, newMyGameController.instance.getNewDeckButtonPosition().y, 1f, 1f), 1f, 1f);
 			break;
+		case 2:
+			break;
+		case 3:
+			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			break;
+		case 4:
+			this.setMiniCompanion(true,0);
+			this.setDragging("up",new Vector3(0f,0f,0f));
+			break;
+		case 5:
+			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			break;
 		}
 	}
 	public override void getTutorialNextAction()
 	{
-		if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 5) {
+		if(ApplicationModel.player.HasDeck)
+		{
+			if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 5) 
+			{
+				this.sequenceId = 5;
+				this.launchTutorialSequence ();
+			} 
+			else if(this.sequenceId ==4)
+			{
+				this.sequenceId=5;
+				this.launchTutorialSequence();
+			}
+			else if(this.sequenceId >4)
+			{
+				this.sequenceId++;
+				this.launchTutorialSequence();
+			}
+		}
+		else if(newMyGameController.instance.isADeckCurrentlySelected())
+		{
+			if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 5) 
+			{
+				this.sequenceId = 3;
+				this.launchTutorialSequence ();
+			}
+			else if(this.isMiniCompanionClicked)
+			{
+				this.isMiniCompanionClicked=false;
+				this.sequenceId=3;
+				this.launchTutorialSequence();
+			} 
+			else if(this.sequenceId ==2)
+			{
+				this.sequenceId=3;
+				this.launchTutorialSequence();
+			}
+			else if(this.sequenceId ==3)
+			{
+				this.sequenceId=4;
+				this.launchTutorialSequence();
+			}
+		}
+		else if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 5) 
+		{
 			this.sequenceId = 0;
 			this.launchTutorialSequence ();
 		} 
-		else if (this.sequenceId < 12) 
+		else if (this.sequenceId == 0) 
 		{
-			this.sequenceId++;
+			this.sequenceId=1;
 			this.launchTutorialSequence();
 		}
-
+		else if (this.sequenceId ==1 && newMyGameController.instance.getIsNewDeckPopUpDisplayed())
+		{
+			this.sequenceId=2;
+			this.launchTutorialSequence();
+		}
+		else if(this.sequenceId ==2 && !newMyGameController.instance.getIsNewDeckPopUpDisplayed())
+		{
+			this.sequenceId=1;
+			this.launchTutorialSequence();
+		}
 	}
 
 	#endregion
