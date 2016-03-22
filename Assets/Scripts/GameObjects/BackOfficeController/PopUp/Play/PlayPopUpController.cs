@@ -53,11 +53,6 @@ public class PlayPopUpController : MonoBehaviour
 			this.retrieveDecksList ();
 			this.drawDeck ();
 			this.show ();
-			TutorialObjectController.instance.tutorialTrackPoint ();
-			if(TutorialObjectController.instance.getSequenceID()!=102)
-			{
-				TutorialObjectController.instance.freeze();
-			}
 		}
 		else
 		{
@@ -215,24 +210,5 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		this.isMouseOnSelectDeckButton = value;
 	}
-
-	#region TUTORIAL FUNCTIONS
-
-	public Vector3 getFriendlyGameButtonPosition()
-	{
-		Vector3 buttonPosition = gameObject.transform.FindChild ("Button0").position;
-		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
-		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
-		return buttonPosition;
-	}
-	public Vector3 getQuitPopUpButtonPosition()
-	{
-		Vector3 buttonPosition = gameObject.transform.FindChild ("quitButton").position;
-		buttonPosition.x = buttonPosition.x - ApplicationDesignRules.menuPosition.x;
-		buttonPosition.y = buttonPosition.y - ApplicationDesignRules.menuPosition.y;
-		return buttonPosition;
-	}
-
-	#endregion
 }
 

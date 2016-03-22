@@ -125,7 +125,7 @@ public class NewHomePageModel
 		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [6]);
 		ApplicationModel.player.CollectionRanking = System.Convert.ToInt32 (array [7]);
 		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [8]);
-		ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
+		//ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
 		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
 		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
 	}

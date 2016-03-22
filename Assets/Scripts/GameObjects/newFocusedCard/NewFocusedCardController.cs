@@ -1369,6 +1369,10 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.skills[id].transform.position;
 	}
+	public Vector3 getFocusFeaturePosition(int id)
+	{
+		return this.gameObject.transform.FindChild("FocusFeature"+id).transform.position;
+	}
 
 	#endregion
 }

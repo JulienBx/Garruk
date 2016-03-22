@@ -81,7 +81,7 @@ public class NewProfileModel
 				ApplicationModel.player.Id=System.Convert.ToInt32(data[5]);
 			}
 			ApplicationModel.player.TutorialStep=System.Convert.ToInt32(data[6]);
-			ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
+			//ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
 			ApplicationModel.player.ProfileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[8]));
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)

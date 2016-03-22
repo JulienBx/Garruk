@@ -15,6 +15,9 @@ public class newMyGameFilterButtonController : SpriteButtonController
 	}
 	public override void mainInstruction()
 	{
-		newMyGameController.instance.slideRight ();
+		if(!HelpController.instance.getIsTutorialLaunched())
+		{
+			newMyGameController.instance.slideRight ();
+		}
 	}
 }

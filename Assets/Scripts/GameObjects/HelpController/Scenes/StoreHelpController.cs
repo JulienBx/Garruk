@@ -22,7 +22,7 @@ public class StoreHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (0), true, false, true, 0f);
 			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
 			break;
 		case 1:
@@ -33,43 +33,43 @@ public class StoreHelpController : HelpController
 			this.setBackground (true,new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1f,5.5f),0f,0f);
 			break;
 		case 3:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (1), true, false, true, 0f);
 			this.setBackground (true,new Rect(0,-0.25f,ApplicationDesignRules.worldWidth+1f,5.5f),0f,0f);
 			break;
 		case 4:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (2), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			break;
 		case 5:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (3), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("up",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getCardTypePosition().x,-ApplicationDesignRules.upMargin/2f-0.3f-ApplicationDesignRules.randomCardsPosition.y+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getCardTypePosition().y,0f));
 			break;
 		case 6:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (4), true, false, false, 0f);
 			this.setBackground (true,new Rect(+NewStoreController.instance.getCardsPosition(0).x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("left",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getLifePosition().x+0.15f,-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.randomCardsPosition.y+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getLifePosition().y,0f));
 			break;
 		case 7:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (5), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("left",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getSkillsPosition().x+0.3f,-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.randomCardsPosition.y+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getSkillsPosition().y,0f));
 			break;
 		case 8:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), false, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (6), false, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),1f,1f);
 			break;
 		case 9:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 1.5f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (7), true, false, false, 1.5f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
 			break;
 		case 10:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 1.5f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (8), true, false, false, 1.5f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+NewStoreController.instance.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
 			this.setArrow("down",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getSkillPosition(1).x,0.3f-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getSkillPosition(1).y,0f));
 			break;
 		case 11:
-			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), false, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (9), false, false, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (1).x,MenuController.instance.getButtonPosition (1).y-0.5f,MenuController.instance.getButtonPosition (1).z));
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (1).x, MenuController.instance.getButtonPosition (1).y, 3, 1), 1f, 1f);
 			break;
@@ -80,7 +80,7 @@ public class StoreHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setCompanion (WordingHomePageTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (0), true, false, true, 0f);
 			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
 			break;
 		case 1:
@@ -108,43 +108,43 @@ public class StoreHelpController : HelpController
 			this.setBackground (true,new Rect(0,1f,ApplicationDesignRules.worldWidth+1,6f),0f,0f);
 			break;
 		case 3:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (0), true, false, true, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (1), true, false, true, 0f);
 			this.setBackground (true,new Rect(0,1f,ApplicationDesignRules.worldWidth+1,6f),0f,0f);
 			break;
 		case 4:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (2), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			break;
 		case 5:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (3), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,+NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("up",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getCardTypePosition().x,-ApplicationDesignRules.randomCardsPosition.y-0.3f+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getCardTypePosition().y,0f));
 			break;
 		case 6:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (4), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("left",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getLifePosition().x+0.15f,-ApplicationDesignRules.randomCardsPosition.y+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getLifePosition().y,0f));
 			break;
 		case 7:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (5), true, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),0f,0f);
 			this.setArrow("left",new Vector3(-ApplicationDesignRules.randomCardsPosition.x+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getSkillsPosition().x+0.3f,-ApplicationDesignRules.randomCardsPosition.y+NewStoreController.instance.returnCard(0).GetComponent<NewCardController>().getSkillsPosition().y,0f));
 			break;
 		case 8:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), false, false, false, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (6), false, false, false, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getCardsPosition(0).x,NewStoreController.instance.getCardsPosition(0).y,NewStoreController.instance.getCardsSize(0).x,NewStoreController.instance.getCardsSize(0).y),1f,1f);
 			break;
 		case 9:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, true, true, 0f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (7), true, true, true, 0f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getFocusedCardPosition().x,NewStoreController.instance.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
 			break;
 		case 10:
-			this.setCompanion (WordingStoreTutorial.getTutorialContent (1), true, false, true, 6f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (8), true, false, true, 6f);
 			this.setBackground (true,new Rect(NewStoreController.instance.getFocusedCardPosition().x,NewStoreController.instance.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
 			this.setArrow("up",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getSkillPosition(0).x,-0.3f-ApplicationDesignRules.focusedCardPosition.y+NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getSkillPosition(0).y,0f));
 			break;
 		case 11:
-			this.setCompanion (WordingHomePageTutorial.getTutorialContent (3), false, false, false, 4f);
+			this.setCompanion (WordingStoreHelp.getTutorialContent (9), false, false, false, 4f);
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (1).x,MenuController.instance.getButtonPosition (1).y+0.5f,MenuController.instance.getButtonPosition (1).z));
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (1).x, MenuController.instance.getButtonPosition (1).y, 1, 1), 0.8f, 0.8f);
 			break;
@@ -173,20 +173,12 @@ public class StoreHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setFlashingBlock (NewHomePageController.instance.returnDeckBlock ());
-			this.setCompanion (WordingHomePageTutorial.getHelpContent (0), true, false, true, 0f);
+			this.setFlashingBlock (NewStoreController.instance.returnPacksBlock (),true);
+			this.setCompanion (WordingStoreHelp.getHelpContent (0), true, false, true, 0f);
 			break;
 		case 1:
-			this.setFlashingBlock (NewHomePageController.instance.returnPlayBlock ());
-			this.setCompanion(WordingHomePageTutorial.getHelpContent(1),true,false,false,0f);
-			break;
-		case 2:
-			this.setCompanion (WordingHomePageTutorial.getHelpContent (3), true, true, true, 0f);
-			this.setFlashingBlock (NewHomePageController.instance.returnNewsfeedBlock ());
-			break;
-		case 3:
-			this.setCompanion(WordingHomePageTutorial.getHelpContent(2),true,true,false,0f);
-			this.setFlashingBlock (NewHomePageController.instance.returnStoreBlock ());
+			this.setFlashingBlock (NewStoreController.instance.returnBuyCreditsBlock (),true);
+			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,true,0f);
 			break;
 		}
 	}
@@ -195,37 +187,27 @@ public class StoreHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setFlashingBlock (NewHomePageController.instance.returnPlayBlock ());
-			if (!NewHomePageController.instance.getIsMainContentDisplayed()) 
+			if (!NewStoreController.instance.getIsMainContentDisplayed()) 
 			{
-				NewHomePageController.instance.slideRight ();
+				NewStoreController.instance.slideRight ();
 			} 
-			this.setCompanion (WordingHomePageTutorial.getHelpContent (0), true, true, true, 0f);
+			this.setFlashingBlock (NewStoreController.instance.returnPacksBlock (),true);
+			this.setCompanion (WordingStoreHelp.getHelpContent (0), true, true, true, 0f);
 			break;
 		case 1:
-			this.setFlashingBlock (NewHomePageController.instance.returnNewsfeedBlock ());
-			NewHomePageController.instance.slideLeft ();
-			this.setCompanion(WordingHomePageTutorial.getHelpContent(3),true,true,false,0f);
-			break;
-		case 2:
-			NewHomePageController.instance.slideRight ();
-			this.setCompanion (WordingHomePageTutorial.getHelpContent (1), true, false, false, 4f);
-			this.setFlashingBlock (NewHomePageController.instance.returnDeckBlock ());	
+			this.setFlashingBlock (NewStoreController.instance.returnBuyCreditsBlock (),false);
+			this.setBackground(true,new Rect(0f,-2.75f,ApplicationDesignRules.worldWidth,2.5f),0f,0f);
+			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,false,4.5f);
 			break;
 		}
 	}
 	public override void getHelpNextAction()
 	{
-		if (sequenceId < 2) 
+		if (sequenceId < 1) 
 		{
 			this.sequenceId++;
 			this.launchHelpSequence ();
 		} 
-		else if (sequenceId == 2 && !ApplicationDesignRules.isMobileScreen) 
-		{
-			this.sequenceId++;
-			this.launchHelpSequence ();
-		}	
 		else 
 		{
 			this.quitHelp ();

@@ -21,7 +21,7 @@ public class NewProfileController : MonoBehaviour
 
 	private GameObject backOfficeController;
 	private GameObject menu;
-	private GameObject tutorial;
+	private GameObject help;
 
 	private GameObject profileBlock;
 	private GameObject profileBlockTitle;
@@ -64,7 +64,7 @@ public class NewProfileController : MonoBehaviour
 
 	private GameObject mainCamera;
 	private GameObject sceneCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private GameObject slideLeftButton;
@@ -132,7 +132,7 @@ public class NewProfileController : MonoBehaviour
 	{	
 		this.friendsCheckTimer += Time.deltaTime;
 		
-		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f)
 			{
@@ -223,14 +223,14 @@ public class NewProfileController : MonoBehaviour
 		this.mainContentDisplayed = true;
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<ProfileTutorialController>();
-		this.tutorial.GetComponent<ProfileTutorialController>().initialize();
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<ProfileHelpController>();
+		this.help.GetComponent<ProfileHelpController>().initialize();
 		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
@@ -260,13 +260,9 @@ public class NewProfileController : MonoBehaviour
 		this.checkFriendsOnlineStatus ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(ApplicationModel.player.TutorialStep!=-1)
+		if(!ApplicationModel.player.ProfileTutorial)
 		{
-			TutorialObjectController.instance.startTutorial();
-		}
-		else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.ProfileTutorial)
-		{
-			TutorialObjectController.instance.startHelp();
+			HelpController.instance.startHelp();
 		}
 	}
 	private void initializeFriendsRequests()
@@ -606,7 +602,7 @@ public class NewProfileController : MonoBehaviour
 		this.messagePopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.slideLeftButton = GameObject.Find ("SlideLeftButton");
 		this.slideLeftButton.AddComponent<NewProfileSlideLeftButtonController> ();
@@ -645,12 +641,12 @@ public class NewProfileController : MonoBehaviour
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 
@@ -1049,7 +1045,7 @@ public class NewProfileController : MonoBehaviour
 		}
 		MenuController.instance.resize();
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	public void returnPressed()
 	{

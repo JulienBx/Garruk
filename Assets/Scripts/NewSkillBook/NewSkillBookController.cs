@@ -18,7 +18,7 @@ public class NewSkillBookController : MonoBehaviour
 
 	private GameObject backOfficeController;
 	private GameObject menu;
-	private GameObject tutorial;
+	private GameObject help;
 
 	private GameObject skillsBlock;
 	private GameObject skillsBlockTitle;
@@ -54,7 +54,7 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject lowerScrollCamera;
 	private GameObject upperScrollCamera;
 	private GameObject sceneCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private GameObject informationButton;
@@ -112,7 +112,7 @@ public class NewSkillBookController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isFocusedSkillDisplayed && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -191,7 +191,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -207,14 +207,14 @@ public class NewSkillBookController : MonoBehaviour
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<SkillBookTutorialController>();
-		this.tutorial.GetComponent<SkillBookTutorialController>().initialize();
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<SkillBookHelpController>();
+		this.help.GetComponent<SkillBookHelpController>().initialize();
 		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
@@ -241,13 +241,9 @@ public class NewSkillBookController : MonoBehaviour
 		this.initializeSkills ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(ApplicationModel.player.TutorialStep!=-1)
+		if(!ApplicationModel.player.SkillBookTutorial)
 		{
-			TutorialObjectController.instance.startTutorial();
-		}
-		else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.SkillBookTutorial)
-		{
-			TutorialObjectController.instance.startHelp();
+			HelpController.instance.startHelp();
 		}
 	}
 	public void selectATabHandler(int idTab)
@@ -283,7 +279,7 @@ public class NewSkillBookController : MonoBehaviour
 		switch(this.activeTab)
 		{
 		case 0:
-			this.initializeHelp();
+			this.initializeHelpContent();
 			break;
 		case 1:
 			this.initializeIndicators();
@@ -321,7 +317,7 @@ public class NewSkillBookController : MonoBehaviour
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
 	}
-	private void initializeHelp()
+	private void initializeHelpContent()
 	{
 		for(int i=0;i<this.contents.Length;i++)
 		{
@@ -551,7 +547,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.lowerScrollCamera = GameObject.Find ("LowerScrollCamera");
 		this.lowerScrollCamera.AddComponent<ScrollingController> ();
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.filterButton = GameObject.Find ("FilterButton");
 		this.filterButton.AddComponent<NewSkillBookFilterButtonController> ();
@@ -590,12 +586,12 @@ public class NewSkillBookController : MonoBehaviour
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraStandardPosition;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 
@@ -1034,7 +1030,7 @@ public class NewSkillBookController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(4);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	public void cardTypeFilterHandler(int id)
 	{

@@ -59,7 +59,7 @@ public class NewFocusedFeaturesController : MonoBehaviour
 	{
 		if(this.isClickable)
 		{
-			if(this.id==4 || TutorialObjectController.instance.canAccess())
+			if(this.id==4 || HelpController.instance.canAccess())
 			{
 				this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().focusFeaturesHandler(this.id);
 			}

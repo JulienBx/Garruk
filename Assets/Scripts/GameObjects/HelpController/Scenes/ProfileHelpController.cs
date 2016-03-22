@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class LobbyHelpController : HelpController 
+public class ProfileHelpController : HelpController 
 {
 
 	#region Help

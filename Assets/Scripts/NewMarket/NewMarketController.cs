@@ -20,7 +20,7 @@ public class NewMarketController : MonoBehaviour
 
 	private GameObject backOfficeController;
 	private GameObject menu;
-	private GameObject tutorial;
+	private GameObject help;
 	private GameObject refreshMarketButton;
 
 	private GameObject cardsBlock;
@@ -58,7 +58,7 @@ public class NewMarketController : MonoBehaviour
 	private GameObject lowerScrollCamera;
 	private GameObject upperScrollCamera;
 	private GameObject sceneCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private GameObject informationButton;
@@ -127,7 +127,7 @@ public class NewMarketController : MonoBehaviour
 	{	
 		this.timer += Time.deltaTime;
 
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isSlidingCursors && !this.isCardFocusedDisplayed && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -238,7 +238,7 @@ public class NewMarketController : MonoBehaviour
 			this.upperScrollCamera.transform.position=mainCameraPosition;
 			this.lowerScrollCamera.transform.position=cardsCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -254,14 +254,14 @@ public class NewMarketController : MonoBehaviour
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		this.initialization ();
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<MarketTutorialController>();
-		this.tutorial.GetComponent<MarketTutorialController>().initialize();
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<MarketHelpController>();
+		this.help.GetComponent<MarketHelpController>().initialize();
 		BackOfficeController.instance.setIsTutorialLoaded(true);
 	}
 	private void initializeMenu()
@@ -354,13 +354,9 @@ public class NewMarketController : MonoBehaviour
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(firstLoad)
 		{
-			if(ApplicationModel.player.TutorialStep!=-1)
+			if(!ApplicationModel.player.MarketTutorial)
 			{
-				TutorialObjectController.instance.startTutorial();
-			}
-			else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.MarketTutorial)
-			{
-				TutorialObjectController.instance.startHelp();
+				HelpController.instance.startHelp();
 			}
 		}
 		switch(this.activeTab)
@@ -401,13 +397,9 @@ public class NewMarketController : MonoBehaviour
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(firstLoad)
 		{
-			if(ApplicationModel.player.TutorialStep!=-1)
+			if(!ApplicationModel.player.MarketTutorial)
 			{
-				TutorialObjectController.instance.startTutorial();
-			}
-			else if(ApplicationModel.player.DisplayTutorial&&!ApplicationModel.player.MarketTutorial)
-			{
-				TutorialObjectController.instance.startHelp();
+				HelpController.instance.startHelp();
 			}
 		}
 		switch(this.activeTab)
@@ -550,7 +542,7 @@ public class NewMarketController : MonoBehaviour
 		this.upperScrollCamera = GameObject.Find ("UpperScrollCamera");
 		this.lowerScrollCamera = GameObject.Find ("LowerScrollCamera");
 		this.lowerScrollCamera.AddComponent<ScrollingController> ();
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 	}
 	private void resetFiltersValue()
@@ -631,12 +623,12 @@ public class NewMarketController : MonoBehaviour
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
@@ -985,7 +977,7 @@ public class NewMarketController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(3);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	public void drawCards()
 	{
@@ -1837,33 +1829,17 @@ public class NewMarketController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 	
+	public GameObject returnCardsBlock()
+	{
+		return this.cardsBlock;
+	}
+	public GameObject returnFiltersBlock()
+	{
+		return this.filtersBlock;
+	}
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;
-	}
-	public Vector3 getFiltersBlockOrigin()
-	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getFiltersBlockSize()
-	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getCardsBlockOrigin()
-	{
-		Vector3 blockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
-		return blockOrigin;
-	}
-	public Vector2 getCardsBlockSize()
-	{
-		Vector2 blockSize=this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
-		return blockSize;
-	}
-	public Vector3 getMarketBlockOrigin()
-	{
-		return this.marketBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
 	public GameObject returnCardFocused()
 	{
