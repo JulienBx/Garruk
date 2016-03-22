@@ -180,7 +180,7 @@ public class BackOfficeController : MonoBehaviour
 			this.transparentBackgroundResize();
 			if(this.isTutorialLoaded)
 			{
-				TutorialObjectController.instance.freeze();
+				//TutorialObjectController.instance.freeze();
 			}
 		}
 	}
@@ -272,7 +272,6 @@ public class BackOfficeController : MonoBehaviour
 		Destroy (this.playPopUp);
 		this.hideTransparentBackground ();
 		this.isPlayPopUpDisplayed = false;
-		TutorialObjectController.instance.tutorialTrackPoint ();
 	}
 	public void failPlayPopUp()
 	{
@@ -287,7 +286,7 @@ public class BackOfficeController : MonoBehaviour
 			Destroy (this.transparentBackground);
 			if(this.isTutorialLoaded)
 			{
-				TutorialObjectController.instance.show();
+				//TutorialObjectController.instance.show();
 			}
 		}
 	}
@@ -457,7 +456,7 @@ public class BackOfficeController : MonoBehaviour
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
 			if(this.isTutorialLoaded)
 			{
-				TutorialObjectController.instance.freeze();
+				//TutorialObjectController.instance.freeze();
 			}
 		}
 	}
@@ -470,7 +469,7 @@ public class BackOfficeController : MonoBehaviour
 			this.isLoadingScreenDisplayed=false;
 			if(this.isTutorialLoaded)
 			{
-				TutorialObjectController.instance.show();
+				//TutorialObjectController.instance.show();
 			}
 		}
 		if(ApplicationModel.player.IsInviting)
