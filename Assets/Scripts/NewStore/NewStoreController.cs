@@ -25,7 +25,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 	private GameObject backOfficeController;
 	private GameObject menu;
-	private GameObject tutorial;
+	private GameObject help;
 
 	private GameObject packsBlock;
 	private GameObject packsBlockTitle;
@@ -61,7 +61,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	private GameObject lowerScrollCamera;
 	private GameObject sceneCamera;
 	private GameObject menuCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private Vector3 lowerScrollCameraStandardPosition;
@@ -77,9 +77,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 	private Pagination packsPagination;
 	private Pagination productsPagination;
-
-	private Rect centralWindow;
-	private Rect selectCardTypeWindow;
 
 	private int selectedPackIndex;
 	private int selectedCardType;
@@ -112,7 +109,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	
 	void Update () 
 	{
-		if (Input.touchCount == 1 && this.isSceneLoaded  && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded  && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -168,7 +165,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 							{
 								this.randomCards[i].GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(true);
 							}
-							TutorialObjectController.instance.tutorialTrackPoint();
+							HelpController.instance.tutorialTrackPoint();
 						}
 					}
 					this.target = Quaternion.Euler(0, this.angle, 0);
@@ -215,7 +212,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			this.mediumScrollCamera.transform.position=mediumCameraPosition;
 			this.lowerScrollCamera.transform.position=lowerCameraPosition;
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			isScrolling = this.mediumScrollCamera.GetComponent<ScrollingController>().ScrollController();
 		}
@@ -230,15 +227,15 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<StoreTutorialController>();
-		this.tutorial.GetComponent<StoreTutorialController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<StoreHelpController>();
+		this.help.GetComponent<StoreHelpController>().initialize();
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -318,7 +315,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.focusedCard.SetActive (false);
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.lowerScrollCamera = GameObject.Find ("LowerScrollCamera");
 		this.mediumScrollCamera = GameObject.Find ("MediumScrollCamera");
@@ -356,7 +353,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		}
 		else if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial();
+			HelpController.instance.startTutorial();
 		}
 	}
 	public void paginationHandler()
@@ -418,12 +415,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
@@ -535,9 +532,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			}
 		}
 
-		this.centralWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.40f * ApplicationDesignRules.heightScreen);
-		this.selectCardTypeWindow = new Rect (ApplicationDesignRules.widthScreen * 0.25f, 0.12f * ApplicationDesignRules.heightScreen, ApplicationDesignRules.widthScreen * 0.50f, 0.50f * ApplicationDesignRules.heightScreen);
-		
 		this.packsBlock.GetComponent<NewBlockController> ().resize(packsBlockLeftMargin,packsBlockUpMargin,ApplicationDesignRules.blockWidth,packsBlockHeight);
 		Vector3 packsBlockUpperLeftPosition = this.packsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 packsBlockLowerLeftPosition = this.packsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
@@ -571,7 +565,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.storeBlock.GetComponent<NewBlockController> ().resize(storeBlockLeftMargin,storeBlockUpMargin,ApplicationDesignRules.blockWidth,storeBlockHeight);
 		Vector3 storeBlockUpperLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 storeBlockUpperRightPosition = this.storeBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
-		Vector3 storeBlockLowerLeftPosition = this.storeBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 storeBlockSize = this.storeBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 storeBlockOrigin = this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
@@ -640,7 +633,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(2);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize();
+		HelpController.instance.resize();
 	}
 	public void createRandomCards()
 	{
@@ -912,7 +905,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		SoundController.instance.playSound(11);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, TutorialObjectController.instance.getIsTutorialLaunched()));
+		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, HelpController.instance.getIsTutorialLaunched()));
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(model.Error=="")
 		{
@@ -927,7 +920,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				this.rotateRandomCards();
 				this.displayBackUI(false);
 				this.displayRandomCards();
-				TutorialObjectController.instance.tutorialTrackPoint ();
+				HelpController.instance.tutorialTrackPoint ();
 			}
 			else
 			{
@@ -936,7 +929,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				this.displayBackUI(false);
 				this.displayCardFocused();
 			}
-			if(!TutorialObjectController.instance.getIsTutorialDisplayed())
+			if(!HelpController.instance.getIsTutorialLaunched())
 			{
 				if(this.model.CollectionPointsEarned>0)
 				{
@@ -971,7 +964,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		{
 			this.displayBackUI(true);
 		}
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void leftClickedHandler(int id)
 	{
@@ -988,7 +981,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public void displayCardFocused()
 	{
 		this.sceneCamera.transform.position = ApplicationDesignRules.sceneCameraFocusedCardPosition;
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void displayRandomCards()
 	{
@@ -1306,7 +1299,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		XsollaSDK sdk = this.gameObject.GetComponent<XsollaSDK>();
 		if(sdk!=null)
 		{
-			XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
+			//XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
 			//jsonGenerator.settings.mode="sandbox";
 			//jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
 			BackOfficeController.instance.displayTransparentBackground();
@@ -1358,6 +1351,22 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		return this.packs [id].GetComponent<NewPackStoreController> ().getBuyButtonPosition ();
 	}
+	public Vector3 getCardsPosition(int id)
+	{
+		return new Vector3(-ApplicationDesignRules.randomCardsPosition.x+this.randomCards[id].transform.position.x,-ApplicationDesignRules.randomCardsPosition.y+this.randomCards[id].transform.position.y,this.randomCards[id].transform.position.z);
+	}
+	public Vector3 getFocusedCardPosition()
+	{
+		return new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.focusedCard.transform.FindChild("Card").position.x,-ApplicationDesignRules.focusedCardPosition.y+this.focusedCard.transform.FindChild("Card").position.y,this.focusedCard.transform.FindChild("Card").position.z); 
+	}
+	public Vector2 getCardsSize(int id)
+	{
+		return new Vector2((ApplicationDesignRules.getCardOriginalSize().x/ApplicationDesignRules.pixelPerUnit)*this.randomCards[id].transform.localScale.x,(ApplicationDesignRules.getCardOriginalSize().y/ApplicationDesignRules.pixelPerUnit)*this.randomCards[id].transform.localScale.y);
+	}
+	public GameObject returnCard(int id)
+	{
+		return this.randomCards[id];
+	}
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;
@@ -1401,6 +1410,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public void resetScrolling()
 	{
 		this.mediumScrollCamera.GetComponent<ScrollingController>().reset();	
+	}
+	public bool getIsScrolling()
+	{
+		return this.isScrolling;
 	}
 	#endregion
 }

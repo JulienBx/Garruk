@@ -1362,4 +1362,13 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.isSkillFocusedDisplayed;
 	}
+
+	#region help functions
+
+	public Vector3 getSkillPosition(int id)
+	{
+		return this.skills[id].transform.position;
+	}
+
+	#endregion
 }
