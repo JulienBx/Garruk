@@ -19,7 +19,7 @@ public class newMyGameController : MonoBehaviour
 
 	private GameObject menu;
 	private GameObject backOfficeController;
-	private GameObject tutorial;
+	private GameObject help;
 	private GameObject deckBlock;
 	private GameObject deckBlockTitle;
 	private GameObject deckSelectionButton;
@@ -59,7 +59,7 @@ public class newMyGameController : MonoBehaviour
 	private GameObject sceneCamera;
 	private GameObject upperScrollCamera;
 	private GameObject lowerScrollCamera;
-	private GameObject tutorialCamera;
+	private GameObject helpCamera;
 	private GameObject backgroundCamera;
 
 	private int focusedCardIndex;
@@ -134,7 +134,7 @@ public class newMyGameController : MonoBehaviour
 
 	void Update()
 	{	
-		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
+		if (Input.touchCount == 1 && this.isSceneLoaded && !this.isDragging && !this.isSlidingCursors && !this.isCardFocusedDisplayed && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
 			if(Mathf.Abs(Input.touches[0].deltaPosition.y)>1f && Mathf.Abs(Input.touches[0].deltaPosition.y)>Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
@@ -184,7 +184,7 @@ public class newMyGameController : MonoBehaviour
 				this.cleanDeckList();
 			}
 		}
-		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed && TutorialObjectController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
+		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && !this.isDragging && this.mainContentDisplayed && !this.isCardFocusedDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
 			if(!toScrollCards)
 			{
@@ -226,7 +226,7 @@ public class newMyGameController : MonoBehaviour
 					camerasXPosition=this.filtersPositionX;
 					this.toSlideRight=false;
 					this.filtersDisplayed=true;
-					TutorialObjectController.instance.tutorialTrackPoint();
+					HelpController.instance.tutorialTrackPoint();
 					BackOfficeController.instance.setIsSwiping(false);
 				}
 			}
@@ -257,15 +257,15 @@ public class newMyGameController : MonoBehaviour
 		this.initializeScene ();
 		this.initializeBackOffice();
 		this.initializeMenu();
-		this.initializeTutorial();
+		this.initializeHelp();
 		StartCoroutine (this.initialization ());
 	}
-	private void initializeTutorial()
+	private void initializeHelp()
 	{
-		this.tutorial = GameObject.Find ("Tutorial");
-		this.tutorial.AddComponent<MyGameTutorialController>();
-		this.tutorial.GetComponent<MyGameTutorialController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<MyGameHelpController>();
+		this.help.GetComponent<MyGameHelpController>().initialize();
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{
@@ -291,7 +291,7 @@ public class newMyGameController : MonoBehaviour
 		this.isSceneLoaded = true;
 		if(ApplicationModel.player.TutorialStep!=-1)
 		{
-			TutorialObjectController.instance.startTutorial();
+			HelpController.instance.startTutorial();
 		}
 	}
 	private void initializeDecks()
@@ -462,7 +462,7 @@ public class newMyGameController : MonoBehaviour
 		this.upperScrollCamera.AddComponent<ScrollingController> ();
 		this.lowerScrollCamera = GameObject.Find ("LowerScrollCamera");
 		this.lowerScrollCamera.AddComponent<ScrollingController> ();
-		this.tutorialCamera = GameObject.Find ("TutorialCamera");
+		this.helpCamera = GameObject.Find ("HelpCamera");
 		this.backgroundCamera = GameObject.Find ("BackgroundCamera");
 		this.newDeckPopUp = GameObject.Find ("newDeckPopUp");
 		this.newDeckPopUp.SetActive (false);
@@ -573,12 +573,12 @@ public class newMyGameController : MonoBehaviour
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
-		this.tutorialCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
 		this.backgroundCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.backgroundCameraSize;
 		this.backgroundCamera.transform.position = ApplicationDesignRules.backgroundCameraPosition;
 		this.backgroundCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
-		this.tutorialCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
 		this.sceneCamera.GetComponent<Camera> ().rect = new Rect (0f,0f,1f,1f);
 		this.mainCamera.GetComponent<Camera>().rect= new Rect (0f,0f,1f,1f);
 		
@@ -933,7 +933,7 @@ public class newMyGameController : MonoBehaviour
 		MenuController.instance.resize();
 		MenuController.instance.setCurrentPage(1);
 		MenuController.instance.refreshMenuObject();
-		TutorialObjectController.instance.resize ();
+		HelpController.instance.resize ();
 	}
 	public void drawCards()
 	{
@@ -1045,7 +1045,7 @@ public class newMyGameController : MonoBehaviour
 		}
 		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.focusedCardIndex);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void hideCardFocused()
 	{
@@ -1060,7 +1060,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.applyFilters ();
 		}
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void displayBackUI(bool value)
 	{
@@ -1536,7 +1536,7 @@ public class newMyGameController : MonoBehaviour
 		this.newDeckPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.newDeckPopUpDisplayed = false;
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public void hideEditDeckPopUp()
 	{
@@ -1599,7 +1599,7 @@ public class newMyGameController : MonoBehaviour
 			this.initializeDecks();
 			this.initializeCards();
 			BackOfficeController.instance.hideLoadingScreen();
-			TutorialObjectController.instance.tutorialTrackPoint();
+			HelpController.instance.tutorialTrackPoint();
 			if(this.toMoveFirstDeckCard)
 			{
 				this.moveToDeckCards(0);
@@ -1648,7 +1648,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeDecks ();
 		this.initializeCards ();
 		BackOfficeController.instance.hideLoadingScreen ();
-		TutorialObjectController.instance.tutorialTrackPoint ();
+		HelpController.instance.tutorialTrackPoint ();
 	}
 	public void permuteCardHandler(int position)
 	{
@@ -1853,7 +1853,7 @@ public class newMyGameController : MonoBehaviour
 				}
 			}
 			ApplicationModel.player.HasDeck=isADeckCompleted;
-			TutorialObjectController.instance.tutorialTrackPoint();
+			HelpController.instance.tutorialTrackPoint();
 		}
 	}
 	public void moveToDeckCards(int position)
@@ -1886,7 +1886,7 @@ public class newMyGameController : MonoBehaviour
 					}
 				}
 				ApplicationModel.player.HasDeck = isDeckCompleted;
-				TutorialObjectController.instance.tutorialTrackPoint();
+				HelpController.instance.tutorialTrackPoint();
 			}
 		}
 		else
@@ -2137,7 +2137,7 @@ public class newMyGameController : MonoBehaviour
 		this.toSlideLeft=true;
 		this.toSlideRight=false;
 		this.filtersDisplayed=false;
-		TutorialObjectController.instance.tutorialTrackPoint();
+		HelpController.instance.tutorialTrackPoint();
 	}
 	public Camera returnCurrentCamera(bool isDeckCard)
 	{
