@@ -2192,49 +2192,25 @@ public class NewProfileController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 	
+	public GameObject returnProfileBlock()
+	{
+		return this.profileBlock;
+	}
+	public GameObject returnResultsBlock()
+	{
+		return this.resultsBlock;
+	}
+	public GameObject returnFriendsBlock()
+	{
+		return this.friendsBlock;
+	}
+	public GameObject returnSearchBlock()
+	{
+		return this.searchBlock;
+	}
 	public bool getIsMyProfile()
 	{
 		return this.isMyProfile;
-	}
-	public Vector3 getProfileBlockOrigin()
-	{
-		return this.profileBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getProfileBlockSize()
-	{
-		return this.profileBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getResultsBlockOrigin()
-	{
-		Vector3 blockOrigin = this.resultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
-		return blockOrigin;
-	}
-	public Vector2 getResultsBlockSize()
-	{
-		Vector2 blockSize=this.resultsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
-		return blockSize;
-	}
-	public Vector3 getFriendsBlockOrigin()
-	{
-		Vector3 blockOrigin = this.friendsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
-		return blockOrigin;
-	}
-	public Vector2 getFriendsBlockSize()
-	{
-		Vector2 blockSize=this.friendsBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
-		return blockSize;
-	}
-	public Vector3 getSearchBlockOrigin()
-	{
-		return this.searchBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getSearchBlockSize()
-	{
-		return this.searchBlock.GetComponent<NewBlockController> ().getSize ();
 	}
 	public IEnumerator endHelp()
 	{

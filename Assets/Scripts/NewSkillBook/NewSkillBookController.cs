@@ -1593,26 +1593,18 @@ public class NewSkillBookController : MonoBehaviour
 	    return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
 	}
 	#region TUTORIAL FUNCTIONS
-	
-	public Vector3 getFiltersBlockOrigin()
+
+	public GameObject returnFiltersBlock()
 	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		return this.filtersBlock;
 	}
-	public Vector2 getFiltersBlockSize()
+	public GameObject returnSkillsBlock()
 	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
+		return this.skillsBlock;
 	}
-	public Vector3 getSkillsBlockOrigin()
+	public GameObject returnHelpBlock()
 	{
-		return this.skillsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getSkillsBlockSize()
-	{
-		return this.skillsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getHelpBlockOrigin()
-	{
-		return this.helpBlock.GetComponent<NewBlockController> ().getOriginPosition ();
+		return this.helpBlock;
 	}
 	public IEnumerator endHelp()
 	{

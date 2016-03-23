@@ -16,20 +16,20 @@ public class ProfileHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock (),true);
-			this.setCompanion (WordingLobbyHelp.getHelpContent (0), true, false, true, 0f);
+			this.setFlashingBlock (NewProfileController.instance.returnProfileBlock (),true);
+			this.setCompanion (WordingProfileHelp.getHelpContent (0), true, false, true, 0f);
 			break;
 		case 1:
-			this.setFlashingBlock (NewLobbyController.instance.returnStatsBlock (),true);
-			this.setCompanion(WordingLobbyHelp.getHelpContent(3),true,false,false,0f);
+			this.setFlashingBlock (NewProfileController.instance.returnSearchBlock (),true);
+			this.setCompanion(WordingProfileHelp.getHelpContent(1),true,false,false,0f);
 			break;
 		case 2:
-			this.setCompanion (WordingLobbyHelp.getHelpContent (1), true, true, true, 0f);
-			this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock (),true);
+			this.setCompanion (WordingProfileHelp.getHelpContent (2), true, true, true, 0f);
+			this.setFlashingBlock (NewProfileController.instance.returnFriendsBlock (),true);
 			break;
 		case 3:
-			this.setCompanion(WordingLobbyHelp.getHelpContent(2),true,true,false,0f);
-			this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock (),true);
+			this.setCompanion(WordingProfileHelp.getHelpContent(3),true,true,false,0f);
+			this.setFlashingBlock (NewProfileController.instance.returnResultsBlock (),true);
 			break;
 		}
 	}
@@ -38,31 +38,31 @@ public class ProfileHelpController : HelpController
 		switch (this.sequenceId) 
 		{
 		case 0:
-			this.setFlashingBlock (NewLobbyController.instance.returnMainBlock (),true);
-			if (NewLobbyController.instance.getAreResultsDisplayed ()) 
+			this.setFlashingBlock (NewProfileController.instance.returnProfileBlock (),true);
+			if (NewProfileController.instance.getIsFriendsSliderDisplayed ()) 
 			{
-				NewLobbyController.instance.slideRight ();
+				NewProfileController.instance.slideRight ();
 			} 
-			else if (NewLobbyController.instance.getAreStatsDisplayed ()) 
+			else if (NewProfileController.instance.getIsResultsSliderDisplayed ()) 
 			{
-				NewLobbyController.instance.slideLeft ();
+				NewProfileController.instance.slideLeft ();
 			}
-			this.setCompanion (WordingLobbyHelp.getHelpContent (0), true, true, true, 0f);
+			this.setCompanion (WordingProfileHelp.getHelpContent (0), true, true, true, 0f);
 			break;
 		case 1:
-			this.setFlashingBlock (NewLobbyController.instance.returnStatsBlock (),true);
-			NewLobbyController.instance.slideRight ();
-			this.setCompanion(WordingLobbyHelp.getHelpContent(3),true,true,false,0f);
+			this.setFlashingBlock (NewProfileController.instance.returnResultsBlock (),true);
+			NewProfileController.instance.slideRight ();
+			this.setCompanion(WordingProfileHelp.getHelpContent(3),true,true,false,0f);
 			break;
 		case 2:
-			NewLobbyController.instance.slideLeft ();
-			this.setCompanion (WordingLobbyHelp.getHelpContent (2), true, false, false, 4f);
-			this.setFlashingBlock (NewLobbyController.instance.returnCompetitionBlock (),true);	
+			NewProfileController.instance.slideLeft ();
+			this.setCompanion (WordingProfileHelp.getHelpContent (2), true, false, false, 4f);
+			this.setFlashingBlock (NewProfileController.instance.returnSearchBlock (),true);	
 			break;
 		case 3:
-			NewLobbyController.instance.slideLeft ();
-			this.setCompanion(WordingLobbyHelp.getHelpContent(1),true,false,false,0f);
-			this.setFlashingBlock (NewLobbyController.instance.returnLastResultsBlock (),true);
+			NewProfileController.instance.slideLeft ();
+			this.setCompanion(WordingProfileHelp.getHelpContent(1),true,false,false,0f);
+			this.setFlashingBlock (NewProfileController.instance.returnFriendsBlock (),true);
 			break;
 		}
 	}
@@ -75,7 +75,8 @@ public class ProfileHelpController : HelpController
 		} 
 		else 
 		{
-			StartCoroutine (NewLobbyController.instance.endHelp ());
+			NewProfileController.instance.slideRight();
+			StartCoroutine (NewProfileController.instance.endHelp ());
 			this.quitHelp ();
 		}
 	}

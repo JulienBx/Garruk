@@ -581,8 +581,9 @@ public class HelpController : MonoBehaviour
 
 				if(gameObjectSize.y>10f)
 				{
-					gameObjectPosition.y=gameObjectPosition.y+(gameObjectSize.y-10f)/2f;
-					gameObjectSize.y=10f;
+					float tempY =ApplicationDesignRules.worldHeight/2f-gameObjectPosition.y-gameObjectSize.y/2f;
+					gameObjectPosition.y=-(tempY)/2f+ApplicationDesignRules.bottomBarWorldSize.y;
+					gameObjectSize.y=ApplicationDesignRules.worldHeight-ApplicationDesignRules.bottomBarWorldSize.y-tempY-0.5f;
 				}
 
 				if (ApplicationDesignRules.isMobileScreen) 
