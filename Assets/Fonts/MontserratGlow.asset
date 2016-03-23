@@ -122,11 +122,11 @@ Material:
       data:
         first:
           name: _GlowOffset
-        second: 0
+        second: 0.09
       data:
         first:
           name: _GlowPower
-        second: 0.75
+        second: 1
       data:
         first:
           name: _GlowOuter

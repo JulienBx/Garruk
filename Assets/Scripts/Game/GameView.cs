@@ -1079,23 +1079,23 @@ public class GameView : MonoBehaviour
 		int nextPlayingCard = orderCards[0];
 		if(this.hasFightStarted){
 			this.hideTargets();
-			bool hasMoved = false ;
-			bool hasPlayed = false ;
-			
-			if (this.getCard(nextPlayingCard).isSniperActive()){
-				hasMoved = true ;
-			}
-			else if (this.getCard(nextPlayingCard).isEffraye()){
-				hasPlayed = true ;
-			}
-			else if (this.getCard(nextPlayingCard).isFurious()){
-				hasPlayed = true ;
-				hasMoved = true ;
-			}
-		
-			this.getCard(nextPlayingCard).setHasMoved(hasMoved);
-			this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
 		}
+		bool hasMoved = false ;
+		bool hasPlayed = false ;
+		
+		if (this.getCard(nextPlayingCard).isSniperActive()){
+			hasMoved = true ;
+		}
+		else if (this.getCard(nextPlayingCard).isEffraye()){
+			hasPlayed = true ;
+		}
+		else if (this.getCard(nextPlayingCard).isFurious()){
+			hasPlayed = true ;
+			hasMoved = true ;
+		}
+	
+		this.getCard(nextPlayingCard).setHasMoved(hasMoved);
+		this.getCard(nextPlayingCard).setHasPlayed(hasPlayed);
 		this.changeCurrentClickedCard(nextPlayingCard) ;
 	}
 	
@@ -2119,20 +2119,31 @@ public class GameView : MonoBehaviour
 				print(i+" - J'add "+orderCards[i]);
 				i++;
 			}
-			i--;
-			jMine = i ;
-			jHis = i;
 			if (i==0){
 				
 			}
 			else{
+				i--;
+				jMine = i ;
+				jHis = i;
 				while(i<8){
-					if(i==1){
+					if(i==0){
 						if(this.getCard(newOrderCards[0]).isMine){
-							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,false));
+							if(lastPlayingCard==-10){
+								newOrderCards.Add(this.findNextAlivePlayer(3,false));
+							}
+							else{
+								print(lastPlayingCard);
+								newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,false));
+							}
 						}
 						else{
-							newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,true));
+							if(lastPlayingCard==-10){
+								newOrderCards.Add(this.findNextAlivePlayer(3,true));
+							}
+							else{
+								newOrderCards.Add(this.findNextAlivePlayer(this.getCard(lastPlayingCard).deckOrder,true));
+							}
 						}
 					}
 					else{

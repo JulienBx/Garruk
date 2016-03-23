@@ -30,7 +30,7 @@ public class Laser : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(10+level, 20+3*level+1));
+				GameController.instance.applyOn2(target, Random.Range(10+level, 20+2*level+1));
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -66,11 +66,13 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages = 10 + level;
-		int maxDamages = 20+3*level;
+		int maxDamages = 20+2*level;
 		if(currentCard.isFou()){
-			minDamages = currentCard.getMagicalDamagesAgainst(targetCard,Mathf.RoundToInt(1.25f*minDamages));
-			maxDamages = currentCard.getMagicalDamagesAgainst(targetCard,Mathf.RoundToInt(1.25f*maxDamages));
+			minDamages = Mathf.RoundToInt(1.25f*minDamages);
+			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
+		minDamages = currentCard.getMagicalDamagesAgainst(targetCard,minDamages);
+		maxDamages = currentCard.getMagicalDamagesAgainst(targetCard,maxDamages);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		

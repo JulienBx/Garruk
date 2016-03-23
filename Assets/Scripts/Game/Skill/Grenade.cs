@@ -36,8 +36,8 @@ public class Grenade : GameSkill
 			}
 			else if (Random.Range(1,101) <= proba){
 				targetCard = GameView.instance.getCard(playerID);
-				minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-				maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+2*level);
+				minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+level);
+				maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 6+2*level);
 				if(currentCard.isFou()){
 					minDamages = Mathf.RoundToInt(1.25f*minDamages);
 					maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -56,8 +56,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+2*level);
+					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+level);
+					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 6+2*level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -78,8 +78,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+2*level);
+					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+level);
+					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 6+2*level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -100,8 +100,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+2*level);
+					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+level);
+					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 6+2*level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -122,8 +122,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 2+level);
+					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 6+2*level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -161,12 +161,12 @@ public class Grenade : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages, maxDamages;
-		int damages = 5+level;
+		int damages = 2+level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
 		minDamages = currentCard.getMagicalDamagesAgainst(targetCard, damages);
-		damages = 10+2*level;
+		damages = 6+2*level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}

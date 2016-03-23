@@ -72,9 +72,9 @@ public class PerfoTir : GameSkill
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
-		int level = Mathf.Min(currentCard.getLife(),damages);
+		int level = currentCard.getMagicalDamagesAgainst(targetCard,damages);
 
-		string text = "PV : "+currentCard.getLife()+" -> "+(currentCard.getLife()-level);
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-level);
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
 		}

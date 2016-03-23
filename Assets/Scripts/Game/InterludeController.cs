@@ -105,7 +105,9 @@ public class InterludeController : MonoBehaviour
 
 				GameView.instance.recalculateDestinations();
 				GameView.instance.removeDestinations();
-				GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
+				if(!GameView.instance.getCurrentCard().hasMoved){
+					GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
+				}
 			
 				if(ApplicationModel.player.ToLaunchGameTutorial){
 					if(!GameView.instance.getCurrentCard().isMine){
