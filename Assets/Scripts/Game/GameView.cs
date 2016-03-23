@@ -2918,7 +2918,7 @@ public class GameView : MonoBehaviour
 			for (int j = 0 ; j < boardHeight ; j++){
 				tempTile = new Tile(i,j);
 				if(this.getDistanceBetweenTiles(t,tempTile)<=r){
-					if(this.getTileController(tempTile).getCharacterID()==-1){
+					if(this.getTileController(tempTile).getCharacterID()==-1 && !this.getTileController(tempTile).isRock()){
 						tiles.Add(tempTile);
 					}
 				}

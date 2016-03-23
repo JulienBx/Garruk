@@ -187,8 +187,7 @@ public class TileController : GameObjectController
 					GameController.instance.clickDestination(tile, this.characterID, true);
 				}
 			}
-			this.isTrapped=false;
-			this.showTrap(false);
+			this.removeTrap();
 			this.showDescription(false);
 			isSuccess = true ;
 		}

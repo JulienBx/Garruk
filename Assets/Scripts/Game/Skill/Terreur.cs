@@ -54,7 +54,7 @@ public class Terreur : GameSkill
 		string text = "-"+damages+"PV";				
 		if(result==1){
 			text+="\nEffrayé";
-			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, base.name, "Ne peut pas utiliser ses compétences au prochain tour"));
+			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, base.name, "Inactif au prochain tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 		}
 

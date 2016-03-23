@@ -249,15 +249,15 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Détruit l'ennemi adjacent ciblé","Slay neighbouring enemy target"}); 
 		descriptions.Add(new string[]{"Détruit l'ennemi adjacent ciblé","Slay neighbouring enemy target"}); 
 		descriptions.Add(new string[]{"Détruit l'ennemi adjacent ciblé","Slay neighbouring enemy target"});
-		probas.Add(5); 
-		probas.Add(10); 
-		probas.Add(15); 
-		probas.Add(20); 
-		probas.Add(25); 
+		probas.Add(14); 
+		probas.Add(18); 
+		probas.Add(22); 
+		probas.Add(26); 
 		probas.Add(30); 
-		probas.Add(35); 
-		probas.Add(40); 
-		probas.Add(45); 
+		probas.Add(34); 
+		probas.Add(38); 
+		probas.Add(42); 
+		probas.Add(46); 
 		probas.Add(50);   
 		//11 - Estoc
 		idSkills.Add(11);

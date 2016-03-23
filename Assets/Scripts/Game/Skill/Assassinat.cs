@@ -48,7 +48,6 @@ public class Assassinat : GameSkill
 	
 	public override string getTargetText(int id){	
 		GameCard targetCard = GameView.instance.getCard(id);
-		int chances = GameView.instance.getCurrentSkill().proba;
 		string text = "Détruit l'unité!";
 
 		int amount = GameView.instance.getCurrentSkill().proba;

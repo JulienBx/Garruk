@@ -7,7 +7,7 @@ public class Senilite : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Sénilité";
-		base.ciblage = 1 ; 
+		base.ciblage = 3 ; 
 		base.auto = false;
 	}
 	
