@@ -66,7 +66,7 @@ public class Combo : GameSkill
 			damagesMin = currentCard.getNormalDamagesAgainst(targetCard,damagesMin+5+currentCard.getSkills()[0].Power);
 			damagesMax = currentCard.getNormalDamagesAgainst(targetCard,damagesMax+5+currentCard.getSkills()[0].Power);
 		
-			text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";	
+			text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-damagesMax)+"-"+(targetCard.getLife()-damagesMin)+"]";	
 		}
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

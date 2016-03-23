@@ -13,7 +13,7 @@ public class Mitraillette : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 	}
 	
 	public override void resolve(List<int> targetsPCC)

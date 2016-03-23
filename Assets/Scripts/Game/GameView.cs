@@ -855,19 +855,19 @@ public class GameView : MonoBehaviour
 					if(j==0){
 						idCards.Add(-1*l);
 						if(l==1){
-							j = 6 ;
+							j = 7 ;
 							l = 2 ;
 						}
 						else if(l==2){
-							j = 4 ;
+							j = 6 ;
 							l = 3 ;
 						}
 						else if(l==3){
-							j = 2 ;
+							j = 5 ;
 							l = 4 ;
 						}
 						else{
-							j = 2 ;
+							j = 4 ;
 						}
 					}
 					else{
@@ -888,19 +888,19 @@ public class GameView : MonoBehaviour
 				}
 				nbTurns++;
 				if(meteoritesStep==1){
-					meteoritesCounter = 6 ;
+					meteoritesCounter = 7 ;
 					meteoritesStep = 2 ;
 				}
 				else if(meteoritesStep==2){
-					meteoritesCounter = 4 ;
+					meteoritesCounter = 6 ;
 					meteoritesStep = 3 ;
 				}
 				else if(meteoritesStep==3){
-					meteoritesCounter = 2 ;
+					meteoritesCounter = 5 ;
 					meteoritesStep = 4 ;
 				}
 				else{
-					meteoritesCounter = 2 ;
+					meteoritesCounter = 4 ;
 				}
 			}
 			else{

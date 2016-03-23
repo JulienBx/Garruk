@@ -263,6 +263,28 @@ public class GameCard : Card
 			}
 		}
 
+		for (int i = this.magicalEsquiveModifyers.Count-1 ; i >=0 ; i--){
+			if (this.magicalEsquiveModifyers [i].duration > 2){
+				this.magicalEsquiveModifyers [i].description.Replace(this.magicalEsquiveModifyers [i].duration+" tours", (this.magicalEsquiveModifyers [i].duration-1)+" tours");
+			}
+			else if (this.magicalEsquiveModifyers [i].duration > 1){
+				this.magicalEsquiveModifyers [i].description.Replace(this.magicalEsquiveModifyers [i].duration+" tours", "1 tour");
+			}
+			
+			if (this.magicalEsquiveModifyers [i].duration > 0)
+			{
+				this.magicalEsquiveModifyers[i].duration--;
+			}
+			else if (this.magicalEsquiveModifyers [i].duration == -2){
+				this.magicalEsquiveModifyers [i].duration = 1;
+			}
+			
+			if (this.magicalEsquiveModifyers [i].duration == 0)
+			{
+				this.magicalEsquiveModifyers.RemoveAt(i);
+			}
+		}
+
 		for (int i = this.states.Count-1 ; i >=0 ; i--){
 			if (this.states [i].duration > 2){
 				this.states [i].description.Replace(this.states [i].duration+" tours", (this.states [i].duration-1)+" tours");
