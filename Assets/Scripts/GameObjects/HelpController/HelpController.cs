@@ -182,8 +182,8 @@ public class HelpController : MonoBehaviour
 		this.arrow = this.gameObject.transform.FindChild ("Arrow").gameObject;
 		this.scrolling = this.gameObject.transform.FindChild ("Scrolling").gameObject;
 		this.dragging = this.gameObject.transform.FindChild ("Drag").gameObject;
-		this.draggingCard0 = this.dragging.transform.FindChild ("Card0").gameObject;
-		this.draggingCard1 = this.dragging.transform.FindChild ("Card1").gameObject;
+		this.draggingCard0 = this.dragging.transform.FindChild ("DragCard0").gameObject;
+		this.draggingCard1 = this.dragging.transform.FindChild ("DragCard1").gameObject;
 		this.miniCompanion = this.gameObject.transform.FindChild ("miniCompanion").gameObject;
 		this.companion.SetActive(false);
 		this.background.SetActive(false);
@@ -268,7 +268,7 @@ public class HelpController : MonoBehaviour
 		else if(this.sequenceId==300)
 		{
 			this.quitHelp ();
-			//StartCoroutine(ApplicationModel.player.setNextLevelTutorial(true));
+			StartCoroutine(ApplicationModel.player.setNextLevelTutorial(true));
 		}
 	}
 	public virtual void getTutorialNextAction()

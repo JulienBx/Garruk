@@ -36,26 +36,10 @@ public class EndGameHelpController : HelpController
 		{
 			base.getHelpNextAction();
 		}
-		else if(newMyGameController.instance.getIsCardFocusedDisplayed())
+		else
 		{
-			if(newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
-			{
-				this.sequenceId=200;
-			}
-			else
-			{
-				this.sequenceId=100;	
-			}
+			this.sequenceId=300;
 			this.launchHelpSequence();
-		}
-		else if (sequenceId < 2) 
-		{
-			this.sequenceId++;
-			this.launchHelpSequence ();
-		} 
-		else 
-		{
-			this.quitHelp ();
 		}
 	}
 
