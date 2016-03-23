@@ -50,7 +50,7 @@ public class NewStoreModel
 		ApplicationModel.player.CardTypesAllowed=new List<int>();
 		ApplicationModel.player.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[0]));
 		ApplicationModel.player.TutorialStep=System.Convert.ToInt32(array[1]);
-		//ApplicationModel.player.DisplayTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
+		ApplicationModel.player.NextLevelTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
 		for(int i = 3 ; i < array.Length-1 ; i++)
 		{
 			ApplicationModel.player.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));

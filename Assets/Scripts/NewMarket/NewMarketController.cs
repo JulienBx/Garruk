@@ -1833,6 +1833,10 @@ public class NewMarketController : MonoBehaviour
 	{
 		return this.cardsBlock;
 	}
+	public Vector3 getFocusedCardPosition()
+	{
+		return new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.focusedCard.transform.FindChild("Card").position.x,-ApplicationDesignRules.focusedCardPosition.y+this.focusedCard.transform.FindChild("Card").position.y,this.focusedCard.transform.FindChild("Card").position.z); 
+	}
 	public GameObject returnFiltersBlock()
 	{
 		return this.filtersBlock;
