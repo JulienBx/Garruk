@@ -289,7 +289,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeCards ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(ApplicationModel.player.TutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep==5)
 		{
 			HelpController.instance.startTutorial();
 		}
@@ -2194,6 +2194,18 @@ public class newMyGameController : MonoBehaviour
 	}
 	#region TUTORIAL FUNCTIONS
 
+	public GameObject returnDeckBlock()
+	{
+		return this.deckBlock;
+	}
+	public GameObject returnCardsBlock()
+	{
+		return this.cardsBlock;
+	}
+	public GameObject returnFiltersBlock()
+	{
+		return this.filtersBlock;
+	}
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;
@@ -2218,38 +2230,11 @@ public class newMyGameController : MonoBehaviour
 		}
 		return deckCreationButtonPosition;
 	}
-	public Vector3 getCardsPosition(int id)
-	{
-		return cards[id].transform.position;
-	}
 	public bool getIsNewDeckPopUpDisplayed()
 	{
 		return newDeckPopUpDisplayed;
 	}
-	public Vector3 getFiltersBlockOrigin()
-	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getFiltersBlockSize()
-	{
-		return this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getCardsBlockOrigin()
-	{
-		return this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getCardsBlockSize()
-	{
-		return this.cardsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getDeckBlockOrigin()
-	{
-		return this.deckBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getDeckBlockSize()
-	{
-		return this.deckBlock.GetComponent<NewBlockController> ().getSize ();
-	}
+
 	public GameObject returnCardFocused()
 	{
 		return this.focusedCard;
@@ -2258,16 +2243,11 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.isCardFocusedDisplayed;
 	}
-	public Vector3 getUpperScrollCameraPosition()
+	public void resetScrolling()
 	{
-		return this.upperScrollCamera.transform.position;
-	}
-	public Vector3 getSlideLeftButtonPosition()
-	{
-		Vector3 buttonPosition = this.slideLeftButton.transform.position;
-		buttonPosition.x=buttonPosition.x-ApplicationDesignRules.worldWidth;
-		buttonPosition.y=buttonPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f;
-		return buttonPosition;
+		this.upperScrollCamera.GetComponent<ScrollingController>().reset();
+		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
+		this.toScrollCards=false;
 	}
 	public bool getFiltersDisplayed()
 	{
@@ -2277,11 +2257,6 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.mainContentDisplayed;
 	}
-	public void resetScrolling()
-	{
-		this.upperScrollCamera.GetComponent<ScrollingController>().reset();
-		this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
-		this.toScrollCards=false;
-	}
+
 	#endregion
 }

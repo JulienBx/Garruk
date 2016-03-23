@@ -72,6 +72,7 @@ public class HelpController : MonoBehaviour
 	private float flashingBlockTimer;
 	private GameObject blockToFlash;
 	private bool isFlashingBlockDark;
+	private bool flashWithBackground;
 
 	// Arrow settings
 
@@ -279,6 +280,7 @@ public class HelpController : MonoBehaviour
 		this.canSwipe = false;
 		this.canScroll = false;
 		this.toDetectScrolling=false;
+		this.flashWithBackground=false;
 	}
 	public void launchHelpSequence()
 	{
@@ -335,9 +337,20 @@ public class HelpController : MonoBehaviour
 		this.showSequence ();
 		this.toDisplayHelpController=false;
 	}
+	public void quitTutorial()
+	{
+		this.sequenceId = -1;
+		this.resetSettings ();
+		this.showSequence ();
+		this.toDisplayHelpController=false;
+		this.isTutorial=false;
+	}
 	public void tutorialTrackPoint()
 	{
-		this.getTutorialNextAction ();
+		if(this.isTutorial)
+		{
+			this.getTutorialNextAction ();
+		}
 	}
 	public virtual bool getIsScrolling()
 	{
@@ -357,15 +370,46 @@ public class HelpController : MonoBehaviour
 	}
 	public bool getCanSwipe()
 	{
-		return canSwipe;
+		if(this.toDisplayHelpController	)
+		{
+			return canSwipe;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	public bool getCanScroll()
 	{
-		return canScroll;
+		if(this.toDisplayHelpController	)
+		{
+			return canScroll;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	public bool getIsTutorialLaunched()
 	{
 		return this.isTutorial;
+	}
+	public bool canAccess()
+	{
+		int sequenceId=-1;
+		if(this.isTutorial)
+		{
+			this.displayCantAccessPopUp();
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	public void displayCantAccessPopUp ()
+	{
+		BackOfficeController.instance.displayErrorPopUp (WordingHelp.getReference(2));
 	}
 	#endregion
 
@@ -518,26 +562,38 @@ public class HelpController : MonoBehaviour
 
 	#region Flashing block Methods
 
-	public void setFlashingBlock(GameObject blockToFlash)
+	public void setFlashingBlock(GameObject blockToFlash, bool flashWithBackground)
 	{
 		this.toFlashBlock = true;
 		this.blockToFlash = blockToFlash;
+		this.flashWithBackground=flashWithBackground;
 	}
 	private void showFlashingBlock()
 	{
 		if (this.toFlashBlock) 
 		{
-			this.background.SetActive (true);
-			this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
-			Vector3 gameObjectPosition = this.blockToFlash.GetComponent<NewBlockController> ().getOriginPosition ();
-			Vector2 gameObjectSize=this.blockToFlash.GetComponent<NewBlockController> ().getSize ();
-			if (ApplicationDesignRules.isMobileScreen) 
+			if(this.flashWithBackground)
 			{
-				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
-			} 
-			else 
-			{
-				this.background.GetComponent<TutorialBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				this.background.SetActive (true);
+				this.background.GetComponent<HelpBackgroundController> ().setSprite (1);
+				Vector3 gameObjectPosition = this.blockToFlash.GetComponent<NewBlockController> ().getOriginPosition ();
+				Vector2 gameObjectSize=this.blockToFlash.GetComponent<NewBlockController> ().getSize ();
+
+				if(gameObjectSize.y>10f)
+				{
+					float tempY =ApplicationDesignRules.worldHeight/2f-gameObjectPosition.y-gameObjectSize.y/2f;
+					gameObjectPosition.y=-(tempY)/2f+ApplicationDesignRules.bottomBarWorldSize.y;
+					gameObjectSize.y=ApplicationDesignRules.worldHeight-ApplicationDesignRules.bottomBarWorldSize.y-tempY-0.5f;
+				}
+
+				if (ApplicationDesignRules.isMobileScreen) 
+				{
+					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
+				} 
+				else 
+				{
+					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+				}
 			}
 			this.isFlashingBlock = true;
 		}
@@ -580,13 +636,13 @@ public class HelpController : MonoBehaviour
 			this.background.SetActive(true);
 			if(this.isSquareBackground)
 			{
-				this.background.GetComponent<TutorialBackgroundController> ().setSprite (1);
+				this.background.GetComponent<HelpBackgroundController> ().setSprite (1);
 			}
 			else
 			{
-				this.background.GetComponent<TutorialBackgroundController> ().setSprite (0);
+				this.background.GetComponent<HelpBackgroundController> ().setSprite (0);
 			}
-			this.background.GetComponent<TutorialBackgroundController> ().resize (this.backgroundRect,this.backgroundClickableSectionXRatio,this.backgroundClickableSectionYRatio);
+			this.background.GetComponent<HelpBackgroundController> ().resize (this.backgroundRect,this.backgroundClickableSectionXRatio,this.backgroundClickableSectionYRatio);
 		}
 		else
 		{

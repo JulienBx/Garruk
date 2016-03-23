@@ -351,7 +351,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			this.buyPackHandler(ApplicationModel.player.PackToBuy,true);
 			ApplicationModel.player.PackToBuy=-1;
 		}
-		else if(ApplicationModel.player.TutorialStep!=-1)
+		else if(ApplicationModel.player.TutorialStep==4)
 		{
 			HelpController.instance.startTutorial();
 		}
@@ -1347,6 +1347,18 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	  
 	#region TUTORIAL FUNCTIONS
 
+	public GameObject returnStoreBlock()
+	{
+		return this.storeBlock;
+	}
+	public GameObject returnBuyCreditsBlock()
+	{
+		return this.buyCreditsBlock;
+	}
+	public GameObject returnPacksBlock()
+	{
+		return this.packsBlock;
+	}
 	public Vector3 returnBuyPackButtonPosition(int id)
 	{
 		return this.packs [id].GetComponent<NewPackStoreController> ().getBuyButtonPosition ();
@@ -1374,26 +1386,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public bool getAreRandomCardsDisplayed()
 	{
 		return areRandomCardsGenerated;
-	}
-	public Vector3 getBuyCreditsBlockOrigin()
-	{
-		return this.buyCreditsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getBuyCreditsBlockSize()
-	{
-		return this.buyCreditsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getPacksBlockOrigin()
-	{
-		return this.packsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getPacksBlockSize()
-	{
-		return this.packsBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getStoreBlockOrigin()
-	{
-		return this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 	}
 	public GameObject returnCardFocused()
 	{

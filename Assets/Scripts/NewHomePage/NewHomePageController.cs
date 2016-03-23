@@ -289,14 +289,14 @@ public class NewHomePageController : MonoBehaviour
 		this.isSceneLoaded = true;
 		if(ApplicationModel.player.ToLaunchEndGameSequence)
 		{
-			if(ApplicationModel.player.TutorialStep==-1)
+			if(ApplicationModel.player.TutorialStep!=2 && ApplicationModel.player.TutorialStep!=3)
 			{
 				this.displayEndGamePopUp();
 			}
 			ApplicationModel.player.ToLaunchEndGameSequence=false;
 			ApplicationModel.player.HasWonLastGame=false;
 		}
-		if(ApplicationModel.player.TutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep==2 || ApplicationModel.player.TutorialStep==3)
 		{
 			HelpController.instance.startTutorial();
 		}
@@ -1784,42 +1784,6 @@ public class NewHomePageController : MonoBehaviour
 	public bool getIsCardFocusedDisplayed()
 	{
 		return isCardFocusedDisplayed;
-	}
-	public Vector3 getDeckBlockOrigin()
-	{
-		return this.deckBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getDeckBlockSize()
-	{
-		return this.deckBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getNewsfeedBlockOrigin()
-	{
-		Vector3 blockOrigin = this.newsfeedBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-		blockOrigin.y = blockOrigin.y + ApplicationDesignRules.tabWorldSize.y / 2f;
-		return blockOrigin;
-	}
-	public Vector2 getNewsfeedBlockSize()
-	{
-		Vector2 blockSize=this.newsfeedBlock.GetComponent<NewBlockController> ().getSize ();
-		blockSize.y = blockSize.y + ApplicationDesignRules.tabWorldSize.y;
-		return blockSize;
-	}
-	public Vector3 getStoreBlockOrigin()
-	{
-		return this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getStoreBlockSize()
-	{
-		return this.storeBlock.GetComponent<NewBlockController> ().getSize ();
-	}
-	public Vector3 getPlayBlockOrigin()
-	{
-		return this.playBlock.GetComponent<NewBlockController> ().getOriginPosition ();
-	}
-	public Vector2 getPlayBlockSize()
-	{
-		return this.playBlock.GetComponent<NewBlockController> ().getSize ();
 	}
 	public GameObject returnCardFocused()
 	{

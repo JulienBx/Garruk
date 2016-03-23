@@ -15,6 +15,7 @@ public class NextLevelPopUpAttributeController :MonoBehaviour
 		this.index = index;
 		this.newPower = newPower;
 		this.newLevel = newLevel;
+		this.isNotClickable=false;
 	}
 	public void setIsNotClickable()
 	{
