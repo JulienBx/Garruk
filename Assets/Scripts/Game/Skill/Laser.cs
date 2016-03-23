@@ -68,8 +68,8 @@ public class Laser : GameSkill
 		int minDamages = 10 + level;
 		int maxDamages = 20+3*level;
 		if(currentCard.isFou()){
-			minDamages = Mathf.RoundToInt(1.25f*minDamages);
-			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+			minDamages = currentCard.getMagicalDamagesAgainst(targetCard,Mathf.RoundToInt(1.25f*minDamages));
+			maxDamages = currentCard.getMagicalDamagesAgainst(targetCard,Mathf.RoundToInt(1.25f*maxDamages));
 		}
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";

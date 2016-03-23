@@ -924,7 +924,7 @@ public class GameView : MonoBehaviour
 					isSuccess = true ;
 				}
 				if(this.getCard(this.currentPlayingCard).isNurse()){
-					int power = 5+this.getCurrentCard().Skills[0].Power;
+					int power = 3+2*this.getCurrentCard().Skills[0].Power;
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;
@@ -952,7 +952,7 @@ public class GameView : MonoBehaviour
 
 				}
 				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-					int level = GameView.instance.getCurrentCard().Skills[0].Power+5;
+					int level = GameView.instance.getCurrentCard().Skills[0].Power+2;
 					int target = GameView.instance.getCurrentPlayingCard();
 
 					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"), false);
@@ -2908,6 +2908,22 @@ public class GameView : MonoBehaviour
 				tempTile = new Tile(i,j);
 				if(this.getDistanceBetweenTiles(t,tempTile)<=r){
 					if(this.getTileController(tempTile).getCharacterID()==-1){
+						tiles.Add(tempTile);
+					}
+				}
+			}
+		}
+		return tiles ;
+	}
+
+	public List<Tile> getTrappedTiles(){
+		List<Tile> tiles = new List<Tile>();
+		Tile tempTile ;
+		for (int i = 0 ; i < boardWidth ; i++){
+			for (int j = 0 ; j < boardHeight ; j++){
+				tempTile = new Tile(i,j);
+				if(this.getTileController(tempTile).getIsTrapped()){
+					if(!this.getTileController(tempTile).trap.getIsVisible()){
 						tiles.Add(tempTile);
 					}
 				}

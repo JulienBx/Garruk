@@ -150,22 +150,12 @@ public class GameSkill
 		return launchability ;
 	}
 	
-	public virtual HaloTarget getTargetPCCText(Card c)
-	{
-		return null;
-	}
-	
 	public virtual string getTargetText(int id)
 	{
 		return null;
 	}
 	
 	public virtual string getTargetText()
-	{
-		return null;
-	}
-	
-	public virtual HaloTarget getTargetTileText()
 	{
 		return null;
 	}

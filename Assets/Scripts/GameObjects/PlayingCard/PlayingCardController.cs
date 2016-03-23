@@ -517,7 +517,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 73)){
 			int level = card.Skills[0].Power;
 			int bonusAttack = Mathf.RoundToInt((20f+level*10f)*card.getAttack()/100f);
-			int bonusMove = -1*Mathf.Min(card.getMove()-1,2);
+			int bonusMove = -1*Mathf.Min(card.getMove()-1,1);
 
 			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), "+"+bonusAttack+" ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
@@ -547,8 +547,9 @@ public class PlayingCardController : GameObjectController
 
 	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
-			int bonusAttack = 5+card.Skills[0].Power;
-			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Psycho", "+"+bonusAttack+"ATK. Permanent"));
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 71, "Costaud", "-1 MOV. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();int bonusAttack = 5+card.Skills[0].Power;
+			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Costaud", "+"+bonusAttack+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
 			if(toDisplay){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 1);
@@ -571,9 +572,9 @@ public class PlayingCardController : GameObjectController
 
 	public void checkRapide(bool toDisplay){
 		if((card.Skills[0].Id == 71)){
-			int level = 10-card.Skills[0].Power;
+			int level = 11-card.Skills[0].Power;
 		
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+1MOV. Permanent"));
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+1 MOV. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();

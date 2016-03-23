@@ -4,7 +4,7 @@ public class Trap
 {
 	int amount;
 	int type;
-	bool isVisible;
+	public bool isVisible;
 	Tile tile;
 	
 	public string title;

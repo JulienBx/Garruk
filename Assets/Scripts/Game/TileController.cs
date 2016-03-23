@@ -13,7 +13,7 @@ public class TileController : GameObjectController
 	Tile tile ;
 	int type ;
 	int characterID = -1;
-	Trap trap ;
+	public Trap trap ;
 	bool isTrapped ;
 	int isDestination = -1;
 	
@@ -177,13 +177,15 @@ public class TileController : GameObjectController
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 58);
 			}
 			else if(this.trap.getType()==3){	
-				List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
-				Tile tile = tiles[Random.Range(0,tiles.Count)];
+				GameView.instance.displaySkillEffect(this.characterID, "Téléporté !", 0);	
+				GameView.instance.addAnim(this.tile, 58);
 
-				GameController.instance.clickDestination(tile, this.characterID, true);
+				if(GameView.instance.getCard(this.characterID).isMine){
+					List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
+					Tile tile = tiles[Random.Range(0,tiles.Count)];
 
-				GameView.instance.displaySkillEffect(GameView.instance.getTileController(tile).getCharacterID(), "Téléporté !", 0);	
-				GameView.instance.addAnim(tile, 58);
+					GameController.instance.clickDestination(tile, this.characterID, true);
+				}
 			}
 			this.isTrapped=false;
 			this.showTrap(false);

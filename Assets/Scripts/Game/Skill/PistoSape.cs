@@ -1,20 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Relaxant : GameSkill
+public class PistoSape : GameSkill
 {
-	public Relaxant()
+	public PistoSape()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Relaxant";
-		base.ciblage = 1 ;
+		base.name = "PistoSape";
+		base.ciblage = 3 ;
 		base.auto = false;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentOpponentsTargets();
+		GameView.instance.displayOpponentsTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -24,17 +24,17 @@ public class Relaxant : GameSkill
 		int proba = GameView.instance.getCurrentSkill().proba;
 		int level = GameView.instance.getCurrentSkill().Power;
 
-		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
+		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
 			GameController.instance.esquive(target,1);
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(level, 10+2*level+1));
+				GameController.instance.applyOn2(target, Random.Range(1, 3+2*level+1));
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), GameView.instance.getCurrentCard().Skills[0].Power*5, Random.Range(level, 10+2*level+1));
+							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), GameView.instance.getCurrentCard().Skills[0].Power*5, Random.Range(1, 3+2*level+1));
 						}
 					}
 				}
@@ -70,13 +70,13 @@ public class Relaxant : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		int minLevel = Mathf.Min(GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
-		int maxLevel = Mathf.Min(10+2*GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
+		int minLevel = Mathf.Min(1, targetCard.getAttack()-1);
+		int maxLevel = Mathf.Min(3+2*GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 
 		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()-minLevel)+"-"+(targetCard.getAttack()-maxLevel)+"]\nActif 1 tour";
 		
 		int amount = GameView.instance.getCurrentSkill().proba;
-		int probaEsquive = targetCard.getEsquive();
+		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;
 		

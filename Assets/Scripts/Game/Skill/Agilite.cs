@@ -1,36 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Agilite : GameSkill
+public class Pisteur : GameSkill
 {
-	public Agilite()
+	public Pisteur()
 	{
 		this.numberOfExpectedTargets = 0 ;
-		base.name = "Agilité";
+		base.name = "Pisteur";
 		base.ciblage = 0 ;
 		base.auto = true;
 	}
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
-		GameController.instance.endPlay();
-	}
-	
-	public override void applyOn(int target){
-		int esquive = GameView.instance.getCurrentSkill().Power*3+20;
-		string text = base.name+"\nEsquive : "+esquive+"%";
-		
-		GameView.instance.getCurrentCard().addEsquiveModifyer(new Modifyer(esquive, -1, 14, base.name, "Esquive : "+esquive+"%"));
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).showIcons();
+		int level = GameView.instance.getCurrentSkill().Power;
 
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 14);
+		List<Tile> trappedTiles = GameView.instance.getTrappedTiles();
+		for(int i = 0 ; i < trappedTiles.Count ; i++){
+			if(Random.Range(1,101)<=(50+5*level)){
+				GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
+				GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
+
+				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert!", 1);
+				GameView.instance.addAnim(trappedTiles[i], 14);
+			}
+		}
+
+		GameController.instance.endPlay();
 	}
 }

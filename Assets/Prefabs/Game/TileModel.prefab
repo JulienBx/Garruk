@@ -721,9 +721,9 @@ MonoBehaviour:
   GOSize: {x: 0, y: 0}
   trapSprites:
   - {fileID: 21300000, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
-  - {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
-  - {fileID: 21300066, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  - {fileID: 21300008, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
+  - {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   destinationSprites:
   - {fileID: 21300006, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
   - {fileID: 21300006, guid: 7a21bed42c055b84085efde435b9c407, type: 3}
@@ -3035,12 +3035,12 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: trapSprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407,
+      objectReference: {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407,
         type: 3}
     - target: {fileID: 0}
       propertyPath: trapSprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300010, guid: 7a21bed42c055b84085efde435b9c407,
+      objectReference: {fileID: 21300008, guid: 7a21bed42c055b84085efde435b9c407,
         type: 3}
     - target: {fileID: 0}
       propertyPath: trapSprites.Array.data[0]
@@ -5446,7 +5446,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: trapSprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300066, guid: 7e1b4151ad140b74da11c36c23719857,
+      objectReference: {fileID: 21300012, guid: 7a21bed42c055b84085efde435b9c407,
         type: 3}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[49]
