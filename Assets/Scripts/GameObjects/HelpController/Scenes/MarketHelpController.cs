@@ -9,6 +9,15 @@ using TMPro;
 public class MarketHelpController : HelpController 
 {
 
+	public override GameObject getFocusedCard()
+	{
+		return NewMarketController.instance.returnCardFocused();
+	}
+	public override Vector3 getFocusedCardPosition()
+	{
+		return NewMarketController.instance.getFocusedCardPosition();
+	}
+
 	#region Help
 
 	public override void getDesktopHelpSequenceSettings()
@@ -52,7 +61,23 @@ public class MarketHelpController : HelpController
 	}
 	public override void getHelpNextAction()
 	{
-		if (sequenceId < 1) 
+		if(this.sequenceId>99)
+		{
+			base.getHelpNextAction();
+		}
+		else if(NewMarketController.instance.getIsCardFocusedDisplayed())
+		{
+			if(NewMarketController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
+			{
+				this.sequenceId=200;
+			}
+			else
+			{
+				this.sequenceId=100;	
+			}
+			this.launchHelpSequence();
+		}
+		else if (sequenceId < 1) 
 		{
 			this.sequenceId++;
 			this.launchHelpSequence ();

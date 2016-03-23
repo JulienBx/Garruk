@@ -132,8 +132,7 @@ public class NewSkillBookModel
 		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [0]);
 		ApplicationModel.player.CollectionRanking = System.Convert.ToInt32 (array [1]);
 		ApplicationModel.player.TutorialStep = System.Convert.ToInt32(array [2]);
-		//ApplicationModel.player.DisplayTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
-		ApplicationModel.player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [4]));
+		ApplicationModel.player.SkillBookTutorial= System.Convert.ToBoolean(System.Convert.ToInt32(array [3]));
 	}
 	private void affectUserSkills()
 	{

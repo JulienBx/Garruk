@@ -17,18 +17,18 @@ public class ProfileHelpController : HelpController
 		{
 		case 0:
 			this.setFlashingBlock (NewProfileController.instance.returnProfileBlock (),true);
-			this.setCompanion (WordingProfileHelp.getHelpContent (0), true, false, true, 0f);
+			this.setCompanion (WordingProfileHelp.getHelpContent (0+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*4), true, false, true, 0f);
 			break;
 		case 1:
 			this.setFlashingBlock (NewProfileController.instance.returnSearchBlock (),true);
-			this.setCompanion(WordingProfileHelp.getHelpContent(1),true,false,false,0f);
+			this.setCompanion(WordingProfileHelp.getHelpContent(2),true,false,false,0f);
 			break;
 		case 2:
-			this.setCompanion (WordingProfileHelp.getHelpContent (2), true, true, true, 0f);
+			this.setCompanion (WordingProfileHelp.getHelpContent (3+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*3), true, true, true, 0f);
 			this.setFlashingBlock (NewProfileController.instance.returnFriendsBlock (),true);
 			break;
 		case 3:
-			this.setCompanion(WordingProfileHelp.getHelpContent(3),true,true,false,0f);
+			this.setCompanion(WordingProfileHelp.getHelpContent(1+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*4),true,true,false,0f);
 			this.setFlashingBlock (NewProfileController.instance.returnResultsBlock (),true);
 			break;
 		}
@@ -47,12 +47,12 @@ public class ProfileHelpController : HelpController
 			{
 				NewProfileController.instance.slideLeft ();
 			}
-			this.setCompanion (WordingProfileHelp.getHelpContent (0), true, true, true, 0f);
+			this.setCompanion (WordingProfileHelp.getHelpContent (0+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*4), true, true, true, 0f);
 			break;
 		case 1:
 			this.setFlashingBlock (NewProfileController.instance.returnResultsBlock (),true);
 			NewProfileController.instance.slideRight ();
-			this.setCompanion(WordingProfileHelp.getHelpContent(3),true,true,false,0f);
+			this.setCompanion(WordingProfileHelp.getHelpContent(1+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*4),true,true,false,0f);
 			break;
 		case 2:
 			NewProfileController.instance.slideLeft ();
@@ -61,7 +61,7 @@ public class ProfileHelpController : HelpController
 			break;
 		case 3:
 			NewProfileController.instance.slideLeft ();
-			this.setCompanion(WordingProfileHelp.getHelpContent(1),true,false,false,0f);
+			this.setCompanion(WordingProfileHelp.getHelpContent(3+System.Convert.ToInt32(NewProfileController.instance.getIsMyProfile())*3),true,false,false,0f);
 			this.setFlashingBlock (NewProfileController.instance.returnFriendsBlock (),true);
 			break;
 		}
@@ -75,7 +75,10 @@ public class ProfileHelpController : HelpController
 		} 
 		else 
 		{
-			NewProfileController.instance.slideRight();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				NewProfileController.instance.slideRight();
+			}
 			StartCoroutine (NewProfileController.instance.endHelp ());
 			this.quitHelp ();
 		}

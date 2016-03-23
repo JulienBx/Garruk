@@ -55,7 +55,7 @@ public class NewProfileModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
-			this.users = parseUsers(data[9].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
+			this.users = parseUsers(data[8].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.users.Add(this.displayedUser);
 			this.trophies=parseTrophies(data[1].Split(new string[] {"#TROPHY#"},System.StringSplitOptions.None));
 			this.friends=parseFriends(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
@@ -81,8 +81,7 @@ public class NewProfileModel
 				ApplicationModel.player.Id=System.Convert.ToInt32(data[5]);
 			}
 			ApplicationModel.player.TutorialStep=System.Convert.ToInt32(data[6]);
-			//ApplicationModel.player.DisplayTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
-			ApplicationModel.player.ProfileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[8]));
+			ApplicationModel.player.ProfileTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[7]));
 			usernameList=new string[this.users.Count];
 			for(int i=0;i<this.users.Count;i++)
 			{

@@ -911,7 +911,7 @@ public class NewLobbyController : MonoBehaviour
 		if(!ApplicationModel.player.LobbyHelp)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setLobbyHelp(true));
+			yield return StartCoroutine(ApplicationModel.player.setLobbyTutorial(true));
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}

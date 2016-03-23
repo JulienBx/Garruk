@@ -22,11 +22,11 @@ public class Player : User
 	private string URLSetMarketTutorial;
 	private string URLSetProfileTutorial;
 	private string URLSetSkillBookTutorial;
-	private string URLSetLobbyHelp;
+	private string URLSetNextLevelTutorial;
+	private string URLSetLobbyTutorial;
 	private string URLUpdateEndGameData;
 	private string URLInvitePlayer;
 	private string URLSetProfilePicture;
-	private string URLSetDisplayTutorial;
 	private string URLCheckPassword;
 	private string URLEditPassword;
 	private string URLChooseLanguage;
@@ -53,6 +53,7 @@ public class Player : User
 	public bool MarketTutorial;
 	public bool ProfileTutorial;
 	public bool SkillBookTutorial;
+	public bool NextLevelTutorial;
 	public bool LobbyHelp;
 	public int ConnectionBonus;
 	public int NbNotificationsNonRead;
@@ -114,11 +115,11 @@ public class Player : User
 		this.URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
 		this.URLSetProfileTutorial = ApplicationModel.host + "set_profileTutorial.php";
 		this.URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
-		this.URLSetLobbyHelp = ApplicationModel.host + "set_lobbyTutorial.php";
+		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
+		this.URLSetNextLevelTutorial = ApplicationModel.host + "set_nextLevelTutorial.php";
 		this.URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 		this.URLInvitePlayer = ApplicationModel.host + "invite_player.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
-		this.URLSetDisplayTutorial = ApplicationModel.host + "set_displaytutorial.php";
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
 		this.URLChooseLanguage = ApplicationModel.host + "choose_language.php";
@@ -392,7 +393,7 @@ public class Player : User
 			this.SkillBookTutorial=step;
 		}
 	}
-	public IEnumerator setLobbyHelp(bool step)
+	public IEnumerator setLobbyTutorial(bool step)
 	{
 		string tempString;
 		if(step)
@@ -408,7 +409,7 @@ public class Player : User
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
 		
-		WWW w = new WWW (URLSetLobbyHelp, form); 								// On envoie le formulaire à l'url sur le serveur 
+		WWW w = new WWW (URLSetLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -417,6 +418,33 @@ public class Player : User
 		else 
 		{
 			this.LobbyHelp=step;
+		}
+	}
+	public IEnumerator setNextLevelTutorial(bool step)
+	{
+		string tempString;
+		if(step)
+		{
+			tempString="1";
+		}
+		else
+		{
+			tempString="0";
+		}
+		WWWForm form = new WWWForm (); 								// Création de la connexion
+		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
+		form.AddField("myform_step", tempString);                 // Deck sélectionné
+		
+		WWW w = new WWW (URLSetNextLevelTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
+		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		if (w.error != null) 
+		{
+			Debug.Log (w.error); 										// donne l'erreur eventuelle
+		} 
+		else 
+		{
+			this.NextLevelTutorial=step;
 		}
 	}
 	public IEnumerator updateEndGameData()
@@ -587,12 +615,11 @@ public class Player : User
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
 				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
 				this.Money = System.Convert.ToInt32(profileData [3]);
-				//this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
-				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
-				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
+				this.Id=System.Convert.ToInt32(profileData[6]);
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[7]);
 			}
 			else
 			{
@@ -643,13 +670,12 @@ public class Player : User
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
 				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
 				this.Money = System.Convert.ToInt32(profileData [3]);
-				//this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
-				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
-				this.Id=System.Convert.ToInt32(profileData[7]);
-				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[8]));
+				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
+				this.Id=System.Convert.ToInt32(profileData[6]);
+				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[7]));
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}

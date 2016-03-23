@@ -1789,6 +1789,10 @@ public class NewHomePageController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
+	public Vector3 getFocusedCardPosition()
+	{
+		return new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.focusedCard.transform.FindChild("Card").position.x,-ApplicationDesignRules.focusedCardPosition.y+this.focusedCard.transform.FindChild("Card").position.y,this.focusedCard.transform.FindChild("Card").position.z); 
+	}
 	public bool getIsMainContentDisplayed()
 	{
 		return this.mainContentDisplayed;
