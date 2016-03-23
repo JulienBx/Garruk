@@ -13,6 +13,7 @@ public class NewEndGameController : MonoBehaviour
 	public GameObject nextLevelPopUpObject;
 
 	private GameObject backOfficeController;
+	private GameObject help;
 	private GameObject nextLevelPopUp;
 	private GameObject[] cards;
 	private GameObject title;
@@ -21,6 +22,7 @@ public class NewEndGameController : MonoBehaviour
 
 	private GameObject mainCamera;
 	private GameObject sceneCamera;
+	private GameObject helpCamera;
 
 	private bool toUpdateCredits;
 	private bool areCreditsUpdated;
@@ -59,6 +61,7 @@ public class NewEndGameController : MonoBehaviour
 		this.idCardsToNextLevel = new List<int> ();
 		this.initializeScene ();
 		this.initializeBackOffice();
+		this.initializeHelp();
 		SoundController.instance.playMusic(new int[]{1,2});
 		StartCoroutine (this.initialization ());
 	}
@@ -108,6 +111,13 @@ public class NewEndGameController : MonoBehaviour
 		this.backOfficeController.AddComponent<BackOfficeEndGameController>();
 		this.backOfficeController.GetComponent<BackOfficeEndGameController>().initialize();
 	}
+	private void initializeHelp()
+	{
+		this.help = GameObject.Find ("HelpController");
+		this.help.AddComponent<EndGameHelpController>();
+		this.help.GetComponent<EndGameHelpController>().initialize();
+		BackOfficeController.instance.setIsHelpLoaded(true);
+	}
 	public void initializeScene()
 	{
 		this.mainCamera = gameObject;
@@ -130,6 +140,7 @@ public class NewEndGameController : MonoBehaviour
 			this.cards[i].GetComponent<NewCardEndGameController>().show();
 			this.cards[i].GetComponent<NewCardEndGameController>().setId(i);
 		}
+		this.helpCamera = GameObject.Find ("HelpCamera");
 	}
 	public IEnumerator initialization()
 	{
@@ -176,6 +187,10 @@ public class NewEndGameController : MonoBehaviour
 			if(this.idCardsToNextLevel.Count>0)
 			{
 				this.displayNextLevelPopUp(this.idCardsToNextLevel[0]);
+				if(!ApplicationModel.player.NextLevelTutorial)
+				{
+					HelpController.instance.startHelp();
+				}
 			}
 			else
 			{
@@ -265,6 +280,10 @@ public class NewEndGameController : MonoBehaviour
 			cards[i].transform.position=new Vector3((i-1.5f)*(gapBetweenCards+ApplicationDesignRules.cardWorldSize.x),-1f,0f);
 			cards[i].transform.localScale=ApplicationDesignRules.cardScale;
 		}
+		this.helpCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
+		this.helpCamera.transform.position = ApplicationDesignRules.helpCameraPositiion;
+		this.helpCamera.GetComponent<Camera> ().rect = new Rect (0f, 0f, 1f, 1f);
+		HelpController.instance.resize ();
 	}
 	public void upgradeCardAttributeHandler(int attributeToUpgrade, int newPower, int newLevel)
 	{

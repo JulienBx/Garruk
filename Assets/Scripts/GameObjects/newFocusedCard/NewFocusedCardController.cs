@@ -1255,6 +1255,10 @@ public class NewFocusedCardController : MonoBehaviour
 		this.nextLevelPopUp.transform.parent=this.gameObject.transform;
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerNewFocusedCard> ();
 		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (this.c);
+		if(!ApplicationModel.player.NextLevelTutorial)
+		{
+			HelpController.instance.startHelp();
+		}
 	}
 	public void hideNextLevelPopUp()
 	{
@@ -1361,7 +1365,10 @@ public class NewFocusedCardController : MonoBehaviour
 
 	#region help functions
 
-
+	public bool getIsNextLevelPopUpDisplayed()
+	{
+		return this.isNextLevelPopUpDisplayed;
+	}
 	public int GetSkillsNumber()
 	{
 		for(int i=0;i<4;i++)

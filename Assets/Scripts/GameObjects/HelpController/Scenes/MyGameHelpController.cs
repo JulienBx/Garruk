@@ -264,6 +264,10 @@ public class MyGameHelpController : HelpController
 			{
 				this.sequenceId=200;
 			}
+			else if(newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsNextLevelPopUpDisplayed())
+			{
+				this.sequenceId=300;
+			}
 			else
 			{
 				this.sequenceId=100;	

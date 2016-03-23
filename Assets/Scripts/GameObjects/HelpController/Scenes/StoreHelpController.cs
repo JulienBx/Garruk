@@ -235,6 +235,10 @@ public class StoreHelpController : HelpController
 			{
 				this.sequenceId=200;
 			}
+			else if(NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsNextLevelPopUpDisplayed())
+			{
+				this.sequenceId=300;
+			}
 			else
 			{
 				this.sequenceId=100;	
