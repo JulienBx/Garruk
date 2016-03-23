@@ -252,6 +252,19 @@ public class HelpController : MonoBehaviour
 	}
 	public virtual void getHelpNextAction()
 	{
+		if(this.sequenceId<103)
+		{
+			this.sequenceId++;
+			this.launchHelpSequence();
+		}
+		else if(this.sequenceId==103)
+		{
+			this.quitHelp ();
+		}
+		else if(this.sequenceId==200)
+		{
+			this.quitHelp ();
+		}
 	}
 	public virtual void getTutorialNextAction()
 	{
@@ -320,9 +333,65 @@ public class HelpController : MonoBehaviour
 	}
 	public virtual void getDesktopHelpSequenceSettings()
 	{
+		switch (this.sequenceId) 
+		{
+		case 100:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setArrow("up",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().x,-0.3f-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (0), true, false, true, 0f);
+			break;
+		case 101:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setArrow("right",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().x,-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (1), true, false, false, 0f);
+			break;
+		case 102:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setArrow("left",new Vector3(0.3f-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().x,-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (2), true, false, false, 0f);
+			break;
+		case 103:
+			int skillsIndex = this.getFocusedCard().GetComponent<NewFocusedCardController>().GetSkillsNumber()-1;
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setArrow("down",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).x,0.4f-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).z));
+			this.setCompanion (WordingHelp.getHelpContent (3), true, false, false, 0f);
+			break;
+		case 200:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
+			break;
+		}
 	}
 	public virtual void getMobileHelpSequenceSettings()
 	{
+		switch (this.sequenceId) 
+		{
+		case 100:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setArrow("up",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().x,-0.3f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getCardTypePosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (0), true, false, true, 0f);
+			break;
+		case 101:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setArrow("right",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().x,-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getExperienceLevelPosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (1), true, false, false, 0f);
+			break;
+		case 102:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setArrow("left",new Vector3(0.3f-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().x,-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getLifePosition().z));
+			this.setCompanion (WordingHelp.getHelpContent (2), true, false, false, 0f);
+			break;
+		case 103:
+			int skillsIndex = this.getFocusedCard().GetComponent<NewFocusedCardController>().GetSkillsNumber()-1;
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setArrow("down",new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).x,0.4f-ApplicationDesignRules.focusedCardPosition.y+this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).y,this.getFocusedCard().GetComponent<NewFocusedCardController>().getSkillPosition(skillsIndex).z));
+			this.setCompanion (WordingHelp.getHelpContent (3), true, false, false, 5.5f);
+			break;
+		case 200:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
+			break;
+		}
 	}
 	public virtual void getDesktopTutorialSequenceSettings()
 	{
@@ -410,6 +479,14 @@ public class HelpController : MonoBehaviour
 	public void displayCantAccessPopUp ()
 	{
 		BackOfficeController.instance.displayErrorPopUp (WordingHelp.getReference(2));
+	}
+	public virtual GameObject getFocusedCard()
+	{
+		return new GameObject();
+	}
+	public virtual Vector3 getFocusedCardPosition()
+	{
+		return new Vector3();
 	}
 	#endregion
 
@@ -581,9 +658,8 @@ public class HelpController : MonoBehaviour
 
 				if(gameObjectSize.y>10f)
 				{
-					float tempY =ApplicationDesignRules.worldHeight/2f-gameObjectPosition.y-gameObjectSize.y/2f;
-					gameObjectPosition.y=-(tempY)/2f+ApplicationDesignRules.bottomBarWorldSize.y;
-					gameObjectSize.y=ApplicationDesignRules.worldHeight-ApplicationDesignRules.bottomBarWorldSize.y-tempY-0.5f;
+					gameObjectPosition.y=gameObjectPosition.y+(gameObjectSize.y-10f)/2f;
+					gameObjectSize.y=10f;
 				}
 
 				if (ApplicationDesignRules.isMobileScreen) 

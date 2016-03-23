@@ -2257,6 +2257,10 @@ public class newMyGameController : MonoBehaviour
 	{
 		return this.mainContentDisplayed;
 	}
+	public Vector3 getFocusedCardPosition()
+	{
+		return new Vector3(-ApplicationDesignRules.focusedCardPosition.x+this.focusedCard.transform.FindChild("Card").position.x,-ApplicationDesignRules.focusedCardPosition.y+this.focusedCard.transform.FindChild("Card").position.y,this.focusedCard.transform.FindChild("Card").position.z); 
+	}
 
 	#endregion
 }

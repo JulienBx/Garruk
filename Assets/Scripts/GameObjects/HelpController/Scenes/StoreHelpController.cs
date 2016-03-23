@@ -14,6 +14,14 @@ public class StoreHelpController : HelpController
 	{
 		return NewStoreController.instance.getIsScrolling();
 	}
+	public override GameObject getFocusedCard()
+	{
+		return NewStoreController.instance.returnCardFocused();
+	}
+	public override Vector3 getFocusedCardPosition()
+	{
+		return NewStoreController.instance.getFocusedCardPosition();
+	}
 
 	#region tutorial
 
@@ -180,6 +188,9 @@ public class StoreHelpController : HelpController
 			this.setFlashingBlock (NewStoreController.instance.returnBuyCreditsBlock (),true);
 			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,true,0f);
 			break;
+		default:
+			base.getDesktopHelpSequenceSettings();
+			break;
 		}
 	}
 	public override void getMobileHelpSequenceSettings()
@@ -199,11 +210,30 @@ public class StoreHelpController : HelpController
 			this.setBackground(true,new Rect(0f,-2.75f,ApplicationDesignRules.worldWidth,2.5f),0f,0f);
 			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,false,4.5f);
 			break;
+		default:
+			base.getMobileHelpSequenceSettings();
+			break;
 		}
 	}
 	public override void getHelpNextAction()
 	{
-		if (sequenceId < 1) 
+		if(this.sequenceId>99)
+		{
+			base.getHelpNextAction();
+		}
+		else if(NewStoreController.instance.getIsCardFocusedDisplayed())
+		{
+			if(NewStoreController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
+			{
+				this.sequenceId=200;
+			}
+			else
+			{
+				this.sequenceId=100;	
+			}
+			this.launchHelpSequence();
+		}
+		else if (sequenceId < 1) 
 		{
 			this.sequenceId++;
 			this.launchHelpSequence ();

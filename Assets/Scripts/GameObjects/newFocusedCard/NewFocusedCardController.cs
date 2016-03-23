@@ -1358,21 +1358,44 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		return this.c.getSkillText(WordingSkills.getDescription(idSkill,level));	
 	}
+
+	#region help functions
+
+
+	public int GetSkillsNumber()
+	{
+		for(int i=0;i<4;i++)
+		{
+			if(this.c.Skills[i].IsActivated==0)
+			{
+				return (i);
+			}
+		}
+		return 4;
+	}
 	public bool getIsSkillFocusedDisplayed()
 	{
 		return this.isSkillFocusedDisplayed;
 	}
-
-	#region help functions
-
 	public Vector3 getSkillPosition(int id)
 	{
 		return this.skills[id].transform.position;
+	}
+	public Vector3 getExperienceLevelPosition()
+	{
+		return this.experience.transform.FindChild("ExperienceLevel").position;
 	}
 	public Vector3 getFocusFeaturePosition(int id)
 	{
 		return this.gameObject.transform.FindChild("FocusFeature"+id).transform.position;
 	}
-
+	public Vector3 getCardTypePosition()
+	{
+		return this.cardType.transform.position;
+	}
+	public Vector3 getLifePosition()
+	{
+		return this.life.transform.FindChild("Text").position;
+	}
 	#endregion
 }

@@ -10,6 +10,15 @@ using TMPro;
 public class MyGameHelpController : HelpController 
 {
 
+	public override GameObject getFocusedCard()
+	{
+		return newMyGameController.instance.returnCardFocused();
+	}
+	public override Vector3 getFocusedCardPosition()
+	{
+		return newMyGameController.instance.getFocusedCardPosition();
+	}
+
 	#region tutorial
 
 	public override void getDesktopTutorialSequenceSettings()
@@ -210,6 +219,9 @@ public class MyGameHelpController : HelpController
 			this.setCompanion (WordingMyGameHelp.getHelpContent (2), true, true, false, 0f);
 			this.setFlashingBlock (newMyGameController.instance.returnFiltersBlock (),true);
 			break;
+		default:
+			base.getDesktopHelpSequenceSettings();
+			break;
 		}
 	}
 	public override void getMobileHelpSequenceSettings()
@@ -235,11 +247,30 @@ public class MyGameHelpController : HelpController
 			this.setCompanion (WordingMyGameHelp.getHelpContent (0), true, false, false, 0f);
 			this.setFlashingBlock (newMyGameController.instance.returnDeckBlock (),true);	
 			break;
+		default:
+			base.getMobileHelpSequenceSettings();
+			break;
 		}
 	}
 	public override void getHelpNextAction()
 	{
-		if (sequenceId < 2) 
+		if(this.sequenceId>99)
+		{
+			base.getHelpNextAction();
+		}
+		else if(newMyGameController.instance.getIsCardFocusedDisplayed())
+		{
+			if(newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
+			{
+				this.sequenceId=200;
+			}
+			else
+			{
+				this.sequenceId=100;	
+			}
+			this.launchHelpSequence();
+		}
+		else if (sequenceId < 2) 
 		{
 			this.sequenceId++;
 			this.launchHelpSequence ();
