@@ -188,6 +188,10 @@ public class StoreHelpController : HelpController
 			this.setFlashingBlock (NewStoreController.instance.returnBuyCreditsBlock (),true);
 			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,true,0f);
 			break;
+		case 2:
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			this.setCompanion(WordingStoreHelp.getHelpContent(2),true,true,true,0f);
+			break;
 		default:
 			base.getDesktopHelpSequenceSettings();
 			break;
@@ -209,6 +213,10 @@ public class StoreHelpController : HelpController
 			this.setFlashingBlock (NewStoreController.instance.returnBuyCreditsBlock (),false);
 			this.setBackground(true,new Rect(0f,-2.75f,ApplicationDesignRules.worldWidth,2.5f),0f,0f);
 			this.setCompanion(WordingStoreHelp.getHelpContent(1),true,true,false,4.5f);
+			break;
+		case 2:
+			this.setBackground (false,new Rect (0, 0, 20, 10), 0f, 0f);
+			this.setCompanion(WordingStoreHelp.getHelpContent(2),true,true,true,0f);
 			break;
 		default:
 			base.getMobileHelpSequenceSettings();
@@ -233,12 +241,17 @@ public class StoreHelpController : HelpController
 			}
 			this.launchHelpSequence();
 		}
+		else if(NewStoreController.instance.getAreRandomCardsDisplayed() && this.sequenceId!=2)
+		{
+			this.sequenceId=2;
+			this.launchHelpSequence();
+		}
 		else if (sequenceId < 1) 
 		{
 			this.sequenceId++;
 			this.launchHelpSequence ();
 		} 
-		else 
+		else
 		{
 			this.quitHelp ();
 		}
