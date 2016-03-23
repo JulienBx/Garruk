@@ -69,16 +69,23 @@ public class HomePageHelpController : HelpController
 	}
 	public override void getTutorialNextAction()
 	{
-		if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 2) {
+		if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 2) 
+		{
 			this.sequenceId = 0;
 			this.launchTutorialSequence ();
-		} else if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 3) {
+		} 
+		else if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 3) 
+		{
 			this.sequenceId = 1;
 			this.launchTutorialSequence ();
-		} else if (this.sequenceId < 2) {
+		} 
+		else if (this.sequenceId < 2) 
+		{
 			this.sequenceId = 2;
 			this.launchTutorialSequence ();
-		} else if (this.sequenceId == 2) {
+		} 
+		else if (this.sequenceId == 2) 
+		{
 			StartCoroutine(ApplicationModel.player.setTutorialStep(4));
 			this.sequenceId++;
 			this.launchTutorialSequence ();

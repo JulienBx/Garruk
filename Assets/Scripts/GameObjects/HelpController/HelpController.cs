@@ -209,6 +209,28 @@ public class HelpController : MonoBehaviour
 			this.launchTutorialSequence ();
 		}
 	}
+	public void freeze()
+	{
+		if(this.toDisplayHelpController)
+		{	
+			this.resetSettings();
+			this.showSequence();
+		}
+	}
+	public void reload()
+	{
+		if(this.toDisplayHelpController)
+		{
+			if(this.isTutorial)
+			{
+				this.launchTutorialSequence();
+			}
+			else
+			{
+				this.launchHelpSequence();
+			}
+		}
+	}
 	public void helpHandler()
 	{
 		this.startHelp();
@@ -219,6 +241,7 @@ public class HelpController : MonoBehaviour
 		this.getHelpNextAction ();
 		this.toDisplayHelpController=true;
 		this.isTutorial = false;
+		ApplicationModel.player.IsBusy=true;
 	}
 	public void startTutorial()
 	{
@@ -226,6 +249,7 @@ public class HelpController : MonoBehaviour
 		this.getTutorialNextAction ();
 		this.toDisplayHelpController = true;
 		this.isTutorial = true;
+		ApplicationModel.player.IsBusy=true;
 	}
 	public void companionNextButtonHandler()
 	{
@@ -418,6 +442,7 @@ public class HelpController : MonoBehaviour
 		this.resetSettings ();
 		this.showSequence ();
 		this.toDisplayHelpController=false;
+		ApplicationModel.player.IsBusy=false;
 	}
 	public void quitTutorial()
 	{
@@ -426,6 +451,7 @@ public class HelpController : MonoBehaviour
 		this.showSequence ();
 		this.toDisplayHelpController=false;
 		this.isTutorial=false;
+		ApplicationModel.player.IsBusy=false;
 	}
 	public void tutorialTrackPoint()
 	{

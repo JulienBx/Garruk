@@ -33,7 +33,7 @@ public class ApplicationModel
 		//host = "http://testing.techticalwars.com/";  // RECETTE
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
-		volBackOfficeFx=1f;
+		volBackOfficeFx=0.5f;
 		volMusic=0f;
 		nbCardsByDeck=4;
 		myPlayerName="";

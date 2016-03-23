@@ -262,7 +262,7 @@ public class NewMarketController : MonoBehaviour
 		this.help = GameObject.Find ("HelpController");
 		this.help.AddComponent<MarketHelpController>();
 		this.help.GetComponent<MarketHelpController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{

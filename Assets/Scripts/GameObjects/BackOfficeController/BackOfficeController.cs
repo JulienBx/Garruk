@@ -34,7 +34,6 @@ public class BackOfficeController : MonoBehaviour
 	private bool isTransparentBackgroundDisplayed;
 
 	private bool isMenuLoaded;
-	private bool isTutorialLoaded;
 	private bool isHelpLoaded;
 	private bool isSwiping;
 
@@ -105,10 +104,6 @@ public class BackOfficeController : MonoBehaviour
 	{
 		this.isMenuLoaded=value;
 	}
-	public void setIsTutorialLoaded(bool value)
-	{
-		this.isTutorialLoaded=value;
-	}
 	public void setIsHelpLoaded(bool value)
 	{
 		this.isHelpLoaded=value;
@@ -178,9 +173,9 @@ public class BackOfficeController : MonoBehaviour
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 			this.transparentBackgroundResize();
-			if(this.isTutorialLoaded)
+			if(this.isHelpLoaded)
 			{
-				//TutorialObjectController.instance.freeze();
+				HelpController.instance.freeze();
 			}
 		}
 	}
@@ -284,9 +279,9 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.isTransparentBackgroundDisplayed = false;
 			Destroy (this.transparentBackground);
-			if(this.isTutorialLoaded)
+			if(this.isHelpLoaded)
 			{
-				//TutorialObjectController.instance.show();
+				HelpController.instance.reload();
 			}
 		}
 	}
@@ -454,9 +449,9 @@ public class BackOfficeController : MonoBehaviour
 			this.loadingScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
-			if(this.isTutorialLoaded)
+			if(this.isHelpLoaded)
 			{
-				//TutorialObjectController.instance.freeze();
+				HelpController.instance.freeze();
 			}
 		}
 	}
@@ -467,9 +462,9 @@ public class BackOfficeController : MonoBehaviour
 			this.displayLoadingScreenButton (false);
 			this.loadingScreen.SetActive(false);
 			this.isLoadingScreenDisplayed=false;
-			if(this.isTutorialLoaded)
+			if(this.isHelpLoaded)
 			{
-				//TutorialObjectController.instance.show();
+				HelpController.instance.reload();
 			}
 		}
 		if(ApplicationModel.player.IsInviting)
