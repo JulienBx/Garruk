@@ -30,5 +30,6 @@ public class WordingHelp
 		helpContents.Add(new string[]{"Description des points d'attaque / vie",""}); //2
 		helpContents.Add(new string[]{"Description des compétences",""}); //3
 		helpContents.Add(new string[]{"Description du skill focused",""}); //4
+		helpContents.Add(new string[]{"Description de l'augmentation ...",""}); //5
 	}
 }

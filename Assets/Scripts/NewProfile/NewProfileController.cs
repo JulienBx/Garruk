@@ -231,7 +231,7 @@ public class NewProfileController : MonoBehaviour
 		this.help = GameObject.Find ("HelpController");
 		this.help.AddComponent<ProfileHelpController>();
 		this.help.GetComponent<ProfileHelpController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{

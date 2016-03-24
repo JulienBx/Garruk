@@ -1886,6 +1886,10 @@ public class newMyGameController : MonoBehaviour
 					}
 				}
 				ApplicationModel.player.HasDeck = isDeckCompleted;
+				if(isDeckCompleted)
+				{
+					StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+				}
 				HelpController.instance.tutorialTrackPoint();
 			}
 		}

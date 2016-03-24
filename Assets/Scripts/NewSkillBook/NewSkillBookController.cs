@@ -215,7 +215,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.help = GameObject.Find ("HelpController");
 		this.help.AddComponent<SkillBookHelpController>();
 		this.help.GetComponent<SkillBookHelpController>().initialize();
-		BackOfficeController.instance.setIsTutorialLoaded(true);
+		BackOfficeController.instance.setIsHelpLoaded(true);
 	}
 	private void initializeMenu()
 	{

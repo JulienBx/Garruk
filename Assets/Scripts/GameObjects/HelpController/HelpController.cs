@@ -182,8 +182,8 @@ public class HelpController : MonoBehaviour
 		this.arrow = this.gameObject.transform.FindChild ("Arrow").gameObject;
 		this.scrolling = this.gameObject.transform.FindChild ("Scrolling").gameObject;
 		this.dragging = this.gameObject.transform.FindChild ("Drag").gameObject;
-		this.draggingCard0 = this.dragging.transform.FindChild ("Card0").gameObject;
-		this.draggingCard1 = this.dragging.transform.FindChild ("Card1").gameObject;
+		this.draggingCard0 = this.dragging.transform.FindChild ("DragCard0").gameObject;
+		this.draggingCard1 = this.dragging.transform.FindChild ("DragCard1").gameObject;
 		this.miniCompanion = this.gameObject.transform.FindChild ("miniCompanion").gameObject;
 		this.companion.SetActive(false);
 		this.background.SetActive(false);
@@ -209,23 +209,47 @@ public class HelpController : MonoBehaviour
 			this.launchTutorialSequence ();
 		}
 	}
+	public void freeze()
+	{
+		if(this.toDisplayHelpController)
+		{	
+			this.resetSettings();
+			this.showSequence();
+		}
+	}
+	public void reload()
+	{
+		if(this.toDisplayHelpController)
+		{
+			if(this.isTutorial)
+			{
+				this.launchTutorialSequence();
+			}
+			else
+			{
+				this.launchHelpSequence();
+			}
+		}
+	}
 	public void helpHandler()
 	{
 		this.startHelp();
 	}
-	public virtual void startHelp()
+	public void startHelp()
 	{
 		this.sequenceId = -1;
 		this.getHelpNextAction ();
 		this.toDisplayHelpController=true;
 		this.isTutorial = false;
+		ApplicationModel.player.IsBusy=true;
 	}
-	public virtual void startTutorial()
+	public void startTutorial()
 	{
 		this.sequenceId = -1;
 		this.getTutorialNextAction ();
 		this.toDisplayHelpController = true;
 		this.isTutorial = true;
+		ApplicationModel.player.IsBusy=true;
 	}
 	public void companionNextButtonHandler()
 	{
@@ -264,6 +288,11 @@ public class HelpController : MonoBehaviour
 		else if(this.sequenceId==200)
 		{
 			this.quitHelp ();
+		}
+		else if(this.sequenceId==300)
+		{
+			this.quitHelp ();
+			StartCoroutine(ApplicationModel.player.setNextLevelTutorial(true));
 		}
 	}
 	public virtual void getTutorialNextAction()
@@ -360,6 +389,10 @@ public class HelpController : MonoBehaviour
 			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
 			this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
 			break;
+		case 300:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
+			this.setCompanion (WordingHelp.getHelpContent (5), true, false, true, 0f);
+			break;
 		}
 	}
 	public virtual void getMobileHelpSequenceSettings()
@@ -391,6 +424,10 @@ public class HelpController : MonoBehaviour
 			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
 			this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
 			break;
+		case 300:
+			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
+			this.setCompanion (WordingHelp.getHelpContent (5), true, false, true, 0f);
+			break;
 		}
 	}
 	public virtual void getDesktopTutorialSequenceSettings()
@@ -405,6 +442,7 @@ public class HelpController : MonoBehaviour
 		this.resetSettings ();
 		this.showSequence ();
 		this.toDisplayHelpController=false;
+		ApplicationModel.player.IsBusy=false;
 	}
 	public void quitTutorial()
 	{
@@ -413,6 +451,7 @@ public class HelpController : MonoBehaviour
 		this.showSequence ();
 		this.toDisplayHelpController=false;
 		this.isTutorial=false;
+		ApplicationModel.player.IsBusy=false;
 	}
 	public void tutorialTrackPoint()
 	{

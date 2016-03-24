@@ -287,6 +287,9 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeCompetitions ();
 		this.checkFriendsOnlineStatus ();
 		this.isSceneLoaded = true;
+	}
+	private void endInitialization()
+	{
 		if(ApplicationModel.player.ToLaunchEndGameSequence)
 		{
 			if(ApplicationModel.player.TutorialStep!=2 && ApplicationModel.player.TutorialStep!=3)
@@ -906,6 +909,7 @@ public class NewHomePageController : MonoBehaviour
 			}
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
+		this.endInitialization();
 	}
 	public void showCardFocused()
 	{

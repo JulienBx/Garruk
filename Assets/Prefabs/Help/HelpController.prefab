@@ -109,7 +109,7 @@ GameObject:
   - 4: {fileID: 491286}
   - 212: {fileID: 21264126}
   m_Layer: 0
-  m_Name: Card0
+  m_Name: DragCard0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ GameObject:
   - 4: {fileID: 439594}
   - 212: {fileID: 21246800}
   m_Layer: 0
-  m_Name: Card1
+  m_Name: DragCard1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

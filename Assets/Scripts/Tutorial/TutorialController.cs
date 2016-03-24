@@ -53,7 +53,9 @@ public class TutorialController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
-		SceneManager.LoadScene("NewStore");
+		ApplicationModel.player.ToLaunchGameTutorial=true;
+		ApplicationModel.player.ChosenGameType=-1;
+		BackOfficeController.instance.joinRandomRoomHandler();
 	}
 	public void resize()
 	{

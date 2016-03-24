@@ -32,6 +32,9 @@ public class MarketHelpController : HelpController
 			this.setFlashingBlock (NewMarketController.instance.returnFiltersBlock (),true);
 			this.setCompanion(WordingMarketHelp.getHelpContent(1),true,true,true,0f);
 			break;
+		default:
+			base.getDesktopHelpSequenceSettings();
+			break;
 		
 		}
 	}
@@ -57,6 +60,9 @@ public class MarketHelpController : HelpController
 			NewMarketController.instance.slideRight ();
 			this.setCompanion(WordingMarketHelp.getHelpContent(1),true,true,false,0f);
 			break;
+		default:
+			base.getMobileHelpSequenceSettings();
+			break;
 		}
 	}
 	public override void getHelpNextAction()
@@ -70,6 +76,10 @@ public class MarketHelpController : HelpController
 			if(NewMarketController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsSkillFocusedDisplayed())
 			{
 				this.sequenceId=200;
+			}
+			else if(NewMarketController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getIsNextLevelPopUpDisplayed())
+			{
+				this.sequenceId=300;
 			}
 			else
 			{
