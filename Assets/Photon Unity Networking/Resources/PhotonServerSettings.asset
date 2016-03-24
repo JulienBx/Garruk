@@ -76,4 +76,5 @@ MonoBehaviour:
   - sendShurikenRPC
   - SpawnCharacterRPC
   - addTelepiegeRPC
+  - removeRockRPC
   DisableAutoOpenWizard: 0

@@ -19,6 +19,7 @@ public class GameView : MonoBehaviour
 	public GameObject skillButtonModel;
 	public GameObject TutorialObject;
 	public Sprite[] sprites;
+	public Sprite[] factionSprites;
 	public Sprite[] skillSprites;
 	public Sprite[] skillTypeSprites;
 	public Sprite[] cardTypeSprites;
@@ -42,6 +43,7 @@ public class GameView : MonoBehaviour
 	GameObject[] playingCards ;
 	GameObject popUp;
 	GameObject endTurnPopUp;
+	public GameObject choicePopUp;
 	GameObject validationSkill;
 	TimelineController timeline;
 
@@ -131,6 +133,7 @@ public class GameView : MonoBehaviour
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
 		this.endTurnPopUp = GameObject.Find("EndTurnPopUp");
+		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
 
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
@@ -1320,6 +1323,10 @@ public class GameView : MonoBehaviour
 
 	public Sprite getIconSprite(int i){
 		return this.iconSprites[i];
+	}
+
+	public Sprite getFactionSprite(int i){
+		return this.factionSprites[i];
 	}
 	
 	public void loadHisHoveredPC(int c){

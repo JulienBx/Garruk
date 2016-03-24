@@ -9,7 +9,6 @@ public class PopUpGameController : MonoBehaviour
 	public void setTexts(string t, string d){
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text = t;
 		gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().text = d;
-		
 	}
 	
 	public void OnMouseDown(){

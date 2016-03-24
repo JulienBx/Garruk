@@ -48,9 +48,6 @@ public class Steroide : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
-
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK", 1);
@@ -58,9 +55,6 @@ public class Steroide : GameSkill
 	}
 
 	public override void applyOnViro(int target, int value){
-		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
-
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n+"+value+" ATK", 1);
@@ -69,7 +63,6 @@ public class Steroide : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = 2*GameView.instance.getCurrentSkill().Power+5;
 
 		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+1)+"-"+(targetCard.getAttack()+level)+"]\nPermanent";

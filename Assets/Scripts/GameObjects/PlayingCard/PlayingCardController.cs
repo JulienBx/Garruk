@@ -395,8 +395,11 @@ public class PlayingCardController : GameObjectController
 				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text = ""+nextNumber;
 			}
 
-			if(this.card.GetTotalLife()>nextNumber){
+			if((this.card.GetTotalLife()/4)>nextNumber){
 				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else if((this.card.GetTotalLife()/2)>nextNumber){
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(255f/255f, 220f/255f, 20f/255f, 1f);
 			}
 			else if(this.card.Life<nextNumber){
 				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
@@ -562,7 +565,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 32)){
 			int level = 5*card.Skills[0].Power;
 		
-			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
+			this.card.magicalEsquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){

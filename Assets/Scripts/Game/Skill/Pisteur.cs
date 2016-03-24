@@ -15,7 +15,7 @@ public class Pisteur : GameSkill
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 	}
-	
+
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
@@ -27,7 +27,7 @@ public class Pisteur : GameSkill
 				GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
 				GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
 
-				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert!", 1);
+				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert !", 1);
 				GameView.instance.addAnim(trappedTiles[i], 14);
 			}
 		}

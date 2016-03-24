@@ -47,7 +47,7 @@ public class Cristopower : GameSkill
 		int minBonus = level;
 		int maxBonus = 2*level + 6 ;
 
-		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"]";
+		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] ATK";
 		text += "\n\nHIT% : 100";
 		
 		return text ;

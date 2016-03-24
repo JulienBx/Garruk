@@ -25,7 +25,7 @@ public class Cristolife : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){
-			GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), Random.Range(level, 1+6+2*level));
+			GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), Random.Range(2*level, 6+3*level));
 			GameController.instance.removeRock(target);
 		}
 		else{
@@ -36,18 +36,18 @@ public class Cristolife : GameSkill
 	}
 
 	public override void applyOn(int target, int value){
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 128, base.name, "+"+value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK. Permanent", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 128);
+		GameView.instance.getCard(target).pvModifyers.Add(new Modifyer(value, -1, 129, base.name, "+"+value+" PV. Permanent"));
+		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV. Permanent", 0);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 129);
 	}
 	
 	public override string getTargetText(int target){
 		int level = GameView.instance.getCurrentSkill().Power;
-		int minBonus = level;
-		int maxBonus = 2*level + 6 ;
+		int minBonus = 2*level;
+		int maxBonus = 3*level+5;
 
-		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"]";
+		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] PV";
 		text += "\n\nHIT% : 100";
 		
 		return text ;

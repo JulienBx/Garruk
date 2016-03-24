@@ -48,7 +48,6 @@ public class PistoBoost : GameSkill
 	
 	public override void applyOn(int target, int level){
 		string text = base.name;
-		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
@@ -59,11 +58,9 @@ public class PistoBoost : GameSkill
 
 	public override void applyOnViro2(int target, int value, int level){
 		string text = base.name;
-		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int bonus = Mathf.RoundToInt(level*value/100f);
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonus, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.displaySkillEffect(target, base.name+"\n(Virus)\n+"+level+"ATK pour 1 tour", 1);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 3);
@@ -71,7 +68,6 @@ public class PistoBoost : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = 3+GameView.instance.getCurrentSkill().Power*2;
 
 		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+1)+"-"+(targetCard.getAttack()+level)+"]\nActif 1 tour";
