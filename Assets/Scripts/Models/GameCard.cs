@@ -151,8 +151,6 @@ public class GameCard : Card
 	}
 	
 	public void checkModifyers(){
-		List<int> modifiersToSuppress = new List<int>();
-		
 		for (int i = this.attackModifyers.Count-1 ; i >=0 ; i--){
 			if (this.attackModifyers [i].duration > 2){
 				this.attackModifyers [i].description.Replace(this.attackModifyers [i].duration+" tours", (this.attackModifyers [i].duration-1)+" tours");

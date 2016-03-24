@@ -30,8 +30,6 @@ public class HelpBackgroundController : MonoBehaviour
 
 	public virtual void resize(Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
-		float worldHeight = ApplicationDesignRules.worldWidth;
-		float worldWidth = ApplicationDesignRules.worldHeight;
 		int backgroundSizeX = 5000;
 		int backgroundSizeY = 5000;
 		int circleBackgroundSizeX = 200;

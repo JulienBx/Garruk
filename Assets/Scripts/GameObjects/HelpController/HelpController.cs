@@ -465,7 +465,6 @@ public class HelpController : MonoBehaviour
 	}
 	public bool canAccess()
 	{
-		int sequenceId=-1;
 		if(this.isTutorial)
 		{
 			this.displayCantAccessPopUp();
