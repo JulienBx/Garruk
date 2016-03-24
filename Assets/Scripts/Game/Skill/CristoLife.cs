@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Cristopower : GameSkill
+public class Cristolife : GameSkill
 {
-	public Cristopower()
+	public Cristolife()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "CristoPower";
+		base.name = "CristoLife";
 		base.ciblage = 11 ;
 		base.auto = false;
 	}

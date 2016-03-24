@@ -119,7 +119,12 @@ public class TileController : GameObjectController
 	public bool canBeDestination(){
 		return (type!=1 && characterID==-1);
 	}
-	
+
+	public void removeRock(){
+		this.type=0;
+		this.showRock();
+	}
+
 	public bool isRock(){
 		return (this.type==1 || this.type==2);
 	}
@@ -210,11 +215,12 @@ public class TileController : GameObjectController
 	
 	public void showRock()
 	{
-		if(this.type==2){
-			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[3];
-			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
+		if(this.type==0){
+			if(!this.isTrapped){
+				gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = false;
+			}
 		}
-		else{
+		else if(this.type==1){
 			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().sprite = this.trapSprites[0];
 			gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().enabled = true;
 		}

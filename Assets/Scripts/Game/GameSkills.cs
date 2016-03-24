@@ -138,8 +138,8 @@ public class GameSkills : MonoBehaviour
 		this.skills [125] = new GameSkill();
 		this.skills [126] = new GameSkill();
 		this.skills [127] = new GameSkill();
-		this.skills [128] = new GameSkill();
-		this.skills [129] = new GameSkill();
+		this.skills [128] = new Cristopower();
+		this.skills [129] = new Cristolife();
 		this.skills [130] = new GameSkill();
 		this.skills [131] = new GameSkill();
 		this.skills [132] = new GameSkill();

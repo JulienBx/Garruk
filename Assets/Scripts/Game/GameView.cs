@@ -1960,6 +1960,36 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 
+	public string canLaunchAdjacentRock()
+	{
+		string isLaunchable = "Aucun cristal à proximité";
+		
+		List<Tile> neighbourTiles = this.getPlayingCardTile(this.currentPlayingCard).getImmediateNeighbourTiles();
+		foreach (Tile t in neighbourTiles)
+		{
+			if (this.getTileController(t).isRock())
+			{
+				isLaunchable = "";
+			}
+		}
+		return isLaunchable;
+	}
+
+	public void displayAdjacentRockTargets()
+	{
+		List<Tile> neighbourTiles = this.getPlayingCardTile(this.currentPlayingCard).getImmediateNeighbourTiles();
+		this.targets = new List<Tile>();
+				
+		foreach (Tile t in neighbourTiles){
+			if (this.getTileController(t).isRock())
+			{
+				this.targets.Add(t);
+				this.getTileController(t.x,t.y).displayTarget(true);
+				this.getTileController(t).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText());
+			}
+		}
+	}
+
 	public string canLaunchMyUnit()
 	{
 		string isLaunchable = "";
@@ -2589,7 +2619,7 @@ public class GameView : MonoBehaviour
 		}
 		this.getSkillZoneController().showSkillButtons(false);
 		this.hoverTile();
-		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=10){
+		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=10 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=11){
 			if(GameSkills.instance.getSkill(this.runningSkill).ciblage==6){
 				if(this.getCurrentCard().isMine){
 					this.displaySkillEffect(this.currentPlayingCard,s,1);

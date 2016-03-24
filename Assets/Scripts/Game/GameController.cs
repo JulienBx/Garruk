@@ -76,6 +76,15 @@ public class GameController : Photon.MonoBehaviour
 		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, "Electropiège", description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
+
+	public void removeRock(Tile t){
+		photonView.RPC("removeRockRPC", PhotonTargets.AllBuffered, t.x, t.y);
+	}
+	
+	[PunRPC]
+	public void removeRockRPC(int x, int y){
+		GameView.instance.getTileController(x,y).removeRock();
+	}
 	
 	public void addPoisonPiege(int amount, Tile t){
 		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
