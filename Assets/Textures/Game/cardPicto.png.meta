@@ -58,80 +58,63 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 293
+        y: 404
         width: 108
-        height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 107
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5046729}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -52, y: 54}
-        - {x: -54, y: 52}
-        - {x: -54, y: -52}
-        - {x: -52, y: -54}
-        - {x: 52, y: -54}
-        - {x: 54, y: -52}
-        - {x: 54, y: 52}
-        - {x: 52, y: 54}
-      - - {x: -7, y: -18}
-        - {x: -23, y: 9}
-        - {x: 40, y: 40}
-        - {x: 40, y: -40}
+      - - {x: -35, y: 53}
+        - {x: -54, y: 46}
+        - {x: -54, y: -54}
+        - {x: 54, y: -54}
+        - {x: 54, y: 27}
+        - {x: 40, y: 53}
+      - - {x: 23, y: -17}
+        - {x: 24, y: -18}
+        - {x: 24, y: -17}
+        - {x: 11, y: -29}
     - name: 02
       rect:
         serializedVersion: 2
         x: 1
-        y: 403
+        y: 295
         width: 108
-        height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 107
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5046729}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -52, y: 54}
-        - {x: -54, y: 52}
-        - {x: -54, y: -52}
-        - {x: -52, y: -54}
-        - {x: 52, y: -54}
-        - {x: 54, y: -52}
-        - {x: 54, y: 52}
-        - {x: 52, y: 54}
-      - - {x: -7, y: -18}
-        - {x: -23, y: 9}
-        - {x: 40, y: 40}
-        - {x: 40, y: -40}
+      - - {x: -35, y: 53}
+        - {x: -54, y: 46}
+        - {x: -54, y: -54}
+        - {x: 54, y: -54}
+        - {x: 54, y: 27}
+        - {x: 40, y: 53}
+      - - {x: 23, y: -17}
+        - {x: 24, y: -18}
+        - {x: 24, y: -17}
+        - {x: 11, y: -29}
     - name: 03
       rect:
         serializedVersion: 2
         x: 1
-        y: 95
-        width: 94
-        height: 94
+        y: 189
+        width: 102
+        height: 104
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -47, y: 47}
-        - {x: -47, y: -47}
-        - {x: 47, y: -47}
-        - {x: 47, y: 47}
-    - name: 40
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 191
-        width: 93
-        height: 100
-      alignment: 9
-      pivot: {x: 0.4623656, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 50}
-        - {x: -43, y: 46}
-        - {x: -43, y: -50}
-        - {x: 50, y: -50}
-        - {x: 50, y: 33}
-        - {x: 44, y: 50}
+      - - {x: -29, y: 47}
+        - {x: -48, y: 32}
+        - {x: -48, y: -36}
+        - {x: -21, y: -48}
+        - {x: 29, y: -48}
+        - {x: 47, y: -27}
+        - {x: 47, y: 38}
+        - {x: 21, y: 47}
     outline: []
   spritePackingTag: 
   userData: 

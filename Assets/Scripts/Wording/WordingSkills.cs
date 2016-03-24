@@ -55,16 +55,16 @@ public class WordingSkills
 		//2 - PistoSoin
 		idSkills.Add(2);
 		names.Add(new string[]{"PistoSoin","HealShot"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [1-15] PV","Distant ally target gains [1-15] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [2-18] PV","Distant ally target gains [2-18] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [3-21] PV","Distant ally target gains [3-21] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [4-24] PV","Distant ally target gains [4-24] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [5-27] PV","Distant ally target gains [5-27] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [6-30] PV","Distant ally target gains [6-30] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [7-33] PV","Distant ally target gains [7-33] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [8-36] PV","Distant ally target gains [8-36] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [9-39] PV","Distant ally target gains [9-39] HP"}); 
-		descriptions.Add(new string[]{"L'allié distant ciblé gagne [10-42] PV","Distant ally target gains [10-42] HP"});
+		descriptions.Add(new string[]{"Soigne [1-15] PV de l'allié distant ciblé","Distant ally target gains [1-15] HP"}); 
+		descriptions.Add(new string[]{"Soigne [2-18] PV de l'allié distant ciblé","Distant ally target gains [2-18] HP"}); 
+		descriptions.Add(new string[]{"Soigne [3-21] PV de l'allié distant ciblé","Distant ally target gains [3-21] HP"}); 
+		descriptions.Add(new string[]{"Soigne [4-24] PV de l'allié distant ciblé","Distant ally target gains [4-24] HP"}); 
+		descriptions.Add(new string[]{"Soigne [5-27] PV de l'allié distant ciblé","Distant ally target gains [5-27] HP"}); 
+		descriptions.Add(new string[]{"Soigne [6-30] PV de l'allié distant ciblé","Distant ally target gains [6-30] HP"}); 
+		descriptions.Add(new string[]{"Soigne [7-33] PV de l'allié distant ciblé","Distant ally target gains [7-33] HP"}); 
+		descriptions.Add(new string[]{"Soigne [8-36] PV de l'allié distant ciblé","Distant ally target gains [8-36] HP"}); 
+		descriptions.Add(new string[]{"Soigne [9-39] PV de l'allié distant ciblé","Distant ally target gains [9-39] HP"}); 
+		descriptions.Add(new string[]{"Soigne [10-42] PV de l'allié distant ciblé","Distant ally target gains [10-42] HP"});
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -2745,17 +2745,17 @@ public class WordingSkills
 		probas.Add(100);  
 		//128 - Cristo Power
 		idSkills.Add(128);
-		names.Add(new string[]{"Cristo Power",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [1-4] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [2-6] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [3-8] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [4-10] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [5-12] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [6-14] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [7-16] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [8-18] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [9-20] ATK",""}); 
-		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [10-22] ATK",""}); 
+		names.Add(new string[]{"CristoPower","CristoPower"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [1-8] ATK","Eat a neighbouring cristal and earns [1-8] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [2-10] ATK","Eat a neighbouring cristal and earns [2-10] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [3-12] ATK","Eat a neighbouring cristal and earns [3-12] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [4-14] ATK","Eat a neighbouring cristal and earns [4-14] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [5-16] ATK","Eat a neighbouring cristal and earns [5-16] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [6-18] ATK","Eat a neighbouring cristal and earns [6-18] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [7-20] ATK","Eat a neighbouring cristal and earns [7-20] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [8-22] ATK","Eat a neighbouring cristal and earns [8-22] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [9-24] ATK","Eat a neighbouring cristal and earns [9-24] ATK"}); 
+		descriptions.Add(new string[]{"Dévore un cristal adjacent et gagne [10-26] ATK","Eat a neighbouring cristal and earns [10-26] ATK"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -2791,8 +2791,8 @@ public class WordingSkills
 		probas.Add(100);  
 		//130 - Pluie Bleue
 		idSkills.Add(130);
-		names.Add(new string[]{"Pluie Bleue",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [1-4] PV aux cristoides et inflige [1-4] dégats aux autres unités",""}); 
+		names.Add(new string[]{"Pluie bleue","Blue rain"}); 
+		descriptions.Add(new string[]{"Fait La pluie rend [1-4] PV aux cristoides et inflige [1-4] dégats aux autres unités",""}); 
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [2-6] PV aux cristoides et inflige [2-6] dégats aux autres unités",""}); 
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [3-8] PV aux cristoides et inflige [3-8] dégats aux autres unités",""}); 
 		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [4-10] PV aux cristoides et inflige [4-10] dégats aux autres unités",""}); 

@@ -736,7 +736,6 @@ public class NewMarketController : MonoBehaviour
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
-		Vector3 filtersBlockLowerLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		
@@ -793,7 +792,6 @@ public class NewMarketController : MonoBehaviour
 		this.marketBlock.GetComponent<NewBlockController> ().resize(marketBlockLeftMargin,marketBlockUpMargin,ApplicationDesignRules.blockWidth,marketBlockHeight);
 		Vector3 marketBlockUpperLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 marketBlockUpperRightPosition = this.marketBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
-		Vector3 marketBlockLowerLeftPosition = this.marketBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 marketBlockSize = this.marketBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 marketBlockOrigin = this.marketBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.marketBlockTitle.transform.position = new Vector3 (marketBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, marketBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
@@ -1524,7 +1522,6 @@ public class NewMarketController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			bool onSale=System.Convert.ToBoolean(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale);
 			bool isMine = model.cards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
 			int idOwner=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
 			if(idOwner!=-1 || isMine)

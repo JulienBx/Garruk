@@ -1015,19 +1015,19 @@ public class GameView : MonoBehaviour
 			if(j==0){
 				idCards.Add(-1*l);
 				if(l==1){
-					j = 6 ;
+					j = 7 ;
 					l = 2 ;
 				}
 				else if(l==2){
-					j = 4 ;
+					j = 6 ;
 					l = 3 ;
 				}
 				else if(l==3){
-					j = 2 ;
+					j = 5 ;
 					l = 4 ;
 				}
 				else{
-					j = 2 ;
+					j = 4 ;
 				}
 			}
 			else{
@@ -1045,13 +1045,19 @@ public class GameView : MonoBehaviour
 			int tempInt=-1;
 			this.orderCards.RemoveAt(0);
 			this.lastPlayingCard = currentPlayingCard;
+			print("Je checke "+this.orderCards[5]);
 			if(this.getCard(this.orderCards[5]).isMine){
 				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, false);
+				print("Je find HIS "+tempInt);
+			
 			}
 			else{
 				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, true);
+				print("Je find MINE "+tempInt);
 			}
+
 			this.orderCards.Add(tempInt);
+			print("OrderCards "+orderCards[0]+","+orderCards[1]+","+orderCards[2]+","+orderCards[3]+","+orderCards[4]+","+orderCards[5]+","+orderCards[6]);
 			this.updateTimeline();
 		}
 		else{
@@ -2116,7 +2122,6 @@ public class GameView : MonoBehaviour
 			int jHis = 0 ;
 			while (i<orderCards.Count && orderCards[i]!=c){
 				newOrderCards.Add(orderCards[i]);
-				print(i+" - J'add "+orderCards[i]);
 				i++;
 			}
 			if (i==0){
@@ -2126,7 +2131,7 @@ public class GameView : MonoBehaviour
 				i--;
 				jMine = i ;
 				jHis = i;
-				while(i<8){
+				while(i<6){
 					if(i==0){
 						if(this.getCard(newOrderCards[0]).isMine){
 							if(lastPlayingCard==-10){
@@ -2159,10 +2164,12 @@ public class GameView : MonoBehaviour
 					i++;
 				}
 				orderCards = new List<int>();
+				print("UPDATENEW "+newOrderCards.Count);
 				for(int k = 0 ; k < newOrderCards.Count ; k++){
 					orderCards.Add(newOrderCards[k]);
 				}
 				this.updateTimeline();
+				print("UPDATE "+orderCards.Count);
 			}
 		}
 

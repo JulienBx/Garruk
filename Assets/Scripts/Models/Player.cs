@@ -8,9 +8,6 @@ public class Player : User
 {
 	private string URLGetUserGameProfile ;
 	private string URLDefaultProfilePicture;
-	private string URLDefaultThumbProfilePicture;
-	private string URLGetDecks;
-	private string URLGetMyCardsPage;
 	private string URLUpdateUserInformations;
 	private string URLUpdateProfilePicture;
 	private string URLGetNonReadNotifications;
@@ -101,9 +98,6 @@ public class Player : User
 		this.ChosenGameType=0;
 		this.URLGetUserGameProfile = ApplicationModel.host + "get_user_game_profile.php";
 		this.URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defaultprofilepicture.png";
-		this.URLDefaultThumbProfilePicture = ApplicationModel.host + "img/profile/defaultthumbprofilepicture.png";
-		this.URLGetDecks = ApplicationModel.host + "get_decks_by_user.php";
-		this.URLGetMyCardsPage = ApplicationModel.host + "get_mycardspage_data.php";
 		this.URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
 		this.URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
 		this.URLGetNonReadNotifications = ApplicationModel.host +"get_non_read_notifications_by_user.php";

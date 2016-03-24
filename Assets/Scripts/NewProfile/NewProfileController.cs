@@ -878,7 +878,6 @@ public class NewProfileController : MonoBehaviour
 		Vector3 resultsBlockUpperLeftPosition = this.resultsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 resultsBlockUpperRightPosition = this.resultsBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 resultsBlockLowerLeftPosition = this.resultsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
-		Vector2 resultsBlockLowerRightPosition = this.resultsBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 resultsBlockSize = this.resultsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 resultsBlockOrigin = this.resultsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.resultsBlockTitle.transform.position = new Vector3 (resultsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, resultsBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);

@@ -96,14 +96,8 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = false ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = false ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().enabled = false ;
 	}
 	
 	public void display()
@@ -119,14 +113,8 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().enabled = true ;
 		this.show();
 	}
 	
@@ -138,14 +126,11 @@ public class PlayingCardController : GameObjectController
 		if (c.isMine){
 			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[0];
-			gameObject.transform.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
-			gameObject.transform.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[2];
+
 		}
 		else {
 			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
-			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[3];
-			gameObject.transform.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[4];
-			gameObject.transform.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[5];
+			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
 		}
 		
 		transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
@@ -172,9 +157,9 @@ public class PlayingCardController : GameObjectController
 	}
 	
 	public void updateLifePercentage(float percentage){
-		gameObject.transform.Find("Background").FindChild("Life").transform.localPosition = new Vector3(-0.28f+percentage*(0.37f),-0.41f,0);
-		gameObject.transform.Find("Background").FindChild("Life").transform.localScale = new Vector3(80f*percentage,0.9f,1);
-		gameObject.transform.Find("Background").FindChild("LifeEnd").transform.localPosition = new Vector3(-0.26f+percentage*(0.74f),-0.41f,0);
+//		gameObject.transform.Find("Background").FindChild("Life").transform.localPosition = new Vector3(-0.28f+percentage*(0.37f),-0.41f,0);
+//		gameObject.transform.Find("Background").FindChild("Life").transform.localScale = new Vector3(80f*percentage,0.9f,1);
+//		gameObject.transform.Find("Background").FindChild("LifeEnd").transform.localPosition = new Vector3(-0.26f+percentage*(0.74f),-0.41f,0);
 	}
 	
 	public void addTime(float t){
@@ -207,9 +192,7 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
 		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 33 ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 36 ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
 		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
 		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
@@ -217,10 +200,6 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
 		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
 		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 38 ;
 	}
 	
@@ -229,9 +208,7 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 21 ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 22 ;
 		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 23 ;
-		t.Find("Background").FindChild("AttackPicto").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
-		t.Find("Background").FindChild("PVPicto").GetComponent<SpriteRenderer>().sortingOrder = 26 ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
 		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
 		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
@@ -239,10 +216,6 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
 		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
-		t.Find("Background").FindChild("LifeBar").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
-		t.Find("Background").FindChild("Life").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
-		t.Find("Background").FindChild("LifeBarEnd").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
-		t.Find("Background").FindChild("LifeEnd").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
 		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 28 ;
 	}
 	

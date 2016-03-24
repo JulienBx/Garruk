@@ -711,7 +711,6 @@ public class NewSkillBookController : MonoBehaviour
 		this.filtersBlock.GetComponent<NewBlockController> ().resize(filtersBlockLeftMargin,filtersBlockUpMargin,ApplicationDesignRules.blockWidth,filtersBlockHeight);
 		Vector3 filtersBlockUpperLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 filtersBlockUpperRightPosition = this.filtersBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
-		Vector3 filtersBlockLowerLeftPosition = this.filtersBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 filtersBlockSize = this.filtersBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 filtersBlockOrigin = this.filtersBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		
@@ -770,7 +769,6 @@ public class NewSkillBookController : MonoBehaviour
 		Vector3 helpBlockUpperLeftPosition = this.helpBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 helpBlockUpperRightPosition = this.helpBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 helpBlockLowerLeftPosition = this.helpBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
-		Vector2 helpBlockLowerRightPosition = this.helpBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 helpBlockSize = this.helpBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector2 helpBlockOrigin = this.helpBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
