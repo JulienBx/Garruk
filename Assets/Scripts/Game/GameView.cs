@@ -2984,7 +2984,11 @@ public class GameView : MonoBehaviour
 		return (Math.Abs(t1.x-t2.x)+Math.Abs(t1.y-t2.y));
 	}
 
-	public void cristoEater
+	public void updateCristoEater(){
+		for(int i = 0 ; i < playingCards.Length ; i++){
+			
+		}
+	}
 }
 
 
