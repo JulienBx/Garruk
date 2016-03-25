@@ -63,8 +63,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPlayPopUp.getReference(0);
 		gameObject.transform.FindChild ("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(0);
-		gameObject.transform.FindChild ("quitButton").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPlayPopUp.getReference(1);
-		for(int i=0;i<3;i++)
+		for(int i=0;i<2;i++)
 		{
 			gameObject.transform.FindChild("Button"+i).GetComponent<PlayPopUpCompetitionButtonController>().setId(i);
 		}
@@ -74,10 +73,34 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void show()
 	{
-		gameObject.transform.FindChild ("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1);
-		//gameObject.transform.FindChild ("Button2").FindChild ("Title").GetComponent<TextMeshPro> ().text = model.currentCup.Name;
-		gameObject.transform.FindChild ("Button1").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
-		gameObject.transform.FindChild ("Button2").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.CurrentCup.getPictureId());
+		this.gameObject.transform.FindChild("FriendlyGameTitle").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(0).ToUpper ();
+		this.gameObject.transform.FindChild("Button0").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(2);
+
+		if(ApplicationModel.player.TrainingStatus!=-1)
+		{
+			this.gameObject.transform.FindChild("TrainingGamePicture").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("DivisionGamePicture").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("TrainingGamePicture").GetComponent<TrainingController>().draw(ApplicationModel.player.TrainingStatus);
+			this.gameObject.transform.FindChild("OfficialGameTitle").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(10).ToUpper ();
+			this.gameObject.transform.FindChild("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text  = WordingGameModes.getReference(11);
+		}
+		else
+		{
+			this.gameObject.transform.FindChild("TrainingGamePicture").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("DivisionGamePicture").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("OfficialGameTitle").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
+			string divisionState;
+			if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
+			{
+				divisionState=WordingGameModes.getReference(3);
+			}
+			else
+			{
+				divisionState=WordingGameModes.getReference(4);
+			}
+			this.gameObject.transform.FindChild("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text  = divisionState;
+		}
+
 		if(model.decks.Count<2)
 		{
 			this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
@@ -101,6 +124,7 @@ public class PlayPopUpController : MonoBehaviour
 		{
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
+			ApplicationModel.player.MyDeck=model.decks[this.deckDisplayed];
 		}
 		else
 		{
@@ -170,7 +194,7 @@ public class PlayPopUpController : MonoBehaviour
 		{  
 			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
 			this.deckList[this.deckList.Count-1].transform.parent=gameObject.transform;
-			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, 1.62f+(this.deckList.Count-1)*(-0.62f),-1f);
+			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, 2.52f+(this.deckList.Count-1)*(-0.62f),-1f);
 			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListPlayPopUpController>().setId(i);
 		}

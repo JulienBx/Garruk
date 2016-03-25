@@ -29,6 +29,9 @@ public class WordingGameModes
 		references.Add(new string[]{"En attente d'un colon","Waiting for a colonist"}); //7
 		references.Add(new string[]{"Bataille classée","Ranked fight"}); //8
 		references.Add(new string[]{"Bataille d'entrainement","Practice fight"}); //9
+		references.Add(new string[]{"Entrainement","Training"}); //10
+		references.Add(new string[]{"J'y vais","Let's go"}); //11
+		references.Add(new string[]{"Vous devez sélectionner des cartes de type...",""}); //12
 
 		names=new List<string[]>();
 		names.Add(new string[]{"Alderaan #1","Alderaan #1"}); //0

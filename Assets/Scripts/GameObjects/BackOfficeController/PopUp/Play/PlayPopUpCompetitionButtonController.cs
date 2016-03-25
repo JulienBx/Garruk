@@ -20,8 +20,7 @@ public class PlayPopUpCompetitionButtonController : MonoBehaviour
 		if(!ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-			gameObject.transform.FindChild("Border").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
-			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+			this.gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 		}
 	}
 	void OnMouseExit()
@@ -29,8 +28,7 @@ public class PlayPopUpCompetitionButtonController : MonoBehaviour
 		if(!ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Border").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Picture").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+			this.gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 		}
 	}
 	public void setId(int id)
