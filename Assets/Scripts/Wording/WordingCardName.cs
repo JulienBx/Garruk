@@ -81,5 +81,37 @@ public class WordingCardName
 		idSkills.Add(76);
 		names.Add(new string[]{"Dacus","Dacus"}); 
 
+		//138 - Mutant
+		idSkills.Add(138);
+		names.Add(new string[]{"Rhidar","Rhidar"}); 
+
+		//139 - Symbiote
+		idSkills.Add(139);
+		names.Add(new string[]{"Bopren","Bopren"}); 
+
+		//140 - Alchimiste
+		idSkills.Add(140);
+		names.Add(new string[]{"Renkin","Renkin"});
+
+		//141 - Human Killer
+		idSkills.Add(141);
+		names.Add(new string[]{"Deggs","Deggs"});
+
+		//110 - Cristomaitre
+		idSkills.Add(110);
+		names.Add(new string[]{"Gurwen","Gurwen"}); 
+
+		//111 - Apotre
+		idSkills.Add(111);
+		names.Add(new string[]{"Bolek","Bolek"}); 
+
+		//112 - Fanatique
+		idSkills.Add(112);
+		names.Add(new string[]{"Boty","Boty"});
+
+		//113 - Purificateur
+		idSkills.Add(113);
+		names.Add(new string[]{"Munnar","Munnar"});
+
 	}
 }
