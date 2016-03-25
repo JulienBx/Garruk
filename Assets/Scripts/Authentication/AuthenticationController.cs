@@ -496,7 +496,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.chooseLanguageButton.transform.localScale=ApplicationDesignRules.roundButtonScale;
 		this.chooseLanguageButton.transform.position= new Vector3(0f,-ApplicationDesignRules.worldHeight/2f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
 		this.facebookButton.transform.localScale=ApplicationDesignRules.popUpScale;
-		this.facebookButton.transform.position= new Vector3(0f,ApplicationDesignRules.popUpWorldSize.y/2f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
+		this.facebookButton.transform.position= new Vector3(0f,ApplicationDesignRules.popUpWorldSize.y/2f-0.7f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
 
 		if(this.isLoginPopUpDisplayed)
 		{
@@ -659,7 +659,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void loginPopUpResize()
 	{
-		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.loginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.loginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.loginPopUp.GetComponent<LoginPopUpController> ().resize ();
 		this.displayFacebookButton(true);
@@ -667,7 +667,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void inscriptionPopUpResize()
 	{
-		this.inscriptionPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.inscriptionPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.inscriptionPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.inscriptionPopUp.GetComponent<InscriptionPopUpController> ().resize ();
 		this.displayFacebookButton(true);
@@ -675,42 +675,42 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void authenticationMessagePopUpResize()
 	{
-		this.authenticationMessagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.authenticationMessagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.authenticationMessagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.authenticationMessagePopUp.GetComponent<AuthenticationMessagePopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void lostLoginPopUpResize()
 	{
-		this.lostLoginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.lostLoginPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.lostLoginPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.lostLoginPopUp.GetComponent<LostLoginPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void emailNonActivatedPopUpResize()
 	{
-		this.emailNonActivatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.emailNonActivatedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.emailNonActivatedPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.emailNonActivatedPopUp.GetComponent<EmailNonActivatedPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void inscriptionFacebookPopUpResize()
 	{
-		this.inscriptionFacebookPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.inscriptionFacebookPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.inscriptionFacebookPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.inscriptionFacebookPopUp.GetComponent<InscriptionFacebookPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void existingAccountPopUpResize()
 	{
-		this.existingAccountPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.existingAccountPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.existingAccountPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.existingAccountPopUp.GetComponent<ExistingAccountPopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void changePasswordPopUpResize()
 	{
-		this.changePasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.changePasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.7f, -2f);
 		this.changePasswordPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.changePasswordPopUp.GetComponent<AuthenticationChangePasswordPopUpController> ().resize ();
 		this.displayFacebookButton(false);
@@ -757,7 +757,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void displayFacebookButton(bool value)
 	{
-		if(ApplicationDesignRules.isMobileScreen) // A remplacer
+		if(ApplicationDesignRules.isMobileDevice) // A remplacer
 		{
 			this.facebookButton.SetActive(value);
 		}

@@ -9,24 +9,12 @@ using TMPro;
 public class InputTextGuiController : InterfaceController
 {	
 
-	public Font font;
+	public GUISkin popUpGUISkin;
 	private string text;
 	private Rect rect;
 	private bool keyReturnPressed;
 	private bool keyEscapePressed;
 	private bool toFocus;
-	private GUIStyle textFieldStyle;
-	private bool isFocused;
-
-	public override void Awake()
-	{
-		base.Awake();
-		this.textFieldStyle=new GUIStyle();
-		this.textFieldStyle.font=this.font;
-		this.textFieldStyle.fontSize=20;
-		this.textFieldStyle.alignment=TextAnchor.MiddleCenter;
-		this.textFieldStyle.normal.textColor=ApplicationDesignRules.whiteTextColor;
-	}
 
 	void Update()
 	{
@@ -48,6 +36,7 @@ public class InputTextGuiController : InterfaceController
 		float width = ((ApplicationDesignRules.largeInputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
 		float heigth = (ApplicationDesignRules.largeInputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
+		this.popUpGUISkin.textField.fontSize=(int)heigth*50/100;
 	}
 	void OnGUI()
 	{
@@ -57,7 +46,7 @@ public class InputTextGuiController : InterfaceController
 			{
 				GUILayout.FlexibleSpace();
 				GUI.SetNextControlName("TextField");
-				text = GUILayout.TextField(text,textFieldStyle);
+				text = GUILayout.TextField(text,popUpGUISkin.textField);
 				if(this.toFocus)
 				{
 					GUI.FocusControl("TextField");
@@ -79,17 +68,7 @@ public class InputTextGuiController : InterfaceController
                  	this.keyEscapePressed=true; 
                  	break;    
              }
-        }
-		if(GUI.GetNameOfFocusedControl()=="TextField" && !this.isFocused)
-		{
-			this.isFocused=true;
-			this.gameObject.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.blueColor;
-		}
-		else if(GUI.GetNameOfFocusedControl()!="TextField" && this.isFocused)
-		{
-			this.isFocused=false;
-			this.gameObject.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteTextColor;
-		}
+         }
 	}
 	public void setFocused()
 	{
@@ -105,19 +84,11 @@ public class InputTextGuiController : InterfaceController
 	}
 	public override void setHoveredState()
 	{
+		//this.gameObject.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.blueColor;
 	}
 	public override void setInitialState()
 	{
-	}
-	public override void OnMouseDown()
-	{
-		if(!this.isFocused)
-		{
-			this.setFocused();
-		}
-	}
-	public override void OnMouseUp()
-	{
+		//this.gameObject.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.whiteSpriteColor;
 	}
 }
 
