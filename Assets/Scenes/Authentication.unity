@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!61 &27780729
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &127689436
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &167068640
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1768,7 +1768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &326273992
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &373039519
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2595,7 +2595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &438500445
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3408,7 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &551204486
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4371,7 +4371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &717669491
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5241,7 +5241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &903450511
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5838,7 +5838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!61 &976873919
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7986,7 +7986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &1275133469
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8386,7 +8386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &1307762068
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9780,7 +9780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!61 &1581231696
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9880,7 +9880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &1605559100
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11177,7 +11177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ed5fbea6624a4388737ddf6f6d0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &1869137630
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11263,7 +11263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25406d769def74505994e12873ba5156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpGUISkin: {fileID: 0}
+  font: {fileID: 0}
 --- !u!212 &1873943879
 SpriteRenderer:
   m_ObjectHideFlags: 0

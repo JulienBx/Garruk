@@ -19,6 +19,7 @@ public class User
 	public int IdProfilePicture;
 	public bool IsConnectedToPlayer;
 	public Connection ConnectionWithPlayer;
+	public int TrainingStatus;
 
 	public User()
 	{

@@ -612,8 +612,9 @@ public class Player : User
 				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
 				this.Id=System.Convert.ToInt32(profileData[6]);
+				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[7]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
 			}
 			else
 			{
@@ -668,8 +669,9 @@ public class Player : User
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
 				this.Id=System.Convert.ToInt32(profileData[6]);
 				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[7]));
+				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
@@ -746,6 +748,7 @@ public class Player : User
 				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
 				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
