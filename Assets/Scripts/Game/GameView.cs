@@ -505,6 +505,7 @@ public class GameView : MonoBehaviour
 			this.SB.GetComponent<StartButtonController>().show(false);
 			this.removeDestinations();
 			this.displayOpponentCards();
+			this.updateCristoEater();
 			if(this.isMobile){
 				GameObject tempGO = GameObject.Find("MyPlayerBox");
 				tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = false ;
@@ -636,12 +637,19 @@ public class GameView : MonoBehaviour
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 
-
 		if(GameView.instance.hasFightStarted){
-			this.getCurrentCard().hasMoved=true;
+			this.getCard(characterID).hasMoved=true;
 			this.removeDestinations();
 			this.recalculateDestinations();
 			this.updateActionStatus();
+			if(this.getCard(characterID).isMine){
+				if(this.getCard(characterID).isCreator()){
+					int level = this.getCard(characterID).getSkills()[0].Power * 5 + 30;
+					if(UnityEngine.Random.Range(1,101)<level){
+						GameController.instance.addRock(origine);
+					}
+				}
+			}
 		}
 	}
 
@@ -1040,20 +1048,26 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			int tempInt=-1;
 			this.orderCards.RemoveAt(0);
+			if(this.getCurrentCard().isMutant()){
+				this.getPlayingCardController(this.currentPlayingCard).nbTurns++;
+				if(this.getPlayingCardController(this.currentPlayingCard).nbTurns==3){
+					int level = this.getCurrentCard().getSkills()[0].Power;
+					this.getCard(this.currentPlayingCard).emptyModifiers();
+					this.getCard(this.currentPlayingCard).Attack = 15+level*5;
+					this.getCard(this.currentPlayingCard).Life = 45+level*5;
+					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
+					this.getPlayingCardController(this.currentPlayingCard).show();
+				}
+			}
 			this.lastPlayingCard = currentPlayingCard;
-			print("Je checke "+this.orderCards[5]);
 			if(this.getCard(this.orderCards[5]).isMine){
 				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, false);
-				print("Je find HIS "+tempInt);
-			
 			}
 			else{
 				tempInt = this.findNextAlivePlayer(this.getCard(this.orderCards[4]).deckOrder, true);
-				print("Je find MINE "+tempInt);
 			}
 
 			this.orderCards.Add(tempInt);
-			print("OrderCards "+orderCards[0]+","+orderCards[1]+","+orderCards[2]+","+orderCards[3]+","+orderCards[4]+","+orderCards[5]+","+orderCards[6]);
 			this.updateTimeline();
 		}
 		else{
@@ -2984,9 +2998,26 @@ public class GameView : MonoBehaviour
 		return (Math.Abs(t1.x-t2.x)+Math.Abs(t1.y-t2.y));
 	}
 
+	public int countCristals(){
+		int compteur = 0 ;
+		for(int i = 0; i < this.boardWidth ; i++){
+			for(int j = 0; j < this.boardHeight ; j++){
+				if(this.getTileController(i,j).isRock()){
+					compteur++;
+				}
+			}
+		}
+		return compteur ;
+	}
+
 	public void updateCristoEater(){
+		int nbCristals = this.countCristals();
+		int amount ;
 		for(int i = 0 ; i < playingCards.Length ; i++){
-			
+			if(this.getCard(i).isCristoMaster()){
+				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
+				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+" ATK. Permanent"));
+			}
 		}
 	}
 }

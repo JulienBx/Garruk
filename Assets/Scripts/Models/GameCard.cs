@@ -92,6 +92,11 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 64);
 	}
+
+	public bool isMutant()
+	{
+		return (base.Skills[0].Id == 138);
+	}
 	
 	public bool isLeader()
 	{
@@ -148,6 +153,27 @@ public class GameCard : Card
 	public bool isVirologue()
 	{
 		return (this.Skills[0].Id == 72);
+	}
+
+	public bool isCristoMaster()
+	{
+		return (this.Skills[0].Id == 139);
+	}
+
+	public bool isCreator()
+	{
+		return (this.Skills[0].Id == 140);
+	}
+
+	public void replaceCristoMasterModifyer(Modifyer m)
+	{
+		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
+		{
+			if(attackModifyers[i].type==139){
+				attackModifyers.RemoveAt(i);
+			}
+		}
+		this.attackModifyers.Add(m);
 	}
 	
 	public void checkModifyers(){
@@ -349,7 +375,6 @@ public class GameCard : Card
 	public void removeLeaderEffect(){
 		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
 		{
-			Debug.Log("ATTACK "+attackModifyers[i].type+" - "+attackModifyers[i].title);
 			if(attackModifyers[i].type==76){
 				attackModifyers.RemoveAt(i);
 			}

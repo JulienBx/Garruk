@@ -37,6 +37,7 @@ public class PlayingCardController : GameObjectController
 	float timerLife = 0f ; 
 	float lifeTime = 1f ;
 	public bool canBeDragged ;
+	public int nbTurns ;
 	
 	void Awake()
 	{
@@ -46,6 +47,7 @@ public class PlayingCardController : GameObjectController
 		this.toStop = false ;
 		this.isRunning = false;
 		this.destinations = new List<Tile>();
+		this.nbTurns = 0 ;
 	}
 	
 	public void stopAnim(){

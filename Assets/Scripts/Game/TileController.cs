@@ -123,6 +123,13 @@ public class TileController : GameObjectController
 	public void removeRock(){
 		this.type=0;
 		this.showRock();
+		GameView.instance.updateCristoEater();
+	}
+
+	public void addRock(){
+		this.type=1;
+		this.showRock();
+		GameView.instance.updateCristoEater();
 	}
 
 	public bool isRock(){

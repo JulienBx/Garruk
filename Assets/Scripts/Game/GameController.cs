@@ -85,6 +85,15 @@ public class GameController : Photon.MonoBehaviour
 	public void removeRockRPC(int x, int y){
 		GameView.instance.getTileController(x,y).removeRock();
 	}
+
+	public void addRock(Tile t){
+		photonView.RPC("addRockRPC", PhotonTargets.AllBuffered, t.x, t.y);
+	}
+	
+	[PunRPC]
+	public void addRockRPC(int x, int y){
+		GameView.instance.getTileController(x,y).addRock();
+	}
 	
 	public void addPoisonPiege(int amount, Tile t){
 		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
