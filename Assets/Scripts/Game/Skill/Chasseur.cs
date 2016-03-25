@@ -26,16 +26,13 @@ public class Chasseur : GameSkill
 	}
 
 	public override void applyOn(int i){
-		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power*5;
-		int life = Mathf.RoundToInt((0.75f-level*0.05f)*currentCard.getAttack());
+		int level = GameView.instance.getCurrentSkill().Power;
+		int bonus = 20+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();
-		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level,-1,-1*i,base.name,damages+" dégats subis"), true);
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(10, -1, 18, base.name, "+10ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+10ATK\n-"+damages+"PV", 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 18);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(bonus,-1,-1*i,base.name,"dégats +"+bonus+"% contre "+WordingCardTypes.getName(i)), true);
+		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.displaySkillEffect(target, base.name+"dégats +"+bonus+"% contre "+WordingCardTypes.getName(i), 1);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 131);
 	}
 }

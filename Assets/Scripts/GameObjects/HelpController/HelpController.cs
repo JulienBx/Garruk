@@ -110,7 +110,6 @@ public class HelpController : MonoBehaviour
 
 	// Mini companion settings
 
-	private bool isMiniCompanionOnLeftSide;
 	private bool toShowMiniCompanion;
 	private float miniCompanionYPosition;
 	private bool isFlashingMiniCompanion;
@@ -1102,7 +1101,6 @@ public class HelpController : MonoBehaviour
 	public void setMiniCompanion(bool isMiniCompanionOnLeftSide, float miniCompanionPositionY)
 	{
 		this.toShowMiniCompanion = true;
-		this.isMiniCompanionOnLeftSide = isMiniCompanionOnLeftSide;
 		this.miniCompanionYPosition = miniCompanionPositionY;
 	}
 	private void showMiniCompanion()

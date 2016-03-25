@@ -109,8 +109,6 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static private Vector2 lineSize = new Vector2 (1500f, 2f);
 	static public Vector2 lineWorldSize;
-	static private Vector3 lineOriginalScale=new Vector3(1f,1f,1f);
-	static private Vector3 lineMobileScale = new Vector3 (1f, 1f, 1f);
 	static public Vector3 contentLineScale;
 
 	static private Vector2 competitionSize = new Vector2(294f,284f);
@@ -157,7 +155,6 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 focusedSkillWorldSize;
 	static public Vector3 focusedSkillScale;
 
-	static private Vector2 nextLevelPopUpSize = new Vector2 (720f, 1004f);
 	static public Vector2 nextLevelPopUpWorldSize;
 	static public Vector3 nextLevelPopUpScale = new Vector3(1.014f, 1.014f,1.014f);
 

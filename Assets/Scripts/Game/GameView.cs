@@ -34,8 +34,6 @@ public class GameView : MonoBehaviour
 	
 	GameObject loadingScreen;
 	GameObject[,] tiles ;
-	GameObject attackButton ;
-	GameObject passButton ;
 	GameObject myHoveredRPC ;
 	GameObject hisHoveredRPC ;
 	GameObject[] verticalBorders ;
@@ -55,8 +53,6 @@ public class GameView : MonoBehaviour
 	
 	int heightScreen = -1;
 	int widthScreen = -1;
-	
-	AudioSource audioEndTurn;
 	
 	int currentPlayingCard = -1;
 	bool isFirstPlayer = false;
@@ -122,8 +118,6 @@ public class GameView : MonoBehaviour
 		this.playingCards = new GameObject[100];
 		this.verticalBorders = new GameObject[this.boardWidth+1];
 		this.horizontalBorders = new GameObject[this.boardHeight+1];
-		this.attackButton = GameObject.Find("AttackButton");
-		this.passButton = GameObject.Find("PassButton");
 		this.myHoveredRPC = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredRPC = GameObject.Find("HisHoveredPlayingCard");
 		
@@ -141,7 +135,6 @@ public class GameView : MonoBehaviour
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 
 		this.SB.GetComponent<StartButtonController>().show(false);
-		this.audioEndTurn = GetComponent<AudioSource>();
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
 		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
@@ -2990,6 +2983,8 @@ public class GameView : MonoBehaviour
 	public int getDistanceBetweenTiles(Tile t1, Tile t2){
 		return (Math.Abs(t1.x-t2.x)+Math.Abs(t1.y-t2.y));
 	}
+
+	public void cristoEater
 }
 
 
