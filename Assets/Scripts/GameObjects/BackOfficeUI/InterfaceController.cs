@@ -13,7 +13,7 @@ public class InterfaceController : MonoBehaviour
 	private bool isHovered;
 	private bool isActive;
 	
-	void Awake()
+	public virtual void Awake()
 	{
 		this.reset ();
 	}
@@ -52,16 +52,18 @@ public class InterfaceController : MonoBehaviour
 			}
 		}
 	}
-	public void OnMouseUp()
+	public virtual void OnMouseUp()
 	{
 		if(isActive && !BackOfficeController.instance.getIsSwiping())
 		{
 			this.mainInstruction();
 		}
 	}
+	public virtual void OnMouseDown()
+	{
+	}
 	public virtual void mainInstruction()
 	{
-
 	}
 	public virtual void setIsHovered(bool value)
 	{
