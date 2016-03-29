@@ -13,7 +13,7 @@ public class Synergie : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.display1TileAwayOpponentsTargets();
+		GameView.instance.displayAdjacentCristoidOpponents();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -43,18 +43,18 @@ public class Synergie : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.2f+level/20f)));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 91, text, "-"+damages+" PV"), false);
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 91);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 133, text, "-"+damages+" PV"), false);
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 133);
 	}
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f))); ;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.2f+level/20f)));
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
 		
 		int probaEsquive = targetCard.getMagicalEsquive();

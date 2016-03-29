@@ -2792,17 +2792,17 @@ public class WordingSkills
 		//130 - Pluie Bleue
 		idSkills.Add(130);
 		names.Add(new string[]{"Pluie bleue","Blue rain"}); 
-		descriptions.Add(new string[]{"Fait La pluie rend [1-4] PV aux cristoides et inflige [1-4] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [2-6] PV aux cristoides et inflige [2-6] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [3-8] PV aux cristoides et inflige [3-8] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [4-10] PV aux cristoides et inflige [4-10] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [5-12] PV aux cristoides et inflige [5-12] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [6-14] PV aux cristoides et inflige [6-14] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [7-16] PV aux cristoides et inflige [7-16] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [8-18] PV aux cristoides et inflige [8-18] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [9-20] PV aux cristoides et inflige [9-20] dégats aux autres unités",""}); 
-		descriptions.Add(new string[]{"Fait pleuvoir autour de l'unité. La pluie rend [10-22] PV aux cristoides et inflige [10-22] dégats aux autres unités",""}); 
-		probas.Add(100); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-6] PV aux cristoides, inflige [1-6] dégats sinon","Targets a zone. Heals [1-6] PV to cristoids and inflicts [1-6] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-8] PV aux cristoides, inflige [1-8] dégats sinon","Targets a zone. Heals [1-8] PV to cristoids and inflicts [1-8] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-10] PV aux cristoides, inflige [1-10] dégats sinon","Targets a zone. Heals [1-10] PV to cristoids and inflicts [1-10] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-12] PV aux cristoides, inflige [1-12] dégats sinon","Targets a zone. Heals [1-12] PV to cristoids and inflicts [1-12] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-14] PV aux cristoides, inflige [1-14] dégats sinon","Targets a zone. Heals [1-14] PV to cristoids and inflicts [1-14] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-16] PV aux cristoides, inflige [1-16] dégats sinon","Targets a zone. Heals [1-16] PV to cristoids and inflicts [1-16] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-18] PV aux cristoides, inflige [1-18] dégats sinon","Targets a zone. Heals [1-18] PV to cristoids and inflicts [1-18] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-20] PV aux cristoides, inflige [1-20] dégats sinon","Targets a zone. Heals [1-20] PV to cristoids and inflicts [1-20] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-22] PV aux cristoides, inflige [1-22] dégats sinon","Targets a zone. Heals [1-22] PV to cristoids and inflicts [1-22] damages to anyone else"}); 
+		descriptions.Add(new string[]{"Cible une zone. Rend [1-24] PV aux cristoides, inflige [1-24] dégats sinon","Targets a zone. Heals [1-24] PV to cristoids and inflicts [1-24] damages to anyone else"}); 
+		probas.Add(100);
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

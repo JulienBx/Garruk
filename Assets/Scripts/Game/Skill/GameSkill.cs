@@ -159,6 +159,9 @@ public class GameSkill
 			else if(this.ciblage==14){
 				launchability = GameView.instance.canLaunchWoundedAllysButMeTargets();
 			}
+			else if(this.ciblage==15){
+				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents();
+			}
 			else{
 				launchability = "";
 			}

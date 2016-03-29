@@ -46,7 +46,7 @@ public class Lance : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 91, text, "-"+damages+" PV"), false);
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 91);
 	}
 

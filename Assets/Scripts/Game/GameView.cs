@@ -1854,6 +1854,32 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
+
+	public void displayAdjacentCristoidOpponents(){
+		Tile tile ;
+		this.targets = new List<Tile>();
+
+		for(int i = 0 ; i < this.nbCards ; i++){
+			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
+				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i));
+				int playerID;
+				foreach (Tile t in neighbourTiles)
+				{
+					playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
+					if (playerID != -1)
+					{
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
+						{
+							tile = this.getPlayingCardTile(i);
+							this.targets.Add(tile);
+							this.getTileController(tile.x,tile.y).displayTarget(true);
+							this.getTileController(tile).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(i));
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	public void displayAdjacentTileTargets()
 	{
