@@ -128,7 +128,9 @@ public class NewHomePageModel
 		ApplicationModel.player.NextLevelTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
 		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
 		ApplicationModel.player.TrainingStatus = System.Convert.ToInt32 (array [11]);
-		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [12]);
+		ApplicationModel.player.HasToBuyTrainingPack= System.Convert.ToBoolean(System.Convert.ToInt32 (array [12]));
+		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [13]);
+		ApplicationModel.player.getTrainingAllowedCardType();
 	}
 	private IList<User> parseUsers(string[] array)
 	{
@@ -262,8 +264,8 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*value*#",notificationObjectData[1]);
 					break;
 				case "trophy":
-					notifications[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[1])-1,System.Convert.ToInt32(notificationObjectData[1])-1));
-					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[1])-1,System.Convert.ToInt32(notificationObjectData[1])-1));
+					notifications[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[2])));
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(notificationObjectData[2])));
 					break;
 				}
 			}
@@ -314,8 +316,8 @@ public class NewHomePageModel
 					tempContent=ReplaceFirst(tempContent,"#*value*#",newsObjectData[1]);
 					break;
 				case "trophy":
-					news[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1]),System.Convert.ToInt32(newsObjectData[2])));
-					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[1]),System.Convert.ToInt32(newsObjectData[2])));
+					news[i].Values.Add (WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[2])));
+					tempContent=ReplaceFirst(tempContent,"#*trophy*#",WordingGameModes.getName(System.Convert.ToInt32(newsObjectData[2])));
 					break;
 				}
 			}

@@ -76,6 +76,9 @@ public class Player : User
 	public Deck MyDeck;
 	public int PercentageLooser;
 	public string DesktopPurchasingToken;
+	public int TrainingAllowedCardType;
+	public int TrainingPreviousAllowedCardType;
+	public bool HasToBuyTrainingPack;
 
 	public Player()
 	{
@@ -871,62 +874,69 @@ public class Player : User
 	}
 	#endregion
 
-	public bool canAccessTrainingMode()
+	public void getTrainingAllowedCardType()
 	{
-		int allowedCardType=0;
-		if(TrainingStatus<9)
+		if(TrainingStatus==-1)
 		{
-			allowedCardType=2;
-			this.ChosenGameType=1;
+			this.TrainingAllowedCardType=9;
+			this.TrainingPreviousAllowedCardType=9;
+		}
+		else if(TrainingStatus<9)
+		{
+			this.TrainingAllowedCardType=2;
+			this.TrainingPreviousAllowedCardType=2;
 		}
 		else if(TrainingStatus<19)
 		{
-			allowedCardType=3;
-			this.ChosenGameType=2;
+			this.TrainingAllowedCardType=3;
+			this.TrainingPreviousAllowedCardType=2;
 		}
 		else if(TrainingStatus<29)
 		{
-			allowedCardType=1;
-			this.ChosenGameType=3;
+			this.TrainingAllowedCardType=1;
+			this.TrainingPreviousAllowedCardType=3;
 		}
 		else if(TrainingStatus<39)
 		{
-			allowedCardType=0;
-			this.ChosenGameType=4;
+			this.TrainingAllowedCardType=0;
+			this.TrainingPreviousAllowedCardType=1;
 		}
 		else if(TrainingStatus<49)
 		{
-			allowedCardType=4;
-			this.ChosenGameType=5;
+			this.TrainingAllowedCardType=4;
+			this.TrainingPreviousAllowedCardType=0;
 		}
 		else if(TrainingStatus<59)
 		{
-			allowedCardType=5;
-			this.ChosenGameType=6;
+			this.TrainingAllowedCardType=5;
+			this.TrainingPreviousAllowedCardType=4;
 		}
 		else if(TrainingStatus<69)
 		{
-			allowedCardType=6;
-			this.ChosenGameType=7;
+			this.TrainingAllowedCardType=6;
+			this.TrainingPreviousAllowedCardType=5;
 		}
 		else if(TrainingStatus<79)
 		{
-			allowedCardType=7;
-			this.ChosenGameType=8;
+			this.TrainingAllowedCardType=7;
+			this.TrainingPreviousAllowedCardType=6;
 		}
 		else if(TrainingStatus<89)
 		{
-			allowedCardType=8;
-			this.ChosenGameType=9;
+			this.TrainingAllowedCardType=8;
+			this.TrainingPreviousAllowedCardType=7;
 		}
 		else if(TrainingStatus<99)
 		{
-			allowedCardType=9;
-			this.ChosenGameType=10;
+			this.TrainingAllowedCardType=9;
+			this.TrainingPreviousAllowedCardType=8;
 		}
+	}
+	public bool canAccessTrainingMode()
+	{
 		for(int i=0;i<this.MyDeck.cards.Count;i++)
 		{
-			if(this.MyDeck.cards[i].CardType.Id!=allowedCardType)
+			if(this.MyDeck.cards[i].CardType.Id!=this.TrainingAllowedCardType)
 			{
 				return false;
 			}

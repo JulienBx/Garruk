@@ -104,6 +104,7 @@ public class NewProfileModel
 		{
 			this.displayedUser.Division = ApplicationModel.player.CurrentDivision.Id;
 			this.displayedUser.TrainingStatus=ApplicationModel.player.TrainingStatus;
+			ApplicationModel.player.getTrainingAllowedCardType();
 			ApplicationModel.player.FirstName = array [11];
 			ApplicationModel.player.Surname = array [12];
 			ApplicationModel.player.Mail = array [12];
@@ -182,7 +183,7 @@ public class NewProfileModel
 			trophies.Add (new Trophy());
 			trophies[i].competition=new Competition();
 			trophies[i].Date=DateTime.ParseExact(trophyData[0], "yyyy-MM-dd HH:mm:ss", null);
-			trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[1]),System.Convert.ToInt32(trophyData[2]));
+			trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[2]));
 			trophies[i].competition.GameType=System.Convert.ToInt32(trophyData[1]);
 		}
 		return trophies;

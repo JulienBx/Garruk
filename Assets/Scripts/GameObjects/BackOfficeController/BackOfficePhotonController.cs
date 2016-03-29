@@ -27,7 +27,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	void OnPhotonRandomJoinFailed()
 	{
-		if(ApplicationModel.player.ChosenGameType<=2)
+		if(ApplicationModel.player.ChosenGameType<=20)
 		{
 			Debug.Log("Can't join random room! - creating a new room");
 			this.CreateNewRoom ();

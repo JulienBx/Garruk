@@ -39,9 +39,6 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject divisionGamePicture;
 	private GameObject officialGameTitle;
 	private GameObject trainingGamePicture;
-	//private GameObject cupGameButton;
-	//private GameObject cupGameTitle;
-	//private GameObject cupGamePicture;
 	private GameObject newsfeedBlock;
 	private GameObject newsfeedBlockTitle;
 	private GameObject[] tabs;
@@ -63,8 +60,6 @@ public class NewHomePageController : MonoBehaviour
 
 	private GameObject socialButton;
 	private GameObject slideRightButton;
-	
-	private GameObject endGamePopUp;
 
 	private Rect centralWindow;
 
@@ -116,8 +111,10 @@ public class NewHomePageController : MonoBehaviour
 
 	private GameObject connectionBonusPopUp;
 	private bool isConnectionBonusPopUpDisplayed;
-
+	private GameObject endGamePopUp;
 	private bool isEndGamePopUpDisplayed;
+	private GameObject trainingPopUp;
+	private bool isTrainingPopUpDisplayed;
 
 	private bool toSlideRight;
 	private bool toSlideLeft;
@@ -293,12 +290,10 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(ApplicationModel.player.ToLaunchEndGameSequence)
 		{
-			if(ApplicationModel.player.TutorialStep!=2 && ApplicationModel.player.TutorialStep!=3)
-			{
-				this.displayEndGamePopUp();
-			}
+			this.showEndGameSequence();
 			ApplicationModel.player.ToLaunchEndGameSequence=false;
 			ApplicationModel.player.HasWonLastGame=false;
+			ApplicationModel.player.ChosenGameType=0;
 		}
 		if(ApplicationModel.player.TutorialStep==2 || ApplicationModel.player.TutorialStep==3)
 		{
@@ -540,6 +535,9 @@ public class NewHomePageController : MonoBehaviour
 
 		this.endGamePopUp = GameObject.Find ("endGamePopUp");
 		this.endGamePopUp.SetActive (false);
+
+		this.trainingPopUp = GameObject.Find("trainingPopUp");
+		this.trainingPopUp.SetActive(false);
 
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -1432,6 +1430,17 @@ public class NewHomePageController : MonoBehaviour
 	{
 		return ApplicationModel.player.CurrentDivision.GamesPlayed;
 	}
+	private void showEndGameSequence()
+	{
+		if(ApplicationModel.player.ChosenGameType==0)
+		{
+			this.displayEndGamePopUp();
+		}
+		else if(ApplicationModel.player.ChosenGameType>0&&ApplicationModel.player.ChosenGameType<11)
+		{
+			this.displayTrainingPopUp();
+		}
+	}
 	public void displayConnectionBonusPopUp()
 	{
 		SoundController.instance.playSound(3);
@@ -1461,17 +1470,37 @@ public class NewHomePageController : MonoBehaviour
 		this.endGamePopUp.SetActive (true);
 		this.endGamePopUpResize();
 	}
+	private void displayTrainingPopUp()
+	{
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.trainingPopUp.transform.GetComponent<TrainingPopUpController> ().reset (ApplicationModel.player.HasWonLastGame);
+		this.isTrainingPopUpDisplayed = true;
+		this.trainingPopUp.SetActive (true);
+		this.trainingPopUpResize();
+	}
 	public void endGamePopUpResize()
 	{
 		this.endGamePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.endGamePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.endGamePopUp.GetComponent<EndGamePopUpController> ().resize ();
 	}
+	public void trainingPopUpResize()
+	{
+		this.trainingPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.trainingPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.trainingPopUp.GetComponent<TrainingPopUpController> ().resize ();
+	}
 	public void hideEndGamePopUp()
 	{
 		this.endGamePopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isEndGamePopUpDisplayed = false;
+	}
+	public void hideTrainingPopUp()
+	{
+		this.trainingPopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.isTrainingPopUpDisplayed = false;
 	}
 	public void joinGameHandler(int id)
 	{
@@ -1492,10 +1521,11 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else if(!ApplicationModel.player.canAccessTrainingMode())
 		{
-			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(12));
+			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(12)+" "+WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType));
 		}
 		else
 		{
+			ApplicationModel.player.ChosenGameType=1+ApplicationModel.player.TrainingAllowedCardType;
 			StartCoroutine (this.joinGame ());
 		}
 	}

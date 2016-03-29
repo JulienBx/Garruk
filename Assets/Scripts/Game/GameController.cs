@@ -359,7 +359,15 @@ public class GameController : Photon.MonoBehaviour
 
 	void OnLeftRoom()
 	{
-		SceneManager.LoadScene("EndGame");
+		if(ApplicationModel.player.ToLaunchGameTutorial)
+		{
+			ApplicationModel.player.ToLaunchGameTutorial=false;
+			SceneManager.LoadScene("NewHomePage");
+		}
+		else
+		{
+			SceneManager.LoadScene("EndGame");
+		}
 	}
 	
 	public void addGameEvent(string action, string targetName)

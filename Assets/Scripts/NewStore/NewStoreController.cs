@@ -348,7 +348,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.isSceneLoaded = true;
 		if(ApplicationModel.player.PackToBuy!=-1)
 		{
-			this.buyPackHandler(ApplicationModel.player.PackToBuy,true);
+			this.buyPackHandler(ApplicationModel.player.PackToBuy,true,false);
 			ApplicationModel.player.PackToBuy=-1;
 		}
 		else if(ApplicationModel.player.TutorialStep==4)
@@ -867,7 +867,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			StartCoroutine (this.buyPack ());
 		}
 	}
-	public void buyPackHandler(int id, bool fromHome)
+	public void buyPackHandler(int id, bool fromHome, bool trainingPack)
 	{
 		if(fromHome)
 		{
@@ -880,13 +880,19 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				}
 				
 			}
+			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
 		}
-		else
+		if(!trainingPack)
 		{
 			this.selectedPackIndex = this.packsDisplayed [id];
+			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
 		}
-		this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
-		if(this.selectedCardType==-2)
+		if(trainingPack)
+		{
+			this.selectedCardType=ApplicationModel.player.TrainingAllowedCardType;
+			StartCoroutine (this.buyPack ());
+		}
+		else if(this.selectedCardType==-2)
 		{
 			this.displaySelectCardTypePopUp();
 		}
@@ -905,7 +911,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		SoundController.instance.playSound(11);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, HelpController.instance.getIsTutorialLaunched()));
+		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, HelpController.instance.getIsTutorialLaunched(),ApplicationModel.player.HasToBuyTrainingPack));
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(model.Error=="")
 		{
