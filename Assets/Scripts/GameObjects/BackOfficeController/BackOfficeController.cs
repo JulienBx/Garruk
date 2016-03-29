@@ -447,6 +447,7 @@ public class BackOfficeController : MonoBehaviour
 			this.loadingScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+			this.loadingScreen.transform.FindChild("button").GetComponent<LoadingScreenButtonController>().reset();
 			if(this.isHelpLoaded)
 			{
 				HelpController.instance.freeze();

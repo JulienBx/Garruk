@@ -93,12 +93,17 @@ public class NewStoreModel
 		}
 		return productList;
 	}
-	public IEnumerator buyPack(int packId, int cardType, bool isTutorialPack)
+	public IEnumerator buyPack(int packId, int cardType, bool isTutorialPack, bool isTrainingPack)
 	{
 		string isTutorialPackToString = "0";
 		if(isTutorialPack)
 		{
 			isTutorialPackToString="1";
+		}
+		string isTrainingPackToString = "0";
+		if(isTrainingPack)
+		{
+			isTrainingPackToString="1";
 		}
 
 		this.packList[packId].Cards = new Cards ();
@@ -113,6 +118,7 @@ public class NewStoreModel
 		form.AddField("myform_Id", this.packList[packId].Id.ToString());	
 		form.AddField("myform_cardtype", cardType.ToString());	
 		form.AddField("myform_istutorialpack", isTutorialPackToString);
+		form.AddField("myform_istrainingpack", isTrainingPackToString);
 		
 		WWW w = new WWW(URLBuyPack, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;

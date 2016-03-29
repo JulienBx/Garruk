@@ -35,6 +35,7 @@ public class PlayPopUpController : MonoBehaviour
 	void Awake()
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
+		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 	}
 	void Start () 
 	{	
@@ -201,28 +202,46 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public void selectGame(int id)
 	{
-		if(deckDisplayed!=-1)
+		SoundController.instance.playSound(9);
+		if(this.deckDisplayed==-1)
 		{
-			SoundController.instance.playSound(8);
-			ApplicationModel.player.ChosenGameType = id;
-			StartCoroutine (this.setSelectedDeck ());
+			this.gameObject.transform.FindChild("Error").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("Error").GetComponent<TextMeshPro>().text=WordingGameModes.getReference(5);
 		}
-	}
-	private IEnumerator setSelectedDeck()
-	{
-		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		this.joinGame();
-	}
-	public void joinGame()
-	{
-		if(ApplicationModel.player.ChosenGameType==0)
+		else if(id==0)
 		{
-			BackOfficeController.instance.joinRandomRoomHandler();
+			ApplicationModel.player.ChosenGameType = 0;
+			StartCoroutine (this.joinGame ());
+		}
+		else if(ApplicationModel.player.TrainingStatus==-1)
+		{
+			
+			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.CurrentDivision.Id;
+			StartCoroutine (this.joinGame ());
+		}
+		else if(!ApplicationModel.player.canAccessTrainingMode())
+		{
+			this.gameObject.transform.FindChild("Error").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("Error").GetComponent<TextMeshPro>().text=WordingGameModes.getReference(12)+" "+WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType);
 		}
 		else
 		{
+			ApplicationModel.player.ChosenGameType=1+ApplicationModel.player.TrainingAllowedCardType;
+			StartCoroutine (this.joinGame ());
+		}
+	}
+	public IEnumerator joinGame()
+	{
+		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
+		BackOfficeController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
+		if(ApplicationModel.player.ChosenGameType>10)
+		{
 			SceneManager.LoadScene("NewLobby");
+		}
+		else
+		{
+			BackOfficeController.instance.joinRandomRoomHandler();
 		}
 	}
 	public void quitPopUp()

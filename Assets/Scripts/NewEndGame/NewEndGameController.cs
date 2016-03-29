@@ -145,7 +145,7 @@ public class NewEndGameController : MonoBehaviour
 	public IEnumerator initialization()
 	{
 		this.resize();
-		if(ApplicationModel.player.ChosenGameType>3)
+		if(ApplicationModel.player.ChosenGameType>20)
 		{
 			if(ApplicationModel.player.HasWonLastGame)
 			{
@@ -202,7 +202,7 @@ public class NewEndGameController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ToLaunchEndGameSequence=true;
-		if(ApplicationModel.player.ChosenGameType==1 || ApplicationModel.player.ChosenGameType==2)
+		if(ApplicationModel.player.ChosenGameType>10 && ApplicationModel.player.ChosenGameType<21)
 		{
 			Application.LoadLevel("NewLobby");
 		}

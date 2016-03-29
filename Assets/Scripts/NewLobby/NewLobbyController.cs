@@ -620,24 +620,14 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void drawCompetition()
 	{
-		if(this.isDivisionLobby)
+		this.mainBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(ApplicationModel.player.CurrentDivision.Id);
+		string description=WordingLobby.getReference(12)+ApplicationModel.player.CurrentDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
+		if(ApplicationModel.player.CurrentDivision.NbWinsForPromotion!=-1)
 		{
-			this.mainBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(1,ApplicationModel.player.CurrentDivision.Id);
-			string description=WordingLobby.getReference(12)+ApplicationModel.player.CurrentDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
-			if(ApplicationModel.player.CurrentDivision.NbWinsForPromotion!=-1)
-			{
-				description=description+WordingLobby.getReference(13)+ApplicationModel.player.CurrentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
-			}
-			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
+			description=description+WordingLobby.getReference(13)+ApplicationModel.player.CurrentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
 		}
-		else
-		{
-			this.competitionBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(2,ApplicationModel.player.CurrentCup.Id);
-			string description=WordingLobby.getReference(15)+ApplicationModel.player.CurrentCup.CupPrize.ToString()+WordingLobby.getReference(14);
-			this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-			this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentCup.getPictureId());
-		}
+		this.competitionDescription.GetComponent<TextMeshPro>().text=description;
+		this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
 	}
 	private void displayPopUp()
 	{

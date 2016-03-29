@@ -2314,11 +2314,11 @@ public class GameView : MonoBehaviour
 			if(this.areAllMyPlayersDead())
 			{
 				hasFirstPlayerWon=true;
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, ApplicationModel.myPlayerName, true,0)));
+				yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
 			}
 			else
 			{
-				yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName, "Garruk", true,0)));
+				yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
 			}
 		}
 		else

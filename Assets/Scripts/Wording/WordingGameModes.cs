@@ -12,9 +12,9 @@ public class WordingGameModes
 	{
 		return references[idReference][ApplicationModel.player.IdLanguage];
 	}
-	public static string getName(int idGameType, int id)
+	public static string getName(int idGameType)
 	{
-		return names[10*(idGameType-1)+id-1][ApplicationModel.player.IdLanguage];
+		return names[idGameType-1][ApplicationModel.player.IdLanguage];
 	}
 	static WordingGameModes()
 	{
@@ -31,7 +31,7 @@ public class WordingGameModes
 		references.Add(new string[]{"Bataille d'entrainement","Practice fight"}); //9
 		references.Add(new string[]{"Entrainement","Training"}); //10
 		references.Add(new string[]{"J'y vais","Let's go"}); //11
-		references.Add(new string[]{"Vous devez sélectionner des cartes de type...",""}); //12
+		references.Add(new string[]{"Votre équipe doit comporter uniquement des unités de la faction ",""}); //12
 
 		names=new List<string[]>();
 		names.Add(new string[]{"Alderaan #1","Alderaan #1"}); //0
@@ -44,7 +44,5 @@ public class WordingGameModes
 		names.Add(new string[]{"Tatouine #8","Tatouine #8"}); //7
 		names.Add(new string[]{"Terminus #9","Terminus #9"}); //8
 		names.Add(new string[]{"Trantor #10","Trantor #10"}); //9
-		names.Add(new string[]{"Coupe Bronze","Bronze cup"}); //10
-		names.Add(new string[]{"Coupe Argent","Silver cup"}); //11
 	}
 }
