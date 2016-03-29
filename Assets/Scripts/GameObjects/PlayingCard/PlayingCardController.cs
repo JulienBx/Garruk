@@ -526,11 +526,12 @@ public class PlayingCardController : GameObjectController
 	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
 			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 71, "Costaud", "-1 MOV. Permanent"));
-			GameView.instance.getPlayingCardController(this.id).showIcons();int bonusAttack = 5+card.Skills[0].Power;
-			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Costaud", "+"+bonusAttack+"ATK. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+			int bonusAttack = 2+card.Skills[0].Power;
+			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Costaud", "Costaud\n+"+bonusAttack+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
 			if(toDisplay){
-				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 1);
+				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
 			}
 		}
@@ -540,7 +541,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 70)){
 			int bonusShield = card.Skills[0].Power*3+20;
 			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%"));
-			GameView.instance.displaySkillEffect(this.id, "Bouclier "+bonusShield+"%", 1);
+			GameView.instance.displaySkillEffect(this.id, "Cuirassé\nBouclier "+bonusShield+"%", 2);
 			if(toDisplay){
 				GameView.instance.getPlayingCardController(this.id).showIcons();
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
@@ -557,7 +558,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
 			if(toDisplay){
-				GameView.instance.displaySkillEffect(this.id, "+1MOV\n-"+level+"ATK", 1);	
+				GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
 			}
 		}
@@ -565,13 +566,13 @@ public class PlayingCardController : GameObjectController
 
 	public void checkEmbusque(bool toDisplay){
 		if((card.Skills[0].Id == 32)){
-			int level = 5*card.Skills[0].Power;
+			int level = 20+4*card.Skills[0].Power;
 		
 			this.card.magicalEsquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){
-				GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 1);
+				GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
 			}
 		}
@@ -582,10 +583,11 @@ public class PlayingCardController : GameObjectController
 			int bonus = 5*card.Skills[0].Power;
 		
 			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 35, "Sniper", "Immobile. Permanent"));
-			GameView.instance.getPlayingCardController(this.id).updateAttack();
+			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(0, -1, 35, "Sniper", "Résistance météorite "+bonus+"%"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay){
-				GameView.instance.displaySkillEffect(this.id, "Dégats -"+bonus+"%", 1);
+				GameView.instance.displaySkillEffect(this.id, "Sniper\nrésistance météorite "+bonus+"%\nimmobile", 1);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
 			}
 		}

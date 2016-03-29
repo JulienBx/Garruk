@@ -373,6 +373,8 @@ public class GameView : MonoBehaviour
 			for (int i = 0 ; i < tiles2.Count ; i++){
 				GameController.instance.addPiegeurTrap(tiles2[i], 5+2*gc.getPassiveSkillLevel(), gc.isMine);
 			}
+			GameView.instance.displaySkillEffect(index, "Piégeur\npose 4 pièges!", 2);
+			GameView.instance.addAnim(GameView.instance.getTile(index), 0);
 		}
 	}
 	
@@ -604,7 +606,7 @@ public class GameView : MonoBehaviour
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
 		Tile origine = this.getPlayingCardController(characterID).getTile();
-
+		this.removeSE(origine);
 		if(this.hasFightStarted){
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
 			this.removeDestinations();
@@ -953,18 +955,21 @@ public class GameView : MonoBehaviour
 								soin = Mathf.Min(this.getCard(playerID).GetTotalLife()-this.getCard(playerID).getLife(), power);
 								isSuccess = true ;
 								if(soin==0){
-									GameView.instance.displaySkillEffect(playerID, "Infirmier\nSans effet", 0);	
+									GameView.instance.displaySkillEffect(playerID, "Soin sans effet", 1);	
 									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 								}
 								else{
 									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false);
-									GameView.instance.displaySkillEffect(playerID, "Infirmier\n+"+soin+"PV", 1);	
+									GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
 									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 								}
 							}
 						}
 					}
-
+					if(isSuccess){
+						GameView.instance.displaySkillEffect(this.currentPlayingCard, "Infirmier", 1);	
+						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 75);
+					}
 				}
 				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
 					int level = GameView.instance.getCurrentCard().Skills[0].Power+2;
@@ -973,7 +978,7 @@ public class GameView : MonoBehaviour
 					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"), false);
 					GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, -1, 18, "Frenetique", "+"+level+"ATK. Permanent"));
 					GameView.instance.getPlayingCardController(target).updateAttack();
-					GameView.instance.displaySkillEffect(target, "+"+level+" ATK\n-5PV", 1);
+					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+level+" ATK\n-10PV", 1);
 					GameView.instance.addAnim(GameView.instance.getTile(target), 69);
 					isSuccess = true ;
 				}
@@ -1068,6 +1073,8 @@ public class GameView : MonoBehaviour
 					this.getCard(this.currentPlayingCard).Life = 45+level*5;
 					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
 					this.getPlayingCardController(this.currentPlayingCard).show();
+					GameView.instance.displaySkillEffect(this.currentPlayingCard, "Mutant\nse transforme!", 2);
+					GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 0);
 				}
 			}
 			this.lastPlayingCard = currentPlayingCard;
@@ -1787,6 +1794,28 @@ public class GameView : MonoBehaviour
 			}
 		}
 	}
+
+	public void displayWoundedAllysButMeTargets()
+	{
+		PlayingCardController pcc;
+		Tile tile ;
+		this.targets = new List<Tile>();
+		
+		for (int i = 0; i < this.nbCards; i++)
+		{
+			pcc = this.getPlayingCardController(i);
+			if (this.getCard(i).isMine && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
+			{
+				if (this.getCard(i).getLife() != this.getCard(i).GetTotalLife())
+				{
+					tile = this.getPlayingCardTile(i);
+					this.targets.Add(tile);
+					this.getTileController(tile.x,tile.y).displayTarget(true);
+					this.getTileController(tile).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(i));
+				}
+			}
+		}
+	}
 	
 	public void displayAllButMeModifiersTargets()
 	{
@@ -1998,6 +2027,30 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 
+	public string canLaunchAdjacentCristoidOpponents()
+	{
+		string isLaunchable = "Aucun ennemi à proximité de cristoides alliés";
+		
+		for(int i = 0 ; i < this.nbCards ; i++){
+			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
+				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i));
+				int playerID;
+				foreach (Tile t in neighbourTiles)
+				{
+					playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
+					if (playerID != -1)
+					{
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
+						{
+							isLaunchable = "";
+						}
+					}
+				}
+			}
+		}
+		return isLaunchable;
+	}
+
 	public string canLaunchAdjacentUnits()
 	{
 		string isLaunchable = "Aucune unité à proximité";
@@ -2137,6 +2190,25 @@ public class GameView : MonoBehaviour
 		}
 		return isLaunchable;
 	}
+
+	public string canLaunchWoundedAllysButMeTargets()
+	{
+		string isLaunchable = "Aucun allié n'est blessé";
+		
+		PlayingCardController pcc;
+		
+		for (int i = 0; i < this.nbCards; i++)
+		{
+			pcc = this.getPlayingCardController(i);
+			if (this.getCard(i).isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			{
+				if(this.getCard(i).getLife()!=this.getCard(i).GetTotalLife()){
+					isLaunchable = "";
+				}
+			}
+		}
+		return isLaunchable;
+	}
 	
 	public string canLaunchAnyone()
 	{
@@ -2179,7 +2251,7 @@ public class GameView : MonoBehaviour
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Leader mort\nPerd ses bonus", 0);
+					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
 				}
 			}
@@ -2190,7 +2262,7 @@ public class GameView : MonoBehaviour
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Leader\nPerd ses bonus", 0);
+					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
 				}
 			}
@@ -2252,23 +2324,21 @@ public class GameView : MonoBehaviour
 					i++;
 				}
 				orderCards = new List<int>();
-				print("UPDATENEW "+newOrderCards.Count);
 				for(int k = 0 ; k < newOrderCards.Count ; k++){
 					orderCards.Add(newOrderCards[k]);
 				}
 				this.updateTimeline();
-				print("UPDATE "+orderCards.Count);
 			}
 		}
 
 		if(this.getCard(this.currentPlayingCard).isSanguinaire()){
 			GameCard currentCard = GameView.instance.getCurrentCard();
 			int target = GameView.instance.getCurrentPlayingCard();
-			int bonus = GameView.instance.getCurrentCard().Skills[0].Power*3;
+			int bonus = GameView.instance.getCurrentCard().Skills[0].Power*4;
 
-			GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, -1, 34, "Sanguinaire", "+"+bonus+"% aux dégats à distance. Permanent"));
+			GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, -1, 34, "Sanguinaire", "+"+bonus+"% dégats à distance"));
 			GameView.instance.getPlayingCardController(target).updateAttack();
-			GameView.instance.displaySkillEffect(target, "Dégats +"+bonus+"%", 1);
+			GameView.instance.displaySkillEffect(target, "Dégats à distance +"+bonus+"%", 2);
 			GameView.instance.addAnim(GameView.instance.getTile(target), 34);
 		}
 
@@ -2663,7 +2733,6 @@ public class GameView : MonoBehaviour
 	
 	public void play(int r)
 	{	
-		this.hideSkillEffects();
 		this.setLaunchability("Compétence en cours");
 		this.runningSkill = r ;
 
@@ -2710,11 +2779,13 @@ public class GameView : MonoBehaviour
 	public void initPCCTargetHandler(int numberOfExpectedTargets)
 	{
 		this.targetPCCHandler = new TargetPCCHandler(numberOfExpectedTargets);
+		this.hideSkillEffects();
 	}
 	
 	public void initTileTargetHandler(int numberOfExpectedTargets)
 	{
 		this.targetTileHandler = new TargetTileHandler(numberOfExpectedTargets);
+		this.hideSkillEffects();
 	}
 	
 	public void hitTarget(int c){
@@ -2848,6 +2919,10 @@ public class GameView : MonoBehaviour
 		}
 
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
+		if(id==6){
+			GameView.instance.displaySkillEffect(index, "Protection", 2);
+			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 29);
+		}
 	}
 
 	public void stopCountingTime(){
@@ -3043,6 +3118,9 @@ public class GameView : MonoBehaviour
 			if(this.getCard(i).isCristoMaster()){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+" ATK. Permanent"));
+
+				GameView.instance.displaySkillEffect(i, "Cristomaitre\n+"+amount+" ATK", 2);
+				GameView.instance.addAnim(GameView.instance.getTile(i), 0);
 			}
 		}
 	}

@@ -51,6 +51,7 @@ public class Criderage : GameSkill
 			}
 			i++;
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -59,7 +60,12 @@ public class Criderage : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 19, base.name, "+"+level+" ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+level+"ATK", 1);
+		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 19);
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

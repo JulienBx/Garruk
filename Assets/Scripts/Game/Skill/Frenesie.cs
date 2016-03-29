@@ -19,11 +19,11 @@ public class Frenesie : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int i){
+	public override void applyOnMe(int i){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int life = Mathf.RoundToInt((0.75f-level*0.05f)*currentCard.getAttack());

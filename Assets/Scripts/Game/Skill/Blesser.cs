@@ -36,6 +36,7 @@ public class Blesser : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -44,12 +45,12 @@ public class Blesser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f));
 		int malus = Mathf.Min(targetCard.getAttack()-1, value);
-		string text = base.name+"\n-"+damages+"PV\n-"+value+"ATK";				
+		string text = "-"+damages+"PV\n-"+value+"ATK\n1 tour";				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = base.name+"\n-"+damages+"PV\n-"+value+"ATK\n(lâche)";
+			text ="-"+damages+"PV\n-"+value+"ATK\n1 tour\n(lâche)";
 		}
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*malus, 1, 11, base.name, (-1*malus)+"ATK. Actif 2 tours"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*malus, 1, 11, base.name, (-1*malus)+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
@@ -76,5 +77,10 @@ public class Blesser : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

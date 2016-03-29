@@ -156,6 +156,9 @@ public class GameSkill
 			else if(this.ciblage==11){
 				launchability = GameView.instance.canLaunchAdjacentRock();
 			}
+			else if(this.ciblage==14){
+				launchability = GameView.instance.canLaunchWoundedAllysButMeTargets();
+			}
 			else{
 				launchability = "";
 			}

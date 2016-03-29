@@ -47,9 +47,6 @@ public class Implosion : GameSkill
 							targetCard = GameView.instance.getCard(tempInt);
 							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+2*GameView.instance.getCurrentSkill().Power);
 							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 20+3*GameView.instance.getCurrentSkill().Power);
-							if(currentCard.isFou()){
-								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
-							}
 							GameController.instance.applyOn2(tempInt, Random.Range(minDamages, maxDamages+1));
 						}
 						else{
@@ -60,22 +57,20 @@ public class Implosion : GameSkill
 			}
 			i++;
 		}
-		GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), currentCard.getLife());
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
-		if(currentCard.isFou()){
-			GameController.instance.launchFou(28,GameView.instance.getCurrentPlayingCard());
-		}
-	}
-
-	public override void launchFou(int c){
-		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), (c==GameView.instance.getCurrentPlayingCard()));
-		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+value+"PV", 0);
+		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value,-1,28,base.name,value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.addAnim(GameView.instance.getTile(target), 28);
+	}
+
+	public override void applyOnMe(int value){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(currentCard.getLife(),-1,28,base.name,value+" dégats subis"), true);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nSe détruit", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

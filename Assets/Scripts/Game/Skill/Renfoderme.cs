@@ -42,6 +42,7 @@ public class Renfoderme : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
@@ -50,7 +51,7 @@ public class Renfoderme : GameSkill
 		int bonusShield = 10+level*4;
 		
 		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, "Bouclier : "+bonusShield+"%"));
-		GameView.instance.displaySkillEffect(target, base.name+"\nBouclier "+bonusShield+"%", 1);
+		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 39);
 	}	
@@ -60,7 +61,7 @@ public class Renfoderme : GameSkill
 		int bonusShield = Mathf.RoundToInt((10+level*4)*value/100f);
 		
 		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, "Bouclier : "+bonusShield+"%"));
-		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\nBouclier "+bonusShield+"%", 1);
+		GameView.instance.displaySkillEffect(target, "Virus\nBouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 39);
 	}
@@ -72,12 +73,16 @@ public class Renfoderme : GameSkill
 		int bonusShield = 10+4*level;
 		
 		string text = "Bouclier "+bonusShield+"%";
-		
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

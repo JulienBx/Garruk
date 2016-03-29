@@ -34,22 +34,19 @@ public class Chocbleu : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target){
-		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*GameView.instance.getCurrentSkill().Power)));
-		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
 
-		string text = base.name+"\n-"+damages+"PV";				
-		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(-1*malus, 1, 11, base.name, (-1*malus)+"ATK. Actif 2 tours"));
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
+		string text = "-"+damages+"PV";				
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
-
 		GameView.instance.addAnim(GameView.instance.getTile(target), 132);
 	}
 	
@@ -68,5 +65,15 @@ public class Chocbleu : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
+		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(-1*malus, -1, 11, base.name, (-1*malus)+"ATK. Permanent"));
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
+
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n-"+malus+" ATK", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

@@ -42,6 +42,7 @@ public class Poison : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -51,7 +52,7 @@ public class Poison : GameSkill
 		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "-"+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Poison\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.displaySkillEffect(target, "Perd "+level+"PV par tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
 	}	
 
@@ -61,7 +62,7 @@ public class Poison : GameSkill
 		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "-"+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Poison\n(Virus)\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.displaySkillEffect(target, "(Virus)\nPerd "+level+"PV par tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
 	}
 	
@@ -77,5 +78,10 @@ public class Poison : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

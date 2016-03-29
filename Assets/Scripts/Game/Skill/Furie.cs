@@ -19,11 +19,11 @@ public class Furie : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOnMe(int target){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusLife =  Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),level*2+10);
@@ -38,10 +38,10 @@ public class Furie : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 93, base.name, "+"+bonusLife+"PV"), false);
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonusAttack, -1, 93, base.name, "+"+bonusAttack+"ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 93);
-
 		GameView.instance.getCard(target).setFurious(new Modifyer(0, -1, 93, base.name, "Incontrolable!"));
 		GameView.instance.getPlayingCardController(target).showIcons();
+
+		GameView.instance.displaySkillEffect(target, text, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 93);
 	}
 }

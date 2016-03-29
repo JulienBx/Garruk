@@ -43,6 +43,7 @@ public class PistoBoost : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -51,7 +52,7 @@ public class PistoBoost : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+level+"ATK pour 1 tour", 1);	
+		GameView.instance.displaySkillEffect(target, "+"+level+"ATK\n1 tour", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 3);
 	}	
 
@@ -61,7 +62,7 @@ public class PistoBoost : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonus, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n(Virus)\n+"+level+"ATK pour 1 tour", 1);	
+		GameView.instance.displaySkillEffect(target, "(Virus)\n+"+level+"ATK pour 1 tour", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 3);
 	}
 
@@ -77,5 +78,10 @@ public class PistoBoost : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

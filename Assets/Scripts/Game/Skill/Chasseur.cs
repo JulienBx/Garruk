@@ -21,11 +21,11 @@ public class Chasseur : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(targetsPCC[0]);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
-	public override void applyOn(int i){
+	public override void applyOnMe(int i){
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonus = 20+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();

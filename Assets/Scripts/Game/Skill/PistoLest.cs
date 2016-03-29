@@ -44,6 +44,7 @@ public class PistoLest : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -58,7 +59,7 @@ public class PistoLest : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV\n"+move+"MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target,"-"+damages+"PV\n"+move+"MOV\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
 	}	
 
@@ -73,7 +74,7 @@ public class PistoLest : GameSkill
 		GameView.instance.recalculateDestinations();
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n-"+damages+"PV\n-"+move+"MOV pour un tour", 0);	
+		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
 	}	
 
@@ -92,5 +93,10 @@ public class PistoLest : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

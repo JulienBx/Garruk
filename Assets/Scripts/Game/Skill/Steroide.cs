@@ -44,20 +44,21 @@ public class Steroide : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target, int value){
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK", 1);
+		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
 	}
 
 	public override void applyOnViro(int target, int value){
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n+"+value+" ATK", 1);
+		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
 	}
 
@@ -73,5 +74,10 @@ public class Steroide : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

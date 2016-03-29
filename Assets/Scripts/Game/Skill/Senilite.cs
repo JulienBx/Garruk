@@ -44,6 +44,7 @@ public class Senilite : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -53,7 +54,7 @@ public class Senilite : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\n"+value+" ATK", 0);
+		GameView.instance.displaySkillEffect(target, value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}
 
@@ -63,7 +64,7 @@ public class Senilite : GameSkill
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n"+value+" ATK", 0);
+		GameView.instance.displaySkillEffect(target, "Virus\n"+value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}
 	
@@ -85,5 +86,10 @@ public class Senilite : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

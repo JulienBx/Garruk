@@ -7,14 +7,14 @@ public class PistoSoin : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Soin";
-		base.ciblage = 4 ;
+		base.ciblage = 14 ;
 		base.auto = false;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAllysButMeTargets();
+		GameView.instance.displayWoundedAllysButMeTargets();
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -44,6 +44,7 @@ public class PistoSoin : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -52,7 +53,7 @@ public class PistoSoin : GameSkill
 		int soin = Mathf.Min(amount,targetCard.GetTotalLife()-targetCard.getLife());
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false);
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+soin+"PV", 1);	
+		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	
 
@@ -61,7 +62,7 @@ public class PistoSoin : GameSkill
 		int soin = Mathf.Min(Mathf.RoundToInt(amount*amount2/100f),targetCard.GetTotalLife()-targetCard.getLife());
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"),false);
-		GameView.instance.displaySkillEffect(target, base.name+"\nVirus\n+"+soin+"PV", 1);	
+		GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
 	}	
 	
@@ -70,14 +71,25 @@ public class PistoSoin : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int soinMin = 1*level;
 		int soinMax = 3*level+12;
-			
-		string text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)+"-"+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)+"]";
-		
+		string text = "";
+
+		if(Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)==Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)){
+			text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin);
+		}
+		else{
+			text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)+"-"+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)+"]";
+		}
+
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

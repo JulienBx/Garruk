@@ -19,17 +19,17 @@ public class Visee : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
-	public override void applyOn(int target){
+	public override void applyOnMe(int target){
 		target = GameView.instance.getCurrentPlayingCard();
 		int bonus = 50 + GameView.instance.getCurrentSkill().Power*10;
 
 		GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 25);
 	}
 }

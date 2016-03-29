@@ -24,6 +24,7 @@ public class CoupPrecis : GameSkill
 		if (Random.Range(1,101) <= proba){
 			GameController.instance.applyOn(target);
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -32,10 +33,10 @@ public class CoupPrecis : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f));
-		string text = base.name+"\n-"+damages+"PV";				
+		string text = "-"+damages+"PV";				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = base.name+"\n-"+damages+"PV\n(lâche)";
+			text = "-"+damages+"PV\n(lâche)";
 		}
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
@@ -56,5 +57,10 @@ public class CoupPrecis : GameSkill
 		text += "\n\nHIT% : 100";
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

@@ -93,8 +93,8 @@ public class PassController : MonoBehaviour
 		}
 		if(!GameView.instance.getSkillZoneController().isRunningSkill){
 			GameView.instance.hideTargets();
-			this.showDescription(false);
 		}
+		this.showDescription(false);
 	}
 	
 	public void OnMouseDown(){

@@ -51,6 +51,7 @@ public class Attaque360 : GameSkill
 			}
 			i++;
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -60,8 +61,13 @@ public class Attaque360 : GameSkill
 		int percentage = Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f);
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, percentage);
 		
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,base.name,damages+" dégats subis"), false);
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,17,base.name,damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 17);
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

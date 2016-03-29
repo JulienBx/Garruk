@@ -28,6 +28,7 @@ public class Attack : GameSkill
 		else{
 			GameController.instance.applyOn(target);
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -36,7 +37,7 @@ public class Attack : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
-		string text = base.name+"\n-"+damages+"PV";
+		string text = "-"+damages+"PV";
 						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
@@ -54,7 +55,7 @@ public class Attack : GameSkill
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
 	}
 
 	public override string getTargetText(int target){
@@ -68,13 +69,13 @@ public class Attack : GameSkill
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
+					text="PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
+					text="PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
 				}
 			}
 		}
@@ -85,5 +86,10 @@ public class Attack : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

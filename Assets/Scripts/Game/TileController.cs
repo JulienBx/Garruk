@@ -100,7 +100,6 @@ public class TileController : GameObjectController
 	public void setTrap(Trap t){
 		this.trap = t ;
 		isTrapped = true ;
-			
 		this.showTrap (this.trap.getIsVisible());
 	}
 	
@@ -131,6 +130,10 @@ public class TileController : GameObjectController
 	public void addRock(){
 		this.type=1;
 		this.showRock();
+
+		GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
+		GameView.instance.addAnim(this.tile, 0);
+
 		GameView.instance.updateCristoEater();
 	}
 

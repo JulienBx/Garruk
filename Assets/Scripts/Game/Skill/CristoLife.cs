@@ -25,7 +25,7 @@ public class Cristolife : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){
-			GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), Random.Range(2*level, 6+3*level));
+			GameController.instance.applyOnMe(Random.Range(2*level, 6+3*level));
 			GameController.instance.removeRock(target);
 		}
 		else{
@@ -35,10 +35,11 @@ public class Cristolife : GameSkill
 		GameController.instance.endPlay();
 	}
 
-	public override void applyOn(int target, int value){
+	public override void applyOnMe(int value){
+		int target = GameView.instance.getCurrentPlayingCard();
 		GameView.instance.getCard(target).pvModifyers.Add(new Modifyer(value, -1, 129, base.name, "+"+value+" PV. Permanent"));
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV. Permanent", 0);	
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 129);
 	}
 	

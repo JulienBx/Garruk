@@ -21,6 +21,7 @@ public class Telepiege : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		int amount = GameView.instance.getCurrentSkill().Power;
 		GameController.instance.addTelepiege(amount, targetsTile[0]);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
@@ -28,5 +29,10 @@ public class Telepiege : GameSkill
 		int amount = GameView.instance.getCurrentSkill().Power;
 		string s = "Pose un piège qui téléportera l'unité touchée dans un rayon de "+amount+" cases";
 		return s ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

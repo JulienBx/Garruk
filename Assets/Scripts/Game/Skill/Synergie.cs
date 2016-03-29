@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Lance : GameSkill
+public class Synergie : GameSkill
 {
-	public Lance(){
+	public Synergie(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Lance";
-		base.ciblage = 8 ;
+		base.name = "Synergie";
+		base.ciblage = 15 ;
 		base.auto = false;
 	}
 	

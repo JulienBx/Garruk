@@ -43,6 +43,7 @@ public class PistoSape : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
@@ -51,9 +52,9 @@ public class PistoSape : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 4, text, -1*level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK pour 1 tour", 0);	
+		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
 	}
 
@@ -62,9 +63,9 @@ public class PistoSape : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 3, text, -1*level+"ATK. Actif 1 tour"));
+		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 4, text, -1*level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();
-		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK pour 1 tour", 0);	
+		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
 	}
 
@@ -81,5 +82,10 @@ public class PistoSape : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

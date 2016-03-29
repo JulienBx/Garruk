@@ -34,6 +34,7 @@ public class Assassinat : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
@@ -42,7 +43,7 @@ public class Assassinat : GameSkill
 		int damages = targetCard.getLife();
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, base.name, damages+" dégats subis"), false);
-		GameView.instance.displaySkillEffect(target, base.name+"\nRéussi", 0);
+		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 10);
 	}
 	
@@ -56,5 +57,10 @@ public class Assassinat : GameSkill
 		
 		text += "\n\nHIT% : "+probaHit;
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

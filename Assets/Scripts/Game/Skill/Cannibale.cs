@@ -33,6 +33,7 @@ public class Cannibale : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(target);
 		GameController.instance.endPlay();
 	}
 
@@ -40,27 +41,9 @@ public class Cannibale : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
-		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
-
-		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f),currentCard.GetTotalLife()-currentCard.getLife());
-		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
-		string text = base.name+"\n";
-		if(bonusLife>0){
-			text+=base.name+"\n+"+bonusLife+"PV\n";
-		}
-		text+="+"+bonusAttack+"ATK";
-
-
-		int targetMe = GameView.instance.getCurrentPlayingCard();
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"), false);
-		GameView.instance.getCard(targetMe).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, base.name, "+"+bonusAttack+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"), false);
-		GameView.instance.getPlayingCardController(targetMe).updateAttack();
-		GameView.instance.displaySkillEffect(targetMe, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
-
-		GameView.instance.displaySkillEffect(target, base.name+"\nDévoré!", 0);
+		GameView.instance.displaySkillEffect(target, "Dévoré!", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 21);
 	}
 
@@ -81,5 +64,27 @@ public class Cannibale : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameCard targetCard = GameView.instance.getCard(value);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int damages = targetCard.getLife();
+		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
+		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f),currentCard.GetTotalLife()-currentCard.getLife());
+		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
+
+		string text = base.name+"\n";
+		if(bonusLife>0){
+			text+="+"+bonusLife+"PV\n";
+		}
+		text+="+"+bonusAttack+"ATK";
+		int targetMe = GameView.instance.getCurrentPlayingCard();
+
+		GameView.instance.getCard(targetMe).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, base.name, "+"+bonusAttack+" ATK. Permanent"));
+		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"), false);
+		GameView.instance.getPlayingCardController(targetMe).updateAttack();
+		GameView.instance.displaySkillEffect(targetMe, text, 2);
+		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
 	}
 }

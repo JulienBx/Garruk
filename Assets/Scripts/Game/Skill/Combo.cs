@@ -35,18 +35,19 @@ public class Combo : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.CeilToInt(20*currentCard.getAttack()/100f));
-		string text = base.name+"\nHIT X"+value+"\n-"+damages+"PV";
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
+		string text = "HIT X"+value+"\n-"+damages+"PV";
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = base.name+"\nHIT X"+value+"\n-"+damages+"PV\n(lâche)";			
+			text = "HIT X"+value+"\n-"+damages+"PV\n(lâche)";			
 		}
 
 		GameView.instance.displaySkillEffect(target, text, 0);
@@ -57,8 +58,8 @@ public class Combo : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.CeilToInt(20*currentCard.getAttack()/100f));
-		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.CeilToInt(20*currentCard.getAttack()/100f));
+		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
+		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
 		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
@@ -74,5 +75,10 @@ public class Combo : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

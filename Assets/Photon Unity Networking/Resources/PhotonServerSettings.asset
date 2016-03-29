@@ -78,4 +78,5 @@ MonoBehaviour:
   - addTelepiegeRPC
   - removeRockRPC
   - addRockRPC
+  - applyOnMeRPC
   DisableAutoOpenWizard: 0

@@ -19,11 +19,11 @@ public class Furtivite : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
-		GameController.instance.applyOn(-1);
+		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOnMe(int target){
 		int attack = GameView.instance.getCurrentSkill().Power+5;
 		target = GameView.instance.getCurrentPlayingCard();
 
@@ -33,7 +33,7 @@ public class Furtivite : GameSkill
 		GameView.instance.getCard(target).magicalEsquiveModifyers.Add(new Modifyer(100, 2, 9, base.name, "Esquive les attaques à distance"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK", 1);
+		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 9);
 	}
 

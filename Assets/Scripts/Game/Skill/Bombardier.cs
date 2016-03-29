@@ -39,16 +39,13 @@ public class Bombardier : GameSkill
 				}
 			}
 		}
-		GameController.instance.endPlay();
 		if(currentCard.isFou()){
-			GameController.instance.launchFou(24,GameView.instance.getCurrentPlayingCard());
+			GameController.instance.applyOnMe(1);
 		}
-	}
-
-	public override void launchFou(int c){
-		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), (c==GameView.instance.getCurrentPlayingCard()));
-		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
+		else{
+			GameController.instance.applyOnMe(-1);
+		}
+		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target, int amount){
@@ -57,7 +54,19 @@ public class Bombardier : GameSkill
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 24);
-	}	
+	}
+
+	public override void applyOnMe(int value){
+		if(value==1){
+			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		}
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	}
 }

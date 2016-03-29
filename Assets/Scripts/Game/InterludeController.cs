@@ -149,7 +149,7 @@ public class InterludeController : MonoBehaviour
 						for (int i = 0 ; i < opponents.Count ; i++){
 							nbHits.Add(0);
 						}
-						int nbShurikens = UnityEngine.Random.Range(1,6);
+						int nbShurikens = UnityEngine.Random.Range(1,4);
 						for (int i = 1 ; i < nbShurikens+1 ;i++){
 							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
 							nbHits[chosenOne]++;
@@ -173,6 +173,7 @@ public class InterludeController : MonoBehaviour
 
 			GameView.instance.isFreezed = false ;
 			this.isRunning = false ;
+			GameView.instance.hideSkillEffects();
 			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;

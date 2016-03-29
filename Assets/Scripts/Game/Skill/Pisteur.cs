@@ -22,6 +22,7 @@ public class Pisteur : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		List<Tile> trappedTiles = GameView.instance.getTrappedTiles();
+		int compteur = 0 ;
 		for(int i = 0 ; i < trappedTiles.Count ; i++){
 			if(Random.Range(1,101)<=(50+5*level)){
 				GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
@@ -29,9 +30,20 @@ public class Pisteur : GameSkill
 
 				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert !", 1);
 				GameView.instance.addAnim(trappedTiles[i], 14);
+				compteur++;
 			}
 		}
-
+		GameController.instance.applyOnMe(compteur);
 		GameController.instance.endPlay();
+	}
+
+	public override void applyOnMe(int value){
+		if(value>0){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+" pièges découverts", 2);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\naucun piège découvert", 2);
+		}
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

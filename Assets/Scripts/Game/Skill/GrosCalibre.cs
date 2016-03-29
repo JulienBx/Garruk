@@ -36,16 +36,14 @@ public class GrosCalibre : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
-		GameController.instance.endPlay();
 		if(currentCard.isFou()){
-			GameController.instance.launchFou(26,GameView.instance.getCurrentPlayingCard());
+			GameController.instance.applyOnMe(1);
 		}
-	}
+		else{
+			GameController.instance.applyOnMe(-1);
+		}
 
-	public override void launchFou(int c){
-		int myLevel = GameView.instance.getCard(c).Skills[0].Power;
-		GameView.instance.getPlayingCardController(c).addDamagesModifyer(new Modifyer((10-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
-		GameView.instance.displaySkillEffect(c, base.name+"\n-"+(10-myLevel)+"PV", 0);
+		GameController.instance.endPlay();
 	}
 
 	public override void applyOn(int target){
@@ -59,7 +57,7 @@ public class GrosCalibre : GameSkill
 		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, base.name, damages+" dégats subis"), false);
-		GameView.instance.displaySkillEffect(target, base.name+"\n-"+damages+"PV", 0);	
+		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 26);
 	}
 	
@@ -81,5 +79,17 @@ public class GrosCalibre : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override void applyOnMe(int value){
+		if(value==1){
+			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
+		}
+		else{
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		}
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }
