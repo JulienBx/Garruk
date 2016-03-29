@@ -230,6 +230,17 @@ public class GameController : Photon.MonoBehaviour
 		GameSkills.instance.getCurrentGameSkill().applyOn(target);
 	}
 
+	public void applyOnMe(int value)
+	{
+		photonView.RPC("applyOnMeRPC", PhotonTargets.AllBuffered, value);
+	}
+	
+	[PunRPC]
+	public void applyOnMeRPC(int value)
+	{
+		GameSkills.instance.getCurrentGameSkill().applyOnMe(value);
+	}
+
 	public void applyOnViro(int target, int perc)
 	{
 		photonView.RPC("applyOnViroRPC", PhotonTargets.AllBuffered, target, perc);

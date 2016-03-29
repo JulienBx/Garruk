@@ -25,14 +25,18 @@ public class Kunai : GameSkill
 		int proba = GameView.instance.getCurrentSkill().proba;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
+			Debug.Log("Esquive magique");
 			GameController.instance.esquive(target,1);
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
+				Debug.Log("Je touche");
 				int value = this.getValue(GameView.instance.getCurrentSkill().Power);
 				GameController.instance.applyOn2(target, value);
+				GameController.instance.applyOnMe(-1);
 			}
 			else{
+				Debug.Log("Esquive proba");
 				GameController.instance.esquive(target,base.name);
 			}
 		}
@@ -85,13 +89,13 @@ public class Kunai : GameSkill
 			text = "-"+damages+"PV\n(lâche)";
 		}
 
-
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,9,"Pistolero",damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,8,"Pistolero",damages+" dégats subis"), false);
+		GameView.instance.displaySkillEffect(target, "-"+damages+" PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 8);
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 2);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

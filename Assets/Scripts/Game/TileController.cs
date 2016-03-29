@@ -33,6 +33,8 @@ public class TileController : GameObjectController
 	int basicAnimIndex ;
 
 	bool isHovering = false ;
+	public bool isFinishedTransi = false ; 
+	bool isGrowing = false ;
 
 	void Awake()
 	{
@@ -550,13 +552,30 @@ public class TileController : GameObjectController
 
 	public void addSETime(float t){
 		this.timerAnim += t ;
-		if(timerAnim<3*skillEffectTime){
-			gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)));
-			gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/skillEffectTime), 0f);
+		if(this.isFinishedTransi){
+			if(this.timerAnim < 0.5f){
+				if(this.isGrowing){
+					gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim));
+				}
+				else{
+					gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim));
+				}
+			}
+			else{
+				this.timerAnim = 0f ;
+				this.isGrowing = !this.isGrowing ;
+			}
 		}
 		else{
-			this.timerAnim = 0f ;
-
+			if(timerAnim<3*skillEffectTime){
+				gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)));
+				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/skillEffectTime), 0f);
+			}
+			else{
+				this.timerAnim = 0f ;
+				this.isFinishedTransi = true ;
+				this.isGrowing = false ;
+			}
 		}
 	}
 	

@@ -2663,6 +2663,7 @@ public class GameView : MonoBehaviour
 	
 	public void play(int r)
 	{	
+		this.hideSkillEffects();
 		this.setLaunchability("Compétence en cours");
 		this.runningSkill = r ;
 
@@ -2768,6 +2769,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void addSE(Tile t){
+		this.getTileController(t).isFinishedTransi = false ;
 		this.skillEffects.Add(t);
 		this.getTileController(t).showEffect(true);
 	}
