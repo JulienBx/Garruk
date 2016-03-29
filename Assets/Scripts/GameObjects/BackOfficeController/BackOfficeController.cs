@@ -504,7 +504,7 @@ public class BackOfficeController : MonoBehaviour
 		yield return StartCoroutine (invitation.add ());
 		this.changeLoadingScreenLabel(WordingSocial.getReference(6));
 		this.displayLoadingScreenButton (true);
-		ApplicationModel.player.ChosenGameType = 2+invitation.Id;
+		ApplicationModel.player.ChosenGameType = 20+invitation.Id;
 		photon.CreateNewRoom();
 		ApplicationModel.player.IsInviting = true;
 	}
@@ -512,10 +512,10 @@ public class BackOfficeController : MonoBehaviour
 	{
 		this.hideLoadingScreen ();
 		photon.leaveRoom ();
-		if(ApplicationModel.player.ChosenGameType>2)
+		if(ApplicationModel.player.ChosenGameType>20)
 		{
 			Invitation invitation = new Invitation ();
-			invitation.Id = ApplicationModel.player.ChosenGameType-2;
+			invitation.Id = ApplicationModel.player.ChosenGameType-20;
 			StartCoroutine(invitation.changeStatus(-1));
 		}
 	}
@@ -523,7 +523,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		this.displayLoadingScreen ();
 		//ApplicationModel.player.ToLaunchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
-		if(ApplicationModel.player.ChosenGameType<=2 && !ApplicationModel.player.ToLaunchGameTutorial)
+		if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
@@ -535,7 +535,7 @@ public class BackOfficeController : MonoBehaviour
 		this.hideLoadingScreen ();
 		this.displayErrorPopUp (WordingSocial.getReference(7));
 		Invitation invitation = new Invitation ();
-		invitation.Id = ApplicationModel.player.ChosenGameType-2;
+		invitation.Id = ApplicationModel.player.ChosenGameType-20;
 		StartCoroutine(invitation.changeStatus(-1));
 	}
 	public Sprite returnThumbPicture(int id)
@@ -639,7 +639,7 @@ public class BackOfficeController : MonoBehaviour
 			this.displayInvitationPopUp();
 
 			Invitation invitation = new Invitation ();
-			invitation.Id = ApplicationModel.player.ChosenGameType-2;
+			invitation.Id = ApplicationModel.player.ChosenGameType-20;
 			StartCoroutine(invitation.changeStatus(-1));
 		}
 		if(ApplicationModel.player.IsInviting && ApplicationModel.player.Error!="")

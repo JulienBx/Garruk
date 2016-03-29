@@ -6,6 +6,7 @@ public class CardType
 	public string Name;
 	public int Id;
 	public string Description;
+	public int Order;
 	
 	public CardType()
 	{

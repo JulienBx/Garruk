@@ -6,10 +6,7 @@ using System.Linq;
 
 public class Player : User
 {
-	private string URLGetUserGameProfile ;
-	private string URLDefaultProfilePicture;
 	private string URLUpdateUserInformations;
-	private string URLUpdateProfilePicture;
 	private string URLGetNonReadNotifications;
 	private string URLGetMoney;
 	private string URLAddMoney;
@@ -22,7 +19,6 @@ public class Player : User
 	private string URLSetNextLevelTutorial;
 	private string URLSetLobbyTutorial;
 	private string URLUpdateEndGameData;
-	private string URLInvitePlayer;
 	private string URLSetProfilePicture;
 	private string URLCheckPassword;
 	private string URLEditPassword;
@@ -96,10 +92,7 @@ public class Player : User
 		this.HasWonLastGame=false;
 		this.PackToBuy=-1;
 		this.ChosenGameType=0;
-		this.URLGetUserGameProfile = ApplicationModel.host + "get_user_game_profile.php";
-		this.URLDefaultProfilePicture = ApplicationModel.host + "img/profile/defaultprofilepicture.png";
 		this.URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
-		this.URLUpdateProfilePicture  = ApplicationModel.host + "update_profilepicture.php";
 		this.URLGetNonReadNotifications = ApplicationModel.host +"get_non_read_notifications_by_user.php";
 		this.URLGetMoney = ApplicationModel.host + "get_money_by_user.php";
 		this.URLAddMoney = ApplicationModel.host + "add_money.php";
@@ -112,7 +105,6 @@ public class Player : User
 		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
 		this.URLSetNextLevelTutorial = ApplicationModel.host + "set_nextLevelTutorial.php";
 		this.URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
-		this.URLInvitePlayer = ApplicationModel.host + "invite_player.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
@@ -612,8 +604,9 @@ public class Player : User
 				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
 				this.Id=System.Convert.ToInt32(profileData[6]);
+				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[7]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
 			}
 			else
 			{
@@ -668,8 +661,9 @@ public class Player : User
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
 				this.Id=System.Convert.ToInt32(profileData[6]);
 				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[7]));
+				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[8]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
@@ -746,6 +740,7 @@ public class Player : User
 				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
 				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
 				this.Id=System.Convert.ToInt32(profileData[7]);
+				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
@@ -875,6 +870,69 @@ public class Player : User
 		}
 	}
 	#endregion
+
+	public bool canAccessTrainingMode()
+	{
+		int allowedCardType=0;
+		if(TrainingStatus<9)
+		{
+			allowedCardType=2;
+			this.ChosenGameType=1;
+		}
+		else if(TrainingStatus<19)
+		{
+			allowedCardType=3;
+			this.ChosenGameType=2;
+		}
+		else if(TrainingStatus<29)
+		{
+			allowedCardType=1;
+			this.ChosenGameType=3;
+		}
+		else if(TrainingStatus<39)
+		{
+			allowedCardType=0;
+			this.ChosenGameType=4;
+		}
+		else if(TrainingStatus<49)
+		{
+			allowedCardType=4;
+			this.ChosenGameType=5;
+		}
+		else if(TrainingStatus<59)
+		{
+			allowedCardType=5;
+			this.ChosenGameType=6;
+		}
+		else if(TrainingStatus<69)
+		{
+			allowedCardType=6;
+			this.ChosenGameType=7;
+		}
+		else if(TrainingStatus<79)
+		{
+			allowedCardType=7;
+			this.ChosenGameType=8;
+		}
+		else if(TrainingStatus<89)
+		{
+			allowedCardType=8;
+			this.ChosenGameType=9;
+		}
+		else if(TrainingStatus<99)
+		{
+			allowedCardType=9;
+			this.ChosenGameType=10;
+		}
+		for(int i=0;i<this.MyDeck.cards.Count;i++)
+		{
+			if(this.MyDeck.cards[i].CardType.Id!=allowedCardType)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 

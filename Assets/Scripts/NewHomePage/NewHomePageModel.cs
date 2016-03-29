@@ -127,7 +127,8 @@ public class NewHomePageModel
 		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [8]);
 		ApplicationModel.player.NextLevelTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(array[9]));
 		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32 (array [10]);
-		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [11]);
+		ApplicationModel.player.TrainingStatus = System.Convert.ToInt32 (array [11]);
+		ApplicationModel.player.ConnectionBonus = System.Convert.ToInt32 (array [12]);
 	}
 	private IList<User> parseUsers(string[] array)
 	{
@@ -147,6 +148,7 @@ public class NewHomePageModel
 			users[i].TotalNbWins = System.Convert.ToInt32 (userData[6]);
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
 			users[i].Division = System.Convert.ToInt32 (userData [8]);
+			users[i].TrainingStatus = System.Convert.ToInt32 (userData [9]);
 		}
 		return users;
 	}

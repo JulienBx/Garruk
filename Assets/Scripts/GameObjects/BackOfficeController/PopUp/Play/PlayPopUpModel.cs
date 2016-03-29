@@ -44,6 +44,13 @@ public class PlayPopUpModel {
 			decks[i].Id=System.Convert.ToInt32(deckInformation[0]);
 			decks[i].Name=deckInformation[1];
 			decks[i].NbCards=System.Convert.ToInt32(deckInformation[2]);
+			decks[i].cards=new List<Card>();
+			for(int j=0;j<decks[i].NbCards;j++)
+			{
+				decks[i].cards.Add(new Card());
+				decks[i].cards[j].CardType=new CardType();
+				decks[i].cards[j].CardType.Id=System.Convert.ToInt32(deckInformation[3+j]);
+			}
 		}
 		return decks;
 	}

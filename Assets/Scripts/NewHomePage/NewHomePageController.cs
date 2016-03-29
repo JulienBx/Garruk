@@ -35,9 +35,10 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject friendlyGameTitle;
 	private GameObject friendlyGamePicture;
 	private GameObject friendlyGameButton;
-	private GameObject divisionGameButton;
+	private GameObject officialGameButton;
 	private GameObject divisionGamePicture;
-	private GameObject divisionGameTitle;
+	private GameObject officialGameTitle;
+	private GameObject trainingGamePicture;
 	//private GameObject cupGameButton;
 	//private GameObject cupGameTitle;
 	//private GameObject cupGamePicture;
@@ -489,13 +490,14 @@ public class NewHomePageController : MonoBehaviour
 		this.friendlyGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
 		this.friendlyGameTitle = GameObject.Find ("FriendlyGameTitle");
 		this.friendlyGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		this.divisionGameButton = GameObject.Find ("DivisionGameButton");
-		this.divisionGameButton.AddComponent<NewHomePageCompetitionController> ();
-		this.divisionGameButton.GetComponent<NewHomePageCompetitionController> ().setId (1);
+		this.officialGameButton = GameObject.Find ("OfficialGameButton");
+		this.officialGameButton.AddComponent<NewHomePageCompetitionController> ();
+		this.officialGameButton.GetComponent<NewHomePageCompetitionController> ().setId (1);
 		this.divisionGamePicture = GameObject.Find ("DivisionGamePicture");
 		this.divisionGamePicture.GetComponent<SpriteRenderer>().color = ApplicationDesignRules.whiteSpriteColor;
-		this.divisionGameTitle = GameObject.Find ("DivisionGameTitle");
-		this.divisionGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		this.officialGameTitle = GameObject.Find ("OfficialGameTitle");
+		this.officialGameTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		this.trainingGamePicture = GameObject.Find("TrainingGamePicture");
 //		this.cupGameButton = GameObject.Find ("CupGameButton");
 //		this.cupGameButton.AddComponent<NewHomePageCompetitionController> ();
 //		this.cupGameButton.GetComponent<NewHomePageCompetitionController> ().setId (2);
@@ -655,25 +657,28 @@ public class NewHomePageController : MonoBehaviour
 		float competitionsBlockSize = (playBlockSize.x - 2f*ApplicationDesignRules.blockHorizontalSpacing - gapBetweenCompetitionsBlock) / 2f;
 
 		this.friendlyGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
-		this.divisionGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
+		this.officialGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
 		//this.cupGameTitle.transform.localScale=ApplicationDesignRules.subMainTitleScale;
 
 		this.playBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 
-		this.friendlyGameTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.2f, 0f);
-		this.divisionGameTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.officialGameTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.2f, 0f);
+		this.friendlyGameTitle.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
 		//this.cupGameTitle.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.2f, 0f);
 		
-		this.friendlyGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
-		this.divisionGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
+		this.divisionGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
+		this.trainingGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 1.95f, 0f);
+		this.friendlyGamePicture.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
+
 		//this.cupGamePicture.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 1.95f, 0f);
 
-		this.friendlyGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 2.9f, 0f);
-		this.divisionGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
+		this.officialGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing + playBlockUpperLeftPosition.x + competitionsBlockSize / 2f, playBlockUpperLeftPosition.y - 2.9f, 0f);
+		this.friendlyGameButton.transform.position = new Vector3 (ApplicationDesignRules.blockHorizontalSpacing+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 1f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
+
 		//this.cupGameButton.transform.position = new Vector3 (0.3f+playBlockUpperLeftPosition.x + competitionsBlockSize / 2f + 2f * (competitionsBlockSize + gapBetweenCompetitionsBlock), playBlockUpperLeftPosition.y - 2.9f, 0f);
 		
 		this.friendlyGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.divisionGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
+		this.officialGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		//this.cupGameButton.transform.localScale = ApplicationDesignRules.button62Scale;
 		
 		this.deckBlock.GetComponent<NewBlockController> ().resize(deckBlockLeftMargin,deckBlockUpMargin,ApplicationDesignRules.blockWidth,deckBlockHeight);
@@ -908,6 +913,7 @@ public class NewHomePageController : MonoBehaviour
 				this.deckCards[i].SetActive(false);
 			}
 		}
+		ApplicationModel.player.MyDeck=model.decks[this.deckDisplayed];
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.endInitialization();
 	}
@@ -1343,33 +1349,32 @@ public class NewHomePageController : MonoBehaviour
 	public void drawCompetitions()
 	{	
 		this.friendlyGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(0).ToUpper ();
-		this.divisionGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
-		//this.cupGameTitle.GetComponent<TextMeshPro> ().text = model.currentCup.Name.ToUpper ();
-
 		this.friendlyGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(2);
 
-		string divisionState;
-		if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
+		if(ApplicationModel.player.TrainingStatus!=-1)
 		{
-			divisionState=WordingGameModes.getReference(3);
+			this.divisionGamePicture.SetActive(false);
+			this.trainingGamePicture.SetActive(true);
+			this.trainingGamePicture.GetComponent<TrainingController>().draw(ApplicationModel.player.TrainingStatus);
+			this.officialGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(10).ToUpper ();
+			this.officialGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(11);
 		}
 		else
 		{
-			divisionState=WordingGameModes.getReference(4);
+			this.divisionGamePicture.SetActive(true);
+			this.trainingGamePicture.SetActive(false);
+			this.officialGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
+			string divisionState;
+			if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
+			{
+				divisionState=WordingGameModes.getReference(3);
+			}
+			else
+			{
+				divisionState=WordingGameModes.getReference(4);
+			}
+			this.officialGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState;
 		}
-		this.divisionGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState;
-
-//		string cupState;
-//		if(model.player.NbGamesCup>0)
-//		{
-//			divisionState="Rejoindre";
-//		}
-//		else
-//		{
-//			divisionState="Démarrer";
-//		}
-		//this.cupGameButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = divisionState.ToUpper ();
-
 	}
 	public void buyPackHandler()
 	{
@@ -1475,9 +1480,22 @@ public class NewHomePageController : MonoBehaviour
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
 		}
+		else if(id==0)
+		{
+			ApplicationModel.player.ChosenGameType = 0;
+			StartCoroutine (this.joinGame ());
+		}
+		else if(ApplicationModel.player.TrainingStatus==-1)
+		{
+			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.CurrentDivision.Id;
+			StartCoroutine (this.joinGame ());
+		}
+		else if(!ApplicationModel.player.canAccessTrainingMode())
+		{
+			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(12));
+		}
 		else
 		{
-			ApplicationModel.player.ChosenGameType = id;
 			StartCoroutine (this.joinGame ());
 		}
 	}
@@ -1485,14 +1503,13 @@ public class NewHomePageController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
-		if(ApplicationModel.player.ChosenGameType==0)
+		if(ApplicationModel.player.ChosenGameType>10)
 		{
-
-			BackOfficeController.instance.joinRandomRoomHandler();
+			SceneManager.LoadScene("NewLobby");
 		}
 		else
 		{
-			SceneManager.LoadScene("NewLobby");
+			BackOfficeController.instance.joinRandomRoomHandler();
 		}
 	}
 	public Vector3 getEndGamePopUpButtonPosition()

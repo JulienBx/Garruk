@@ -103,8 +103,9 @@ public class NewProfileModel
 		if(isMyProfile)
 		{
 			this.displayedUser.Division = ApplicationModel.player.CurrentDivision.Id;
-			ApplicationModel.player.FirstName = array [10];
-			ApplicationModel.player.Surname = array [11];
+			this.displayedUser.TrainingStatus=ApplicationModel.player.TrainingStatus;
+			ApplicationModel.player.FirstName = array [11];
+			ApplicationModel.player.Surname = array [12];
 			ApplicationModel.player.Mail = array [12];
 			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
 		}
@@ -112,6 +113,7 @@ public class NewProfileModel
 		{
 			this.displayedUser.Division = System.Convert.ToInt32(array [9]);
 			this.displayedUser.Id = System.Convert.ToInt32(array[0]);
+			this.displayedUser.TrainingStatus = System.Convert.ToInt32(array[10]);
 		}
 	}
 	private IList<User> parseUsers(string[] array)
@@ -132,6 +134,7 @@ public class NewProfileModel
 			users[i].TotalNbWins = System.Convert.ToInt32 (userData[6]);
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
 			users[i].Division = System.Convert.ToInt32 (userData [8]);
+			users[i].TrainingStatus = System.Convert.ToInt32 (userData [9]);
 		}
 		return users;
 	}
