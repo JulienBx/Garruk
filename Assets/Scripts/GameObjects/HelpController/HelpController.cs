@@ -252,6 +252,7 @@ public class HelpController : MonoBehaviour
 	}
 	public void companionNextButtonHandler()
 	{
+		SoundController.instance.playSound(8);
 		if (!this.isTutorial) 
 		{
 			this.getHelpNextAction ();

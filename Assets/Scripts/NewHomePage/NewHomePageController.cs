@@ -115,6 +115,8 @@ public class NewHomePageController : MonoBehaviour
 	private bool isEndGamePopUpDisplayed;
 	private GameObject trainingPopUp;
 	private bool isTrainingPopUpDisplayed;
+	private GameObject wonPackPopUp;
+	private bool isWonPackPopUpDisplayed;
 
 	private bool toSlideRight;
 	private bool toSlideLeft;
@@ -294,6 +296,10 @@ public class NewHomePageController : MonoBehaviour
 			ApplicationModel.player.ToLaunchEndGameSequence=false;
 			ApplicationModel.player.HasWonLastGame=false;
 			ApplicationModel.player.ChosenGameType=0;
+		}
+		else if(ApplicationModel.player.HasToBuyTrainingPack)
+		{
+			this.displayWonPackPopUp();
 		}
 		if(ApplicationModel.player.TutorialStep==2 || ApplicationModel.player.TutorialStep==3)
 		{
@@ -538,6 +544,9 @@ public class NewHomePageController : MonoBehaviour
 
 		this.trainingPopUp = GameObject.Find("trainingPopUp");
 		this.trainingPopUp.SetActive(false);
+
+		this.wonPackPopUp = GameObject.Find("wonPackPopUp");
+		this.wonPackPopUp.SetActive(false);
 
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -1450,17 +1459,14 @@ public class NewHomePageController : MonoBehaviour
 		this.connectionBonusPopUp.SetActive (true);
 		this.connectionBonusPopUpResize();
 	}
-	public void hideConnectionBonusPopUp()
+	public void displayWonPackPopUp()
 	{
-		this.connectionBonusPopUp.SetActive (false);
-		BackOfficeController.instance.hideTransparentBackground();
-		this.isConnectionBonusPopUpDisplayed = false;
-	}
-	public void connectionBonusPopUpResize()
-	{
-		this.connectionBonusPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
-		this.connectionBonusPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
-		this.connectionBonusPopUp.GetComponent<ConnectionBonusPopUpController> ().resize ();
+		SoundController.instance.playSound(3);
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.wonPackPopUp.transform.GetComponent<WonPackPopUpController> ().reset ();
+		this.isWonPackPopUpDisplayed = true;
+		this.wonPackPopUp.SetActive (true);
+		this.wonPackPopUpResize();
 	}
 	private void displayEndGamePopUp()
 	{
@@ -1490,17 +1496,46 @@ public class NewHomePageController : MonoBehaviour
 		this.trainingPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.trainingPopUp.GetComponent<TrainingPopUpController> ().resize ();
 	}
+	public void connectionBonusPopUpResize()
+	{
+		this.connectionBonusPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.connectionBonusPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.connectionBonusPopUp.GetComponent<ConnectionBonusPopUpController> ().resize ();
+	}
+	public void wonPackPopUpResize()
+	{
+		this.wonPackPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.wonPackPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.wonPackPopUp.GetComponent<WonPackPopUpController> ().resize ();
+	}
 	public void hideEndGamePopUp()
 	{
 		this.endGamePopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isEndGamePopUpDisplayed = false;
 	}
+	public void hideConnectionBonusPopUp()
+	{
+		this.connectionBonusPopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.isConnectionBonusPopUpDisplayed = false;
+	}
+	public void hideWonPackPopUp()
+	{
+		this.wonPackPopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.isWonPackPopUpDisplayed = false;
+		SceneManager.LoadScene("NewStore");
+	}
 	public void hideTrainingPopUp()
 	{
 		this.trainingPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isTrainingPopUpDisplayed = false;
+		if(ApplicationModel.player.HasToBuyTrainingPack)
+		{
+			SceneManager.LoadScene("NewStore");
+		}
 	}
 	public void joinGameHandler(int id)
 	{

@@ -10,7 +10,7 @@ public class NewPackStoreController : NewPackController
 {
 	public override void buyPackHandler ()
 	{
-		NewStoreController.instance.buyPackHandler (base.getId());
+		NewStoreController.instance.buyPackHandler (base.getId(),false,false);
 	}
 
 }
