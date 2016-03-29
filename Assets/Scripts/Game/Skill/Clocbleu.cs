@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Berserk : GameSkill
+public class Chocbleu : GameSkill
 {
-	public Berserk(){
-		this.numberOfExpectedTargets = 1 ;
-		base.name = "Berserk";
-		base.ciblage = 1 ;
+	public Chocbleu(){
+		this.numberOfExpectedTargets = 1 ; 
+		base.name = "Choc bleu";
+		base.ciblage = 1 ; 
 		base.auto = false;
 	}
 	
@@ -21,7 +21,7 @@ public class Berserk : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		
+	
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
 			GameController.instance.esquive(target,1);
@@ -36,31 +36,31 @@ public class Berserk : GameSkill
 		}
 		GameController.instance.endPlay();
 	}
-
+	
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
-		int autoDamages = currentCard.getNormalDamagesAgainst(currentCard, 25-level*2);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*GameView.instance.getCurrentSkill().Power)));
+		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
+
 		string text = base.name+"\n-"+damages+"PV";				
-		string autotext = base.name+"\nS'inflige "+autoDamages+" dégats";				
+		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(-1*malus, 1, 11, base.name, (-1*malus)+"ATK. Actif 2 tours"));
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 16);
 
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,base.name,autoDamages+" dégats subis"), true);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), autotext, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 16);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 132);
 	}
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
-		
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*GameView.instance.getCurrentSkill().Power)));
+		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
+
+		string text = base.name+"\n-"+damages+"PV";
+
 		int amount = GameView.instance.getCurrentSkill().proba;
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;

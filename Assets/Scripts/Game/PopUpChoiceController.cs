@@ -7,6 +7,10 @@ public class PopUpChoiceController : MonoBehaviour
 {
 	public Sprite[] factions ;
 
+	void Awake(){
+		this.show(false);
+	}
+
 	public void setTexts(string t, string d){
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().text = t;
 		gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().text = d;

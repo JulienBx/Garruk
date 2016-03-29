@@ -42,7 +42,6 @@ public class Blesser : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f));
 		int malus = Mathf.Min(targetCard.getAttack()-1, value);
 		string text = base.name+"\n-"+damages+"PV\n-"+value+"ATK";				
@@ -60,7 +59,6 @@ public class Blesser : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f));
 		int minMalus = GameView.instance.getCurrentSkill().Power ;
 		int maxMalus = GameView.instance.getCurrentSkill().Power*3+5;

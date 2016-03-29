@@ -128,7 +128,6 @@ public class LanceFlammes : GameSkill
 			}
 		}
 		GameController.instance.endPlay();
-		int myLevel = currentCard.Skills[0].Power;
 		if(currentCard.isFou()){
 			GameController.instance.launchFou(27,GameView.instance.getCurrentPlayingCard());
 		}

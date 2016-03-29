@@ -48,7 +48,6 @@ public class PistoBoost : GameSkill
 	
 	public override void applyOn(int target, int level){
 		string text = base.name;
-		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 3, text, "+"+level+"ATK. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).updateAttack();

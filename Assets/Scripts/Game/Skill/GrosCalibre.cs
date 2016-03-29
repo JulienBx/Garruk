@@ -23,7 +23,6 @@ public class GrosCalibre : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
-		int myLevel = currentCard.Skills[0].Power;
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             

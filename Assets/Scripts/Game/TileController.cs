@@ -515,9 +515,6 @@ public class TileController : GameObjectController
 			else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
 				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
 			}
-			else{
-				
-			}
 			
 			if(this.type==1 || this.type==2 || this.isTrapped){
 				this.showDescription(false);
@@ -555,12 +552,6 @@ public class TileController : GameObjectController
 		this.timerAnim += t ;
 		if(timerAnim<3*skillEffectTime){
 			gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)));
-
-			if(timerAnim>2*skillEffectTime){
-				Color c = gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<TextMeshPro>().color ;
-				c.a = 1f-1f*((timerAnim-2*skillEffectTime)/(skillEffectTime));
-				gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<TextMeshPro>().color = c;
-			}
 			gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/skillEffectTime), 0f);
 		}
 		else{

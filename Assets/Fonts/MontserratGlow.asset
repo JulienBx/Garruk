@@ -82,7 +82,7 @@ Material:
       data:
         first:
           name: _OutlineWidth
-        second: 0.202
+        second: 0.3
       data:
         first:
           name: _OutlineSoftness

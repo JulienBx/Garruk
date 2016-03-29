@@ -49,7 +49,6 @@ public class Senilite : GameSkill
 	
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
@@ -60,7 +59,6 @@ public class Senilite : GameSkill
 
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
@@ -71,7 +69,6 @@ public class Senilite : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = 5+2*GameView.instance.getCurrentSkill().Power;
 		string text = "";
 

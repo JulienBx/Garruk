@@ -97,6 +97,11 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 138);
 	}
+
+	public bool isGolem()
+	{
+		return (base.Skills[0].Id == 141);
+	}
 	
 	public bool isLeader()
 	{

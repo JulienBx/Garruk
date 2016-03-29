@@ -55,7 +55,6 @@ public class Attaque360 : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int percentage = Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f);

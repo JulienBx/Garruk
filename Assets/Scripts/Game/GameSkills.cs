@@ -9,7 +9,7 @@ public class GameSkills : MonoBehaviour
 	{
 		instance = this;
 		
-		this.skills = new GameSkill[96];
+		this.skills = new GameSkill[146];
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
 		this.skills [2] = new PistoSoin();

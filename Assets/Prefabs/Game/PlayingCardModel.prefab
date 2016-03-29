@@ -143,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &173646
 GameObject:
   m_ObjectHideFlags: 1
@@ -281,7 +281,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 123124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.322792, y: -1.6282084, z: -4.3264875}
+  m_LocalPosition: {x: -13.950073, y: -2.115423, z: -4.3264875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462020}
@@ -327,7 +327,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173646}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3545761, y: -0.37899995, z: 0}
+  m_LocalPosition: {x: 0.28292847, y: -0.35000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 462020}
@@ -377,7 +377,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.311, y: -0.381, z: 0}
+  m_LocalPosition: {x: -0.2854023, y: -0.35000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 462020}
@@ -465,9 +465,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.32484323
+    width: 0.3649853
     height: 0.3
-  m_margins: {x: -0.004658889, y: 0, z: 0, w: 0}
+  m_margins: {x: 0.024536896, y: 0, z: 0, w: 0}
 --- !u!114 &11438620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -485,9 +485,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.31796056
+    width: 0.35080892
     height: 0.2790416
-  m_margins: {x: 0, y: 0, z: -0.05198002, w: 0.00496912}
+  m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11440186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,6 +624,7 @@ MonoBehaviour:
   isShowingDead: 0
   isUpdatingLife: 1
   canBeDragged: 0
+  nbTurns: 0
 --- !u!114 &11458724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -635,7 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 04
+  m_text: 00
   m_fontAsset: {fileID: 11400000, guid: a26f89c314b79d940a6744f57c6f8237, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
@@ -667,7 +668,7 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 5
+  m_textAlignment: 4
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
@@ -704,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 22
+  m_text: 00
   m_fontAsset: {fileID: 11400000, guid: a26f89c314b79d940a6744f57c6f8237, type: 2}
   m_fontStyle: 1
   m_isOverlay: 0
@@ -736,7 +737,7 @@ MonoBehaviour:
   m_paragraphSpacing: 0
   m_lineLength: 0
   m_anchor: 0
-  m_textAlignment: 5
+  m_textAlignment: 6
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0

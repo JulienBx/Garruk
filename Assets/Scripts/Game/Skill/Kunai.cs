@@ -85,8 +85,13 @@ public class Kunai : GameSkill
 			text = "-"+damages+"PV\n(lâche)";
 		}
 
-		GameView.instance.displaySkillEffect(target, text, 0);
+
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,9,"Pistolero",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 8);
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 2);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

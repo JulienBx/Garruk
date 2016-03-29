@@ -138,7 +138,6 @@ public class Grenade : GameSkill
 		}
 
 		GameController.instance.endPlay();
-		int myLevel = currentCard.Skills[0].Power;
 		if(currentCard.isFou()){
 			GameController.instance.launchFou(23,GameView.instance.getCurrentPlayingCard());
 		}

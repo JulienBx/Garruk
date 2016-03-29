@@ -21,8 +21,6 @@ public class Bombardier : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
 		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
-		int level = GameView.instance.getCurrentSkill().Power;
-		int myLevel = currentCard.Skills[0].Power;
 
 		if(currentCard.isFou()){
 			maxdamages = Mathf.RoundToInt(1.25f*maxdamages);

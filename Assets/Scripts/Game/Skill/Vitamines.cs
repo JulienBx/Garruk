@@ -46,7 +46,6 @@ public class Vitamines : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		int level = GameView.instance.getCurrentSkill().Power*2+5;
@@ -69,7 +68,6 @@ public class Vitamines : GameSkill
 	}
 
 	public override void applyOnViro(int target, int value){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		int level = Mathf.RoundToInt((GameView.instance.getCurrentSkill().Power*2f+5f)*value/100f);

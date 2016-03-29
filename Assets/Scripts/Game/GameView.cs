@@ -638,7 +638,9 @@ public class GameView : MonoBehaviour
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 
 		if(GameView.instance.hasFightStarted){
-			this.getCard(characterID).hasMoved=true;
+			if(!this.getCard(characterID).isGolem()){
+				this.getCard(characterID).hasMoved=true;
+			}
 			this.removeDestinations();
 			this.recalculateDestinations();
 			this.updateActionStatus();
@@ -841,11 +843,20 @@ public class GameView : MonoBehaviour
 		}
 		return card ;
 	}
-	
+
+	public void hideSkillEffects(){
+		for (int i = 0 ; i < this.boardWidth ; i++){
+			for (int j = 0 ; j < this.boardHeight ; j++){
+					this.getTileController(i,j).showEffect(false);
+			}
+		}
+	}
+
 	public void setNextPlayer(){
 
 		isFreezed = true ;
 		this.hideButtons();
+		this.hideSkillEffects();
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
 			this.meteoritesCounter--;
@@ -1519,79 +1530,112 @@ public class GameView : MonoBehaviour
 	public int getTileCharacterID(int x, int y){
 		return this.tiles[x,y].GetComponent<TileController>().getCharacterID();
 	}
-	
-	public void calculateDestinations(int i){
-		bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
-		bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
-		for(int l = 0 ; l < this.boardWidth ; l++){
-			for(int k = 0 ; k < this.boardHeight ; k++){
-				hasBeenPassages[l,k]=false;
-				isDestination[l,k]=false;
+
+	public List<Tile> getRocks(){
+		List<Tile> rocks = new List<Tile>();
+		for(int i = 0 ; i < boardWidth ;i++){
+			for(int j = 0 ; j < boardHeight ;j++){
+				if(this.getTileController(i,j).isRock()){
+					rocks.Add(new Tile(i,j));
+				}
 			}
 		}
+		return rocks ;
+	}
+	
+	public void calculateDestinations(int i){
 		List<Tile> destinations = new List<Tile>();
-		List<Tile> baseTiles = new List<Tile>();
-		List<Tile> tempTiles = new List<Tile>();
-		List<Tile> tempNeighbours ;
-		baseTiles.Add(this.getPlayingCardTile(i));
-		int move = this.getCard(i).getMove();
-		
-		int j = 0 ;
-		
-		if(this.getCard(i).isMine){		
-			while (j < move){
-				tempTiles = new List<Tile>();
-				
-				for(int k = 0 ; k < baseTiles.Count ; k++){
-					tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
-					for(int l = 0 ; l < tempNeighbours.Count ; l++){
-						
-						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-							tempTiles.Add(tempNeighbours[l]);
-							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-						}
-						if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
-							if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
-								destinations.Add(tempNeighbours[l]);
-								isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-							}
-						}
-					}	
+		if(this.getCard(i).isGolem()){
+			List<Tile> rocks = this.getRocks();
+			List<Tile> voisins ;
+			bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
+			for(int l = 0 ; l < this.boardWidth ; l++){
+				for(int k = 0 ; k < this.boardHeight ; k++){
+					isDestination[l,k]=false;
 				}
-				baseTiles = new List<Tile>();
-				for(int l = 0 ; l < tempTiles.Count ; l++){
-					baseTiles.Add(tempTiles[l]);
+			}
+			for(int m = 0 ; m < rocks.Count ; m++){
+				voisins = rocks[m].getImmediateNeighbourTiles();
+				for (int n = 0 ; n < voisins.Count ; n++){
+					if(!isDestination[voisins[n].x, voisins[n].y]){
+						if(this.getTileController(voisins[n].x, voisins[n].y).canBeDestination()){
+							destinations.Add(voisins[n]);
+						}
+					}
 				}
-				j++;
 			}
 		}
 		else{
-			while (j < move){
-				tempTiles = new List<Tile>();
-				
-				for(int k = 0 ; k < baseTiles.Count ; k++){
-					tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k]);
-					for(int l = 0 ; l < tempNeighbours.Count ; l++){
-						if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-							tempTiles.Add(tempNeighbours[l]);
-							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
-						}
-						if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
-							if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
-								destinations.Add(tempNeighbours[l]);
-								isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+			bool[,] hasBeenPassages = new bool[this.boardWidth, this.boardHeight];
+			bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
+			for(int l = 0 ; l < this.boardWidth ; l++){
+				for(int k = 0 ; k < this.boardHeight ; k++){
+					hasBeenPassages[l,k]=false;
+					isDestination[l,k]=false;
+				}
+			}
+			List<Tile> baseTiles = new List<Tile>();
+			List<Tile> tempTiles = new List<Tile>();
+			List<Tile> tempNeighbours ;
+			baseTiles.Add(this.getPlayingCardTile(i));
+			int move = this.getCard(i).getMove();
+			
+			int j = 0 ;
+			
+			if(this.getCard(i).isMine){		
+				while (j < move){
+					tempTiles = new List<Tile>();
+					
+					for(int k = 0 ; k < baseTiles.Count ; k++){
+						tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
+						for(int l = 0 ; l < tempNeighbours.Count ; l++){
+							
+							if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+								tempTiles.Add(tempNeighbours[l]);
+								hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
 							}
-						}
-					}	
+							if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
+								if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
+									destinations.Add(tempNeighbours[l]);
+									isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+								}
+							}
+						}	
+					}
+					baseTiles = new List<Tile>();
+					for(int l = 0 ; l < tempTiles.Count ; l++){
+						baseTiles.Add(tempTiles[l]);
+					}
+					j++;
 				}
-				baseTiles = new List<Tile>();
-				for(int l = 0 ; l < tempTiles.Count ; l++){
-					baseTiles.Add(tempTiles[l]);
+			}
+			else{
+				while (j < move){
+					tempTiles = new List<Tile>();
+					
+					for(int k = 0 ; k < baseTiles.Count ; k++){
+						tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k]);
+						for(int l = 0 ; l < tempNeighbours.Count ; l++){
+							if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
+								tempTiles.Add(tempNeighbours[l]);
+								hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+							}
+							if(this.tiles[tempNeighbours[l].x, tempNeighbours[l].y].GetComponent<TileController>().getCharacterID()==-1){
+								if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
+									destinations.Add(tempNeighbours[l]);
+									isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+								}
+							}
+						}	
+					}
+					baseTiles = new List<Tile>();
+					for(int l = 0 ; l < tempTiles.Count ; l++){
+						baseTiles.Add(tempTiles[l]);
+					}
+					j++;
 				}
-				j++;
 			}
 		}
-		
 		this.playingCards[i].GetComponent<PlayingCardController>().setDestinations(destinations);
 	}
 	
@@ -2621,30 +2665,10 @@ public class GameView : MonoBehaviour
 	{	
 		this.setLaunchability("Compétence en cours");
 		this.runningSkill = r ;
-		string s = GameSkills.instance.getSkill(this.runningSkill).name;
+
 		this.getPassZoneController().show(false);
-		if(GameView.instance.isMobile){
-			this.getSkillZoneController().showCancelButton(false);
-		}
-		else{
-			if(this.getCurrentCard().isMine){
-				this.getSkillZoneController().showCancelButton(false);
-			}
-		}
+		this.getSkillZoneController().showCancelButton(false);
 		this.getSkillZoneController().showSkillButtons(false);
-		this.hoverTile();
-		if(GameSkills.instance.getSkill(this.runningSkill).ciblage>0 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=10 && GameSkills.instance.getSkill(this.runningSkill).ciblage!=11){
-			if(GameSkills.instance.getSkill(this.runningSkill).ciblage==6){
-				if(this.getCurrentCard().isMine){
-					this.displaySkillEffect(this.currentPlayingCard,s,1);
-					this.addSE(this.getTile(this.currentPlayingCard));
-				}
-			}
-			else{
-				this.displaySkillEffect(this.currentPlayingCard,s,1);
-				this.addSE(this.getTile(this.currentPlayingCard));
-			}
-		}
 	}
 	
 	public IEnumerator endPlay()
@@ -2754,7 +2778,6 @@ public class GameView : MonoBehaviour
 				skillEffects.RemoveAt(i);
 			}
 		}
-		this.getTileController(t).showEffect(false);
 	}
 
 	public void removeDead(int c){
@@ -3013,7 +3036,7 @@ public class GameView : MonoBehaviour
 	public void updateCristoEater(){
 		int nbCristals = this.countCristals();
 		int amount ;
-		for(int i = 0 ; i < playingCards.Length ; i++){
+		for(int i = 0 ; i < this.nbCards ; i++){
 			if(this.getCard(i).isCristoMaster()){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+" ATK. Permanent"));

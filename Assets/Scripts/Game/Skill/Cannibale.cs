@@ -67,14 +67,12 @@ public class Cannibale : GameSkill
 	public override string getTargetText(int target){
 		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
 		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
 
 		int bonusLife = Mathf.RoundToInt(damages*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
-		int targetMe = GameView.instance.getCurrentPlayingCard();
-		
+
 		text += "\nAbsorbe "+bonusAttack+" ATK et "+bonusLife+" PV";
 		
 		int probaEsquive = targetCard.getEsquive();

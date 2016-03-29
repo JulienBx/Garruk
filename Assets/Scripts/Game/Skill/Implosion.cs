@@ -62,7 +62,6 @@ public class Implosion : GameSkill
 		}
 		GameController.instance.applyOn2(GameView.instance.getCurrentPlayingCard(), currentCard.getLife());
 		GameController.instance.endPlay();
-		int myLevel = currentCard.Skills[0].Power;
 		if(currentCard.isFou()){
 			GameController.instance.launchFou(28,GameView.instance.getCurrentPlayingCard());
 		}

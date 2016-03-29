@@ -23,7 +23,6 @@ public class Mitraillette : GameSkill
 
 		List<int> potentialTargets = GameView.instance.getOpponents();
 		List<int> targets = new List<int>();
-		List<int> chosenTargets = new List<int>();
 		bool isFirstP = GameView.instance.getIsFirstPlayer();
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
 		Tile targetTile ; 
@@ -69,7 +68,6 @@ public class Mitraillette : GameSkill
 			nbTargets++ ;
 		}
 		GameController.instance.endPlay();
-		int myLevel = currentCard.Skills[0].Power;
 		if(currentCard.isFou()){
 			GameController.instance.launchFou(30,GameView.instance.getCurrentPlayingCard());
 		}

@@ -24,7 +24,6 @@ public class Visee : GameSkill
 	}
 
 	public override void applyOn(int target){
-		GameCard currentCard = GameView.instance.getCurrentCard();
 		target = GameView.instance.getCurrentPlayingCard();
 		int bonus = 50 + GameView.instance.getCurrentSkill().Power*10;
 

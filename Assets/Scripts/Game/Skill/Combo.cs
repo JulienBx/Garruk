@@ -57,7 +57,6 @@ public class Combo : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
 		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.CeilToInt(20*currentCard.getAttack()/100f));
 		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.CeilToInt(20*currentCard.getAttack()/100f));
 		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
