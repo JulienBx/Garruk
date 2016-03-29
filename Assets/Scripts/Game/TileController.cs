@@ -556,7 +556,7 @@ public class TileController : GameObjectController
 		}
 		else{
 			this.timerAnim = 0f ;
-			GameView.instance.removeSE(this.tile);
+
 		}
 	}
 	

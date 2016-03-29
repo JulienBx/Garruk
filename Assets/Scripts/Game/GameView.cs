@@ -847,7 +847,7 @@ public class GameView : MonoBehaviour
 	public void hideSkillEffects(){
 		for (int i = 0 ; i < this.boardWidth ; i++){
 			for (int j = 0 ; j < this.boardHeight ; j++){
-					this.getTileController(i,j).showEffect(false);
+				GameView.instance.removeSE(new Tile(i,j));
 			}
 		}
 	}
@@ -2778,6 +2778,7 @@ public class GameView : MonoBehaviour
 				skillEffects.RemoveAt(i);
 			}
 		}
+		this.getTileController(t.x,t.y).showEffect(false);
 	}
 
 	public void removeDead(int c){
