@@ -163,7 +163,7 @@ public class GameSkill
 				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents();
 			}
 			else if(this.ciblage==16){
-				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents();
+				launchability = GameView.instance.canLaunchNextCristal();
 			}
 			else{
 				launchability = "";

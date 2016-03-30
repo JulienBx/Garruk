@@ -1825,7 +1825,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//80 - Vampire
 		idSkills.Add(80);
-		names.Add(new string[]{"Vampire",""}); 
+		names.Add(new string[]{"Blabla",""}); 
 		descriptions.Add(new string[]{"Gagne 2 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 4 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 6 PV à chaque fois qu'une unité meurt",""}); 

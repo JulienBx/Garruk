@@ -6,14 +6,14 @@ public class CristoCurse : GameSkill
 	public CristoCurse(){
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "CristoCurse";
-		base.ciblage = 1 ;
+		base.ciblage = 9 ;
 		base.auto = false;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentOpponentsTargets();
+		GameView.instance.displayAdjacentUnitsTargets();
 	}
 
 	public override void resolve(List<int> targetsPCC)

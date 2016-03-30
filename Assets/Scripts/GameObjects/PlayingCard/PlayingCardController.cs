@@ -244,7 +244,8 @@ public class PlayingCardController : GameObjectController
 	public void addDamagesModifyer(Modifyer m, bool endTurn){
 		this.updateLife(this.card.getLife());
 		if(m.amount<0){
-			m.amount = Mathf.Min(m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
+			m.amount = Mathf.Min(-1*m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
+			print(m.amount+"-"+this.card.GetTotalLife()+"-"+this.card.getLife());
 		}
 		else{
 			if (this.card.getLife()-m.amount<=0){
@@ -401,6 +402,9 @@ public class PlayingCardController : GameObjectController
 				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 			}
 			else if((this.card.GetTotalLife()/2)>nextNumber){
+				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(243f/255f, 110f/255f, 42f/255f, 1f);
+			}
+			else if((this.card.GetTotalLife())>nextNumber){
 				transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().color = new Color(255f/255f, 220f/255f, 20f/255f, 1f);
 			}
 			else if(this.card.Life<nextNumber){

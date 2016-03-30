@@ -84,6 +84,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	public void removeRockRPC(int x, int y){
 		GameView.instance.getTileController(x,y).removeRock();
+		GameView.instance.recalculateDestinations();
 	}
 
 	public void addRock(Tile t, int type){

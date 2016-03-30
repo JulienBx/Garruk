@@ -643,6 +643,11 @@ public class GameView : MonoBehaviour
 			if(!this.getCard(characterID).isGolem()){
 				this.getCard(characterID).hasMoved=true;
 			}
+			else{
+				GameView.instance.displaySkillEffect(characterID, "Golem\n-10PV", 0);
+				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(10,-1,1,"Attaque","10 dégats subis"), true);
+				GameView.instance.addAnim(GameView.instance.getTile(characterID), 141);
+			}
 			this.removeDestinations();
 			this.recalculateDestinations();
 			this.updateActionStatus();
@@ -3191,7 +3196,7 @@ public class GameView : MonoBehaviour
 			if(this.getCard(i).isCristoMaster()){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+" ATK. Permanent"));
-
+				this.getPlayingCardController(i).updateAttack();
 				GameView.instance.displaySkillEffect(i, "Cristomaitre\n+"+amount+" ATK", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(i), 0);
 			}

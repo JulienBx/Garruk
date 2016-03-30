@@ -50,9 +50,9 @@ public class GameSkills : MonoBehaviour
 		this.skills [37] = new GameSkill();
 		this.skills [38] = new GameSkill();
 		this.skills [39] = new Renfoderme();
-		this.skills [40] = new GameSkill();
-		this.skills [41] = new GameSkill();
-		this.skills [42] = new GameSkill();
+		this.skills [40] = new Vampire();
+		this.skills [41] = new CristoCurse();
+		this.skills [42] = new Alchemy();
 		this.skills [43] = new GameSkill();
 		this.skills [44] = new GameSkill();
 		this.skills [45] = new GameSkill();
@@ -115,7 +115,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [102] = new GameSkill();
 		this.skills [103] = new GameSkill();
 		this.skills [104] = new GameSkill();
-		this.skills [105] = new GameSkill();
+		this.skills [105] = new Copieur();
 		this.skills [106] = new GameSkill();
 		this.skills [107] = new GameSkill();
 		this.skills [108] = new GameSkill();
@@ -140,10 +140,10 @@ public class GameSkills : MonoBehaviour
 		this.skills [127] = new GameSkill();
 		this.skills [128] = new Cristopower();
 		this.skills [129] = new Cristolife();
-		this.skills [130] = new GameSkill();
-		this.skills [131] = new GameSkill();
-		this.skills [132] = new GameSkill();
-		this.skills [133] = new GameSkill();
+		this.skills [130] = new PluieBleue();
+		this.skills [131] = new Chasseur();
+		this.skills [132] = new Chocbleu();
+		this.skills [133] = new Synergie();
 		this.skills [134] = new GameSkill();
 		this.skills [135] = new GameSkill();
 		this.skills [136] = new GameSkill();

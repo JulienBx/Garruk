@@ -60,7 +60,7 @@ public class HoveredCardController : MonoBehaviour
 	public virtual void setCard(GameCard c){
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSprite(c.Skills[0].Id);
 		gameObject.transform.FindChild("Title").FindChild("Text").GetComponent<TextMeshPro>().text = c.getName();
-		gameObject.transform.FindChild("Title").FindChild("PVText").GetComponent<TextMeshPro>().text = c.GetLifeString();
+		gameObject.transform.FindChild("Title").FindChild("PVText").GetComponent<TextMeshPro>().text = c.GetLifeString()+"/"+c.GetTotalLife();
 		gameObject.transform.FindChild("Title").FindChild("AttackText").GetComponent<TextMeshPro>().text = c.GetAttackString();
 
 		int nbSkills = 0 ;

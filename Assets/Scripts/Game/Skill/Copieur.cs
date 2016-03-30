@@ -31,16 +31,17 @@ public class Copieur : GameSkill
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOnMe(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		currentCard.Skills[1].Id = targetCard.Skills[1].Id ;
 		currentCard.Skills[1].Power = targetCard.Skills[1].Power ;
 		currentCard.Skills[1].proba = targetCard.Skills[1].proba;
+		GameView.instance.getMyHoveredCardController().setCard(currentCard);
 
-		GameView.instance.displaySkillEffect(target, "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 105);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
+		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 105);
 	}
 
 	public override string getTargetText(int target){

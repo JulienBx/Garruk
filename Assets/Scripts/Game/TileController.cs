@@ -429,29 +429,27 @@ public class TileController : GameObjectController
 			if(this.isDisplayingTarget){
 				this.showDescription(false);
 			}
-			if(this.type!=1){
-				if(this.characterID!=-1){
-					if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-						GameView.instance.hitTarget(this.characterID);
-					}
-					if(GameView.instance.getCard(this.characterID).isMine && (!GameView.instance.hasFightStarted ||(GameView.instance.getCurrentPlayingCard()==this.characterID && !GameView.instance.getCard(this.characterID).hasMoved))){
-						GameView.instance.clickCharacter(this.characterID);
-					}
-					else if(GameView.instance.isMobile){
-						GameView.instance.clickMobileCharacter(this.characterID);
-					}
+			if(this.characterID!=-1){
+				if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
+					GameView.instance.hitTarget(this.characterID);
 				}
-				else{
-					if(this.isDisplayingTarget){
-						GameView.instance.hitTarget(this.tile);
-					}
-					else if(this.isDestination==1 && GameView.instance.hasFightStarted){
-						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
-					}
+				if(GameView.instance.getCard(this.characterID).isMine && (!GameView.instance.hasFightStarted ||(GameView.instance.getCurrentPlayingCard()==this.characterID && !GameView.instance.getCard(this.characterID).hasMoved))){
+					GameView.instance.clickCharacter(this.characterID);
 				}
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					GameView.instance.hideTuto();
+				else if(GameView.instance.isMobile){
+					GameView.instance.clickMobileCharacter(this.characterID);
 				}
+			}
+			else{
+				if(this.isDisplayingTarget){
+					GameView.instance.hitTarget(this.tile);
+				}
+				else if(this.isDestination==1 && GameView.instance.hasFightStarted){
+					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+				}
+			}
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				GameView.instance.hideTuto();
 			}
 		}
 	}
@@ -561,7 +559,7 @@ public class TileController : GameObjectController
 
 	public void addSETime(float t){
 		this.timerAnim += t ;
-		if(this.isFinishedTransi){
+		if(this.isFinishedTransi && this.characterID!=GameView.instance.getCurrentPlayingCard()){
 			if(this.timerAnim < 0.5f){
 				if(this.isGrowing){
 					gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim));
