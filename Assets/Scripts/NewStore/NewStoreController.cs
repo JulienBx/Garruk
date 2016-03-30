@@ -80,6 +80,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 	private int selectedPackIndex;
 	private int selectedCardType;
+	private int nbCards;
 	private int clickedCardId;
 
 	private bool[] toRotate;
@@ -150,7 +151,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 						this.angle=360;
 						this.toRotate[i]=false;
 						this.drawFace=false;
-						if(i<model.packList[this.selectedPackIndex].NbCards-1)
+						if(i<this.nbCards-1)
 						{
 							this.toRotate[i+1]=true;
 							if(!isCardFocusedDisplayed)
@@ -161,7 +162,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 						else
 						{
 							this.startRotation=false;
-							if(model.packList[this.selectedPackIndex].NbCards==1)
+							if(this.nbCards==1)
 							{
 								this.randomCards[i].GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(true);
 							}
@@ -346,7 +347,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
-		if(ApplicationModel.player.PackToBuy!=-1)
+		if(ApplicationModel.player.HasToBuyTrainingPack)
+		{
+			this.buyPackHandler(-1,false,true);
+			ApplicationModel.player.HasToBuyTrainingPack=false;
+		}
+		else if(ApplicationModel.player.PackToBuy!=-1)
 		{
 			this.buyPackHandler(ApplicationModel.player.PackToBuy,true,false);
 			ApplicationModel.player.PackToBuy=-1;
@@ -638,7 +644,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public void createRandomCards()
 	{
 		this.areRandomCardsGenerated=true;
-		for (int i = 0; i <model.packList [this.selectedPackIndex].NbCards; i++)
+		for (int i = 0; i <this.nbCards; i++)
 		{
 			this.randomCards[i] = Instantiate(this.cardObject) as GameObject;
 			this.randomCards[i].AddComponent<NewCardStoreController>();
@@ -658,12 +664,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		float cardWorldWidth = 0f;
 		float cardWorldHeight = 0f;
 		float nbLines = 0f;
-		int elementPerLine = model.packList [this.selectedPackIndex].NbCards;
+		int elementPerLine = this.nbCards;
 
 		while(cardWorldWidth<ApplicationDesignRules.cardWorldSize.x)
 		{
 			nbLines++;
-			elementPerLine=Mathf.CeilToInt((float)model.packList [this.selectedPackIndex].NbCards/(float)nbLines);
+			elementPerLine=Mathf.CeilToInt((float)this.nbCards/(float)nbLines);
 			cardWorldWidth = (width-(((float)elementPerLine+1f)*gapBetweenCards))/(float)elementPerLine;
 		}
 
@@ -682,7 +688,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		int line;
 		int elementOnCurrentLine;
 
-		for (int i = 0; i <model.packList [this.selectedPackIndex].NbCards; i++)
+		for (int i = 0; i <this.nbCards; i++)
 		{
 			line = Mathf.FloorToInt(i/elementPerLine);
 			column = i%elementPerLine;
@@ -692,7 +698,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			}
 			else
 			{
-				elementOnCurrentLine=model.packList [this.selectedPackIndex].NbCards%elementPerLine;
+				elementOnCurrentLine=this.nbCards%elementPerLine;
 				if(elementOnCurrentLine==0)
 				{
 					elementOnCurrentLine=elementPerLine;
@@ -706,7 +712,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void rotateRandomCards()
 	{	
-		for (int i = 0; i <model.packList [this.selectedPackIndex].NbCards; i++)
+		for (int i = 0; i <this.nbCards; i++)
 		{
 			this.toRotate[i]=false;
 			this.randomCards[i].transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -838,35 +844,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			Destroy(this.packs[i]);
 		}
 	}
-	public void buyPackHandler(int id)
-	{
-		bool fromHome=false;
-		if(fromHome)
-		{
-			for(int i=0;i<model.packList.Count;i++)
-			{
-				if(model.packList[i].Id==id)
-				{
-					this.selectedPackIndex=i;
-					break;
-				}
-
-			}
-		}
-		else
-		{
-			this.selectedPackIndex = this.packsDisplayed [id];
-		}
-		this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
-		if(this.selectedCardType==-2)
-		{
-			this.displaySelectCardTypePopUp();
-		}
-		else
-		{
-			StartCoroutine (this.buyPack ());
-		}
-	}
 	public void buyPackHandler(int id, bool fromHome, bool trainingPack)
 	{
 		if(fromHome)
@@ -886,10 +863,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		{
 			this.selectedPackIndex = this.packsDisplayed [id];
 			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
+			this.nbCards=model.packList [this.selectedPackIndex].NbCards;
 		}
 		if(trainingPack)
 		{
 			this.selectedCardType=ApplicationModel.player.TrainingAllowedCardType;
+			this.nbCards=ApplicationModel.nbCardsByDeck;
 			StartCoroutine (this.buyPack ());
 		}
 		else if(this.selectedCardType==-2)
@@ -915,10 +894,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		BackOfficeController.instance.hideLoadingScreen ();
 		if(model.Error=="")
 		{
-			this.randomCardsDisplayed = new bool[model.packList [this.selectedPackIndex].NbCards];
-			this.randomCards = new GameObject[model.packList [this.selectedPackIndex].NbCards];
-			this.toRotate=new bool[model.packList [this.selectedPackIndex].NbCards];
-			if(model.packList[this.selectedPackIndex].NbCards>1)
+			this.randomCardsDisplayed = new bool[this.nbCards];
+			this.randomCards = new GameObject[this.nbCards];
+			this.toRotate=new bool[this.nbCards];
+			if(this.nbCards>1)
 			{
 				this.backButton.SetActive(true);
 				this.createRandomCards();
