@@ -46,7 +46,15 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text = this.u.Username;
 		gameObject.transform.FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture(this.u.IdProfilePicture);
-		gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(this.u.Division);
+		if(this.u.TrainingStatus==-1)
+		{
+			gameObject.transform.FindChild("divisionIcon").gameObject.SetActive(true);
+			gameObject.transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(this.u.Division);
+		}
+		else
+		{
+			gameObject.transform.FindChild("divisionIcon").gameObject.SetActive(false);
+		}
 	}
 	public void setId(int Id)
 	{
