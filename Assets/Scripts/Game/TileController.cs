@@ -127,12 +127,18 @@ public class TileController : GameObjectController
 		GameView.instance.updateCristoEater();
 	}
 
-	public void addRock(){
+	public void addRock(int type){
 		this.type=1;
 		this.showRock();
 
-		GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
-		GameView.instance.addAnim(this.tile, 0);
+		if(type==140){
+			GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
+			GameView.instance.addAnim(this.tile, 0);
+		}
+		else if(type==42){
+			GameView.instance.displaySkillEffect(this.tile, "Cristal créé", 2);
+			GameView.instance.addAnim(this.tile, 42);
+		}
 
 		GameView.instance.updateCristoEater();
 	}

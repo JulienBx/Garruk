@@ -650,7 +650,7 @@ public class GameView : MonoBehaviour
 				if(this.getCard(characterID).isCreator()){
 					int level = this.getCard(characterID).getSkills()[0].Power * 5 + 30;
 					if(UnityEngine.Random.Range(1,101)<level){
-						GameController.instance.addRock(origine);
+						GameController.instance.addRock(origine, 140);
 					}
 				}
 			}
@@ -2570,6 +2570,53 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return everyone;
+	}
+
+	public List<int> getEveryoneCardtype(int value){
+		List<int> everyone = new List<int>();
+		for(int i = 0 ; i < this.nbCards ; i++){
+			if(!this.getCard(i).isDead && i!=this.currentPlayingCard && this.getCard(i).CardType.Id==value){
+				everyone.Add(i);
+			}
+		}
+		return everyone;
+	}
+
+	public List<int> getEveryoneNextCristal(){
+		List<int> everyone = new List<int>();
+		List<Tile> neighbours = new List<Tile>();
+		bool hasFoundCristal ;
+		for(int i = 0 ; i < this.nbCards;i++){
+			if(!this.getCard(i).isDead && i!=this.currentPlayingCard){
+				neighbours = this.getTile(i).getImmediateNeighbourTiles();
+				hasFoundCristal = false ;
+				for(int j = 0 ; j < neighbours.Count ; j++){
+					if(this.getTileController(neighbours[j]).isRock()){
+						hasFoundCristal = true ;
+					}
+				}
+				if(hasFoundCristal){
+					everyone.Add(i);
+				}
+			}
+		}
+		return everyone;
+	}
+
+	public string canLaunchNextCristal(){
+		string s = "Pas d'ennemis à proximité de cristaux";
+		List<Tile> neighbours = new List<Tile>();
+		for(int i = 0 ; i < this.nbCards;i++){
+			if(!this.getCard(i).isDead && i!=this.currentPlayingCard){
+				neighbours = this.getTile(i).getImmediateNeighbourTiles();
+				for(int j = 0 ; j < neighbours.Count ; j++){
+					if(this.getTileController(neighbours[j]).isRock()){
+						s = "";
+					}
+				}
+			}
+		}
+		return s;
 	}
 	
 	public int countAlive(){

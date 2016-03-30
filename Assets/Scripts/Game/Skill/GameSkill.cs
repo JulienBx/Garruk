@@ -162,6 +162,9 @@ public class GameSkill
 			else if(this.ciblage==15){
 				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents();
 			}
+			else if(this.ciblage==16){
+				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents();
+			}
 			else{
 				launchability = "";
 			}

@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Bombardier : GameSkill
+public class Vampire : GameSkill
 {
-	public Bombardier(){
+	public Vampire(){
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Bombardier";
-		base.ciblage = 0 ;
+		base.name = "Vampire";
+		base.ciblage = 16 ;
 		base.auto = true;
 	}
 	
@@ -19,12 +19,9 @@ public class Bombardier : GameSkill
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		List<int> targets = GameView.instance.getEveryone() ; 
+		List<int> targets = GameView.instance.getEveryoneNextCristal() ; 
 		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
 
-		if(currentCard.isFou()){
-			maxdamages = Mathf.RoundToInt(1.25f*maxdamages);
-		}
 		int proba = GameView.instance.getCurrentSkill().proba;
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) <= GameView.instance.getCard(targets[i]).getMagicalEsquive()){
@@ -32,41 +29,35 @@ public class Bombardier : GameSkill
 			}
 			else{
 				if (Random.Range(1,101) <= proba){
-					GameController.instance.applyOn2(targets[i], Random.Range(1,maxdamages+1));
+					GameController.instance.applyOn(targets[i]);
 				}
 				else{
 					GameController.instance.esquive(targets[i],base.name);
 				}
 			}
 		}
-		if(currentCard.isFou()){
-			GameController.instance.applyOnMe(1);
-		}
-		else{
-			GameController.instance.applyOnMe(-1);
-		}
+
+		GameController.instance.applyOnMe(targets.Count);
 		GameController.instance.endPlay();
 	}
 	
 	public override void applyOn(int target, int amount){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
+		int level = 2+GameView.instance.getCurrentSkill().Power;
+		int damages = currentCard.getMagicalDamagesAgainst(targetCard, level);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 24);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 40);
 	}
 
 	public override void applyOnMe(int value){
-		if(value==1){
-			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
-		}
-		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		}
+		int level = 2+GameView.instance.getCurrentSkill().Power;
+		int damages = -1*value*level;
+
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(damages, -1, 40, base.name, damages+" dégats subis"), false);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "+"+damages+"PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
 }

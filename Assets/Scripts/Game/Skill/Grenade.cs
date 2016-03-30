@@ -24,13 +24,16 @@ public class Grenade : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = GameView.instance.getCurrentSkill().proba;
 		int level = GameView.instance.getCurrentSkill().Power;
-
+		bool hasFoundMe = false ;
 		int minDamages;
 		int maxDamages;
 		int playerID;
 	
 		playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x, targetsTile[0].y)).getCharacterID();
 		if(playerID!=-1){
+			if(GameView.instance.getCurrentPlayingCard()==playerID){
+				hasFoundMe = true ;
+			}
 			if (Random.Range(1,101) <= GameView.instance.getCard(playerID).getMagicalEsquive()){
 				GameController.instance.esquive(playerID,1);
 			}
@@ -51,6 +54,9 @@ public class Grenade : GameSkill
 		if(targetsTile[0].x<GameView.instance.boardWidth-1){
 			playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x+1, targetsTile[0].y)).getCharacterID();
 			if(playerID!=-1){
+				if(GameView.instance.getCurrentPlayingCard()==playerID){
+					hasFoundMe = true ;
+				}
 				if (Random.Range(1,101) <= GameView.instance.getCard(playerID).getMagicalEsquive()){
 					GameController.instance.esquive(playerID,1);
 				}
@@ -73,6 +79,9 @@ public class Grenade : GameSkill
 		if(targetsTile[0].x>0){
 			playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x-1, targetsTile[0].y)).getCharacterID();
 			if(playerID!=-1){
+				if(GameView.instance.getCurrentPlayingCard()==playerID){
+					hasFoundMe = true ;
+				}
 				if (Random.Range(1,101) <= GameView.instance.getCard(playerID).getMagicalEsquive()){
 					GameController.instance.esquive(playerID,1);
 				}
@@ -95,6 +104,9 @@ public class Grenade : GameSkill
 		if(targetsTile[0].y<GameView.instance.boardHeight-1){
 			playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x, targetsTile[0].y+1)).getCharacterID();
 			if(playerID!=-1){
+				if(GameView.instance.getCurrentPlayingCard()==playerID){
+					hasFoundMe = true ;
+				}
 				if (Random.Range(1,101) <= GameView.instance.getCard(playerID).getMagicalEsquive()){
 					GameController.instance.esquive(playerID,1);
 				}
@@ -117,6 +129,9 @@ public class Grenade : GameSkill
 		if(targetsTile[0].y>0){
 			playerID = GameView.instance.getTileController(new Tile(targetsTile[0].x, targetsTile[0].y-1)).getCharacterID();
 			if(playerID!=-1){
+				if(GameView.instance.getCurrentPlayingCard()==playerID){
+					hasFoundMe = true ;
+				}
 				if (Random.Range(1,101) <= GameView.instance.getCard(playerID).getMagicalEsquive()){
 					GameController.instance.esquive(playerID,1);
 				}
@@ -137,10 +152,14 @@ public class Grenade : GameSkill
 			}
 		}
 		if(currentCard.isFou()){
-			GameController.instance.applyOnMe(1);
+			if(!hasFoundMe){
+				GameController.instance.applyOnMe(1);
+			}
 		}
 		else{
-			GameController.instance.applyOnMe(-1);
+			if(!hasFoundMe){
+				GameController.instance.applyOnMe(-1);
+			}
 		}
 		GameController.instance.endPlay();
 	}
