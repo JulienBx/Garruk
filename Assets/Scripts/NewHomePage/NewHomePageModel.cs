@@ -58,7 +58,6 @@ public class NewHomePageModel
 
 			this.lookForNonReadNotification();
 			this.competitions.Add (ApplicationModel.player.CurrentDivision);
-			this.competitions.Add (ApplicationModel.player.CurrentCup);
 
 			if(this.decks.Count>0)
 			{
@@ -92,16 +91,6 @@ public class NewHomePageModel
 			packs[i].IdPicture=System.Convert.ToInt32(packData[4]);
 		}
 		return packs;
-	}
-	private Cup parseCup(string[] array)
-	{
-		Cup cup = new Cup ();
-		cup.GamesPlayed= System.Convert.ToInt32(array[0]);
-		cup.Id= System.Convert.ToInt32(array[1]);
-		//cup.IdPicture= System.Convert.ToInt32(array[2]);
-		cup.NbRounds = System.Convert.ToInt32(array [3]);
-		cup.CupPrize = System.Convert.ToInt32(array [4]);
-		return cup;
 	}
 	private Division parseDivision(string[] array)
 	{

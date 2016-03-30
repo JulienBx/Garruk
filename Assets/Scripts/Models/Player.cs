@@ -28,7 +28,7 @@ public class Player : User
 	private string URLCreateAccount;
 	private string URLRefreshUserData;
 	private string URLLostLogin;
-	private string URLSentNewEmail;
+	private string URLSentNewEmail; 
 	private string URLLinkAccount;
 	private string URLGetPurchasingToken;
 	private int TotalNbResultLimit;
@@ -50,7 +50,6 @@ public class Player : User
 	public bool LobbyHelp;
 	public int ConnectionBonus;
 	public int NbNotificationsNonRead;
-	public Cup CurrentCup;
 	public Division CurrentDivision;
 	public string ProfileChosen;
 	public int IdLanguage;
@@ -123,7 +122,6 @@ public class Player : User
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
-		this.CurrentCup=new Cup();
 		this.CurrentDivision=new Division();
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail){
