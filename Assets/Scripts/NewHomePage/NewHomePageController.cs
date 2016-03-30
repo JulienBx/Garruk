@@ -1439,10 +1439,6 @@ public class NewHomePageController : MonoBehaviour
 	{
 		return this.nonReadNotificationsOnCurrentPage;
 	}
-	public int getNbGamesCup()
-	{
-		return ApplicationModel.player.CurrentCup.GamesPlayed;
-	}
 	public int getNbGamesDivision()
 	{
 		return ApplicationModel.player.CurrentDivision.GamesPlayed;

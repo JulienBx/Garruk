@@ -28,7 +28,14 @@ public class Competition
 
 	public int getPictureId()
 	{
-		return this.GameType;
+		if(this.GameType>10 && this.GameType<21)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 }

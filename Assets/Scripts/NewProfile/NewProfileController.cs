@@ -1311,17 +1311,14 @@ public class NewProfileController : MonoBehaviour
 				this.confrontationsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				string gameTypeName="";
 				int idCompetitionPicture;
-				switch(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType)
+				if(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType>10 && model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType<21)
 				{
-				case 1:
 					gameTypeName=WordingGameModes.getReference(8);
 					idCompetitionPicture=1;
 					break;
-//				case 2:
-//					gameTypeName="Match de coupe";
-//					idCompetitionPicture=2;
-//					break;
-				default:
+				}
+				else
+				{
 					gameTypeName=WordingGameModes.getReference(9);
 					idCompetitionPicture=0;
 					break;
