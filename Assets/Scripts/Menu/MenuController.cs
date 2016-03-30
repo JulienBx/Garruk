@@ -11,38 +11,13 @@ public class MenuController : MonoBehaviour
 {
 	public static MenuController instance;
 
-	private int currentPage;
-	private float timer;
 	private int nbNotificationsNonRead;
 
 	private float totalNbResultLimit;
-	private float helpSpeed;
-	private float helpTimer;
-	private bool isHelpFlashing;
 	public string[] buttonsLabels;
 	public string[] mobileButtonsLabels;
 
-	void Update()
-	{
-		timer += Time.deltaTime;
 
-		if(isHelpFlashing)
-		{
-			this.helpTimer += Time.deltaTime;
-			if(this.helpTimer>0.5f)
-			{
-				this.helpTimer=0f;
-				if(ApplicationDesignRules.isMobileScreen)
-				{
-					gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().changeColor();
-				}
-				else
-				{
-					gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().changeColor();
-				}
-			}
-		}
-	}
 	public void initialize()
 	{
 		instance = this;
@@ -60,13 +35,11 @@ public class MenuController : MonoBehaviour
 		this.mobileButtonsLabels [3] = WordingMenu.getReference(9);
 		this.mobileButtonsLabels [4] = WordingMenu.getReference(10);
 		this.mobileButtonsLabels [5] = WordingMenu.getReference(11);
-		this.helpSpeed = 1f;
 		this.initializeMenuObject ();
 		this.changeThumbPicture();
 	}
 	public void setCurrentPage(int i)
 	{
-		this.currentPage = i;
 		if(!ApplicationDesignRules.isMobileScreen)
 		{
 			gameObject.transform.Find ("Button" + i).GetComponent<MenuButtonController> ().setIsSelected(true);
@@ -182,7 +155,6 @@ public class MenuController : MonoBehaviour
 			gameObject.transform.FindChild ("LogoBlock").transform.position = logoBlockPosition;
 			
 			float userBlockWidth = 766f;
-			float userBlockScale = 0.7f;
 			float userBlockWorldWidth = userBlockWidth / ApplicationDesignRules.pixelPerUnit*logoBlockScale;
 			Vector3 userBlockPosition = gameObject.transform.FindChild ("UserBlock").transform.position;
 			userBlockPosition.x = (ApplicationDesignRules.worldWidth / 2f) - ApplicationDesignRules.rightMargin - userBlockWorldWidth / 2f;
@@ -248,6 +220,14 @@ public class MenuController : MonoBehaviour
 			{
 				this.gameObject.transform.FindChild("MobileDivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.CurrentDivision.Id);
 			}
+			if(ApplicationModel.player.TrainingStatus==-1)
+			{
+				this.gameObject.transform.FindChild("MobileDivisionIcon").gameObject.SetActive(true);
+			}
+			else
+			{
+				this.gameObject.transform.FindChild("MobileDivisionIcon").gameObject.SetActive(false);
+			}
 			if(this.nbNotificationsNonRead>0)
 			{
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<MobileMenuNotificationsController>().reset();
@@ -269,6 +249,14 @@ public class MenuController : MonoBehaviour
 			if(displayedDivision!=ApplicationModel.player.CurrentDivision.Id.ToString())
 			{
 				this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.CurrentDivision.Id);
+			}
+			if(ApplicationModel.player.TrainingStatus==-1)
+			{
+				this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").gameObject.SetActive(true);
+			}
+			else
+			{
+				this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").gameObject.SetActive(false);
 			}
 			if(this.nbNotificationsNonRead>0)
 			{
@@ -322,7 +310,7 @@ public class MenuController : MonoBehaviour
 	{
 		SoundController.instance.playSound(10);
 		ApplicationModel.player.GoToNotifications = true;
-		if(Application.loadedLevelName=="NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()>0)
+		if(SceneManager.GetActiveScene().name=="NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()>0)
 		{
 			NewHomePageController.instance.displayNotifications();
 		}
@@ -375,21 +363,6 @@ public class MenuController : MonoBehaviour
 	{
 		SoundController.instance.playSound(10);
 		HelpController.instance.helpHandler();
-	}
-	public void setFlashingHelp (bool value)
-	{
-		this.isHelpFlashing = value;
-		if (!value) 
-		{
-			if (ApplicationDesignRules.isMobileScreen) 
-			{
-				gameObject.transform.FindChild("MobileHelpButton").GetComponent<MobileMenuHelpController>().reset();	
-			}
-			else
-			{							
-				gameObject.transform.FindChild("UserBlock").FindChild("Help").GetComponent<MenuHelpController>().reset();
-			}
-		}
 	}
 	public Vector3 returnButtonPosition(int id)
 	{

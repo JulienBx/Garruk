@@ -33,7 +33,6 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject competitionDescription;
 	private GameObject playButton;
 	private GameObject divisionProgression;
-	private GameObject cupProgression;
 	private GameObject paginationButtons;
 	private GameObject mainCamera;
 	private GameObject sceneCamera;
@@ -52,7 +51,6 @@ public class NewLobbyController : MonoBehaviour
 
 	private bool isPopUpDisplayed;
 
-	private bool isDivisionLobby;
 	private bool isEndGameLobby;
 	private bool hasWonLastGame;
 
@@ -153,10 +151,6 @@ public class NewLobbyController : MonoBehaviour
 	{
 		instance = this;
 		this.model = new NewLobbyModel ();
-		if(ApplicationModel.player.ChosenGameType==1)
-		{
-			this.isDivisionLobby=true;
-		}
 		if(ApplicationModel.player.ToLaunchEndGameSequence)
 		{
 			this.isEndGameLobby=true;
@@ -199,18 +193,11 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.getLobbyData(this.isDivisionLobby,this.isEndGameLobby));
+		yield return StartCoroutine(model.getLobbyData(this.isEndGameLobby));
 		this.initializeResults ();
 		this.initializeCompetitions ();
 		this.initializeStats ();
-		if(this.isDivisionLobby)
-		{
-			this.drawGauge();
-		}
-		else
-		{
-			this.drawCup();
-		}
+		this.drawGauge();
 		if(this.isEndGameLobby)
 		{
 			this.initializePopUp ();
@@ -290,24 +277,11 @@ public class NewLobbyController : MonoBehaviour
 		this.competitionDescription = GameObject.Find ("CompetitionDescription");
 		this.competitionDescription.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.divisionProgression = GameObject.Find ("DivisionProgression");
-		this.cupProgression = GameObject.Find ("CupProgression");
 		this.mainBlockSubTitle=GameObject.Find ("MainBlockSubTitle");
-		if(this.isDivisionLobby)
-		{
-			this.divisionProgression.SetActive(true);
-			this.cupProgression.SetActive (false);
-			this.divisionProgression.GetComponent<DivisionProgressionController>().initialize();
-			this.mainBlockSubTitle.SetActive(true);
-			this.mainBlockSubTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		}
-		else
-		{
-			this.divisionProgression.SetActive(false);
-			this.mainBlockSubTitle.SetActive(false);
-			this.cupProgression.SetActive(true);
-			this.cupProgression.transform.FindChild("RemainingRounds").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-			this.cupProgression.transform.FindChild("Status").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
-		}
+		this.divisionProgression.SetActive(true);
+		this.divisionProgression.GetComponent<DivisionProgressionController>().initialize();
+		this.mainBlockSubTitle.SetActive(true);
+		this.mainBlockSubTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.slideLeftButton = GameObject.Find ("SlideLeftButton");
 		this.slideLeftButton.AddComponent<NewLobbySlideLeftButtonController> ();
 		this.slideRightButton = GameObject.Find ("SlideRightButton");
@@ -418,8 +392,6 @@ public class NewLobbyController : MonoBehaviour
 		this.mainBlock.GetComponent<NewBlockController> ().resize(mainBlockLeftMargin,mainBlockUpMargin,ApplicationDesignRules.blockWidth,mainBlockHeight);
 		Vector3 mainBlockUpperLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
 		Vector3 mainBlockUpperRightPosition = this.mainBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
-		Vector2 mainBlockLowerLeftPosition = this.mainBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
-		Vector2 mainBlockLowerRightPosition = this.mainBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 mainBlockOriginPosition = this.mainBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		Vector2 mainBlockSize = this.mainBlock.GetComponent<NewBlockController> ().getSize ();
 
@@ -435,9 +407,7 @@ public class NewLobbyController : MonoBehaviour
 
 		this.competitionBlock.GetComponent<NewBlockController> ().resize(competitionBlockLeftMargin,competitionBlockUpMargin,ApplicationDesignRules.blockWidth,competitionBlockHeight);
 		Vector3 competitionBlockUpperLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
-		Vector3 competitionBlockUpperRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getUpperRightCornerPosition ();
 		Vector2 competitionBlockLowerLeftPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
-		Vector2 competitionBlockLowerRightPosition = this.competitionBlock.GetComponent<NewBlockController> ().getLowerRightCornerPosition ();
 		Vector2 competitionBlockSize = this.competitionBlock.GetComponent<NewBlockController> ().getSize ();
 
 		this.competitionBlockTitle.transform.position = new Vector3 (competitionBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, competitionBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
@@ -513,14 +483,7 @@ public class NewLobbyController : MonoBehaviour
 		this.statsPositionX=statsOrigin.x;
 		this.lastResultsPositionX = lastResultsBlockOrigin.x;
 
-		if(this.isDivisionLobby)
-		{
-			this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
-		}
-		else
-		{
-			this.cupProgression.GetComponent<CupProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
-		}
+		this.divisionProgression.GetComponent<DivisionProgressionController>().resize(new Rect(mainBlockOriginPosition.x,mainBlockOriginPosition.y,mainBlockSize.x,mainBlockSize.y));
 
 		if(ApplicationDesignRules.isMobileScreen)
 		{
@@ -677,101 +640,60 @@ public class NewLobbyController : MonoBehaviour
 	{
 		this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.CurrentDivision,false);
 	}
-	public void drawCup()
-	{
-		if(this.isEndGameLobby)
-		{
-			this.cupProgression.GetComponent<CupProgressionController> ().drawCup (ApplicationModel.player.CurrentCup,this.hasWonLastGame);
-		}
-		else
-		{
-			this.cupProgression.GetComponent<CupProgressionController> ().drawCup (ApplicationModel.player.CurrentCup,true);
-		}
-	}
 	public void initializePopUp()
 	{
 		bool displayPopUp = false;
 		string content = "";
-		if(this.isDivisionLobby)
+		if(ApplicationModel.player.CurrentDivision.Status==3) // Fin de saison + Promotion + Titre
 		{
-			if(ApplicationModel.player.CurrentDivision.Status==3) // Fin de saison + Promotion + Titre
-			{
-				content =WordingLobby.getReference(16);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==30) // Fin de saison + Titre
-			{
-				content =WordingLobby.getReference(17);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
-			{
-				content=WordingLobby.getReference(18);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==2) // Promotion + Fin de saison
-			{
-				content=WordingLobby.getReference(19);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==21) // Promotion obtenue au cours du match
-			{
-				content=WordingLobby.getReference(20);
-				displayPopUp=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
-			{
-				content=WordingLobby.getReference(21);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==1) // Maintien + Fin de saison
-			{
-				content=WordingLobby.getReference(22);
-				displayPopUp=true;
-				this.isEndCompetition=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==11) // Maintien obtenu au cours du match
-			{
-				content=WordingLobby.getReference(23);
-				displayPopUp=true;
-			}
-			else if(ApplicationModel.player.CurrentDivision.Status==-1) // Relégation
-			{
-				content=WordingLobby.getReference(24);
-				displayPopUp=true;
-			}
+			content =WordingLobby.getReference(16);
+			displayPopUp=true;
+			this.isEndCompetition=true;
 		}
-		else
+		else if(ApplicationModel.player.CurrentDivision.Status==30) // Fin de saison + Titre
 		{
-//			if(model.currentCup.Status==11) // Fin de saison + Promotion + Titre
-//			{
-//				content ="Bravo ! vous avez remporté la coupe ! Vos résultats en division vous permettent d'accéder à une nouvelle coupe.";
-//				displayPopUp=true;
-//				this.isEndCompetition=true;
-//			}
-//			else if(model.currentCup.Status==1) // Fin de saison + Titre
-//			{
-//				content ="Bravo ! vous avez remporté la coupe !";
-//				displayPopUp=true;
-//				this.isEndCompetition=true;
-//			}
-//			if(model.currentCup.Status==-11) // Fin de saison + Promotion + Titre
-//			{
-//				content ="Vous êtes éliminé... Vos résultats en division vous permettent désormais d'accéder à une nouvelle coupe";
-//				displayPopUp=true;
-//				this.isEndCompetition=true;
-//			}
-//			else if(model.currentCup.Status==-1) // Fin de saison + Titre
-//			{
-//				content ="Vous êtes élminé...";
-//				displayPopUp=true;
-//				this.isEndCompetition=true;
-//			}
+			content =WordingLobby.getReference(17);
+			displayPopUp=true;
+			this.isEndCompetition=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
+		{
+			content=WordingLobby.getReference(18);
+			displayPopUp=true;
+			this.isEndCompetition=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==2) // Promotion + Fin de saison
+		{
+			content=WordingLobby.getReference(19);
+			displayPopUp=true;
+			this.isEndCompetition=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==21) // Promotion obtenue au cours du match
+		{
+			content=WordingLobby.getReference(20);
+			displayPopUp=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
+		{
+			content=WordingLobby.getReference(21);
+			displayPopUp=true;
+			this.isEndCompetition=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==1) // Maintien + Fin de saison
+		{
+			content=WordingLobby.getReference(22);
+			displayPopUp=true;
+			this.isEndCompetition=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==11) // Maintien obtenu au cours du match
+		{
+			content=WordingLobby.getReference(23);
+			displayPopUp=true;
+		}
+		else if(ApplicationModel.player.CurrentDivision.Status==-1) // Relégation
+		{
+			content=WordingLobby.getReference(24);
+			displayPopUp=true;
 		}
 		if(displayPopUp)
 		{
@@ -802,10 +724,7 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void activeGaugeCamera(bool value)
 	{
-		if(this.isDivisionLobby)
-		{
-			this.divisionProgression.GetComponent<DivisionProgressionController>().activeGaugeCamera(value);
-		}
+		this.divisionProgression.GetComponent<DivisionProgressionController>().activeGaugeCamera(value);
 	}
 	public void slideRight()
 	{

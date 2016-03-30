@@ -13,14 +13,9 @@ public class NewLobbyModel
 	public NewLobbyModel()
 	{
 	}
-	public IEnumerator getLobbyData(bool isDivisionLobby, bool isEndGameLobby)
+	public IEnumerator getLobbyData(bool isEndGameLobby)
 	{
 		this.lastResults = new List<PlayerResult> ();
-		int isDivisionLobbyInt = 0;
-		if(isDivisionLobby)
-		{
-			isDivisionLobbyInt = 1;
-		}
 	
 		int isEndGameLobbyInt = 0;
 		if(isEndGameLobby)
@@ -31,7 +26,6 @@ public class NewLobbyModel
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_isdivisionlobby", isDivisionLobbyInt.ToString());
 		form.AddField("myform_isendgamelobby", isEndGameLobbyInt.ToString());
 		
 		WWW w = new WWW(URLGetLobbyData, form); 				// On envoie le formulaire à l'url sur le serveur 
@@ -42,32 +36,11 @@ public class NewLobbyModel
 		{
 			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-
-			if(isDivisionLobby)
-			{
-				ApplicationModel.player.CurrentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			}
-			else
-			{
-				ApplicationModel.player.CurrentCup=parseCup(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			}
+			ApplicationModel.player.CurrentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
 	}
 
-	private Cup parseCup(string[] array)
-	{
-		Cup cup = new Cup ();
-		cup.GamesPlayed= System.Convert.ToInt32(array [0]);
-		cup.NbWins= System.Convert.ToInt32(array [1]);
-		cup.NbLooses= System.Convert.ToInt32(array [2]);
-		cup.Status= System.Convert.ToInt32(array [3]);
-		cup.Id= System.Convert.ToInt32(array [4]);
-		//cup.IdPicture= System.Convert.ToInt32(array[5]);
-		cup.CupPrize = System.Convert.ToInt32(array [6]);
-		cup.NbRounds = System.Convert.ToInt32(array [7]);
-		return cup;
-	}
 	private Division parseDivision(string[] array)
 	{
 		Division division = new Division ();

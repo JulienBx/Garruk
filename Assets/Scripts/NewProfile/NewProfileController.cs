@@ -1138,8 +1138,15 @@ public class NewProfileController : MonoBehaviour
 				this.challengesRecordsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Username;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
-				this.resultsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Division);
-
+				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.TrainingStatus==-1)
+				{
+					this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
+					this.resultsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Division);
+				}
+				else
+				{
+					this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
+				}
 				int nbWins = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbWins;
 				int nbLooses = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbLooses;
 				if(nbWins>nbLooses)
@@ -1204,7 +1211,15 @@ public class NewProfileController : MonoBehaviour
 				}
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Username;
-				this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Division);
+				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.TrainingStatus==-1)
+				{
+					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
+					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Division);
+				}
+				else
+				{
+					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
+				}
 				this.friendsContents[i].SetActive(true);
 			}
 			else
@@ -1227,7 +1242,15 @@ public class NewProfileController : MonoBehaviour
 				this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().reset();
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Username;
-				this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Division);
+				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].TrainingStatus==-1)
+				{
+					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
+					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Division);
+				}
+				else
+				{
+					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
+				}
 				this.friendsContents[i].SetActive(true);
 				string connectionState="";
 				Color connectionStateColor=new Color();
@@ -1342,7 +1365,15 @@ public class NewProfileController : MonoBehaviour
 			this.drawPersonalInformations ();
 		}
 		this.drawProfilePicture ();
-		this.profileDivisionIcon.transform.GetComponent<DivisionIconController>().setDivision(model.displayedUser.Division);
+		if(model.displayedUser.TrainingStatus==-1)
+		{
+			this.profileDivisionIcon.SetActive(true);
+			this.profileDivisionIcon.transform.GetComponent<DivisionIconController>().setDivision(model.displayedUser.Division);
+		}
+		else
+		{
+			this.profileDivisionIcon.SetActive(false);
+		}
 	}
 	private void drawPersonalInformations()
 	{

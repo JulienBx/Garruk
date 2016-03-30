@@ -901,6 +901,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.deckSelectionButton.SetActive(false);
 			}
+			ApplicationModel.player.MyDeck=model.decks[this.deckDisplayed];
 		}
 		else
 		{
@@ -920,7 +921,6 @@ public class NewHomePageController : MonoBehaviour
 				this.deckCards[i].SetActive(false);
 			}
 		}
-		ApplicationModel.player.MyDeck=model.decks[this.deckDisplayed];
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.endInitialization();
 	}
@@ -1347,7 +1347,15 @@ public class NewHomePageController : MonoBehaviour
 		this.contents[contentId].transform.FindChild("username").GetComponent<NewHomePageContentUsernameController>().reset();
 		this.contents[contentId].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(user.IdProfilePicture);
 		this.contents[contentId].transform.FindChild("username").GetComponent<TextMeshPro>().text=user.Username;
-		this.contents[contentId].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(user.Division);
+		if(user.TrainingStatus!=-1)
+		{
+			this.contents[contentId].transform.FindChild("divisionIcon").gameObject.SetActive(false);
+		}
+		else
+		{
+			this.contents[contentId].transform.FindChild("divisionIcon").gameObject.SetActive(true);
+			this.contents[contentId].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(user.Division);		
+		}
 	}
 	public void drawPack()
 	{

@@ -63,7 +63,6 @@ public class MyGameHelpController : HelpController
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 3, 1), 1f, 1f);
 			break;
 		case 9:
-			MenuController.instance.setFlashingHelp(true);
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (6), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getHelpButtonPosition().x,MenuController.instance.getHelpButtonPosition().y-0.5f,MenuController.instance.getHelpButtonPosition().z));
 			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 1f, 1f);
@@ -117,7 +116,6 @@ public class MyGameHelpController : HelpController
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 1, 1), 0.8f, 0.8f);
 			break;
 		case 9:
-			MenuController.instance.setFlashingHelp(true);
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (6), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getHelpButtonPosition().x,MenuController.instance.getHelpButtonPosition().y-0.5f,MenuController.instance.getHelpButtonPosition().z));
 			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 1f, 1f);
@@ -140,7 +138,6 @@ public class MyGameHelpController : HelpController
 			else if(this.sequenceId ==9)
 			{
 				StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
-				MenuController.instance.setFlashingHelp(false);
 				this.quitTutorial();
 			} 
 			else if(this.sequenceId >3)
