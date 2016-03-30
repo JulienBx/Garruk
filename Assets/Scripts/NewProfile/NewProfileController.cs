@@ -1347,7 +1347,6 @@ public class NewProfileController : MonoBehaviour
 	}
 	private void drawProfile()
 	{
-
 		this.profileStats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text=model.displayedUser.TotalNbWins.ToString ();
 		this.profileStats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.displayedUser.TotalNbLooses.ToString ();
 		this.profileStats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.displayedUser.Ranking.ToString ();
