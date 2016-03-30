@@ -23,8 +23,6 @@ public class BackOfficeController : MonoBehaviour
 	private bool isCollectionPointsPopUpDisplayed;
 	private GameObject[] newSkillsPopUps;
 	private bool areNewSkillsPopUpsDisplayed;
-	private GameObject newCardTypePopUp;
-	private bool isNewCardTypePopUpDisplayed;
 	private GameObject playPopUp;
 	private bool isPlayPopUpDisplayed;
 	private GameObject invitationPopUp;
@@ -91,7 +89,6 @@ public class BackOfficeController : MonoBehaviour
 		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
-		this.newCardTypePopUp = this.gameObject.transform.FindChild ("newCardTypePopUp").gameObject;
 		this.loadingScreen=this.gameObject.transform.FindChild("loadingScreen").gameObject;
 		this.loadingScreen.transform.FindChild("background2").GetComponent<SpriteRenderer>().sprite=ressources.loadingScreenBackgrounds[this.getLoadingScreenBackground()];
 		this.resize();
@@ -155,15 +152,6 @@ public class BackOfficeController : MonoBehaviour
 		}
 		this.newSkillsPopUpsResize ();
 	}
-	public void displayNewCardTypePopUp(int idCardTypeUnlocked)
-	{
-		SoundController.instance.playSound(3);
-		this.displayTransparentBackground ();
-		this.newCardTypePopUp.transform.GetComponent<NewCardTypePopUpController> ().reset (WordingCardTypes.getName(idCardTypeUnlocked));
-		this.isNewCardTypePopUpDisplayed = true;
-		this.newCardTypePopUp.SetActive (true);
-		this.newCardTypePopUpResize();
-	}
 	public void displayTransparentBackground()
 	{
 		if(!this.isTransparentBackgroundDisplayed)
@@ -223,22 +211,10 @@ public class BackOfficeController : MonoBehaviour
 			this.newSkillsPopUps[i].transform.position=newSkillPopUpPosition;
 		}
 	}
-	private void newCardTypePopUpResize()
-	{
-		this.newCardTypePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
-		this.newCardTypePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
-		this.newCardTypePopUp.GetComponent<NewCardTypePopUpController> ().resize ();
-	}
 	public void hideCollectionPointsPopUp()
 	{
 		this.collectionPointsPopUp.SetActive (false);
 		this.isCollectionPointsPopUpDisplayed = false;
-	}
-	public void hideNewCardTypePopUp()
-	{
-		this.newCardTypePopUp.SetActive (false);
-		this.hideTransparentBackground();
-		this.isNewCardTypePopUpDisplayed = false;
 	}
 	public void hideNewSkillsPopUps()
 	{
@@ -311,10 +287,6 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.errorPopUpResize();
 		}
-		if(this.isNewCardTypePopUpDisplayed)
-		{
-			this.newCardTypePopUpResize();
-		}
 		if(this.isPlayPopUpDisplayed)
 		{
 			this.playPopUpResize();
@@ -336,11 +308,6 @@ public class BackOfficeController : MonoBehaviour
 		{
 			SoundController.instance.playSound(8);
 			this.toDisconnect();
-		}
-		else if(isNewCardTypePopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.hideNewCardTypePopUp();
 		}
 		else if(isInvitationPopUpDisplayed)
 		{
@@ -375,11 +342,6 @@ public class BackOfficeController : MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.hideDisconnectedPopUp();
 		}
-		else if(isNewCardTypePopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.hideNewCardTypePopUp();
-		}
 		else if(isInvitationPopUpDisplayed)
 		{
 			SoundController.instance.playSound(8);
@@ -405,10 +367,6 @@ public class BackOfficeController : MonoBehaviour
 			{
 				this.hidePlayPopUp();
 			}
-		}
-		if(isNewCardTypePopUpDisplayed)
-		{
-			this.hideNewCardTypePopUp();
 		}
 		if(isDisconnectedPopUpDisplayed)
 		{

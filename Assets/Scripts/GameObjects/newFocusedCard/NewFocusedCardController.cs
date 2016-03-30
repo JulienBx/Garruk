@@ -27,8 +27,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public Card c;
 	public int collectionPointsEarned;
 	public int newCollectionRanking;
-	public int idCardTypeUnlocked;
-	public string titleCardTypeUnlocked;
 	public List<Skill> skillsUnlocked;
 	public bool getNewSkill;
 	public int caracteristicUpgraded;
@@ -303,10 +301,6 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 		}
-		if(this.idCardTypeUnlocked!=-1)
-		{
-			BackOfficeController.instance.displayNewCardTypePopUp(this.idCardTypeUnlocked);
-		}
 		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
 			this.setCardUpgrade();
@@ -561,10 +555,8 @@ public class NewFocusedCardController : MonoBehaviour
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
 				this.c.parseCard(experienceData[0]);
-				this.titleCardTypeUnlocked=experienceData[1];
-				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
-				this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
-				this.caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
+				this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+				this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
 				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
 				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
 				this.isNextLevelPopUpHiding=true;
@@ -720,8 +712,6 @@ public class NewFocusedCardController : MonoBehaviour
 				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
-				this.idCardTypeUnlocked=System.Convert.ToInt32(cardData[1]);
-				this.titleCardTypeUnlocked=cardData[2];
 				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
 				for (int i=0; i<newSkills.Length-1; i++)
 				{
@@ -741,10 +731,6 @@ public class NewFocusedCardController : MonoBehaviour
 				if(this.skillsUnlocked.Count>0)
 				{
 					BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
-				}
-				if(this.idCardTypeUnlocked!=-1)
-				{
-					BackOfficeController.instance.displayNewCardTypePopUp(this.idCardTypeUnlocked);
 				}
 				this.deleteCard();
 			}

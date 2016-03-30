@@ -38,10 +38,8 @@ public class NewEndGameController : MonoBehaviour
 
 	private int collectionPointsEarned;
 	private int newCollectionRanking;
-	private int idCardTypeUnlocked;
 	private int bonus;
 	private int xpWon;
-	private string titleCardTypeUnlocked;
 	private List<Skill> skillsUnlocked;
 
 	private IList<int> idCardsToNextLevel;
@@ -254,10 +252,6 @@ public class NewEndGameController : MonoBehaviour
 			{
 				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
 			}
-			if(this.idCardTypeUnlocked!=-1)
-			{
-				BackOfficeController.instance.displayNewCardTypePopUp(this.idCardTypeUnlocked);
-			}
 		}
 	}
 	public void resize()
@@ -315,10 +309,8 @@ public class NewEndGameController : MonoBehaviour
 				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
 				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
 				ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
-				this.titleCardTypeUnlocked=experienceData[1];
-				this.idCardTypeUnlocked=System.Convert.ToInt32(experienceData[2]);
-				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[3]);
-				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[4]);
+				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
 				this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
 				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
 			}
@@ -327,7 +319,6 @@ public class NewEndGameController : MonoBehaviour
 	public IEnumerator initializeEndGame()
 	{
 		this.skillsUnlocked = new List<Skill> ();
-		this.titleCardTypeUnlocked = "";
 		string idCards = "";
 		for (int i=0; i<4; i++)
 		{
