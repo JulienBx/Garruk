@@ -1315,13 +1315,11 @@ public class NewProfileController : MonoBehaviour
 				{
 					gameTypeName=WordingGameModes.getReference(8);
 					idCompetitionPicture=1;
-					break;
 				}
 				else
 				{
 					gameTypeName=WordingGameModes.getReference(9);
 					idCompetitionPicture=0;
-					break;
 				}
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=gameTypeName;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCompetitionPicture(idCompetitionPicture);
