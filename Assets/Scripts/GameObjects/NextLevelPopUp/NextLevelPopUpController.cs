@@ -25,6 +25,12 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.selectedAttribute=-1;
 		this.resize ();
 
+		this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().reset();
+		this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController>().reset();
+		this.gameObject.transform.FindChild("Skill0").GetComponent<NextLevelPopUpAttributeController>().reset();
+		this.gameObject.transform.FindChild("Skill1").GetComponent<NextLevelPopUpAttributeController>().reset();
+		this.gameObject.transform.FindChild("Skill2").GetComponent<NextLevelPopUpAttributeController>().reset();
+		this.gameObject.transform.FindChild("Skill3").GetComponent<NextLevelPopUpAttributeController>().reset();
 		this.gameObject.transform.FindChild("ConfirmButton").GetComponent<NextLevelPopUpConfirmButtonController>().reset();
 		this.gameObject.transform.FindChild("ConfirmButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(16);
 		this.gameObject.transform.FindChild("ConfirmButton").gameObject.SetActive(false);
@@ -76,6 +82,10 @@ public class NextLevelPopUpController : MonoBehaviour
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(c.Skills[i].Id);
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Power").GetComponent<TextMeshPro> ().text = WordingNextLevelPopUp.getReference(15)+c.Skills[i].Power.ToString();
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Description").GetComponent<TextMeshPro> ().text = this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1));
+				if(i==0)
+				{
+					gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
+				}
 			}
 			else
 			{
