@@ -13,7 +13,7 @@ public class Division : Competition
 	
 	public Division()
 	{
-		this.GameType=1;
+		this.GameType=11;
 	}
 
 }

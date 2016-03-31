@@ -37,7 +37,7 @@ public class WordingProfile
 		references.Add(new string[]{" défaite(s)"," loss"}); //20
 		references.Add(new string[]{"Vous êtes à égalité avec ","You tie with"}); //21
 		references.Add(new string[]{" victoire(s)"," win(s)"}); //22
-		references.Add(new string[]{"Vous êtes devenu champion ","You have become champion on"}); //23
+		references.Add(new string[]{"Est devenu champion le ","Became champion on"}); //23
 		references.Add(new string[]{"(","("}); //24
 		references.Add(new string[]{" pts)"," pts)"}); //25
 		references.Add(new string[]{"prénom : ","First name: "}); //26

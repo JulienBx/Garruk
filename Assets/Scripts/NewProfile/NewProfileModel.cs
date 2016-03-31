@@ -203,7 +203,7 @@ public class NewProfileModel
 		return challengesRecords;
 	}
 	private List<Result> parseConfrontations(string[] confrontationsData)
-	{
+	{		
 		List<Result> confrontations = new List<Result> ();
 		
 		for (int i=0; i<confrontationsData.Length-1;i++)

@@ -97,7 +97,6 @@ public class NewHomePageModel
 		Division division = new Division ();
 		division.GamesPlayed = System.Convert.ToInt32 (array [0]);
 		division.Id= System.Convert.ToInt32(array[1]);
-		//division.IdPicture= System.Convert.ToInt32(array[2]);
 		division.NbGames = System.Convert.ToInt32(array [3]);
 		division.TitlePrize = System.Convert.ToInt32(array [4]);
 		return division;
