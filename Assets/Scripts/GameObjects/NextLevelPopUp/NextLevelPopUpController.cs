@@ -39,8 +39,8 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().text = c.getName() +  WordingNextLevelPopUp.getReference(1) + c.ExperienceLevel + WordingNextLevelPopUp.getReference(2);
 		this.gameObject.transform.FindChild ("Description").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-		this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController> ().initialize (0);
-		this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().initialize (1);
+		this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController> ().setId (0);
+		this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().setId (1);
 		this.gameObject.transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCaracterAvatar(this.c.Skills[0].Id);
 
 		if(c.UpgradedAttack<=c.Attack)
@@ -76,7 +76,7 @@ public class NextLevelPopUpController : MonoBehaviour
 			{
 				gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(true);
 				gameObject.transform.FindChild("SkillMessage"+i).gameObject.SetActive(false);
-				gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().initialize (i+3);
+				gameObject.transform.FindChild("Skill"+i).GetComponent<NextLevelPopUpAttributeController> ().setId (i+3);
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.c.Skills[i].getPictureId());
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.c.Skills[i].Level);
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(c.Skills[i].Id);
@@ -157,7 +157,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		{
 			this.gameObject.transform.FindChild("Skill"+(index-3)).FindChild ("Description").GetComponent<TextMeshPro> ().text = this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[index-3].Id,this.c.Skills[index-3].Power));
 			this.gameObject.transform.FindChild("Skill"+(index-3)).FindChild ("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.c.Skills[index-3].nextLevel);
-			this.gameObject.transform.FindChild("Skill"+(index-3)).FindChild ("Power").GetComponent<TextMeshPro> ().text = WordingNextLevelPopUp.getReference(15)+(c.Skills[index-3].Power+1).ToString();this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().setIsSelected(true);
+			this.gameObject.transform.FindChild("Skill"+(index-3)).FindChild ("Power").GetComponent<TextMeshPro> ().text = WordingNextLevelPopUp.getReference(15)+(c.Skills[index-3].Power+1).ToString();
 			this.gameObject.transform.FindChild("Skill"+(index-3)).GetComponent<NextLevelPopUpAttributeController>().setIsSelected(true);
 			this.gameObject.transform.FindChild("Skill"+(index-3)).GetComponent<NextLevelPopUpAttributeController>().setHoveredState();
 			this.newLevel=c.Skills[index-3].nextLevel;
@@ -186,18 +186,6 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("Skill"+(index-3)).GetComponent<NextLevelPopUpAttributeController>().setIsSelected(false);
 			this.gameObject.transform.FindChild("Skill"+(index-3)).GetComponent<NextLevelPopUpAttributeController>().setInitialState();
 		}
-	}
-	public Sprite getSkillSprite(int id)
-	{
-		return ressources.skillsSprites [id];
-	}
-	public Sprite getSkillTypeSprite(int id)
-	{
-		return ressources.skillsTypesSprites [id];
-	}
-	public Sprite getAttributeSprite(int id)
-	{
-		return ressources.attributesSprites [id];
 	}
 	public Sprite getContourSprite(int id)
 	{

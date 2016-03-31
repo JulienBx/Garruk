@@ -4,20 +4,14 @@ using TMPro;
 public class NextLevelPopUpAttributeController : SpriteButtonController
 {
 
-	private int index;
-	
-	public void initialize(int index)
-	{
-		this.index = index;
-	}
 	public override void mainInstruction ()
 	{
-		this.gameObject.transform.parent.GetComponent<NextLevelPopUpController>().clickOnAttributeHandler(this.index);
+		this.gameObject.transform.parent.GetComponent<NextLevelPopUpController>().clickOnAttributeHandler(this.getId());
 		SoundController.instance.playSound(8);
 	}
 	public override void setInitialState ()
 	{
-		if(this.index!=3)
+		if(this.getId()!=3)
 		{
 			base.setInitialState ();
 		}

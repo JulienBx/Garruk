@@ -800,7 +800,7 @@ public class NewProfileController : MonoBehaviour
 		this.searchSubtitle.transform.GetComponent<TextContainer>().width=searchBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 		this.searchSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		float searchMargin = (searchBlockSize.x - ApplicationDesignRules.largeInputTextWorldSize.x -0.2f- ApplicationDesignRules.button61WorldSize.x*(ApplicationDesignRules.largeInputTextScale.x/ApplicationDesignRules.button61Scale.x)) / 2f;
+		float searchMargin = (searchBlockSize.x - ApplicationDesignRules.largeInputTextWorldSize.x -0.05f- ApplicationDesignRules.button61WorldSize.x*(ApplicationDesignRules.largeInputTextScale.x/ApplicationDesignRules.button61Scale.x)) / 2f;
 
 		this.searchBar.transform.position = new Vector3(searchBlockUpperLeftPosition.x+searchMargin+ApplicationDesignRules.largeInputTextWorldSize.x/2f,searchOrigin.y-searchElementsLine,searchOrigin.z);
 		this.searchBar.transform.localScale = ApplicationDesignRules.largeInputTextScale;
@@ -1252,28 +1252,37 @@ public class NewProfileController : MonoBehaviour
 					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
 				}
 				this.friendsContents[i].SetActive(true);
-				string connectionState="";
-				Color connectionStateColor=new Color();
-				switch(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].OnlineStatus)
+				if(this.isMyProfile)
 				{
-				case 0:
-					connectionState = WordingSocial.getReference(3);
-					connectionStateColor=ApplicationDesignRules.whiteTextColor;
-					this.challengesButtons[i].SetActive(false);
-					break;
-				case 1:
-					connectionState =WordingSocial.getReference(4);
-					connectionStateColor=ApplicationDesignRules.blueColor;
-					this.challengesButtons[i].SetActive(true);
-					break;
-				case 2:
-					connectionState = WordingSocial.getReference(5);
-					connectionStateColor=ApplicationDesignRules.redColor;
-					this.challengesButtons[i].SetActive(false);
-					break;
+					string connectionState="";
+					Color connectionStateColor=new Color();
+					switch(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].OnlineStatus)
+					{
+					case 0:
+						connectionState = WordingSocial.getReference(3);
+						connectionStateColor=ApplicationDesignRules.whiteTextColor;
+						this.challengesButtons[i].SetActive(false);
+						break;
+					case 1:
+						connectionState =WordingSocial.getReference(4);
+						connectionStateColor=ApplicationDesignRules.blueColor;
+						this.challengesButtons[i].SetActive(true);
+						break;
+					case 2:
+						connectionState = WordingSocial.getReference(5);
+						connectionStateColor=ApplicationDesignRules.redColor;
+						this.challengesButtons[i].SetActive(false);
+						break;
+					}
+					this.friendsContents[i].transform.FindChild("description").gameObject.SetActive(true);
+					this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
+					this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
 				}
-				this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
-				this.friendsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
+				else
+				{
+					this.friendsContents[i].transform.FindChild("description").gameObject.SetActive(false);
+					this.challengesButtons[i].SetActive(false);
+				}
 			}
 			else
 			{
