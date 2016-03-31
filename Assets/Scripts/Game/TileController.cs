@@ -559,18 +559,20 @@ public class TileController : GameObjectController
 
 	public void addSETime(float t){
 		this.timerAnim += t ;
-		if(this.isFinishedTransi && this.characterID!=GameView.instance.getCurrentPlayingCard()){
-			if(this.timerAnim < 0.5f){
-				if(this.isGrowing){
-					gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim));
+		if(this.isFinishedTransi){
+			if(this.characterID!=GameView.instance.getCurrentPlayingCard()){
+				if(this.timerAnim < 0.5f){
+					if(this.isGrowing){
+						gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim), 0.8f+0.4f*(timerAnim));
+					}
+					else{
+						gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim));
+					}
 				}
 				else{
-					gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim), 1f-0.4f*(timerAnim));
+					this.timerAnim = 0f ;
+					this.isGrowing = !this.isGrowing ;
 				}
-			}
-			else{
-				this.timerAnim = 0f ;
-				this.isGrowing = !this.isGrowing ;
 			}
 		}
 		else{
