@@ -42,6 +42,15 @@ public class HomePageHelpController : HelpController
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y-0.5f,MenuController.instance.getButtonPosition (1).z));
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 3, 1), 1f, 1f);
 			break;
+		case 4:
+			this.setCompanion (WordingHomePageHelp.getTutorialContent (4), true, false, true, 0f);
+			this.setBackground (false,new Rect (0, 10, 5, 5), 0f, 0f);
+			break;
+		case 5:
+			this.setCompanion (WordingHomePageHelp.getTutorialContent (5), false, false, false, 0f);
+			this.setArrow ("down", new Vector3(NewHomePageController.instance.getOfficialGameButton().x,NewHomePageController.instance.getOfficialGameButton().y+0.5f,NewHomePageController.instance.getOfficialGameButton().z));
+			this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y, 3, 1), 1f, 1f);
+			break;
 		}
 	}
 	public override void getMobileTutorialSequenceSettings()
@@ -65,6 +74,15 @@ public class HomePageHelpController : HelpController
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y+0.5f,MenuController.instance.getButtonPosition (1).z));
 			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 1, 1), 0.8f, 0.8f);
 			break;
+		case 4:
+			this.setCompanion (WordingHomePageHelp.getTutorialContent (4), true, false, true, 0f);
+			this.setBackground (false,new Rect (0, 10, 5, 5), 0f, 0f);
+			break;
+		case 5:
+			this.setCompanion (WordingHomePageHelp.getTutorialContent (5), false, false, false, 0f);
+			this.setArrow ("up", new Vector3(NewHomePageController.instance.getOfficialGameButton().x,NewHomePageController.instance.getOfficialGameButton().y-0.5f-ApplicationDesignRules.downMargin,NewHomePageController.instance.getOfficialGameButton().x));
+			this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y-ApplicationDesignRules.downMargin, 3f, 1.5f), 0.8f, 0.8f);
+			break;
 		}
 	}
 	public override void getTutorialNextAction()
@@ -79,6 +97,11 @@ public class HomePageHelpController : HelpController
 			this.sequenceId = 1;
 			this.launchTutorialSequence ();
 		} 
+		else if (this.sequenceId == -1 && ApplicationModel.player.TutorialStep == 6) 
+		{
+			this.sequenceId = 4;
+			this.launchTutorialSequence ();
+		} 
 		else if (this.sequenceId < 2) 
 		{
 			this.sequenceId = 2;
@@ -89,7 +112,13 @@ public class HomePageHelpController : HelpController
 			StartCoroutine(ApplicationModel.player.setTutorialStep(4));
 			this.sequenceId++;
 			this.launchTutorialSequence ();
-		} 
+		}
+		else if (this.sequenceId == 4) 
+		{
+			StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
+			this.sequenceId++;
+			this.launchTutorialSequence ();
+		}  
 	}
 
 	#endregion

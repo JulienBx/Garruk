@@ -1,78 +1,29 @@
 using UnityEngine;
 using TMPro;
 
-public class NextLevelPopUpAttributeController :MonoBehaviour
+public class NextLevelPopUpAttributeController : SpriteButtonController
 {
 
 	private int index;
-	private int newPower;
-	private int newLevel;
-	private bool isNotClickable;
-	private bool isHovered;
 	
-	public void initialize(int index, int newPower, int newLevel)
+	public void initialize(int index)
 	{
 		this.index = index;
-		this.newPower = newPower;
-		this.newLevel = newLevel;
-		this.isNotClickable=false;
 	}
-	public void setIsNotClickable()
+	public override void mainInstruction ()
 	{
-		this.isNotClickable = true;
+		this.gameObject.transform.parent.GetComponent<NextLevelPopUpController>().clickOnAttributeHandler(this.index);
+		SoundController.instance.playSound(8);
 	}
-	void OnMouseOver()
+	public override void setInitialState ()
 	{
-		if(!this.isHovered && !ApplicationDesignRules.isMobileScreen)
+		if(this.index!=3)
 		{
-			this.isHovered=true;
-			if(this.index<3)
-			{
-				if(!this.isNotClickable)
-				{
-					gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
-				}
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displayAttributePopUp(this.index);
-			}
-			else
-			{
-				if(!this.isNotClickable)
-				{
-					gameObject.transform.parent.transform.FindChild("SkillButton"+(this.index-3)).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
-				}
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().displaySkillPopUp(this.index);
-			}
+			base.setInitialState ();
 		}
-	}
-	void OnMouseExit()
-	{
-		if(this.isHovered && !ApplicationDesignRules.isMobileScreen)
+		else
 		{
-			this.isHovered=false;
-			if(this.index<3)
-			{
-				if(!this.isNotClickable)
-				{
-					gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
-				}
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideAttributePopUp();
-			}
-			else
-			{
-				if(!this.isNotClickable)
-				{
-					gameObject.transform.parent.transform.FindChild("SkillButton"+(this.index-3)).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
-				}
-				gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().hideSkillPopUp();
-			}
-		}
-	}
-	void OnMouseDown()
-	{
-		if(!this.isNotClickable)
-		{
-			SoundController.instance.playSound(8);
-			gameObject.transform.parent.GetComponent<NextLevelPopUpController> ().clickOnAttribute (this.index, this.newPower, this.newLevel);
+			this.gameObject.transform.GetComponent<SpriteRenderer> ().color = new Color(0f,0f,0f);
 		}
 	}
 }

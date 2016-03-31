@@ -19,10 +19,12 @@ public class WordingHomePageHelp
 	static WordingHomePageHelp()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Vous avez gagné votre première bataille sur Cristalia! Mais d'autres colons plus forts encore vous attendent... Essayez le mode conquête!",""}); //1
-		tutorialContents.Add(new string[]{"Vos unités n'ont pas démérité mais ont perdu ce premier combat. Peut-être faudra-t-il entrainer vos unités ou en recruter d'autres !",""}); //3
-		tutorialContents.Add(new string[]{"Vous êtes ici sur votre tableau de bord où vous trouverez toutes les infos nécessaires pour préparer votre prochain combat",""}); //5
-		tutorialContents.Add(new string[]{"Nous reviendrons plus tard, allons acheter de nouvelles cartes",""}); //5
+		tutorialContents.Add(new string[]{"Vous avez gagné votre première bataille sur Cristalia! Mais d'autres colons plus forts encore vous attendent... Essayez le mode conquête!",""}); //0
+		tutorialContents.Add(new string[]{"Vos unités n'ont pas démérité mais ont perdu ce premier combat. Peut-être faudra-t-il entrainer vos unités ou en recruter d'autres !",""}); //1
+		tutorialContents.Add(new string[]{"Vous êtes ici sur votre tableau de bord où vous trouverez toutes les infos nécessaires pour préparer votre prochain combat",""}); //2
+		tutorialContents.Add(new string[]{"Nous reviendrons plus tard, allons acheter de nouvelles cartes",""}); //3
+		tutorialContents.Add(new string[]{"Il est temps de découvrir le mode conquête",""}); //4
+		tutorialContents.Add(new string[]{"Vous pouvez y accéder à partir de la page d'accueil en lieu et place des matchs d'entrainement",""}); //5
 
 
 		helpContents=new List<string[]>();

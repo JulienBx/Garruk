@@ -497,6 +497,14 @@ public class BackOfficeController : MonoBehaviour
 		invitation.Id = ApplicationModel.player.ChosenGameType-20;
 		StartCoroutine(invitation.changeStatus(-1));
 	}
+	public IEnumerator joinTutorialGame()
+	{
+		BackOfficeController.instance.displayLoadingScreen();
+		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
+		ApplicationModel.player.ToLaunchGameTutorial=true;
+		ApplicationModel.player.ChosenGameType=-1;
+		BackOfficeController.instance.joinRandomRoomHandler();
+	}
 	public Sprite returnThumbPicture(int id)
 	{
 		return ressources.profilePictures [id];

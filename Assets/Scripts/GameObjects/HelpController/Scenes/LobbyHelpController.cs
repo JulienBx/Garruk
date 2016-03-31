@@ -76,6 +76,7 @@ public class LobbyHelpController : HelpController
 		else 
 		{
 			StartCoroutine (NewLobbyController.instance.endHelp ());
+			NewLobbyController.instance.slideRight ();
 			this.quitHelp ();
 		}
 	}
