@@ -702,11 +702,11 @@ public class HelpController : MonoBehaviour
 
 				if (ApplicationDesignRules.isMobileScreen) 
 				{
-					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x-0.2f,gameObjectSize.y-0.2f),0f,0f);
+					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(0f,gameObjectPosition.y-ApplicationDesignRules.topBarWorldSize.y+0.2f,gameObjectSize.x,gameObjectSize.y),0f,0f);
 				} 
 				else 
 				{
-					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x-0.03f,gameObjectSize.y-0.03f),0f,0f);
+					this.background.GetComponent<HelpBackgroundController> ().resize (new Rect(gameObjectPosition.x,gameObjectPosition.y,gameObjectSize.x,gameObjectSize.y),0f,0f);
 				}
 			}
 			this.isFlashingBlock = true;
