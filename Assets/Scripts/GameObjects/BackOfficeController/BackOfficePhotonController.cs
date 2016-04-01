@@ -55,10 +55,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-<<<<<<< HEAD
-=======
-		ApplicationModel.player.ToLaunchGameTutorial = true ;
->>>>>>> origin/master
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 	}
 	
