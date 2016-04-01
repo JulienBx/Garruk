@@ -44,6 +44,7 @@ public class GameView : MonoBehaviour
 	public GameObject choicePopUp;
 	GameObject validationSkill;
 	TimelineController timeline;
+	GameTutoController gameTutoController;
 
 	GameObject tutorial;
 	public GameObject SB;
@@ -78,8 +79,6 @@ public class GameView : MonoBehaviour
 	public bool amIReadyToFight= false ;
 	public bool isHeReadyToFight= false ;
 
-	public bool hasStep3 ;
-	public bool hasStep2 ;
 	public bool blockFury ;
 	bool toPassDead = false ;
 
@@ -109,6 +108,8 @@ public class GameView : MonoBehaviour
 	int meteoritesCounter = 8 ; 
 	int meteoritesStep = 1 ; 
 	int lastPlayingCard = -1 ;
+
+	public int sequenceID = 0 ;
 	
 	void Awake()
 	{
@@ -133,6 +134,7 @@ public class GameView : MonoBehaviour
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.popUp.GetComponent<PopUpGameController>().show (false);
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
+		this.gameTutoController = GameObject.Find("HelpController").GetComponent<GameTutoController>();
 
 		this.SB.GetComponent<StartButtonController>().show(false);
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
@@ -152,8 +154,6 @@ public class GameView : MonoBehaviour
 			this.initGrid();
 		}
 		this.hasFightStarted = false ;
-		this.hasStep3 = false ;
-		this.hasStep2 = false;
 		this.blockFury = false;
 
 		if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -169,62 +169,6 @@ public class GameView : MonoBehaviour
 		this.nbTurns = 0 ;
 		this.numberDeckLoaded = 0 ;
 		this.isFirstPlayerStarting=true;
-
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			this.hideTuto();
-				
-			List<Skill> skills = new List<Skill>();
-			skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 16, skills);
-			c1.deckOrder=0;
-			GameCard g1 = new GameCard(c1);
-			g1.LifeLevel=1;
-			g1.AttackLevel=1;
-			g1.PowerLevel=1;
-			this.createPlayingCard(g1, false);
-			
-			skills = new List<Skill>();
-			skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
-			skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
-			c1.deckOrder=1;
-			g1 = new GameCard(c1);
-			g1.LifeLevel=2;
-			g1.AttackLevel=3;
-			g1.PowerLevel=1;
-			this.createPlayingCard(g1, false);
-			
-			skills = new List<Skill>();
-			skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
-			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Alien", 38, 2, 0, 3, 21, skills);
-			c1.deckOrder=2;
-			g1 = new GameCard(c1);
-			g1.LifeLevel=2;
-			g1.AttackLevel=1;
-			g1.PowerLevel=1;
-			this.createPlayingCard(g1, false);
-			
-			skills = new List<Skill>();
-			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills);
-			c1.deckOrder=3;
-			g1 = new GameCard(c1);
-			g1.LifeLevel=2;
-			g1.AttackLevel=1;
-			g1.PowerLevel=1;
-			this.createPlayingCard(g1, false);
-		}
 	}
 	
 	public void displayLoadingScreen()
@@ -313,8 +257,64 @@ public class GameView : MonoBehaviour
 		yield return StartCoroutine(myDeck.LoadDeck());
 		
 		GameController.instance.spawnCharacter(myDeck.Id);
+
 		if(ApplicationModel.player.ToLaunchGameTutorial){
-			this.launchTutoStep(1);
+			this.gameTutoController.setCompanion("Bienvue dans le tutoriel de Game", true, false, true, 1);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
+
+			this.gameTutoController.showSequence(true, true, false);
+
+			List<Skill> skills = new List<Skill>();
+			skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 16, skills);
+			c1.deckOrder=0;
+			GameCard g1 = new GameCard(c1);
+			g1.LifeLevel=1;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
+			c1.deckOrder=1;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=3;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
+			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Alien", 38, 2, 0, 3, 21, skills);
+			c1.deckOrder=2;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			
+			skills = new List<Skill>();
+			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills);
+			c1.deckOrder=3;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
 		}
 	}
 	
@@ -999,14 +999,6 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!this.hasStep3){
-						interlude.GetComponent<InterludeController>().pause();
-						this.launchTutoStep(3);
-						this.blockFury = false;
-						this.hasStep3 = true;
-					}
-				}
 			}
 		}
 		else{
@@ -1015,14 +1007,6 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!this.hasStep3){
-						interlude.GetComponent<InterludeController>().pause();
-						this.launchTutoStep(3);
-						this.blockFury = false;
-						this.hasStep3 = true;
-					}
-				}
 			}
 		}
 
@@ -2878,24 +2862,6 @@ public class GameView : MonoBehaviour
 		return this.getCurrentCard().findSkill(this.runningSkill);
 	}
 	
-	public void launchTutoStep(int i){
-		if (i==1){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 1 : L'arène", "Bienvenue dans l'arène de combat de Cristalia!\n\nL'arène est constitué de cases sur lesquels vos personnages peuvent se déplacer (sauf les cases cristal). Attention, certaines cases peuvent être piégées!\n\n Vous pouvez positionner vos unités avant le combat (le premier à terminer son positionnement démarre le combat), et elles pourront se déplacer 1 fois par tour de jeu\n\nLe positionnement des unités est important, les attaques en diagonale étant interdites (Code de guerre de Cristalia, article 1)");
-			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
-			this.popUp.GetComponent<PopUpGameController>().show(true);
-		}
-		else if (i==2){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 2 : Chacun son tour", "Les colons jouent chacun leur tour, selon l'ordre des unités dans leurs équipes.\n\nUne unité peut SE DEPLACER et UTILISER UNE COMPETENCE par tour, dans n'importe quel ordre (Code de Guerre cristalien, article 2)\n\nLorsque que vous utilisez une compétence ciblant une unité, pensez à vérifier les effets de la compétence en survolant votre cible!");
-			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
-			this.popUp.GetComponent<PopUpGameController>().show(true);
-		}
-		else if (i==3){
-			this.popUp.GetComponent<PopUpGameController>().setTexts("Etape 3 : Règles du combat", "Félicitations, vous avez donné vos premiers ordres, chef de guerre. Mais la bataille n'est pas terminée !\n\nLe combat se termine quand un colon ne dispose plus d'unités pour se battre.\n\nJe vous laisse désormais seul pour terminer le combat, bon courage !");
-			this.popUp.GetComponent<PopUpGameController>().changePosition(new Vector3(-0.05f, 0f, 0f));
-			this.popUp.GetComponent<PopUpGameController>().show(true);
-		}
-	}
-	
 	public void hideTuto(){
 		this.popUp.GetComponent<PopUpGameController>().show(false);
 		this.interlude.GetComponent<InterludeController>().unPause();
@@ -3201,6 +3167,25 @@ public class GameView : MonoBehaviour
 				GameView.instance.addAnim(GameView.instance.getTile(i), 0);
 			}
 		}
+	}
+
+	public void hitNextTutorial(){
+		if(this.sequenceID==0){
+			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de terrains sur lesquels vos unités peuvent se déplacer", true, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==1){
+			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Survolez le cristal pour découvrir sa fonction!", true, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==2){
+			this.gameTutoController.setCompanion("Au début du combat, vous pouvez déplacer vos unités en vue de la bataille. Protégez vos unités les plus faibles et avancez les plus lentes pour augmenter vos chances de succès ! Essayez de déplacer une unité avant de démarrer le combat", true, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		sequenceID++;
 	}
 }
 

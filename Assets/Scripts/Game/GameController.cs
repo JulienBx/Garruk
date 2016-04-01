@@ -36,7 +36,6 @@ public class GameController : Photon.MonoBehaviour
 		photonView.RPC("SpawnCharacterRPC", PhotonTargets.AllBuffered, GameView.instance.getIsFirstPlayer(), idDeck);
 	}
 	
-	
 	[PunRPC]
 	IEnumerator SpawnCharacterRPC(bool isFirstP, int idDeck)
 	{

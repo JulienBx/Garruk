@@ -130,15 +130,6 @@ public class InterludeController : MonoBehaviour
 					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
 					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
 				}
-				
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					if(ApplicationModel.player.ToLaunchGameTutorial){
-						if(!GameView.instance.hasStep2){
-							GameView.instance.launchTutoStep(2);
-							GameView.instance.hasStep2 = true ;
-						}
-					}
-				}
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);

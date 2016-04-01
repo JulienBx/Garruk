@@ -79,15 +79,15 @@ public class HelpBackgroundController : MonoBehaviour
 
 	public virtual void computeColliders()
 	{
-		BoxCollider2D[] colliders = gameObject.transform.GetComponents<BoxCollider2D>();
+		BoxCollider[] colliders = gameObject.transform.GetComponents<BoxCollider>();
 		colliders [0].size = this.topColliderSize;
-		colliders [0].offset = this.topColliderOffset;
+		colliders [0].center = this.topColliderOffset;
 		colliders [1].size = this.bottomColliderSize;
-		colliders [1].offset = this.bottomColliderOffset;
+		colliders [1].center = this.bottomColliderOffset;
 		colliders [2].size = this.leftColliderSize;
-		colliders [2].offset = this.leftColliderOffset;
+		colliders [2].center = this.leftColliderOffset;
 		colliders [3].size = this.rightColliderSize;
-		colliders [3].offset = this.rightColliderOffset;
+		colliders [3].center = this.rightColliderOffset;
 	}
 
 }

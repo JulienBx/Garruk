@@ -64,6 +64,7 @@ public class InterfaceController : MonoBehaviour
 	}
 	public virtual void mainInstruction()
 	{
+
 	}
 	public virtual void setIsHovered(bool value)
 	{
