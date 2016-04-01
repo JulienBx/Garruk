@@ -43,31 +43,32 @@ public class NextLevelPopUpController : MonoBehaviour
 		this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().setId (1);
 		this.gameObject.transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCaracterAvatar(this.c.Skills[0].Id);
 
+		this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
+		this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
 		if(c.UpgradedAttack<=c.Attack)
 		{
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-			this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(17);
-			this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController> ().setIsActive(false);
+			this.gameObject.transform.FindChild("AttackButton").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.redColor;
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
 			this.gameObject.transform.FindChild("AttackButton").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-			this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
+
 		}
+
+		this.gameObject.transform.FindChild("LifeButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Life.ToString();
+		this.gameObject.transform.FindChild ("LifeButton").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
 		if(c.UpgradedLife<=c.Life)
 		{
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
-			this.gameObject.transform.FindChild("LifeButton").FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(17);
-			this.gameObject.transform.FindChild("LifeButton").FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController> ().setIsActive(false);
+			this.gameObject.transform.FindChild("LifeButton").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.redColor;
 		}
 		else
 		{
-			this.gameObject.transform.FindChild("LifeButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Life.ToString();
 			this.gameObject.transform.FindChild("LifeButton").FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
-			this.gameObject.transform.FindChild ("LifeButton").FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
+
 		}
 
 		for(int i=0;i<4;i++)
