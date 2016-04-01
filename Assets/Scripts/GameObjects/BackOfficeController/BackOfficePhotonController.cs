@@ -55,6 +55,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
+<<<<<<< HEAD
+=======
+		ApplicationModel.player.ToLaunchGameTutorial = true ;
+>>>>>>> origin/master
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 	}
 	
@@ -105,6 +109,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
 	}
+
 	private void CreateTutorialDeck()
 	{
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;

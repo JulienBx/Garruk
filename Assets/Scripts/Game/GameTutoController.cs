@@ -223,6 +223,7 @@ public class GameTutoController : MonoBehaviour
 			}
 		}
 		this.toWriteCompanionText = b ;
+		this.companion.GetComponent<SpriteRenderer>().enabled = b ;
 		this.companion.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = b ;
 		this.companionNextButton.GetComponent<HelpCompanionGameController>().reset ();
 		this.companionDialogBox.GetComponent<SpriteRenderer>().enabled = b ;

@@ -208,6 +208,7 @@ public class Deck : Cards
 			for (int i = 0; i < 1; i++)
 			{
 				string[] deckData = deckEntries [i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
+				Debug.Log(deckData [0]);
 				int idDeck = System.Convert.ToInt32(deckData [0]);
 				this.Id = idDeck;
 			}	
