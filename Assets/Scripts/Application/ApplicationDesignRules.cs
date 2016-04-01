@@ -302,6 +302,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 divisionIconScale;
 	static public Vector3 divisionIconDistance;
 
+	static private Vector2 flipObjectSize=new Vector2(883f,116f);
+	static public Vector2 flipObjectWorldSize;
+	static private Vector3 flipObjectOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 flipObjectMobileScale =new Vector3(0.75f,0.75f,0.75f); 
+	static public Vector3 flipObjectScale;
+
 	static public float gapBetweenCardsLine;
 	static public float gapBetweenMarketCardsLine = 0.55f;
 	static public float gapBetweenPacksLine = 0.25f;
@@ -530,6 +536,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		miniCompanionScale = toNewScale (miniCompanionOriginalScale, miniCompanionMobileScale);
 		miniCompanionWorldSize = toWorldSize(miniCompanionSize,miniCompanionScale);
+
+		flipObjectScale = toNewScale (flipObjectOriginalScale, flipObjectMobileScale);
+		flipObjectWorldSize = toWorldSize(flipObjectSize,flipObjectScale);
 
 		helpArrowScale = toNewScale (helpArrowOriginalScale, helpArrowMobileScale);
 		helpArrowWorldSize = toWorldSize(helpArrowSize,helpArrowScale);
