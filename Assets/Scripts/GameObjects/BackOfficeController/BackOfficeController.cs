@@ -444,6 +444,13 @@ public class BackOfficeController : MonoBehaviour
 			this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (value);
 		}
 	}
+	public void launchPreMatchLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			this.loadingScreen.GetComponent<LoadingScreenController> ().launchPreMatchLoadingScreen();
+		}
+	}
 	public void toDisconnect() 
 	{
 		if(isDisconnectedPopUpDisplayed)

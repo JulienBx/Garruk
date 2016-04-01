@@ -304,7 +304,7 @@ public class ApplicationDesignRules : MonoBehaviour
 
 	static private Vector2 flipObjectSize=new Vector2(883f,116f);
 	static public Vector2 flipObjectWorldSize;
-	static private Vector3 flipObjectOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 flipObjectOriginalScale=new Vector3(1.3f,1.3f,1.3f);
 	static private Vector3 flipObjectMobileScale =new Vector3(0.75f,0.75f,0.75f); 
 	static public Vector3 flipObjectScale;
 
