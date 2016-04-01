@@ -316,15 +316,6 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.displaySkillEffect(id, text, color);
 	}
 	
-	public IEnumerator loadTutorialDeck(bool isFirstPlayer, string name)
-	{
-		print ("Je load "+isFirstPlayer);
-		Deck tutorialDeck = new Deck(name);
-		yield return StartCoroutine(tutorialDeck.LoadDeck());
-
-		photonView.RPC("SpawnCharacter", PhotonTargets.AllBuffered, isFirstPlayer, tutorialDeck.Id);
-	}
-	
 	void OnDisconnectedFromPhoton()
 	{
 		SceneManager.LoadScene("Authentication");

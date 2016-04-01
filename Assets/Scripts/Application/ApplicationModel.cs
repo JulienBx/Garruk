@@ -21,6 +21,8 @@ public class ApplicationModel
 	static public float volBackOfficeFx;
 	static public float volMusic;
 
+	static public Deck opponentDeck;
+
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
 	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial
 	//static public int gameType; // A REMPLACER PAR ApplicationModel.player.ChosenGameType

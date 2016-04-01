@@ -237,6 +237,9 @@ public class Player : User
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
+		this.MyDeck.cards = new List<Card> ();
+		string[] cardsData;
+
 		WWWForm form = new WWWForm (); 								// Création de la connexion
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
@@ -248,7 +251,8 @@ public class Player : User
 		{
 			Debug.Log (w.error); 										// donne l'erreur eventuelle
 		} 
-		else {
+		else 
+		{
 		}
 	}
 	public IEnumerator cleanCards()

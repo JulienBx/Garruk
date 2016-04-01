@@ -16,7 +16,7 @@ public class WordingNextLevelPopUp
 		references=new List<string[]>();
 		references.Add(new string[]{"NOUVEAU NIVEAU!","NEW LEVEL!"}); //0
 		references.Add(new string[]{" a atteint le niveau "," has reached level "}); //1
-		references.Add(new string[]{".\n\nChoisissez une compétence ou stat à booster",".\n\nChoose a stat or skill to boost"}); //2
+		references.Add(new string[]{".\nChoisissez une compétence ou stat à booster",".\n\nChoose a stat or skill to boost"}); //2
 		references.Add(new string[]{"L'unité acquerra une nouvelle compétence au niveau 4","Reaching level 4 will unlock a new skill"}); //3
 		references.Add(new string[]{"L'unité acquerra une nouvelle compétence au niveau 8","Reaching level 8 will unlock a new skill"}); //4
 		references.Add(new string[]{"Augmenter ","Train"}); //5
@@ -30,5 +30,7 @@ public class WordingNextLevelPopUp
 		references.Add(new string[]{"Augmenter la vitesse","Increase speed"}); //13
 		references.Add(new string[]{"Niveau maximum atteint pour cette caractéristique","This stat has reached its maximum level"}); //14
 		references.Add(new string[]{"Niv. ","Lev. "}); //15
+		references.Add(new string[]{"Confirmer","Confirm"}); //16
+		references.Add(new string[]{"Max","Max"}); //17
 	}
 }

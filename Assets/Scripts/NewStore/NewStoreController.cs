@@ -861,7 +861,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		}
 		if(!trainingPack)
 		{
-			this.selectedPackIndex = this.packsDisplayed [id];
+			if(!fromHome)
+			{
+				this.selectedPackIndex = this.packsDisplayed [id];
+			}
 			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
 			this.nbCards=model.packList [this.selectedPackIndex].NbCards;
 		}

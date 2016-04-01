@@ -248,14 +248,14 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 collectionPopUpWorldSize;
 	static public Vector3 collectionPopUpScale;
 	static private Vector3 collectionPopUpOriginalScale = new Vector3 (0.4f, 0.4f, 0.4f);
-	static private Vector3 collectionPopUpMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static private Vector3 collectionPopUpMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
 	static public Vector3 collectionPopUpPosition;
 
 	static private Vector2 newSkillsPopUpSize=new Vector2(950f,180f);
 	static public Vector2 newSkillsPopUpWorldSize;
 	static public Vector3 newSkillsPopUpScale;
 	static private Vector3 newSkillsPopUpOriginalScale = new Vector3 (0.4f, 0.4f, 0.4f);
-	static private Vector3 newSkillsPopUpMobileScale = new Vector3 (0.4f, 0.4f, 0.4f);
+	static private Vector3 newSkillsPopUpMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
 
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static private Vector3 mainTitleMobileScale = new Vector3(0.8f,0.8f,0.8f);

@@ -895,9 +895,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 				SceneManager.LoadScene("Tutorial");	
 				break;
 			case 1:
-
-				//launch game
-
+				StartCoroutine(BackOfficeController.instance.joinTutorialGame());
 				break;
 			case 2: case 3:
 				SceneManager.LoadScene("NewHomePage");	
@@ -907,6 +905,9 @@ public class AuthenticationController : Photon.MonoBehaviour
 				break;
 			case 5:
 				SceneManager.LoadScene("newMyGame");
+				break;
+			case 6:
+				SceneManager.LoadScene("NewHomePage");	
 				break;
 			default:
 				SceneManager.LoadScene("NewHomePage");

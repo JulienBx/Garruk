@@ -49,13 +49,9 @@ public class TutorialController : MonoBehaviour
 		this.description.transform.GetComponent<TextMeshPro>().text=WordingTutorialScene.getReference(2);
 		this.mainLogo = GameObject.Find("mainLogo");
 	}
-	private IEnumerator quitTutorial()
+	private void quitTutorial()
 	{
-		BackOfficeController.instance.displayLoadingScreen();
-		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
-		ApplicationModel.player.ToLaunchGameTutorial=true;
-		ApplicationModel.player.ChosenGameType=-1;
-		BackOfficeController.instance.joinRandomRoomHandler();
+		StartCoroutine(BackOfficeController.instance.joinTutorialGame());
 	}
 	public void resize()
 	{
@@ -106,6 +102,6 @@ public class TutorialController : MonoBehaviour
 	public void nextButtonHandler()
 	{
 		SoundController.instance.playSound(9);
-		StartCoroutine(this.quitTutorial());
+		this.quitTutorial();
 	}
 }

@@ -295,21 +295,21 @@ public class NewHomePageController : MonoBehaviour
 			this.showEndGameSequence();
 			ApplicationModel.player.ToLaunchEndGameSequence=false;
 			ApplicationModel.player.HasWonLastGame=false;
-			ApplicationModel.player.ChosenGameType=0;
+			ApplicationModel.player.ChosenGameType=-1;
+		}
+		else if(ApplicationModel.player.TutorialStep==2 || ApplicationModel.player.TutorialStep==3 || ApplicationModel.player.TutorialStep==6)
+		{
+			HelpController.instance.startTutorial();
 		}
 		else if(ApplicationModel.player.HasToBuyTrainingPack)
 		{
 			this.displayWonPackPopUp();
 		}
-		if(ApplicationModel.player.TutorialStep==2 || ApplicationModel.player.TutorialStep==3)
-		{
-			HelpController.instance.startTutorial();
-		}
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{
 			this.displayConnectionBonusPopUp();
 		}
-		if(ApplicationModel.player.GoToNotifications)
+		else if(ApplicationModel.player.GoToNotifications)
 		{
 			this.displayNotifications();
 		}
@@ -1538,7 +1538,12 @@ public class NewHomePageController : MonoBehaviour
 		this.isTrainingPopUpDisplayed = false;
 		if(ApplicationModel.player.HasToBuyTrainingPack)
 		{
+			BackOfficeController.instance.displayLoadingScreen();
 			SceneManager.LoadScene("NewStore");
+		}
+		else if(ApplicationModel.player.TutorialStep==6)
+		{
+			HelpController.instance.startTutorial();
 		}
 	}
 	public void joinGameHandler(int id)
@@ -1886,6 +1891,10 @@ public class NewHomePageController : MonoBehaviour
 	public bool getIsMainContentDisplayed()
 	{
 		return this.mainContentDisplayed;
+	}
+	public Vector3 getOfficialGameButton()
+	{
+		return this.officialGameButton.transform.position;
 	}
 	#endregion
 }
