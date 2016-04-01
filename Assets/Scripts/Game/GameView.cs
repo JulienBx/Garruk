@@ -259,8 +259,8 @@ public class GameView : MonoBehaviour
 		GameController.instance.spawnCharacter(myDeck.Id);
 
 		if(ApplicationModel.player.ToLaunchGameTutorial){
-			this.gameTutoController.setCompanion("Bienvue dans le tutoriel de Game", true, false, true, 1);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
+			this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Je serai votre guide pour votre première bataille", true, false, true, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6.5f, 8.5f), 1f, 1f);
 
 			this.gameTutoController.showSequence(true, true, false);
 

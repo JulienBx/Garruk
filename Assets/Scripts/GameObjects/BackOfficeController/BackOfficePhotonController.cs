@@ -55,16 +55,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 		ApplicationModel.player.ToLaunchGameTutorial = true ;
-		if (ApplicationModel.player.ToLaunchGameTutorial)
-		{
-			print("Le tuto est lancé");
-			PhotonNetwork.room.open = false;
-			SceneManager.LoadScene("Game");
-			SoundController.instance.playMusic(new int[]{3,4});
-			ApplicationModel.player.IsFirstPlayer = true ;
-		}
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 	}
 	
 	[PunRPC]
@@ -114,6 +106,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
 	}
+
 	private void CreateTutorialDeck()
 	{
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
@@ -179,8 +172,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills));
-
-		print("deck tuto");
 	}
 }
 
