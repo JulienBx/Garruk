@@ -373,7 +373,7 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		this.closePopUps();
 		BackOfficeController.instance.displayTransparentBackground ();
-		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().reset ();
+		this.putOnMarketPopUp.transform.GetComponent<PutOnMarketPopUpController> ().reset (this.c.destructionPrice);
 		this.isPutOnMarketPopUpDisplayed = true;
 		this.putOnMarketPopUp.SetActive (true);
 		this.putOnMarketPopUpResize ();

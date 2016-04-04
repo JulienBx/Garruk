@@ -34,6 +34,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject profileEditInformationsButton;
 	private GameObject profileEditPasswordButton;
 	private GameObject profileChooseLanguageButton;
+	private GameObject profileExitApplicationButton;
 	private GameObject[] profileInformations;
 	private GameObject profileLine;
 	private GameObject[] profileStats;
@@ -475,6 +476,8 @@ public class NewProfileController : MonoBehaviour
 		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(0);
 		this.profileEditPictureButton.transform.FindChild ("Title").GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.profileEditPictureButton.SetActive (false);
+		this.profileExitApplicationButton = GameObject.Find("ProfileQuitApplicationButton");
+		this.profileExitApplicationButton.AddComponent<NewProfileExitApplicationButtonController>();
 		this.cleanCardsButton = GameObject.Find ("CleanCardsButton");
 		this.cleanCardsButton.AddComponent<NewProfileCleanCardsButtonController> ();
 		this.cleanCardsButton.GetComponent<TextMeshPro> ().text = WordingProfile.getReference(1);
@@ -966,6 +969,8 @@ public class NewProfileController : MonoBehaviour
 			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 0.5f*ApplicationDesignRules.roundButtonWorldSize.x,profileBlockUpperLeftPosition.y - 2.5f,0f);
 			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
+			this.profileExitApplicationButton.SetActive(true);
+			this.profileExitApplicationButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 3f, 0f);
 
 			for(int i=0;i<this.friendshipStatusButtons.Length;i++)
@@ -1005,6 +1010,7 @@ public class NewProfileController : MonoBehaviour
 			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f,profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.roundButtonWorldSize.y/2f+ApplicationDesignRules.roundButtonWorldSize.y,0f);
 			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+			this.profileExitApplicationButton.SetActive(false);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 0.5f - ApplicationDesignRules.profilePictureWorldSize.y, 0f);
 
 			this.resultsPaginationButtons.transform.position=new Vector3 (resultsBlockLowerLeftPosition.x + resultsBlockSize.x / 2, resultsBlockLowerLeftPosition.y + 0.3f, 0f);

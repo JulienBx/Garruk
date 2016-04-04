@@ -265,8 +265,7 @@ public class BackOfficeController : MonoBehaviour
 	public void resize()
 	{
 		ApplicationDesignRules.computeDesignRules();
-
-		this.loadingScreen.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -9f);
+		this.loadingScreen.GetComponent<LoadingScreenController>().resize();
 		if(this.isCollectionPointsPopUpDisplayed)
 		{
 			this.collectionPointsPopUpResize();
@@ -567,6 +566,10 @@ public class BackOfficeController : MonoBehaviour
 	public Sprite returnCaracterAvatar(int id)
 	{
 		return ressources.caractersAvatars[id];
+	}
+	public Sprite returnPreMatchScreenAvatar(int id)
+	{
+		return ressources.preMatchScreenAvatars[id];
 	}
 	public void leaveGame()
 	{

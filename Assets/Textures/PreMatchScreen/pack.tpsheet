@@ -1,0 +1,38 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:7794d9d98c06bdb35821427f41c7694c:0b4a52eec7db85128dcf0f75d28140de:9d12fa71d763c9f7de9e09be7b071c61$
+#
+:format=40000
+:texture=pack.png
+:size=2048x2048
+
+ pistolero;733;433;674;200;0.5;0.5
+artilleur;747;837;731;200;0.5;0.5
+berserker;956;1443;797;200;0.5;0.5
+big;1;433;730;200;0.5;0.5
+cherubin;1444;1847;600;200;0.5;0.5
+cristomaitre;734;635;627;200;0.5;0.5
+crystallauncher;782;1241;774;200;0.5;0.5
+darksoul;1480;837;452;200;0.5;0.5
+eater;1;635;731;200;0.5;0.5
+fanatic;1;29;720;200;0.5;0.5
+furtif;1409;433;452;200;0.5;0.5
+golem;723;29;704;200;0.5;0.5
+guru;1421;231;421;200;0.5;0.5
+ninja;1444;1645;573;200;0.5;0.5
+nurse;1363;635;617;200;0.5;0.5
+paladin;1;1241;779;200;0.5;0.5
+pretresse;1534;1039;511;200;0.5;0.5
+psycho;1;1039;774;200;0.5;0.5
+rapide;725;231;694;200;0.5;0.5
+semeur;1;1443;953;200;0.5;0.5
+sniper;1;837;744;200;0.5;0.5
+tank;777;1039;755;200;0.5;0.5
+trapper;1558;1241;459;200;0.5;0.5
+versusbleu;1;1847;1441;200;0.5;0.5
+versusrouge;1;1645;1441;200;0.5;0.5
+viro;1;231;722;200;0.5;0.5

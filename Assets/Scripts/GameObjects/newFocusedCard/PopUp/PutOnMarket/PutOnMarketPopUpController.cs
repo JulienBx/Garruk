@@ -8,11 +8,11 @@ using System.Linq;
 
 public class PutOnMarketPopUpController : MonoBehaviour 
 {
-	public void reset()
+	public void reset(int price)
 	{
-		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(0);
+		gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(0) + price.ToString() + WordingPutOnMarketPopUp.getReference(1);
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = "";
-		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(1);
+		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingPutOnMarketPopUp.getReference(2);
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Input").GetComponent<InputTextGuiController> ().setFocused();
 		gameObject.transform.FindChild ("Button").GetComponent<PutOnMarketPopUpConfirmButtonController> ().reset ();
