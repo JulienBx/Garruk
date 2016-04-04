@@ -55,7 +55,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		ApplicationModel.player.ToLaunchGameTutorial = true ;
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username);
 	}
 	
@@ -98,7 +97,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			PhotonNetwork.room.open = false;
 		}
-		SceneManager.LoadScene("Game");
+		BackOfficeController.instance.launchPreMatchLoadingScreen();
 		SoundController.instance.playMusic(new int[]{3,4});
 	}
 	void OnDisconnectedFromPhoton()
