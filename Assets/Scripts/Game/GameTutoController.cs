@@ -61,48 +61,42 @@ public class GameTutoController : MonoBehaviour
 	private bool canScroll;
 	private bool toDetectScrolling;
 
+	private int unsliding ; 
+	private string nextCompanionTextDisplayed;
+	private bool nextDisplayCompanionNextButton;
+	private bool nextIsCompanionOnLeftSide;
+	private bool nextToSlideCompanion;
+	private float nextCompanionYPosition;
+
+	private bool nextB1, nextB2, nextB3 ;
+
 	void Update()
 	{
-//		if(this.toDisplayHelpController)
-//		{
-			if(this.toWriteCompanionText)
-			{
-				this.drawCompanionText();
-			}
-			if (this.toSlideCompanion) 
-			{
-				this.slideCompanion();
-			}
-//			if (this.isFlashingBlock) 
-//			{
-//				this.drawFlashingBlock();
-//			}
-			if(this.toMoveArrow)
-			{
-				this.drawArrow();
-			}
-//			if(this.isMovingScrolling)
-//			{
-//				this.drawScrolling();
-//			}
-//			if (this.isMovingDragging) 
-//			{
-//				this.drawDragging ();
-//			}
-//			if (this.isFlashingMiniCompanion) 
-//			{
-//				this.drawMiniCompanion ();
-//			}
-//			if(this.toDetectScrolling && this.getIsScrolling())
-//			{
-//				this.launchTutorialSequence();
-//			}
-//		}
+		if(this.toWriteCompanionText)
+		{
+			this.drawCompanionText();
+		}
+		if (this.toSlideCompanion) 
+		{
+			this.slideCompanion();
+		}
+		if (this.unsliding!=0) 
+		{
+			this.unSlideCompanion();
+		}
+		if(this.toMoveArrow)
+		{
+			this.drawArrow();
+		}
 	}
-	void Awake()
+
+	public void initialize()
 	{
-		print("Je me réveille");
 		instance = this;
+		this.unsliding = 0 ; 
+		this.nextB1 = false ;
+		this.nextB2 = false ;
+		this.nextB3 = false ; 
 		this.arrowSpeed=2.5f;
 		this.ressources = this.gameObject.GetComponent<HelpRessources> ();
 		this.companion = this.gameObject.transform.FindChild("Companion").gameObject;
@@ -132,22 +126,45 @@ public class GameTutoController : MonoBehaviour
 
 	public void showSequence(bool b1, bool b2, bool b3)
 	{
-		this.showCompanion(b1);
-		this.showBackground(b2);
-		this.showArrow(b3);
+		if(unsliding==0){
+			this.showCompanion(b1);
+			this.showBackground(b2);
+			this.showArrow(b3);
+		}
+		else{
+			this.nextB1 = b1;
+			this.nextB2 = b2;
+			this.nextB3 = b3;
+		}
 	}
 
 	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide, bool toSlideCompanion, float companionYPosition)
 	{
-		this.companionTextDisplayed=textToDisplay;
-		this.displayCompanionNextButton=displayNextButton;
-		this.isCompanionOnLeftSide=isLeftSide;
-		this.toSlideCompanion = toSlideCompanion;
-		this.companionYPosition = companionYPosition;
+		if(isLeftSide!=this.isCompanionOnLeftSide || this.companionYPosition!=companionYPosition){
+			this.nextCompanionTextDisplayed=textToDisplay;
+			this.nextDisplayCompanionNextButton=displayNextButton;
+			this.nextIsCompanionOnLeftSide=isLeftSide;
+			this.nextToSlideCompanion = toSlideCompanion;
+			this.nextCompanionYPosition = companionYPosition;
+			if(this.isCompanionOnLeftSide){
+				this.unsliding = -1;
+			}
+			else{
+				this.unsliding = 1;
+			}
+		}
+		else{
+			this.companionTextDisplayed=textToDisplay;
+			this.displayCompanionNextButton=displayNextButton;
+			this.isCompanionOnLeftSide=isLeftSide;
+			this.toSlideCompanion = toSlideCompanion;
+			this.companionYPosition = companionYPosition;
+		}
 	}
 
 	private void showCompanion(bool b)
 	{
+		print("Je show "+b);
 		if(b){
 			Vector3 dialogBoxPosition = this.companionDialogBox.transform.localPosition;
 			Vector3 dialogTitlePosition = this.companionDialogTitle.transform.localPosition;
@@ -228,9 +245,9 @@ public class GameTutoController : MonoBehaviour
 		this.companionNextButton.GetComponent<HelpCompanionGameController>().reset ();
 		this.companionDialogBox.GetComponent<SpriteRenderer>().enabled = b ;
 		this.companionDialogBox.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = b ;
-		this.companionNextButton.GetComponent<BoxCollider2D>().enabled = b ;
-		this.companionNextButton.GetComponent<SpriteRenderer>().enabled = b ;
-		this.companionNextButton.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = b ;
+		this.companionNextButton.GetComponent<BoxCollider2D>().enabled = this.displayCompanionNextButton ;
+		this.companionNextButton.GetComponent<SpriteRenderer>().enabled = this.displayCompanionNextButton ;
+		this.companionNextButton.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = this.displayCompanionNextButton ;
 	}
 
 	private void slideCompanion()
@@ -252,6 +269,43 @@ public class GameTutoController : MonoBehaviour
 			{
 				this.toSlideCompanion = false;
 				companionCurrentPosition.x = endCompanionSlidingPosition.x;
+			}
+		}
+		this.companion.transform.localPosition = companionCurrentPosition;
+	}
+
+	private void unSlideCompanion()
+	{
+		Vector3 companionCurrentPosition = this.companion.transform.localPosition;
+		if (this.unsliding==1) 
+		{
+			companionCurrentPosition.x = companionCurrentPosition.x + 20f*Time.deltaTime;
+			if (companionCurrentPosition.x >= this.startCompanionSlidingPosition.x) 
+			{
+				this.unsliding = 0;
+				companionCurrentPosition.x = startCompanionSlidingPosition.x;
+				this.companionTextDisplayed=this.nextCompanionTextDisplayed;
+				this.displayCompanionNextButton=this.nextDisplayCompanionNextButton;
+				this.isCompanionOnLeftSide=this.nextIsCompanionOnLeftSide;
+				this.toSlideCompanion = this.nextToSlideCompanion;
+				this.companionYPosition = this.nextCompanionYPosition;
+				this.showSequence(nextB1,nextB2,nextB3);
+			}
+		} 
+		else 
+		{
+			companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
+			if (companionCurrentPosition.x <= this.startCompanionSlidingPosition.x) 
+			{
+				this.unsliding = 0;
+				companionCurrentPosition.x = startCompanionSlidingPosition.x;
+				this.companionTextDisplayed=this.nextCompanionTextDisplayed;
+				this.displayCompanionNextButton=this.nextDisplayCompanionNextButton;
+				this.isCompanionOnLeftSide=this.nextIsCompanionOnLeftSide;
+				this.toSlideCompanion = this.nextToSlideCompanion;
+				this.companionYPosition = this.nextCompanionYPosition;
+
+				this.showSequence(nextB1,nextB2,nextB3);
 			}
 		}
 		this.companion.transform.localPosition = companionCurrentPosition;

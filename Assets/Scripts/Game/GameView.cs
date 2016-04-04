@@ -151,7 +151,16 @@ public class GameView : MonoBehaviour
 
 		if (this.isFirstPlayer)
 		{
-			this.initGrid();
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				this.gameTutoController.initialize();
+				this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 20f, 10f), 0f, 0f);
+
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else{
+				this.initGrid();
+			}
 		}
 		this.hasFightStarted = false ;
 		this.blockFury = false;
@@ -203,27 +212,34 @@ public class GameView : MonoBehaviour
 		bool isRock = false;
 		List<Tile> rocks = new List<Tile>();
 		Tile t = new Tile(0,0) ;
-		
-		int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
-		int compteurRocks = 0;
-		bool isOk = true;
-		while (compteurRocks<nbRocksToAdd)
-		{
-			isOk = false;
-			while (!isOk)
+
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			rocks.Add(new Tile(2,2));
+			rocks.Add(new Tile(4,1));
+			rocks.Add(new Tile(5,4));
+		}
+		else{
+			int nbRocksToAdd = UnityEngine.Random.Range(3, 6);
+			int compteurRocks = 0;
+			bool isOk = true;
+			while (compteurRocks<nbRocksToAdd)
 			{
-				t = GameView.instance.getRandomRock(1);
-				isOk = true;
-				for (int a = 0; a < rocks.Count && isOk; a++)
+				isOk = false;
+				while (!isOk)
 				{
-					if (rocks [a].x == t.x && rocks [a].y == t.y)
+					t = GameView.instance.getRandomRock(1);
+					isOk = true;
+					for (int a = 0; a < rocks.Count && isOk; a++)
 					{
-						isOk = false;
+						if (rocks [a].x == t.x && rocks [a].y == t.y)
+						{
+							isOk = false;
+						}
 					}
 				}
+				rocks.Add(t);
+				compteurRocks++;
 			}
-			rocks.Add(t);
-			compteurRocks++;
 		}
 		
 		for (int x = 0; x < this.boardWidth; x++)
@@ -248,7 +264,9 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-		GameController.instance.launchCardCreation();
+		if(!ApplicationModel.player.ToLaunchGameTutorial){
+			GameController.instance.launchCardCreation();
+		}
 	}
 	
 	public IEnumerator loadMyDeck()
@@ -259,11 +277,6 @@ public class GameView : MonoBehaviour
 		GameController.instance.spawnCharacter(myDeck.Id);
 
 		if(ApplicationModel.player.ToLaunchGameTutorial){
-			this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Je serai votre guide pour votre première bataille", true, false, true, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6.5f, 8.5f), 1f, 1f);
-
-			this.gameTutoController.showSequence(true, true, false);
-
 			List<Skill> skills = new List<Skill>();
 			skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
@@ -3171,17 +3184,20 @@ public class GameView : MonoBehaviour
 
 	public void hitNextTutorial(){
 		if(this.sequenceID==0){
-			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de terrains sur lesquels vos unités peuvent se déplacer", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
+			this.initGrid();
+			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==1){
-			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Survolez le cristal pour découvrir sa fonction!", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 1f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
+			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(-0.5f, -1.5f, 1f, 1f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.5f,0f));
+			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==2){
-			this.gameTutoController.setCompanion("Au début du combat, vous pouvez déplacer vos unités en vue de la bataille. Protégez vos unités les plus faibles et avancez les plus lentes pour augmenter vos chances de succès ! Essayez de déplacer une unité avant de démarrer le combat", true, false, false, 0);
+			GameController.instance.launchCardCreation();
+			this.gameTutoController.setCompanion("Au début du combat, vous pouvez déplacer vos unités en vue de la bataille. Protégez vos unités les plus faibles et avancez les plus lentes pour augmenter vos chances de succès ! Essayez de déplacer une unité avant de démarrer le combat", false, true, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}

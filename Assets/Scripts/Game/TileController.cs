@@ -36,6 +36,8 @@ public class TileController : GameObjectController
 	public bool isFinishedTransi = false ; 
 	bool isGrowing = false ;
 
+	bool isDisplayingDescription ;
+
 	void Awake()
 	{
 		this.showTrap(false);
@@ -45,6 +47,7 @@ public class TileController : GameObjectController
 		this.showTarget(false);
 		this.showEffect(false);
 		this.displayAnim(false);
+		this.isDisplayingDescription = false ;
 	}
 	
 	public void displayTarget(bool b){
@@ -355,42 +358,7 @@ public class TileController : GameObjectController
 				this.showDescription(true);
 			}
 			if(this.characterID==-1){
-				if(GameView.instance.draggingCard==-1){
-					gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
-					if(this.isDisplayingTarget){
-						if(GameView.instance.hoveringZone==-1){
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1);
-							gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-						}
-					}
-					else if(this.type==1){
-						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Les unités ne peuvent pas se déplacer sur cette case";
-						gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-					}
-					else if(this.type==2){
-						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "No man's land";
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ces terres abandonnées ne font plus partie du champ de bataille";
-						gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-						gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-						gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-					}
-					else if (this.isTrapped){
-						if(this.trap.getIsVisible()){
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
-							gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-						}
-					}
-					GameView.instance.hoverTile();
-				}
+				
 			}
 			else{
 				if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
@@ -446,6 +414,57 @@ public class TileController : GameObjectController
 				}
 				else if(this.isDestination==1 && GameView.instance.hasFightStarted){
 					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+				}
+				else if(this.characterID==-1){
+					if(GameView.instance.draggingCard==-1){
+						if(!this.isDisplayingDescription){
+							gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
+							if(this.isDisplayingTarget){
+								if(GameView.instance.hoveringZone==-1){
+									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().getTargetText(-1);
+									gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+								}
+							}
+							else if(this.type==1){
+								if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID==2){
+									GameView.instance.hitNextTutorial();
+								}
+								gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
+								gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Case infranchissable. Certaines unités peuvent se servir des cristaux.";
+								gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+								gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+								gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+							}
+							else if(this.type==2){
+								gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "No man's land";
+								gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ces terres abandonnées ne font plus partie du champ de bataille";
+								gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+								gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+								gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+							}
+							else if (this.isTrapped){
+								if(this.trap.getIsVisible()){
+									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.trap.title;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.trap.description;
+									gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
+									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
+								}
+							}
+							this.isDisplayingDescription = true ;
+							GameView.instance.hoverTile();
+						}
+						else{
+							gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
+							gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
+							gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
+							gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
+							this.isDisplayingDescription = false ;
+						}
+					}
 				}
 			}
 			if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -520,6 +539,7 @@ public class TileController : GameObjectController
 					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
 					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
 				}
+				this.isDisplayingDescription = false ;
 			}
 			else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
 				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
@@ -601,7 +621,6 @@ public class TileController : GameObjectController
 	public void showEffect(bool b){
 		gameObject.transform.FindChild("SkillEffect").FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
 	}
-
 
 	public void setAnimIndex(int i){
 		basicAnimIndex = i*10 ;
