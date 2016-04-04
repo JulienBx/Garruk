@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:9a3e5c3285e99e204ca8dfbc3b29336b:5b22fe81cac5f8cffcd8a136ddbca4e8:bc88af7fd1853b38e6f4b3774171c499$
+# $TexturePacker:SmartUpdate:1ddc7ff61c9dbe45458bcdc8b3cbb0b4:5c6c0120bb15203f4760cb0bc44ababf:bc88af7fd1853b38e6f4b3774171c499$
 #
 :format=40000
 :texture=backOfficeTextures.png
@@ -29,7 +29,7 @@ bell_icon;2;1945;48;48;0.5;0.5
 blackBlock;1801;2497;100;100;0.5;0.5
 bottomBar;1924;3896;1580;198;0.5;0.5
 button11;806;362;356;356;0.5;0.5
-button22;2115;480;121;120;0.5;0.5
+button22;1996;345;121;120;0.5;0.5
 button31;976;1476;199;81;0.5;0.5
 button51;1799;1439;317;82;0.5;0.5
 button61;2118;1440;377;81;0.5;0.5
@@ -59,7 +59,6 @@ editPictureButton;1296;44;190;190;0.5;0.5
 emptyGauge;3358;1995;665;664;0.5;0.5
 english;1783;1300;123;124;0.5;0.5
 englishbig;2;16;300;300;0.5;0.5
-exitButton;1996;343;122;122;0.5;0.5
 facebookButton;3358;2745;732;115;0.5;0.5
 filterBar;804;1963;399;30;0.5;0.5
 filterIcon;3426;3539;75;75;0.5;0.5
@@ -92,9 +91,9 @@ mainLogo;1924;3322;1458;266;0.5;0.5
 mainLogo2;1924;3054;1458;266;0.5;0.5
 mentaliste;1491;578;190;190;0.5;0.5
 mitrailleur;1683;578;190;190;0.5;0.5
-mobileMenuBell;2050;83;115;119;0.5;0.5
+mobileMenuBell;1929;83;115;119;0.5;0.5
 mobileMenuCristals;3384;3418;698;119;0.5;0.5
-mobileMenuHelp;1929;83;119;119;0.5;0.5
+mobileMenuHelp;2115;481;119;119;0.5;0.5
 myGameAddButton;1991;467;122;123;0.5;0.5
 myGameDeleteButton;1866;453;123;123;0.5;0.5
 myGameEditButton;2067;727;122;123;0.5;0.5
