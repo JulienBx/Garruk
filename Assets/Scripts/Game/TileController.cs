@@ -304,6 +304,7 @@ public class TileController : GameObjectController
 			}
 			else{
 				this.isHovering = true ;
+				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 				if(GameView.instance.hoveringZone!=-1){
 					if(GameView.instance.hoveringZone==1){
 						GameView.instance.hideAllTargets();
@@ -615,9 +616,9 @@ public class TileController : GameObjectController
 			}
 		}
 		else{
-			if(timerAnim<3*skillEffectTime){
-				gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(3*skillEffectTime)));
-				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/skillEffectTime), 0f);
+			if(timerAnim<4*skillEffectTime){
+				gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)));
+				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/(skillEffectTime)), 0f);
 			}
 			else{
 				
@@ -625,6 +626,7 @@ public class TileController : GameObjectController
 					this.timerAnim = 0f ;
 					this.isFinishedTransi = true ;
 					this.isGrowing = false ;
+					GameView.instance.removeSE(this.tile);
 				}
 				else{
 					GameView.instance.removeSE(this.tile);
