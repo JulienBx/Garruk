@@ -416,7 +416,7 @@ public class TileController : GameObjectController
 					GameView.instance.hitTarget(this.tile);
 				}
 				else if(this.isDestination==1 && GameView.instance.hasFightStarted){
-					if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID==13){
+					if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID>5 && GameView.instance.sequenceID<14){
 						if(this.tile.x==3 && this.tile.y==5){
 							GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
 							GameView.instance.hitNextTutorial();
