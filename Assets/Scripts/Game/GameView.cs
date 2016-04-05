@@ -392,6 +392,7 @@ public class GameView : MonoBehaviour
 			g1.PowerLevel=1;
 			this.createPlayingCard(g1, false);
 
+			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
 			this.showStartButton();
 		}
@@ -3103,7 +3104,7 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
-				GameView.instance.addAnim(t, 0);
+				GameView.instance.addAnim(t, 1);
 			}
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
@@ -3117,7 +3118,7 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
-				GameView.instance.addAnim(t, 0);
+				GameView.instance.addAnim(t, 1);
 			}
 		}
 
@@ -3132,7 +3133,7 @@ public class GameView : MonoBehaviour
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 0);
+					GameView.instance.addAnim(t, 1);
 				}
 				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
@@ -3143,7 +3144,7 @@ public class GameView : MonoBehaviour
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 0);
+					GameView.instance.addAnim(t, 1);
 				}
 			}
 		}
@@ -3159,7 +3160,7 @@ public class GameView : MonoBehaviour
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 0);
+					GameView.instance.addAnim(t, 1);
 				}
 				t = new Tile(i,boardHeight-3);
 				if(this.getTileController(t).getCharacterID()!=-1){
@@ -3170,7 +3171,7 @@ public class GameView : MonoBehaviour
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 0);
+					GameView.instance.addAnim(t, 1);
 				}
 			}
 		}
