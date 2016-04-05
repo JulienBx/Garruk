@@ -115,18 +115,18 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		ApplicationModel.opponentDeck.cards=new List<Card>();
 
 		List<Skill> skills = new List<Skill>();
-		skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
-		skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+		skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
+		skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.opponentDeck.cards.Add(new Card(-1, "Predator", 35, 2, 0, 3, 16, skills));
+		ApplicationModel.opponentDeck.cards.Add(new Card(-1, "Cartor", 35, 2, 0, 7, 16, skills));
 		
 		skills = new List<Skill>();
-		skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
-		skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+		skills.Add (new Skill("Leader", 76, 1, 1, 3, 0, "", 0, 0));
+		skills.Add (new Skill("PistoSoin", 2, 1, 1, 1, 0, "", 0, 80));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.opponentDeck.cards.Add(new Card(-1, "Flash", 24, 1, 0, 6, 11, skills));
+		ApplicationModel.opponentDeck.cards.Add(new Card(-1, "Myst", 24, 1, 0, 6, 11, skills));
 				
 		skills = new List<Skill>();
 		skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
@@ -146,32 +146,32 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		ApplicationModel.player.MyDeck.cards=new List<Card>();
 
 		skills = new List<Skill>();
-		skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
-		skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+		skills.Add (new Skill("Lâche", 65, 1, 1, 2, 0, "", 0, 0));
+		skills.Add (new Skill("Vitamines", 6, 1, 2, 6, 0, "", 0, 100));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Predator", 35, 2, 0, 3, 16, skills));
+		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Flash", 35, 2, 0, 7, 16, skills));
 		
 		skills = new List<Skill>();
-		skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
-		skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+		skills.Add (new Skill("Paladin", 73, 1, 1, 3, 0, "", 0, 0));
+		skills.Add (new Skill("PistoSoin", 2, 1, 1, 6, 0, "", 0, 100));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Flash", 24, 1, 0, 6, 11, skills));
+		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Arthur", 51, 1, 0, 3, 14, skills));
 				
 		skills = new List<Skill>();
-		skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
-		skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
+		skills.Add (new Skill("Cuirassé", 70, 1, 1, 4, 0, "", 0, 0));
+		skills.Add (new Skill("Attaque 360", 17, 1, 1, 8, 0, "", 0, 100));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Alien", 38, 2, 0, 3, 21, skills));
+		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Psycho", 52, 2, 0, 3, 28, skills));
 				
 		skills = new List<Skill>();
-		skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
-		skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
+		skills.Add (new Skill("Agile", 66, 1, 1, 2, 0, "", 0, 0));
+		skills.Add (new Skill("Assassinat", 18, 1, 2, 10, 0, "", 0, 80));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills));
+		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Slayer", 35, 2, 0, 3, 16, skills));
 	}
 }
 

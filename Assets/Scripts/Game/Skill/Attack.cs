@@ -14,10 +14,14 @@ public class Attack : GameSkill
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			GameView.instance.gameTutoController.showArrow(false);
+		}
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
+
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
 		
@@ -56,6 +60,8 @@ public class Attack : GameSkill
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
+
+		GameView.instance.hitNextTutorial();
 	}
 
 	public override string getTargetText(int target){

@@ -251,9 +251,9 @@ public class GameTutoController : MonoBehaviour
 		this.companionNextButton.GetComponent<HelpCompanionGameController>().reset ();
 		this.companionDialogBox.GetComponent<SpriteRenderer>().enabled = b ;
 		this.companionDialogBox.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = b ;
-		this.companionNextButton.GetComponent<BoxCollider2D>().enabled = this.displayCompanionNextButton ;
-		this.companionNextButton.GetComponent<SpriteRenderer>().enabled = this.displayCompanionNextButton ;
-		this.companionNextButton.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = this.displayCompanionNextButton ;
+		this.companionNextButton.GetComponent<BoxCollider2D>().enabled = b&&this.displayCompanionNextButton ;
+		this.companionNextButton.GetComponent<SpriteRenderer>().enabled = b&&this.displayCompanionNextButton ;
+		this.companionNextButton.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled = b&&this.displayCompanionNextButton ;
 	}
 
 	private void slideCompanion()
@@ -307,6 +307,7 @@ public class GameTutoController : MonoBehaviour
 				this.isCompanionOnLeftSide=this.nextIsCompanionOnLeftSide;
 				this.toSlideCompanion = this.nextToSlideCompanion;
 				this.companionYPosition = this.nextCompanionYPosition;
+
 				this.showSequence(nextB1,nextB2,nextB3);
 			}
 			else{
@@ -387,7 +388,7 @@ public class GameTutoController : MonoBehaviour
 		this.toMoveArrow = true;
 	}
 
-	private void showArrow(bool b)
+	public void showArrow(bool b)
 	{
 		if (b) 
 		{
@@ -427,7 +428,7 @@ public class GameTutoController : MonoBehaviour
 		this.arrow.GetComponent<SpriteRenderer>().enabled = b ;
 	}
 
-	private void drawArrow()
+	public void drawArrow()
 	{
 		if(this.arrowOrientation=="left")
 		{

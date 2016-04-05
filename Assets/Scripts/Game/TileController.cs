@@ -419,7 +419,7 @@ public class TileController : GameObjectController
 							if(GameView.instance.sequenceID==13){
 								if(this.tile.x==3 && this.tile.y==5){
 									GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
-									GameView.instance.gameTutoController.unslide();
+									GameView.instance.hitNextTutorial();
 								}
 							}	
 						}

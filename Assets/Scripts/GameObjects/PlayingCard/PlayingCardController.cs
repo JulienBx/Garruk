@@ -363,9 +363,6 @@ public class PlayingCardController : GameObjectController
 			StartCoroutine(GameView.instance.checkDestination(this.id));
 			if(GameView.instance.hasFightStarted){
 				GameView.instance.updateActionStatus();
-				if(GameView.instance.sequenceID==13){
-					GameView.instance.hitNextTutorial();
-				}
 			}
 			this.moveBackward();
 		}

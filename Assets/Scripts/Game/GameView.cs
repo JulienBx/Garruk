@@ -2927,7 +2927,9 @@ public class GameView : MonoBehaviour
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				yield return new WaitForSeconds(3f);
 				if(!this.deads.Contains(this.currentPlayingCard)){
-					GameController.instance.findNextPlayer ();
+					if(this.sequenceID!=15){
+						GameController.instance.findNextPlayer ();
+					}
 				}
 			}
 			else{
@@ -3307,7 +3309,7 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! A noter que le premier joueur à avoir placé ses troupes gagne le droit d'être le premier à jouer.", true, true, true, 2);
+			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 2);
 			this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
@@ -3330,7 +3332,7 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==8){
-			this.gameTutoController.setCompanion("Les compétences ACTIVES s'affichent sur un fond gris. Le joueur peut en déclencher une pendant le tour de l'unité.", true, true, false, 2);
+			this.gameTutoController.setCompanion("Les compétences ACTIVES s'affichent sur un fond gris. Elles sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 			this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
 			this.gameTutoController.showSequence(true, true, true);
@@ -3368,52 +3370,25 @@ public class GameView : MonoBehaviour
 				text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
 			}
 			this.gameTutoController.setCompanion(text, false, false, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 			this.gameTutoController.setArrow("down",new Vector3(-2f,-4.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==14){
-			this.gameTutoController.setCompanion("Une fois ", false, false, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-2f,-4.2f,0f));
+			this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
-		else if(this.sequenceID==14){
-			this.gameTutoController.setCompanion("Les effets de votre attaque s'affichent à l'écran, la destruction du leader a permis d'affaiblir les unités de l'ennemi!", false, false, false, 10);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+		else if(this.sequenceID==15){
+			this.gameTutoController.setCompanion("Il ne reste vous plus qu'à terminer votre tour. Je vous laisse terminer ce combat seul. Essayez différentes compétences pour tester leurs effets!", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
-		else if(this.sequenceID==14){
-			this.gameTutoController.setCompanion("Votre tour est terminé! Le joueur adverse va maintenant utiliser sa première unité", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
-			this.gameTutoController.showSequence(true, true, false);
+		else if(this.sequenceID==16){
+			this.gameTutoController.showSequence(false, false, false);
+			GameController.instance.findNextPlayer ();
 		}
-		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
-			this.gameTutoController.showSequence(true, true, false);
-		}
+
 		sequenceID++;
 	}
 }
