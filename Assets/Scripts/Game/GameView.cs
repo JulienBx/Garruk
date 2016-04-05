@@ -339,7 +339,7 @@ public class GameView : MonoBehaviour
 			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Brute", 42, 2, 0, 2, 17, skills);
+			c1 = new Card(-1, "Brute", 26, 2, 0, 2, 17, skills);
 			c1.deckOrder=0;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -355,7 +355,7 @@ public class GameView : MonoBehaviour
 			skills.Add (new Skill("PistoSoin", 2, 1, 1, 1, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
+			c1 = new Card(-1, "Flash", 14, 1, 0, 6, 11, skills);
 			c1.deckOrder=1;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -371,7 +371,7 @@ public class GameView : MonoBehaviour
 			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Alien", 38, 2, 0, 3, 21, skills);
+			c1 = new Card(-1, "Alien", 19, 2, 0, 3, 21, skills);
 			c1.deckOrder=2;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -384,7 +384,7 @@ public class GameView : MonoBehaviour
 			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Tank", 42, 2, 0, 2, 17, skills);
+			c1 = new Card(-1, "Tank", 24, 2, 0, 2, 17, skills);
 			c1.deckOrder=3;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -1158,7 +1158,9 @@ public class GameView : MonoBehaviour
 				if(this.getPlayingCardController(this.currentPlayingCard).nbTurns==3){
 					int level = this.getCurrentCard().getSkills()[0].Power;
 					this.getCard(this.currentPlayingCard).emptyModifiers();
+					this.getCard(this.currentPlayingCard).emptyDamageModifyers();
 					this.getCard(this.currentPlayingCard).Attack = 15+level*5;
+					this.getPlayingCardController(this.currentPlayingCard).updateLife(this.getCard(this.currentPlayingCard).Life);
 					this.getCard(this.currentPlayingCard).Life = 45+level*5;
 					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
 					this.getPlayingCardController(this.currentPlayingCard).show();

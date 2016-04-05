@@ -577,6 +577,10 @@ public class GameCard : Card
 		this.states = new List<Modifyer>();
 	}
 
+	public void emptyDamageModifyers(){
+		this.damagesModifyers = new List<Modifyer>();
+	}
+
 	public bool isPoisoned()
 	{
 		bool hasFound = false ;
