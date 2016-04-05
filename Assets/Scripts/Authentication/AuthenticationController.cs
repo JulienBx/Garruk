@@ -19,6 +19,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private GameObject mainLogo;
 	private GameObject chooseLanguageButton;
 	private GameObject facebookButton;
+	private GameObject quitButton;
 
 	private GameObject loginPopUp;
 	private bool isLoginPopUpDisplayed;
@@ -155,6 +156,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.mainLogo = GameObject.Find("mainLogo");
 		this.chooseLanguageButton = GameObject.Find("chooseLanguageButton");
 		this.facebookButton=GameObject.Find("FacebookButton");
+		this.quitButton=GameObject.Find("QuitButton");
+		this.quitButton.AddComponent<AuthenticationQuitButtonController>();
 	}
 	private void connectToPhoton()
 	{
@@ -497,6 +500,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.chooseLanguageButton.transform.position= new Vector3(0f,-ApplicationDesignRules.worldHeight/2f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
 		this.facebookButton.transform.localScale=ApplicationDesignRules.popUpScale;
 		this.facebookButton.transform.position= new Vector3(0f,ApplicationDesignRules.popUpWorldSize.y/2f+0.25f+ApplicationDesignRules.roundButtonWorldSize.y/2f);
+		this.quitButton.transform.position=new Vector3(-ApplicationDesignRules.worldWidth/2f+0.05f+ApplicationDesignRules.roundButtonWorldSize.x/2f, ApplicationDesignRules.worldHeight/2f-0.05f-ApplicationDesignRules.roundButtonWorldSize.y/2f,0f);
+		this.quitButton.SetActive(!ApplicationDesignRules.isMobileScreen);
 
 		if(this.isLoginPopUpDisplayed)
 		{
@@ -757,7 +762,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	public void displayFacebookButton(bool value)
 	{
-		if(ApplicationDesignRules.isMobileScreen) // A remplacer
+		if(ApplicationDesignRules.isMobileDevice) // A remplacer
 		{
 			this.facebookButton.SetActive(value);
 		}

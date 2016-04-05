@@ -14,7 +14,8 @@ public class WordingPutOnMarketPopUp
 	static WordingPutOnMarketPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisir le prix de vente de la carte","Choose your unit selling price"}); //0
-		references.Add(new string[]{"Confirmer","Confirm"}); //1
+		references.Add(new string[]{"Choisir le prix de vente de la carte \n\n Cette carte est aujourd'hui évaluée à ","Choose your unit selling price  \n\n This unit is evaluated to "}); //0
+		references.Add(new string[]{" cristaux selon la bourse de Cristalia."," crystals according to Cristalia stocks exchange"}); //1
+		references.Add(new string[]{"Confirmer","Confirm"}); //2
 	}
 }

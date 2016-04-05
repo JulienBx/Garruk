@@ -6,6 +6,7 @@ public class Selfdestruction : MonoBehaviour {
 
 	public void DestroyRoot(){
 		XsollaPaystationController controller = gameObject.GetComponentInParent<XsollaPaystationController> ();
+		BackOfficeController.instance.hideTransparentBackground();
 		Destroy (controller.gameObject);
 		TransactionHelper.Clear ();
 	}

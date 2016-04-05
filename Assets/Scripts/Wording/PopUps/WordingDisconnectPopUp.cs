@@ -15,8 +15,9 @@ public class WordingDisconnectPopUp
 	{
 		references=new List<string[]>();
 		references.Add(new string[]{"Souhaitez-vous quitter Cristalia ?","Do you want to quit Cristalia ?"}); //0
-		references.Add(new string[]{"Oui!","Yes!"}); //1
-		references.Add(new string[]{"Annuler","Cancel"}); //2
+		references.Add(new string[]{"Déconnecter","Disconnect"}); //1
+		references.Add(new string[]{"Quitter","Exit"}); //2
+		references.Add(new string[]{"Annuler","Cancel"}); //3
 
 	}
 }

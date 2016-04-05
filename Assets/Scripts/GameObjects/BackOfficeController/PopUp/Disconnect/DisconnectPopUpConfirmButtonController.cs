@@ -2,6 +2,6 @@
 {
 	public override void mainInstruction ()
 	{
-		gameObject.transform.parent.GetComponent<DisconnectPopUpController> ().quitGameHandler ();
+		gameObject.transform.parent.GetComponent<DisconnectPopUpController> ().logOutHandler ();
 	}
 }

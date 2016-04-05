@@ -340,10 +340,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	       		InitializeMobilePurchasing();
 	        }
 		}
-		else
-		{
-			this.initializeDesktopPurchasing();
-		}
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -1282,18 +1278,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
 		this.initializeProducts();
 	}
-	public void runDesktopPurchasing()
-	{
-		XsollaSDK sdk = this.gameObject.GetComponent<XsollaSDK>();
-		if(sdk!=null)
-		{
-			//XsollaJsonGenerator jsonGenerator = new XsollaJsonGenerator (ApplicationModel.player.Id.ToString(),17443);
-			//jsonGenerator.settings.mode="sandbox";
-			//jsonGenerator.settings.secretKey="m1WHb5qGb55B6eES";
-			BackOfficeController.instance.displayTransparentBackground();
-			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
-		}
-	}
 	void Success (XsollaResult result)
 	{
 		Debug.Log("Sucess");
@@ -1323,14 +1307,21 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}",product.definition.storeSpecificId, failureReason));
 	    BackOfficeController.instance.hideLoadingScreen();
 	}
-	public void initializeDesktopPurchasing()
+	public void desktopPurchasingHandler()
 	{
-		StartCoroutine(getPurchasingToken());
+		StartCoroutine(runDesktopPurchasing());
 	}
-	public IEnumerator getPurchasingToken()
+	public IEnumerator runDesktopPurchasing()
 	{
+		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.getPurchasingToken());
-		print(ApplicationModel.player.DesktopPurchasingToken);
+		BackOfficeController.instance.hideLoadingScreen();
+		XsollaSDK sdk = this.gameObject.GetComponent<XsollaSDK>();
+		if(sdk!=null)
+		{
+			BackOfficeController.instance.displayTransparentBackground();
+			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
+		}
 	}
 	  
 	#region TUTORIAL FUNCTIONS

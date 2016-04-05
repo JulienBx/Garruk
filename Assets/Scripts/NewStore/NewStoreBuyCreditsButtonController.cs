@@ -11,7 +11,7 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 		}
 		else
 		{
-			NewStoreController.instance.runDesktopPurchasing();
+			NewStoreController.instance.desktopPurchasingHandler();
 		}
 	}
 	public override void setIsActive(bool value)
