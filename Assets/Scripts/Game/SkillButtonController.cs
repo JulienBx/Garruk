@@ -126,6 +126,9 @@ public class SkillButtonController : MonoBehaviour
 			}
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
 			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				GameView.instance.gameTutoController.showArrow(false);
+			}
 			GameSkills.instance.getSkill(this.skill.Id).launch();
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){

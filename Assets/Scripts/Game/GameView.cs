@@ -904,7 +904,6 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-			print("HOVERTILE");
 			if(this.hasFightStarted){
 				this.removeDestinations();
 				if(this.currentPlayingCard!=-1){
@@ -2927,7 +2926,7 @@ public class GameView : MonoBehaviour
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				yield return new WaitForSeconds(3f);
 				if(!this.deads.Contains(this.currentPlayingCard)){
-					if(this.sequenceID!=15){
+					if(this.sequenceID!=12){
 						GameController.instance.findNextPlayer ();
 					}
 				}
@@ -3292,7 +3291,7 @@ public class GameView : MonoBehaviour
 		}
 		else if(this.sequenceID==2){
 			GameController.instance.launchCardCreation();
-			this.gameTutoController.setCompanion("Vos unités sont arrivées ! Les combats cristaliens opposent des équipes de 4 unités. Chacune possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
+			this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
 			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-3.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
@@ -3327,41 +3326,25 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==7){
-			this.gameTutoController.setCompanion("Accéder au détail d'une unité permet d'accéder à la liste de ses compétences. Deux types de compétences existent sur Cristalia, les ACTIVES et les PASSIVES.", true, true, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==8){
-			this.gameTutoController.setCompanion("Les compétences ACTIVES s'affichent sur un fond gris. Elles sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 2);
+			this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 			this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
-		else if(this.sequenceID==9){
+		else if(this.sequenceID==8){
 			this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 			this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
-		else if(this.sequenceID==10){
-			this.gameTutoController.setCompanion("Votre unité est la première à jouer. L'ordre des tours de jeu est affiché sur la timeline. Chacun joue à son tour, selon l'ordre des unités dans l'équipe.", true, true, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
-			this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==11){
-			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Les compétences sont affichées dans le menu d'action de l'unité.", true, true, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
-			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.5f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==12){
-			this.gameTutoController.setCompanion("Votre unité dispose de 20 points d'attaque, et peut donc réduire à néant les 20 points de vie du leader en l'attaquant. Déplacez votre unité près de l'ennemi!", false, true, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
+		else if(this.sequenceID==9){
+			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", true, true, false, 2);
+			this.hoverTile();
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
 			this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
-		else if(this.sequenceID==13){
+		else if(this.sequenceID==10){
 			string text = "";
 			if(this.isMobile){
 				text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacer la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
@@ -3371,20 +3354,26 @@ public class GameView : MonoBehaviour
 			}
 			this.gameTutoController.setCompanion(text, false, false, true, 2);
 			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-2f,-4.2f,0f));
+			this.gameTutoController.setArrow("right",new Vector3(-2.1f,-4.5f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
-		else if(this.sequenceID==14){
+		else if(this.sequenceID==11){
 			this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
-		else if(this.sequenceID==15){
+		else if(this.sequenceID==12){
+			this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
+			this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==13){
 			this.gameTutoController.setCompanion("Il ne reste vous plus qu'à terminer votre tour. Je vous laisse terminer ce combat seul. Essayez différentes compétences pour tester leurs effets!", true, false, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
-		else if(this.sequenceID==16){
+		else if(this.sequenceID==14){
 			this.gameTutoController.showSequence(false, false, false);
 			GameController.instance.findNextPlayer ();
 		}

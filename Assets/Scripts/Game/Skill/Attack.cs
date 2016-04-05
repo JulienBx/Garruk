@@ -14,9 +14,6 @@ public class Attack : GameSkill
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.displayAdjacentOpponentsTargets();
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			GameView.instance.gameTutoController.showArrow(false);
-		}
 	}
 	
 	public override void resolve(List<int> targetsPCC)

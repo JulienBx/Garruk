@@ -360,6 +360,7 @@ public class TileController : GameObjectController
 				}
 				if(this.characterID==-1){
 					GameView.instance.hoverTile();
+
 				}
 				else{
 					if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
@@ -415,14 +416,12 @@ public class TileController : GameObjectController
 					GameView.instance.hitTarget(this.tile);
 				}
 				else if(this.isDestination==1 && GameView.instance.hasFightStarted){
-					if(ApplicationModel.player.ToLaunchGameTutorial){
-							if(GameView.instance.sequenceID==13){
-								if(this.tile.x==3 && this.tile.y==5){
-									GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
-									GameView.instance.hitNextTutorial();
-								}
-							}	
+					if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID==13){
+						if(this.tile.x==3 && this.tile.y==5){
+							GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+							GameView.instance.hitNextTutorial();
 						}
+					}
 					else{
 						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
 					}

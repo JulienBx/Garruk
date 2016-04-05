@@ -238,8 +238,7 @@ public class PlayingCardController : GameObjectController
 	public void addDamagesModifyer(Modifyer m, bool endTurn){
 		this.updateLife(this.card.getLife());
 		if(m.amount<0){
-			m.amount = Mathf.Min(-1*m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
-			print(m.amount+"-"+this.card.GetTotalLife()+"-"+this.card.getLife());
+			m.amount = -1*Mathf.Min(-1*m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
 		}
 		else{
 			if (this.card.getLife()-m.amount<=0){
