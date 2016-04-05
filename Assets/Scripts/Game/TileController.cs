@@ -268,102 +268,104 @@ public class TileController : GameObjectController
 
 	public void OnMouseEnter()
 	{
-		if(GameView.instance.isMobile){
-			if(GameView.instance.draggingSkillButton!=-1){
-				if(this.isDisplayingTarget){
-					if(this.characterID!=-1){
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
-					}
-					else{
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
-					}
-					if(this.tile.x==0){
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
-					}
-					else if(this.tile.x==GameView.instance.boardWidth-1){
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
-					}
-					else{
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
-					}
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
-				}
-				else{
-					if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+		if(!ApplicationModel.player.ToLaunchGameTutorial || GameView.instance.sequenceID>5){
+			if(GameView.instance.isMobile){
+				if(GameView.instance.draggingSkillButton!=-1){
+					if(this.isDisplayingTarget){
+						if(this.characterID!=-1){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
+						}
+						else{
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
+						}
+						if(this.tile.x==0){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
+						}
+						else if(this.tile.x==GameView.instance.boardWidth-1){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+						}
+						else{
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+						}
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 					}
 					else{
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+						if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+						}
+						else{
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+						}
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 					}
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 				}
 			}
-		}
-		else{
-			this.isHovering = true ;
-			if(GameView.instance.hoveringZone!=-1){
-				if(GameView.instance.hoveringZone==1){
-					GameView.instance.hideAllTargets();
-					this.setTargetSprite(3) ;
-					if(this.tile.x<GameView.instance.boardWidth-1){
-						GameView.instance.getTileController(new Tile(this.tile.x+1, this.tile.y)).setTargetSprite(3);
+			else{
+				this.isHovering = true ;
+				if(GameView.instance.hoveringZone!=-1){
+					if(GameView.instance.hoveringZone==1){
+						GameView.instance.hideAllTargets();
+						this.setTargetSprite(3) ;
+						if(this.tile.x<GameView.instance.boardWidth-1){
+							GameView.instance.getTileController(new Tile(this.tile.x+1, this.tile.y)).setTargetSprite(3);
+						}
+						if(this.tile.x>0){
+							GameView.instance.getTileController(new Tile(this.tile.x-1, this.tile.y)).setTargetSprite(3);
+						}
+						if(this.tile.y<GameView.instance.boardHeight-1){
+							GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y+1)).setTargetSprite(3);
+						}
+						if(this.tile.y>0){
+							GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y-1)).setTargetSprite(3);
+						}
 					}
-					if(this.tile.x>0){
-						GameView.instance.getTileController(new Tile(this.tile.x-1, this.tile.y)).setTargetSprite(3);
-					}
-					if(this.tile.y<GameView.instance.boardHeight-1){
-						GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y+1)).setTargetSprite(3);
-					}
-					if(this.tile.y>0){
-						GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y-1)).setTargetSprite(3);
-					}
-				}
-				else if(GameView.instance.hoveringZone==2){
-					GameView.instance.hideAllTargets();
-					Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
-					if(this.tile.x == currentTile.x || this.tile.y == currentTile.y){
-						if(this.tile.x != currentTile.x || this.tile.y != currentTile.y){
-							if(this.tile.x==currentTile.x){
-								if(this.tile.y<currentTile.y){
-									for(int i = currentTile.y-1 ; i>=0 ; i--){
-										GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+					else if(GameView.instance.hoveringZone==2){
+						GameView.instance.hideAllTargets();
+						Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+						if(this.tile.x == currentTile.x || this.tile.y == currentTile.y){
+							if(this.tile.x != currentTile.x || this.tile.y != currentTile.y){
+								if(this.tile.x==currentTile.x){
+									if(this.tile.y<currentTile.y){
+										for(int i = currentTile.y-1 ; i>=0 ; i--){
+											GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+										}
+									}
+									else if(this.tile.y>currentTile.y){
+										for(int i = currentTile.y+1 ; i<GameView.instance.boardHeight ; i++){
+											GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+										}
 									}
 								}
-								else if(this.tile.y>currentTile.y){
-									for(int i = currentTile.y+1 ; i<GameView.instance.boardHeight ; i++){
-										GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+								else if(this.tile.y==currentTile.y){
+									if(this.tile.x<currentTile.x){
+										for(int i = currentTile.x-1 ; i>=0 ; i--){
+											GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+										}
 									}
-								}
+									else if(this.tile.x>currentTile.x){
+										for(int i = currentTile.x+1 ; i<GameView.instance.boardWidth ; i++){
+											GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+										}
+									}
+								} 
 							}
-							else if(this.tile.y==currentTile.y){
-								if(this.tile.x<currentTile.x){
-									for(int i = currentTile.x-1 ; i>=0 ; i--){
-										GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
-									}
-								}
-								else if(this.tile.x>currentTile.x){
-									for(int i = currentTile.x+1 ; i<GameView.instance.boardWidth ; i++){
-										GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
-									}
-								}
-							} 
 						}
 					}
 				}
-			}
-			else if(this.isDisplayingTarget){
-				gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[2] ;
-				this.showDescription(true);
-			}
-			if(this.characterID==-1){
-				
-			}
-			else{
-				if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
-					if(GameView.instance.draggingCard==-1){
-						GameView.instance.hoverCharacter(this.characterID);
+				else if(this.isDisplayingTarget){
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[2] ;
+					this.showDescription(true);
+				}
+				if(this.characterID==-1){
+					GameView.instance.hoverTile();
+				}
+				else{
+					if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+						if(GameView.instance.draggingCard==-1){
+							GameView.instance.hoverCharacter(this.characterID);
+						}
 					}
 				}
 			}
@@ -413,7 +415,17 @@ public class TileController : GameObjectController
 					GameView.instance.hitTarget(this.tile);
 				}
 				else if(this.isDestination==1 && GameView.instance.hasFightStarted){
-					GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+					if(ApplicationModel.player.ToLaunchGameTutorial){
+							if(GameView.instance.sequenceID==13){
+								if(this.tile.x==3 && this.tile.y==5){
+									GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+									GameView.instance.gameTutoController.unslide();
+								}
+							}	
+						}
+					else{
+						GameController.instance.clickDestination(this.tile, GameView.instance.getCurrentPlayingCard(), true);
+					}
 				}
 				else if(this.characterID==-1){
 					if(GameView.instance.draggingCard==-1){
@@ -429,9 +441,6 @@ public class TileController : GameObjectController
 								}
 							}
 							else if(this.type==1){
-								if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID==2){
-									GameView.instance.hitNextTutorial();
-								}
 								gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
 								gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Case infranchissable. Certaines unités peuvent se servir des cristaux.";
 								gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
@@ -493,7 +502,17 @@ public class TileController : GameObjectController
 						GameController.instance.clickDestination(t, this.characterID, false);
 					}
 					else if(GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==1){
-						GameController.instance.clickDestination(t, this.characterID, false);
+						if(ApplicationModel.player.ToLaunchGameTutorial){
+							if(GameView.instance.sequenceID==13){
+								if(this.tile.x==3 && this.tile.y==5){
+									GameController.instance.clickDestination(t, this.characterID, false);
+								}
+							}	
+						}
+						else{
+							GameController.instance.clickDestination(t, this.characterID, false);
+						}
+
 					}
 					else{
 						GameView.instance.dropCharacter(this.characterID); 
@@ -538,6 +557,7 @@ public class TileController : GameObjectController
 					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
 					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
 					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
+
 				}
 				this.isDisplayingDescription = false ;
 			}

@@ -101,6 +101,11 @@ public class InterludeController : MonoBehaviour
 				}
 				else{
 					GameView.instance.hasFightStarted = true ;
+					if(ApplicationModel.player.ToLaunchGameTutorial){
+						if(GameView.instance.sequenceID==5){
+							GameView.instance.hitNextTutorial();
+						}
+					}
 				}
 
 				GameView.instance.recalculateDestinations();

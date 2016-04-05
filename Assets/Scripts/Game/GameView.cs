@@ -44,7 +44,7 @@ public class GameView : MonoBehaviour
 	public GameObject choicePopUp;
 	GameObject validationSkill;
 	TimelineController timeline;
-	GameTutoController gameTutoController;
+	public GameTutoController gameTutoController;
 
 	GameObject tutorial;
 	public GameObject SB;
@@ -155,7 +155,6 @@ public class GameView : MonoBehaviour
 				this.gameTutoController.initialize();
 				this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 20f, 10f), 0f, 0f);
-
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else{
@@ -215,7 +214,7 @@ public class GameView : MonoBehaviour
 
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			rocks.Add(new Tile(2,2));
-			rocks.Add(new Tile(4,1));
+			rocks.Add(new Tile(0,2));
 			rocks.Add(new Tile(5,4));
 		}
 		else{
@@ -271,28 +270,85 @@ public class GameView : MonoBehaviour
 	
 	public IEnumerator loadMyDeck()
 	{
-		Deck myDeck = new Deck(ApplicationModel.myPlayerName);
-		yield return StartCoroutine(myDeck.LoadDeck());
-		
-		GameController.instance.spawnCharacter(myDeck.Id);
-
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			List<Skill> skills = new List<Skill>();
-			skills.Add (new Skill("Aguerri", 68, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Frénésie", 18, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Lâche", 65, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Vitamines", 6, 1, 2, 6, 0, "", 0, 100));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			Card c1 = new Card(-1, "Predator", 35, 2, 0, 3, 16, skills);
+			Card c1 = new Card(-1, "Flash", 35, 2, 0, 7, 16, skills);
 			c1.deckOrder=0;
 			GameCard g1 = new GameCard(c1);
 			g1.LifeLevel=1;
 			g1.AttackLevel=1;
 			g1.PowerLevel=1;
-			this.createPlayingCard(g1, false);
+			this.createPlayingCard(g1, true);
+			print(this.getCard(0).Life);
+			this.getPlayingCardController(0).updateLife(0);
+
+			skills = new List<Skill>();
+			skills.Add (new Skill("Paladin", 73, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("PistoSoin", 2, 1, 1, 6, 0, "", 0, 100));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Arthur", 51, 1, 0, 3, 14, skills);
+			c1.deckOrder=1;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=3;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, true);
+			this.getPlayingCardController(1).updateLife(0);
+
 			
 			skills = new List<Skill>();
-			skills.Add (new Skill("Furtif", 66, 1, 1, 3, 0, "", 0, 0));
-			skills.Add (new Skill("Estoc", 11, 1, 1, 1, 0, "", 0, 80));
+			skills.Add (new Skill("Cuirassé", 70, 1, 1, 4, 0, "", 0, 0));
+			skills.Add (new Skill("Attaque 360", 17, 1, 1, 8, 0, "", 0, 100));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Psycho", 52, 2, 0, 3, 28, skills);
+			c1.deckOrder=2;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, true);
+			this.getPlayingCardController(2).updateLife(0);
+
+
+			skills = new List<Skill>();
+			skills.Add (new Skill("Agile", 66, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Assassinat", 18, 1, 2, 10, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Slayer", 35, 2, 0, 3, 16, skills);
+			c1.deckOrder=3;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=1;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, true);
+			this.getPlayingCardController(3).updateLife(0);
+
+			skills = new List<Skill>();
+			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Brute", 42, 2, 0, 2, 17, skills);
+			c1.deckOrder=0;
+			g1 = new GameCard(c1);
+			g1.LifeLevel=2;
+			g1.AttackLevel=1;
+			g1.PowerLevel=1;
+			this.createPlayingCard(g1, false);
+			this.getPlayingCardController(4).changeTile(new Tile(0,6), this.tiles[0,6].GetComponentInChildren<TileController>().getPosition());
+			this.tiles[4,7].GetComponentInChildren<TileController>().setCharacterID(-1);
+			this.tiles[0,6].GetComponentInChildren<TileController>().setCharacterID(4);
+
+			skills = new List<Skill>();
+			skills.Add (new Skill("Leader", 76, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("PistoSoin", 2, 1, 1, 1, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Flash", 24, 1, 0, 6, 11, skills);
@@ -302,7 +358,10 @@ public class GameView : MonoBehaviour
 			g1.AttackLevel=3;
 			g1.PowerLevel=1;
 			this.createPlayingCard(g1, false);
-			
+			this.getPlayingCardController(5).changeTile(new Tile(3,6), this.tiles[3,6].GetComponentInChildren<TileController>().getPosition());
+			this.tiles[3,7].GetComponentInChildren<TileController>().setCharacterID(-1);
+			this.tiles[3,6].GetComponentInChildren<TileController>().setCharacterID(5);
+
 			skills = new List<Skill>();
 			skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
 			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
@@ -321,14 +380,26 @@ public class GameView : MonoBehaviour
 			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Psycho", 42, 2, 0, 2, 17, skills);
+			c1 = new Card(-1, "Tank", 42, 2, 0, 2, 17, skills);
 			c1.deckOrder=3;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
 			g1.AttackLevel=1;
 			g1.PowerLevel=1;
 			this.createPlayingCard(g1, false);
+
+			this.setInitialDestinations(this.isFirstPlayer);
+			this.showStartButton();
+			this.nbCards = 8 ;
+			this.numberDeckLoaded++;
 		}
+		else{
+			Deck myDeck = new Deck(ApplicationModel.myPlayerName);
+			yield return StartCoroutine(myDeck.LoadDeck());
+		
+			GameController.instance.spawnCharacter(myDeck.Id);
+		}
+		yield break ;
 	}
 	
 	public void createTile(int x, int y, int type, bool isFirstP)
@@ -427,9 +498,10 @@ public class GameView : MonoBehaviour
 									this.getPlayingCardController(j).updateLife(0);
 								}
 							}
-
-							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
-							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
+							if(!ApplicationModel.player.ToLaunchGameTutorial){
+								GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
+								GameView.instance.addAnim(GameView.instance.getTile(i), 76);
+							}
 							hasFoundMine = true;	
 						}
 					}	
@@ -528,6 +600,11 @@ public class GameView : MonoBehaviour
 			    tempGO = GameObject.Find("HisPlayerName");
 				tempGO.transform.GetComponent<MeshRenderer>().enabled = false ;
 			}
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				if(this.sequenceID==5){
+					this.gameTutoController.unslide();
+				}
+			}
 			this.setNextPlayer();
 		}
 		else{
@@ -555,26 +632,35 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverCharacter(int characterID){
-		if (this.getPlayingCardController(characterID).getIsMine()){	
-			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
-		}
-		else{
-			this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
-		}
+		if(!ApplicationModel.player.ToLaunchGameTutorial || sequenceID>6){
+			if (this.getPlayingCardController(characterID).getIsMine()){	
+				this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+			}
+			else{
+				this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					if(this.sequenceID==7){
+						this.hitNextTutorial();
+					}
+				}
+			}
 
-		if(this.currentPlayingCard!=-1){
-			if(!this.getCard(characterID).isMine && this.getCard(this.currentPlayingCard).isMine){
-				this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+			if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID>15){
+				if(this.currentPlayingCard!=-1){
+					if(!this.getCard(characterID).isMine && this.getCard(this.currentPlayingCard).isMine){
+						this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+					}
+					else if(this.getCard(characterID).isMine && !this.getCard(this.currentPlayingCard).isMine){
+						this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+					}
+				}
 			}
-			else if(this.getCard(characterID).isMine && !this.getCard(this.currentPlayingCard).isMine){
-				this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
-			}
-		}
-		
-		if(this.hasFightStarted && this.hoveringZone==-1){
-			this.removeDestinations();
-			if(!this.getCard(characterID).isSniperActive()){
-				this.displayDestinations(characterID);
+			
+			if(this.hasFightStarted && this.hoveringZone==-1){
+				this.removeDestinations();
+				if(!this.getCard(characterID).isSniperActive()){
+					this.displayDestinations(characterID);
+				}
 			}
 		}
 	}
@@ -671,6 +757,12 @@ public class GameView : MonoBehaviour
 						GameController.instance.addRock(origine, 140);
 					}
 				}
+			}
+		}
+
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			if(this.sequenceID==4){
+				this.hitNextTutorial();
 			}
 		}
 	}
@@ -773,6 +865,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverTile(){
+		
 		if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
 			if(!this.isMobile){
 				if(this.currentPlayingCard!=-1){
@@ -785,33 +878,33 @@ public class GameView : MonoBehaviour
 				}
 
 				if(this.getMyHoveredCardController().getStatus()==0){
-				if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
-					if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
-						this.getMyHoveredCardController().empty();
-					}
-				}
-				if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
-					if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
-						this.getHisHoveredCardController().empty();
-					}
-				}
-			}
-			else{
-				if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-					if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+					if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
+						if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
 							this.getMyHoveredCardController().empty();
 						}
 					}
-					if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
-						if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+					if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
+						if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
 							this.getHisHoveredCardController().empty();
 						}
 					}
 				}
+				else{
+					if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+							if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+								this.getMyHoveredCardController().empty();
+							}
+						}
+						if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
+							if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+								this.getHisHoveredCardController().empty();
+							}
+						}
+					}
+				}
 			}
-			}
-
+			print("HOVERTILE");
 			if(this.hasFightStarted){
 				this.removeDestinations();
 				if(this.currentPlayingCard!=-1){
@@ -1305,7 +1398,7 @@ public class GameView : MonoBehaviour
 			this.getHisHoveredCardController().addTimeC(Time.deltaTime);
 		}
 
-		if(this.numberDeckLoaded==2 || (ApplicationModel.player.ToLaunchGameTutorial && numberDeckLoaded==1)){
+		if(this.numberDeckLoaded==2 || (ApplicationModel.player.ToLaunchGameTutorial && this.numberDeckLoaded==1)){
 			for(int i = 0 ; i < this.nbCards ; i++){
 				if(this.getPlayingCardController(i).isUpdatingLife){
 					this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
@@ -3190,15 +3283,135 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==1){
-			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", false, false, false, 0);
+			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(-0.5f, -1.5f, 1f, 1f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.5f,0f));
+			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.8f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==2){
 			GameController.instance.launchCardCreation();
-			this.gameTutoController.setCompanion("Au début du combat, vous pouvez déplacer vos unités en vue de la bataille. Protégez vos unités les plus faibles et avancez les plus lentes pour augmenter vos chances de succès ! Essayez de déplacer une unité avant de démarrer le combat", false, true, false, 0);
+			this.gameTutoController.setCompanion("Vos unités sont arrivées ! Les combats cristaliens opposent des équipes de 4 unités. Chacune possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
+			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-3.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==3){
+			this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==4){
+			this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 3f), 1f, 1f);
+			this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.5f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==5){
+			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! A noter que le premier joueur à avoir placé ses troupes gagne le droit d'être le premier à jouer.", true, true, true, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==6){
+			string text = "";
+			if(this.isMobile){
+				text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
+			}
+			else{
+				text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en survolant l'unité.";
+			}
+			this.gameTutoController.setCompanion(text, false, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0.5f, 2.5f, 1f, 1f), 1f, 1f);
+			this.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==7){
+			this.gameTutoController.setCompanion("Accéder au détail d'une unité permet d'accéder à la liste de ses compétences. Deux types de compétences existent sur Cristalia, les ACTIVES et les PASSIVES.", true, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==8){
+			this.gameTutoController.setCompanion("Les compétences ACTIVES s'affichent sur un fond gris. Le joueur peut en déclencher une pendant le tour de l'unité.", true, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==9){
+			this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==10){
+			this.gameTutoController.setCompanion("Votre unité est la première à jouer. L'ordre des tours de jeu est affiché sur la timeline. Chacun joue à son tour, selon l'ordre des unités dans l'équipe.", true, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
+			this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==11){
+			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Les compétences sont affichées dans le menu d'action de l'unité.", true, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.5f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==12){
+			this.gameTutoController.setCompanion("Votre unité dispose de 20 points d'attaque, et peut donc réduire à néant les 20 points de vie du leader en l'attaquant. Déplacez votre unité près de l'ennemi!", false, true, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
+			this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==13){
+			string text = "";
+			if(this.isMobile){
+				text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacer la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
+			}
+			else{
+				text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
+			}
+			this.gameTutoController.setCompanion(text, false, false, true, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-2f,-4.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==14){
+			this.gameTutoController.setCompanion("Une fois ", false, false, true, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-2f,-4.2f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==14){
+			this.gameTutoController.setCompanion("Les effets de votre attaque s'affichent à l'écran, la destruction du leader a permis d'affaiblir les unités de l'ennemi!", false, false, false, 10);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==14){
+			this.gameTutoController.setCompanion("Votre tour est terminé! Le joueur adverse va maintenant utiliser sa première unité", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==5){
+			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==5){
+			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==5){
+			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==5){
+			this.gameTutoController.setCompanion("La bataille démarre une fois que les deux joueurs ont positionné leurs unités. ", false, false, false, 0);
+			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.5f,-2.5f,0f));
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		sequenceID++;

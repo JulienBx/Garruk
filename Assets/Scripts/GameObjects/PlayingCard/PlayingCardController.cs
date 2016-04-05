@@ -158,12 +158,6 @@ public class PlayingCardController : GameObjectController
 		this.isUpdatingLife = true ;
 	}
 	
-	public void updateLifePercentage(float percentage){
-//		gameObject.transform.Find("Background").FindChild("Life").transform.localPosition = new Vector3(-0.28f+percentage*(0.37f),-0.41f,0);
-//		gameObject.transform.Find("Background").FindChild("Life").transform.localScale = new Vector3(80f*percentage,0.9f,1);
-//		gameObject.transform.Find("Background").FindChild("LifeEnd").transform.localPosition = new Vector3(-0.26f+percentage*(0.74f),-0.41f,0);
-	}
-	
 	public void addTime(float t){
 
 		this.timerSelection += t ;
@@ -369,6 +363,9 @@ public class PlayingCardController : GameObjectController
 			StartCoroutine(GameView.instance.checkDestination(this.id));
 			if(GameView.instance.hasFightStarted){
 				GameView.instance.updateActionStatus();
+				if(GameView.instance.sequenceID==13){
+					GameView.instance.hitNextTutorial();
+				}
 			}
 			this.moveBackward();
 		}
@@ -387,7 +384,6 @@ public class PlayingCardController : GameObjectController
 		}
 
 		float l = (this.actualLife-(1.0f*this.timerLife/lifeTime)*(this.actualLife-this.card.getLife()))/this.card.GetTotalLife();
-		this.updateLifePercentage(l);
 		int actualNumber = System.Convert.ToInt32(transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text);
 		int nextNumber = Mathf.RoundToInt(this.card.GetTotalLife()*l);
 		if(actualNumber!=nextNumber){
@@ -506,7 +502,7 @@ public class PlayingCardController : GameObjectController
 			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, WordingSkills.getName(card.Skills[0].Id), bonusMove+"MOV. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Paladin\n+"+bonusAttack+" ATK\n"+bonusMove+"MOV", 1);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 73);
 			}
@@ -520,7 +516,7 @@ public class PlayingCardController : GameObjectController
 			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Agile\nEsquive : "+level+"%", 1);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 66);
 			}
@@ -534,7 +530,7 @@ public class PlayingCardController : GameObjectController
 			int bonusAttack = 2+card.Skills[0].Power;
 			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Costaud", "Costaud\n+"+bonusAttack+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
 			}
@@ -546,7 +542,7 @@ public class PlayingCardController : GameObjectController
 			int bonusShield = card.Skills[0].Power*3+20;
 			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%"));
 			GameView.instance.displaySkillEffect(this.id, "Cuirassé\nBouclier "+bonusShield+"%", 2);
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.getPlayingCardController(this.id).showIcons();
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
 			}
@@ -561,7 +557,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
 			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
 			}
@@ -575,7 +571,7 @@ public class PlayingCardController : GameObjectController
 			this.card.magicalEsquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
 			}
@@ -590,7 +586,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(0, -1, 35, "Sniper", "Résistance météorite "+bonus+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			if(toDisplay){
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Sniper\nrésistance météorite "+bonus+"%\nimmobile", 1);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
 			}

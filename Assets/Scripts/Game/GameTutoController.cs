@@ -67,6 +67,9 @@ public class GameTutoController : MonoBehaviour
 	private bool nextIsCompanionOnLeftSide;
 	private bool nextToSlideCompanion;
 	private float nextCompanionYPosition;
+	private bool isFirstTime ;
+
+	bool isSlidingCompanion;
 
 	private bool nextB1, nextB2, nextB3 ;
 
@@ -76,7 +79,7 @@ public class GameTutoController : MonoBehaviour
 		{
 			this.drawCompanionText();
 		}
-		if (this.toSlideCompanion) 
+		if (this.isSlidingCompanion) 
 		{
 			this.slideCompanion();
 		}
@@ -97,6 +100,8 @@ public class GameTutoController : MonoBehaviour
 		this.nextB1 = false ;
 		this.nextB2 = false ;
 		this.nextB3 = false ; 
+		this.isFirstTime = true ;
+		this.isSlidingCompanion = false ;
 		this.arrowSpeed=2.5f;
 		this.ressources = this.gameObject.GetComponent<HelpRessources> ();
 		this.companion = this.gameObject.transform.FindChild("Companion").gameObject;
@@ -138,14 +143,14 @@ public class GameTutoController : MonoBehaviour
 		}
 	}
 
-	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide, bool toSlideCompanion, float companionYPosition)
+	public void setCompanion(string textToDisplay, bool displayNextButton, bool isLeftSide, bool toSlideCompanion2, float companionYPosition2)
 	{
-		if(isLeftSide!=this.isCompanionOnLeftSide || this.companionYPosition!=companionYPosition){
+		if(!this.isFirstTime && (isLeftSide!=this.isCompanionOnLeftSide || this.companionYPosition!=companionYPosition2)){
 			this.nextCompanionTextDisplayed=textToDisplay;
 			this.nextDisplayCompanionNextButton=displayNextButton;
 			this.nextIsCompanionOnLeftSide=isLeftSide;
-			this.nextToSlideCompanion = toSlideCompanion;
-			this.nextCompanionYPosition = companionYPosition;
+			this.nextToSlideCompanion = toSlideCompanion2;
+			this.nextCompanionYPosition = companionYPosition2;
 			if(this.isCompanionOnLeftSide){
 				this.unsliding = -1;
 			}
@@ -157,14 +162,14 @@ public class GameTutoController : MonoBehaviour
 			this.companionTextDisplayed=textToDisplay;
 			this.displayCompanionNextButton=displayNextButton;
 			this.isCompanionOnLeftSide=isLeftSide;
-			this.toSlideCompanion = toSlideCompanion;
-			this.companionYPosition = companionYPosition;
+			this.toSlideCompanion = toSlideCompanion2;
+			this.companionYPosition = companionYPosition2;
+			this.isFirstTime = false ;
 		}
 	}
 
 	private void showCompanion(bool b)
 	{
-		print("Je show "+b);
 		if(b){
 			Vector3 dialogBoxPosition = this.companionDialogBox.transform.localPosition;
 			Vector3 dialogTitlePosition = this.companionDialogTitle.transform.localPosition;
@@ -239,6 +244,7 @@ public class GameTutoController : MonoBehaviour
 				this.companion.transform.localPosition = this.endCompanionSlidingPosition;
 			}
 		}
+		this.isSlidingCompanion = this.toSlideCompanion;
 		this.toWriteCompanionText = b ;
 		this.companion.GetComponent<SpriteRenderer>().enabled = b ;
 		this.companion.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = b ;
@@ -253,25 +259,36 @@ public class GameTutoController : MonoBehaviour
 	private void slideCompanion()
 	{
 		Vector3 companionCurrentPosition = this.companion.transform.localPosition;
+			
 		if (this.isCompanionOnLeftSide) 
 		{
 			companionCurrentPosition.x = companionCurrentPosition.x + 20f*Time.deltaTime;
 			if (companionCurrentPosition.x >= this.endCompanionSlidingPosition.x) 
 			{
-				this.toSlideCompanion = false;
+				this.isSlidingCompanion = false;
 				companionCurrentPosition.x = endCompanionSlidingPosition.x;
 			}
-		} 
+		}
 		else 
 		{
 			companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
-			if (companionCurrentPosition.x <= this.endCompanionSlidingPosition.x) 
+			if (companionCurrentPosition.x <= this.endCompanionSlidingPosition.x)
 			{
-				this.toSlideCompanion = false;
+				this.isSlidingCompanion = false;
 				companionCurrentPosition.x = endCompanionSlidingPosition.x;
 			}
 		}
 		this.companion.transform.localPosition = companionCurrentPosition;
+	}
+
+	public void unslide()
+	{
+		if(this.isCompanionOnLeftSide){
+			this.unsliding = -1;
+		}
+		else{
+			this.unsliding = 1;
+		}
 	}
 
 	private void unSlideCompanion()
@@ -284,6 +301,7 @@ public class GameTutoController : MonoBehaviour
 			{
 				this.unsliding = 0;
 				companionCurrentPosition.x = startCompanionSlidingPosition.x;
+				this.companion.transform.localPosition = companionCurrentPosition;
 				this.companionTextDisplayed=this.nextCompanionTextDisplayed;
 				this.displayCompanionNextButton=this.nextDisplayCompanionNextButton;
 				this.isCompanionOnLeftSide=this.nextIsCompanionOnLeftSide;
@@ -291,14 +309,19 @@ public class GameTutoController : MonoBehaviour
 				this.companionYPosition = this.nextCompanionYPosition;
 				this.showSequence(nextB1,nextB2,nextB3);
 			}
+			else{
+				this.companion.transform.localPosition = companionCurrentPosition;
+			}
 		} 
 		else 
 		{
 			companionCurrentPosition.x = companionCurrentPosition.x - 20f*Time.deltaTime;
+				
 			if (companionCurrentPosition.x <= this.startCompanionSlidingPosition.x) 
 			{
 				this.unsliding = 0;
 				companionCurrentPosition.x = startCompanionSlidingPosition.x;
+				this.companion.transform.localPosition = companionCurrentPosition;
 				this.companionTextDisplayed=this.nextCompanionTextDisplayed;
 				this.displayCompanionNextButton=this.nextDisplayCompanionNextButton;
 				this.isCompanionOnLeftSide=this.nextIsCompanionOnLeftSide;
@@ -307,8 +330,10 @@ public class GameTutoController : MonoBehaviour
 
 				this.showSequence(nextB1,nextB2,nextB3);
 			}
+			else{
+				this.companion.transform.localPosition = companionCurrentPosition;
+			}
 		}
-		this.companion.transform.localPosition = companionCurrentPosition;
 	}
 
 	private void drawCompanionText()
@@ -339,13 +364,13 @@ public class GameTutoController : MonoBehaviour
 		{
 			if(this.isSquareBackground)
 			{
-				this.background.GetComponent<HelpBackgroundController> ().setSprite (1);
+				this.background.GetComponent<HelpBackgroundGameController> ().setSprite (1);
 			}
 			else
 			{
-				this.background.GetComponent<HelpBackgroundController> ().setSprite (0);
+				this.background.GetComponent<HelpBackgroundGameController> ().setSprite (0);
 			}
-			this.background.GetComponent<HelpBackgroundController> ().resize (this.backgroundRect,this.backgroundClickableSectionXRatio,this.backgroundClickableSectionYRatio);
+			this.background.GetComponent<HelpBackgroundGameController> ().resize (this.backgroundRect,this.backgroundClickableSectionXRatio,this.backgroundClickableSectionYRatio);
 		}
 
 		this.background.GetComponent<SpriteRenderer>().enabled = b ; 
