@@ -237,9 +237,6 @@ public class Player : User
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
-		this.MyDeck.cards = new List<Card> ();
-		string[] cardsData;
-
 		WWWForm form = new WWWForm (); 								// Création de la connexion
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
@@ -743,14 +740,13 @@ public class Player : User
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
 				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
 				this.Money = System.Convert.ToInt32(profileData [3]);
-				//this.DisplayTutorial = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [4]));
-				this.IdLanguage=System.Convert.ToInt32(profileData[5]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[6]);
-				this.Id=System.Convert.ToInt32(profileData[7]);
-				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
-				this.Mail=profileData[9];
+				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
+				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
+				this.Id=System.Convert.ToInt32(profileData[6]);
+				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
+				this.Mail=profileData[8];
 				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[10]);
+				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
