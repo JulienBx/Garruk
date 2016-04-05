@@ -55,11 +55,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId);
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer);
 	}
 	
 	[PunRPC]
-	IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId)
+	IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId, bool isFirstPlayer)
 	{
 		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
@@ -72,7 +72,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			Deck deck;
 			deck = new Deck(selectedDeckId);
 			yield return StartCoroutine(deck.RetrieveCards());
-			if (ApplicationModel.player.Username == loginName)
+			if (ApplicationModel.player.IsFirstPlayer == isFirstPlayer)
 			{
 				ApplicationModel.myPlayerName=loginName;
 				ApplicationModel.player.MyDeck=deck;
