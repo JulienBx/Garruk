@@ -98,8 +98,15 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			PhotonNetwork.room.open = false;
 		}
-		BackOfficeController.instance.launchPreMatchLoadingScreen();
 		SoundController.instance.playMusic(new int[]{3,4});
+		if(ApplicationModel.player.ToLaunchGameTutorial)
+		{
+			SceneManager.LoadScene("Game");
+		}
+		else
+		{
+			BackOfficeController.instance.launchPreMatchLoadingScreen();
+		}
 	}
 	void OnDisconnectedFromPhoton()
 	{
