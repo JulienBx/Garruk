@@ -450,12 +450,12 @@ public class GameView : MonoBehaviour
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().checkPassiveSkills(isFirstP==this.isFirstPlayer);
 		GameCard gc = this.getCard(index);
 		if(gc.isPiegeur() && this.isFirstPlayer){
-			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
-			for (int i = 0 ; i < tiles2.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles2[i], 5+2*gc.getPassiveSkillLevel(), gc.isMine);
-			}
-			GameView.instance.displaySkillEffect(index, "Piégeur\npose 4 pièges!", 2);
-			GameView.instance.addAnim(GameView.instance.getTile(index), 0);
+//			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
+//			for (int i = 0 ; i < tiles2.Count ; i++){
+//				GameController.instance.addPiegeurTrap(tiles2[i], 5+2*gc.getPassiveSkillLevel(), gc.isMine);
+//			}
+//			GameView.instance.displaySkillEffect(index, "Piégeur\npose 4 pièges!", 2);
+//			GameView.instance.addAnim(GameView.instance.getTile(index), 0);
 		}
 	}
 	
