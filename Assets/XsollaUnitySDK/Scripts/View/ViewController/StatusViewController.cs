@@ -144,7 +144,9 @@ namespace Xsolla {
 		{
 			if (StatusHandler != null)
 				StatusHandler (group, xsollaStatusData);
-			GetComponentInParent<XsollaPaystationController> ().gameObject.GetComponentInChildren<Selfdestruction> ().DestroyRoot ();
+			BackOfficeController.instance.hideTransparentBackground();
+			TransactionHelper.Clear ();
+			Destroy (gameObject.transform.parent.parent.parent.parent.gameObject);
 		}
 
 		private void OnClickBack(XsollaStatus.Group group ,XsollaStatusData xsollaStatusData)
