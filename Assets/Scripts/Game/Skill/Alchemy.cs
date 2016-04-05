@@ -31,7 +31,7 @@ public class Alchemy : GameSkill
 			}
 		}
 
-		GameController.instance.applyOnMe(-1);
+		GameController.instance.applyOnMe(compteur);
 		GameController.instance.endPlay();
 	}
 	

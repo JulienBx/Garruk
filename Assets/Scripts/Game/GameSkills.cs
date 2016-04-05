@@ -8,7 +8,10 @@ public class GameSkills : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		
+		GameView.instance.readyToSkill();
+	}
+
+	public void initialize(){
 		this.skills = new GameSkill[146];
 		this.skills [0] = new Attack();
 		this.skills [1] = new Pass();
