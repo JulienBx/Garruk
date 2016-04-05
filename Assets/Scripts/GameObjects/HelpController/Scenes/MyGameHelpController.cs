@@ -50,22 +50,22 @@ public class MyGameHelpController : HelpController
 		case 6:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (5), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (3).x,MenuController.instance.getButtonPosition (3).y-0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 3, 1), 1f, 1f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 3, 1), 0f, 0f);
 			break;
 		case 7:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (4), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (4).x,MenuController.instance.getButtonPosition (4).y-0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (4).x, MenuController.instance.getButtonPosition (4).y, 3, 1), 1f, 1f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (4).x, MenuController.instance.getButtonPosition (4).y, 3, 1), 0f, 0f);
 			break;
 		case 8:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (3), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (5).x,MenuController.instance.getButtonPosition (5).y-0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (5).x, MenuController.instance.getButtonPosition (5).y, 3, 1), 1f, 1f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (5).x, MenuController.instance.getButtonPosition (5).y, 3, 1), 0f, 0f);
 			break;
 		case 9:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (6), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getHelpButtonPosition().x,MenuController.instance.getHelpButtonPosition().y-0.5f,MenuController.instance.getHelpButtonPosition().z));
-			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 1f, 1f);
+			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 0f, 0f);
 			break;
 		case 10:
 			this.setArrow ("down", new Vector3(-ApplicationDesignRules.focusedCardPosition.x+newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getFocusFeaturePosition(4).x,0.5f-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getFocusFeaturePosition(4).y,0f));
@@ -103,22 +103,22 @@ public class MyGameHelpController : HelpController
 		case 6:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (5), true, false, false, 4f);
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (3).x,MenuController.instance.getButtonPosition (3).y+0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 1, 1), 0.8f, 0.8f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (3).x, MenuController.instance.getButtonPosition (3).y, 1, 1), 0f, 0f);
 			break;
 		case 7:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (4), true, false, false, 4f);
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (4).x,MenuController.instance.getButtonPosition (4).y+0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (4).x, MenuController.instance.getButtonPosition (4).y, 1, 1), 0.8f, 0.8f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (4).x, MenuController.instance.getButtonPosition (4).y, 1, 1), 0f, 0f);
 			break;
 		case 8:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (3), true, false, false, 4f);
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (5).x,MenuController.instance.getButtonPosition (5).y+0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (5).x, MenuController.instance.getButtonPosition (5).y, 1, 1), 0.8f, 0.8f);
+			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (5).x, MenuController.instance.getButtonPosition (5).y, 1, 1), 0f, 0f);
 			break;
 		case 9:
 			this.setCompanion (WordingMyGameHelp.getTutorialContent (6), true, true, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getHelpButtonPosition().x,MenuController.instance.getHelpButtonPosition().y-0.5f,MenuController.instance.getHelpButtonPosition().z));
-			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 1f, 1f);
+			this.setBackground (false,new Rect (MenuController.instance.getHelpButtonPosition().x, MenuController.instance.getHelpButtonPosition().y, 1.5f, 1.5f), 0f, 0f);
 			break;
 		case 10:
 			this.setArrow ("down", new Vector3(-ApplicationDesignRules.focusedCardPosition.x+newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getFocusFeaturePosition(4).x,1f-ApplicationDesignRules.upMargin/2f-ApplicationDesignRules.focusedCardPosition.y+newMyGameController.instance.returnCardFocused().GetComponent<NewFocusedCardController>().getFocusFeaturePosition(4).y,0f));
