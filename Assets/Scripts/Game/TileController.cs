@@ -620,9 +620,15 @@ public class TileController : GameObjectController
 				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/skillEffectTime), 0f);
 			}
 			else{
-				this.timerAnim = 0f ;
-				this.isFinishedTransi = true ;
-				this.isGrowing = false ;
+				
+				if(this.characterID!=GameView.instance.getCurrentPlayingCard()){
+					this.timerAnim = 0f ;
+					this.isFinishedTransi = true ;
+					this.isGrowing = false ;
+				}
+				else{
+					GameView.instance.removeSE(this.tile);
+				}
 			}
 		}
 	}

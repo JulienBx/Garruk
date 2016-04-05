@@ -23,28 +23,6 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.createTile(x, y, type, GameView.instance.getIsFirstPlayer());
 	}
 	
-	public void launchCardCreation(){
-		photonView.RPC("launchCardCreationRPC", PhotonTargets.AllBuffered);
-	}
-	
-	[PunRPC]
-	public void launchCardCreationRPC(){
-		StartCoroutine(GameView.instance.loadMyDeck());
-	}
-	
-	public void spawnCharacter(int idDeck){
-		photonView.RPC("SpawnCharacterRPC", PhotonTargets.AllBuffered, GameView.instance.getIsFirstPlayer(), idDeck);
-	}
-	
-	[PunRPC]
-	IEnumerator SpawnCharacterRPC(bool isFirstP, int idDeck)
-	{
-		Deck deck;
-		deck = new Deck(idDeck);
-		yield return StartCoroutine(deck.RetrieveCards());
-		GameView.instance.loadDeck(deck, isFirstP);
-	}
-	
 	public void addPiegeurTrap(Tile t, int level, bool isFirstP){
 		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level);
 	}

@@ -264,11 +264,11 @@ public class GameView : MonoBehaviour
 			}
 		}
 		if(!ApplicationModel.player.ToLaunchGameTutorial){
-			GameController.instance.launchCardCreation();
+			this.loadMyDeck();
 		}
 	}
 	
-	public IEnumerator loadMyDeck()
+	public void loadMyDeck()
 	{
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			List<Skill> skills = new List<Skill>();
@@ -394,12 +394,9 @@ public class GameView : MonoBehaviour
 			this.numberDeckLoaded++;
 		}
 		else{
-			Deck myDeck = new Deck(ApplicationModel.myPlayerName);
-			yield return StartCoroutine(myDeck.LoadDeck());
-		
-			GameController.instance.spawnCharacter(myDeck.Id);
+			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
+			this.loadDeck(ApplicationModel.opponentDeck, !this.isFirstPlayer);
 		}
-		yield break ;
 	}
 	
 	public void createTile(int x, int y, int type, bool isFirstP)
@@ -3292,7 +3289,7 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==2){
-			GameController.instance.launchCardCreation();
+			this.loadMyDeck();
 			this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
 			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-3.2f,0f));
