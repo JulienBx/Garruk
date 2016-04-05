@@ -114,6 +114,8 @@ public class GameView : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		this.numberDeckLoaded = 0 ;
+
 		this.displayLoadingScreen ();
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.playingCards = new GameObject[100];
@@ -161,6 +163,7 @@ public class GameView : MonoBehaviour
 				this.initGrid();
 			}
 		}
+
 		this.hasFightStarted = false ;
 		this.blockFury = false;
 
@@ -175,7 +178,6 @@ public class GameView : MonoBehaviour
 		draggingCard = -1 ;
 		draggingSkillButton = -1 ;
 		this.nbTurns = 0 ;
-		this.numberDeckLoaded = 0 ;
 		this.isFirstPlayerStarting=true;
 	}
 	
@@ -263,8 +265,9 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+
 		if(!ApplicationModel.player.ToLaunchGameTutorial){
-			this.loadMyDeck();
+			GameController.instance.launchCardCreation();
 		}
 	}
 	
@@ -390,13 +393,15 @@ public class GameView : MonoBehaviour
 
 			this.setInitialDestinations(this.isFirstPlayer);
 			this.showStartButton();
-			this.nbCards = 8 ;
-			this.numberDeckLoaded++;
 		}
 		else{
 			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 			this.loadDeck(ApplicationModel.opponentDeck, !this.isFirstPlayer);
 		}
+		this.nbCards=8;
+		this.myDeck = ApplicationModel.player.MyDeck;
+		this.setInitialDestinations(this.isFirstPlayer);
+		this.showStartButton();
 	}
 	
 	public void createTile(int x, int y, int type, bool isFirstP)
@@ -524,16 +529,6 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-		}
-		
-		if (isFirstP == this.isFirstPlayer)
-		{
-			this.myDeck = deck;
-			this.setInitialDestinations(this.isFirstPlayer);
-			this.showStartButton();
-		}
-		else{
-
 		}
 	}
 	
