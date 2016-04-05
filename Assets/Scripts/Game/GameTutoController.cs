@@ -151,6 +151,7 @@ public class GameTutoController : MonoBehaviour
 			this.nextIsCompanionOnLeftSide=isLeftSide;
 			this.nextToSlideCompanion = toSlideCompanion2;
 			this.nextCompanionYPosition = companionYPosition2;
+			this.showArrow(false);
 			if(this.isCompanionOnLeftSide){
 				this.unsliding = -1;
 			}
@@ -383,6 +384,7 @@ public class GameTutoController : MonoBehaviour
 
 	public void setArrow(string orientation, Vector3 position)
 	{
+		print("Je set Arrow");
 		this.arrowOrientation = orientation;
 		this.endArrowPosition = position;
 		this.toMoveArrow = true;
@@ -390,6 +392,8 @@ public class GameTutoController : MonoBehaviour
 
 	public void showArrow(bool b)
 	{
+		print("Je show Arrow");
+
 		if (b) 
 		{
 			float range=1f;

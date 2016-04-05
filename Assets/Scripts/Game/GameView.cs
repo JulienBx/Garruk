@@ -110,7 +110,7 @@ public class GameView : MonoBehaviour
 	int lastPlayingCard = -1 ;
 
 	public int sequenceID = 0 ;
-	
+
 	void Awake()
 	{
 		instance = this;
@@ -1291,6 +1291,7 @@ public class GameView : MonoBehaviour
 	public void emptyTile(int c){
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setCharacterID(-1);
 		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).setDestination(-1);
+		this.getTileController(this.getPlayingCardTile(c).x,this.getPlayingCardTile(c).y).showEffect(false);
 	}
 	
 	public void updateActionStatus(){
@@ -2390,6 +2391,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void killHandle(int c, bool endTurn){
+		this.toPassDead = endTurn ;
 		if(this.areAllMyPlayersDead()){
 			StartCoroutine(quitGame());
 		}
@@ -2926,7 +2928,7 @@ public class GameView : MonoBehaviour
 			if(this.getCard(this.currentPlayingCard).hasPlayed && this.getCard(this.currentPlayingCard).hasMoved){
 				yield return new WaitForSeconds(3f);
 				if(!this.deads.Contains(this.currentPlayingCard)){
-					if(this.sequenceID!=12){
+					if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID>14){
 						GameController.instance.findNextPlayer ();
 					}
 				}
@@ -3304,11 +3306,10 @@ public class GameView : MonoBehaviour
 		else if(this.sequenceID==4){
 			this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 3f), 1f, 1f);
-			this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.5f,0f));
-			this.gameTutoController.showSequence(true, true, true);
+			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 2);
+			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 1);
 			this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
@@ -3320,25 +3321,26 @@ public class GameView : MonoBehaviour
 			else{
 				text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en survolant l'unité.";
 			}
-			this.gameTutoController.setCompanion(text, false, true, false, 2);
+			this.gameTutoController.setCompanion(text, false, true, false, 1);
 			this.gameTutoController.setBackground(true, new Rect(0.5f, 2.5f, 1f, 1f), 1f, 1f);
 			this.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==7){
-			this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 2);
+			this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 1);
 			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 			this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==8){
-			this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 2);
+			this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 1);
 			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 			this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==9){
-			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", true, true, false, 2);
+			this.gameTutoController.showArrow(false);
+			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 1);
 			this.hoverTile();
 			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
 			this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
@@ -3354,7 +3356,7 @@ public class GameView : MonoBehaviour
 			}
 			this.gameTutoController.setCompanion(text, false, false, true, 2);
 			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("right",new Vector3(-2.1f,-4.5f,0f));
+			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.5f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==11){
