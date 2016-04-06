@@ -13,7 +13,6 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject experience;
 	public GameObject cardUpgrade;
 	public GameObject panelSold;
-	public GameObject skillPopUp;
 	public GameObject nextLevelPopUp;
 	public GameObject attack;
 	public GameObject life;
@@ -63,7 +62,6 @@ public class NewFocusedCardController : MonoBehaviour
 	private bool isSkillHighlighted;
 	private bool isPanelSoldIsDisplayed;
 	private bool isXpBeingUpdated;
-	private bool isSkillPopUpDisplayed;
 
 	private float speed;
 	private float timerCollectionPoints;
@@ -162,7 +160,6 @@ public class NewFocusedCardController : MonoBehaviour
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.panelSold.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingCard.getReference(2);
-		this.skillPopUp = this.gameObject.transform.FindChild ("SkillPopUp").gameObject;
 		this.buyPopUp = this.gameObject.transform.FindChild ("BuyPopUp").gameObject;
 		this.editSellPopUp = this.gameObject.transform.FindChild ("EditSellPopUp").gameObject;
 		this.editSellPricePopUp = this.gameObject.transform.FindChild ("EditSellPricePopUp").gameObject;
@@ -939,10 +936,6 @@ public class NewFocusedCardController : MonoBehaviour
 			this.isCardUpgradeDisplayed=false;
 			this.cardUpgrade.SetActive(false);
 		}
-		if(this.isSkillPopUpDisplayed)
-		{
-			this.hideSkillPopUp();
-		}
 		if(this.isSkillHighlighted)
 		{
 			this.isSkillHighlighted=false;
@@ -1256,63 +1249,7 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		StartCoroutine(this.upgradeCardAttribute(index, newPower, newLevel));
 	}
-	public void showSkillTypePopUp(int id)
-	{
-		this.skillPopUp.SetActive (true);
-		this.isSkillPopUpDisplayed = true;
-		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(this.c.Skills [id].IdSkillType);
-		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text =WordingSkillTypes.getDescription(this.c.Skills [id].IdSkillType);
 
-		float skillTypePopUpWorldSize=0f;
-		float skillTypePopUpXPosition=0f;
-
-		skillTypePopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
-		
-		if(this.skills[id].transform.FindChild ("SkillType").position.x-skillTypePopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
-		{
-			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x-(this.skills[id].transform.FindChild ("SkillType").position.x-skillTypePopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
-		}
-		else if(this.skills[id].transform.FindChild ("SkillType").position.x+skillTypePopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
-		{
-			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x-(this.skills[id].transform.FindChild ("SkillType").position.x+skillTypePopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
-		}
-		else
-		{
-			skillTypePopUpXPosition=this.skills[id].transform.FindChild ("SkillType").position.x;
-		}
-		this.skillPopUp.transform.position = new Vector3 (skillTypePopUpXPosition, this.skills[id].transform.FindChild ("SkillType").position.y-System.Convert.ToInt32(id==0)*1f+System.Convert.ToInt32(id>0)*1f, 0f);
-	}
-	public void hideSkillPopUp()
-	{
-		this.skillPopUp.SetActive (false);
-		this.isSkillPopUpDisplayed = false;
-	}
-	public void showSkillProbaPopUp(int id)
-	{
-		this.skillPopUp.SetActive (true);
-		this.isSkillPopUpDisplayed = true;
-		this.skillPopUp.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = WordingFocusedCard.getReference(6);
-		this.skillPopUp.transform.FindChild ("description").GetComponent<TextMeshPro> ().text = WordingFocusedCard.getReference(7)+this.c.Skills[id].proba.ToString()+WordingFocusedCard.getReference(8);
-
-		float skillProbaPopUpWorldSize=0f;
-		float skillProbaPopUpXPosition=0f;
-		
-		skillProbaPopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
-		
-		if(this.skills[id].transform.FindChild ("Proba").position.x-skillProbaPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
-		{
-			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x-(this.skills[id].transform.FindChild ("Proba").position.x-skillProbaPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
-		}
-		else if(this.skills[id].transform.FindChild ("Proba").position.x+skillProbaPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
-		{
-			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x-(this.skills[id].transform.FindChild ("Proba").position.x+skillProbaPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
-		}
-		else
-		{
-			skillProbaPopUpXPosition=this.skills[id].transform.FindChild ("Proba").position.x;
-		}
-		this.skillPopUp.transform.position = new Vector3 (skillProbaPopUpXPosition, this.skills[id].transform.FindChild ("Proba").position.y+1f, 0f);
-	}
 	public Sprite returnFocusFeaturePicto (int id)
 	{
 		return this.ressources.focusPictos[id];

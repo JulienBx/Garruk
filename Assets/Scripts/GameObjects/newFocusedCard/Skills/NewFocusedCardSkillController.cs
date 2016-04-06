@@ -47,11 +47,11 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
 		}
 	}
-	private void OnMouseDown()
+	public virtual void OnMouseDown()
 	{
 		gameObject.transform.parent.parent.GetComponent<NewFocusedCardController>().displaySkillFocused(this.attributeIndex-3);
 	}
-	private void OnMouseOver()
+	public virtual void OnMouseOver()
 	{
 		if(!this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
@@ -59,13 +59,21 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.isHovered=true;
 		}
 	}
-	private void OnMouseExit()
+	public virtual void OnMouseExit()
 	{
 		if(this.isHovered && !ApplicationDesignRules.isMobileScreen)
 		{
 			this.setStandardState();
 			this.isHovered=false;
 		}
+	}
+	public bool getIsHovered()
+	{
+		return isHovered;
+	}
+	public void setIsHovered(bool value)
+	{
+		this.isHovered=value;
 	}
 	private void setHoveredState()
 	{

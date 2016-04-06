@@ -27,5 +27,23 @@ public class WordingFilters
 		references.Add(new string[]{"Manquantes","Missing"}); //10
 		references.Add(new string[]{"Discipline","Skill type"}); //11
 		references.Add(new string[]{"Disponibilité","Availability"}); //12
+		references.Add(new string[]{"Les factions",""}); //13
+		references.Add(new string[]{"Les factions permettent de classer les unités en fonction de leurs caractéristiques (points de vie, attaque et compétences)",""}); //14
+		references.Add(new string[]{"Puissance",""}); //15
+		references.Add(new string[]{"La puissance correspond à la valeur globale de la carte (elle inclue les points de vie, d'attaque et les compétences)",""}); //16
+		references.Add(new string[]{"Vie",""}); //17
+		references.Add(new string[]{"Description à rajouter",""}); //18
+		references.Add(new string[]{"Attaque",""}); //19
+		references.Add(new string[]{"Description à rajouter",""}); //20
+		references.Add(new string[]{"Attributs",""}); //21
+		references.Add(new string[]{"Description des attributs",""}); //22
+		references.Add(new string[]{"Compétences",""}); //23
+		references.Add(new string[]{"Description des compétences",""}); //24
+		references.Add(new string[]{"Tri croissant",""}); //25
+		references.Add(new string[]{"Vous pouvez trier par ordre croissant",""}); //26
+		references.Add(new string[]{"Tri décroissant",""}); //27
+		references.Add(new string[]{"Vous pouvez trier par ordre décroissant",""}); //28
+		references.Add(new string[]{"Niveau de rareté",""}); //29
+		references.Add(new string[]{"Le niveau de rareté....",""}); //30
 	}
 }

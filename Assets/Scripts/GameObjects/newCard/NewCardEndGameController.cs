@@ -18,12 +18,6 @@ public class NewCardEndGameController : NewCardController
 	{
 
 	}
-	public override void OnMouseOver()
-	{
-	}
-	public override void OnMouseExit()
-	{
-	}
 	void OnMouseDown()
 	{
 

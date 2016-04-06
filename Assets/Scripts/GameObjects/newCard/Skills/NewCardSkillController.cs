@@ -29,5 +29,24 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	{
 		
 	}
+	public override void OnMouseDown()
+	{
+	}
+	public override void OnMouseOver()
+	{
+		if(!base.getIsHovered() && !ApplicationDesignRules.isMobileScreen)
+		{
+			base.setIsHovered(true);
+			BackOfficeController.instance.displayToolTip(true, false,"", this.gameObject,WordingSkills.getName(s.Id),this.d);
+		}	
+	}
+	public override void OnMouseExit()
+	{
+		if(base.getIsHovered() && !ApplicationDesignRules.isMobileScreen)
+		{
+			base.setIsHovered(false);
+			BackOfficeController.instance.hideToolTip();
+		}
+	}
 }
 

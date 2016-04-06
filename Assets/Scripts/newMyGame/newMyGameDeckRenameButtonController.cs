@@ -7,5 +7,9 @@ public class newMyGameDeckRenameButtonController : SpriteButtonController
 	{
 		newMyGameController.instance.displayEditDeckPopUp ();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(true, false,"", this.gameObject,WordingDeck.getReference(14),WordingDeck.getReference(15));
+	}
 }
 

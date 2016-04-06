@@ -352,6 +352,7 @@ public class newMyGameController : MonoBehaviour
 		this.deckRenameButton = GameObject.Find ("DeckRenameButton");
 		this.deckRenameButton.AddComponent<newMyGameDeckRenameButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
+		this.deckTitle.AddComponent<newMyGameDeckTitleController>();
 		this.deckTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.deckChoices=new GameObject[12];
 		for(int i=0;i<this.deckChoices.Length;i++)
@@ -409,10 +410,14 @@ public class newMyGameController : MonoBehaviour
 		for(int i=0;i<this.valueFilters.Length;i++)
 		{
 			this.valueFilters[i]=GameObject.Find ("ValueFilter"+i);
+			this.valueFilters[i].transform.FindChild("Icon").gameObject.AddComponent<newMyGameValueFilterIconController>();
+			this.valueFilters[i].transform.FindChild("Icon").gameObject.GetComponent<newMyGameValueFilterIconController>().setId(i);
+			this.valueFilters[i].transform.FindChild("Value").gameObject.AddComponent<newMyGameValueFilterValueController>();
 		}
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
+		this.skillSearchBarTitle.AddComponent<newMyGameValueSkillSearchTitleController>();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
@@ -426,9 +431,11 @@ public class newMyGameController : MonoBehaviour
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(3).ToUpper ();
+		this.cardTypeFilterTitle.AddComponent<newMyGameCardTypeFilterTitleController>();
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(4).ToUpper ();
+		this.valueFilterTitle.AddComponent<newMyGameValueFilterTitleController>();
 
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)
