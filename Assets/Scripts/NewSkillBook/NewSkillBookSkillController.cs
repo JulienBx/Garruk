@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class NewSkillBookSkillController : MonoBehaviour 
+public class NewSkillBookSkillController : SpriteButtonController
 {
 	public Skill s;
 	public Sprite[] skillsPictos;
@@ -14,14 +14,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 	private GameObject contour1;
 	private GameObject level;
 
-	private bool isHovering;
-	private int id;
-
-	void Awake()
-	{
-		this.isHovering = false;
-	}
-	public void initialize()
+	public override void Awake ()
 	{
 		this.background = gameObject.transform.FindChild ("Background").gameObject;
 		this.picto = gameObject.transform.FindChild ("Picto").gameObject;
@@ -30,6 +23,8 @@ public class NewSkillBookSkillController : MonoBehaviour
 		this.level = gameObject.transform.FindChild ("Level").gameObject;
 		this.contour0 = gameObject.transform.FindChild ("Contour0").gameObject;
 		this.contour1 = gameObject.transform.FindChild ("Contour1").gameObject;
+		this.s=new Skill();
+		base.Awake ();
 	}
 	public void resize(float worldWidth)
 	{
@@ -72,14 +67,9 @@ public class NewSkillBookSkillController : MonoBehaviour
 	{
 		
 	}
-	public void setId(int id)
-	{
-		this.id = id;
-	}
 	public void show()
 	{
 		this.title.GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
-		//this.picto.GetComponent<SpriteRenderer> ().sprite = MenuController.instance.returnSkillPicture (s.IdPicture);
 		if(s.Power==0)
 		{
 			this.level.transform.GetComponent<TextMeshPro>().text=WordingSkillBook.getReference(14);
@@ -122,51 +112,42 @@ public class NewSkillBookSkillController : MonoBehaviour
 			this.background.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 		}
 	}
-	void OnMouseOver()
+	public override void setHoveredState ()
 	{
-		if(!this.isHovering && !ApplicationDesignRules.isMobileScreen)
+		if(s.Power==0)
 		{
-			this.isHovering=true;
-			if(s.Power==0)
+			this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		}
+		else
+		{
+			this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		}
+	}
+	public override void setInitialState ()
+	{
+		if(s.Power==0)
+		{
+			this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+		}
+		else
+		{
+			if(this.s.IsActiveSkill)
 			{
-				this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 			}
 			else
 			{
-				this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+				this.background.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
 			}
 		}
 	}
-	void OnMouseExit()
+	public override void mainInstruction ()
 	{
-		if(this.isHovering && !ApplicationDesignRules.isMobileScreen)
-		{
-			this.isHovering=false;
-			if(s.Power==0)
-			{
-				this.contour1.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
-			}
-			else
-			{
-				if(this.s.IsActiveSkill)
-				{
-					this.background.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
-				}
-				else
-				{
-					this.background.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
-				}
-			}
-		}
+		NewSkillBookController.instance.leftClickReleaseHandler (base.getId());
 	}
 	void OnMouseDown()
 	{
-		this.isHovering=false;
 		NewSkillBookController.instance.leftClickHandler ();
-	}
-	void OnMouseUp()
-	{
-		NewSkillBookController.instance.leftClickReleaseHandler (this.id);
 	}
 }
 

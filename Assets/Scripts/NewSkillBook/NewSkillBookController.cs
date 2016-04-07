@@ -757,7 +757,6 @@ public class NewSkillBookController : MonoBehaviour
 		for(int i=0;i<this.skills.Length;i++)
 		{
 			this.skills[i]=Instantiate (this.skillObject) as GameObject;
-			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
 			this.skills[i].GetComponent<NewSkillBookSkillController>().setId(i);
 			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-firstLineSkills-i*(0.85f+ApplicationDesignRules.gapBetweenSkillsLine),0f);
 			this.skills[i].transform.GetComponent<NewSkillBookSkillController>().resize(skillWorldWidth);
