@@ -70,8 +70,8 @@ public class Chocbleu : GameSkill
 	public override void applyOnMe(int value){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
-		GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).attackModifyers.Add(new Modifyer(-1*malus, -1, 11, base.name, (-1*malus)+"ATK. Permanent"));
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack();
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addAttackModifyer(new Modifyer(-1*malus, -1, 11, base.name, ". Permanent"));
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n-"+malus+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);

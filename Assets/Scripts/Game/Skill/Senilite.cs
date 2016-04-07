@@ -52,8 +52,8 @@ public class Senilite : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}
@@ -62,8 +62,8 @@ public class Senilite : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "Virus\n"+value+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 57);
 	}

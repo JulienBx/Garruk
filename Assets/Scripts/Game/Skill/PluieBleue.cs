@@ -40,8 +40,8 @@ public class PluieBleue : GameSkill
 			}
 			else if (Random.Range(1,101) <= proba){
 				targetCard = GameView.instance.getCard(playerID);
-				minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-				maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+				minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+				maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 				GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 			}
 			else{
@@ -59,8 +59,8 @@ public class PluieBleue : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
@@ -79,8 +79,8 @@ public class PluieBleue : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
@@ -99,8 +99,8 @@ public class PluieBleue : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
@@ -119,8 +119,8 @@ public class PluieBleue : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-					maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
@@ -159,8 +159,8 @@ public class PluieBleue : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages, maxDamages;
 
-		minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 1);
-		maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 4+2*level);
+		minDamages = currentCard.getNormalDamagesAgainst(targetCard, 1);
+		maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+2*level);
 		string text ;
 
 		if(GameView.instance.getCard(target).CardType.Id!=6){

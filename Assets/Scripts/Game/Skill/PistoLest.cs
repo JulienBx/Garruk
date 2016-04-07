@@ -51,11 +51,11 @@ public class PistoLest : GameSkill
 	public override void applyOn(int target, int amount){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, amount);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false);
-		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
@@ -66,13 +66,13 @@ public class PistoLest : GameSkill
 	public override void applyOnViro2(int target, int amount, int amount2){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = Mathf.RoundToInt(currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(amount*amount2/100f)));
+		int damages = Mathf.RoundToInt(currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(amount*amount2/100f)));
 		int move = -1*Mathf.Min(targetCard.getMove()-1, Mathf.RoundToInt(1*amount2/100f));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false);
-		GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
-		GameView.instance.recalculateDestinations();
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
+		GameView.instance.recalculateDestinations();
 
 		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
@@ -82,7 +82,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, 2*level+10);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, 2*level+10);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n"+move+"MOV\nActif 1 tour";

@@ -13,11 +13,11 @@ public class Bombardier : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
 		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
@@ -51,7 +51,7 @@ public class Bombardier : GameSkill
 	public override void applyOn(int target, int amount){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, amount);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, amount);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	

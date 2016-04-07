@@ -49,15 +49,17 @@ public class Steroide : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
 	}
 
 	public override void applyOnViro(int target, int value){
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 56, base.name, "+"+value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 56);
 	}

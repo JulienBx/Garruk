@@ -40,8 +40,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -63,8 +63,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -88,8 +88,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -111,8 +111,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getMagicalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
 
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
@@ -151,12 +151,12 @@ public class LanceFlammes : GameSkill
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
-		int minDamages = currentCard.getMagicalDamagesAgainst(targetCard, damages);
+		int minDamages = currentCard.getNormalDamagesAgainst(targetCard, damages);
 		damages = 10+3*level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
-		int maxDamages = currentCard.getMagicalDamagesAgainst(targetCard, damages);
+		int maxDamages = currentCard.getNormalDamagesAgainst(targetCard, damages);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		

@@ -45,7 +45,7 @@ public class Vampire : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = 2+GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, level);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, level);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()));
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	

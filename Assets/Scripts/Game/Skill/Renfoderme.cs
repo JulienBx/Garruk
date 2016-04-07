@@ -50,7 +50,7 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+level*4;
 		
-		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, "Bouclier : "+bonusShield+"%"));
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 39);
@@ -60,7 +60,7 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = Mathf.RoundToInt((10+level*4)*value/100f);
 		
-		GameView.instance.getCard(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, "Bouclier : "+bonusShield+"%"));
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Virus\nBouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(GameView.instance.getTile(target), 39);

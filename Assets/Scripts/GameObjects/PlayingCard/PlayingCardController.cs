@@ -36,6 +36,10 @@ public class PlayingCardController : GameObjectController
 	int actualLife;
 	float timerLife = 0f ; 
 	float lifeTime = 1f ;
+	public bool isUpdatingAttack = true ;
+	int actualAttack;
+	float timerAttack = 0f ; 
+	float attackTime = 1f ;
 	public bool canBeDragged ;
 	public int nbTurns ;
 	
@@ -93,11 +97,8 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = false ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = false ;
 	}
@@ -110,11 +111,8 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true ;
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().enabled = true ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
 		this.show();
@@ -134,8 +132,6 @@ public class PlayingCardController : GameObjectController
 			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
 		}
-		
-		transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = c.GetAttackString();
 
 		this.card.isMine = b ;
 		
@@ -150,12 +146,19 @@ public class PlayingCardController : GameObjectController
 		gameObject.name = "Card"+(i);
 
 		this.updateLife(0);
+		this.updateAttack(0);
 	}
 	
 	public void updateLife(int value){
 		this.timerLife = 0f ;
 		this.actualLife = value;
 		this.isUpdatingLife = true ;
+	}
+
+	public void updateAttack(int value){
+		this.timerAttack = 0f ;
+		this.actualAttack = value;
+		this.isUpdatingAttack = true ;
 	}
 	
 	public void addTime(float t){
@@ -185,18 +188,15 @@ public class PlayingCardController : GameObjectController
 	
 	public void moveForward(){
 		Transform t = gameObject.transform;
-		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 31 ;
-		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 32 ;
-		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 33 ;
-		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
-		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 40 ;
-		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 34 ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 35 ;
-		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 38 ;
+		t.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 51 ;
+		t.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sortingOrder = 52 ;
+		t.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sortingOrder = 53 ;
+		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 59 ;
+		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 59 ;
+		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 54 ;
+		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 54 ;
+		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 56 ;
+		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 58 ;
 	}
 	
 	public void moveBackward(){
@@ -207,11 +207,8 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("AttackValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().sortingOrder = 30 ;
 		t.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
-		t.Find("Background").FindChild("Icon1").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
 		t.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
-		t.Find("Background").FindChild("Icon2").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
-		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 24 ;
-		t.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sortingOrder = 25 ;
+		t.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().sortingOrder = 26 ;
 		t.Find("Background").FindChild("DeadLayer").GetComponent<SpriteRenderer>().sortingOrder = 28 ;
 	}
 	
@@ -251,72 +248,222 @@ public class PlayingCardController : GameObjectController
 		this.card.damagesModifyers.Add(m);
 	}
 
+	public void addAttackModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.attackModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.attackModifyers[i].type){
+				this.card.attackModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.attackModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addBonusModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.bonusModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.bonusModifyers[i].type && m.targetType==this.card.bonusModifyers[i].targetType){
+				this.card.bonusModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.bonusModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addPVModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.pvModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.pvModifyers[i].type){
+				this.card.pvModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.pvModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addMagicalEsquiveModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.magicalEsquiveModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.magicalEsquiveModifyers[i].type){
+				this.card.magicalEsquiveModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.magicalEsquiveModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addMoveModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.moveModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.moveModifyers[i].type){
+				this.card.moveModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.moveModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addShieldModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.bouclierModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.bouclierModifyers[i].type){
+				this.card.bouclierModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.bouclierModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void addEsquiveModifyer(Modifyer m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < this.card.esquiveModifyers.Count && !hasFound ; i++){
+			if(m.type==this.card.esquiveModifyers[i].type){
+				this.card.esquiveModifyers[i].amount += m.amount;
+				hasFound = true ;
+			}
+		}
+		if(!hasFound){
+			this.card.esquiveModifyers.Add(m);
+		}
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
 	public void showIcons(){
 		if(!this.isHidden){
 			int compteurIcones = 1;
 
-			if(this.card.isPoisoned()){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[4];
-				compteurIcones++;
-			}
-			if(this.card.isFurious()){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[2];
-				compteurIcones++;
-			}
-			if(this.card.isEffraye()){
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-				gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[3];
-				compteurIcones++;
-			}
-			if(this.card.getBouclier()>0){
-				if(compteurIcones>3){
-					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
-				}
-				else{
+			for(int j = 0 ; j < this.card.states.Count ; j++){
+				if(compteurIcones<4){
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.states[j].type);
+					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);
+					
 					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[1];
+					compteurIcones++;
 				}
-				compteurIcones++;
-			}
-			if(this.card.getEsquive()>0){
-				if(compteurIcones>3){
-					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
-				}
-				else{
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[6];
-				}
-				compteurIcones++;
-			}
-			if(this.card.getMove()!=this.card.Move){
-				if(compteurIcones>3){
-					gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon3").FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[5];
-				}
-				else{
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
-					gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = this.iconeSprites[0];
-				}
-				compteurIcones++;
 			}
 
+			for(int j = 0 ; j < this.card.esquiveModifyers.Count ; j++){
+				if(compteurIcones<4){
+					if(this.card.esquiveModifyers[j].amount==0){
+
+					}
+					else{
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.esquiveModifyers[j].type);
+						if(this.card.esquiveModifyers[j].amount>0){
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+						}
+						else{
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+						}
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+						compteurIcones++;
+					}
+				}
+			}
+
+			for(int j = 0 ; j < this.card.magicalEsquiveModifyers.Count ; j++){
+				if(compteurIcones<4){
+					if(this.card.magicalEsquiveModifyers[j].amount==0){
+
+					}
+					else{
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.magicalEsquiveModifyers[j].type);
+						if(this.card.magicalEsquiveModifyers[j].amount>0){
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+						}
+						else{
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+						}
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+						compteurIcones++;
+					}
+				}
+			}
+
+			for(int j = 0 ; j < this.card.bouclierModifyers.Count ; j++){
+				if(compteurIcones<4){
+					if(this.card.bouclierModifyers[j].amount==0){
+
+					}
+					else{
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.bouclierModifyers[j].type);
+						if(this.card.bouclierModifyers[j].amount>0){
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+						}
+						else{
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+						}
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+						compteurIcones++;
+					}
+				}
+			}
+
+			for(int j = 0 ; j < this.card.bonusModifyers.Count ; j++){
+				if(compteurIcones<4){
+					if(this.card.bonusModifyers[j].amount==0){
+
+					}
+					else{
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.bonusModifyers[j].type);
+						if(this.card.bonusModifyers[j].amount>0){
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+						}
+						else{
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+						}
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+						compteurIcones++;
+					}
+				}
+			}
+
+			for(int j = 0 ; j < this.card.moveModifyers.Count ; j++){
+				if(compteurIcones<4){
+					if(this.card.moveModifyers[j].amount==0){
+
+					}
+					else{
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.moveModifyers[j].type);
+						if(this.card.moveModifyers[j].amount>0){
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+						}
+						else{
+							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+						}
+						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().enabled = true;
+						compteurIcones++;
+					}
+				}
+			}
 
 			for(int j = compteurIcones ; j < 4 ; j++){
 				gameObject.transform.Find("Background").FindChild("Icon"+j).GetComponent<SpriteRenderer>().enabled = false;
-				gameObject.transform.Find("Background").FindChild("Icon"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
 			}
 		}
 	}
@@ -324,7 +471,6 @@ public class PlayingCardController : GameObjectController
 	public void show()
 	{
 		if(!this.isHidden){
-			this.updateAttack();
 			this.showIcons();
 		}
 	}
@@ -407,6 +553,43 @@ public class PlayingCardController : GameObjectController
 			}
 		}	
 	}
+
+	public void addAttackTime(float t){
+		this.timerAttack += t ;
+
+		if (this.timerAttack>this.attackTime){
+			this.isUpdatingAttack = false ;
+			this.timerAttack = this.attackTime ;
+		}
+
+		float l = (this.actualAttack-(1.0f*this.timerAttack/attackTime)*(this.actualAttack-this.card.getAttack()))/this.card.Attack;
+		int actualNumber = System.Convert.ToInt32(transform.Find("Background").FindChild("PVValue").GetComponent<TextMeshPro>().text);
+		int nextNumber = Mathf.RoundToInt(this.card.Attack*l);
+		if(actualNumber!=nextNumber){
+			if(nextNumber<10){
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = "0"+nextNumber;
+			}
+			else{
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = ""+nextNumber;
+			}
+
+			if((this.card.Attack/4)>nextNumber){
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+			}
+			else if((this.card.Attack/2)>nextNumber){
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(243f/255f, 110f/255f, 42f/255f, 1f);
+			}
+			else if(this.card.Attack>nextNumber){
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(255f/255f, 220f/255f, 20f/255f, 1f);
+			}
+			else if(this.card.Attack<nextNumber){
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+			}
+			else{
+				transform.Find("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+			}
+		}	
+	}
 	
 	public void addDeadTime(float t){
 		this.timerDead += t ;
@@ -419,24 +602,6 @@ public class PlayingCardController : GameObjectController
 			if(GameView.instance.areAllMyPlayersDead()){
 				StartCoroutine(GameView.instance.quitGame());
 			}
-		}
-	}
-
-	public void updateAttack()
-	{
-		if(!this.isHidden){
-			int attackBase = this.card.Attack ;
-			int attack = this.card.getAttack();
-			if(attackBase>attack){
-				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-			}
-			else if(attackBase<attack){
-				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
-			}
-			else{
-				gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-			}
-			gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>().text = this.card.GetAttackString();
 		}
 	}
 	
@@ -493,9 +658,8 @@ public class PlayingCardController : GameObjectController
 			int bonusAttack = Mathf.RoundToInt((20f+level*10f)*card.getAttack()/100f);
 			int bonusMove = -1*Mathf.Min(card.getMove()-1,1);
 
-			this.card.attackModifyers.Add(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), "+"+bonusAttack+" ATK. Permanent"));
-			GameView.instance.getPlayingCardController(this.id).updateAttack();
-			this.card.moveModifyers.Add(new Modifyer(bonusMove, -1, 73, WordingSkills.getName(card.Skills[0].Id), bonusMove+"MOV. Permanent"));
+			this.addAttackModifyer(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), ". Permanent"));
+			this.addMoveModifyer(new Modifyer(bonusMove, -1, 73, WordingSkills.getName(card.Skills[0].Id), ". Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
@@ -509,7 +673,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 66)){
 			int level = 20+card.Skills[0].Power*4;
 						
-			this.card.esquiveModifyers.Add(new Modifyer(level, -1, 66, "Agile", "Esquive au contact:"+level+"%"));
+			this.addEsquiveModifyer(new Modifyer(level, -1, 66, "Agile", ". Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
@@ -521,11 +685,10 @@ public class PlayingCardController : GameObjectController
 
 	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 71, "Costaud", "-1 MOV. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(-1, -1, 71, "Costaud", ". Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			int bonusAttack = 2+card.Skills[0].Power;
-			this.card.attackModifyers.Add (new Modifyer(bonusAttack, -1, 68, "Costaud", "Costaud\n+"+bonusAttack+"ATK. Permanent"));
-			GameView.instance.getPlayingCardController(this.id).updateAttack();
+			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 68, "Costaud", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
@@ -536,7 +699,7 @@ public class PlayingCardController : GameObjectController
 	public void checkCuirasse(bool toDisplay){
 		if((card.Skills[0].Id == 70)){
 			int bonusShield = card.Skills[0].Power*3+20;
-			GameView.instance.getCard(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", "Bouclier "+bonusShield+"%"));
+			GameView.instance.getPlayingCardController(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", ". Permanent."));
 			GameView.instance.displaySkillEffect(this.id, "Cuirassé\nBouclier "+bonusShield+"%", 2);
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.getPlayingCardController(this.id).showIcons();
@@ -549,10 +712,10 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 71)){
 			int level = 11-card.Skills[0].Power;
 		
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(1, -1, 71, "Rapide", "+1 MOV. Permanent"));
+			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(1, -1, 71, "Rapide", ". Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
-			GameView.instance.getCard(this.id).attackModifyers.Add(new Modifyer(-1*level, -1, 71, "Rapide", "-"+level+"ATK. Permanent"));
-			GameView.instance.getPlayingCardController(this.id).updateAttack();
+
+			GameView.instance.getPlayingCardController(this.id).addAttackModifyer(new Modifyer(-1*level, -1, 71, "Rapide", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
@@ -564,7 +727,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 32)){
 			int level = 20+4*card.Skills[0].Power;
 		
-			this.card.magicalEsquiveModifyers.Add(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
+			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
@@ -578,8 +741,7 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 35)){
 			int bonus = 5*card.Skills[0].Power;
 		
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(-1, -1, 35, "Sniper", "Immobile. Permanent"));
-			GameView.instance.getCard(this.id).moveModifyers.Add(new Modifyer(0, -1, 35, "Sniper", "Résistance météorite "+bonus+"%"));
+			GameView.instance.getCard(this.id).states.Add(new Modifyer(0, -1, 35, "Sniper", "Immobile. Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){

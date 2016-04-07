@@ -37,8 +37,9 @@ public class Cristopower : GameSkill
 
 	public override void applyOnMe(int value){
 		int target = GameView.instance.getCurrentPlayingCard();
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(value, -1, 128, base.name, "+"+value+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameCard targetCard = GameView.instance.getCard(target);
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 128);
 	}

@@ -14,11 +14,11 @@ public class Kunai : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
 		List<int> targets = GameView.instance.getOpponents();
 
 		int target = targets[Random.Range(0,targets.Count)];
@@ -78,11 +78,11 @@ public class Kunai : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
 		string text = "-"+damages+"PV";
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
-			damages = currentCard.getMagicalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
+			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
 			text = "-"+damages+"PV\n(lâche)";
 		}
 

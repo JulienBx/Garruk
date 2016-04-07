@@ -54,7 +54,7 @@ public class GrosCalibre : GameSkill
 		if(currentCard.isFou()){
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, base.name, damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
@@ -69,7 +69,7 @@ public class GrosCalibre : GameSkill
 		if(currentCard.isFou()){
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 		string text = "-"+damages+"PV";		
 		
 		int amount = GameView.instance.getCurrentSkill().proba;

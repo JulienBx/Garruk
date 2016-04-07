@@ -34,7 +34,7 @@ public class PopUpChoiceController : MonoBehaviour
 			c = GameView.instance.getCard(enemies[i]).CardType.Id; 
 			if(!cardtypes.Contains(c)){
 				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getFactionSprite(c), c);
-				gameObject.transform.FindChild("Choice"+i).GetComponent<PictoChoiceController>().show(true);
+				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().show(true);
 				cardtypes.Add(c);
 				compteur++;
 			}

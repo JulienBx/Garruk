@@ -14,11 +14,11 @@ public class Criderage : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
 		int proba = GameView.instance.getCurrentSkill().proba;
 
 		List<Tile> tempTiles;
@@ -57,9 +57,10 @@ public class Criderage : GameSkill
 	
 	public override void applyOn(int target){
 		int level = GameView.instance.getCurrentSkill().Power+2;
+		GameCard targetCard = GameView.instance.getCard(target);
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(level, 1, 19, base.name, "+"+level+" ATK. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, base.name, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 19);
 	}

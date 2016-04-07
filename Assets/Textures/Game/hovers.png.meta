@@ -95,8 +95,8 @@ TextureImporter:
     - name: 19
       rect:
         serializedVersion: 2
-        x: 3481
-        y: 885
+        x: 435
+        y: 311
         width: 432
         height: 432
       alignment: 0
@@ -110,8 +110,8 @@ TextureImporter:
     - name: 21
       rect:
         serializedVersion: 2
-        x: 1
-        y: 163
+        x: 3249
+        y: 737
         width: 432
         height: 432
       alignment: 0
@@ -125,8 +125,8 @@ TextureImporter:
     - name: 22
       rect:
         serializedVersion: 2
-        x: 3665
-        y: 667
+        x: 2053
+        y: 857
         width: 108
         height: 108
       alignment: 0
@@ -140,8 +140,8 @@ TextureImporter:
     - name: 25
       rect:
         serializedVersion: 2
-        x: 1303
-        y: 163
+        x: 2815
+        y: 1171
         width: 432
         height: 432
       alignment: 0
@@ -155,8 +155,8 @@ TextureImporter:
     - name: 26
       rect:
         serializedVersion: 2
-        x: 435
-        y: 163
+        x: 3249
+        y: 1171
         width: 432
         height: 432
       alignment: 0
@@ -170,8 +170,8 @@ TextureImporter:
     - name: 29
       rect:
         serializedVersion: 2
-        x: 651
-        y: 53
+        x: 869
+        y: 525
         width: 579
         height: 108
       alignment: 0
@@ -203,8 +203,8 @@ TextureImporter:
     - name: 30
       rect:
         serializedVersion: 2
-        x: 3263
-        y: 575
+        x: 3683
+        y: 1403
         width: 400
         height: 200
       alignment: 0
@@ -229,8 +229,8 @@ TextureImporter:
     - name: 31
       rect:
         serializedVersion: 2
-        x: 3665
-        y: 643
+        x: 963
+        y: 501
         width: 90
         height: 22
       alignment: 0
@@ -240,8 +240,8 @@ TextureImporter:
     - name: 32
       rect:
         serializedVersion: 2
-        x: 1
-        y: 53
+        x: 869
+        y: 635
         width: 648
         height: 108
       alignment: 0
@@ -262,8 +262,8 @@ TextureImporter:
     - name: 34
       rect:
         serializedVersion: 2
-        x: 3481
-        y: 885
+        x: 435
+        y: 311
         width: 432
         height: 432
       alignment: 0
@@ -277,8 +277,8 @@ TextureImporter:
     - name: 35
       rect:
         serializedVersion: 2
-        x: 3481
-        y: 1319
+        x: 2381
+        y: 1171
         width: 432
         height: 432
       alignment: 0
@@ -292,64 +292,68 @@ TextureImporter:
     - name: 38
       rect:
         serializedVersion: 2
-        x: 2093
-        y: 708
+        x: 869
+        y: 211
         width: 298
         height: 312
       alignment: 9
       pivot: {x: 0.5100671, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 108, y: 155}
+      - - {x: 121, y: 138}
+        - {x: 120, y: 147}
+        - {x: 116, y: 153}
+        - {x: 108, y: 155}
         - {x: 104, y: 155}
         - {x: 91, y: 149}
         - {x: -123, y: 24}
         - {x: -127, y: 21}
         - {x: -127, y: 9}
         - {x: -124, y: 0}
-        - {x: -127, y: -27}
+        - {x: -20, y: -36}
+        - {x: -127, y: -137}
         - {x: -127, y: -154}
-        - {x: -91, y: -154}
-        - {x: 125, y: -61}
-        - {x: 125, y: 125}
-        - {x: 121, y: 138}
-        - {x: 120, y: 147}
-        - {x: 116, y: 153}
-      - - {x: -152, y: 156}
-        - {x: -152, y: 100}
-        - {x: -83, y: 100}
-        - {x: -81, y: 102}
-        - {x: -81, y: 156}
+        - {x: -96, y: -154}
+        - {x: 125, y: -29}
+        - {x: 125, y: -8}
+        - {x: 25, y: 26}
+      - - {x: 35, y: 156}
+        - {x: -152, y: 156}
+        - {x: -152, y: 63}
+        - {x: -59, y: 63}
+        - {x: -59, y: 65}
+        - {x: 33, y: 131}
+        - {x: 35, y: 133}
     - name: 39
       rect:
         serializedVersion: 2
-        x: 3263
-        y: 777
+        x: 1
+        y: 203
         width: 538
         height: 106
       alignment: 9
       pivot: {x: 0.49814814, y: 0.5092593}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -268.00366, y: 52.018494}
-        - {x: -268.00366, y: -53.981506}
-        - {x: 269.99634, y: -53.981506}
-        - {x: 269.99634, y: 52.018494}
+      - - {x: -268.0037, y: 52.018524}
+        - {x: -268.0037, y: -53.981476}
+        - {x: 269.9963, y: -53.981476}
+        - {x: 269.9963, y: 52.018524}
     - name: 40
       rect:
         serializedVersion: 2
-        x: 3803
-        y: 813
+        x: 1
+        y: 37
         width: 106
         height: 70
       alignment: 9
       pivot: {x: 0.49074075, y: 0.5138889}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -52.018555, y: 34.02777}
-        - {x: -52.018555, y: -35.97223}
-        - {x: 53.981445, y: -35.97223}
-        - {x: 53.981445, y: 34.02777}
+      - - {x: -52.01852, y: 34.02778}
+        - {x: -52.01852, y: -35.97222}
+        - {x: 53.98148, y: -35.97222}
+        - {x: 53.98148, y: 34.02778}
     - name: 41
       rect:
         serializedVersion: 2
@@ -369,7 +373,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2163
-        y: 1753
+        y: 1605
         width: 1864
         height: 72
       alignment: 9
@@ -408,77 +412,105 @@ TextureImporter:
         serializedVersion: 2
         x: 1
         y: 819
-        width: 1880
+        width: 1882
         height: 72
       alignment: 9
-      pivot: {x: 0.5329787, y: 0.5}
+      pivot: {x: 0.5308183, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 867, y: -12}
-        - {x: 867, y: -9}
+      - - {x: 870, y: -19}
+        - {x: 870, y: -17}
+        - {x: 867, y: -12}
+        - {x: 867, y: -10}
+        - {x: 865, y: -7}
+        - {x: 865, y: -5}
         - {x: 861, y: 2}
-        - {x: 861, y: 5}
+        - {x: 861, y: 4}
+        - {x: 859, y: 7}
+        - {x: 859, y: 9}
         - {x: 857, y: 12}
-        - {x: 857, y: 15}
+        - {x: 857, y: 14}
+        - {x: 855, y: 17}
+        - {x: 855, y: 19}
         - {x: 851, y: 26}
-        - {x: 851, y: 29}
+        - {x: 851, y: 28}
         - {x: 847, y: 36}
-        - {x: -967, y: 36}
-        - {x: -968, y: 33}
+        - {x: -966, y: 36}
+        - {x: -968, y: 32}
         - {x: -968, y: 30}
-        - {x: -974, y: 19}
+        - {x: -972, y: 23}
+        - {x: -974, y: 18}
         - {x: -974, y: 16}
-        - {x: -978, y: 9}
+        - {x: -976, y: 13}
+        - {x: -976, y: 11}
+        - {x: -978, y: 8}
         - {x: -978, y: 6}
-        - {x: -984, y: -5}
+        - {x: -982, y: -1}
+        - {x: -982, y: -3}
+        - {x: -984, y: -6}
         - {x: -984, y: -8}
-        - {x: -989, y: -17}
+        - {x: -987, y: -13}
+        - {x: -987, y: -15}
+        - {x: -989, y: -18}
         - {x: -989, y: -20}
         - {x: -993, y: -27}
-        - {x: -995, y: -31}
+        - {x: -993, y: -30}
+        - {x: -995, y: -32}
         - {x: -995, y: -36}
         - {x: 876, y: -36}
         - {x: 876, y: -31}
         - {x: 872, y: -24}
-        - {x: 872, y: -21}
+        - {x: 872, y: -22}
     - name: 44
       rect:
         serializedVersion: 2
         x: 1
-        y: 597
-        width: 1877
+        y: 745
+        width: 1879
         height: 72
       alignment: 9
-      pivot: {x: 0.4667022, y: 0.5}
+      pivot: {x: 0.46993083, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 975, y: -15}
-        - {x: 975, y: -12}
-        - {x: 979, y: -5}
-        - {x: 979, y: -2}
-        - {x: 985, y: 9}
-        - {x: 985, y: 12}
-        - {x: 990, y: 21}
-        - {x: 990, y: 24}
-        - {x: 994, y: 31}
+      - - {x: 973, y: -18}
+        - {x: 973, y: -16}
+        - {x: 975, y: -14}
+        - {x: 975, y: -11}
+        - {x: 978, y: -6}
+        - {x: 979, y: -1}
+        - {x: 985, y: 10}
+        - {x: 985, y: 13}
+        - {x: 989, y: 20}
+        - {x: 990, y: 25}
+        - {x: 994, y: 32}
         - {x: 994, y: 36}
-        - {x: -876, y: 36}
-        - {x: -876, y: 29}
-        - {x: -875, y: 27}
-        - {x: -871, y: 20}
-        - {x: -871, y: 17}
-        - {x: -866, y: 8}
-        - {x: -866, y: 5}
-        - {x: -860, y: -6}
-        - {x: -860, y: -9}
-        - {x: -856, y: -16}
-        - {x: -856, y: -19}
-        - {x: -850, y: -30}
-        - {x: -850, y: -33}
+        - {x: -877, y: 36}
+        - {x: -877, y: 32}
+        - {x: -875, y: 30}
+        - {x: -875, y: 28}
+        - {x: -871, y: 21}
+        - {x: -871, y: 19}
+        - {x: -869, y: 16}
+        - {x: -869, y: 14}
+        - {x: -866, y: 9}
+        - {x: -866, y: 6}
+        - {x: -864, y: 4}
+        - {x: -864, y: 2}
+        - {x: -860, y: -5}
+        - {x: -860, y: -7}
+        - {x: -858, y: -10}
+        - {x: -858, y: -12}
+        - {x: -856, y: -15}
+        - {x: -856, y: -17}
+        - {x: -854, y: -20}
+        - {x: -854, y: -22}
+        - {x: -850, y: -29}
+        - {x: -850, y: -31}
+        - {x: -848, y: -34}
         - {x: -848, y: -36}
-        - {x: 966, y: -36}
-        - {x: 969, y: -29}
-        - {x: 969, y: -26}
+        - {x: 965, y: -36}
+        - {x: 969, y: -28}
+        - {x: 969, y: -25}
     - name: 45
       rect:
         serializedVersion: 2
@@ -528,8 +560,8 @@ TextureImporter:
     - name: 46
       rect:
         serializedVersion: 2
-        x: 1
-        y: 745
+        x: 2163
+        y: 1901
         width: 1879
         height: 72
       alignment: 9
@@ -569,7 +601,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2163
-        y: 1901
+        y: 1753
         width: 1876
         height: 72
       alignment: 9
@@ -618,8 +650,8 @@ TextureImporter:
     - name: 48
       rect:
         serializedVersion: 2
-        x: 1737
-        y: 393
+        x: 869
+        y: 431
         width: 92
         height: 92
       alignment: 0
@@ -633,8 +665,8 @@ TextureImporter:
     - name: 49
       rect:
         serializedVersion: 2
-        x: 1232
-        y: 69
+        x: 1
+        y: 109
         width: 416
         height: 92
       alignment: 0
@@ -648,8 +680,8 @@ TextureImporter:
     - name: 50
       rect:
         serializedVersion: 2
-        x: 869
-        y: 163
+        x: 2815
+        y: 737
         width: 432
         height: 432
       alignment: 0
@@ -663,8 +695,8 @@ TextureImporter:
     - name: 52
       rect:
         serializedVersion: 2
-        x: 2395
-        y: 588
+        x: 1
+        y: 311
         width: 432
         height: 432
       alignment: 0
@@ -678,8 +710,8 @@ TextureImporter:
     - name: 53
       rect:
         serializedVersion: 2
-        x: 2829
-        y: 588
+        x: 2381
+        y: 737
         width: 432
         height: 432
       alignment: 0
@@ -693,8 +725,8 @@ TextureImporter:
     - name: 54
       rect:
         serializedVersion: 2
-        x: 3263
-        y: 887
+        x: 2163
+        y: 739
         width: 216
         height: 864
       alignment: 0
@@ -708,8 +740,8 @@ TextureImporter:
     - name: 55
       rect:
         serializedVersion: 2
-        x: 1737
-        y: 487
+        x: 3683
+        y: 1293
         width: 108
         height: 108
       alignment: 0
@@ -720,51 +752,6 @@ TextureImporter:
         - {x: -54, y: -54}
         - {x: 54, y: -54}
         - {x: 54, y: 54}
-    - name: 56
-      rect:
-        serializedVersion: 2
-        x: 2163
-        y: 1022
-        width: 548
-        height: 729
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -274, y: 364.5}
-        - {x: -274, y: -364.5}
-        - {x: 274, y: -364.5}
-        - {x: 274, y: 364.5}
-    - name: 57
-      rect:
-        serializedVersion: 2
-        x: 2713
-        y: 1022
-        width: 548
-        height: 729
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -274, y: 364.5}
-        - {x: -274, y: -364.5}
-        - {x: 274, y: -364.5}
-        - {x: 274, y: 364.5}
-    - name: 58
-      rect:
-        serializedVersion: 2
-        x: 2713
-        y: 1022
-        width: 548
-        height: 729
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -274, y: 364.5}
-        - {x: -274, y: -364.5}
-        - {x: 274, y: -364.5}
-        - {x: 274, y: 364.5}
     - name: 59
       rect:
         serializedVersion: 2
@@ -814,8 +801,8 @@ TextureImporter:
     - name: 60
       rect:
         serializedVersion: 2
-        x: 1
-        y: 671
+        x: 2163
+        y: 1827
         width: 1879
         height: 72
       alignment: 9
@@ -855,7 +842,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2163
-        y: 1827
+        y: 1679
         width: 1873
         height: 72
       alignment: 9

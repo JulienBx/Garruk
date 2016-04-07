@@ -14,11 +14,11 @@ public class Furie : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.play(GameView.instance.runningSkill);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -36,8 +36,8 @@ public class Furie : GameSkill
 		}
 		 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 93, base.name, "+"+bonusLife+"PV"), false);
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(bonusAttack, -1, 93, base.name, "+"+bonusAttack+"ATK. Permanent"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 93, base.name, ". Permanent"));
 		GameView.instance.getCard(target).setFurious(new Modifyer(0, -1, 93, base.name, "Incontrolable!"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 

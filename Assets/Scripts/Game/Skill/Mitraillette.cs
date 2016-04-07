@@ -14,14 +14,14 @@ public class Mitraillette : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		List<int> potentialTargets = GameView.instance.getOpponents();
+		List<int> potentialTargets = GameView.instance.getEveryone();
 		List<int> targets = new List<int>();
 		bool isFirstP = GameView.instance.getIsFirstPlayer();
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
@@ -79,7 +79,7 @@ public class Mitraillette : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
 
 		string text ="-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);

@@ -52,7 +52,7 @@ public class Laser : GameSkill
 		if(currentCard.isFou()){
 			value = Mathf.RoundToInt(1.25f*value);
 		}
-		int damages = currentCard.getMagicalDamagesAgainst(targetCard, value);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
 		string text = base.name+"\n-"+damages+"PV";
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, base.name, damages+" dégats subis"), false);
 		GameView.instance.displaySkillEffect(target, text, 0);	
@@ -69,8 +69,8 @@ public class Laser : GameSkill
 			minDamages = Mathf.RoundToInt(1.25f*minDamages);
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
-		minDamages = currentCard.getMagicalDamagesAgainst(targetCard,minDamages);
-		maxDamages = currentCard.getMagicalDamagesAgainst(targetCard,maxDamages);
+		minDamages = currentCard.getNormalDamagesAgainst(targetCard,minDamages);
+		maxDamages = currentCard.getNormalDamagesAgainst(targetCard,maxDamages);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		

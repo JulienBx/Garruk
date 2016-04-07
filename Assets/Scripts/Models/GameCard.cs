@@ -13,7 +13,6 @@ public class GameCard : Card
 	public List<Modifyer> esquiveModifyers = new List<Modifyer>();
 	public List<Modifyer> magicalEsquiveModifyers = new List<Modifyer>();
 	public List<Modifyer> bouclierModifyers = new List<Modifyer>();
-	public List<Modifyer> magicalBonusModifyers = new List<Modifyer>();
 	public List<Modifyer> bonusModifyers = new List<Modifyer>();
 	public List<Modifyer> states ;
 
@@ -361,9 +360,6 @@ public class GameCard : Card
 		for(int i = 0 ; i < bouclierModifyers.Count;i++){
 			effects.Add(new Modifyer(bouclierModifyers[i].amount, -1, 5, bouclierModifyers[i].title, bouclierModifyers[i].description));
 		}
-		for(int i = 0 ; i < magicalBonusModifyers.Count;i++){
-			effects.Add(new Modifyer(magicalBonusModifyers[i].amount, -1, 6, magicalBonusModifyers[i].title, magicalBonusModifyers[i].description));
-		}
 		return effects ;
 	}
 
@@ -439,18 +435,17 @@ public class GameCard : Card
 		return b;
 	}
 
-	public int getMagicalBonus(){
-		int b = 0 ;
-		for(int i = 0 ; i < this.magicalBonusModifyers.Count ; i++){
-			b+=this.magicalBonusModifyers[i].amount;
-		}
-		return b;
-	}
-
-	public int getBonus(){
+	public int getBonus(GameCard g){
 		int b = 0 ;
 		for(int i = 0 ; i < this.bonusModifyers.Count ; i++){
-			b+=this.bonusModifyers[i].amount;
+			if(this.bonusModifyers[i].targetType!=-1){
+				if(this.bonusModifyers[i].targetType==g.CardType.Id){
+					b+=this.bonusModifyers[i].amount;
+				}
+			}
+			else{
+				b+=this.bonusModifyers[i].amount;
+			}
 		}
 		return b;
 	}
@@ -461,13 +456,7 @@ public class GameCard : Card
 	}
 	
 	public int getNormalDamagesAgainst(GameCard g, int attack){
-		int amount = Mathf.FloorToInt(attack*(1f+this.getBonus()/100f)*(1f-(g.getBouclier()/100f)));
-		amount = Mathf.Min(g.getLife(), amount);
-		return amount ;
-	}
-
-	public int getMagicalDamagesAgainst(GameCard g, int attack){
-		int amount = Mathf.FloorToInt(attack*(1f+this.getMagicalBonus()/100f)*(1f-(g.getBouclier()/100f)));
+		int amount = Mathf.FloorToInt(attack*(1f+this.getBonus(g)/100f)*(1f-(g.getBouclier()/100f)));
 		amount = Mathf.Min(g.getLife(), amount);
 		return amount ;
 	}
@@ -575,10 +564,20 @@ public class GameCard : Card
 		this.bouclierModifyers = new List<Modifyer>();
 		this.isStateModifyed = false ;
 		this.states = new List<Modifyer>();
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public void emptyDamageModifyers(){
 		this.damagesModifyers = new List<Modifyer>();
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void emptyShieldModifyers(){
+		this.bouclierModifyers = new List<Modifyer>();
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public bool isPoisoned()
@@ -621,6 +620,8 @@ public class GameCard : Card
 			}
 		}
 		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public void setPoison(Modifyer m){
@@ -630,6 +631,8 @@ public class GameCard : Card
 			}
 		}
 		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public void setTerreur(Modifyer m){
@@ -639,6 +642,8 @@ public class GameCard : Card
 			}
 		}
 		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public bool isEffraye()

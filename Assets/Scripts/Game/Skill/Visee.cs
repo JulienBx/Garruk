@@ -26,9 +26,10 @@ public class Visee : GameSkill
 	public override void applyOnMe(int target){
 		target = GameView.instance.getCurrentPlayingCard();
 		int bonus = 50 + GameView.instance.getCurrentSkill().Power*10;
+		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).magicalBonusModifyers.Add(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 25);
 	}

@@ -18,10 +18,8 @@ public class Attack : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
-		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
 			GameController.instance.esquive(target,1);

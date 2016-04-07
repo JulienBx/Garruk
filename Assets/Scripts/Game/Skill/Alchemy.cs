@@ -14,11 +14,11 @@ public class Alchemy : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.play(GameView.instance.runningSkill);
 		List<Tile> neighbours = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles();
 		int level = GameView.instance.getCurrentSkill().Power*4+20;
 		int compteur = 0 ; 

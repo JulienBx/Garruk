@@ -15,6 +15,9 @@ public class PictoChoiceController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().enabled=b;
 		gameObject.transform.FindChild("Character").GetComponent<SpriteRenderer>().enabled=b;
 		gameObject.GetComponent<BoxCollider>().enabled=b;
+		if(b){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(255f/255f,255f/255f,255f/255f, 1f);
+		}
 	}
 	
 	public void OnMouseDown(){

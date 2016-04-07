@@ -118,7 +118,6 @@ public class SkillButtonController : MonoBehaviour
 				this.showDescription(false);
 			}
 			else{
-				GameView.instance.runningSkill = this.skill.Id ;
 				gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 				GameView.instance.clickSkillButton(this.id);
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));

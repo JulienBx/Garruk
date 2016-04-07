@@ -14,11 +14,11 @@ public class Pisteur : GameSkill
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameController.instance.play(GameView.instance.runningSkill);
 	}
 
 	public override void resolve(List<int> targetsPCC)
 	{	                     
-		GameController.instance.play(GameView.instance.runningSkill);
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		List<Tile> trappedTiles = GameView.instance.getTrappedTiles();

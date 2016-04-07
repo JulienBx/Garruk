@@ -18,8 +18,7 @@ public class Cannibale : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
-		int target = targetsPCC[0];
+		GameController.instance.play(GameView.instance.runningSkill);int target = targetsPCC[0];
 		int proba = GameView.instance.getCurrentSkill().proba;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
@@ -81,9 +80,9 @@ public class Cannibale : GameSkill
 		text+="+"+bonusAttack+"ATK";
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getCard(targetMe).attackModifyers.Add(new Modifyer(bonusAttack, -1, 21, base.name, "+"+bonusAttack+" ATK. Permanent"));
-		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, "+"+bonusLife+" PV. Permanent"), false);
-		GameView.instance.getPlayingCardController(targetMe).updateAttack();
+		GameView.instance.getPlayingCardController(targetMe).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, ". Permanent"), false);
 		GameView.instance.displaySkillEffect(targetMe, text, 2);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
 	}

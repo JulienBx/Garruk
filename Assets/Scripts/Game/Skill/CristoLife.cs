@@ -37,7 +37,7 @@ public class Cristolife : GameSkill
 
 	public override void applyOnMe(int value){
 		int target = GameView.instance.getCurrentPlayingCard();
-		GameView.instance.getCard(target).pvModifyers.Add(new Modifyer(value, -1, 129, base.name, "+"+value+" PV. Permanent"));
+		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 129);

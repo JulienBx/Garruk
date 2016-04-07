@@ -119,30 +119,193 @@ public class HoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("Skill"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled=false;
 		}
 
-		List<Modifyer> effects = c.getEffects();
-		for(int i = 0 ; i < effects.Count ; i++){
-			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<TextMeshPro>().text = effects[i].description;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<TextMeshPro>().text = effects[i].title;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(effects[i].type);
-			if(effects[i].amount>0){
-				gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
-			}
-			else if(effects[i].amount<0){
-				gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-			}
-			else{
+		int compteur = 0 ; 
+
+		for(int i = 0 ; i < c.states.Count ; i++){
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.states[i].description;
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 1f);			
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.states[i].title;
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.states[i].type);
+
+			gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+			gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+			compteur++;
+		}
+
+		for(int i = 0 ; i < c.attackModifyers.Count ; i++){
+			if(c.attackModifyers[i].amount==0){
 
 			}
-			gameObject.transform.FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = true ;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+			else{
+				if(c.attackModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.attackModifyers[i].amount+" ATK"+c.attackModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.attackModifyers[i].amount+" ATK"+c.attackModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.attackModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.attackModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
 		}
-		for(int i = effects.Count ; i < 10 ; i++){
-			gameObject.transform.FindChild("Effect"+i).GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Text").GetComponent<MeshRenderer>().enabled = false;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Title").GetComponent<MeshRenderer>().enabled = false;
-			gameObject.transform.FindChild("Effect"+i).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
+
+		for(int i = 0 ; i < c.pvModifyers.Count ; i++){
+			if(c.pvModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.pvModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.pvModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.pvModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+
+		for(int i = 0 ; i < c.bonusModifyers.Count ; i++){
+			if(c.bonusModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.bonusModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+" % dégats"+c.bonusModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+" % dégats"+c.bonusModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.bonusModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+
+		for(int i = 0 ; i < c.esquiveModifyers.Count ; i++){
+			if(c.esquiveModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.esquiveModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.esquiveModifyers[i].amount+" % ESQ"+c.esquiveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].amount+" % ESQ"+c.esquiveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.esquiveModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+
+		for(int i = 0 ; i < c.magicalEsquiveModifyers.Count ; i++){
+			if(c.magicalEsquiveModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.magicalEsquiveModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.magicalEsquiveModifyers[i].amount+" % ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].amount+" % ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.magicalEsquiveModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+		for(int i = 0 ; i < c.moveModifyers.Count ; i++){
+			if(c.moveModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.moveModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.moveModifyers[i].amount+" MOV"+c.moveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.moveModifyers[i].amount+" MOV"+c.moveModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.moveModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.moveModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+		for(int i = 0 ; i < c.bouclierModifyers.Count ; i++){
+			if(c.bouclierModifyers[i].amount==0){
+
+			}
+			else{
+				if(c.bouclierModifyers[i].amount>=0){
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % bouclier"+c.bouclierModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+				}
+				else{
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].amount+" % bouclier"+c.bouclierModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+				}
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].title;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.bouclierModifyers[i].type);
+
+				gameObject.transform.FindChild("Effect"+compteur).GetComponent<SpriteRenderer>().enabled = true ;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<MeshRenderer>().enabled = true;
+				gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = true;
+				compteur++;
+			}
+		}
+
+
+		for(int j = compteur ; j < 10 ; j++){
+			gameObject.transform.FindChild("Effect"+j).GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Effect"+j).FindChild("Text").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.FindChild("Effect"+j).FindChild("Title").GetComponent<MeshRenderer>().enabled = false;
+			gameObject.transform.FindChild("Effect"+j).FindChild("Picto").GetComponent<SpriteRenderer>().enabled = false;
 		}
 
 		this.resetTimerC();
@@ -230,6 +393,12 @@ public class HoveredCardController : MonoBehaviour
 			if(!GameView.instance.getCurrentCard().hasMoved){
 				GameView.instance.displayDestinations(GameView.instance.getCurrentPlayingCard());
 			}
+		}
+	}
+
+	public void updateCharacter(){
+		if(this.currentCharacter!=-1){
+			this.setCard(GameView.instance.getCard(currentCharacter));
 		}
 	}
 }

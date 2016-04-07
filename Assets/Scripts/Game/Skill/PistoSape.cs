@@ -52,8 +52,8 @@ public class PistoSape : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 4, text, -1*level+"ATK. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
 	}
@@ -63,8 +63,8 @@ public class PistoSape : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
-		GameView.instance.getCard(target).attackModifyers.Add(new Modifyer(-1*level, 1, 4, text, -1*level+"ATK. Actif 1 tour"));
-		GameView.instance.getPlayingCardController(target).updateAttack();
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK\n1 tour", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
 	}
