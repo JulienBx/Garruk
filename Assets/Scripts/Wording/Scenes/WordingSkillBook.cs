@@ -31,5 +31,7 @@ public class WordingSkillBook
 		references.Add(new string[]{"Non découverte","Undiscovered"}); //14
 		references.Add(new string[]{"Découverte (niveau ","Discovered (level "}); //15
 		references.Add(new string[]{")",")"}); //16
+		references.Add(new string[]{"Compétence",""}); //17
+		references.Add(new string[]{"Cliquez sur une compétence pour avoir le détail",""}); //18
 	}
 }

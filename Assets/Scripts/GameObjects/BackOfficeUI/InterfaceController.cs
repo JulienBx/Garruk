@@ -98,6 +98,7 @@ public class InterfaceController : MonoBehaviour
 	public void setIsSelected(bool value)
 	{
 		this.isSelected = value;
+		this.hideToolTip();
 	}
 	public bool getIsSelected()
 	{

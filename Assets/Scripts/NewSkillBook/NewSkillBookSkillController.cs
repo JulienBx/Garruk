@@ -149,5 +149,9 @@ public class NewSkillBookSkillController : SpriteButtonController
 	{
 		NewSkillBookController.instance.leftClickHandler ();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingSkillBook.getReference(17),WordingSkillBook.getReference(18));
+	}
 }
 
