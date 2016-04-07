@@ -523,6 +523,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(1).ToUpper ();
+		this.skillSearchBarTitle.AddComponent<NewSkillBookSkillSearchTitleController>();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController> ().setButtonText ( WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
@@ -536,12 +537,15 @@ public class NewSkillBookController : MonoBehaviour
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text =  WordingFilters.getReference(3).ToUpper ();
+		this.cardTypeFilterTitle.AddComponent<NewSkillBookCardTypeFilterTitleController>();
 		this.skillTypeFilterTitle = GameObject.Find ("SkillTypeFilterTitle");
 		this.skillTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(11).ToUpper ();
+		this.skillTypeFilterTitle.AddComponent<NewSkillBookSkillTypeFilterTitleController>();
 		this.availabilityFilterTitle = GameObject.Find ("AvailabilityFilterTitle");
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(12).ToUpper ();
 		this.availabilityFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
+		this.availabilityFilterTitle.AddComponent<NewSkillBookSkillAvailabilityFilterTitleController>();
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.lowerScrollCamera = GameObject.Find ("LowerScrollCamera");
@@ -753,7 +757,6 @@ public class NewSkillBookController : MonoBehaviour
 		for(int i=0;i<this.skills.Length;i++)
 		{
 			this.skills[i]=Instantiate (this.skillObject) as GameObject;
-			this.skills[i].GetComponent<NewSkillBookSkillController>().initialize();
 			this.skills[i].GetComponent<NewSkillBookSkillController>().setId(i);
 			this.skills[i].transform.position=new Vector3(skillsBlockUpperLeftPosition.x+ApplicationDesignRules.blockHorizontalSpacing+skillWorldWidth/2f,skillsBlockUpperLeftPosition.y-firstLineSkills-i*(0.85f+ApplicationDesignRules.gapBetweenSkillsLine),0f);
 			this.skills[i].transform.GetComponent<NewSkillBookSkillController>().resize(skillWorldWidth);

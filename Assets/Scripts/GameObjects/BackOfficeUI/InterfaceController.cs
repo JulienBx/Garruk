@@ -12,6 +12,7 @@ public class InterfaceController : MonoBehaviour
 	private bool isSelected;
 	private bool isHovered;
 	private bool isActive;
+
 	
 	public virtual void Awake()
 	{
@@ -34,6 +35,7 @@ public class InterfaceController : MonoBehaviour
 				{
 					this.setHoveredState();
 					this.setIsHovered(true);
+					this.showToolTip();
 				}
 			}
 		}
@@ -48,13 +50,15 @@ public class InterfaceController : MonoBehaviour
 				{
 					this.setInitialState();
 					this.setIsHovered(false);
+					this.hideToolTip();
 				}
 			}
 		}
 	}
 	public virtual void OnMouseUp()
 	{
-		if(isActive && !BackOfficeController.instance.getIsSwiping())
+		this.hideToolTip();
+		if(isActive && !BackOfficeController.instance.getIsSwiping() && (isHovered || ApplicationDesignRules.isMobileScreen))
 		{
 			this.mainInstruction();
 		}
@@ -106,6 +110,13 @@ public class InterfaceController : MonoBehaviour
 	public bool getIsActive()
 	{
 		return this.isActive;
+	}
+	public virtual void showToolTip()
+	{
+	}
+	public void hideToolTip()
+	{
+		BackOfficeController.instance.hideToolTip();
 	}
 }
 

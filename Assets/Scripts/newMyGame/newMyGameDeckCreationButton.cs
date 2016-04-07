@@ -7,5 +7,9 @@ public class newMyGameDeckCreatioButtonController : SpriteButtonController
 	{
 		newMyGameController.instance.displayNewDeckPopUp();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingDeck.getReference(20),WordingDeck.getReference(21));
+	}
 }
 

@@ -32,6 +32,12 @@ public class WordingGameModes
 		references.Add(new string[]{"Entrainement","Training"}); //10
 		references.Add(new string[]{"J'y vais","Let's go"}); //11
 		references.Add(new string[]{"Votre équipe doit comporter uniquement des unités de la faction ",""}); //12
+		references.Add(new string[]{"Amical"}); //13
+		references.Add(new string[]{"Rencontrez un adversaire aléatoire",""}); //14
+		references.Add(new string[]{"Entrainement"}); //15
+		references.Add(new string[]{"Débloquez de nouvelles cartes",""}); //16
+		references.Add(new string[]{"Conquête"}); //15
+		references.Add(new string[]{"Rencontrez des adversaires de votre division",""}); //16
 
 		names=new List<string[]>();
 		names.Add(new string[]{"Alderaan #1","Alderaan #1"}); //0

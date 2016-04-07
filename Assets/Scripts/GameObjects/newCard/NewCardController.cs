@@ -44,10 +44,11 @@ public class NewCardController : NewFocusedCardController
 		this.life.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.LifeLevel);
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
 		this.attack.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.AttackLevel);
-		this.cardType.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(this.c.CardType.getPictureId());
+		this.cardType.transform.GetComponent<NewCardCardTypeController>().setCardType(this.c.CardType);
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
+			this.skills[i].transform.GetComponent<NewCardSkillController>().setId(i);
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);
@@ -115,116 +116,8 @@ public class NewCardController : NewFocusedCardController
 	{
 		this.face.GetComponent<SpriteRenderer> ().sprite = cardRessources.backFace;
 	}
-	public virtual void OnMouseOver()
-	{
-		if(!Input.GetMouseButton(0) && !ApplicationDesignRules.isMobileScreen)
-		{
-			int newSkillHovered = this.skillHovered();
-			float skillPopUpWorldSize=0f;
-			float skillPopUpXPosition=0f;
-			if(newSkillHovered>-1 && newSkillHovered<this.c.Skills.Count && this.c.Skills[newSkillHovered].IsActivated==1)
-			{
-				if(newSkillHovered!=skillDisplayed)
-				{
-					this.skillDisplayed=newSkillHovered;
-					if(!isCardSkillPopUpDisplayed)
-					{
-						this.isCardSkillPopUpDisplayed=true;
-						this.skillPopUp.SetActive(true);
-						Vector3 popUpScale = new Vector3(1f/this.gameObject.transform.localScale.x,1f/this.gameObject.transform.localScale.y,1f/this.gameObject.transform.localScale.z);
-						this.skillPopUp.transform.localScale=popUpScale;
-					}
-
-					skillPopUpWorldSize=this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.x;
-
-					if(this.gameObject.transform.position.x-skillPopUpWorldSize/2f<-ApplicationDesignRules.worldWidth/2f)
-					{
-						skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x-skillPopUpWorldSize/2f+ApplicationDesignRules.worldWidth/2f);
-					}
-					else if(this.gameObject.transform.position.x+skillPopUpWorldSize/2f>ApplicationDesignRules.worldWidth/2f)
-					{
-						skillPopUpXPosition=this.gameObject.transform.position.x-(this.gameObject.transform.position.x+skillPopUpWorldSize/2f-ApplicationDesignRules.worldWidth/2f);
-					}
-					else
-					{
-						skillPopUpXPosition=this.gameObject.transform.position.x;
-					}
-
-					this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text=this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[skillDisplayed].Id,this.c.Skills[skillDisplayed].Power-1));
-					this.skillPopUp.transform.position=new Vector3(skillPopUpXPosition,gameObject.transform.position.y+(-0.3f+0.5f*this.skillPopUp.GetComponent<SpriteRenderer>().bounds.size.y/this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y+newSkillHovered*0.19f)*(this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y),-1f);
-					if(newSkillHovered!=0 && this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)<100)
-					{
-						this.skillPopUp.transform.FindChild("description").GetComponent<TextMeshPro>().text+=(WordingCard.getReference(0)+this.c.Skills[skillDisplayed].getProba(c.Skills[skillDisplayed].Power-1)+WordingCard.getReference(1));
-					}
-					this.skillPopUp.transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkills.getName(this.c.Skills[skillDisplayed].Id);
-				}
-			}
-			else
-			{
-				if(isCardSkillPopUpDisplayed)
-				{
-					this.hideSkillPopUp();
-				}
-			}
-		}
-		else if(isCardSkillPopUpDisplayed)
-		{
-			this.hideSkillPopUp();
-		}
-	}
-	public virtual void OnMouseExit()
-	{
-		this.hideSkillPopUp ();
-	}
 	public override void exitCard ()
 	{
-	}
-	new private void hideSkillPopUp()
-	{
-		if(isCardSkillPopUpDisplayed)
-		{
-			this.isCardSkillPopUpDisplayed=false;
-			this.skillPopUp.SetActive(false);
-			this.skillDisplayed=-1;
-		}
-	}
-
-	public int skillHovered()
-	{
-		Vector3 cursorPosition = this.getCurrentCamera().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-
-		if(cursorPosition.x>this.gameObject.transform.position.x+(0.2f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x) && 
-		   cursorPosition.x<this.gameObject.transform.position.x+(0.45f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x))
-		{
-			if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.85f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
-			{
-				return 0;
-			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.50f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
-			{
-				return 1;
-			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y-(0.5f*0.15f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			        cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
-			{
-				return 2;
-			}
-			else if(cursorPosition.y>this.gameObject.transform.position.y+(0.5f*0.20f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y) && 
-			   cursorPosition.y<this.gameObject.transform.position.y+(0.5f*0.55f*this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y))
-			{
-				return 3;
-			}
-			else
-			{
-				return -1;
-			}
-		}
-		else
-		{
-			return -1;
-		}
 	}
 	public override void animateExperience()
 	{
@@ -291,6 +184,12 @@ public class NewCardController : NewFocusedCardController
 	public virtual Camera getCurrentCamera()
 	{
 		return new Camera();
+	}
+	public virtual void OnMouseOver()
+	{
+	}
+	public virtual void OnMouseExit()
+	{
 	}
 
 	#region Help Functions

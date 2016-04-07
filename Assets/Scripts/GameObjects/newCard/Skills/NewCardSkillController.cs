@@ -27,7 +27,19 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	}
 	public override void highlightSkill(bool value)
 	{
-		
+	}
+	public override void setHoveredState()
+	{
+	}
+	public override void setInitialState()
+	{
+	}
+	public override void mainInstruction()
+	{
+	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingSkills.getName(s.Id),this.d);
 	}
 }
 

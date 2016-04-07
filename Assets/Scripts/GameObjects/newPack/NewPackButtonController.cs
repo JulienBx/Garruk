@@ -12,5 +12,9 @@ public class NewPackButtonController : SimpleButtonController
 		base.setIsHovered (value);
 		this.gameObject.transform.parent.GetComponent<NewPackController> ().buttonHovered(value);
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingPacks.getReferences(1),WordingPacks.getReferences(2));
+	}
 }
 

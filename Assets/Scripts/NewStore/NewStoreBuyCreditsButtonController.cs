@@ -26,4 +26,8 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 			base.setForbiddenState();
 		}
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingStore.getReference(9),WordingStore.getReference(10));
+	}
 }

@@ -7,4 +7,8 @@ public class NewStoreBackButtonController : SimpleButtonController
 	{
 		NewStoreController.instance.backToPacksHandler();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingStore.getReference(11),WordingStore.getReference(12));
+	}
 }

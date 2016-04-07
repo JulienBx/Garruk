@@ -66,9 +66,10 @@ public class NewCardMarketController : NewCardController
 		this.panelMarket.SetActive (true);
 		if(this.c.onSale==0)
 		{
-			this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+			this.panelMarket.GetComponent<NewCardPanelMarketController>().setIsActive(true);
 			this.panelMarket.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(8);
 			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(false);
+			this.panelMarket.GetComponent<NewCardPanelMarketController>().setToolTipLabels(WordingMarket.getReference(11),WordingMarket.getReference(12));
 		}
 		else 
 		{
@@ -76,18 +77,20 @@ public class NewCardMarketController : NewCardController
 			this.panelMarket.transform.FindChild("Cristal").gameObject.SetActive(true);
 			if(this.c.IdOWner!=NewMarketController.instance.returnUserId())
 			{
+				this.panelMarket.GetComponent<NewCardPanelMarketController>().setToolTipLabels(WordingMarket.getReference(7),WordingMarket.getReference(8));
 				if(this.c.Price<=ApplicationModel.player.Money)
 				{
-					this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+					this.panelMarket.GetComponent<NewCardPanelMarketController>().setIsActive(true);
 				}
 				else
 				{
-					this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(false);
+					this.panelMarket.GetComponent<NewCardPanelMarketController>().setIsActive(false);
 				}
 			}
 			else
 			{
-				this.panelMarket.GetComponent<NewCardPanelMarketController>().setClickable(true);
+				this.panelMarket.GetComponent<NewCardPanelMarketController>().setToolTipLabels(WordingMarket.getReference(9),WordingMarket.getReference(10));
+				this.panelMarket.GetComponent<NewCardPanelMarketController>().setIsActive(true);
 			}
 		}
 	}

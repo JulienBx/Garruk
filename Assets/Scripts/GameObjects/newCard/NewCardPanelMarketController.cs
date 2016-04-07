@@ -1,57 +1,43 @@
 using UnityEngine;
 using TMPro;
 
-public class NewCardPanelMarketController : MonoBehaviour 
+public class NewCardPanelMarketController : SimpleButtonController
 {
 
-	private bool isClickable;
+	private string toolTipTitle;
+	private string toolTipDescription;
 
 
-	void Awake()
+	public void setToolTipLabels(string toolTipTitle, string toolTipDescription)
 	{
-		this.isClickable = true;
+		this.toolTipTitle=toolTipTitle;
+		this.toolTipDescription=toolTipDescription;
 	}
-
-	public void setClickable(bool value)
+	public override void setInitialState ()
 	{
-		this.isClickable = value;
-		if(!value)
-		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(166f/255f,31f/255f,28f/255f);
-			gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
-		}
-		else
-		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-		}
+		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
+		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 	}
-
-	void OnMouseOver()
+	public override void setHoveredState ()
 	{
-		if(isClickable && !ApplicationDesignRules.isMobileScreen)
-		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
-		}
+		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
 	}
-	void OnMouseExit()
+	public override void setForbiddenState ()
 	{
-		if(isClickable && !ApplicationDesignRules.isMobileScreen)
-		{
-			gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-			gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-		}
+		gameObject.GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(166f/255f,31f/255f,28f/255f);
+		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
 	}
-	void OnMouseDown()
+	public override void mainInstruction ()
 	{
-		if(isClickable)
-		{
-			SoundController.instance.playSound(8);
-			this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
-		}
+		SoundController.instance.playSound(8);
+		this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
+	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(this.toolTipTitle,this.toolTipDescription);
 	}
 }
 

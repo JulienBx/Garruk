@@ -29,6 +29,10 @@ public class BackOfficeController : MonoBehaviour
 	private bool isInvitationPopUpDisplayed;
 	private GameObject transparentBackground;
 	private bool isTransparentBackgroundDisplayed;
+	private GameObject toolTip;
+	private bool isToolTipDisplayed;
+	private bool toDisplayToolTip;
+	private float toolTipTimer;
 
 	private bool isMenuLoaded;
 	private bool isHelpLoaded;
@@ -72,6 +76,38 @@ public class BackOfficeController : MonoBehaviour
 			timer=timer-this.refreshInterval;
 			StartCoroutine (this.getUserData());
 		}
+		if(this.toDisplayToolTip)
+		{
+			toolTipTimer=toolTipTimer+Time.deltaTime;
+			if(toolTipTimer>0.3f)
+			{
+				this.toolTip.SetActive(true);
+				this.toDisplayToolTip=false;
+				this.isToolTipDisplayed=true;
+			}
+		}
+		if(this.isToolTipDisplayed)
+		{
+			Vector3 toolTipPosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			if(toolTipPosition.x+ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x>ApplicationDesignRules.worldWidth/2f)
+			{
+				toolTipPosition.x=ApplicationDesignRules.menuPosition.x+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.toolTipWorldSize.x/2f;
+			}
+			else if(toolTipPosition.x-ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x<-ApplicationDesignRules.worldWidth/2f)
+			{
+				toolTipPosition.x=ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.toolTipWorldSize.x/2f;
+			}
+			if(toolTipPosition.y-ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.toolTipWorldSize.y/2f+0.1f>ApplicationDesignRules.worldHeight/2f)
+			{
+				toolTipPosition.y=ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.toolTipWorldSize.y/2f;
+			}
+			else 
+			{
+				toolTipPosition.y=toolTipPosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
+			}
+			toolTipPosition.z=-2f;
+			this.toolTip.transform.position=toolTipPosition;
+		}
 	}
 	public virtual void initialize()
 	{
@@ -86,6 +122,7 @@ public class BackOfficeController : MonoBehaviour
 		this.timer=0f;
 		this.speed=5f;
 		this.refreshInterval=5f;
+		this.toolTip=this.gameObject.transform.FindChild("toolTip").gameObject;
 		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
@@ -175,6 +212,13 @@ public class BackOfficeController : MonoBehaviour
 		this.isInvitationPopUpDisplayed = true;
 		this.invitationPopUpResize ();
 	}
+	public void displayToolTip(string titleLabel, string descriptionLabel)
+	{
+		this.toolTip.transform.FindChild("title").GetComponent<TextMeshPro>().text=titleLabel;
+		this.toolTip.transform.FindChild("description").GetComponent<TextMeshPro>().text=descriptionLabel;
+		this.toolTipTimer=0f;
+		this.toDisplayToolTip=true;	
+	}
 	public void errorPopUpResize()
 	{
 		this.errorPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
@@ -210,6 +254,12 @@ public class BackOfficeController : MonoBehaviour
 			newSkillPopUpPosition.y=ApplicationDesignRules.collectionPopUpPosition.y-ApplicationDesignRules.collectionPopUpWorldSize.y/2f-0.025f-ApplicationDesignRules.newSkillsPopUpWorldSize.y/2f-i*(ApplicationDesignRules.newSkillsPopUpWorldSize.y+0.025f);
 			this.newSkillsPopUps[i].transform.position=newSkillPopUpPosition;
 		}
+	}
+	public void hideToolTip()
+	{
+		this.toolTip.SetActive(false);
+		this.isToolTipDisplayed=false;
+		this.toDisplayToolTip=false;
 	}
 	public void hideCollectionPointsPopUp()
 	{
@@ -266,6 +316,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		ApplicationDesignRules.computeDesignRules();
 		this.loadingScreen.GetComponent<LoadingScreenController>().resize();
+		this.toolTip.transform.localScale=ApplicationDesignRules.toolTipScale;
 		if(this.isCollectionPointsPopUpDisplayed)
 		{
 			this.collectionPointsPopUpResize();
@@ -323,6 +374,10 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
+		if(isToolTipDisplayed)
+		{
+			this.hideToolTip();
+		}
 		if(isErrorPopUpDisplayed)
 		{
 			SoundController.instance.playSound(8);

@@ -20,6 +20,7 @@ public class NewHomePageDeckSelectionButtonController : SpriteButtonController
 						this.setHoveredState();
 					}
 					this.setIsHovered(true);
+					this.showToolTip();
 					NewHomePageController.instance.mouseOnSelectDeckButton(true);
 				}
 			}
@@ -38,10 +39,15 @@ public class NewHomePageDeckSelectionButtonController : SpriteButtonController
 						this.setInitialState();
 					}
 					this.setIsHovered(false);
+					this.hideToolTip();
 					NewHomePageController.instance.mouseOnSelectDeckButton(false);
 				}
 			}
 		}
+	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingDeck.getReference(18),WordingDeck.getReference(19));
 	}
 }
 

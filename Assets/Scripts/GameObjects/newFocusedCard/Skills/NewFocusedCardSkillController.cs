@@ -1,18 +1,15 @@
 using UnityEngine;
 using TMPro;
 
-public class NewFocusedCardSkillController : MonoBehaviour 
+public class NewFocusedCardSkillController : SpriteButtonController 
 {
 
 	public Skill s;
 	public string d;
-	public int attributeIndex;
-	private bool isHovered;
-	
+
 	public virtual void show()
 	{
-		this.isHovered=false;
-		this.setStandardState();
+		this.setInitialState();
 		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
 		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
 		this.gameObject.transform.FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(this.s.Id);
@@ -47,39 +44,34 @@ public class NewFocusedCardSkillController : MonoBehaviour
 			this.gameObject.transform.FindChild("Description").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f);
 		}
 	}
-	private void OnMouseDown()
+	public override void mainInstruction()
 	{
-		gameObject.transform.parent.parent.GetComponent<NewFocusedCardController>().displaySkillFocused(this.attributeIndex-3);
+		gameObject.transform.parent.parent.GetComponent<NewFocusedCardController>().displaySkillFocused(base.getId());
 	}
-	private void OnMouseOver()
-	{
-		if(!this.isHovered && !ApplicationDesignRules.isMobileScreen)
-		{
-			this.setHoveredState();
-			this.isHovered=true;
-		}
-	}
-	private void OnMouseExit()
-	{
-		if(this.isHovered && !ApplicationDesignRules.isMobileScreen)
-		{
-			this.setStandardState();
-			this.isHovered=false;
-		}
-	}
-	private void setHoveredState()
+	public override void setHoveredState()
 	{
 		gameObject.transform.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
 	}
-	private void setStandardState()
+	public override void setInitialState()
 	{
-		if(this.attributeIndex!=3)
+		if(base.getId()!=0)
 		{
 			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
 		}
 		else
 		{
 			gameObject.transform.GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
+		}
+	}
+	public override void showToolTip ()
+	{
+		if(base.getId()!=0)
+		{
+			BackOfficeController.instance.displayToolTip(WordingFocusedCard.getReference(15),WordingFocusedCard.getReference(16));
+		}
+		else
+		{
+			BackOfficeController.instance.displayToolTip(WordingFocusedCard.getReference(17),WordingFocusedCard.getReference(18));
 		}
 	}
 }

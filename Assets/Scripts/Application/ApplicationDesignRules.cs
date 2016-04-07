@@ -257,6 +257,12 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 newSkillsPopUpOriginalScale = new Vector3 (0.4f, 0.4f, 0.4f);
 	static private Vector3 newSkillsPopUpMobileScale = new Vector3 (0.3f, 0.3f, 0.3f);
 
+	static private Vector2 toolTipSize=new Vector2(350f,150f);
+	static public Vector2 toolTipWorldSize;
+	static public Vector3 toolTipScale;
+	static private Vector3 toolTipOriginalScale = new Vector3 (1f, 1f, 1f);
+	static private Vector3 toolTipMobileScale = new Vector3 (1f, 1f, 1f);
+
 	static private Vector3 mainTitleOriginalScale=new Vector3(1f,1f,1f);
 	static private Vector3 mainTitleMobileScale = new Vector3(0.8f,0.8f,0.8f);
 	static public Vector3 mainTitleScale;
@@ -562,6 +568,9 @@ public class ApplicationDesignRules : MonoBehaviour
 
 		newSkillsPopUpScale = toNewScale (newSkillsPopUpOriginalScale,newSkillsPopUpMobileScale);
 		newSkillsPopUpWorldSize = toWorldSize (newSkillsPopUpSize, newSkillsPopUpScale);
+
+		toolTipScale = toNewScale (toolTipOriginalScale,toolTipMobileScale);
+		toolTipWorldSize = toWorldSize (toolTipSize, toolTipScale);
 
 		divisionIconScale = toNewScale (divisionIconOriginalScale,divisionIconMobileScale);
 

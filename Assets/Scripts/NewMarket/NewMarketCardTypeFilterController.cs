@@ -7,5 +7,9 @@ public class NewMarketCardTypeFilterController : SpriteButtonController
 	{
 		NewMarketController.instance.cardTypeFilterHandler (base.getId());	
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingCardTypes.getName(base.getId()),WordingCardTypes.getDescription(base.getId()));
+	}
 }
 

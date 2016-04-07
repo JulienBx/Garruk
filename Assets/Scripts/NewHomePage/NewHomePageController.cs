@@ -454,6 +454,7 @@ public class NewHomePageController : MonoBehaviour
 		this.deckSelectionButton = GameObject.Find ("DeckSelectionButton");
 		this.deckSelectionButton.AddComponent<NewHomePageDeckSelectionButtonController> ();
 		this.deckTitle = GameObject.Find ("DeckTitle");
+		this.deckTitle.AddComponent<newHomePageDeckTitleController>();
 		this.deckTitle.GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		this.deckChoices=new GameObject[12];
 		for(int i=0;i<this.deckChoices.Length;i++)
