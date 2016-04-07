@@ -5,7 +5,7 @@ public class newMyGameValueFilterTitleController : TextToHoverController
 {	
 	public override void showToolTip ()
 	{
-		BackOfficeController.instance.displayToolTip(false, true,"middle", this.gameObject,WordingFilters.getReference(21),WordingFilters.getReference(22));
+		BackOfficeController.instance.displayToolTip(WordingFilters.getReference(21),WordingFilters.getReference(22));
 	}
 }
 

@@ -24,6 +24,6 @@ public class newMyGameSortButtonController : SpriteButtonController
 			string1=WordingFilters.getReference(27);
 			string2=WordingFilters.getReference(28);
 		}
-		BackOfficeController.instance.displayToolTip(true, false,"", this.gameObject,string1,string2);
+		BackOfficeController.instance.displayToolTip(string1,string2);
 	}
 }

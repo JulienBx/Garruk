@@ -9,7 +9,7 @@ public class newMyGameDeckCreatioButtonController : SpriteButtonController
 	}
 	public override void showToolTip ()
 	{
-		BackOfficeController.instance.displayToolTip(true, false, "",this.gameObject,WordingDeck.getReference(20),WordingDeck.getReference(21));
+		BackOfficeController.instance.displayToolTip(WordingDeck.getReference(20),WordingDeck.getReference(21));
 	}
 }
 

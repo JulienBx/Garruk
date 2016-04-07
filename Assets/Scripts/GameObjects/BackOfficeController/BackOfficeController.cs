@@ -86,6 +86,13 @@ public class BackOfficeController : MonoBehaviour
 				this.isToolTipDisplayed=true;
 			}
 		}
+		if(this.isToolTipDisplayed)
+		{
+			Vector3 mousePosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			mousePosition.y=mousePosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
+			mousePosition.z=-2f;
+			this.toolTip.transform.position=mousePosition;
+		}
 	}
 	public virtual void initialize()
 	{
@@ -190,48 +197,8 @@ public class BackOfficeController : MonoBehaviour
 		this.isInvitationPopUpDisplayed = true;
 		this.invitationPopUpResize ();
 	}
-	public void displayToolTip(bool isSprite, bool isText, string textAlignement, GameObject focusedGameObject, string titleLabel, string descriptionLabel)
+	public void displayToolTip(string titleLabel, string descriptionLabel)
 	{
-		Vector2 gameObjectPosition=new Vector2();
-		Vector2 gameObjectSize=new Vector2();
-		Vector3 toolTipPosition = new Vector3(0f,0f,-2f);
-		if(isSprite)
-		{
-			gameObjectSize=new Vector2(focusedGameObject.transform.GetComponent<SpriteRenderer>().bounds.size.x,focusedGameObject.transform.GetComponent<SpriteRenderer>().bounds.size.y);
-			gameObjectPosition=focusedGameObject.transform.position;
-		}
-		else if(isText)
-		{
-			Vector3 mousePosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			gameObjectSize=new Vector2(focusedGameObject.transform.GetComponent<BoxCollider2D>().size.x,focusedGameObject.transform.GetComponent<TextContainer>().height);
-			gameObjectPosition=focusedGameObject.transform.position;
-			gameObjectPosition.x=mousePosition.x+ApplicationDesignRules.menuPosition.x;
-		}
-		if(gameObjectPosition.x+ApplicationDesignRules.toolTipWorldSize.x/2f>ApplicationDesignRules.worldWidth/2f)
-		{
-			toolTipPosition.x=ApplicationDesignRules.menuPosition.x+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.toolTipWorldSize.x/2f;
-		}
-		else if(-gameObjectPosition.x-ApplicationDesignRules.toolTipWorldSize.x/2f<-ApplicationDesignRules.worldWidth/2f)
-		{
-			toolTipPosition.x=ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.toolTipWorldSize.x/2f;
-		}
-		else
-		{
-			toolTipPosition.x=ApplicationDesignRules.menuPosition.x+gameObjectPosition.x;
-		}
-		if(gameObjectPosition.y+ApplicationDesignRules.toolTipWorldSize.y/2f>ApplicationDesignRules.worldHeight/2f)
-		{
-			toolTipPosition.y=ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.toolTipWorldSize.y/2f;
-		}
-		else if(-gameObjectPosition.y-ApplicationDesignRules.toolTipWorldSize.y/2f<-ApplicationDesignRules.worldHeight/2f)
-		{
-			toolTipPosition.y=ApplicationDesignRules.menuPosition.y-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.toolTipWorldSize.y/2f;
-		}
-		else
-		{
-			toolTipPosition.y=ApplicationDesignRules.menuPosition.y+gameObjectPosition.y+gameObjectSize.y/2+ApplicationDesignRules.toolTipWorldSize.y/2f;
-		}
-		this.toolTip.transform.position=toolTipPosition;
 		this.toolTip.transform.FindChild("title").GetComponent<TextMeshPro>().text=titleLabel;
 		this.toolTip.transform.FindChild("description").GetComponent<TextMeshPro>().text=descriptionLabel;
 		this.toolTipTimer=0f;

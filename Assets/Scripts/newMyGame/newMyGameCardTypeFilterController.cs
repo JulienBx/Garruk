@@ -12,7 +12,7 @@ public class newMyGameCardTypeFilterController : SpriteButtonController
 	}
 	public override void showToolTip ()
 	{
-		BackOfficeController.instance.displayToolTip(true, false,"",this.gameObject,WordingCardTypes.getName(base.getId()),WordingCardTypes.getDescription(base.getId()));
+		BackOfficeController.instance.displayToolTip(WordingCardTypes.getName(base.getId()),WordingCardTypes.getDescription(base.getId()));
 	}
 }
 

@@ -37,7 +37,7 @@ public class NewCardSkillController : NewFocusedCardSkillController
 		if(!base.getIsHovered() && !ApplicationDesignRules.isMobileScreen)
 		{
 			base.setIsHovered(true);
-			BackOfficeController.instance.displayToolTip(true, false,"", this.gameObject,WordingSkills.getName(s.Id),this.d);
+			BackOfficeController.instance.displayToolTip(WordingSkills.getName(s.Id),this.d);
 		}	
 	}
 	public override void OnMouseExit()
