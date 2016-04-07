@@ -7,5 +7,9 @@ public class NewProfileChooseLanguageButtonController : SpriteButtonController
 	{
 		NewProfileController.instance.displayChooseLanguagePopUp();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingProfile.getReference(43),WordingProfile.getReference(44));
+	}
 }
 

@@ -7,5 +7,9 @@ public class NewProfileEditInformationsButtonController : SpriteButtonController
 	{
 		NewProfileController.instance.displayEditInformationsPopUp ();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingProfile.getReference(41),WordingProfile.getReference(42));
+	}
 }
 

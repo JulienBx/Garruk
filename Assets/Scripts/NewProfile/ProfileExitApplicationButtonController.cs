@@ -7,5 +7,9 @@ public class NewProfileExitApplicationButtonController : SpriteButtonController
 	{
 		BackOfficeController.instance.displayDisconnectedPopUp();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingProfile.getReference(45),WordingProfile.getReference(46));
+	}
 }
 

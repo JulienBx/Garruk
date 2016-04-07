@@ -53,5 +53,13 @@ public class WordingProfile
 		references.Add(new string[]{"Le nom recherché doit comporter au moins 2 caractères","The name you are searching is too short (less than 2 characters)"}); //36
 		references.Add(new string[]{"Les prénoms et noms doivent comporter moins de 20 caractères","First name and surname are too long (more than 20 characters)"}); //37
 		references.Add(new string[]{"L'adresse mail est trop longue (plus de 40 caractères)","Email address is too long (more than 40 characters)"}); //38
+		references.Add(new string[]{"Modifier le mot de passe",""}); //39
+		references.Add(new string[]{"Appuyez ici pour changer votre mot de passe",""}); //40
+		references.Add(new string[]{"Changer vos informations",""}); //41
+		references.Add(new string[]{"Appuyez ici pour changer vos informations personnelles",""}); //42
+		references.Add(new string[]{"Changer de langue",""}); //43
+		references.Add(new string[]{"Appuyez ici pour changer de langue d'affichage",""}); //44
+		references.Add(new string[]{"Déconnecter",""}); //45
+		references.Add(new string[]{"Appuyez ici pour vous déconnectez ou bien quitter le jeu",""}); //46
 	}
 }

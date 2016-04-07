@@ -7,5 +7,9 @@ public class NewProfileEditPasswordButtonController : SpriteButtonController
 	{
 		NewProfileController.instance.displayCheckPasswordPopUp ();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingProfile.getReference(39),WordingProfile.getReference(40));
+	}
 }
 
