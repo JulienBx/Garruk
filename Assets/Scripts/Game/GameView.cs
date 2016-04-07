@@ -1087,6 +1087,9 @@ public class GameView : MonoBehaviour
 		else{
 			this.getPlayingCardController(this.currentPlayingCard).checkModyfiers();
 			int i = this.indexPlayer+1;
+			if(i==this.nbCards){
+				i=0;
+			}
 			while(this.getCard(this.orderCards[i]).isDead || this.deads.Contains(this.orderCards[i])){
 				i++;
 				if(i==this.nbCards){
@@ -1194,6 +1197,9 @@ public class GameView : MonoBehaviour
 
 		if(this.hasFightStarted){
 			this.indexPlayer++;
+			if(indexPlayer == this.nbCards){
+				indexPlayer = 0 ;
+			}
 		}
 		this.updateTimeline();
 		while(this.getCard(this.orderCards[indexPlayer]).isDead || this.deads.Contains(this.orderCards[indexPlayer])){
