@@ -110,6 +110,7 @@ public class NewSkillBookSkillController : MonoBehaviour
 			level=1;
 		}
 		this.cardType.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId());
+		this.cardType.GetComponent<NewSkillBookSkillCardTypeController>().setCardType(s.CardType.Id);
 		this.picto.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
 		this.picto.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(level);
 		if(this.s.IsActiveSkill)

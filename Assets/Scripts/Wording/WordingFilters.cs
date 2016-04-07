@@ -45,5 +45,11 @@ public class WordingFilters
 		references.Add(new string[]{"Vous pouvez trier par ordre décroissant",""}); //28
 		references.Add(new string[]{"Niveau de rareté",""}); //29
 		references.Add(new string[]{"Le niveau de rareté....",""}); //30
+		references.Add(new string[]{"Prix",""}); //31
+		references.Add(new string[]{"Vous pouvez filtrer par prix",""}); //32
+		references.Add(new string[]{"Disciplines",""}); //33
+		references.Add(new string[]{"les disciplines...",""}); //34
+		references.Add(new string[]{"Disponibilité",""}); //35
+		references.Add(new string[]{"vous pouvez collectionner les compétences ...",""}); //36
 	}
 }

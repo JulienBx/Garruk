@@ -57,6 +57,7 @@ public class InterfaceController : MonoBehaviour
 	}
 	public virtual void OnMouseUp()
 	{
+		this.hideToolTip();
 		if(isActive && !BackOfficeController.instance.getIsSwiping() && (isHovered || ApplicationDesignRules.isMobileScreen))
 		{
 			this.mainInstruction();

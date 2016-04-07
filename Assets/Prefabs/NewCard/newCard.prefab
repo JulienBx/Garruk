@@ -8,6 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 411862}
+  - 61: {fileID: 6163728}
+  - 114: {fileID: 11466660}
   m_Layer: 0
   m_Name: Life
   m_TagString: Untagged
@@ -44,6 +46,7 @@ GameObject:
   - 4: {fileID: 407186}
   - 212: {fileID: 21217712}
   - 61: {fileID: 6124952}
+  - 114: {fileID: 11488088}
   m_Layer: 0
   m_Name: CardType
   m_TagString: Untagged
@@ -628,6 +631,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 436642}
+  - 61: {fileID: 6121242}
+  - 114: {fileID: 11441840}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -1136,7 +1141,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.0072784, y: -2.2123873, z: 0}
+  m_LocalPosition: {x: 1.4918562, y: -4.0886917, z: 0}
   m_LocalScale: {x: 0.26944447, y: 0.26944447, z: 0.26944447}
   m_Children:
   - {fileID: 487878}
@@ -1180,7 +1185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.91, y: 3.546, z: 0}
+  m_LocalPosition: {x: 1.91, y: 3.546, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 456640}
@@ -1365,7 +1370,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.53, y: 3.546, z: 0}
+  m_LocalPosition: {x: -0.53, y: 3.546, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 473314}
@@ -1920,7 +1925,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2171374, guid: bbc845773694540939bde240858219f5, type: 2}
+  - {fileID: 2163612, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -2463,6 +2468,20 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 3.9351852, y: 0.9722222}
+--- !u!61 &6121242
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166768}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0.15800095, y: -0.0000071525574}
+  serializedVersion: 2
+  m_Size: {x: 1.9722927, y: 1}
 --- !u!61 &6124482
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2659,6 +2678,20 @@ BoxCollider2D:
   m_Offset: {x: 0.004629612, y: -0.004629612}
   serializedVersion: 2
   m_Size: {x: 1.1296296, y: 1.1296296}
+--- !u!61 &6163728
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100428}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -0.033500552, y: -0.0000071525574}
+  serializedVersion: 2
+  m_Size: {x: 2.1687846, y: 1}
 --- !u!61 &6163790
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -3024,7 +3057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 
+  m_text: 99
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3322,7 +3355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 
+  m_text: 99
   m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
@@ -3520,6 +3553,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e52033cdb843848d590c6e673c09c1cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11441840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba39462b022cb4d519434c5366ffb6e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11451882
@@ -3825,7 +3869,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   d: Inflige [1 26 Inflige [1-110%AT
-  attributeIndex: 0
 --- !u!114 &11464346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3846,6 +3889,17 @@ MonoBehaviour:
     width: 1.9719135
     height: 0.3298599
   m_margins: {x: 0.3851464, y: 0, z: 0.38514644, w: 0}
+--- !u!114 &11466660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a688eab39dc58431f845253277c1db9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4035,7 +4089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: 13628
-  m_fontAsset: {fileID: 11400000, guid: bbc845773694540939bde240858219f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 0
   m_isOverlay: 0
   m_fontColor32:
@@ -4384,7 +4438,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   d: "Est \xE9quip\xE9 d'un bouclier absorbant 30% des d\xE9gats subis"
-  attributeIndex: 0
 --- !u!114 &11485832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4397,6 +4450,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   font: {fileID: 12800000, guid: 7bcae49d6e900b5418668f86ae61f666, type: 3}
+--- !u!114 &11488088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9adefab347d43dfb07d2bbad6fbf72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11490368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4520,7 +4584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   d: 
-  attributeIndex: 0
 --- !u!114 &11497400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4533,7 +4596,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   d: 
-  attributeIndex: 0
 --- !u!114 &11498300
 MonoBehaviour:
   m_ObjectHideFlags: 1

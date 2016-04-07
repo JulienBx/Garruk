@@ -204,10 +204,11 @@ public class NewFocusedCardController : MonoBehaviour
 		this.life.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.LifeLevel);
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
 		this.attack.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.AttackLevel);
-		this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(this.c.CardType.getPictureId());
+		this.cardType.transform.GetComponent<NewFocusedCardCardTypeController>().setCardType(this.c.CardType);
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
+			this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setId(i);
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewFocusedCardSkillController>().setSkill(this.c.Skills[i]);

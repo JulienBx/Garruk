@@ -463,10 +463,14 @@ public class NewMarketController : MonoBehaviour
 		for(int i=0;i<this.valueFilters.Length;i++)
 		{
 			this.valueFilters[i]=GameObject.Find ("ValueFilter"+i);
+			this.valueFilters[i].transform.FindChild("Icon").gameObject.AddComponent<NewMarketValueFilterIconController>();
+			this.valueFilters[i].transform.FindChild("Icon").gameObject.GetComponent<NewMarketValueFilterIconController>().setId(i);
+			this.valueFilters[i].transform.FindChild("Value").gameObject.AddComponent<NewMarketValueFilterValueController>();
 		}
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
+		this.skillSearchBarTitle.AddComponent<NewMarketSkillSearchTitleController>();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];
@@ -480,12 +484,15 @@ public class NewMarketController : MonoBehaviour
 		this.cardTypeFilterTitle = GameObject.Find ("CardTypeFilterTitle");
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.cardTypeFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(3).ToUpper ();
+		this.cardTypeFilterTitle.AddComponent<NewMarketCardTypeFilterTitleController>();
 		this.valueFilterTitle = GameObject.Find ("ValueFilterTitle");
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.valueFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(4).ToUpper ();
+		this.valueFilterTitle.AddComponent<NewMarketValueFilterTitleController>();
 		this.priceFilterTitle = GameObject.Find ("PriceFilterTitle");
 		this.priceFilterTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.priceFilterTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(8).ToUpper ();
+		this.priceFilterTitle.AddComponent<NewMarketPriceFilterTitleController>();
 		
 		this.cursors=new GameObject[this.valueFilters.Length];
 		for (int i=0;i<this.valueFilters.Length;i++)

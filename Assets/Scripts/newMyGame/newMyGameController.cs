@@ -417,7 +417,7 @@ public class newMyGameController : MonoBehaviour
 		this.skillSearchBarTitle = GameObject.Find ("SkillSearchTitle");
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.skillSearchBarTitle.GetComponent<TextMeshPro> ().text = WordingFilters.getReference(1).ToUpper ();
-		this.skillSearchBarTitle.AddComponent<newMyGameValueSkillSearchTitleController>();
+		this.skillSearchBarTitle.AddComponent<newMyGameSkillSearchTitleController>();
 		this.skillSearchBar = GameObject.Find ("SkillSearchBar");
 		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController> ().setButtonText (WordingFilters.getReference(2));
 		this.skillChoices=new GameObject[3];

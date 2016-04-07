@@ -44,10 +44,11 @@ public class NewCardController : NewFocusedCardController
 		this.life.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.LifeLevel);
 		this.attack.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.c.GetAttackString();
 		this.attack.transform.FindChild ("Picto").GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.returnCardColor (this.c.AttackLevel);
-		this.cardType.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(this.c.CardType.getPictureId());
+		this.cardType.transform.GetComponent<NewCardCardTypeController>().setCardType(this.c.CardType);
 
 		for(int i=0;i<this.skills.Length;i++)
 		{
+			this.skills[i].transform.GetComponent<NewCardSkillController>().setId(i);
 			if(i<this.c.Skills.Count && this.c.Skills[i].IsActivated==1)
 			{
 				this.skills[i].transform.GetComponent<NewCardSkillController>().setSkill(this.c.Skills[i]);

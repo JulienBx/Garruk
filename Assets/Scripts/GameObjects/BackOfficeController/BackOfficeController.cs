@@ -88,10 +88,25 @@ public class BackOfficeController : MonoBehaviour
 		}
 		if(this.isToolTipDisplayed)
 		{
-			Vector3 mousePosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			mousePosition.y=mousePosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
-			mousePosition.z=-2f;
-			this.toolTip.transform.position=mousePosition;
+			Vector3 toolTipPosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+			if(toolTipPosition.x+ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x>ApplicationDesignRules.worldWidth/2f)
+			{
+				toolTipPosition.x=ApplicationDesignRules.menuPosition.x+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.toolTipWorldSize.x/2f;
+			}
+			else if(toolTipPosition.x-ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x<-ApplicationDesignRules.worldWidth/2f)
+			{
+				toolTipPosition.x=ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.toolTipWorldSize.x/2f;
+			}
+			if(toolTipPosition.y-ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.toolTipWorldSize.y/2f+0.1f>ApplicationDesignRules.worldHeight/2f)
+			{
+				toolTipPosition.y=ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.toolTipWorldSize.y/2f;
+			}
+			else 
+			{
+				toolTipPosition.y=toolTipPosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
+			}
+			toolTipPosition.z=-2f;
+			this.toolTip.transform.position=toolTipPosition;
 		}
 	}
 	public virtual void initialize()
@@ -359,6 +374,10 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
+		if(isToolTipDisplayed)
+		{
+			this.hideToolTip();
+		}
 		if(isErrorPopUpDisplayed)
 		{
 			SoundController.instance.playSound(8);

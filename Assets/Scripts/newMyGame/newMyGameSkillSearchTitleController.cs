@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class newMyGameValueSkillSearchTitleController : TextToHoverController	
+public class newMyGameSkillSearchTitleController : TextToHoverController	
 {	
 	public override void showToolTip ()
 	{

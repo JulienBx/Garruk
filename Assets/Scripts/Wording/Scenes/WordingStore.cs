@@ -23,5 +23,9 @@ public class WordingStore
 		references.Add(new string[]{"Boutique","Shop"}); //6
 		references.Add(new string[]{"Merci de bien vouloir saisir une valeur","Please type a number"}); //7
 		references.Add(new string[]{"Vendre","Sell"}); //8
+		references.Add(new string[]{"Acheter des crédits",""}); //9
+		references.Add(new string[]{"a compléter",""}); //10
+		references.Add(new string[]{"Retour",""}); //11
+		references.Add(new string[]{"Cliquez ici pour retourner à l'écran précédent",""}); //12
 	}
 }

@@ -27,26 +27,19 @@ public class NewCardSkillController : NewFocusedCardSkillController
 	}
 	public override void highlightSkill(bool value)
 	{
-		
 	}
-	public override void OnMouseDown()
+	public override void setHoveredState()
 	{
 	}
-	public override void OnMouseOver()
+	public override void setInitialState()
 	{
-		if(!base.getIsHovered() && !ApplicationDesignRules.isMobileScreen)
-		{
-			base.setIsHovered(true);
-			BackOfficeController.instance.displayToolTip(WordingSkills.getName(s.Id),this.d);
-		}	
 	}
-	public override void OnMouseExit()
+	public override void mainInstruction()
 	{
-		if(base.getIsHovered() && !ApplicationDesignRules.isMobileScreen)
-		{
-			base.setIsHovered(false);
-			BackOfficeController.instance.hideToolTip();
-		}
+	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingSkills.getName(s.Id),this.d);
 	}
 }
 
