@@ -38,7 +38,8 @@ public class Copieur : GameSkill
 		currentCard.Skills[1].Id = targetCard.Skills[1].Id ;
 		currentCard.Skills[1].Power = targetCard.Skills[1].Power ;
 		currentCard.Skills[1].proba = targetCard.Skills[1].proba;
-		GameView.instance.getMyHoveredCardController().setCard(currentCard);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 105);

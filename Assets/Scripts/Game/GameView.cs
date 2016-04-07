@@ -746,8 +746,9 @@ public class GameView : MonoBehaviour
 				this.getCard(characterID).hasMoved=true;
 			}
 			else{
-				GameView.instance.displaySkillEffect(characterID, "Golem\n-10PV", 0);
-				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(10,-1,1,"Attaque","10 dégats subis"), true);
+				int pv = 11-this.getCard(characterID).getSkills()[0].Power;
+				GameView.instance.displaySkillEffect(characterID, "Golem\n-"+pv+"PV", 0);
+				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(pv,-1,1,"Attaque","10 dégats subis"), true);
 				GameView.instance.addAnim(GameView.instance.getTile(characterID), 141);
 			}
 			this.removeDestinations();
@@ -1973,7 +1974,7 @@ public class GameView : MonoBehaviour
 		this.targets = new List<Tile>();
 
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
+			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine && !this.getCard(i).isDead){
 				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i));
 				int playerID;
 				foreach (Tile t in neighbourTiles)
@@ -1983,10 +1984,10 @@ public class GameView : MonoBehaviour
 					{
 						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
 						{
-							tile = this.getPlayingCardTile(i);
+							tile = this.getPlayingCardTile(playerID);
 							this.targets.Add(tile);
 							this.getTileController(tile.x,tile.y).displayTarget(true);
-							this.getTileController(tile).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(i));
+							this.getTileController(tile).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(playerID));
 						}
 					}
 				}

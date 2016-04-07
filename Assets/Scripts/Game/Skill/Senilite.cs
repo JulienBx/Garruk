@@ -35,7 +35,7 @@ public class Senilite : GameSkill
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), Mathf.RoundToInt(amount*GameView.instance.getCurrentCard().Skills[0].Power*5f/100f));
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), Mathf.Max(1,Mathf.RoundToInt(amount*(0.25f+GameView.instance.getCurrentCard().Skills[0].Power*0.05f))));
 						}
 					}
 				}
