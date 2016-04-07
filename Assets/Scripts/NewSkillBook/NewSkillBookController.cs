@@ -27,6 +27,7 @@ public class NewSkillBookController : MonoBehaviour
 	private GameObject skillsScrollLine;
 	private GameObject skillsPaginationLine;
 	private GameObject skillsPaginationButtons;
+	private Rect skillsArea;
 	
 	private GameObject helpBlock;
 	private GameObject helpLine;
@@ -93,7 +94,6 @@ public class NewSkillBookController : MonoBehaviour
 	private int[] cardTypesNbCards;
 
 	private bool isSceneLoaded;
-	private bool isScrolling;
 	private float scrollIntersection;
 
 	private bool toSlideLeft;
@@ -193,7 +193,28 @@ public class NewSkillBookController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && this.mainContentDisplayed && !this.isFocusedSkillDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
-			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
+			BackOfficeController.instance.setIsScrolling(this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController());
+		}
+		float scrolling=Input.GetAxis("Mouse ScrollWheel");
+		if(scrolling!=0 && !ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			if(this.skillsArea.Contains(this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+			{
+				if(scrolling<0)
+				{
+					if(this.skillsPagination.chosenPage<this.skillsPagination.nbPages-1)
+					{
+						this.skillsPaginationButtons.transform.FindChild("Button1").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+				if(scrolling>0)
+				{
+					if(this.skillsPagination.chosenPage>0)
+					{
+						this.skillsPaginationButtons.transform.FindChild("Button0").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+			}
 		}
 	}
 	void Awake()
@@ -742,6 +763,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
 		this.skillsNumberTitle.transform.position = new Vector3 (skillsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, skillsBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 		this.skillsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
+		this.skillsArea = new Rect (skillsBlockUpperLeftPosition.x,skillsBlockLowerLeftPosition.y,skillsBlockSize.x,skillsBlockSize.y);
 
 		this.filterButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 		this.filterButton.transform.position = new Vector3 (skillsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, skillsBlockUpperRightPosition.y-ApplicationDesignRules.buttonVerticalSpacing-ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);

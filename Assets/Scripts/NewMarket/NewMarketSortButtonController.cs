@@ -3,9 +3,9 @@ using TMPro;
 
 public class NewMarketSortButtonController : SpriteButtonController
 {	
-	new public void OnMouseUp()
+	public override void mainInstruction ()
 	{
-		NewMarketController.instance.sortButtonHandler (base.getId());	
+		NewMarketController.instance.sortButtonHandler (base.getId());
 	}
 	public override void showToolTip ()
 	{

@@ -116,7 +116,6 @@ public class newMyGameController : MonoBehaviour
 	private Texture2D cursorTexture;
 	
 	private bool isSceneLoaded;
-	private bool isScrolling;
 	private bool toScrollCards;
 	private float lowerScrollCameraIntermediatePosition;
 
@@ -188,8 +187,8 @@ public class newMyGameController : MonoBehaviour
 		{
 			if(!toScrollCards)
 			{
-				isScrolling = this.upperScrollCamera.GetComponent<ScrollingController>().ScrollController();
-				isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
+				BackOfficeController.instance.setIsScrolling(this.upperScrollCamera.GetComponent<ScrollingController>().ScrollController());
+				BackOfficeController.instance.setIsScrolling(this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController());
 
 				if(this.upperScrollCamera.GetComponent<ScrollingController>().isEndPosition())
 				{
@@ -202,7 +201,7 @@ public class newMyGameController : MonoBehaviour
 			}
 			else
 			{
-				isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
+				BackOfficeController.instance.setIsScrolling(this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController());
 				if(this.lowerScrollCamera.transform.position.y>this.lowerScrollCameraIntermediatePosition)
 				{
 					Vector3 cardsCameraPosition = this.lowerScrollCamera.transform.position;
@@ -245,6 +244,27 @@ public class newMyGameController : MonoBehaviour
 			lowerScrollCameraPosition.x=camerasXPosition;
 			this.upperScrollCamera.transform.position=upperScrollCameraPosition;
 			this.lowerScrollCamera.transform.position=lowerScrollCameraPosition;
+		}
+		float scrolling=Input.GetAxis("Mouse ScrollWheel");
+		if(scrolling!=0 && !ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			if(this.cardsArea.Contains(this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+			{
+				if(scrolling<0)
+				{
+					if(this.cardsPagination.chosenPage<this.cardsPagination.nbPages-1)
+					{
+						this.cardsPaginationButtons.transform.FindChild("Button1").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+				if(scrolling>0)
+				{
+					if(this.cardsPagination.chosenPage>0)
+					{
+						this.cardsPaginationButtons.transform.FindChild("Button0").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+			}
 		}
 	}
 	void Awake()
@@ -1717,7 +1737,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id, bool isDeckCard)
 	{
-		if(!this.isScrolling)
+		if(!BackOfficeController.instance.getIsScrolling())
 		{
 			this.idCardClicked = id;
 			this.isDeckCardClicked = isDeckCard;

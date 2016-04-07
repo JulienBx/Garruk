@@ -10,14 +10,14 @@ public class newMyGameCursorController : SpriteButtonController
 			newMyGameController.instance.moveCursors (base.getId ());
 		}
 	}
-	void OnMouseDown()
+	public override void OnMouseDown()
 	{
 		if(!HelpController.instance.getIsTutorialLaunched())
 		{
 			newMyGameController.instance.startSlidingCursors();
 		}
 	}
-	new void OnMouseUp()
+	public override void OnMouseUp()
 	{
 		if(!HelpController.instance.getIsTutorialLaunched())
 		{

@@ -7,11 +7,11 @@ public class NewMarketCursorController : SpriteButtonController
 	{
 		NewMarketController.instance.moveCursors (base.getId ());	
 	}
-	void OnMouseDown()
+	public override void OnMouseDown()
 	{
 		NewMarketController.instance.startSlidingCursors();
 	}
-	new void OnMouseUp()
+	public override void OnMouseUp()
 	{
 		NewMarketController.instance.endSlidingCursors();
 	}

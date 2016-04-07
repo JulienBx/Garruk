@@ -7,5 +7,9 @@ public class NewLobbyPlayButtonController : SimpleButtonController
 	{
 		NewLobbyController.instance.playHandler ();
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingLobby.getReference(39),WordingLobby.getReference(40));
+	}
 }
 

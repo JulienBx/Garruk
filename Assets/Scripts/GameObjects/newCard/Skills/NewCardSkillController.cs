@@ -6,6 +6,7 @@ public class NewCardSkillController : NewFocusedCardSkillController
 
 	public override void show()
 	{
+		this.hideToolTip();
 		this.gameObject.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
 		this.gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);
 	}

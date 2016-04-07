@@ -3,9 +3,9 @@ using TMPro;
 
 public class NewSkillBookCardTypeFilterController : SpriteButtonController
 {	
-	new void OnMouseUp()
+	public override void mainInstruction ()
 	{
-		NewSkillBookController.instance.cardTypeFilterHandler (base.getId());	
+		NewSkillBookController.instance.cardTypeFilterHandler (base.getId());
 	}
 	public override void showToolTip ()
 	{

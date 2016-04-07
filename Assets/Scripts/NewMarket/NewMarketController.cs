@@ -96,6 +96,7 @@ public class NewMarketController : MonoBehaviour
 	private Pagination cardsPagination;
 	private int cardsPerLine;
 	private int nbLines;
+	private Rect cardsArea;
 
 	private int idCardClicked;
 	
@@ -105,7 +106,6 @@ public class NewMarketController : MonoBehaviour
 
 	private bool toUpdateCardsMarketFeatures;
 	private bool areNewCardsAvailable;
-	private bool isScrolling;
 	private float scrollIntersection;
 
 	private bool isLeftClicked;
@@ -240,7 +240,28 @@ public class NewMarketController : MonoBehaviour
 		}
 		if(ApplicationDesignRules.isMobileScreen && this.isSceneLoaded && !this.isLeftClicked && this.mainContentDisplayed && HelpController.instance.getCanScroll() && BackOfficeController.instance.getCanSwipeAndScroll())
 		{
-			isScrolling = this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController();
+			BackOfficeController.instance.setIsScrolling(this.lowerScrollCamera.GetComponent<ScrollingController>().ScrollController());
+		}
+		float scrolling=Input.GetAxis("Mouse ScrollWheel");
+		if(scrolling!=0 && !ApplicationDesignRules.isMobileScreen && this.isSceneLoaded)
+		{
+			if(this.cardsArea.Contains(this.sceneCamera.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z))))
+			{
+				if(scrolling<0)
+				{
+					if(this.cardsPagination.chosenPage<this.cardsPagination.nbPages-1)
+					{
+						this.cardsPaginationButtons.transform.FindChild("Button1").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+				if(scrolling>0)
+				{
+					if(this.cardsPagination.chosenPage>0)
+					{
+						this.cardsPaginationButtons.transform.FindChild("Button0").GetComponent<PaginationButtonController>().mainInstruction();
+					}
+				}
+			}
 		}
 	}
 	void Awake()
@@ -310,6 +331,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
+		SoundController.instance.playSound(9);
 		this.drawPaginationNumber ();
 		this.drawCards ();
 		if(ApplicationDesignRules.isMobileScreen)
@@ -771,6 +793,8 @@ public class NewMarketController : MonoBehaviour
 		Vector3 cardsBlockOrigin = this.cardsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.cardsNumberTitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 		this.refreshMarketButton.transform.localScale= ApplicationDesignRules.subMainTitleScale;
+
+		this.cardsArea = new Rect (cardsBlockUpperLeftPosition.x,cardsBlockLowerLeftPosition.y,cardsBlockSize.x,cardsBlockSize.y);
 
 		this.filterButton.transform.localScale = ApplicationDesignRules.roundButtonScale;
 		this.filterButton.transform.position = new Vector3 (cardsBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, cardsBlockUpperRightPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.roundButtonWorldSize.y / 2f, 0f);
@@ -1517,7 +1541,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id)
 	{ 
-		if(!this.isScrolling)
+		if(!BackOfficeController.instance.getIsScrolling())
 		{
 			this.idCardClicked = id;
 			this.isLeftClicked = true;
@@ -1592,7 +1616,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public bool canClick()
 	{
-		if (!toSlideLeft && !toSlideRight && !isScrolling) 
+		if (!toSlideLeft && !toSlideRight && !BackOfficeController.instance.getIsScrolling()) 
 		{
 			return true;
 		}

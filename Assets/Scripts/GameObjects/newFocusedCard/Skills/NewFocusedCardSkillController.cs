@@ -9,6 +9,7 @@ public class NewFocusedCardSkillController : SpriteButtonController
 
 	public virtual void show()
 	{
+		this.hideToolTip();
 		this.setInitialState();
 		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
 		this.gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(this.s.Level);

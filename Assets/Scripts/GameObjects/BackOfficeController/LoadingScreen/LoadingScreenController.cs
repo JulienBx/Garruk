@@ -249,7 +249,7 @@ public class LoadingScreenController : MonoBehaviour
 		if(this.toShowLoading)
 		{
 			this.angle = this.angle + this.speed * Time.deltaTime;
-			this.target = Quaternion.Euler (0f, 0f, this.angle);
+			this.target = Quaternion.Euler (0f,this.angle, 0f);
 			this.gameObject.transform.FindChild("loadingCircle").transform.rotation = target;
 		}
 	}

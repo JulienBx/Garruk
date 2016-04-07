@@ -57,14 +57,32 @@ public class InterfaceController : MonoBehaviour
 	}
 	public virtual void OnMouseUp()
 	{
-		this.hideToolTip();
-		if(isActive && !BackOfficeController.instance.getIsSwiping() && (isHovered || ApplicationDesignRules.isMobileScreen))
+		if(this.isActive)
 		{
-			this.mainInstruction();
+			if(ApplicationDesignRules.isMobileScreen)
+			{
+				if(!BackOfficeController.instance.getIsSwiping() && !BackOfficeController.instance.getIsToolTipDisplayed())
+				{
+					this.mainInstruction();	
+				}
+				this.hideToolTip();
+			}
+			else
+			{
+				this.hideToolTip();
+				if(this.isHovered)
+				{
+					this.mainInstruction();
+				}
+			}
 		}
 	}
 	public virtual void OnMouseDown()
 	{
+		if(ApplicationDesignRules.isMobileScreen && !BackOfficeController.instance.getIsScrolling())
+		{
+			this.showToolTip();
+		}
 	}
 	public virtual void mainInstruction()
 	{

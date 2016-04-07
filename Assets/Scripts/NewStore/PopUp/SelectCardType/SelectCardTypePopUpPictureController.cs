@@ -13,5 +13,9 @@ public class SelectCardTypePopUpPictureController : SpriteButtonController
 	{
 		gameObject.transform.GetComponent<SpriteRenderer> ().color = ApplicationDesignRules.redColor;
 	}
+	public override void showToolTip ()
+	{
+		BackOfficeController.instance.displayToolTip(WordingCardTypes.getName(this.cardType),WordingCardTypes.getDescription(this.cardType));
+	}
 }
 

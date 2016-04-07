@@ -53,5 +53,7 @@ public class WordingLobby
 		references.Add(new string[]{"Vous avez gagné l'accès au satellite suivant\n","You have been granted an authorization to move on to the next satellite\n"}); //36
 		references.Add(new string[]{"Vous resterez sur le satellite pour la période suivante\n","You have secured the access to the satellite for the next period\n"}); //37
 		references.Add(new string[]{"Essaye d'assurer son maintien sur le satellite\n","Trying to secure the access for the next period\n"}); //38
+		references.Add(new string[]{"Combattre",""}); //39
+		references.Add(new string[]{"Appuyez ici pour affronter un adversaire",""}); //40
 	}
 }

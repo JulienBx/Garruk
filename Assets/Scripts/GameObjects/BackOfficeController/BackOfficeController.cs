@@ -32,11 +32,13 @@ public class BackOfficeController : MonoBehaviour
 	private GameObject toolTip;
 	private bool isToolTipDisplayed;
 	private bool toDisplayToolTip;
+	private bool toReDrawToolTip;
 	private float toolTipTimer;
 
 	private bool isMenuLoaded;
 	private bool isHelpLoaded;
 	private bool isSwiping;
+	private bool isScrolling;
 
 	private float speed;
 	private float timer;
@@ -79,34 +81,28 @@ public class BackOfficeController : MonoBehaviour
 		if(this.toDisplayToolTip)
 		{
 			toolTipTimer=toolTipTimer+Time.deltaTime;
-			if(toolTipTimer>0.3f)
+			if(toolTipTimer>0.1f && this.isScrolling)
+			{
+				this.hideToolTip();
+			}
+			else if(toolTipTimer>0.3f)
 			{
 				this.toolTip.SetActive(true);
 				this.toDisplayToolTip=false;
 				this.isToolTipDisplayed=true;
+				if(ApplicationDesignRules.isMobileScreen)
+				{
+					this.drawToolTip();
+				}
+				else
+				{
+					this.toReDrawToolTip=true;
+				}
 			}
 		}
-		if(this.isToolTipDisplayed)
+		if(this.toReDrawToolTip)
 		{
-			Vector3 toolTipPosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-			if(toolTipPosition.x+ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x>ApplicationDesignRules.worldWidth/2f)
-			{
-				toolTipPosition.x=ApplicationDesignRules.menuPosition.x+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.toolTipWorldSize.x/2f;
-			}
-			else if(toolTipPosition.x-ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x<-ApplicationDesignRules.worldWidth/2f)
-			{
-				toolTipPosition.x=ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.toolTipWorldSize.x/2f;
-			}
-			if(toolTipPosition.y-ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.toolTipWorldSize.y/2f+0.1f>ApplicationDesignRules.worldHeight/2f)
-			{
-				toolTipPosition.y=ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.toolTipWorldSize.y/2f;
-			}
-			else 
-			{
-				toolTipPosition.y=toolTipPosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
-			}
-			toolTipPosition.z=-2f;
-			this.toolTip.transform.position=toolTipPosition;
+			this.drawToolTip();
 		}
 	}
 	public virtual void initialize()
@@ -193,6 +189,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(!this.isTransparentBackgroundDisplayed)
 		{
+			this.hideToolTip();
 			this.isTransparentBackgroundDisplayed = true;
 			this.transparentBackground=Instantiate(this.ressources.transparentBackgroundObject) as GameObject;
 			this.transparentBackgroundResize();
@@ -214,10 +211,35 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayToolTip(string titleLabel, string descriptionLabel)
 	{
-		this.toolTip.transform.FindChild("title").GetComponent<TextMeshPro>().text=titleLabel;
-		this.toolTip.transform.FindChild("description").GetComponent<TextMeshPro>().text=descriptionLabel;
-		this.toolTipTimer=0f;
-		this.toDisplayToolTip=true;	
+		if(!this.toDisplayToolTip && !this.isToolTipDisplayed)
+		{
+			this.toolTip.transform.FindChild("title").GetComponent<TextMeshPro>().text=titleLabel;
+			this.toolTip.transform.FindChild("description").GetComponent<TextMeshPro>().text=descriptionLabel;
+			this.toolTipTimer=0f;
+			this.toDisplayToolTip=true;	
+		}
+	}
+	private void drawToolTip()
+	{
+		Vector3 toolTipPosition = Camera.main.GetComponent<Camera>().ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+		if(toolTipPosition.x+ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x>ApplicationDesignRules.worldWidth/2f)
+		{
+			toolTipPosition.x=ApplicationDesignRules.menuPosition.x+ApplicationDesignRules.worldWidth/2f-ApplicationDesignRules.toolTipWorldSize.x/2f;
+		}
+		else if(toolTipPosition.x-ApplicationDesignRules.toolTipWorldSize.x/2f-ApplicationDesignRules.menuPosition.x<-ApplicationDesignRules.worldWidth/2f)
+		{
+			toolTipPosition.x=ApplicationDesignRules.menuPosition.x-ApplicationDesignRules.worldWidth/2f+ApplicationDesignRules.toolTipWorldSize.x/2f;
+		}
+		if(toolTipPosition.y-ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.toolTipWorldSize.y/2f+0.1f>ApplicationDesignRules.worldHeight/2f)
+		{
+			toolTipPosition.y=ApplicationDesignRules.menuPosition.y+ApplicationDesignRules.worldHeight/2f-ApplicationDesignRules.toolTipWorldSize.y/2f;
+		}
+		else 
+		{
+			toolTipPosition.y=toolTipPosition.y+0.1f+ApplicationDesignRules.toolTipWorldSize.y/2f;
+		}
+		toolTipPosition.z=-2f;
+		this.toolTip.transform.position=toolTipPosition;
 	}
 	public void errorPopUpResize()
 	{
@@ -260,6 +282,8 @@ public class BackOfficeController : MonoBehaviour
 		this.toolTip.SetActive(false);
 		this.isToolTipDisplayed=false;
 		this.toDisplayToolTip=false;
+		this.toReDrawToolTip=false;
+		this.toolTipTimer=0f;
 	}
 	public void hideCollectionPointsPopUp()
 	{
@@ -456,6 +480,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(!isLoadingScreenDisplayed)
 		{
+			this.hideToolTip();
 			this.loadingScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
@@ -635,7 +660,11 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public bool getCanSwipeAndScroll()
 	{
-		return !this.isTransparentBackgroundDisplayed;
+		if(this.isTransparentBackgroundDisplayed || this.isToolTipDisplayed)
+		{
+			return false;
+		}
+		return true;
 	}
 	public virtual void moneyUpdate()
 	{
@@ -693,6 +722,18 @@ public class BackOfficeController : MonoBehaviour
 	public bool getIsSwiping()
 	{
 		return this.isSwiping;
+	}
+	public void setIsScrolling(bool value)
+	{	
+		this.isScrolling=value;
+	}
+	public bool getIsScrolling()
+	{
+		return this.isScrolling;
+	}
+	public bool getIsToolTipDisplayed()
+	{
+		return isToolTipDisplayed;
 	}
 	#region TUTORIAL FUNCTIONS
 

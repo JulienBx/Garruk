@@ -3,9 +3,9 @@ using TMPro;
 
 public class NewMarketCardTypeFilterController : SpriteButtonController
 {	
-	new public void OnMouseUp()
+	public override void mainInstruction ()
 	{
-		NewMarketController.instance.cardTypeFilterHandler (base.getId());	
+		NewMarketController.instance.cardTypeFilterHandler (base.getId());
 	}
 	public override void showToolTip ()
 	{

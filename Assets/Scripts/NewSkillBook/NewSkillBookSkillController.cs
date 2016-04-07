@@ -69,6 +69,7 @@ public class NewSkillBookSkillController : SpriteButtonController
 	}
 	public void show()
 	{
+		this.hideToolTip();
 		this.title.GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
 		if(s.Power==0)
 		{

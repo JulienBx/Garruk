@@ -3122,24 +3122,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &485482308 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 105998, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
-  m_PrefabInternal: {fileID: 485482307}
---- !u!61 &485482309
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 485482308}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 3.6944444, y: 0.2777778}
 --- !u!1 &485482310 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 173514, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
@@ -7731,24 +7713,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1874942961 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 105998, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
-  m_PrefabInternal: {fileID: 1874942960}
---- !u!61 &1874942962
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1874942961}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 3.6944444, y: 0.2777778}
 --- !u!1 &1874942963 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 173514, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
@@ -8840,24 +8804,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &2102590976 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 105998, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
-  m_PrefabInternal: {fileID: 2102590975}
---- !u!61 &2102590977
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2102590976}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 3.6944444, y: 0.2777778}
 --- !u!1 &2102590978 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 173514, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
