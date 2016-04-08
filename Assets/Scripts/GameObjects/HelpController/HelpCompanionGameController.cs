@@ -7,5 +7,8 @@ public class HelpCompanionGameController : SimpleButtonController
 	{
 		GameTutoController.instance.companionNextButtonHandler();	
 	}
+	public override void hideToolTip()
+	{
+	}
 }
 

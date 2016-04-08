@@ -4,12 +4,12 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:102ae61d7cefcff528b0af4dd3cc266c:d406ab86e8dd6bcfe8de1c6c9858325e:162d7d4313e4c02ae5a2af86703d1944$
+# $TexturePacker:SmartUpdate:17342fa4d1467e45e3928b6a8e226d4f:779647f830c21252eb250e3ea02754ac:162d7d4313e4c02ae5a2af86703d1944$
 #
 :format=40000
 :texture=loadingscreentextures.png
 :size=2048x2048
 
-buttonBorder;2;616;427;107;0.5;0.5
-loadingBar;2;725;240;239;0.5;0.5
+buttonBorder;2;637;427;107;0.5;0.5
+loadingBar;2;746;225;218;0.5;0.4977064220183486
 transparentBackground;2;966;1920;1080;0.5;0.5

@@ -133,7 +133,7 @@ public class InterfaceController : MonoBehaviour
 	public virtual void showToolTip()
 	{
 	}
-	public void hideToolTip()
+	public virtual void hideToolTip()
 	{
 		BackOfficeController.instance.hideToolTip();
 	}
