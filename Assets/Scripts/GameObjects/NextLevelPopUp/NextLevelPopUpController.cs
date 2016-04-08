@@ -94,17 +94,8 @@ public class NextLevelPopUpController : MonoBehaviour
 				gameObject.transform.FindChild("SkillMessage"+i).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 				gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
 				gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(false);
-				if(i==2)
-				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(3);
-				}
-				else if(i==3)
-				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(4);
-				}
-				else if(c.Skills[i].Power!=10)
+
+				if(c.Skills[i].Power==10)
 				{
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(10);
@@ -113,6 +104,16 @@ public class NextLevelPopUpController : MonoBehaviour
 				{
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(9);
+				}
+				else if(i==2)
+				{
+					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
+					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(3);
+				}
+				else if(i==3)
+				{
+					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
+					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(4);
 				}
 			}
 		}
@@ -141,6 +142,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		if(index==0)
 		{
 			this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.UpgradedAttack.ToString();
+			this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.UpgradedAttackLevel - 1];
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController>().setIsSelected(true);
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController>().setHoveredState();
 			this.newLevel=c.UpgradedAttackLevel;
@@ -149,6 +151,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		else if(index ==1)
 		{
 			this.gameObject.transform.FindChild("LifeButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.UpgradedLife.ToString();
+			this.gameObject.transform.FindChild("LifeButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.UpgradedLifeLevel - 1];
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().setIsSelected(true);
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().setHoveredState();
 			this.newLevel=c.UpgradedLifeLevel;

@@ -107,7 +107,7 @@ public class NewProfileModel
 			ApplicationModel.player.getTrainingAllowedCardType();
 			ApplicationModel.player.FirstName = array [11];
 			ApplicationModel.player.Surname = array [12];
-			ApplicationModel.player.Mail = array [12];
+			ApplicationModel.player.Mail = array [13];
 			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
 		}
 		else

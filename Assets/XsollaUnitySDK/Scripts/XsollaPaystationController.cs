@@ -305,19 +305,19 @@ namespace Xsolla
 				controller.AddButton(menuItemPricepoints.GetComponent<RadioButton>());
 			} 
 
-			GameObject menuItemEmpty = Instantiate (menuItemEmptyPrefab);
-			menuItemEmpty.transform.SetParent (menuTransform);
-
-			
-			GameObject menuItemFavorite = Instantiate (menuItemIconPrefab);
-			menuItemFavorite.GetComponentInChildren<Text> ().text = "";
-			menuItemFavorite.GetComponent<Button>().onClick.AddListener(delegate {
-				_shopViewController.SetTitle(utils.GetTranslations().Get(XsollaTranslations.VIRTUALITEMS_TITLE_FAVORITE));
-				LoadFavorites();
-				controller.SelectItem(2);
-			});
-			menuItemFavorite.transform.SetParent (menuTransform);
-			controller.AddButton(menuItemFavorite.GetComponent<RadioButton>());
+//			GameObject menuItemEmpty = Instantiate (menuItemEmptyPrefab);
+//			menuItemEmpty.transform.SetParent (menuTransform);
+//
+//			
+//			GameObject menuItemFavorite = Instantiate (menuItemIconPrefab);
+//			menuItemFavorite.GetComponentInChildren<Text> ().text = "";
+//			menuItemFavorite.GetComponent<Button>().onClick.AddListener(delegate {
+//				_shopViewController.SetTitle(utils.GetTranslations().Get(XsollaTranslations.VIRTUALITEMS_TITLE_FAVORITE));
+//				LoadFavorites();
+//				controller.SelectItem(2);
+//			});
+//			menuItemFavorite.transform.SetParent (menuTransform);
+//			controller.AddButton(menuItemFavorite.GetComponent<RadioButton>());
 
 		}
 

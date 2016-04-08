@@ -225,6 +225,7 @@ public class NewFocusedCardController : MonoBehaviour
 				this.skills[i].SetActive(false);
 			}
 		}
+
 		this.setExperience ();
 		this.updateFocusFeatures ();
 	}
@@ -235,7 +236,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public virtual void applyFrontTexture()
 	{
 		this.caracter.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeCardsCaracter(this.c.Skills[0].getPictureId());
-		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel - 1];
+		this.face.GetComponent<SpriteRenderer> ().sprite = ressources.faces [this.c.PowerLevel-1];
 	}
 	public void setCardSold()
 	{

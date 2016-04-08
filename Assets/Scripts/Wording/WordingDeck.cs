@@ -28,15 +28,15 @@ public class WordingDeck
 		references.Add(new string[]{"Veuillez créer une équipe pour pouvoir y ajouter votre unité","Please create a team first"}); //11
 		references.Add(new string[]{"Chaque équipe doit comporter 4 types d'unités différentes (code de guerre Cristalien, article 3)","Teams must be made of 4 different unit types (Cristalian War Code, Article 3)"}); //12
 		references.Add(new string[]{"Il vous faut une équipe complète pour pouvoir entrer dans l'arène","You need a full team to enter the arena "}); //13
-		references.Add(new string[]{"Renommer"}); //14
-		references.Add(new string[]{"Appuyer ici pour renommer votre équipe"}); //15
-		references.Add(new string[]{"Supprimer"}); //16
-		references.Add(new string[]{"Appuyer ici pour supprimer votre équipe"}); //17
-		references.Add(new string[]{"Sélectionner"}); //18
-		references.Add(new string[]{"Appuyer ici pour sélectionner votre équipe"}); //19
-		references.Add(new string[]{"Créer"}); //20
-		references.Add(new string[]{"Appuyer ici pour créer une nouvelle équipe"}); //21
-		references.Add(new string[]{"Votre équipe"}); //22
-		references.Add(new string[]{"Il s'agit du nom de votre équipe"}); //23
+		references.Add(new string[]{"Renommer",""}); //14
+		references.Add(new string[]{"Appuyer ici pour renommer votre équipe",""}); //15
+		references.Add(new string[]{"Supprimer",""}); //16
+		references.Add(new string[]{"Appuyer ici pour supprimer votre équipe",""}); //17
+		references.Add(new string[]{"Sélectionner",""}); //18
+		references.Add(new string[]{"Appuyer ici pour sélectionner votre équipe",""}); //19
+		references.Add(new string[]{"Créer",""}); //20
+		references.Add(new string[]{"Appuyer ici pour créer une nouvelle équipe",""}); //21
+		references.Add(new string[]{"Votre équipe",""}); //22
+		references.Add(new string[]{"Il s'agit du nom de votre équipe",""}); //23
 	}
 }

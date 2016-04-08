@@ -583,15 +583,14 @@ public class Player : User
 		
 		if (w.error != null)
 		{
-			Error = w.error;
+			Error = WordingServerError.getReference(w.error,false);
 		} 
 		else
 		{
-			
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
+				Error = WordingServerError.getReference(errors [1],true);
 				this.Id=-1;
 			} 
 			else if(w.text.Contains("#SUCESS#"))
@@ -642,14 +641,14 @@ public class Player : User
 		
 		if (w.error != null)
 		{
-			Error = w.error;
+			Error = WordingServerError.getReference(w.error,false);
 		} 
 		else
 		{
 			if (w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
+				Error = WordingServerError.getReference(errors [1],true);
 			} 
 			else if(w.text.Contains("#SUCESS#"))
 			{

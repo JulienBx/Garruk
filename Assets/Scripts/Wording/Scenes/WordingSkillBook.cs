@@ -33,5 +33,7 @@ public class WordingSkillBook
 		references.Add(new string[]{")",")"}); //16
 		references.Add(new string[]{"Compétence",""}); //17
 		references.Add(new string[]{"Cliquez sur une compétence pour avoir le détail",""}); //18
+		references.Add(new string[]{"Niveau de compétence",""}); //19
+		references.Add(new string[]{"Chaque compétence à un niveau de 1 à 10 ....",""}); //20
 	}
 }

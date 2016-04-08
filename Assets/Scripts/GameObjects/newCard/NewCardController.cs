@@ -68,7 +68,7 @@ public class NewCardController : NewFocusedCardController
 	public override void applyFrontTexture()
 	{
 		this.caracter.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSmallCardsCaracter(this.c.Skills[0].getPictureId());
-		this.face.GetComponent<SpriteRenderer> ().sprite = cardRessources.faces [this.c.PowerLevel - 1];
+		this.face.GetComponent<SpriteRenderer> ().sprite = cardRessources.faces [this.c.PowerLevel-1];
 	}
 	public override void displayPanelSold()
 	{
