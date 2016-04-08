@@ -6,9 +6,6 @@ using TMPro;
 public class PlayingCardController : GameObjectController
 {
 	public Sprite[] backgroundSprites;
-	public Sprite[] lifebarSprites;
-	public Sprite[] iconeBackgroundSprites;
-	public Sprite[] iconeSprites;
 	
 	GameCard card ;
 	int id = -1 ;
@@ -54,6 +51,10 @@ public class PlayingCardController : GameObjectController
 		this.nbTurns = 0 ;
 	}
 	
+	public Sprite getSprite(int i){
+		return this.backgroundSprites[i];
+	}
+
 	public void stopAnim(){
 		this.toStop = true ;
 	}
@@ -614,6 +615,60 @@ public class PlayingCardController : GameObjectController
 		}
 				
 		GameView.instance.killHandle (this.id, endTurn);
+	}
+
+	public void rebirth()
+	{
+		this.card.isDead = false;
+
+		this.displayDead(false);
+
+		Tile t = this.tile;
+		while(GameView.instance.getTileController(t).getCharacterID()!=-1){
+			t = new Tile(Random.Range(0, GameView.instance.boardWidth),Random.Range(0, GameView.instance.boardHeight));
+		}
+		this.setTile(t, GameView.instance.getTileController(t).getPosition());
+		GameView.instance.getTileController(t).setCharacterID(this.id);
+		GameView.instance.recalculateDestinations();
+
+		int level, attackValue, pvValue;
+		if(this.card.isMine){
+			if(this.card.isLeader()){
+				level = this.card.getSkills()[0].Power;
+				for(int j = 0 ; j < GameView.instance.getNbPlayingCards() ; j++){
+					if(GameView.instance.getCard(j).isMine && this.id!=j){
+						attackValue = level+2;
+						pvValue = 2*level+5;
+						GameView.instance.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
+						GameView.instance.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+						GameView.instance.getPlayingCardController(j).show();
+						GameView.instance.getPlayingCardController(j).updateLife(0);
+						GameView.instance.getPlayingCardController(j).updateAttack(0);
+					}
+				}
+			}
+		}
+		else{
+			if(this.card.isLeader()){
+				level = this.card.getSkills()[0].Power;
+
+				for(int j = 0 ; j < GameView.instance.getNbPlayingCards() ; j++){
+					if(!GameView.instance.getCard(j).isMine && this.id!=j){
+						attackValue = level+2;
+						pvValue = 2*level+5;
+						attackValue = level+2;
+						pvValue = 2*level+5;
+						GameView.instance.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
+						GameView.instance.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+						GameView.instance.getPlayingCardController(j).show();
+						GameView.instance.getPlayingCardController(j).updateLife(0);
+						GameView.instance.getPlayingCardController(j).updateAttack(0);
+					}
+				}
+			}
+		}
+
+		GameView.instance.updateTimeline ();
 	}
 	
 	public void moveToDeadZone(){

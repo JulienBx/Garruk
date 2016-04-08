@@ -76,6 +76,9 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
+			if(GameView.instance.sequenceID==20){
+				GameView.instance.hitNextTutorial();
+			}
 		}
 
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
@@ -95,76 +98,86 @@ public class InterludeController : MonoBehaviour
 		}
 		
 		if(this.time>4f*this.animationTime){
-			if(!isEndTurn){
-				if(GameView.instance.hasFightStarted){
-					GameView.instance.changePlayer();
-				}
-				else{
-					GameView.instance.hasFightStarted = true ;
+			if(GameView.instance.sequenceID==21){
+				
+			}
+			else{
+				if(!isEndTurn){
+					if(GameView.instance.hasFightStarted){
+						GameView.instance.changePlayer();
+					}
+					else{
+						GameView.instance.hasFightStarted = true ;
+						if(ApplicationModel.player.ToLaunchGameTutorial){
+							if(GameView.instance.sequenceID==5){
+								GameView.instance.hitNextTutorial();
+							}
+						}
+					}
+
+					GameView.instance.recalculateDestinations();
+					GameView.instance.removeDestinations();
+					if(!GameView.instance.getCurrentCard().hasMoved){
+						GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
+					}
+				
 					if(ApplicationModel.player.ToLaunchGameTutorial){
-						if(GameView.instance.sequenceID==5){
+						if (GameView.instance.sequenceID!=14){
+							if(!GameView.instance.getCurrentCard().isMine){
+								StartCoroutine(GameView.instance.launchIABourrin());
+							}
+						}
+						if(GameView.instance.sequenceID==16){
 							GameView.instance.hitNextTutorial();
 						}
 					}
-				}
-
-				GameView.instance.recalculateDestinations();
-				GameView.instance.removeDestinations();
-				if(!GameView.instance.getCurrentCard().hasMoved){
-					GameView.instance.displayDestinations (GameView.instance.getCurrentPlayingCard());
-				}
-			
-				if(ApplicationModel.player.ToLaunchGameTutorial){
-					if(!GameView.instance.getCurrentCard().isMine){
-						StartCoroutine(GameView.instance.launchIABourrin());
+					if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+						StartCoroutine(GameView.instance.launchFury());
 					}
-				}
-				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
-					StartCoroutine(GameView.instance.launchFury());
-				}
-				GameView.instance.runningSkill = -1;
+					GameView.instance.runningSkill = -1;
 
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-					GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
-					GameView.instance.updateActionStatus();
-				}
-				else{
-					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
-					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
-					GameView.instance.getPassZoneController().show(false);
-					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
-					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
-				}
-
-				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
-					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
-					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
 					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-						List<int> opponents = GameView.instance.getOpponents();
-						List<int> nbHits = new List<int>();
-						for (int i = 0 ; i < opponents.Count ; i++){
-							nbHits.Add(0);
-						}
-						int nbShurikens = UnityEngine.Random.Range(1,4);
-						for (int i = 1 ; i < nbShurikens+1 ;i++){
-							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
-							nbHits[chosenOne]++;
-						}
-						for (int i = 0 ; i < nbHits.Count ; i++){
-							if(nbHits[i]>0){
-								if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
-									GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
-								}
-								else{
-									GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+						GameView.instance.SB.GetComponent<StartButtonController>().showText(false);
+						GameView.instance.updateActionStatus();
+					}
+					else{
+						GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
+						GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
+						GameView.instance.getPassZoneController().show(false);
+						GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
+						GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
+					}
+
+					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
+						GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
+						GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
+						if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
+							List<int> opponents = GameView.instance.getOpponents();
+							List<int> nbHits = new List<int>();
+							for (int i = 0 ; i < opponents.Count ; i++){
+								nbHits.Add(0);
+							}
+							int nbShurikens = UnityEngine.Random.Range(1,4);
+							for (int i = 1 ; i < nbShurikens+1 ;i++){
+								int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
+								nbHits[chosenOne]++;
+							}
+							for (int i = 0 ; i < nbHits.Count ; i++){
+								if(nbHits[i]>0){
+									if(UnityEngine.Random.Range(1,101)<=GameView.instance.getCard(opponents[i]).getMagicalEsquive()){
+										GameController.instance.sendEsquiveShuriken(opponents[i], GameView.instance.getCurrentPlayingCard());
+									}
+									else{
+										GameController.instance.sendShuriken(opponents[i], nbHits[i], GameView.instance.getCurrentPlayingCard());
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			else{
-				GameView.instance.hideEndTurnPopUp();
+				else{
+					GameView.instance.hideEndTurnPopUp();
+				}
 			}
 
 			GameView.instance.isFreezed = false ;
@@ -175,6 +188,9 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+			if (GameView.instance.sequenceID==14){
+				GameView.instance.hitNextTutorial();
+			}
 		}
 		else if(this.time>3f*this.animationTime){
 			Vector3 position ;

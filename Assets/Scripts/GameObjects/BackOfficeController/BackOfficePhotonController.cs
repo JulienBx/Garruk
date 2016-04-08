@@ -61,6 +61,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	[PunRPC]
 	IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId, bool isFirstPlayer)
 	{
+		ApplicationModel.player.ToLaunchGameTutorial = true ;
 		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.CreateTutorialDeck();

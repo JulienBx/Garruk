@@ -15,8 +15,8 @@ public class Chasseur : GameSkill
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Chasseur", "Choisis une faction. L'unité active recevra un bonus contre les unités de cette faction");
-		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
+		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	

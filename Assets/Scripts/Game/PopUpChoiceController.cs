@@ -33,9 +33,23 @@ public class PopUpChoiceController : MonoBehaviour
 		for(int i = 0 ; i < enemies.Count ; i++){
 			c = GameView.instance.getCard(enemies[i]).CardType.Id; 
 			if(!cardtypes.Contains(c)){
-				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getFactionSprite(c), c);
+				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getFactionSprite(c), i);
 				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().show(true);
 				cardtypes.Add(c);
+				compteur++;
+			}
+		}
+	}
+
+	public void displayAllDeads(){
+		List<int> allys = GameView.instance.getAllys();
+		int compteur = 1 ;
+		int c ;
+		for(int i = 0 ; i < allys.Count ; i++){
+			c = GameView.instance.getCard(allys[i]).getSkills()[0].Id; 
+			if(GameView.instance.getCard(allys[i]).isDead){
+				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getPlayingCardController(0).getBackgroundSprite(c), c);
+				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().show(true);
 				compteur++;
 			}
 		}

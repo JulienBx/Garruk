@@ -947,6 +947,9 @@ public class GameView : MonoBehaviour
 		isFreezed = true ;
 		this.hideButtons();
 		//this.hideSkillEffects();
+		if(this.sequenceID==19){
+			this.hitNextTutorial();
+		}
 		this.hoveringZone=-1 ;
 		if(this.hasFightStarted){
 			this.meteoritesCounter--;
@@ -2349,6 +2352,23 @@ public class GameView : MonoBehaviour
 		}
 		return isLaunchable;
 	}
+
+	public string canLaunchDead()
+	{
+		string isLaunchable = "Aucun allié n'est blessé n'est mort";
+		
+		PlayingCardController pcc;
+		
+		for (int i = 0; i < this.nbCards; i++)
+		{
+			pcc = this.getPlayingCardController(i);
+			if (this.getCard(i).isMine && this.getCard(i).isDead)
+			{
+				isLaunchable = "";
+			}
+		}
+		return isLaunchable;
+	}
 	
 	public string canLaunchAnyone()
 	{
@@ -3054,14 +3074,16 @@ public class GameView : MonoBehaviour
 	public void hideEndTurnPopUp(){
 		this.isFreezed = false ;
 		Tile t ;
-		int amount ;
+		int amount = 10 ;
 
 		for(int i = 0 ; i < boardWidth ; i++){
 			t = new Tile(i,0);
 			if(this.getTileController(t).getCharacterID()!=-1){
-				amount = 5*(this.nbTurns);
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+				}
+				else{
+					amount = 10 ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
@@ -3073,9 +3095,11 @@ public class GameView : MonoBehaviour
 			}
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
-				amount = 5*(this.nbTurns);
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+				}
+				else{
+					amount = 10 ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
@@ -3090,8 +3114,13 @@ public class GameView : MonoBehaviour
 		if(nbTurns>=2){
 			for(int i = 0 ; i < boardWidth ; i++){
 				t = new Tile(i,1);
-				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns-1);
+					if(this.getTileController(t).getCharacterID()!=-1){
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					}
+					else{
+						amount = 10 ;
+					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
@@ -3102,7 +3131,12 @@ public class GameView : MonoBehaviour
 				}
 				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns-1);
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					}
+					else{
+						amount = 10 ;
+					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
@@ -3118,7 +3152,12 @@ public class GameView : MonoBehaviour
 			for(int i = 0 ; i < boardWidth ; i++){
 				t = new Tile(i,2);
 				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns-2);
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					}
+					else{
+						amount = 10 ;
+					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
@@ -3129,7 +3168,12 @@ public class GameView : MonoBehaviour
 				}
 				t = new Tile(i,boardHeight-3);
 				if(this.getTileController(t).getCharacterID()!=-1){
-					amount = 5*(this.nbTurns-2);
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					}
+					else{
+						amount = 10 ;
+					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
@@ -3340,31 +3384,56 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==13){
-			this.gameTutoController.setCompanion("Il ne reste vous plus qu'à terminer votre tour. Je vous laisse terminer ce combat seul. Essayez différentes compétences pour tester leurs effets!", true, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
+			this.gameTutoController.showSequence(false, false, false);
+			GameController.instance.findNextPlayer ();
 		}
 		else if(this.sequenceID==14){
-			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer ();
+			this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==15){
 			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer ();
+			StartCoroutine(launchIABourrin());
 		}
-		else if(this.sequenceID==15){
+		else if(this.sequenceID==16){
+			this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==17){
+			this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setArrow("down",new Vector3(-1.6f,4.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==18){
+			this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setArrow("down",new Vector3(2.4f,4.2f,0f));
+			this.gameTutoController.showSequence(true, true, true);
+		}
+		else if(this.sequenceID==19){
 			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer ();
 		}
-		else if(this.sequenceID==15){
+		else if(this.sequenceID==20){
+			this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==21){
+			this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==22){
+			this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 2);
+			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+			this.gameTutoController.showSequence(true, true, false);
+		}
+		else if(this.sequenceID==23){
 			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer ();
 		}
-		else if(this.sequenceID==15){
-			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer ();
-		}
-
 
 		sequenceID++;
 	}

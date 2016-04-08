@@ -165,6 +165,9 @@ public class GameSkill
 			else if(this.ciblage==16){
 				launchability = GameView.instance.canLaunchNextCristal();
 			}
+			else if(this.ciblage==17){
+				launchability = GameView.instance.canLaunchDead();
+			}
 			else{
 				launchability = "";
 			}

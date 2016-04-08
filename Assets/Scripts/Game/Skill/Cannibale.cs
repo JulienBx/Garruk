@@ -73,7 +73,7 @@ public class Cannibale : GameSkill
 		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f),currentCard.GetTotalLife()-currentCard.getLife());
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
 
-		string text = base.name+"\n";
+		string text = "";
 		if(bonusLife>0){
 			text+="+"+bonusLife+"PV\n";
 		}

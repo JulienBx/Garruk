@@ -383,10 +383,10 @@ public class GameCard : Card
 		for (int i = pvModifyers.Count-1 ; i >= 0 ; i--)
 		{
 			if(pvModifyers[i].type==76){
+				if(this.getLife()-pvModifyers[i].amount<1){
+					pvModifyers[i].amount = this.getLife()-1;
+				}
 				pvModifyers.RemoveAt(i);
-			}
-			if(this.getLife()<1){
-				this.damagesModifyers.Add(new Modifyer(this.getLife()-1,-1,1,"Remove Leader",""));
 			}
 		}
 	}
@@ -638,6 +638,17 @@ public class GameCard : Card
 	public void setTerreur(Modifyer m){
 		for (int i = this.states.Count-1 ; i >= 0 ; i--){
 			if(states[i].type==20){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void setFatality(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
+			if(this.states[i].type==101){
 				this.states.RemoveAt(i);
 			}
 		}
