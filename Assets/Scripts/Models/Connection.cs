@@ -86,14 +86,14 @@ public class Connection
 		yield return w;
 		if (w.error != null)
 		{
-			Debug.Log (w.error); 
+			Error = WordingServerError.getReference(w.error,false);
 		}
 		else
 		{
 			if(w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
+				Error = WordingServerError.getReference(errors [1],true);
 			}
 			else
 			{

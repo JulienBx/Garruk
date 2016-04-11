@@ -32,6 +32,7 @@ public class WordingServerError
 		references.Add(new string[]{"\n\n Veuillez réessayer ultérieurement. \n\n Si l'erreur persiste contactez notre support admin@techticalwars.com",""}); //1
 		references.Add(new string[]{"Mauvais mot de passe","Wrong password"}); //2
 		references.Add(new string[]{"Mauvais login ou email","Wrong email or login"}); //3
-
+		references.Add(new string[]{"Demande déjà existante",""}); //4
+		references.Add(new string[]{"Connexion expirée, veuillez réessayer",""}); //5
 	}
 }

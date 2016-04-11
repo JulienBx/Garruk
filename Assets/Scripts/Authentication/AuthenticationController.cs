@@ -20,6 +20,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private GameObject chooseLanguageButton;
 	private GameObject facebookButton;
 	private GameObject quitButton;
+	private GameObject serverController;
 
 	private GameObject loginPopUp;
 	private bool isLoginPopUpDisplayed;
@@ -51,6 +52,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		instance = this;
 		this.initPlayer();
 		this.initLanguage();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMusic();
 		this.resize ();
@@ -102,6 +104,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{

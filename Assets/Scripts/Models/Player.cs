@@ -635,25 +635,18 @@ public class Player : User
 		form.AddField("myform_macadress", this.MacAdress);
 		form.AddField("myform_facebookid", this.FacebookId);
 		form.AddField("myform_mail", this.Mail);
-		
-		WWW w = new WWW(URLCheckAuthentification, form);
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLCheckAuthentification, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Error = WordingServerError.getReference(w.error,false);
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = WordingServerError.getReference(errors [1],true);
-			} 
-			else if(w.text.Contains("#SUCESS#"))
+			string result = ServerController.instance.getResult();
+			if(result.Contains("#SUCESS#"))
 			{
 				Error = "";
-				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] data =result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Username = profileData [0];
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
@@ -670,17 +663,17 @@ public class Player : User
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
-			else if(w.text.Contains("#NONACTIVE#"))
+			else if(result.Contains("#NONACTIVE#"))
 			{
 				Error="";
-				string[] data = w.text.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
+				string[] data = result.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Mail = profileData [0];
 				this.Id=-1;
 				this.IsAccountActivated=false;
 				this.IsAccountCreated=true;
 			}
-			else if(w.text.Contains("#FIRSTCONNECTION"))
+			else if(result.Contains("#FIRSTCONNECTION"))
 			{
 				Error="";
 				this.Id=-1;
@@ -691,7 +684,7 @@ public class Player : User
 			{
 				Error=WordingAuthentication.getReference(13);
 				this.Id=-1;
-			}												
+			}					
 		}
 	}
 	public IEnumerator createAccount()
