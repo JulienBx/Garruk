@@ -7,7 +7,7 @@ public class ServerController : MonoBehaviour
 {
 	public static ServerController instance;
 
-	private bool isAccessingServer;
+	private bool toDetectTimeOut;
 	private float timer;
 	private string URL;
 	private WWWForm form;
@@ -15,15 +15,16 @@ public class ServerController : MonoBehaviour
 	private string result;
 	private string error;
 
+
 	void Update()
 	{
-		if(isAccessingServer)
+		if(this.toDetectTimeOut)
 		{
 			this.timer=this.timer+Time.deltaTime;
-			if(this.timer>2f)
+			if(this.timer>ApplicationModel.timeOutDelay)
 			{
 				this.isTimedOut=true;
-				this.isAccessingServer=false;
+				this.toDetectTimeOut=false;
 				StopCoroutine(this.executeRequest());
 			}
 		}
@@ -42,7 +43,7 @@ public class ServerController : MonoBehaviour
 		this.result="";
 		this.error="";
 		this.isTimedOut=false;
-		this.isAccessingServer=true;
+		this.toDetectTimeOut=toDetectTimeOut;
 		this.timer=0f;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
@@ -57,15 +58,12 @@ public class ServerController : MonoBehaviour
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				this.error = WordingServerError.getReference(errors [1],true);
 			}
-			else
-			{
-				this.result=w.text;
-			}
 		}
 		else
 		{
 			this.error=WordingServerError.getReference("5",true);
 		}
+		this.result=w.text;
 	}
 	public string getResult()
 	{

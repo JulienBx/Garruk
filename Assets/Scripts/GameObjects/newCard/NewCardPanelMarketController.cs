@@ -39,5 +39,17 @@ public class NewCardPanelMarketController : SimpleButtonController
 	{
 		BackOfficeController.instance.displayToolTip(this.toolTipTitle,this.toolTipDescription);
 	}
+	public override void setIsActive (bool value)
+	{
+		base.setIsActive (value);
+		if(value)
+		{
+			this.setInitialState();
+		}
+		else
+		{
+			this.setForbiddenState();
+		}
+	}
 }
 

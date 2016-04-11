@@ -25,6 +25,7 @@ public class NewLobbyController : MonoBehaviour
 	private GameObject statsBlockTitle;
 	private GameObject popUp;
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject menu;
 	private GameObject help;
 	private GameObject[] results;
@@ -164,6 +165,7 @@ public class NewLobbyController : MonoBehaviour
 		this.mainContentDisplayed = true;
 		this.timer = 0f;
 		this.initializeScene ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -175,6 +177,11 @@ public class NewLobbyController : MonoBehaviour
 		this.help.AddComponent<LobbyHelpController>();
 		this.help.GetComponent<LobbyHelpController>().initialize();
 		BackOfficeController.instance.setIsHelpLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeMenu()
 	{

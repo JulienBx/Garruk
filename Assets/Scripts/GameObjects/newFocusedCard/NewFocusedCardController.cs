@@ -610,47 +610,41 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_idcard", this.c.Id.ToString());
 		form.AddField("myform_nick", ApplicationModel.player.Username);
+
+		ServerController.instance.setRequest(urlAddXpLevel, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
 		
-		WWW w = new WWW(urlAddXpLevel, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
+		if (error != "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error); 										// donne l'erreur eventuelle
+			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
 		} 
 		else
 		{
-			if (w.text.Contains("#ERROR#"))
+			string result = ServerController.instance.getResult();
+			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+			this.c.parseCard(experienceData[0]);
+			this.getNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
+			this.skillsUnlocked=new List<Skill>();
+			if(this.getNewSkill)
 			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				BackOfficeController.instance.displayErrorPopUp(errors [1]);
-			} 
-			else
-			{
-				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				this.c.parseCard(experienceData[0]);
-				this.getNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-				this.skillsUnlocked=new List<Skill>();
-				if(this.getNewSkill)
+				for(int i=0;i<this.c.Skills.Count;i++)
 				{
-					for(int i=0;i<this.c.Skills.Count;i++)
+					if(this.c.Skills[this.c.Skills.Count-i-1].IsActivated==1)
 					{
-						if(this.c.Skills[this.c.Skills.Count-i-1].IsActivated==1)
+						if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
 						{
-							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
-							{
-								this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
-								this.c.Skills[this.c.Skills.Count-i-1].IsNew=true;
-							}
-							break;
+							this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
+							this.c.Skills[this.c.Skills.Count-i-1].IsNew=true;
 						}
+						break;
 					}
 				}
-				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-				this.animateExperience();
 			}
+			this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			this.animateExperience();
 		}
 		this.refreshCredits();
 		this.hideLoadingScreen ();
@@ -673,68 +667,59 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField ("myform_price", this.c.Price);
+
+		ServerController.instance.setRequest(urlBuyCard, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+		string result=ServerController.instance.getResult();
 		
-		WWW w = new WWW(urlBuyCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
+		if (error != "" && result.Contains("#SOLD#"))
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
-		} 
+			this.c.onSale = 0;
+			this.c.IdOWner=-1;
+			this.setCardSold();
+		}
+		else if(error != "" && result.Contains("#PRICECHANGED#"))
+		{
+			string[] newPrice = error.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
+			this.c.Price=System.Convert.ToInt32(newPrice[0]);
+			this.actualizePrice();
+			BackOfficeController.instance.displayErrorPopUp(error);
+		}
+		else if(error !="")
+		{
+			BackOfficeController.instance.displayErrorPopUp(error);
+		}
 		else
 		{
-			if (w.text.Contains("#ERROR#"))
+			this.c.onSale = 0;
+			this.c.isMine=true;
+			string[] data = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
+			string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
+			for (int i=0; i<newSkills.Length-1; i++)
 			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				if (w.text.Contains("#SOLD#"))
-				{
-					this.c.onSale = 0;
-					this.c.IdOWner=-1;
-					this.setCardSold();
-				}
-				else if (w.text.Contains("#PRICECHANGED#"))
-				{
-					string[] newPrice = w.text.Split(new string[] { "#PRICECHANGED#" }, System.StringSplitOptions.None);
-					this.c.Price=System.Convert.ToInt32(newPrice[0]);
-					this.actualizePrice();
-					BackOfficeController.instance.displayErrorPopUp(errors [1]);
-				}
-				else
-				{
-					BackOfficeController.instance.displayErrorPopUp(errors [1]);
-				}
+				this.skillsUnlocked.Add(new Skill());
+				this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
 			}
-			else
-			{
-				this.c.onSale = 0;
-				this.c.isMine=true;
-				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
-				string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-				for (int i=0; i<newSkills.Length-1; i++)
-				{
-					this.skillsUnlocked.Add(new Skill());
-					this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
-				}
-				int newIdOwner = System.Convert.ToInt32(data[2]);
-				this.newCollectionRanking= System.Convert.ToInt32(data[3]);
-				Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");
-				StartCoroutine(tempNotification.add ());
-				this.c.IdOWner=newIdOwner;
+			int newIdOwner = System.Convert.ToInt32(data[2]);
+			this.newCollectionRanking= System.Convert.ToInt32(data[3]);
+			Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");
+			StartCoroutine(tempNotification.add ());
+			this.c.IdOWner=newIdOwner;
 
-				if(this.collectionPointsEarned>0)
-				{
-					BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
-				}
-				if(this.skillsUnlocked.Count>0)
-				{
-					BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
-				}
-				this.deleteCard();
+			if(this.collectionPointsEarned>0)
+			{
+				BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
 			}
+			if(this.skillsUnlocked.Count>0)
+			{
+				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
+			}
+			this.deleteCard();
 		}
-		this.hideLoadingScreen ();
+		this.hideLoadingScreen();
 	}
 	public virtual void actualizePrice()
 	{
@@ -758,30 +743,27 @@ public class NewFocusedCardController : MonoBehaviour
 		SoundController.instance.playSound(14);
 		this.hideEditSellPricePopUp ();
 		this.displayLoadingScreen ();
-		WWWForm form = new WWWForm(); 											// Création de la connexion
+		WWWForm form = new WWWForm(); 	
+												
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField("myform_price", newPrice);
-		WWW w = new WWW(urlChangeMarketPrice, form); 				            // On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(urlChangeMarketPrice, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
-		} 
-		else
-		{
-			if (w.text == "")
-			{
-				this.c.Price = newPrice;
-				this.updateFocus ();
-				this.updateScene();
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(w.text);
-			}
+			string result=ServerController.instance.getResult();
+			this.c.Price = newPrice;
+			this.updateFocus ();
+			this.updateScene();
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
 		}
 		this.hideLoadingScreen ();
 	}

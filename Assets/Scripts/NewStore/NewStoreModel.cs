@@ -119,84 +119,22 @@ public class NewStoreModel
 		form.AddField("myform_cardtype", cardType.ToString());	
 		form.AddField("myform_istutorialpack", isTutorialPackToString);
 		form.AddField("myform_istrainingpack", isTrainingPackToString);
-		
-		WWW w = new WWW(URLBuyPack, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLBuyPack, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			this.Error = w.error;
-		} 
-		else
-		{
-			if(w.text.Contains("#ERROR#"))
+			string result = ServerController.instance.getResult();
+			string[] data = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			if(data[0]!="")
 			{
-				Debug.Log(w.text);
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
+				this.NewSkills=parseNewSkills(data[0].Split(new string[] { "#S#" }, System.StringSplitOptions.None));
 			}
-			else
-			{
-				this.Error="";
-				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				if(data[0]!="")
-				{
-					this.NewSkills=parseNewSkills(data[0].Split(new string[] { "#S#" }, System.StringSplitOptions.None));
-				}
-				this.packList[packId].Cards.parseCards(data[1]);
-				this.CollectionPointsEarned=System.Convert.ToInt32(data[2]);
-				this.CollectionPointsRanking=System.Convert.ToInt32(data[3]);
-			}
-		}
-	}
-	public IEnumerator buyPack(int packId)
-	{
-		int cardType=-1;
-		bool isTutorialPack=false;
-		string isTutorialPackToString = "0";
-		if(isTutorialPack)
-		{
-			isTutorialPackToString="1";
-		}
-		
-		this.packList[packId].Cards = new Cards ();
-		this.NewSkills = new List<Skill> ();
-		this.CollectionPointsEarned = -1;
-		this.CollectionPointsRanking = -1;
-		this.Error = "";
-		
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_Id", this.packList[packId].Id.ToString());	
-		form.AddField("myform_cardtype", cardType.ToString());	
-		form.AddField("myform_istutorialpack", isTutorialPackToString);
-		
-		WWW w = new WWW(URLBuyPack, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			this.Error = w.error;
-		} 
-		else
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				Debug.Log(w.text);
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
-			else
-			{
-				this.Error="";
-				string[] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				if(data[0]!="")
-				{
-					this.NewSkills=parseNewSkills(data[0].Split(new string[] { "#S#" }, System.StringSplitOptions.None));
-				}
-				this.packList[packId].Cards.parseCards(data[1]);
-				this.CollectionPointsEarned=System.Convert.ToInt32(data[2]);
-				this.CollectionPointsRanking=System.Convert.ToInt32(data[3]);
-			}
+			this.packList[packId].Cards.parseCards(data[1]);
+			this.CollectionPointsEarned=System.Convert.ToInt32(data[2]);
+			this.CollectionPointsRanking=System.Convert.ToInt32(data[3]);
 		}
 	}
 	public List<Skill> parseNewSkills(string[] array)

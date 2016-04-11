@@ -213,10 +213,6 @@ public class Player : User
 		
 		WWW w = new WWW(URLAddMoney, form); 				
 		yield return w;
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 
-		}
 	}
 	public IEnumerator getMoney()
 	{
@@ -457,21 +453,10 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username); 
 		form.AddField("myform_pass", password);
-		
-		WWW w = new WWW(URLCheckPassword, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
-		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text != "") 					// On affiche la page d'accueil si l'authentification réussie
-			{ 				
-				Error = w.text;
-			}
-		}
+
+		ServerController.instance.setRequest(URLCheckPassword, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator editPassword()
 	{
@@ -645,7 +630,6 @@ public class Player : User
 			string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
 			{
-				Error = "";
 				string[] data =result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Username = profileData [0];
@@ -665,7 +649,6 @@ public class Player : User
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
-				Error="";
 				string[] data = result.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Mail = profileData [0];
@@ -675,7 +658,6 @@ public class Player : User
 			}
 			else if(result.Contains("#FIRSTCONNECTION"))
 			{
-				Error="";
 				this.Id=-1;
 				this.IsAccountCreated=false;
 				this.IsAccountActivated=false;

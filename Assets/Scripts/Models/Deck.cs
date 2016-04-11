@@ -21,6 +21,7 @@ public class Deck : Cards
 	public string Name; 										// Nom du deck
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int NbCards; 
+	public string Error;
 	
 	public Deck()
 	{
@@ -62,16 +63,14 @@ public class Deck : Cards
 		form.AddField("myform_deckOrder", deckOrder);
 		WWW w = new WWW(URLAddCardToDeck, form); 								
 		yield return w; 						
-		
+
 		if (w.error != null)
-		{
-			Debug.Log(w.error);								
-		} 
-		else
-		{
-			this.cards.Add(new Card(idCard));
-			this.cards[this.cards.Count-1].deckOrder=deckOrder;
+		{ 
+			Debug.Log (w.error); 
 		}
+
+		this.cards.Add(new Card(idCard));
+		this.cards[this.cards.Count-1].deckOrder=deckOrder;
 	}
 	public IEnumerator changeCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
 	{
@@ -90,18 +89,16 @@ public class Deck : Cards
 		{
 			Debug.Log(w.error);								
 		} 
-		else
+
+		for (int i =0;i<this.cards.Count;i++)
 		{
-			for (int i =0;i<this.cards.Count;i++)
+			if(this.cards[i].Id==idCard1)
 			{
-				if(this.cards[i].Id==idCard1)
-				{
-					this.cards[i].deckOrder=deckOrder1;
-				}
-				if(this.cards[i].Id==idCard2)
-				{
-					this.cards[i].deckOrder=deckOrder2;
-				}
+				this.cards[i].deckOrder=deckOrder1;
+			}
+			if(this.cards[i].Id==idCard2)
+			{
+				this.cards[i].deckOrder=deckOrder2;
 			}
 		}
 	}
@@ -146,12 +143,14 @@ public class Deck : Cards
 		WWW w = new WWW(URLCreateDeck, form);						// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
 
-		if (w.error != null)
+		ServerController.instance.setRequest(URLCreateDeck, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log(w.error);
-		} else
-		{
-			this.Id = System.Convert.ToInt32(w.text);
+			string result = ServerController.instance.getResult();
+			this.Id = System.Convert.ToInt32(result);
 			this.Name = decksName;
 			this.NbCards = 0;
 			this.cards = new List<Card>();

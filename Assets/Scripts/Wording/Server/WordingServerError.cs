@@ -34,5 +34,12 @@ public class WordingServerError
 		references.Add(new string[]{"Mauvais login ou email","Wrong email or login"}); //3
 		references.Add(new string[]{"Demande déjà existante",""}); //4
 		references.Add(new string[]{"Connexion expirée, veuillez réessayer",""}); //5
+		references.Add(new string[]{"Demande déjà existante",""}); //6
+		references.Add(new string[]{"Le vendeur a changé le prix de vente de la carte",""}); //7
+		references.Add(new string[]{"La carte est déjà vendue",""}); //8
+		references.Add(new string[]{"Vous n'avez pas suffisamment de crédits",""}); //9
+		references.Add(new string[]{"Vous ne pouvez pas acheter une carte qui vous appartient déjà",""}); //10
+		references.Add(new string[]{"Vous ne pouvez pas encore acheter de carte",""}); //11
+		references.Add(new string[]{"Vous ne pouvez pas encore acheter de carte de cette faction",""}); //12
 	}
 }
