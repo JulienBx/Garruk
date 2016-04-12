@@ -1057,7 +1057,7 @@ public class GameView : MonoBehaviour
 						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 75);
 					}
 				}
-				else if(this.getCard(this.currentPlayingCard).isPurificateur()){
+				else if(this.getCard(this.currentPlayingCard).isPurificateur() && this.getCurrentCard().isMine){
 					int proba = 34+4*this.getCurrentCard().Skills[0].Power;
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
@@ -1069,27 +1069,10 @@ public class GameView : MonoBehaviour
 						if (playerID != -1)
 						{
 							if (UnityEngine.Random.Range(1,101)<proba){
-								this.getCard(playerID).emptyModifiers();
-								this.getPlayingCardController(playerID).show();
-							}
-
-							soin = Mathf.Min(this.getCard(playerID).GetTotalLife()-this.getCard(playerID).getLife(), 0);
-
-							isSuccess = true ;
-							if(soin==0){
-								GameView.instance.displaySkillEffect(playerID, "Soin sans effet", 1);	
-								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
-							}
-							else{
-								this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false);
-								GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
-								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+								GameController.instance.purify(playerID);
+								isSuccess = true ;
 							}
 						}
-					}
-					if(isSuccess){
-						GameView.instance.displaySkillEffect(this.currentPlayingCard, "Infirmier", 1);	
-						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 75);
 					}
 				}
 				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
@@ -1142,6 +1125,12 @@ public class GameView : MonoBehaviour
 		yield break ; 
 	}
 
+	public void purify(int target){
+		this.getPlayingCardController(target).emptyModifiers();
+		GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
+		GameView.instance.addAnim(GameView.instance.getTile(target), 113);
+	}
+
 	public void updateTimeline(){
 		List<int> idCards = new List<int>();
 		idCards.Add(this.lastPlayingCard);
@@ -1188,7 +1177,7 @@ public class GameView : MonoBehaviour
 				this.getPlayingCardController(this.currentPlayingCard).nbTurns++;
 				if(this.getPlayingCardController(this.currentPlayingCard).nbTurns==3){
 					int level = this.getCurrentCard().getSkills()[0].Power;
-					this.getCard(this.currentPlayingCard).emptyModifiers();
+					this.getPlayingCardController(this.currentPlayingCard).emptyModifiers();
 					this.getCard(this.currentPlayingCard).emptyDamageModifyers();
 					this.getPlayingCardController(this.currentPlayingCard).updateLife(this.getCard(this.currentPlayingCard).getLife());
 					this.getPlayingCardController(this.currentPlayingCard).updateAttack(this.getCard(this.currentPlayingCard).getAttack());

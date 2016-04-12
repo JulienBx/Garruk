@@ -482,5 +482,16 @@ public class GameController : Photon.MonoBehaviour
 	{
 		photonView.RPC("failedToCastOnSkillRPC", PhotonTargets.AllBuffered, target, failure);
 	}
+
+	public void purify(int target)
+	{
+		photonView.RPC("purifyRPC", PhotonTargets.AllBuffered, target);
+	}
+	
+	[PunRPC]
+	public void purifyRPC(int target)
+	{
+		GameView.instance.purify(target);
+	}
 }
 

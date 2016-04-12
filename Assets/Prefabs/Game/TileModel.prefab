@@ -1876,16 +1876,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300078, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300080, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300082, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300084, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300086, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300088, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300090, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300092, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300094, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300096, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -6979,6 +6979,56 @@ Prefab:
       propertyPath: animSprites.Array.data[1099]
       value: 
       objectReference: {fileID: 21300136, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1130]
+      value: 
+      objectReference: {fileID: 21300078, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1131]
+      value: 
+      objectReference: {fileID: 21300080, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1132]
+      value: 
+      objectReference: {fileID: 21300082, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1133]
+      value: 
+      objectReference: {fileID: 21300084, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1134]
+      value: 
+      objectReference: {fileID: 21300086, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1135]
+      value: 
+      objectReference: {fileID: 21300088, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1136]
+      value: 
+      objectReference: {fileID: 21300090, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1137]
+      value: 
+      objectReference: {fileID: 21300092, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1138]
+      value: 
+      objectReference: {fileID: 21300094, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1139]
+      value: 
+      objectReference: {fileID: 21300096, guid: b1c87354a2dcc0745b8513e759375dcc,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
