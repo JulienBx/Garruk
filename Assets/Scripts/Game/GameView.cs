@@ -40,7 +40,6 @@ public class GameView : MonoBehaviour
 	GameObject[] horizontalBorders ;
 	GameObject[] playingCards ;
 	GameObject popUp;
-	GameObject endTurnPopUp;
 	public GameObject choicePopUp;
 	GameObject validationSkill;
 	TimelineController timeline;
@@ -133,7 +132,6 @@ public class GameView : MonoBehaviour
 		this.passZone = GameObject.Find("PassZone");
 		this.skillZone = GameObject.Find("SkillZone");
 		this.popUp = GameObject.Find("PopUp");
-		this.endTurnPopUp = GameObject.Find("EndTurnPopUp");
 		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
 
@@ -353,9 +351,9 @@ public class GameView : MonoBehaviour
 			g1.AttackLevel=1;
 			g1.PowerLevel=1;
 			this.createPlayingCard(g1, false);
-			this.getPlayingCardController(4).changeTile(new Tile(0,6), this.tiles[0,6].GetComponentInChildren<TileController>().getPosition());
+			this.getPlayingCardController(4).changeTile(new Tile(1,6), this.tiles[1,6].GetComponentInChildren<TileController>().getPosition());
 			this.tiles[4,7].GetComponentInChildren<TileController>().setCharacterID(-1);
-			this.tiles[0,6].GetComponentInChildren<TileController>().setCharacterID(4);
+			this.tiles[1,6].GetComponentInChildren<TileController>().setCharacterID(4);
 
 			skills = new List<Skill>();
 			skills.Add (new Skill("Leader", 76, 1, 1, 3, 0, "", 0, 0));
@@ -988,12 +986,9 @@ public class GameView : MonoBehaviour
 				this.timeline.changeFaces(idCards);
 
 				this.isFreezed = true ;
-				if(ApplicationModel.player.ToLaunchGameTutorial && this.nbTurns==0){
-					this.endTurnPopUp.GetComponent<EndTurnPopUpController>().display(this.nbTurns);
-				}
-				else{
-					this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
-				}
+			
+				this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
+				
 				nbTurns++;
 				if(meteoritesStep==1){
 					meteoritesCounter = 7 ;
@@ -1054,6 +1049,41 @@ public class GameView : MonoBehaviour
 									GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
 									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 								}
+							}
+						}
+					}
+					if(isSuccess){
+						GameView.instance.displaySkillEffect(this.currentPlayingCard, "Infirmier", 1);	
+						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 75);
+					}
+				}
+				else if(this.getCard(this.currentPlayingCard).isPurificateur()){
+					int proba = 34+4*this.getCurrentCard().Skills[0].Power;
+					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+					this.targets = new List<Tile>();
+					int playerID;
+					int soin ;
+					foreach (Tile t in neighbourTiles)
+					{
+						playerID = this.getTileController(t.x, t.y).getCharacterID();
+						if (playerID != -1)
+						{
+							if (UnityEngine.Random.Range(1,101)<proba){
+								this.getCard(playerID).emptyModifiers();
+								this.getPlayingCardController(playerID).show();
+							}
+
+							soin = Mathf.Min(this.getCard(playerID).GetTotalLife()-this.getCard(playerID).getLife(), 0);
+
+							isSuccess = true ;
+							if(soin==0){
+								GameView.instance.displaySkillEffect(playerID, "Soin sans effet", 1);	
+								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+							}
+							else{
+								this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false);
+								GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
+								GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
 							}
 						}
 					}
@@ -1139,7 +1169,6 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				if(!this.getCard(this.orderCards[i]).isDead && !this.deads.Contains(this.orderCards[i])){
-					print(i);
 					idCards.Add(orderCards[i]);
 					j--;
 				}
@@ -2892,7 +2921,9 @@ public class GameView : MonoBehaviour
 
 		this.getPassZoneController().show(false);
 
-		this.getSkillZoneController().showCancelButton(true);
+		if(this.getCurrentCard().isMine){
+			this.getSkillZoneController().showCancelButton(true);
+		}
 		this.getSkillZoneController().showSkillButtons(false);
 
 		this.removeDestinations();
@@ -3184,8 +3215,12 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-
-		StartCoroutine(this.waitThenLaunchEDE());
+		if(GameView.instance.sequenceID<24){
+				
+		}
+		else{
+			StartCoroutine(this.waitThenLaunchEDE());
+		}
 	}
 
 	public IEnumerator waitThenLaunchEDE(){
@@ -3292,6 +3327,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void hitNextTutorial(){
+		print("nexttuto");
 		if(this.sequenceID==0){
 			this.initGrid();
 			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);
@@ -3378,6 +3414,7 @@ public class GameView : MonoBehaviour
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==12){
+			this.hideSkillEffects();
 			this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
 			this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
 			this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
@@ -3388,8 +3425,8 @@ public class GameView : MonoBehaviour
 			GameController.instance.findNextPlayer ();
 		}
 		else if(this.sequenceID==14){
-			this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
+			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==15){
@@ -3398,41 +3435,43 @@ public class GameView : MonoBehaviour
 		}
 		else if(this.sequenceID==16){
 			this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==17){
 			this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-			this.gameTutoController.setArrow("down",new Vector3(-1.6f,4.2f,0f));
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+			this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==18){
 			this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-			this.gameTutoController.setArrow("down",new Vector3(2.4f,4.2f,0f));
+			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+			this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
 			this.gameTutoController.showSequence(true, true, true);
 		}
 		else if(this.sequenceID==19){
 			this.gameTutoController.showSequence(false, false, false);
 		}
 		else if(this.sequenceID==20){
-			this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 2);
+			this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==21){
-			this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 2);
+			this.hideSkillEffects();
+			this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==22){
-			this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 2);
+			this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
 			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 			this.gameTutoController.showSequence(true, true, false);
 		}
 		else if(this.sequenceID==23){
 			this.gameTutoController.showSequence(false, false, false);
+			StartCoroutine(this.waitThenLaunchEDE());
 		}
 
 		sequenceID++;

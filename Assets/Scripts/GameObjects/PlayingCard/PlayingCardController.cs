@@ -118,6 +118,22 @@ public class PlayingCardController : GameObjectController
 		t.Find("Background").FindChild("PVValue").GetComponent<MeshRenderer>().enabled = true ;
 		this.show();
 	}
+
+	public void emptyModifiers()
+	{
+		this.updateAttack(this.card.getAttack());
+		this.updateLife(this.card.getLife());
+		this.card.pvModifyers = new List<Modifyer>();
+		this.card.attackModifyers = new List<Modifyer>();
+		this.card.moveModifyers = new List<Modifyer>();
+		this.card.esquiveModifyers = new List<Modifyer>();
+		this.card.magicalEsquiveModifyers = new List<Modifyer>();
+		this.card.bouclierModifyers = new List<Modifyer>();
+		this.card.isStateModifyed = false ;
+		this.card.states = new List<Modifyer>();
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
 	
 	public void setCard(GameCard c, bool b, int i)
 	{
@@ -595,11 +611,13 @@ public class PlayingCardController : GameObjectController
 	public void addDeadTime(float t){
 		this.timerDead += t ;
 		if (this.timerDead>this.deadTime){
-			this.displayDead(false);
-			this.moveToDeadZone();
-			GameView.instance.emptyTile(this.id);
-			GameView.instance.recalculateDestinations();
-			GameView.instance.removeDead(this.id);
+			if(GameView.instance.sequenceID!=12){
+				this.moveToDeadZone();
+				this.displayDead(false);
+				GameView.instance.emptyTile(this.id);
+				GameView.instance.recalculateDestinations();
+				GameView.instance.removeDead(this.id);
+			}
 			if(GameView.instance.areAllMyPlayersDead()){
 				StartCoroutine(GameView.instance.quitGame());
 			}

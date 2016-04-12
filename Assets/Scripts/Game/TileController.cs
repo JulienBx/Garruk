@@ -626,10 +626,14 @@ public class TileController : GameObjectController
 					this.timerAnim = 0f ;
 					this.isFinishedTransi = true ;
 					this.isGrowing = false ;
-					GameView.instance.removeSE(this.tile);
+					if(GameView.instance.sequenceID!=12 && GameView.instance.sequenceID!=21){
+						GameView.instance.removeSE(this.tile);
+					}
 				}
 				else{
-					GameView.instance.removeSE(this.tile);
+					if(GameView.instance.sequenceID!=12 && GameView.instance.sequenceID!=21){
+						GameView.instance.removeSE(this.tile);
+					}
 				}
 			}
 		}

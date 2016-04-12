@@ -169,6 +169,11 @@ public class GameCard : Card
 		return (this.Skills[0].Id == 140);
 	}
 
+	public bool isPurificateur()
+	{
+		return (this.Skills[0].Id == 113);
+	}
+
 	public void replaceCristoMasterModifyer(Modifyer m)
 	{
 		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)
@@ -552,20 +557,6 @@ public class GameCard : Card
 			this.bouclierModifyers = new List<Modifyer>();
 		}
 		this.bouclierModifyers.Add (m);
-	}
-	
-	public void emptyModifiers()
-	{
-		this.pvModifyers = new List<Modifyer>();
-		this.attackModifyers = new List<Modifyer>();
-		this.moveModifyers = new List<Modifyer>();
-		this.esquiveModifyers = new List<Modifyer>();
-		this.magicalEsquiveModifyers = new List<Modifyer>();
-		this.bouclierModifyers = new List<Modifyer>();
-		this.isStateModifyed = false ;
-		this.states = new List<Modifyer>();
-		GameView.instance.getMyHoveredCardController().updateCharacter();
-		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 
 	public void emptyDamageModifyers(){

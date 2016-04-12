@@ -392,8 +392,6 @@ public class GameTutoController : MonoBehaviour
 
 	public void showArrow(bool b)
 	{
-		print("Je show Arrow");
-
 		if (b) 
 		{
 			float range=1f;

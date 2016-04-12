@@ -59,6 +59,7 @@ public class Player : User
 	public bool HasWonLastGame;
 	public bool IsFirstPlayer;
 	public bool ToLaunchGameTutorial;
+	public bool ToLaunchGameIA;
 	public bool ToLaunchEndGameSequence;
 	public int PackToBuy;
 	public int ChosenGameType;

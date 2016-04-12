@@ -55,7 +55,9 @@ public class PistoSoin : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false);
 		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 2);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
-		GameView.instance.hitNextTutorial();
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			GameView.instance.hitNextTutorial();
+		}
 	}	
 
 	public override void applyOnViro2(int target, int amount, int amount2){

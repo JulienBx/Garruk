@@ -56,7 +56,7 @@ public class Attack : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
 
-		if(ApplicationModel.player.ToLaunchGameTutorial){
+		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<14){
 			GameView.instance.hitNextTutorial();
 		}
 	}
