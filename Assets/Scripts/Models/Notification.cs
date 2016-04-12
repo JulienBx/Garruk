@@ -56,7 +56,9 @@ public class Notification
 		
 		WWW w = new WWW(URLAddNotification, form); 				// On envoie le formulaire à l'url sur le serveur 
 		yield return w;
-		if (w.error != null){ 
+
+		if (w.error != null)
+		{ 
 			Debug.Log (w.error); 
 		}
 	}

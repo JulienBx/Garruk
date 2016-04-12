@@ -82,23 +82,15 @@ public class Connection
 		form.AddField("myform_iduser2", this.IdUser2.ToString()); 			
 		form.AddField("myform_isaccepted", (System.Convert.ToInt32(this.IsAccepted)).ToString()); 	
 
-		WWW w = new WWW(URLAddConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLAddConnection, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Error = WordingServerError.getReference(w.error,false);
-		}
-		else
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = WordingServerError.getReference(errors [1],true);
-			}
-			else
-			{
-				this.Id=System.Convert.ToInt32(w.text);
-			}
+			string result = ServerController.instance.getResult();
+			this.Id=System.Convert.ToInt32(result);
 		}
 	}
 }

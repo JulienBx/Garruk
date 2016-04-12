@@ -17,6 +17,7 @@ public class NewSkillBookController : MonoBehaviour
 	public GameObject contentObject;
 
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject menu;
 	private GameObject help;
 
@@ -226,6 +227,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.scrollIntersection = 1.18f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -237,6 +239,11 @@ public class NewSkillBookController : MonoBehaviour
 		this.help.AddComponent<SkillBookHelpController>();
 		this.help.GetComponent<SkillBookHelpController>().initialize();
 		BackOfficeController.instance.setIsHelpLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeMenu()
 	{

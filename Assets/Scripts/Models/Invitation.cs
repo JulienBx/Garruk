@@ -11,6 +11,7 @@ public class Invitation
 	public User SendingUser;
 	public int Id;
 	public int Status;
+	public string Error;
 	
 	private string URLAddInvitation = ApplicationModel.host +"add_invitation.php";
 	private string URLChangeStatus = ApplicationModel.host +"change_invitation_status.php";
@@ -29,16 +30,15 @@ public class Invitation
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_sendinguser", this.SendingUser.Id.ToString()); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_inviteduser", this.InvitedUser.Id.ToString()); 
-		
-		WWW w = new WWW (URLAddInvitation, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLAddInvitation, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		}
-		else
-		{
-			this.Id=System.Convert.ToInt32(w.text);
+			string result = ServerController.instance.getResult();
+			this.Id=System.Convert.ToInt32(result);
 		}
 	}
 	public IEnumerator changeStatus(int status)
@@ -50,6 +50,7 @@ public class Invitation
 		
 		WWW w = new WWW (URLChangeStatus, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 										// donne l'erreur eventuelle

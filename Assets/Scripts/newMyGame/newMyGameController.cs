@@ -19,6 +19,7 @@ public class newMyGameController : MonoBehaviour
 
 	private GameObject menu;
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject help;
 	private GameObject deckBlock;
 	private GameObject deckBlockTitle;
@@ -275,6 +276,7 @@ public class newMyGameController : MonoBehaviour
 		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -286,6 +288,11 @@ public class newMyGameController : MonoBehaviour
 		this.help.AddComponent<MyGameHelpController>();
 		this.help.GetComponent<MyGameHelpController>().initialize();
 		BackOfficeController.instance.setIsHelpLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeMenu()
 	{
@@ -1622,16 +1629,24 @@ public class newMyGameController : MonoBehaviour
 			BackOfficeController.instance.displayLoadingScreen();
 			model.decks.Add(new Deck());
 			yield return StartCoroutine(model.decks[model.decks.Count-1].create(name));
-			this.deckDisplayed=model.decks.Count-1;
-			this.initializeDecks();
-			this.initializeCards();
-			this.hideNewDeckPopUp();
-			BackOfficeController.instance.hideLoadingScreen();
-			if(this.toMoveFirstDeckCard)
+			if(model.decks[model.decks.Count-1].Error=="")
 			{
-				this.moveToDeckCards(0);
-				this.toMoveFirstDeckCard=false;
+				this.deckDisplayed=model.decks.Count-1;
+				this.initializeDecks();
+				this.initializeCards();
+				this.hideNewDeckPopUp();
+				if(this.toMoveFirstDeckCard)
+				{
+					this.moveToDeckCards(0);
+					this.toMoveFirstDeckCard=false;
+				}
 			}
+			else
+			{
+				BackOfficeController.instance.displayErrorPopUp(model.decks[model.decks.Count-1].Error);
+				model.decks[model.decks.Count-1].Error="";
+			}
+			BackOfficeController.instance.hideLoadingScreen();
 		}
 		this.newDeckPopUp.transform.GetComponent<NewDeckPopUpController> ().setError (error);
 	}

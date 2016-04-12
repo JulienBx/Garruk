@@ -24,6 +24,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public Sprite[] productsIcons;
 
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject menu;
 	private GameObject help;
 
@@ -226,6 +227,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.scrollIntersection = 1.2f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -244,6 +246,11 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
 		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{
@@ -1295,7 +1302,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			if (String.Equals(args.purchasedProduct.definition.id, model.productList[i].ProductID, StringComparison.Ordinal))
 		    {
 		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-		        StartCoroutine	(ApplicationModel.player.addMoney((int)model.productList[i].Crystals));
+		        StartCoroutine	(this.addGift((int)model.productList[i].Crystals));
     		}
 	    }
 	    BackOfficeController.instance.hideLoadingScreen();
@@ -1321,6 +1328,14 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		{
 			BackOfficeController.instance.displayTransparentBackground();
 			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
+		}
+	}
+	public IEnumerator addGift(int money)
+	{
+		yield return StartCoroutine	(ApplicationModel.player.addMoney(money));
+		if(ApplicationModel.player.Error!="")
+		{
+			ApplicationModel.player.Money=ApplicationModel.player.Money+money;
 		}
 	}
 	  

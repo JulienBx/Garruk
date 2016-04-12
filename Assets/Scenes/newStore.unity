@@ -698,6 +698,48 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1001 &246127166
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 23.288528
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -8.302866
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476698, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 8a63726508b1f4d4cba942370e5e4a9c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &247328022
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +996,7 @@ Transform:
   - {fileID: 434358304}
   - {fileID: 1094003402}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 26
 --- !u!114 &304154101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1630,7 +1672,7 @@ Transform:
   - {fileID: 1829162130}
   - {fileID: 890878585}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
 --- !u!1 &497094436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,7 +1890,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
 --- !u!114 &546677167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,13 +1907,13 @@ MonoBehaviour:
   blockObject: {fileID: 141336, guid: e04d94d41eac54d0ca5a7a7c20151863, type: 2}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
   productsIcons:
-  - {fileID: 21300082, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300088, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300078, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300080, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300090, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300092, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
-  - {fileID: 21300094, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &546677168
 MonoBehaviour:
   m_ObjectHideFlags: 0

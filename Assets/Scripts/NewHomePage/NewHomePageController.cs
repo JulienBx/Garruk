@@ -23,6 +23,7 @@ public class NewHomePageController : MonoBehaviour
 	private int totalNbResultLimit;
 	
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject deckBlock;
 	private GameObject deckBlockTitle;
 	private GameObject deckSelectionButton;
@@ -251,6 +252,7 @@ public class NewHomePageController : MonoBehaviour
 		this.mainContentDisplayed = true;
 		this.friendsOnline = new List<int> ();
 		this.initializeScene ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -269,6 +271,11 @@ public class NewHomePageController : MonoBehaviour
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
 		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{

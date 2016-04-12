@@ -547,11 +547,20 @@ public class BackOfficeController : MonoBehaviour
 		invitation.SendingUser = sendingUser;
 		this.displayLoadingScreen ();
 		yield return StartCoroutine (invitation.add ());
-		this.changeLoadingScreenLabel(WordingSocial.getReference(6));
-		this.displayLoadingScreenButton (true);
-		ApplicationModel.player.ChosenGameType = 20+invitation.Id;
-		photon.CreateNewRoom();
-		ApplicationModel.player.IsInviting = true;
+		if(invitation.Error!="")
+		{
+			this.hideLoadingScreen();
+			this.displayErrorPopUp(invitation.Error);
+			invitation.Error="";
+		}
+		else
+		{
+			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
+			this.displayLoadingScreenButton (true);
+			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
+			photon.CreateNewRoom();
+			ApplicationModel.player.IsInviting = true;	
+		}
 	}
 	public void leaveRandomRoomHandler()
 	{

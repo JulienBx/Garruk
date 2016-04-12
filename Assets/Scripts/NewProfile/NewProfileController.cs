@@ -20,6 +20,7 @@ public class NewProfileController : MonoBehaviour
 	public Sprite[] languageSprites;
 
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject menu;
 	private GameObject help;
 
@@ -222,6 +223,7 @@ public class NewProfileController : MonoBehaviour
 		this.friendsOnline = new List<int> ();
 		this.initializeScene ();
 		this.mainContentDisplayed = true;
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -240,6 +242,11 @@ public class NewProfileController : MonoBehaviour
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
 		BackOfficeController.instance.setIsMenuLoaded(true);
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{
