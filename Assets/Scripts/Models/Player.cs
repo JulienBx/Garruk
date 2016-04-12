@@ -491,26 +491,15 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username); 
 		form.AddField("myform_idlanguage", id.ToString());
-		
-		WWW w = new WWW(URLChooseLanguage, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLChooseLanguage, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else
-			{
-				Error = "";
-				this.IdLanguage=id;
-			}		
+			string result = ServerController.instance.getResult();
+			this.IdLanguage=id;
 		}
 	}
 	public IEnumerator refreshUserData()
@@ -562,26 +551,17 @@ public class Player : User
 		WWWForm form = new WWWForm(); 
 		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_macadress", this.MacAdress); 	
+
+		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 		
-		WWW w = new WWW(URLCheckPermanentConnexion, form);
-		yield return w;
-		
-		if (w.error != null)
+		if(this.Error=="")
 		{
-			Error = WordingServerError.getReference(w.error,false);
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
+			string result = ServerController.instance.getResult();
+			if(result.Contains("#SUCESS#"))
 			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = WordingServerError.getReference(errors [1],true);
-				this.Id=-1;
-			} 
-			else if(w.text.Contains("#SUCESS#"))
-			{
-				Error = "";
-				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Username = profileData [0];
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
@@ -597,9 +577,13 @@ public class Player : User
 			}
 			else
 			{
-				Error="";
 				this.Id=-1;
 			}		
+		}
+		else
+		{
+			Debug.Log(this.Error);
+			this.Id=-1;
 		}
 	}
 	public IEnumerator Login()
