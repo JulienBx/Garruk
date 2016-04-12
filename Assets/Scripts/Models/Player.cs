@@ -79,6 +79,7 @@ public class Player : User
 	public int TrainingAllowedCardType;
 	public int TrainingPreviousAllowedCardType;
 	public bool HasToBuyTrainingPack;
+	public bool hastLostConnection;
 
 	public Player()
 	{
@@ -255,21 +256,18 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté     
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
-		
-		WWW w = new WWW (URLCleanCards, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+
+
+		ServerController.instance.setRequest(URLCleanCards, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error!="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Debug.Log (errors[1]);
-			}
+			Debug.Log(this.Error);
+			this.Error="";
 		}
+
 	}
 	public IEnumerator setTutorialStep(int step)
 	{
@@ -465,26 +463,10 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 		 				//hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username); 
 		form.AddField("myform_pass",this.Password);
-		
-		WWW w = new WWW(URLEditPassword, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
-		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else
-			{
-				Error = "";
-			}		
-		}
+
+		ServerController.instance.setRequest(URLEditPassword, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator chooseLanguage(int id)
 	{
@@ -675,25 +657,17 @@ public class Player : User
 		form.AddField("myform_facebookid",FacebookId);
 		form.AddField("myform_ismailactivated",isAccountActivatedString);
 		form.AddField("myform_idlanguage",IdLanguage.ToString());
-		
-		WWW w = new WWW(URLCreateAccount, form);
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLCreateAccount, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Error = w.error;
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
+			string result = ServerController.instance.getResult();
+			if(result.Contains("#SUCESS#"))
 			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else if(w.text.Contains("#SUCESS#"))
-			{
-				Error = "";
-				string[] data = w.text.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+				string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Username = profileData [0];
 				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
@@ -709,16 +683,15 @@ public class Player : User
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
-			else if(w.text.Contains("#NONACTIVE#"))
+			else if(result.Contains("#NONACTIVE#"))
 			{
-				Error="";
-				string[] data = w.text.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
+				string[] data = result.Split(new string[] { "#NONACTIVE#" }, System.StringSplitOptions.None);
 				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 				this.Mail = profileData [0];
 				this.Id=-1;
 				this.IsAccountActivated=false;
 				this.IsAccountCreated=true;
-			}							
+			}		
 		}
 	}
 	public IEnumerator lostLogin()

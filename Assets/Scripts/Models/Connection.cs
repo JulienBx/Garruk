@@ -58,19 +58,12 @@ public class Connection
 		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_id", this.Id.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 
-		WWW w = new WWW(URLConfirmConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
+		ServerController.instance.setRequest(URLConfirmConnection, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log (w.error); 
-		}
-		else
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
 			this.IsAccepted=true;
 		}
 	}

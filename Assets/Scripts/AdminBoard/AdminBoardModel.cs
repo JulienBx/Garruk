@@ -39,6 +39,7 @@ public class AdminBoardModel
 	public int totalCardSoldOnPeriod;
 	public int nbPlayersOnPeriod;
 	public int totalNbPlayersOnPeriod;
+	public string error;
 	
 	public AdminBoardModel ()
 	{
@@ -49,16 +50,15 @@ public class AdminBoardModel
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_startperiod", startPeriod.ToString("yyyy-MM-dd"));
 		form.AddField("myform_endperiod", endPeriod.ToString("yyyy-MM-dd"));
-		
-		WWW w = new WWW(URLGetAdminBoardData, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLGetAdminBoardData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.error=ServerController.instance.getError();
+
+		if(this.error=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=error.Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.connectionsToday=System.Convert.ToInt32(data[0]);
 			this.cardBoughtToday=System.Convert.ToInt32(data[1]);
 			this.cardsRenamedToday=System.Convert.ToInt32(data[2]);

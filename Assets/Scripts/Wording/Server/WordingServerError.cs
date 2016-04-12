@@ -41,5 +41,8 @@ public class WordingServerError
 		references.Add(new string[]{"Vous ne pouvez pas acheter une carte qui vous appartient déjà",""}); //10
 		references.Add(new string[]{"Vous ne pouvez pas encore acheter de carte",""}); //11
 		references.Add(new string[]{"Vous ne pouvez pas encore acheter de carte de cette faction",""}); //12
+		references.Add(new string[]{"La demander n'existe plus",""}); //13
+		references.Add(new string[]{"La demande n'a pas pu être traitée",""}); //14
+		references.Add(new string[]{"Pseudo ou email déjà existant",""}); //15
 	}
 }

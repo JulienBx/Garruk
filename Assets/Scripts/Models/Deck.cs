@@ -140,8 +140,6 @@ public class Deck : Cards
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_name", decksName);
-		WWW w = new WWW(URLCreateDeck, form);						// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
 
 		ServerController.instance.setRequest(URLCreateDeck, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -162,12 +160,10 @@ public class Deck : Cards
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_id", Id);
-		WWW w = new WWW(URLDeleteDeck, form);						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null)
-		{
-			Debug.Log(w.error);
-		}
+
+		ServerController.instance.setRequest(URLDeleteDeck, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 
 	public IEnumerator edit(string newName)
@@ -212,7 +208,6 @@ public class Deck : Cards
 			}	
 		}
 	}
-
 	public IEnumerator RetrieveCards()
 	{
 		this.cards = new List<Card> ();
@@ -221,16 +216,16 @@ public class Deck : Cards
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_deck", this.Id);							// Id du	 deck
-		
-		WWW w = new WWW(URLCards, form); 							// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null)
+
+
+		ServerController.instance.setRequest(URLCards, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} 
-		else
-		{
-			cardsData = w.text.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			cardsData = result.Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
 			for(int i = 0 ; i < cardsData.Length ; i++){
 				this.cards.Add(new Card());
 				this.cards[i].parseCard(cardsData[i]);
@@ -238,7 +233,6 @@ public class Deck : Cards
 			}
 		}
 	}
-
 	public IEnumerator RetrieveCardIDs()
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion

@@ -66,6 +66,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 			SoundController.instance.playMusic(new int[]{0});
 			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
+			if(ApplicationModel.player.hastLostConnection)
+			{
+				ApplicationModel.player.hastLostConnection=false;
+				this.loginPopUp.GetComponent<LoginPopUpController>().setError(WordingAuthentication.getReference(14));
+			}
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 		else if(this.isConnectedToFB())
@@ -99,10 +104,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 		string lastUsername = ApplicationModel.player.Username;
 		int lastIDLanguage = ApplicationModel.player.IdLanguage;
 		bool lastToDeconnect = ApplicationModel.player.ToDeconnect;
+		bool lastHastLostConnection = ApplicationModel.player.hastLostConnection;
 		ApplicationModel.player=new Player();
 		ApplicationModel.player.Username=lastUsername;
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
+		ApplicationModel.player.hastLostConnection=lastHastLostConnection;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
 	}
 	private void initializeServerController()

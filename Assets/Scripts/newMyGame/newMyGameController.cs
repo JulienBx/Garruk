@@ -1684,11 +1684,19 @@ public class newMyGameController : MonoBehaviour
 		this.hideDeleteDeckPopUp();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.decks[this.deckDisplayed].delete());
-		this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
-		model.decks.RemoveAt (this.deckDisplayed);
-		this.retrieveDefaultDeck ();
-		this.initializeDecks ();
-		this.initializeCards ();
+		if(model.decks[this.deckDisplayed].Error=="")
+		{
+			this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
+			model.decks.RemoveAt (this.deckDisplayed);
+			this.retrieveDefaultDeck ();
+			this.initializeDecks ();
+			this.initializeCards ();
+		}
+		else
+		{
+			BackOfficeController.instance.displayErrorPopUp(model.decks[this.deckDisplayed].Error);
+			model.decks[this.deckDisplayed].Error="";
+		}
 		BackOfficeController.instance.hideLoadingScreen ();
 		HelpController.instance.tutorialTrackPoint ();
 	}
