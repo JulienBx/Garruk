@@ -6,15 +6,12 @@ using System.Collections.Generic;
 public class Deck : Cards 
 {
 	//Interconnexion BDD
-	private string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
-	private string URLGetCardIDS = ApplicationModel.host + "get_cardsIDs_by_deck.php";
-	private string URLSelectedDeck = ApplicationModel.host + "get_selected_deck_by_username.php";
+	private static string URLCards = ApplicationModel.host + "get_cards_by_deck_by_user.php";
 	private static string URLEditDeck = ApplicationModel.host + "update_deck_name.php";
 	private static string URLCreateDeck = ApplicationModel.host + "add_new_deck.php";
 	private static string URLDeleteDeck = ApplicationModel.host + "delete_deck.php";
 	private static string URLAddCardToDeck = ApplicationModel.host + "add_card_to_deck_by_user.php";
 	private static string URLRemoveCardFromDeck = ApplicationModel.host + "remove_card_from_deck_by_user.php";
-	private static string URLGetCardsByDeck = ApplicationModel.host + "get_cards_by_deck.php";
 	private static string URLChangeCardsOrder = ApplicationModel.host + "change_cards_order.php"; 
 
 	public int Id; 												// Id unique de la carte
@@ -184,30 +181,6 @@ public class Deck : Cards
 			this.Name = newName;
 		}
 	}
-
-	public IEnumerator LoadDeck()
-	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.OwnerUsername); 	// Pseudo de l'utilisateur connecté
-
-		WWW w = new WWW(URLSelectedDeck, form); 							// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null)
-		{
-			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} else
-		{
-			string[] deckEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
-			
-			for (int i = 0; i < 1; i++)
-			{
-				string[] deckData = deckEntries [i].Split('\\'); 	// On découpe les attributs de la carte qu'on place dans un tableau
-				int idDeck = System.Convert.ToInt32(deckData [0]);
-				this.Id = idDeck;
-			}	
-		}
-	}
 	public IEnumerator RetrieveCards()
 	{
 		this.cards = new List<Card> ();
@@ -230,27 +203,6 @@ public class Deck : Cards
 				this.cards.Add(new Card());
 				this.cards[i].parseCard(cardsData[i]);
 				this.cards[i].deckOrder=i;
-			}
-		}
-	}
-	public IEnumerator RetrieveCardIDs()
-	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_deck", this.Id);							// Id du	 deck
-		
-		WWW w = new WWW(URLGetCardIDS, form); 							// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null)
-		{
-			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} else
-		{
-			string[] cardEntries = w.text.Split('\n'); 				// Chaque ligne du serveur correspond à une carte
-			
-			for (int i = 0; i < cardEntries.Length - 1; i++)
-			{
-				this.addCard(new Card(System.Convert.ToInt32(cardEntries [i])));
 			}
 		}
 	}

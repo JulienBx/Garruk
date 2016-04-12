@@ -39,7 +39,6 @@ public class AdminBoardModel
 	public int totalCardSoldOnPeriod;
 	public int nbPlayersOnPeriod;
 	public int totalNbPlayersOnPeriod;
-	public string error;
 	
 	public AdminBoardModel ()
 	{
@@ -53,12 +52,11 @@ public class AdminBoardModel
 
 		ServerController.instance.setRequest(URLGetAdminBoardData, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.error=ServerController.instance.getError();
 
-		if(this.error=="")
+		if(ServerController.instance.getError()=="")
 		{
 			string result = ServerController.instance.getResult();
-			string[] data=error.Split(new string[] { "//" }, System.StringSplitOptions.None);
+			string[] data=result.Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.connectionsToday=System.Convert.ToInt32(data[0]);
 			this.cardBoughtToday=System.Convert.ToInt32(data[1]);
 			this.cardsRenamedToday=System.Convert.ToInt32(data[2]);
@@ -88,6 +86,11 @@ public class AdminBoardModel
 			this.nbPlayersOnPeriod=System.Convert.ToInt32(data[26]);
 			this.totalNbPlayersOnPeriod=System.Convert.ToInt32(data[27]);
 		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
+		}
 	}
 	public IEnumerator refreshPeriod(DateTime startPeriod, DateTime endPeriod)
 	{
@@ -96,15 +99,13 @@ public class AdminBoardModel
 		form.AddField("myform_startperiod", startPeriod.ToString("yyyy-MM-dd"));
 		form.AddField("myform_endperiod", endPeriod.ToString("yyyy-MM-dd"));
 		
-		WWW w = new WWW(URLRefreshPeriod, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
+		ServerController.instance.setRequest(URLRefreshPeriod, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "//" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "//" }, System.StringSplitOptions.None);
 			this.connectionsOnPeriod=System.Convert.ToInt32(data[0]);
 			this.cardBoughtOnPeriod=System.Convert.ToInt32(data[1]);
 			this.cardsRenamedOnPeriod=System.Convert.ToInt32(data[2]);
@@ -119,6 +120,11 @@ public class AdminBoardModel
 			this.totalCardSoldOnPeriod=System.Convert.ToInt32(data[11]);
 			this.nbPlayersOnPeriod=System.Convert.ToInt32(data[12]);
 			this.totalNbPlayersOnPeriod=System.Convert.ToInt32(data[13]);
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
 		}
 	}
 }

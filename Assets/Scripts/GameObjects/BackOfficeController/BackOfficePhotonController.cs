@@ -72,7 +72,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
 		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-		this.isWaiting = true ;
+		if(ApplicationModel.player.ChosenGameType<=20)
+		{
+			this.isWaiting = true ;
+		}
 	}
 	
 	void OnJoinedRoom()

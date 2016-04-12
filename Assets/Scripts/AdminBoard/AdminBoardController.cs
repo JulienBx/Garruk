@@ -41,29 +41,22 @@ public class AdminBoardController : MonoBehaviour
 		this.initStyles ();
 		this.resize ();
 		yield return StartCoroutine (model.getAdminBoardData (startPeriod,endPeriod));
-		if(model.error!="")
-		{
-			ServerController.instance.lostConnection();
-		}
-		else
-		{
-			view.VM.connectionsToday=model.connectionsToday.ToString();
-			view.VM.playersToday = model.nbPlayersToday.ToString ();
-			view.VM.cardsRenamedToday=model.cardsRenamedToday.ToString();
-			view.VM.packBoughtToday=model.packBoughtToday.ToString();
-			view.VM.xpBoughtToday=model.xpBoughtToday.ToString();
-			view.VM.cardBoughtToday=model.cardBoughtToday.ToString();
-			view.VM.cardSoldToday = model.cardSoldToday.ToString ();
-			view.VM.connectionsOnPeriod=model.connectionsOnPeriod.ToString();
-			view.VM.playersOnPeriod = model.nbPlayersOnPeriod.ToString ();
-			view.VM.cardsRenamedOnPeriod=model.cardsRenamedOnPeriod.ToString();
-			view.VM.packBoughtOnPeriod=model.packBoughtOnPeriod.ToString();
-			view.VM.xpBoughtOnPeriod=model.xpBoughtOnPeriod.ToString();
-			view.VM.cardBoughtOnPeriod=model.cardBoughtOnPeriod.ToString();
-			view.VM.cardSoldOnPeriod = model.cardSoldOnPeriod.ToString ();
-			view.VM.startPeriod = this.startPeriod.ToString ("dd/MM/yyyy");
-			view.VM.endPeriod = this.endPeriod.ToString ("dd/MM/yyyy");
-		}
+		view.VM.connectionsToday=model.connectionsToday.ToString();
+		view.VM.playersToday = model.nbPlayersToday.ToString ();
+		view.VM.cardsRenamedToday=model.cardsRenamedToday.ToString();
+		view.VM.packBoughtToday=model.packBoughtToday.ToString();
+		view.VM.xpBoughtToday=model.xpBoughtToday.ToString();
+		view.VM.cardBoughtToday=model.cardBoughtToday.ToString();
+		view.VM.cardSoldToday = model.cardSoldToday.ToString ();
+		view.VM.connectionsOnPeriod=model.connectionsOnPeriod.ToString();
+		view.VM.playersOnPeriod = model.nbPlayersOnPeriod.ToString ();
+		view.VM.cardsRenamedOnPeriod=model.cardsRenamedOnPeriod.ToString();
+		view.VM.packBoughtOnPeriod=model.packBoughtOnPeriod.ToString();
+		view.VM.xpBoughtOnPeriod=model.xpBoughtOnPeriod.ToString();
+		view.VM.cardBoughtOnPeriod=model.cardBoughtOnPeriod.ToString();
+		view.VM.cardSoldOnPeriod = model.cardSoldOnPeriod.ToString ();
+		view.VM.startPeriod = this.startPeriod.ToString ("dd/MM/yyyy");
+		view.VM.endPeriod = this.endPeriod.ToString ("dd/MM/yyyy");
 	}
 	public void refreshPeriodHandler()
 	{

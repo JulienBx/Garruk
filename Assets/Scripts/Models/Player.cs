@@ -8,7 +8,6 @@ public class Player : User
 {
 	private string URLUpdateUserInformations;
 	private string URLGetNonReadNotifications;
-	private string URLGetMoney;
 	private string URLAddMoney;
 	private string URLSelectedDeck;
 	private string URLCleanCards;
@@ -97,8 +96,6 @@ public class Player : User
 		this.PackToBuy=-1;
 		this.ChosenGameType=0;
 		this.URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
-		this.URLGetNonReadNotifications = ApplicationModel.host +"get_non_read_notifications_by_user.php";
-		this.URLGetMoney = ApplicationModel.host + "get_money_by_user.php";
 		this.URLAddMoney = ApplicationModel.host + "add_money.php";
 		this.URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 		this.URLCleanCards = ApplicationModel.host + "clean_cards.php";
@@ -108,7 +105,6 @@ public class Player : User
 		this.URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
 		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
 		this.URLSetNextLevelTutorial = ApplicationModel.host + "set_nextLevelTutorial.php";
-		this.URLUpdateEndGameData = ApplicationModel.host + "get_end_game_data.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
@@ -188,24 +184,6 @@ public class Player : User
 			}
 		}
 	}
-	public IEnumerator countNonReadsNotifications(int totalNbResultLimit)
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username);
-		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
-		
-		WWW w = new WWW(URLGetNonReadNotifications, form); 				
-		yield return w;
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 
-		}
-		else
-		{
-			this.NbNotificationsNonRead=System.Convert.ToInt32(w.text);
-		}
-	}
 	public IEnumerator addMoney(int money)
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -215,23 +193,6 @@ public class Player : User
 		
 		WWW w = new WWW(URLAddMoney, form); 				
 		yield return w;
-	}
-	public IEnumerator getMoney()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username);
-		
-		WWW w = new WWW(URLGetMoney, form); 				
-		yield return w;
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 
-		}
-		else
-		{
-			this.Money=System.Convert.ToInt32(w.text);
-		}
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
@@ -430,21 +391,6 @@ public class Player : User
 			this.NextLevelTutorial=step;
 		}
 	}
-	public IEnumerator updateEndGameData()
-	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username); 
-		
-		WWW w = new WWW(URLUpdateEndGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 
-		// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-	}
-
 	public IEnumerator checkPassword(string password)
 	{
 		Error = "";
@@ -512,9 +458,9 @@ public class Player : User
 			this.Money	= System.Convert.ToInt32(playerData[0]);
 			this.NbNotificationsNonRead=System.Convert.ToInt32(playerData[1]);
 			this.IdProfilePicture=System.Convert.ToInt32(playerData[2]);
-			if(this.IsInviting)
+			if(this.IsInviting && data[1]!="")
 			{
-				this.Error=data[1];
+				this.Error=WordingServerError.getReference(data[1],true);
 			}
 			if(data[2]!="-1")
 			{
@@ -700,27 +646,10 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", this.Username); 	
 		form.AddField("myform_macadress", this.MacAdress); 	
-		
-		WWW w = new WWW(URLLostLogin, form);
-		yield return w;
-		
-		if (w.error != null)
-		{
-			Error = w.error;
-		} 
-		else
-		{
-			
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else
-			{
-				Error="";
-			}		
-		}
+
+		ServerController.instance.setRequest(URLLostLogin, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator sentNewEmail()
 	{	
@@ -756,26 +685,10 @@ public class Player : User
 		form.AddField("myform_nick", Username);
 		form.AddField("myform_pass", Password);
 		form.AddField("myform_facebookid", FacebookId);
-		
-		WWW w = new WWW(URLLinkAccount, form);
-		yield return w;
-		
-		if (w.error != null)
-		{
-			Error = w.error;
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else
-			{
-				Error = "";
-			}					
-		}
+
+		ServerController.instance.setRequest(URLLinkAccount, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator getPurchasingToken()
 	{	

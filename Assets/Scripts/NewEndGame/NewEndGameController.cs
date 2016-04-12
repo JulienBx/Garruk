@@ -11,6 +11,7 @@ public class NewEndGameController : MonoBehaviour
 	public static NewEndGameController instance;
 
 	public GameObject nextLevelPopUpObject;
+	public GameObject cardObject;
 
 	private GameObject backOfficeController;
 	private GameObject help;
@@ -57,8 +58,8 @@ public class NewEndGameController : MonoBehaviour
 		this.toUpdateCredits = false;
 		this.areCreditsUpdated = false;
 		this.idCardsToNextLevel = new List<int> ();
-		this.initializeScene ();
 		this.initializeBackOffice();
+		this.initializeScene ();
 		this.initializeHelp();
 		SoundController.instance.playMusic(new int[]{1,2});
 		StartCoroutine (this.initialization ());
@@ -132,7 +133,7 @@ public class NewEndGameController : MonoBehaviour
 		this.cards=new GameObject[4];
 		for(int i=0;i<4;i++)
 		{
-			this.cards[i] = GameObject.Find("Card"+i);
+			this.cards[i] = Instantiate (this.cardObject) as GameObject;
 			this.cards[i].AddComponent<NewCardEndGameController>();
 			this.cards[i].GetComponent<NewCardEndGameController>().c = ApplicationModel.player.MyDeck.cards[i];
 			this.cards[i].GetComponent<NewCardEndGameController>().show();
@@ -340,22 +341,14 @@ public class NewEndGameController : MonoBehaviour
 		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType.ToString());
 		form.AddField("myform_percentagelooser", ApplicationModel.player.PercentageLooser.ToString());
 		form.AddField("myform_idcard", idCards); 
-		
-		WWW w = new WWW(URLGetMyGameData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLGetMyGameData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log(w.error); 											// donne l'erreur eventuelle
-		}
-		else if(w.text.Contains("#ERROR#"))
-		{
-			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-			Debug.Log (errors[1]);
-		}	
-		else
-		{
-			string [] data = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string [] data = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			for(int i=0;i<4;i++)
 			{
 				string [] experienceData = data[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
@@ -383,6 +376,11 @@ public class NewEndGameController : MonoBehaviour
 			this.xpWon=System.Convert.ToInt32(data[6]);
 			ApplicationModel.player.Money=System.Convert.ToInt32(data[7]);
 			this.bonus=System.Convert.ToInt32(data[8]);
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();
 		}
 	}
 	public void returnPressed()

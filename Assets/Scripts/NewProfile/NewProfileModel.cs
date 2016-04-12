@@ -46,14 +46,14 @@ public class NewProfileModel
 		form.AddField("myform_activeuser", ApplicationModel.player.Username);
 		form.AddField("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
 		form.AddField("myform_ismyprofile", isMyProfileString);
-		
-		WWW w = new WWW(URLGetProfileData, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			Debug.Log (w.error); 
-		else 
+
+		ServerController.instance.setRequest(URLGetProfileData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None),isMyProfile);
 			this.users = parseUsers(data[8].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
 			this.users.Add(this.displayedUser);
@@ -87,6 +87,11 @@ public class NewProfileModel
 			{
 				this.usernameList[i]=this.users[i].Username;
 			}
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
 		}
 	}
 	private void parsePlayer(string[] array, bool isMyProfile)

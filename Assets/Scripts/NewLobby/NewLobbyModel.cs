@@ -27,20 +27,24 @@ public class NewLobbyModel
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_isendgamelobby", isEndGameLobbyInt.ToString());
-		
-		WWW w = new WWW(URLGetLobbyData, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			Debug.Log (w.error); 
-		else 
+
+		ServerController.instance.setRequest(URLGetLobbyData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			ApplicationModel.player.CurrentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
+		}
 	}
-
 	private Division parseDivision(string[] array)
 	{
 		Division division = new Division ();

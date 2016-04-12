@@ -821,25 +821,19 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
-		form.AddField("myform_price", price);	
-		WWW w = new WWW(urlPutOnMarket, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
+		form.AddField("myform_price", price);
 
-		if (w.error != null)
+		ServerController.instance.setRequest(urlPutOnMarket, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+		if (error == "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
-		} 
-		else
-		{
-			if (w.text == "")
-			{
-				this.c.onSale = 1;
-				this.c.Price = price;
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(w.text);
-			}
+			this.c.onSale = 1;
+			this.c.Price = price;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
 		}
 		this.updateFocus ();
 		this.updateScene ();

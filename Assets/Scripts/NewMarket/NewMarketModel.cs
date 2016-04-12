@@ -43,16 +43,14 @@ public class NewMarketModel
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
 		form.AddField ("myform_activetab", activeTab.ToString ());
 		form.AddField ("myform_firstload", firstLoadString);
-		
-		WWW w = new WWW(URLGetMarketData, form);				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLGetMarketData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			if(data[2]!="")
@@ -85,6 +83,11 @@ public class NewMarketModel
 				this.newCardsTimeLimit = cards.getCard(0).OnSaleDate;
 				this.oldCardsTimeLimit = cards.getCard(cards.getCount()-1).OnSaleDate;
 			}
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();
 		}
 	}
 	public void parsePlayer(string[] array)
