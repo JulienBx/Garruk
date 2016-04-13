@@ -113,6 +113,7 @@ public class NewProfileModel
 			ApplicationModel.player.Surname = array [12];
 			ApplicationModel.player.Mail = array [13];
 			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
+            ApplicationModel.player.RankingPoints=this.displayedUser.Ranking;
 		}
 		else
 		{

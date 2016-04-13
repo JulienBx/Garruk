@@ -558,7 +558,7 @@ public class BackOfficeController : MonoBehaviour
 			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
 			this.displayLoadingScreenButton (true);
 			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
-			photon.CreateNewRoom();
+            photon.joinRandomRoom();
 			ApplicationModel.player.IsInviting = true;	
 		}
 	}

@@ -16,6 +16,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	float limitTime = 5f ;
 	bool isWaiting ;
 
+    private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
+
 	void Update()
 	{
 		if(this.isWaiting){
@@ -27,7 +29,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		this.waitingTime += f ;
 		if(waitingTime>limitTime){
 			ApplicationModel.player.ToLaunchGameIA  = true ;
-			this.startGame();
+			StartCoroutine(this.startGame());
 		}
 	}
 
@@ -47,31 +49,22 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
 	void OnPhotonRandomJoinFailed()
 	{
-		if(ApplicationModel.player.ChosenGameType<=20)
-		{
-			Debug.Log("Can't join random room! - creating a new room");
-			this.CreateNewRoom ();
-		}
-		else
-		{
-			BackOfficeController.instance.joinInvitationRoomFailed();
-		}
+        Debug.Log("Can't join random room! - creating a new room");
+        this.CreateNewRoom ();
 	}
-
 	public void CreateNewRoom()
 	{
-		ApplicationModel.player.IsFirstPlayer = true;
-		ApplicationModel.player.ToLaunchGameIA  = false ;
-		this.nbPlayers = 0;
-		RoomOptions newRoomOptions = new RoomOptions();
-		newRoomOptions.isOpen = true;
-		newRoomOptions.isVisible = true;
-		newRoomOptions.maxPlayers = 2;
-		newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.player.ChosenGameType } }; // CO pour une partie simple
-		newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
-		
-		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
-		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
+        ApplicationModel.player.IsFirstPlayer = true;
+        ApplicationModel.player.ToLaunchGameIA  = false ;
+        this.nbPlayers = 0;
+        RoomOptions newRoomOptions = new RoomOptions();
+        newRoomOptions.isOpen = true;
+        newRoomOptions.isVisible = true;
+        newRoomOptions.maxPlayers = 2;
+        newRoomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "C0", ApplicationModel.player.ChosenGameType } }; // CO pour une partie simple
+        newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
+        TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
+        PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
 		if(ApplicationModel.player.ChosenGameType<=20)
 		{
 			this.isWaiting = true ;
@@ -80,51 +73,69 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer);
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
 	}
 	
 	[PunRPC]
-	IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId, bool isFirstPlayer)
+	IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId, bool isFirstPlayer, int currentGameId, int rankingPoints)
 	{
 		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.CreateTutorialDeck();
-			this.startGame();
+			StartCoroutine(this.startGame());
 			yield break;
 		}
 		else
 		{
-			Deck deck;
+            this.nbPlayers++;
+            if(this.nbPlayers==2)
+            {
+                this.isWaiting=false;
+            }
+            Deck deck;
 			deck = new Deck(selectedDeckId);
 			yield return StartCoroutine(deck.RetrieveCards());
 			if(deck.Error!="")
 			{
 				this.OnDisconnectedFromPhoton();
 			}
+            if(isFirstPlayer)
+            {
+                ApplicationModel.currentGameId=currentGameId;
+            }
 			if (ApplicationModel.player.IsFirstPlayer == isFirstPlayer)
 			{
 				ApplicationModel.myPlayerName=loginName;
+                ApplicationModel.player.RankingPoints=rankingPoints;
 				ApplicationModel.player.MyDeck=deck;
 				print("deck :"+ApplicationModel.myPlayerName);
 			} 
 			else
 			{
 				ApplicationModel.hisPlayerName=loginName;
+                ApplicationModel.hisRankingPoints=rankingPoints;
 				ApplicationModel.opponentDeck=deck;
 				print("deck :"+ApplicationModel.hisPlayerName);
 			}
-			this.nbPlayers++;
 			if(this.nbPlayers==2)
 			{
-				this.startGame();
+                StartCoroutine(this.startGame());
 			}
 		}
 	}
-	private void startGame()
+	private IEnumerator startGame()
 	{
 		if(ApplicationModel.player.IsFirstPlayer==true)
 		{
 			PhotonNetwork.room.open = false;
+            if(!ApplicationModel.player.ToLaunchGameTutorial)
+            {
+                yield return StartCoroutine(this.initializeGame());
+            }
+            else
+            {
+                yield break;
+            }
 		}
 		SoundController.instance.playMusic(new int[]{3,4});
 		if(ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA)
@@ -135,6 +146,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			BackOfficeController.instance.launchPreMatchLoadingScreen();
 		}
+        yield break;
 	}
 	void OnDisconnectedFromPhoton()
 	{
@@ -273,6 +285,25 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 		ApplicationModel.player.MyDeck.cards.Add(new Card(-1, "Slayer", 35, 2, 0, 3, 16, skills));
 	}
+    private IEnumerator initializeGame()
+    {
+        WWWForm form = new WWWForm();                               // Création de la connexion
+        form.AddField("myform_hash", ApplicationModel.hash);        // hashcode de sécurité, doit etre identique à celui sur le serveur
+        form.AddField("myform_nick", ApplicationModel.player.Username);    // Pseudo de l'utilisateur connecté
 
+        ServerController.instance.setRequest(URLInitiliazeGame, form);
+        yield return ServerController.instance.StartCoroutine("executeRequest");
+        
+        if(ServerController.instance.getError()=="")
+        {
+            string result = ServerController.instance.getResult();
+            ApplicationModel.currentGameId=System.Convert.ToInt32(result);
+        }
+        else
+        {
+            Debug.Log(ServerController.instance.getError());
+            ServerController.instance.lostConnection();
+        }
+    }
 }
 

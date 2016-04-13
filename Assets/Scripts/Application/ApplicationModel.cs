@@ -15,8 +15,12 @@ public class ApplicationModel
 	static public string photonSettings;                    // identifiant utilisé par Photon A mettre à jour à chaque nouvelle version
 	static public int nbCardsByDeck;
 
+    static public int currentGameId;
+
 	static public string myPlayerName; // A voir si on le met pas dans player ?
 	static public string hisPlayerName; // A voir si on le met pas dans un objet user ?
+
+    static public int hisRankingPoints;
 
 	static public float volBackOfficeFx;
 	static public float volMusic;
@@ -42,6 +46,7 @@ public class ApplicationModel
 		myPlayerName="";
 		hisPlayerName="";
 		timeOutDelay=10f;
+        currentGameId=-1;
 		player=new Player();
 	}
 }

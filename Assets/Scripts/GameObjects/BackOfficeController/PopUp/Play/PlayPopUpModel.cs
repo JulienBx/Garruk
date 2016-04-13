@@ -29,7 +29,8 @@ public class PlayPopUpModel {
 			string result = ServerController.instance.getResult();
 			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32(data [0]);
-			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
+            ApplicationModel.player.RankingPoints=System.Convert.ToInt32(data [1]);
+			this.decks = this.parseDecks(data[2].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 		}
 		else
 		{
