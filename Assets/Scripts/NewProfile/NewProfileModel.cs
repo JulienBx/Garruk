@@ -15,7 +15,6 @@ public class NewProfileModel
 	public User displayedUser;
 	
 	private string URLGetProfileData = ApplicationModel.host+"get_profile_data.php";
-	private string URLSearchUsers = ApplicationModel.host + "search_users.php";
 	
 	public NewProfileModel()
 	{

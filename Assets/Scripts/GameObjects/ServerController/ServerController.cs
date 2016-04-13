@@ -12,7 +12,6 @@ public class ServerController : MonoBehaviour
 	private float timer;
 	private string URL;
 	private WWWForm form;
-	private bool isTimedOut;
 	private string result;
 	private string error;
 
@@ -24,9 +23,9 @@ public class ServerController : MonoBehaviour
 			this.timer=this.timer+Time.deltaTime;
 			if(this.timer>ApplicationModel.timeOutDelay)
 			{
-				this.isTimedOut=true;
 				this.toDetectTimeOut=false;
 				StopCoroutine(this.executeRequest());
+				this.lostConnection();
 			}
 		}
 	}
@@ -43,26 +42,19 @@ public class ServerController : MonoBehaviour
 	{
 		this.result="";
 		this.error="";
-		this.isTimedOut=false;
-		this.toDetectTimeOut=toDetectTimeOut;
+		this.toDetectTimeOut=true;
 		this.timer=0f;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
-		if(!this.isTimedOut)
+		this.toDetectTimeOut=false;
+		if(w.error!=null)
 		{
-			if(w.error!=null)
-			{
-				this.error=WordingServerError.getReference(w.error,false);
-			}
-			else if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.error = WordingServerError.getReference(errors [1],true);
-			}
+			this.error=WordingServerError.getReference(w.error,false);
 		}
-		else
+		else if(w.text.Contains("#ERROR#"))
 		{
-			this.error=WordingServerError.getReference("5",true);
+			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+			this.error = WordingServerError.getReference(errors [1],true);
 		}
 		this.result=w.text;
 	}

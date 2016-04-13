@@ -1582,9 +1582,17 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.setProfilePicture(id));
-		model.displayedUser.IdProfilePicture=ApplicationModel.player.IdProfilePicture;
-		this.drawProfilePicture ();
-		MenuController.instance.changeThumbPicture ();
+		if(ApplicationModel.player.Error!="")
+		{
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
+		}
+		else
+		{
+			model.displayedUser.IdProfilePicture=ApplicationModel.player.IdProfilePicture;
+			this.drawProfilePicture ();
+			MenuController.instance.changeThumbPicture ();
+		}
 		BackOfficeController.instance.hideLoadingScreen();
 	}
 	public void displayChooseLanguagePopUp()

@@ -31,7 +31,8 @@ public class GameView : MonoBehaviour
 	public int nbFreeRowsAtBeginning ;
 
 	bool isLoadingScreenDisplayed = false ;
-	
+
+	GameObject serverController;
 	GameObject loadingScreen;
 	GameObject[,] tiles ;
 	GameObject myHoveredRPC ;
@@ -118,6 +119,7 @@ public class GameView : MonoBehaviour
 	{
 		instance = this;
 		this.numberDeckLoaded = 0 ;
+		this.initializeServerController();
 		this.displayLoadingScreen ();
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.playingCards = new GameObject[100];
@@ -182,7 +184,13 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
 	}
-	
+
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
+	}
+
 	public void displayLoadingScreen()
 	{
 		if(!isLoadingScreenDisplayed)

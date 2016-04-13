@@ -708,9 +708,9 @@ public class BackOfficeController : MonoBehaviour
 			}
 			this.displayInvitationPopUp();
 
-			Invitation invitation = new Invitation ();
-			invitation.Id = ApplicationModel.player.ChosenGameType-20;
-			StartCoroutine(invitation.changeStatus(-1));
+			//Invitation invitation = new Invitation ();
+			//invitation.Id = ApplicationModel.player.ChosenGameType-20;
+			//StartCoroutine(invitation.changeStatus(-1));
 		}
 		if(ApplicationModel.player.IsInviting && ApplicationModel.player.Error!="")
 		{
@@ -718,6 +718,7 @@ public class BackOfficeController : MonoBehaviour
 			photon.leaveRoom();
 			ApplicationModel.player.IsInviting=false;
 			this.displayErrorPopUp(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
 		}
 	}
 	public bool getIsLoadingScreenDisplayed()

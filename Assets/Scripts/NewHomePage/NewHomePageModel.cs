@@ -77,43 +77,6 @@ public class NewHomePageModel
 			Debug.Log(ServerController.instance.getError());
 			ServerController.instance.lostConnection();
 		}
-		
-		WWW w = new WWW(URLInitialize, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			Debug.Log (w.error); 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.parsePlayer(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.users = parseUsers(data[7].Split(new string[] { "#U#"  }, System.StringSplitOptions.None));
-			this.users.Add(ApplicationModel.player);
-			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
-			this.notifications=parseNotifications(data[2].Split(new string[] { "#N#" }, System.StringSplitOptions.None));
-			this.friends=parseFriends(data[3].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.news=this.filterNews(parseNews(data[4].Split(new string[] { "#N#" }, System.StringSplitOptions.None)),ApplicationModel.player.Id);
-			ApplicationModel.player.CurrentDivision=parseDivision(data[5].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			this.packs=parsePacks(data[6].Split(new string[] { "#PACK#" }, System.StringSplitOptions.None));
-
-			this.lookForNonReadNotification();
-			this.competitions.Add (ApplicationModel.player.CurrentDivision);
-
-			if(this.decks.Count>0)
-			{
-				ApplicationModel.player.HasDeck=true;
-			}
-			else
-			{
-				ApplicationModel.player.HasDeck=false;
-			}
-
-			usernameList=new string[this.users.Count];
-			for(int i=0;i<this.users.Count;i++)
-			{
-				this.usernameList[i]=this.users[i].Username;
-			}
-
-		}
 	}
 	private IList<Pack> parsePacks (string[] array)
 	{
@@ -382,14 +345,13 @@ public class NewHomePageModel
 		
 		WWW w = new WWW(URLUpdateReadNotifications, form); 				
 		yield return w;
+
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 
 		}
-		else
-		{
-			ApplicationModel.player.NbNotificationsNonRead=System.Convert.ToInt32(w.text);
-		}
+
+		ApplicationModel.player.NbNotificationsNonRead=System.Convert.ToInt32(w.text);
 	}
 	private string ReplaceFirst(string text, string search, string replace)
 	{

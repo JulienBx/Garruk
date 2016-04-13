@@ -20,15 +20,14 @@ public class SearchUsersPopUpModel
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_search", search);
-		
-		
-		WWW w = new WWW(URLSearchUsers, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
-			Debug.Log (w.error); 
-		else 
+
+		ServerController.instance.setRequest(URLSearchUsers, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			string[] data=w.text.Split(new string[] { "#USER#" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "#USER#" }, System.StringSplitOptions.None);
 			for (int i=0;i<data.Length-1;i++)
 			{
 				string[] userData =data[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
@@ -38,6 +37,11 @@ public class SearchUsersPopUpModel
 				this.users[i].Division= System.Convert.ToInt32(userData[2]);
 				this.users[i].TrainingStatus= System.Convert.ToInt32(userData[3]);
 			}
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();
 		}
 	}
 }

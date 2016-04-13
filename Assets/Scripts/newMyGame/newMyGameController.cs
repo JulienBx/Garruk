@@ -1666,7 +1666,15 @@ public class newMyGameController : MonoBehaviour
 				BackOfficeController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
 				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(newName));
-				this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+				if(model.decks[this.deckDisplayed].Error=="")
+				{
+					this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+				}
+				else
+				{
+					BackOfficeController.instance.displayErrorPopUp(model.decks[this.deckDisplayed].Error);
+					model.decks[this.deckDisplayed].Error="";
+				}
 				BackOfficeController.instance.hideLoadingScreen();
 			}
 		}

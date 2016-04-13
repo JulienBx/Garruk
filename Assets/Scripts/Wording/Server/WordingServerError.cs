@@ -48,6 +48,8 @@ public class WordingServerError
 		references.Add(new string[]{"Votre ami est encore en cours d'apprentissage vous ne pourrez pas l'affronter.\n Réessayez plus tard.",""}); //17
 		references.Add(new string[]{"Votre ami n'a pas encore constitué son jeu,\n vous ne pourrez pas l'affronter.\n Réessayez plus tard.",""}); //18
 		references.Add(new string[]{"Votre ami a refusé votre invitation",""}); //19
+		references.Add(new string[]{"Vous ne pouvez pas augmenter cette caractéristique",""}); //20
+		references.Add(new string[]{"Mail déjà existant",""}); //21
 
 	}
 }

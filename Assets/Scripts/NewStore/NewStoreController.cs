@@ -1333,9 +1333,14 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public IEnumerator addGift(int money)
 	{
 		yield return StartCoroutine	(ApplicationModel.player.addMoney(money));
-		if(ApplicationModel.player.Error!="")
+		if(ApplicationModel.player.Error=="")
 		{
 			ApplicationModel.player.Money=ApplicationModel.player.Money+money;
+		}
+		else
+		{
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
+			ApplicationModel.player.Error="";
 		}
 	}
 	  

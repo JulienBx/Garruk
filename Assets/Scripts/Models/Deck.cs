@@ -117,16 +117,14 @@ public class Deck : Cards
 		if (w.error != null)
 		{
 			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} else
+		} 
+		this.NbCards--;
+		for (int i=0; i<this.cards.Count; i++)
 		{
-			this.NbCards--;
-			for (int i=0; i<this.cards.Count; i++)
+			if (this.cards [i].Id == idCard)
 			{
-				if (this.cards [i].Id == idCard)
-				{
-					this.cards.RemoveAt(i);
-					break;
-				}
+				this.cards.RemoveAt(i);
+				break;
 			}
 		}
 	}
@@ -162,7 +160,6 @@ public class Deck : Cards
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		this.Error=ServerController.instance.getError();
 	}
-
 	public IEnumerator edit(string newName)
 	{
 		WWWForm form = new WWWForm(); 								// Création de la connexion
@@ -170,13 +167,12 @@ public class Deck : Cards
 		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_id", Id);
 		form.AddField("myform_name", newName);
-		WWW w = new WWW(URLEditDeck, form); 						// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 
 
-		if (w.error != null)
-		{
-			Debug.Log(w.error);
-		} else
+		ServerController.instance.setRequest(URLEditDeck, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
 			this.Name = newName;
 		}

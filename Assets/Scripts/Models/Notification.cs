@@ -19,7 +19,6 @@ public class Notification
 	public string Param3;
 
 	private string URLAddNotification = ApplicationModel.host +"add_notification.php";
-	private string URLRemoveNotification = ApplicationModel.host +"remove_notification.php";
 
 	public Notification()
 	{
@@ -59,23 +58,6 @@ public class Notification
 
 		if (w.error != null)
 		{ 
-			Debug.Log (w.error); 
-		}
-	}
-	public IEnumerator remove()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_iduser",this.IdUser.ToString());
-		form.AddField("myform_idsendinguser",this.IdSendingUser.ToString());
-		form.AddField("myform_idnotificationtype", this.IdNotificationType.ToString ());
-		form.AddField("myform_param1", this.Param1); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_param2", this.Param2);
-		form.AddField("myform_param3", this.Param3);
-		
-		WWW w = new WWW(URLRemoveNotification, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null){ 
 			Debug.Log (w.error); 
 		}
 	}

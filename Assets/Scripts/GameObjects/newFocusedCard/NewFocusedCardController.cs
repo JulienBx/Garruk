@@ -495,23 +495,19 @@ public class NewFocusedCardController : MonoBehaviour
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_idcard", this.c.Id);		
-		WWW w = new WWW(urlSellCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
+		form.AddField("myform_idcard", this.c.Id);
+
+		ServerController.instance.setRequest(urlSellCard, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+		
+		if (error != "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
+			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
 		} 
 		else
 		{
-			if(w.text=="")
-			{
-				this.deleteCard();
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(w.text);
-			}
+			this.deleteCard();
 		}
 		this.hideLoadingScreen ();
 	}
@@ -534,32 +530,26 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
 		form.AddField ("myform_newlevel", newLevel);
-		
-		WWW w = new WWW(urlUpgradeCardAttribute, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);									// donne l'erreur eventuelle
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				BackOfficeController.instance.displayErrorPopUp(errors[1]);
-			} 
-			else
-			{
-				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				this.c.parseCard(experienceData[0]);
-				this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-				this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-				this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-				this.isNextLevelPopUpHiding=true;
-			}
+			string result = ServerController.instance.getResult();
+			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+			this.c.parseCard(experienceData[0]);
+			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
+			this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			this.isNextLevelPopUpHiding=true;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
 		}
 		this.hideLoadingScreen ();
 	}
@@ -574,25 +564,19 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField("myform_idcard", this.c.Id);
 		form.AddField("myform_title", newName);
 		form.AddField("myform_cost", this.c.RenameCost);
-		
-		WWW w = new WWW(urlRenameCard, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(urlRenameCard, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
-		} 
-		else
-		{
-			if (w.text == "")
-			{
-				this.c.Title = newName;
-				this.name.GetComponent<TextMeshPro> ().text = this.c.Title;
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(w.text);
-			}
+			this.c.Title = newName;
+			this.name.GetComponent<TextMeshPro> ().text = this.c.Title;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
 		}
 		this.updateFocus ();
 		this.hideLoadingScreen ();
@@ -781,23 +765,18 @@ public class NewFocusedCardController : MonoBehaviour
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField("myform_idcard", this.c.Id);
-		WWW w = new WWW(urlRemoveFromMarket, form);             				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(urlRemoveFromMarket, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
 		{
-			BackOfficeController.instance.displayErrorPopUp(w.error);
-		} 
-		else
-		{
-			if (w.text == "")
-			{
-				this.c.onSale = 0;
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(w.text);
-			}
+			this.c.onSale = 0;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
 		}
 		this.updateFocus ();
 		this.updateScene ();

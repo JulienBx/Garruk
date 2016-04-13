@@ -122,8 +122,8 @@ public class Player : User
 		this.Connections=new List<Connection>();
 		this.CurrentDivision=new Division();
 	}
-	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail){
-
+	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail)
+	{
 		string isNewEmailString="0";
 		if(isNewEmail)
 		{
@@ -137,25 +137,16 @@ public class Player : User
 		form.AddField("myform_surname", surname);
 		form.AddField("myform_mail", mail);
 		form.AddField("myform_isnewemail", isNewEmailString);
-		
-		WWW w = new WWW(URLUpdateUserInformations, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null){ 
-			this.Error=w.error; 
-		}
-		else 
+
+		ServerController.instance.setRequest(URLUpdateUserInformations, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
-			else
-			{
-				this.FirstName=firstname;
-				this.Surname=surname;
-				this.Mail=mail;
-			}
+			this.FirstName=firstname;
+			this.Surname=surname;
+			this.Mail=mail;
 		}
 	}
 	public IEnumerator setProfilePicture(int idprofilepicture)
@@ -164,24 +155,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_idprofilepicture", idprofilepicture.ToString()); 
-		
-		WWW w = new WWW (URLSetProfilePicture, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLSetProfilePicture, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(this.Error=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Debug.Log (errors[1]);
-			}
-			else
-			{
-				this.IdProfilePicture=idprofilepicture;
-			}
+			string result = ServerController.instance.getResult();
+			this.IdProfilePicture=idprofilepicture;
 		}
 	}
 	public IEnumerator addMoney(int money)
@@ -190,9 +172,10 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", this.Username);
 		form.AddField("myform_money", money.ToString());
-		
-		WWW w = new WWW(URLAddMoney, form); 				
-		yield return w;
+
+		ServerController.instance.setRequest(URLAddMoney, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
@@ -202,14 +185,12 @@ public class Player : User
 		form.AddField("myform_deck", selectedDeckId.ToString());                 // Deck sélectionné
 		
 		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+		yield return w; 
+													// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 										// donne l'erreur eventuelle
 		} 
-		else 
-		{
-		}
 	}
 	public IEnumerator cleanCards()
 	{
@@ -218,17 +199,13 @@ public class Player : User
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté     
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck);
 
-
 		ServerController.instance.setRequest(URLCleanCards, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
 
-		if(this.Error!="")
+		if(ServerController.instance.getError()!="")
 		{
-			Debug.Log(this.Error);
-			this.Error="";
+			Debug.Log(ServerController.instance.getError());
 		}
-
 	}
 	public IEnumerator setTutorialStep(int step)
 	{
@@ -236,25 +213,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", step.ToString());                 // Deck sélectionné
+
+		ServerController.instance.setRequest(URLSetTutorialStep, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetTutorialStep, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Debug.Log (errors[1]);
-			}
-			else
-			{
-				this.TutorialStep=step;
-			}
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.TutorialStep=step;
 	}
 	public IEnumerator setMarketTutorial(bool step)
 	{
@@ -271,17 +238,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
+
+		ServerController.instance.setRequest(URLSetMarketTutorial, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetMarketTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.MarketTutorial=step;
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.MarketTutorial=step;
 	}
 	public IEnumerator setProfileTutorial(bool step)
 	{
@@ -298,17 +263,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
+
+		ServerController.instance.setRequest(URLSetProfileTutorial, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetProfileTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.ProfileTutorial=step;
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.ProfileTutorial=step;
 	}
 	public IEnumerator setSkillBookTutorial(bool step)
 	{
@@ -325,17 +288,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
+
+		ServerController.instance.setRequest(URLSetSkillBookTutorial, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetSkillBookTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.SkillBookTutorial=step;
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.SkillBookTutorial=step;
 	}
 	public IEnumerator setLobbyTutorial(bool step)
 	{
@@ -352,17 +313,15 @@ public class Player : User
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField("myform_step", tempString);                 // Deck sélectionné
+
+		ServerController.instance.setRequest(URLSetLobbyTutorial, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetLobbyTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.LobbyHelp=step;
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.LobbyHelp=step;
 	}
 	public IEnumerator setNextLevelTutorial(bool step)
 	{
@@ -378,18 +337,16 @@ public class Player : User
 		WWWForm form = new WWWForm (); 								// Création de la connexion
 		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
+		form.AddField("myform_step", tempString);  
+
+		ServerController.instance.setRequest(URLSetNextLevelTutorial, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
 		
-		WWW w = new WWW (URLSetNextLevelTutorial, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+		if (ServerController.instance.getError()!="") 
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			this.NextLevelTutorial=step;
+			Debug.Log (ServerController.instance.getError()); 										
 		}
+		this.NextLevelTutorial=step;
 	}
 	public IEnumerator checkPassword(string password)
 	{
@@ -462,7 +419,7 @@ public class Player : User
 			{
 				this.Error=WordingServerError.getReference(data[1],true);
 			}
-			if(data[2]!="-1")
+			else if(data[2]!="-1")
 			{
 				this.IsInvited=true;
 			}
@@ -657,26 +614,10 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", Username);
 		form.AddField("myform_email", Mail);
-		
-		WWW w = new WWW(URLSentNewEmail, form);
-		yield return w;
-		
-		if (w.error != null)
-		{
-			Error = w.error;
-		} 
-		else
-		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-			} 
-			else
-			{
-				Error = "";
-			}					
-		}
+
+		ServerController.instance.setRequest(URLSentNewEmail, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator linkAccount()
 	{	

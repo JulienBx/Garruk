@@ -23,7 +23,7 @@ public class ApplicationModel
 
 	static public Deck opponentDeck;
 
-	static public int timeOutDelay;
+	static public float timeOutDelay;
 
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
 	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial
@@ -41,7 +41,7 @@ public class ApplicationModel
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";
-		timeOutDelay=10;
+		timeOutDelay=10f;
 		player=new Player();
 	}
 }

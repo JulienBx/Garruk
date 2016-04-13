@@ -14,6 +14,7 @@ public class NewEndGameController : MonoBehaviour
 	public GameObject cardObject;
 
 	private GameObject backOfficeController;
+	private GameObject serverController;
 	private GameObject help;
 	private GameObject nextLevelPopUp;
 	private GameObject[] cards;
@@ -58,6 +59,7 @@ public class NewEndGameController : MonoBehaviour
 		this.toUpdateCredits = false;
 		this.areCreditsUpdated = false;
 		this.idCardsToNextLevel = new List<int> ();
+		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.initializeHelp();
@@ -109,6 +111,11 @@ public class NewEndGameController : MonoBehaviour
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
 		this.backOfficeController.AddComponent<BackOfficeEndGameController>();
 		this.backOfficeController.GetComponent<BackOfficeEndGameController>().initialize();
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeHelp()
 	{
@@ -299,22 +306,20 @@ public class NewEndGameController : MonoBehaviour
 		form.AddField ("myform_attribute", attributeToUpgrade);
 		form.AddField ("myform_newpower", newPower);
 		form.AddField ("myform_newlevel", newLevel);
-		
-		WWW w = new WWW(urlUpgradeCardAttribute, form); 								
-		yield return w; 											
-		
-		if (w.error == null)
+
+		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			if (!w.text.Contains("#ERROR#"))
-			{
-				string [] cardData = w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
-				string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
-				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-				this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-				this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
-				this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-			}
+			string result = ServerController.instance.getResult();
+			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+			ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
+			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
+			this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
+			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
 		}
 	}
 	public IEnumerator initializeEndGame()

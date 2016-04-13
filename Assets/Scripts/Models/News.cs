@@ -14,8 +14,6 @@ public class News
 	public string Param2;
 	public string Param3;
 	public string Description;
-
-	private string URLRemoveNews = ApplicationModel.host +"remove_news.php";
 	
 	public News()
 	{
@@ -51,7 +49,6 @@ public class News
 		this.Param2 = param2;
 		this.Param3 = "";
 	}
-	
 	public News(int iduser, int idnewstype, string param1, string param2, string param3)
 	{
 		this.IdUser = iduser;
@@ -59,23 +56,6 @@ public class News
 		this.Param1 = param1;
 		this.Param2 = param2;
 		this.Param3 = param3;
-	}
-
-	public IEnumerator remove()
-	{
-		WWWForm form = new WWWForm(); 											// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_iduser",this.IdUser.ToString());
-		form.AddField("myform_idnewstype", this.IdNewsType.ToString ());
-		form.AddField("myform_param1", this.Param1); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_param2", this.Param2);
-		form.AddField("myform_param3", this.Param3);
-		
-		WWW w = new WWW(URLRemoveNews, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null){ 
-			Debug.Log (w.error); 
-		}
 	}
 }
 

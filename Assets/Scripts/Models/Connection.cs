@@ -35,22 +35,12 @@ public class Connection
 	{
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_id", this.Id.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_id", this.Id.ToString());
 
-		WWW w = new WWW(URLRemoveConnection, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null)
-		{
-			Debug.Log (w.error); 
-		}
-		else
-		{
-			if(w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				this.Error=errors[1];
-			}
-		}
+		ServerController.instance.setRequest(URLRemoveConnection, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
 	}
 	public IEnumerator confirm()
 	{
@@ -74,7 +64,6 @@ public class Connection
 		form.AddField("myform_iduser1", this.IdUser1.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_iduser2", this.IdUser2.ToString()); 			
 		form.AddField("myform_isaccepted", (System.Convert.ToInt32(this.IsAccepted)).ToString()); 	
-
 
 		ServerController.instance.setRequest(URLAddConnection, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
