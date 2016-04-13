@@ -79,4 +79,5 @@ MonoBehaviour:
   - removeRockRPC
   - addRockRPC
   - applyOnMeRPC
+  - purifyRPC
   DisableAutoOpenWizard: 0

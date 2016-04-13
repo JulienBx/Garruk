@@ -255,6 +255,26 @@ public class PlayingCardController : GameObjectController
 			m.amount = -1*Mathf.Min(-1*m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
 		}
 		else{
+			if(m.amount>0){
+				if(this.card.isFanatique()){
+					GameCard targetCard ;
+					int bonusAttack = this.card.Skills[0].Power;
+					bool isFanaMine = this.card.isMine;
+
+					List<int> characters = GameView.instance.getEveryone();
+					for(int i = 0 ; i < characters.Count ; i++){
+						if(GameView.instance.getCard(characters[i]).isMine == isFanaMine && this.id!=characters[i]){
+							targetCard = GameView.instance.getCard(characters[i]);
+							int bonus = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*bonusAttack/100f));
+							GameView.instance.getPlayingCardController(characters[i]).updateAttack(targetCard.getAttack());
+							GameView.instance.getPlayingCardController(characters[i]).addAttackModifyer(new Modifyer(bonus, 2, 112, base.name, ". Actif 1 tour"));
+
+							GameView.instance.displaySkillEffect(characters[i], "Martyr\n+"+bonus+" ATK", 2);
+							GameView.instance.addAnim(GameView.instance.getTile(characters[i]), 112);
+						}
+					}
+				}
+			}
 			if (this.card.getLife()-m.amount<=0){
 				this.kill(endTurn);
 			}

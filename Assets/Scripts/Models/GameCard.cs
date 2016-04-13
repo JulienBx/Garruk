@@ -174,6 +174,11 @@ public class GameCard : Card
 		return (this.Skills[0].Id == 113);
 	}
 
+	public bool isFanatique()
+	{
+		return (this.Skills[0].Id == 112);
+	}
+
 	public void replaceCristoMasterModifyer(Modifyer m)
 	{
 		for (int i = attackModifyers.Count-1 ; i >= 0 ; i--)

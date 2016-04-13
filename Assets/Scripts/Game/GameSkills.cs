@@ -117,7 +117,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [101] = new Fatality();
 		this.skills [102] = new Sermon();
 		this.skills [103] = new Benediction();
-		this.skills [104] = new GameSkill();
+		this.skills [104] = new Faveur();
 		this.skills [105] = new Copieur();
 		this.skills [106] = new Malediction();
 		this.skills [107] = new Miracle();

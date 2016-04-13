@@ -1786,16 +1786,16 @@ MonoBehaviour:
   - {fileID: 21300032, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 21300034, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 21300036, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300098, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300100, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300102, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300104, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300106, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300108, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300110, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300112, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300114, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
+  - {fileID: 21300116, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 21300098, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 21300100, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
   - {fileID: 21300102, guid: b1c87354a2dcc0745b8513e759375dcc, type: 3}
@@ -7029,6 +7029,56 @@ Prefab:
       propertyPath: animSprites.Array.data[1139]
       value: 
       objectReference: {fileID: 21300096, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1040]
+      value: 
+      objectReference: {fileID: 21300098, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1041]
+      value: 
+      objectReference: {fileID: 21300100, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1042]
+      value: 
+      objectReference: {fileID: 21300102, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1043]
+      value: 
+      objectReference: {fileID: 21300104, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1044]
+      value: 
+      objectReference: {fileID: 21300106, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1046]
+      value: 
+      objectReference: {fileID: 21300110, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1045]
+      value: 
+      objectReference: {fileID: 21300108, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1047]
+      value: 
+      objectReference: {fileID: 21300112, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1048]
+      value: 
+      objectReference: {fileID: 21300114, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[1049]
+      value: 
+      objectReference: {fileID: 21300116, guid: b1c87354a2dcc0745b8513e759375dcc,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

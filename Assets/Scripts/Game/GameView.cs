@@ -1062,7 +1062,6 @@ public class GameView : MonoBehaviour
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;
-					int soin ;
 					foreach (Tile t in neighbourTiles)
 					{
 						playerID = this.getTileController(t.x, t.y).getCharacterID();
@@ -3465,6 +3464,51 @@ public class GameView : MonoBehaviour
 
 		sequenceID++;
 	}
+
+	public void advanceTurn(int character){
+		
+		for(int i = 0 ; i < orderCards.Count ; i++){
+			if(orderCards[i]==character){
+				this.orderCards.RemoveAt(i);
+			}
+		} 
+
+		for(int i = 0 ; i < orderCards.Count ; i++){
+			if(orderCards[i]==this.currentPlayingCard){
+				this.orderCards.Insert(i+1,character);
+			}
+		} 
+		
+		this.updateTimeline();
+	}
+
+	public int getMaxPVCard(){
+		int pv = 0 ; 
+		int chosenCard = -1 ;
+
+		for(int i = 0 ; i < nbCards ; i++){
+			if(!this.getCard(i).isDead){
+				if(this.getCard(i).getLife()>pv){
+					pv = this.getCard(i).getLife();
+					chosenCard = i ;
+				}
+			}
+		}
+		return chosenCard;
+	}
+
+	public int getMinPVCard(){
+		int pv = 1000 ; 
+		int chosenCard = -1 ;
+
+		for(int i = 0 ; i < nbCards ; i++){
+			if(!this.getCard(i).isDead){
+				if(this.getCard(i).getLife()<pv){
+					pv = this.getCard(i).getLife();
+					chosenCard = i ;
+				}
+			}
+		}
+		return chosenCard;
+	}
 }
-
-
