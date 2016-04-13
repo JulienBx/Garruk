@@ -22,17 +22,13 @@ public class InvitationPopUpModel {
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck.ToString ());
-		
-		WWW w = new WWW(URLGetUserInvitationData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLGetUserInvitationData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			//Debug.Log(w.text);
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
 			if(data[2]!="-1")
@@ -40,6 +36,10 @@ public class InvitationPopUpModel {
 				this.isInvitationStillExists=true;
 				this.invitation = parseInvitation(data[2].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			}
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
 		}
 	}
 	private void parseUser(string[] array)

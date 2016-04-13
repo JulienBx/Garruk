@@ -20,23 +20,20 @@ public class NewMyGameModel
 	}
 	public IEnumerator initializeMyGame () 
 	{
-		
 		this.skillsList = new List<Skill> ();
 		this.cards = new Cards();
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
-		
-		WWW w = new WWW(URLGetMyGameData, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w;
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLGetMyGameData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
 			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
 			if(data[2]!="")
@@ -46,6 +43,11 @@ public class NewMyGameModel
 			this.decks=parseDecks(data[3].Split(new string[] { "#D#" }, System.StringSplitOptions.None));
 			this.parseUser(data[4].Split(new string[] { "\\" }, System.StringSplitOptions.None));
 			this.retrieveCardsDeck();
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
 		}
 	}
 	private void retrieveCardsDeck()

@@ -19,7 +19,6 @@ public class Skill
 	public string Action;
 	public CardType CardType;
 	public Texture2D texture;
-	public string Picture;
 	public bool IsNew;
 	public int cible ;
 	public int Upgrades;
@@ -105,13 +104,6 @@ public class Skill
 		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
 		this.Description = "";
 		this.hasBeenPlayed = false ;
-	}
-	
-	public IEnumerator setPicture()
-	{
-		var www = new WWW(ApplicationModel.host + this.Picture);
-		yield return www;
-		www.LoadImageIntoTexture(this.texture);
 	}
 	
 	public string getProbaText()

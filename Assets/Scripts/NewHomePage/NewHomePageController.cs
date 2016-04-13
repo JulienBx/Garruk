@@ -894,7 +894,10 @@ public class NewHomePageController : MonoBehaviour
 		if(this.deckDisplayed!=-1)
 		{	
 			yield return StartCoroutine(model.decks[this.deckDisplayed].RetrieveCards());
-			
+			if(model.decks[this.deckDisplayed].Error!="")
+			{
+				ServerController.instance.lostConnection();
+			}
 			for(int i=0;i<model.decks[this.deckDisplayed].cards.Count;i++)
 			{
 				int deckOrder = model.decks[this.deckDisplayed].cards[i].deckOrder;

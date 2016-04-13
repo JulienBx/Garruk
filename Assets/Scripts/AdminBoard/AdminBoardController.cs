@@ -5,11 +5,13 @@ using System.Collections;
 using System.Reflection;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 public class AdminBoardController : MonoBehaviour
 {
 
 	public static AdminBoardController instance;
+	private GameObject serverController;
 	private AdminBoardModel model;
 	private AdminBoardView view;
 	public GameObject MenuObject;
@@ -25,8 +27,14 @@ public class AdminBoardController : MonoBehaviour
 		this.endPeriod = DateTime.Now;
 		this.model = new AdminBoardModel ();
 		this.view = Camera.main.gameObject.AddComponent <AdminBoardView>();
+		this.initializeServerController();
 		this.MenuObject = Instantiate(this.MenuObject) as GameObject;
 		StartCoroutine (this.initialization());
+	}
+	private void initializeServerController()
+	{
+		this.serverController = GameObject.Find ("ServerController");
+		this.serverController.GetComponent<ServerController>().initialize();
 	}	
 	private IEnumerator initialization ()
 	{

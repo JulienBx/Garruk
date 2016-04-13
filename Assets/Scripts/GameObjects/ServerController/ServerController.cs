@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public class ServerController : MonoBehaviour 
 {
@@ -72,6 +73,15 @@ public class ServerController : MonoBehaviour
 	public string getError()
 	{
 		return this.error;
+	}
+	public void lostConnection()
+	{
+		if(!ApplicationModel.player.ToDeconnect)
+		{
+			ApplicationModel.player.hastLostConnection=true;
+		}
+		ApplicationModel.player.ToDeconnect=true;
+		SceneManager.LoadScene("Authentication");
 	}
 
 }

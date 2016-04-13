@@ -20,18 +20,21 @@ public class PlayPopUpModel {
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 		form.AddField ("myform_nbcardsbydeck", ApplicationModel.nbCardsByDeck.ToString ());
-		
-		WWW w = new WWW(URLGetUserPlayingData, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
+
+		ServerController.instance.setRequest(URLGetUserPlayingData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+
+		if(ServerController.instance.getError()=="")
 		{
-			Debug.Log(w.error); 										// donne l'erreur eventuelle
-		} 
-		else 
-		{
-			string[] data=w.text.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32(data [0]);
 			this.decks = this.parseDecks(data[1].Split(new string[] { "#DECK#" }, System.StringSplitOptions.None));
+		}
+		else
+		{
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();	
 		}
 	}
 	private List<Deck> parseDecks(string[] decksData)

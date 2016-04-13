@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class BackOfficePhotonController : Photon.MonoBehaviour 
 {
-	
 	public const string roomNamePrefix = "GarrukGame";
 	private int nbPlayers;
 	private int deckLoaded;
@@ -73,7 +72,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
 		PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-		this.isWaiting = true ;
+		if(ApplicationModel.player.ChosenGameType<=20)
+		{
+			this.isWaiting = true ;
+		}
 	}
 	
 	void OnJoinedRoom()
@@ -95,6 +97,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			Deck deck;
 			deck = new Deck(selectedDeckId);
 			yield return StartCoroutine(deck.RetrieveCards());
+			if(deck.Error!="")
+			{
+				this.OnDisconnectedFromPhoton();
+			}
 			if (ApplicationModel.player.IsFirstPlayer == isFirstPlayer)
 			{
 				ApplicationModel.myPlayerName=loginName;
@@ -132,10 +138,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	void OnDisconnectedFromPhoton()
 	{
-		ApplicationModel.player.ToDeconnect=true;
-		SceneManager.LoadScene("Authentication");
+		ServerController.instance.lostConnection();
 	}
-
 	private void CreateTutorialDeck()
 	{
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
