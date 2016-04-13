@@ -29,7 +29,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		this.waitingTime += f ;
 		if(waitingTime>limitTime){
 			ApplicationModel.player.ToLaunchGameIA  = true ;
-			StartCoroutine(this.startGame());
+			this.startGame();
 		}
 	}
 
@@ -50,9 +50,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	void OnPhotonRandomJoinFailed()
 	{
         Debug.Log("Can't join random room! - creating a new room");
-        this.CreateNewRoom ();
+        StartCoroutine(this.CreateNewRoom ());
 	}
-	public void CreateNewRoom()
+	public IEnumerator CreateNewRoom()
 	{
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
@@ -65,10 +65,15 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
         PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
+        if(!ApplicationModel.player.ToLaunchGameTutorial)
+        {
+            yield return StartCoroutine(this.initializeGame());
+        }
 		if(ApplicationModel.player.ChosenGameType<=20)
 		{
 			this.isWaiting = true ;
 		}
+        yield break;
 	}
 	
 	void OnJoinedRoom()
@@ -82,7 +87,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.CreateTutorialDeck();
-			StartCoroutine(this.startGame());
+			this.startGame();
 			yield break;
 		}
 		else
@@ -119,23 +124,15 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			}
 			if(this.nbPlayers==2)
 			{
-                StartCoroutine(this.startGame());
+                this.startGame();
 			}
 		}
 	}
-	private IEnumerator startGame()
+	private void startGame()
 	{
 		if(ApplicationModel.player.IsFirstPlayer==true)
 		{
 			PhotonNetwork.room.open = false;
-            if(!ApplicationModel.player.ToLaunchGameTutorial)
-            {
-                yield return StartCoroutine(this.initializeGame());
-            }
-            else
-            {
-                yield break;
-            }
 		}
 		SoundController.instance.playMusic(new int[]{3,4});
 		if(ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA)
@@ -146,7 +143,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			BackOfficeController.instance.launchPreMatchLoadingScreen();
 		}
-        yield break;
 	}
 	void OnDisconnectedFromPhoton()
 	{

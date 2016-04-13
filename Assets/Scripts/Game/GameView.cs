@@ -2471,70 +2471,82 @@ public class GameView : MonoBehaviour
 		this.deads.Add(c);
 
 		if(this.areAllMyPlayersDead()){
-			StartCoroutine(quitGame());
+			GameView.instance.quitGameHandler();
 		}
 		else{
 			this.updateTimeline();
 		}
 	}
 	
-	IEnumerator sendStat(string user1, string user2, bool isTutorialGame, int percentageTotalDamages)
+	public IEnumerator sendStat(string user1, string user2, int rankingPoints1, int rankingPoints2, int gameType, int percentageTotalDamages, int currentGameid, bool hasWon, bool connectionLost)
 	{
-		int isTutorialGameInt = 0;
-		if(isTutorialGame)
-		{
-			isTutorialGameInt=1;
-		}
+        int hasWonInt = 0;
+        if(hasWon)
+        {
+            hasWonInt=1;
+        }
+        int isConnectionLostInt = 0;
+        if(connectionLost)
+        {
+            isConnectionLostInt=1;
+        }
 		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
 		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
+        form.AddField("myform_rp1", rankingPoints1);                       // Pseudo de l'utilisateur victorieux
+        form.AddField("myform_rp2", rankingPoints2);
 		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType);
-		form.AddField ("myform_istutorialgame", isTutorialGameInt);
 		form.AddField("myform_percentagelooser",percentageTotalDamages);
-		
-		WWW w = new WWW(URLStat, form); 							// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null)
-		{
-			print(w.error); 										// donne l'erreur eventuelle
-		} 
-		else if(w.text.Contains("#ERROR#"))
-		{
-			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-			Debug.Log (errors[1]);
-		}
-		yield break;
+        form.AddField("myform_currentgameid",currentGameid);
+        form.AddField("myform_haswon",hasWonInt);
+        form.AddField("myform_connectionlost",isConnectionLostInt);
+
+        ServerController.instance.setRequest(URLStat, form);
+        yield return ServerController.instance.StartCoroutine("executeRequest");
+
+        if(ServerController.instance.getError()!="")
+        {
+            Debug.Log(ServerController.instance.getError());
+            ServerController.instance.lostConnection();
+        }
 	}
-	public IEnumerator quitGame()
-	{
-		bool hasFirstPlayerWon=false;
-		
-		if(ApplicationModel.player.ToLaunchGameTutorial)
+    public void quitGameHandler()
+    {
+        GameController.instance.quitGameHandler(this.isFirstPlayer);
+    }
+	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
+	{		
+        ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
+        if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
-			if(this.areAllMyPlayersDead())
+            if(hasFirstPlayerLost==this.isFirstPlayer)
 			{
-				hasFirstPlayerWon=true;
-				yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
+                ApplicationModel.player.HasWonLastGame=false;
+                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
 			}
 			else
 			{
-				yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
+                ApplicationModel.player.HasWonLastGame=true;
+                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
 			}
 		}
 		else
 		{
-			if(!isFirstPlayer)
-			{
-				hasFirstPlayerWon=true;
-			}
-			yield return (StartCoroutine(this.sendStat(ApplicationModel.hisPlayerName, ApplicationModel.myPlayerName, false,getPercentageTotalDamages(false))));
+            if(hasFirstPlayerLost==this.isFirstPlayer)
+            {
+                ApplicationModel.player.HasWonLastGame=false;
+                ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(false);
+            }
+            else
+            {
+                ApplicationModel.player.HasWonLastGame=true;
+                ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(true);
+            }
+            yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName,ApplicationModel.hisPlayerName,ApplicationModel.player.RankingPoints,ApplicationModel.hisRankingPoints,ApplicationModel.player.ChosenGameType,ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,isConnectionLost)));
 		}
-		
-		GameController.instance.quitGame(hasFirstPlayerWon);
-		
-		yield break;
+        GameController.instance.quitGame();
 	}
 	public List<Tile> getFreeImmediateNeighbours(Tile t){
 		List<Tile> freeNeighbours = new List<Tile>();

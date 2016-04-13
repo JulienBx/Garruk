@@ -639,7 +639,7 @@ public class PlayingCardController : GameObjectController
 				GameView.instance.removeDead(this.id);
 			}
 			if(GameView.instance.areAllMyPlayersDead()){
-				StartCoroutine(GameView.instance.quitGame());
+				GameView.instance.quitGameHandler();
 			}
 		}
 	}

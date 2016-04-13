@@ -309,31 +309,20 @@ public class GameController : Photon.MonoBehaviour
 		SceneManager.LoadScene("Authentication");
 	}
 
-	public void quitGameHandler()
+    public void quitGameHandler(bool hasFirstPlayerLost)
 	{
-		StartCoroutine (GameView.instance.quitGame ());
-	}
+        photonView.RPC("quitGameHandlerRPC", PhotonTargets.AllBuffered,hasFirstPlayerLost);
+    }
 
-	public void quitGame(bool hasFirstPlayerWon)
-	{
-		photonView.RPC("quitGameRPC", PhotonTargets.AllBuffered, hasFirstPlayerWon);
-	}
-	
-	[PunRPC]
-	public void quitGameRPC(bool hasFirstPlayerWon)
-	{
-		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
-		if (hasFirstPlayerWon == GameView.instance.getIsFirstPlayer())
-		{
-			ApplicationModel.player.HasWonLastGame=true;
+    [PunRPC]
+    public void quitGameHandlerRPC(bool hasFirstPlayerLost)
+    {
+        StartCoroutine(GameView.instance.quitGame(hasFirstPlayerLost,false));
+    }
 
-		} 
-		else
-		{
-			ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(false);
-			ApplicationModel.player.HasWonLastGame=false;
-		}
-		PhotonNetwork.LeaveRoom ();
+	public void quitGame()
+	{
+        PhotonNetwork.LeaveRoom ();
 	}
 
 	void OnLeftRoom()
