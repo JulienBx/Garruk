@@ -18,5 +18,6 @@ public class WordingEditInformationsPopUp
 		references.Add(new string[]{"Nom","Surname"}); //1
 		references.Add(new string[]{"Adresse Email","Email address"}); //2
 		references.Add(new string[]{"Confirmer","Confirm"}); //3
+		references.Add(new string[]{"Profil visible",""}); //4
 	}
 }

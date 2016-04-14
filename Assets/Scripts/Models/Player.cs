@@ -79,6 +79,9 @@ public class Player : User
 	public int TrainingPreviousAllowedCardType;
 	public bool HasToBuyTrainingPack;
 	public bool hastLostConnection;
+	public bool isGettingProduct;
+	public int productValue;
+	public string productOwner;
 
 	public Player()
 	{
@@ -122,12 +125,17 @@ public class Player : User
 		this.Connections=new List<Connection>();
 		this.CurrentDivision=new Division();
 	}
-	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail)
+	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
 		string isNewEmailString="0";
 		if(isNewEmail)
 		{
 			isNewEmailString="1";
+		}
+		string isPublicString="0";
+		if(isPublic)
+		{
+			isPublicString="1";
 		}
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
@@ -137,6 +145,7 @@ public class Player : User
 		form.AddField("myform_surname", surname);
 		form.AddField("myform_mail", mail);
 		form.AddField("myform_isnewemail", isNewEmailString);
+		form.AddField("myform_ispublic", isPublicString);
 
 		ServerController.instance.setRequest(URLUpdateUserInformations, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -147,6 +156,7 @@ public class Player : User
 			this.FirstName=firstname;
 			this.Surname=surname;
 			this.Mail=mail;
+			this.isPublic=isPublic;
 		}
 	}
 	public IEnumerator setProfilePicture(int idprofilepicture)
@@ -175,7 +185,6 @@ public class Player : User
 
 		ServerController.instance.setRequest(URLAddMoney, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
@@ -436,7 +445,7 @@ public class Player : User
 	{
 		WWWForm form = new WWWForm(); 
 		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_macadress", this.MacAdress); 	
+		form.AddField("myform_macadress", this.MacAdress); 
 
 		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -638,27 +647,19 @@ public class Player : User
 		form.AddField("myform_id", Id.ToString());
 		form.AddField("myform_nick", Username);
 		form.AddField("myform_email", Mail);
-		
-		WWW w = new WWW(URLGetPurchasingToken, form);
-		yield return w;
-		
-		if (w.error != null)
+
+		ServerController.instance.setRequest(URLGetPurchasingToken, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+
+		if(ServerController.instance.getError()!="")
 		{
-			Error = w.error;
-			Debug.Log(Error);
-		} 
+			Debug.Log(ServerController.instance.getError());
+			ServerController.instance.lostConnection();
+		}
 		else
 		{
-			if (w.text.Contains("#ERROR#"))
-			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-				Error = errors [1];
-				Debug.Log(Error);
-			} 
-			else
-			{
-				this.DesktopPurchasingToken=w.text;
-			}							
+			ApplicationModel.player.DesktopPurchasingToken=ServerController.instance.getResult();
 		}
 	}
 	#endregion

@@ -140,6 +140,7 @@ public class NewHomePageModel
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
 			users[i].Division = System.Convert.ToInt32 (userData [8]);
 			users[i].TrainingStatus = System.Convert.ToInt32 (userData [9]);
+			users[i].isPublic=System.Convert.ToBoolean(System.Convert.ToInt32(userData [10]));
 		}
 		return users;
 	}

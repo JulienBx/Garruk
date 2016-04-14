@@ -39,6 +39,7 @@ public class BackOfficeController : MonoBehaviour
 	private bool isHelpLoaded;
 	private bool isSwiping;
 	private bool isScrolling;
+	private bool isRefreshing;
 
 	private float speed;
 	private float timer;
@@ -73,7 +74,7 @@ public class BackOfficeController : MonoBehaviour
 			}
 		}
 		timer = timer+speed*Time.deltaTime;
-		if (timer > this.refreshInterval && this.isMenuLoaded) 
+		if (!isRefreshing && timer > this.refreshInterval && this.isMenuLoaded) 
 		{
 			timer=timer-this.refreshInterval;
 			StartCoroutine (this.getUserData());
@@ -118,6 +119,7 @@ public class BackOfficeController : MonoBehaviour
 		this.timer=0f;
 		this.speed=5f;
 		this.refreshInterval=5f;
+		this.isRefreshing=false;
 		this.toolTip=this.gameObject.transform.FindChild("toolTip").gameObject;
 		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
@@ -680,6 +682,7 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public IEnumerator getUserData()
 	{
+		this.isRefreshing=true;
 		int money=ApplicationModel.player.Money;
 		int nbNotificationsNonReads=ApplicationModel.player.NbNotificationsNonRead;
 		yield return StartCoroutine (ApplicationModel.player.refreshUserData ());
@@ -720,6 +723,7 @@ public class BackOfficeController : MonoBehaviour
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 			ApplicationModel.player.Error="";
 		}
+		this.isRefreshing=false;
 	}
 	public bool getIsLoadingScreenDisplayed()
 	{

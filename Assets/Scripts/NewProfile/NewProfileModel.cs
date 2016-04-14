@@ -112,6 +112,7 @@ public class NewProfileModel
 			ApplicationModel.player.FirstName = array [11];
 			ApplicationModel.player.Surname = array [12];
 			ApplicationModel.player.Mail = array [13];
+			ApplicationModel.player.isPublic = System.Convert.ToBoolean(System.Convert.ToInt32(array[14]));
 			ApplicationModel.player.Id= System.Convert.ToInt32(array[0]);
             ApplicationModel.player.RankingPoints=this.displayedUser.Ranking;
 		}
@@ -141,6 +142,7 @@ public class NewProfileModel
 			users[i].TotalNbLooses = System.Convert.ToInt32 (userData [7]);
 			users[i].Division = System.Convert.ToInt32 (userData [8]);
 			users[i].TrainingStatus = System.Convert.ToInt32 (userData [9]);
+			users[i].isPublic = System.Convert.ToBoolean(System.Convert.ToInt32 (userData [10]));
 		}
 		return users;
 	}

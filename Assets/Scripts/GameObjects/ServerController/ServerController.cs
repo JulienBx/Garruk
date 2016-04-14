@@ -9,6 +9,7 @@ public class ServerController : MonoBehaviour
 	public static ServerController instance;
 
 	private bool toDetectTimeOut;
+	private bool detectedTimeOut;
 	private float timer;
 	private string URL;
 	private WWWForm form;
@@ -24,8 +25,16 @@ public class ServerController : MonoBehaviour
 			if(this.timer>ApplicationModel.timeOutDelay)
 			{
 				this.toDetectTimeOut=false;
+				this.detectedTimeOut=true;
 				StopCoroutine(this.executeRequest());
-				this.lostConnection();
+				if(ApplicationModel.player.isGettingProduct)
+				{
+					this.productDeliveryFail();
+				}
+				else
+				{
+					this.lostConnection();
+				}
 			}
 		}
 	}
@@ -43,20 +52,38 @@ public class ServerController : MonoBehaviour
 		this.result="";
 		this.error="";
 		this.toDetectTimeOut=true;
+		this.detectedTimeOut=false;
 		this.timer=0f;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
-		this.toDetectTimeOut=false;
-		if(w.error!=null)
+		if(!this.detectedTimeOut)
 		{
-			this.error=WordingServerError.getReference(w.error,false);
+			this.toDetectTimeOut=false;
+			if(w.error!=null)
+			{
+				this.error=WordingServerError.getReference(w.error,false);
+			}
+			else if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.error = WordingServerError.getReference(errors [1],true);
+			}
+			this.result=w.text;
+			if(ApplicationModel.player.isGettingProduct)
+			{
+				if(this.error!="")
+				{
+					this.error="";
+					this.productDeliveryFail();
+				}
+				else
+				{
+					ApplicationModel.player.isGettingProduct=false;
+					ApplicationModel.player.productOwner="";
+					ApplicationModel.player.productValue=0;
+				}
+			}
 		}
-		else if(w.text.Contains("#ERROR#"))
-		{
-			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-			this.error = WordingServerError.getReference(errors [1],true);
-		}
-		this.result=w.text;
 	}
 	public string getResult()
 	{
@@ -75,6 +102,15 @@ public class ServerController : MonoBehaviour
 		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
 	}
-
+	public void productDeliveryFail()
+	{
+		PlayerPrefs.SetString("Product", ApplicationModel.Encrypt(ApplicationModel.player.productValue.ToString()));
+		PlayerPrefs.SetString("ProductOwner", ApplicationModel.Encrypt(ApplicationModel.player.productOwner));
+		PlayerPrefs.Save();
+		ApplicationModel.player.productValue=0;
+		ApplicationModel.player.productOwner="";
+		ApplicationModel.player.isGettingProduct=false;
+		this.lostConnection();
+	}
 }
 

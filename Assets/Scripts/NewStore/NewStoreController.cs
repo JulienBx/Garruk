@@ -1302,7 +1302,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			if (String.Equals(args.purchasedProduct.definition.id, model.productList[i].ProductID, StringComparison.Ordinal))
 		    {
 		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-		        StartCoroutine	(this.addGift((int)model.productList[i].Crystals));
+		        StartCoroutine	(this.addProduct((int)model.productList[i].Crystals));
     		}
 	    }
 	    BackOfficeController.instance.hideLoadingScreen();
@@ -1330,18 +1330,13 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
 		}
 	}
-	public IEnumerator addGift(int money)
+	public IEnumerator addProduct(int money)
 	{
+		ApplicationModel.player.isGettingProduct=true;
+		ApplicationModel.player.productValue=money;
+		ApplicationModel.player.productOwner=ApplicationModel.player.Username;
+		ApplicationModel.player.Money=ApplicationModel.player.Money+money;
 		yield return StartCoroutine	(ApplicationModel.player.addMoney(money));
-		if(ApplicationModel.player.Error=="")
-		{
-			ApplicationModel.player.Money=ApplicationModel.player.Money+money;
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-		}
 	}
 	  
 	#region TUTORIAL FUNCTIONS
