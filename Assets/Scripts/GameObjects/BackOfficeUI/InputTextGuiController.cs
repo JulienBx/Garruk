@@ -51,7 +51,7 @@ public class InputTextGuiController : InterfaceController
 	}
 	void OnGUI()
 	{
-		if(!BackOfficeController.instance.getIsLoadingScreenDisplayed())
+		if(BackOfficeController.instance!= null && !BackOfficeController.instance.getIsLoadingScreenDisplayed())
 		{
 			GUILayout.BeginArea (rect);
 			{

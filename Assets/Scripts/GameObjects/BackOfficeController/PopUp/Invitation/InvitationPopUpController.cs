@@ -68,6 +68,11 @@ public class InvitationPopUpController : MonoBehaviour
 	{
 		gameObject.transform.FindChild ("username").GetComponent<TextMeshPro> ().text=model.invitation.SendingUser.Username;
 		gameObject.transform.FindChild ("picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture (model.invitation.SendingUser.IdProfilePicture);
+
+		if(model.decks.Count<2)
+		{
+			this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
+		}
 	}
 	public void selectDeck(int id)
 	{

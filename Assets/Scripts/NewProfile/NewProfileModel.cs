@@ -239,4 +239,15 @@ public class NewProfileModel
 		this.friends.Add (this.returnUsersIndex(this.friendsRequests[id].User.Id));
 		this.friendsRequests.RemoveAt(id);
 	}
+	public void removeActivePlayerFromFriends()
+	{
+		for(int i=0;i<this.friends.Count;i++)
+		{
+			if(this.users[this.friends[i]].Id==ApplicationModel.player.Id)
+			{
+				this.friends.RemoveAt(i);
+				break;
+			}
+		}
+	}
 }

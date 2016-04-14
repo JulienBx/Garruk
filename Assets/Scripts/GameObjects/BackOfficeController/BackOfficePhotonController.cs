@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 public class BackOfficePhotonController : Photon.MonoBehaviour 
 {
 	public const string roomNamePrefix = "GarrukGame";
-	private int nbPlayers;
+	private int nbPlayersReady;
+	private int nbPlayersInRoom;
 	private int deckLoaded;
 	float waitingTime ; 
 	float limitTime = 5f ;
@@ -40,7 +41,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
 	public void joinRandomRoom()
 	{
-		this.nbPlayers = 0;
+		this.nbPlayersInRoom = 0;
+		this.nbPlayersReady = 0;
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
 		string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
 		ApplicationModel.player.IsFirstPlayer = false;
@@ -56,7 +58,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	{
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
-        this.nbPlayers = 0;
+        this.nbPlayersInRoom = 0;
+		this.nbPlayersReady = 0;
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -92,8 +95,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		}
 		else
 		{
-            this.nbPlayers++;
-            if(this.nbPlayers==2)
+			this.nbPlayersInRoom++;
+            if(this.nbPlayersInRoom==2)
             {
                 this.isWaiting=false;
             }
@@ -122,7 +125,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 				ApplicationModel.opponentDeck=deck;
 				print("deck :"+ApplicationModel.hisPlayerName);
 			}
-			if(this.nbPlayers==2)
+			this.nbPlayersReady++;
+			if(this.nbPlayersReady==2)
 			{
                 this.startGame();
 			}

@@ -133,7 +133,6 @@ public class NewHomePageController : MonoBehaviour
 	void Update()
 	{	
 		this.sliderTimer += Time.deltaTime;
-		this.checkForFriendsOnlineTimer += Time.deltaTime;
 
 		if (Input.touchCount == 1 && this.isSceneLoaded &&  HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
@@ -160,6 +159,7 @@ public class NewHomePageController : MonoBehaviour
 				}
 			}
 		}
+		this.checkForFriendsOnlineTimer += Time.deltaTime;
 		if (checkForFriendsOnlineTimer > refreshInterval && this.isSceneLoaded) 
 		{
 			this.checkForFriendsOnlineTimer=0;

@@ -1978,6 +1978,7 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.displayedUser.ConnectionWithPlayer.remove ());
 		if(model.displayedUser.ConnectionWithPlayer.Error=="")
 		{
+			model.removeActivePlayerFromFriends();
 			model.displayedUser.IsConnectedToPlayer=false;
 			this.initializeFriends();
 			this.initializeFriendshipState();

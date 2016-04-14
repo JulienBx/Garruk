@@ -89,7 +89,7 @@ public class NewLobbyModel
 			results[i].Opponent.CollectionRanking=System.Convert.ToInt32(resultData[5]);
 			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultData[6]);
 			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
-			results[i].Opponent.Division=System.Convert.ToInt32(resultData[8]);
+			results[i].Opponent.Division=ApplicationModel.player.CurrentDivision.Id;
 			results[i].Opponent.TrainingStatus=System.Convert.ToInt32(resultData[9]);
 		}
 		return results;
