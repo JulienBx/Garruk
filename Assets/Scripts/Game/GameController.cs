@@ -482,5 +482,16 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameView.instance.purify(target);
 	}
+
+	public void convert(int target)
+	{
+		photonView.RPC("convertRPC", PhotonTargets.AllBuffered, target);
+	}
+	
+	[PunRPC]
+	public void convertRPC(int target)
+	{
+		GameView.instance.convert(target);
+	}
 }
 

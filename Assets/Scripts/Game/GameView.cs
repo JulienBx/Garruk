@@ -493,55 +493,75 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial){
-			bool hasFoundMine = false;
-			bool hasFoundHis = false;
 			int level;
 			int attackValue ;
 			int pvValue ;
 			for(int i = 0 ; i < this.nbCards ; i++){
 				if(this.getCard(i).isMine){
-					if(!hasFoundMine){
-						if(this.getCard(i).isLeader()){
-							level = this.getCard(i).getSkills()[0].Power;
-							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
-							for(int j = 0 ; j < this.nbCards ; j++){
-								if(this.getCard(j).isMine && i!=j){
-									attackValue = level+2;
-									pvValue = 2*level+5;
-									this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
-									this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
-									this.getPlayingCardController(j).show();
-									this.getPlayingCardController(j).updateLife(0);
-									this.getPlayingCardController(j).updateAttack(0);
+					if(this.getCard(i).isLeader()){
+						level = this.getCard(i).getSkills()[0].Power;
+						GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
+						for(int j = 0 ; j < this.nbCards ; j++){
+							if(this.getCard(j).isMine && i!=j){
+								attackValue = level+2;
+								pvValue = 2*level+5;
+								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).show();
+								this.getPlayingCardController(j).updateLife(0);
+								this.getPlayingCardController(j).updateAttack(0);
 
-								}
 							}
-							if(!ApplicationModel.player.ToLaunchGameTutorial){
-								GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
-								GameView.instance.addAnim(GameView.instance.getTile(i), 76);
-							}
-							hasFoundMine = true;	
 						}
-					}	
+						if(!ApplicationModel.player.ToLaunchGameTutorial){
+							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
+							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
+						}
+					}
+					if(this.getCard(i).isProtector()){
+						level = this.getCard(i).getSkills()[0].Power*2+10;
+						for(int j = 0 ; j < this.nbCards ; j++){
+							if(this.getCard(j).isMine && i!=j){
+								this.getPlayingCardController(j).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
+								this.getPlayingCardController(j).show();
+							}
+						}
+						if(!ApplicationModel.player.ToLaunchGameTutorial){
+							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
+							GameView.instance.addAnim(GameView.instance.getTile(i), 111);
+						}
+					}
 				}
 				else{
-					if(!hasFoundHis){
-						if(this.getCard(i).isLeader()){
-							level = this.getCard(i).getSkills()[0].Power;
-							GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
-		
-							for(int j = 0 ; j < this.nbCards ; j++){
-								if(!this.getCard(j).isMine && i!=j){
-									attackValue = level+2;
-									pvValue = 2*level+5;
-									this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
-									this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
-									this.getPlayingCardController(j).show();
-									this.getPlayingCardController(j).updateLife(0);
-									this.getPlayingCardController(j).updateAttack(0);
-								}
+					if(this.getCard(i).isLeader()){
+						level = this.getCard(i).getSkills()[0].Power;
+						GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false);
+	
+						for(int j = 0 ; j < this.nbCards ; j++){
+							if(!this.getCard(j).isMine && i!=j){
+								attackValue = level+2;
+								pvValue = 2*level+5;
+								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).show();
+								this.getPlayingCardController(j).updateLife(0);
+								this.getPlayingCardController(j).updateAttack(0);
 							}
-							hasFoundHis = true;
+						}
+					}
+					if(this.getCard(i).isProtector()){
+						level = this.getCard(i).getSkills()[0].Power*2+10;
+						for(int j = 0 ; j < this.nbCards ; j++){
+							if(!this.getCard(j).isMine && i!=j){
+								this.getPlayingCardController(j).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
+								this.getPlayingCardController(j).show();
+								this.getPlayingCardController(j).updateLife(0);
+								this.getPlayingCardController(j).updateAttack(0);
+							}
+						}
+						if(!ApplicationModel.player.ToLaunchGameTutorial){
+							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
+							GameView.instance.addAnim(GameView.instance.getTile(i), 111);
 						}
 					}
 				}
@@ -765,6 +785,52 @@ public class GameView : MonoBehaviour
 					int level = this.getCard(characterID).getSkills()[0].Power * 5 + 30;
 					if(UnityEngine.Random.Range(1,101)<level){
 						GameController.instance.addRock(origine, 140);
+					}
+				}
+			}
+		}
+		int tempInt ;
+		int bonus ;
+		bool isM ;
+		if(this.getCard(characterID).isProtector()){
+			isM = this.getCard(characterID).isMine;
+			List<Tile> neighbours = origine.getImmediateNeighbourTiles();
+			for (int i = 0 ; i < neighbours.Count ; i++){
+				tempInt = this.getTileController(neighbours[i]).getCharacterID();
+				if(tempInt!=-1){
+					if(this.getCard(tempInt).isMine==isM){
+						this.getCard(tempInt).isProtected(true);
+					}
+				}
+			}
+
+			neighbours = t.getImmediateNeighbourTiles();
+			for (int i = 0 ; i < neighbours.Count ; i++){
+				tempInt = this.getTileController(neighbours[i]).getCharacterID();
+				if(tempInt!=-1){
+					if(this.getCard(tempInt).isMine==isM){
+						this.getCard(tempInt).isProtected(true);
+						bonus = this.getCard(i).getSkills()[0].Power*2+10;
+						this.getPlayingCardController(i).addShieldModifyer(new Modifyer(bonus, -1, 111, base.name, "Bouclier "+bonus+"%"));
+					}
+				}
+			}
+		}
+		else{
+			this.getCard(characterID).isProtected(true);
+			isM = this.getCard(characterID).isMine;
+
+			List<Tile> neighbours = t.getImmediateNeighbourTiles();
+			for (int i = 0 ; i < neighbours.Count ; i++){
+				tempInt = this.getTileController(neighbours[i]).getCharacterID();
+
+				if(tempInt!=-1){
+					if(this.getCard(tempInt).isProtector()){
+						if(this.getCard(i).isMine==isM){
+							this.getCard(tempInt).isProtected(true);
+							bonus = this.getCard(i).getSkills()[0].Power*2+10;
+							this.getPlayingCardController(tempInt).addShieldModifyer(new Modifyer(bonus, -1, 111, base.name, "Bouclier "+bonus+"%"));
+						}
 					}
 				}
 			}
@@ -1077,6 +1143,23 @@ public class GameView : MonoBehaviour
 						{
 							if (UnityEngine.Random.Range(1,101)<proba){
 								GameController.instance.purify(playerID);
+								isSuccess = true ;
+							}
+						}
+					}
+				}
+				else if(this.getCard(this.currentPlayingCard).isMissionary() && this.getCurrentCard().isMine){
+					int proba = 5+2*this.getCurrentCard().Skills[0].Power;
+					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+					this.targets = new List<Tile>();
+					int playerID;
+					foreach (Tile t in neighbourTiles)
+					{
+						playerID = this.getTileController(t.x, t.y).getCharacterID();
+						if (playerID != -1)
+						{
+							if (UnityEngine.Random.Range(1,101)<=proba){
+								GameController.instance.convert(playerID);
 								isSuccess = true ;
 							}
 						}
@@ -3114,18 +3197,27 @@ public class GameView : MonoBehaviour
 		this.isFreezed = false ;
 		Tile t ;
 		int amount = 10 ;
+		int amount2 ; 
+		int bonus = 100 ; 
+		for (int i = 0 ; i < this.nbCards ; i++){
+			if(this.getCard(i).isAstronome()){
+				bonus += 50+10*this.getCard(i).Skills[0].Power;
+			}
+		}
+
+		amount = Mathf.RoundToInt(amount * bonus / 100f);
 
 		for(int i = 0 ; i < boardWidth ; i++){
 			t = new Tile(i,0);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				else{
-					amount = 10 ;
+					amount2 = amount ;
 				}
-				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 			}
 			else{
@@ -3135,13 +3227,13 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 				}
 				else{
-					amount = 10 ;
+					amount2 = amount ;
 				}
-				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 			}
 			else{
@@ -3155,13 +3247,13 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,1);
 					if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 					}
 					else{
-						amount = 10 ;
+						amount2 = amount ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 				}
 				else{
@@ -3171,13 +3263,13 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 					}
 					else{
-						amount = 10 ;
+						amount2 = amount ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 				}
 				else{
@@ -3192,13 +3284,13 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,2);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 					}
 					else{
-						amount = 10 ;
+						amount2 = amount ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 				}
 				else{
@@ -3208,13 +3300,13 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,boardHeight-3);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*10);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
 					}
 					else{
-						amount = 10 ;
+						amount2 = amount ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount,-1,1,"Attaque",amount+" dégats subis"), false);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
 					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
 				}
 				else{
@@ -3530,5 +3622,10 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return chosenCard;
+	}
+
+	public void convert(int target){
+		this.getCard(target).isMine = !this.getCard(target).isMine ;
+		this.getPlayingCardController(target).show();
 	}
 }

@@ -371,6 +371,7 @@ public class PlayingCardController : GameObjectController
 		if(!hasFound){
 			this.card.bouclierModifyers.Add(m);
 		}
+		this.showIcons();
 		GameView.instance.getMyHoveredCardController().updateCharacter();
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}

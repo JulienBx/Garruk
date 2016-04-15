@@ -106,6 +106,11 @@ public class GameCard : Card
 	{
 		return (base.Skills[0].Id == 76);
 	}
+
+	public bool isProtector()
+	{
+		return (base.Skills[0].Id == 111);
+	}
 	
 	public bool isLache()
 	{
@@ -174,9 +179,33 @@ public class GameCard : Card
 		return (this.Skills[0].Id == 113);
 	}
 
+	public bool isAstronome()
+	{
+		return (this.Skills[0].Id == 43);
+	}
+
+	public bool isMissionary()
+	{
+		return (this.Skills[0].Id == 110);
+	}
+
 	public bool isFanatique()
 	{
 		return (this.Skills[0].Id == 112);
+	}
+
+	public bool isProtected(bool toRemove){
+		bool hasFound = false ;
+		for (int i = this.bouclierModifyers.Count-1 ; i >= 0 ; i--)
+		{
+			if(bouclierModifyers[i].type==111){
+				if(toRemove){
+					bouclierModifyers.RemoveAt(i);
+				}
+				hasFound = true ;
+			}
+		}
+		return hasFound;
 	}
 
 	public void replaceCristoMasterModifyer(Modifyer m)
