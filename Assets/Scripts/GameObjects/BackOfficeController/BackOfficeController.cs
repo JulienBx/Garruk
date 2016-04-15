@@ -558,16 +558,17 @@ public class BackOfficeController : MonoBehaviour
 		else
 		{
 			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
-			this.displayLoadingScreenButton (true);
 			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
             photon.joinRandomRoom();
 			ApplicationModel.player.IsInviting = true;	
 		}
 	}
+
 	public void leaveRandomRoomHandler()
 	{
 		this.hideLoadingScreen ();
 		photon.leaveRoom ();
+
 		if(ApplicationModel.player.ChosenGameType>20)
 		{
 			Invitation invitation = new Invitation ();
@@ -575,13 +576,13 @@ public class BackOfficeController : MonoBehaviour
 			StartCoroutine(invitation.changeStatus(-1));
 		}
 	}
+
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();
 		//ApplicationModel.player.ToLaunchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
 		if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
 		{
-			this.displayLoadingScreenButton (true);
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
 		photon.joinRandomRoom ();

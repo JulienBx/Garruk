@@ -82,7 +82,7 @@ Material:
       data:
         first:
           name: _OutlineWidth
-        second: 0.3
+        second: 0.269
       data:
         first:
           name: _OutlineSoftness
@@ -122,7 +122,7 @@ Material:
       data:
         first:
           name: _GlowOffset
-        second: 0.09
+        second: 0
       data:
         first:
           name: _GlowPower
@@ -130,7 +130,7 @@ Material:
       data:
         first:
           name: _GlowOuter
-        second: 0.75
+        second: 0.689
       data:
         first:
           name: _MaskSoftnessX

@@ -80,4 +80,6 @@ MonoBehaviour:
   - addRockRPC
   - applyOnMeRPC
   - purifyRPC
+  - convertRPC
+  - quitGameHandlerRPC
   DisableAutoOpenWizard: 0

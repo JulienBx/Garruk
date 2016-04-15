@@ -51,6 +51,8 @@ public class InterludeController : MonoBehaviour
 	
 	public void set(string s, int type){
 		this.isEndTurn = (type==3);
+		GameView.instance.myTimer.show(false);
+		GameView.instance.hisTimer.show(false);
 		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
 		Vector3 position ;
 		position = gameObject.transform.FindChild("Bar1").localPosition ;
@@ -168,6 +170,36 @@ public class InterludeController : MonoBehaviour
 			}
 			else{
 				GameView.instance.hideEndTurnPopUp();
+			}
+
+			bool b = GameView.instance.getCurrentCard().isMine;
+			int u = -1 ;
+			List<int> units = GameView.instance.getEveryone();
+			for(int i = 0 ; i < units.Count ; i++){
+				if(GameView.instance.getCard(units[i]).isMine!=b){
+					if(GameView.instance.getCard(units[i]).isManipulator()){
+						u = units[i];
+					}
+				}
+			}
+
+			if(b){
+				if(u==-1){
+					GameView.instance.myTimer.setTime();
+				}
+				else{
+					GameView.instance.myTimer.setTime(25f-GameView.instance.getCard(u).getSkills()[0].Power);
+				}
+				GameView.instance.myTimer.show(true);
+			}
+			else{
+				if(u==-1){
+					GameView.instance.hisTimer.setTime();
+				}
+				else{
+					GameView.instance.hisTimer.setTime(25f-GameView.instance.getCard(u).getSkills()[0].Power);
+				}
+				GameView.instance.hisTimer.show(true);
 			}
 
 			GameView.instance.isFreezed = false ;

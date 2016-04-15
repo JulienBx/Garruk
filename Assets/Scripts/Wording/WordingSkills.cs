@@ -1181,7 +1181,7 @@ public class WordingSkills
 		probas.Add(100); 
 		//51 - Etouffement
 		idSkills.Add(51);
-		names.Add(new string[]{"Etouffement",""}); 
+		names.Add(new string[]{"Manipulateur","Manipulator"}); 
 		descriptions.Add(new string[]{"Le joueur adverse ne dispose que de 24 secondes pour jouer son tour","Opponent's turn duration is limited to 24 seconds"}); 
 		descriptions.Add(new string[]{"Le joueur adverse ne dispose que de 23 secondes pour jouer son tour","Opponent's turn duration is limited to 23 seconds"}); 
 		descriptions.Add(new string[]{"Le joueur adverse ne dispose que de 22 secondes pour jouer son tour","Opponent's turn duration is limited to 22 seconds"}); 

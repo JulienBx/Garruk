@@ -44,7 +44,8 @@ public class TileController : GameObjectController
 		this.showDestination(false);
 		this.showDescription(false);
 		gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
-		this.showTarget(false);
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = false ;
+		this.isDisplayingTarget = false ;
 		this.showEffect(false);
 		this.displayAnim(false);
 		this.isDisplayingDescription = false ;

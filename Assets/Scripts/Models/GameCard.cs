@@ -184,6 +184,11 @@ public class GameCard : Card
 		return (this.Skills[0].Id == 43);
 	}
 
+	public bool isManipulator()
+	{
+		return (this.Skills[0].Id == 51);
+	}
+
 	public bool isMissionary()
 	{
 		return (this.Skills[0].Id == 110);

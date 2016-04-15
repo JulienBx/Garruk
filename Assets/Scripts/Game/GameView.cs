@@ -41,6 +41,7 @@ public class GameView : MonoBehaviour
 	GameObject[] horizontalBorders ;
 	GameObject[] playingCards ;
 	GameObject popUp;
+	public GameObject timerFront;
 	public GameObject choicePopUp;
 	GameObject validationSkill;
 	TimelineController timeline;
@@ -85,7 +86,6 @@ public class GameView : MonoBehaviour
 	public bool isFreezed = false ;
 	public bool isDisplayedPopUp = false ;
 	public int hoveringZone = -1 ;
-	public bool toCountTime = true ;
 
 	public int draggingCard ;
 	public int draggingSkillButton ;
@@ -94,10 +94,6 @@ public class GameView : MonoBehaviour
 
 	int nbCards = 8 ;
 	bool isFirstPlayerStarting ;
-
-	float timerTurn ; 
-	public float turnTime = 30f;
-	public float tileScale;
 
 	public bool isMobile;
 	public float stepButton;
@@ -114,6 +110,9 @@ public class GameView : MonoBehaviour
 	public bool isGameskillOK;
 
 	int indexPlayer ; 
+	public float tileScale;
+
+	public TimerController myTimer, hisTimer;
 
 	void Awake()
 	{
@@ -136,6 +135,10 @@ public class GameView : MonoBehaviour
 		this.popUp = GameObject.Find("PopUp");
 		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
+
+		this.hisTimer = GameObject.Find("HisPlayerName").transform.FindChild("Time").GetComponent<TimerController>();
+		this.myTimer = GameObject.Find("MyPlayerBox").transform.FindChild("Time").GetComponent<TimerController>();
+		this.timerFront = GameObject.Find("TimerFront");
 
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.popUp.GetComponent<PopUpGameController>().show (false);
@@ -169,15 +172,7 @@ public class GameView : MonoBehaviour
 
 		this.hasFightStarted = false ;
 		this.blockFury = false;
-
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			this.turnTime = 1200;
-		}
-		else{
-			this.turnTime = 480;
-		}
-		toCountTime = true ;
-
+	
 		draggingCard = -1 ;
 		draggingSkillButton = -1 ;
 		this.nbTurns = 0 ;
@@ -1473,6 +1468,18 @@ public class GameView : MonoBehaviour
 			}
 		}
 
+		if(this.timerFront.GetComponent<TimerFrontController>().isShowing){
+			this.timerFront.GetComponent<TimerFrontController>().addTime(Time.deltaTime);
+		}
+
+		if(this.myTimer.isShowing){
+			this.myTimer.addTime(Time.deltaTime);
+		}
+
+		if(this.hisTimer.isShowing){
+			this.hisTimer.addTime(Time.deltaTime);
+		}
+
 		if(this.toLaunchCardCreation && this.isGameskillOK){
 			this.toLaunchCardCreation = false ; 
 			GameController.instance.launchCardCreation();
@@ -1677,13 +1684,15 @@ public class GameView : MonoBehaviour
 		position = tempGO.transform.position ;
 		position.x = -0.5f*this.realwidth;
 		tempGO.transform.position = position;
-		tempGO.transform.FindChild("MyPlayerName").GetComponent<TextContainer>().width = realwidth/2f-1 ;
+		tempGO.transform.FindChild("MyPlayerName").GetComponent<TextContainer>().width = realwidth/2f-4 ;
+		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(realwidth/2f-4f,0f,0f) ;
 
 		tempGO = GameObject.Find("HisPlayerName");
 		position = tempGO.transform.position ;
 		position.x = 0.48f*this.realwidth;
 		tempGO.transform.position = position;
-		tempGO.GetComponent<TextContainer>().width = realwidth/2f-1 ;
+		tempGO.GetComponent<TextContainer>().width = realwidth/2f-4 ;
+		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(-realwidth/2f+4f,0f,0f) ;
 
 		tempTransform = this.interlude.transform.FindChild("Bar1");
 		scale = tempTransform.transform.localScale ;
@@ -3187,10 +3196,6 @@ public class GameView : MonoBehaviour
 			GameView.instance.displaySkillEffect(index, "Protection", 2);
 			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 29);
 		}
-	}
-
-	public void stopCountingTime(){
-		this.toCountTime = false ;
 	}
 
 	public void hideEndTurnPopUp(){

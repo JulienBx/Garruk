@@ -13,7 +13,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	private int nbPlayersReady;
 	private int nbPlayersInRoom;
 	private int deckLoaded;
-	float waitingTime ; 
+	float waitingTime = 0f ; 
 	float limitTime = 5f ;
 	bool isWaiting ;
 
@@ -27,8 +27,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 
 	public void addWaitingTime(float f){
+		
 		this.waitingTime += f ;
 		if(waitingTime>limitTime){
+			isWaiting = false ;
 			ApplicationModel.player.ToLaunchGameIA  = true ;
 			this.startGame();
 		}
@@ -36,6 +38,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
 	public void leaveRoom()
 	{
+		this.isWaiting = false ;
+		this.waitingTime = 0f;
+		PhotonNetwork.room.open = false;
+		print("Je ferme la room LEAVE");
+
 		PhotonNetwork.LeaveRoom ();
 	}
 
@@ -68,6 +75,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
         PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
+      
         if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
             yield return StartCoroutine(this.initializeGame());
@@ -76,12 +84,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			this.isWaiting = true ;
 		}
-        yield break;
+		yield break;
 	}
 	
 	void OnJoinedRoom()
 	{
 		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
+		print("Je rejoins une nouvelle room");
+		BackOfficeController.instance.displayLoadingScreenButton(true);
 	}
 	
 	[PunRPC]
@@ -137,6 +147,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		if(ApplicationModel.player.IsFirstPlayer==true)
 		{
 			PhotonNetwork.room.open = false;
+			print("Je ferme la room START");
+
 		}
 		SoundController.instance.playMusic(new int[]{3,4});
 		if(ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA)
