@@ -46,6 +46,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.initializeScene ();
+        ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("sfxVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
+        ApplicationModel.volMusic=PlayerPrefs.GetFloat("musicVol",0.5f)*ApplicationModel.volMaxMusic;
 	}
 	void Start()
 	{

@@ -46,6 +46,7 @@ public class SoundSettingsPopUpController : MonoBehaviour
 	{
 		this.musicVol=this.musicVol+0.1f;
 		ApplicationModel.volMusic=this.musicVol*ApplicationModel.volMaxMusic;
+        SoundController.instance.changeVolume();
 		SoundController.instance.playSound(8);
 		this.computeMusic();
 	}
@@ -53,17 +54,18 @@ public class SoundSettingsPopUpController : MonoBehaviour
 	{
 		this.musicVol=this.musicVol-0.1f;
 		ApplicationModel.volMusic=this.musicVol*ApplicationModel.volMaxMusic;
+        SoundController.instance.changeVolume();
 		SoundController.instance.playSound(8);
 		this.computeMusic();
 	}
 	private void computeSfx()
 	{
 		gameObject.transform.FindChild ("sfxVol").GetComponent<TextMeshPro> ().text = ((int)(this.sfxVol*100f)).ToString()+" %";
-		if(this.sfxVol==0)
+		if(this.sfxVol<=0.01f)
 		{
 			gameObject.transform.FindChild ("sfxDown").gameObject.SetActive(false);
 		}
-		else if(this.sfxVol==1)
+		else if(this.sfxVol>=0.99f)
 		{
 			gameObject.transform.FindChild ("sfxUp").gameObject.SetActive(false);
 		}
@@ -77,11 +79,11 @@ public class SoundSettingsPopUpController : MonoBehaviour
 	private void computeMusic()
 	{
 		gameObject.transform.FindChild ("musicVol").GetComponent<TextMeshPro> ().text = ((int)(this.musicVol*100f)).ToString()+" %";
-		if(this.musicVol==0)
+		if(this.musicVol<=0.01f)
 		{
-			gameObject.transform.FindChild ("muiscDown").gameObject.SetActive(false);
+			gameObject.transform.FindChild ("musicDown").gameObject.SetActive(false);
 		}
-		else if(this.musicVol==1)
+		else if(this.musicVol>=0.99f)
 		{
 			gameObject.transform.FindChild ("musicUp").gameObject.SetActive(false);
 		}

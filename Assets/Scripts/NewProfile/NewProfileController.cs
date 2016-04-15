@@ -984,7 +984,7 @@ public class NewProfileController : MonoBehaviour
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileSoundSettingsButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileExitApplicationButton.SetActive(true);
-			this.profileExitApplicationButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
+			this.profileExitApplicationButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 4.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 3f, 0f);
 
 			for(int i=0;i<this.friendshipStatusButtons.Length;i++)
@@ -1726,7 +1726,8 @@ public class NewProfileController : MonoBehaviour
 	}
 	public void displaySoundSettingsPopUp()
 	{
-		BackOfficeController.instance.displayTransparentBackground ();
+        SoundController.instance.playSound(9);
+        BackOfficeController.instance.displayTransparentBackground ();
 		this.soundSettingsPopUp.transform.GetComponent<SoundSettingsPopUpController> ().reset (PlayerPrefs.GetFloat("sfxVol",0.5f),PlayerPrefs.GetFloat("musicVol",0.5f));
 		this.isSoundSettingPopUpDisplayed = true;
 		this.soundSettingsPopUp.SetActive (true);

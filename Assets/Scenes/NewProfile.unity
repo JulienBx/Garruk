@@ -4940,7 +4940,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1296038883
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300316, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
+  m_Sprite: {fileID: 21300352, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6086,7 +6086,7 @@ Transform:
   - {fileID: 1998174159}
   - {fileID: 743244535}
   m_Father: {fileID: 0}
-  m_RootOrder: 48
+  m_RootOrder: 49
 --- !u!114 &982295769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8075,7 +8075,7 @@ Transform:
   m_Children:
   - {fileID: 1800698410}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 30
 --- !u!1001 &1297067403
 Prefab:
   m_ObjectHideFlags: 0
@@ -10034,7 +10034,7 @@ Transform:
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 35
 --- !u!61 &1502295328
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12373,7 +12373,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
 --- !u!61 &1888787769
 BoxCollider2D:
   m_ObjectHideFlags: 0

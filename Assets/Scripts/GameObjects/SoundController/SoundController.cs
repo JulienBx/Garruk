@@ -95,6 +95,10 @@ public class SoundController : MonoBehaviour
 			this.playCurrentMusic();
 		}
 	}
+    public void changeVolume()
+    {
+        musicSource.volume=ApplicationModel.volMusic;
+    }
 	void playCurrentMusic()
 	{
 		musicSource.clip=this.musics[tracks[currentTrack]];

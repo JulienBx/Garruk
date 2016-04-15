@@ -184,7 +184,8 @@ public class Player : User
 		yield return ServerController.instance.StartCoroutine("executeRequest");
         if(ServerController.instance.getError()=="")
         {
-            PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteKey("Product");
+            PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
         }
         else
@@ -461,7 +462,8 @@ public class Player : User
 		
 		if(this.Error=="")
 		{
-            PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteKey("Product");
+            PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
             string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
@@ -518,7 +520,8 @@ public class Player : User
 
 		if(this.Error=="")
 		{
-            PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteKey("Product");
+            PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
             string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
