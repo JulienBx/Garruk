@@ -34,6 +34,7 @@ public class NewProfileController : MonoBehaviour
 	private GameObject profileEditPictureButton;
 	private GameObject profileEditInformationsButton;
 	private GameObject profileEditPasswordButton;
+	private GameObject profileSoundSettingsButton;
 	private GameObject profileChooseLanguageButton;
 	private GameObject profileExitApplicationButton;
 	private GameObject[] profileInformations;
@@ -114,6 +115,9 @@ public class NewProfileController : MonoBehaviour
 
 	private GameObject messagePopUp;
 	private bool isMessagePopUpDisplayed;
+
+	private GameObject soundSettingsPopUp;
+	private bool isSoundSettingPopUpDisplayed;
 
 	private string searchValue;
 	private bool isScrolling;
@@ -520,6 +524,9 @@ public class NewProfileController : MonoBehaviour
 		this.profileEditPasswordButton = GameObject.Find ("ProfileEditPasswordButton");
 		this.profileEditPasswordButton.AddComponent<NewProfileEditPasswordButtonController> ();
 		this.profileEditPasswordButton.SetActive (this.isMyProfile);
+		this.profileSoundSettingsButton = GameObject.Find ("ProfileSoundSettingsButton");
+		this.profileSoundSettingsButton.AddComponent<NewProfileSoundSettingsButtonController> ();
+		this.profileSoundSettingsButton.SetActive (this.isMyProfile);
 		this.profileChooseLanguageButton = GameObject.Find("ProfileChooseLanguageButton");
 		this.profileChooseLanguageButton.AddComponent<NewProfileChooseLanguageButtonController>();
 		this.profileChooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languageSprites[ApplicationModel.player.IdLanguage];
@@ -610,6 +617,8 @@ public class NewProfileController : MonoBehaviour
 		this.chooseLanguagePopUp.SetActive(false);
 		this.messagePopUp=GameObject.Find("profileMessagePopUp");
 		this.messagePopUp.SetActive(false);
+		this.soundSettingsPopUp=GameObject.Find("soundSettingsPopUp");
+		this.soundSettingsPopUp.SetActive(false);
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.helpCamera = GameObject.Find ("HelpCamera");
@@ -762,9 +771,6 @@ public class NewProfileController : MonoBehaviour
 		
 		this.profileEditPictureButton.transform.position = new Vector3(this.profilePicture.transform.position.x,this.profilePicture.transform.position.y,-1f);
 		this.profileEditPictureButton.transform.localScale = this.profilePicture.transform.localScale;
-
-		this.profileEditInformationsButton.transform.localScale = ApplicationDesignRules.button62Scale;
-		this.profileEditPasswordButton.transform.localScale = ApplicationDesignRules.button62Scale;
 
 		this.friendshipStatus.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 		this.friendshipStatus.transform.localPosition= new Vector3 (profileBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing + ApplicationDesignRules.profilePictureWorldSize.x + 0.3f, profileBlockUpperLeftPosition.y - 1.2f, 0f);
@@ -976,6 +982,7 @@ public class NewProfileController : MonoBehaviour
 			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 0.5f*ApplicationDesignRules.roundButtonWorldSize.x,profileBlockUpperLeftPosition.y - 2.5f,0f);
 			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
+			this.profileSoundSettingsButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileExitApplicationButton.SetActive(true);
 			this.profileExitApplicationButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 3f, 0f);
@@ -1017,6 +1024,7 @@ public class NewProfileController : MonoBehaviour
 			this.profileChooseLanguageButton.transform.position=new Vector3(profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f,profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing -ApplicationDesignRules.profilePictureWorldSize.y + ApplicationDesignRules.roundButtonWorldSize.y/2f+ApplicationDesignRules.roundButtonWorldSize.y,0f);
 			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - ApplicationDesignRules.roundButtonWorldSize.x / 2f, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
+			this.profileSoundSettingsButton.transform.position  = new Vector3 (profileBlockUpperRightPosition.x - ApplicationDesignRules.blockHorizontalSpacing - 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - ApplicationDesignRules.buttonVerticalSpacing - ApplicationDesignRules.profilePictureWorldSize.y+ ApplicationDesignRules.roundButtonWorldSize.y/2f, 0f);
 			this.profileExitApplicationButton.SetActive(false);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 0.5f - ApplicationDesignRules.profilePictureWorldSize.y, 0f);
 
@@ -1076,6 +1084,11 @@ public class NewProfileController : MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.updateUserInformationsHandler();
 		}
+		else if(this.isSoundSettingPopUpDisplayed)
+		{
+			SoundController.instance.playSound(8);
+			this.confirmSoundSettingsHandler();
+		}
 	}
 	public void escapePressed()
 	{
@@ -1109,6 +1122,11 @@ public class NewProfileController : MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.hideChooseLanguagePopUp();
 		}
+		else if(this.isSoundSettingPopUpDisplayed)
+		{
+			SoundController.instance.playSound(8);
+			this.exitSoundSettingsHandler();
+		}
 		else
 		{
 			BackOfficeController.instance.leaveGame();
@@ -1139,6 +1157,10 @@ public class NewProfileController : MonoBehaviour
 		if(this.isChooseLanguagePopUpDisplayed)
 		{
 			this.hideChooseLanguagePopUp();
+		}
+		if(this.isSoundSettingPopUpDisplayed)
+		{
+			this.hideSoundSettingsPopUp();
 		}
 	}
 	public void drawChallengesRecords()
@@ -1702,6 +1724,14 @@ public class NewProfileController : MonoBehaviour
 		this.messagePopUp.SetActive (true);
 		this.messagePopUpResize ();
 	}
+	public void displaySoundSettingsPopUp()
+	{
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.soundSettingsPopUp.transform.GetComponent<SoundSettingsPopUpController> ().reset (PlayerPrefs.GetFloat("sfxVol",0.5f),PlayerPrefs.GetFloat("musicVol",0.5f));
+		this.isSoundSettingPopUpDisplayed = true;
+		this.soundSettingsPopUp.SetActive (true);
+		this.soundSettingsPopUpResize ();
+	}
 	public void checkPasswordPopUpResize()
 	{
 		this.checkPasswordPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
@@ -1726,6 +1756,11 @@ public class NewProfileController : MonoBehaviour
 		this.messagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.messagePopUp.GetComponent<ProfileMessagePopUpController> ().resize ();
 	}
+	public void soundSettingsPopUpResize()
+	{
+		this.soundSettingsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.soundSettingsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+	}
 	public void hideCheckPasswordPopUp()
 	{
 		this.checkPasswordPopUp.SetActive (false);
@@ -1749,6 +1784,27 @@ public class NewProfileController : MonoBehaviour
 		this.messagePopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isMessagePopUpDisplayed = false;
+	}
+	public void hideSoundSettingsPopUp()
+	{
+		this.soundSettingsPopUp.SetActive (false);
+		BackOfficeController.instance.hideTransparentBackground();
+		this.isSoundSettingPopUpDisplayed = false;
+	}
+	public void confirmSoundSettingsHandler()
+	{
+		float sfxVol = this.soundSettingsPopUp.GetComponent<SoundSettingsPopUpController>().getSfxVol();
+		float musicVol = this.soundSettingsPopUp.GetComponent<SoundSettingsPopUpController>().getMusicVol();
+		PlayerPrefs.SetFloat("sfxVol",sfxVol);
+		PlayerPrefs.SetFloat("musicVol",musicVol);
+		PlayerPrefs.Save();
+		this.hideSoundSettingsPopUp();
+	}
+	public void exitSoundSettingsHandler()
+	{
+		ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("sfxVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
+		ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("musicVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
+		this.hideSoundSettingsPopUp();
 	}
 	public void checkPasswordHandler()
 	{

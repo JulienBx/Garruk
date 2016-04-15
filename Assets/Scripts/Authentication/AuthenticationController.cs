@@ -63,7 +63,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(ApplicationModel.player.ToDeconnect)
 		{
-			SoundController.instance.playMusic(new int[]{0});
 			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			if(ApplicationModel.player.hastLostConnection)
@@ -137,7 +136,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else
 		{
-			SoundController.instance.playMusic(new int[]{0});
 			if(ApplicationModel.player.Error!="")
 			{
 				ApplicationModel.player.Error="";
@@ -906,6 +904,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void loadLevels()
 	{
+		SoundController.instance.playMusic(new int[]{0,1,2});
 		if(ApplicationModel.player.TutorialStep!=-1)
 		{
 			switch(ApplicationModel.player.TutorialStep)
@@ -941,7 +940,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void OnJoinedLobby()
 	{
-		SoundController.instance.playMusic(new int[]{1,2});
 		this.loadLevels();
 	}
 

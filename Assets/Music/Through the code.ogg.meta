@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 49914d4912db540dda6cd5d1e27d67a7
+labels:
+- trailer
+- sci-fi
+- epic
+- music
+- orchestra
+AudioImporter:
+  serializedVersion: 6
+  defaultSettings:
+    loadType: 1
+    sampleRateSetting: 0
+    sampleRateOverride: 0
+    compressionFormat: 1
+    quality: 0.01
+    conversionMode: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  preloadAudioData: 1
+  loadInBackground: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

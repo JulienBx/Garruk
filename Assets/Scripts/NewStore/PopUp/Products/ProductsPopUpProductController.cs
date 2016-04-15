@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class ProductsPopUpProductController : SpriteButtonController
+public class ProductsPopUpProductController : SimpleButtonController
 {
-
-	public int id;
-
 	public override void mainInstruction ()
 	{
 		SoundController.instance.playSound(8);
-		NewStoreController.instance.buyProductHandler(this.id);
+		NewStoreController.instance.buyProductHandler(base.getId());
+	}
+	public override void setIsActive (bool value)
+	{
+		base.setIsActive (value);
+		if(!value)
+		{
+			this.setForbiddenState();
+		}
+		else
+		{
+			base.setInitialState();
+		}
 	}
 }
 

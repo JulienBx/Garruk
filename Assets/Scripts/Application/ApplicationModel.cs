@@ -28,6 +28,9 @@ public class ApplicationModel
 	static public float volBackOfficeFx;
 	static public float volMusic;
 
+	static public float volMaxBackOfficeFx;
+	static public float volMaxMusic;
+
 	static public Deck opponentDeck;
 
 	static public float timeOutDelay;
@@ -47,8 +50,8 @@ public class ApplicationModel
 		//host = "http://testing.techticalwars.com/";  // RECETTE
 		hash = "J8xy9Uz4";
 		photonSettings = "0.2";
-		volBackOfficeFx=0.5f;
-		volMusic=0f;
+		volMaxBackOfficeFx=1f;
+		volMaxMusic=0.3f;
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";
