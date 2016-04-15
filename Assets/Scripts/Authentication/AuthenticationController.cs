@@ -111,12 +111,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
 		ApplicationModel.player.hastLostConnection=lastHastLostConnection;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
-		ApplicationModel.player.productValue=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString("Product", "")));
-		ApplicationModel.player.productOwner=ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner", ""));
-		if(ApplicationModel.player.productValue>0)
-		{
-			ApplicationModel.player.isGettingProduct=true;
-		}
 	}
 	private void initializeServerController()
 	{

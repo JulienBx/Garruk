@@ -26,15 +26,9 @@ public class ServerController : MonoBehaviour
 			{
 				this.toDetectTimeOut=false;
 				this.detectedTimeOut=true;
+                this.error=WordingServerError.getReference("5",true);
 				StopCoroutine(this.executeRequest());
-				if(ApplicationModel.player.isGettingProduct)
-				{
-					this.productDeliveryFail();
-				}
-				else
-				{
-					this.lostConnection();
-				}
+                this.lostConnection();
 			}
 		}
 	}
@@ -69,20 +63,6 @@ public class ServerController : MonoBehaviour
 				this.error = WordingServerError.getReference(errors [1],true);
 			}
 			this.result=w.text;
-			if(ApplicationModel.player.isGettingProduct)
-			{
-				if(this.error!="")
-				{
-					this.error="";
-					this.productDeliveryFail();
-				}
-				else
-				{
-					ApplicationModel.player.isGettingProduct=false;
-					ApplicationModel.player.productOwner="";
-					ApplicationModel.player.productValue=0;
-				}
-			}
 		}
 	}
 	public string getResult()
@@ -101,16 +81,6 @@ public class ServerController : MonoBehaviour
 		}
 		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
-	}
-	public void productDeliveryFail()
-	{
-		PlayerPrefs.SetString("Product", ApplicationModel.Encrypt(ApplicationModel.player.productValue.ToString()));
-		PlayerPrefs.SetString("ProductOwner", ApplicationModel.Encrypt(ApplicationModel.player.productOwner));
-		PlayerPrefs.Save();
-		ApplicationModel.player.productValue=0;
-		ApplicationModel.player.productOwner="";
-		ApplicationModel.player.isGettingProduct=false;
-		this.lostConnection();
 	}
 }
 

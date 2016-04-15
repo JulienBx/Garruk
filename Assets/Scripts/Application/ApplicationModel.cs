@@ -32,9 +32,9 @@ public class ApplicationModel
 
 	static public float timeOutDelay;
 
-	static readonly string PasswordHash = "yourkey1";
-    static readonly string SaltKey = "yourkey2";
-    static readonly string VIKey = "yourkey3";
+    static readonly string PasswordHash = "4sA4rQtdpgLMxCGJ";
+    static readonly string SaltKey = "7MScM011s1C07n77";
+    static readonly string VIKey = "ijA55x1s4mH2X792";
 
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
 	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial

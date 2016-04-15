@@ -79,10 +79,7 @@ public class Player : User
 	public int TrainingPreviousAllowedCardType;
 	public bool HasToBuyTrainingPack;
 	public bool hastLostConnection;
-	public bool isGettingProduct;
-	public int productValue;
-	public string productOwner;
-
+  
 	public Player()
 	{
 		this.Username = "";
@@ -176,15 +173,24 @@ public class Player : User
 			this.IdProfilePicture=idprofilepicture;
 		}
 	}
-	public IEnumerator addMoney(int money)
+	public IEnumerator addMoney()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", this.Username);
-		form.AddField("myform_money", money.ToString());
+        form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
+        form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
 
 		ServerController.instance.setRequest(URLAddMoney, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
+        if(ServerController.instance.getError()=="")
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            ServerController.instance.lostConnection();
+        }
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
@@ -445,7 +451,9 @@ public class Player : User
 	{
 		WWWForm form = new WWWForm(); 
 		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_macadress", this.MacAdress); 
+		form.AddField("myform_macadress", this.MacAdress);
+        form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
+        form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
 
 		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -453,7 +461,9 @@ public class Player : User
 		
 		if(this.Error=="")
 		{
-			string result = ServerController.instance.getResult();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
 			{
 				string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
@@ -499,6 +509,8 @@ public class Player : User
 		form.AddField("myform_macadress", this.MacAdress);
 		form.AddField("myform_facebookid", this.FacebookId);
 		form.AddField("myform_mail", this.Mail);
+        form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
+        form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
 
 		ServerController.instance.setRequest(URLCheckAuthentification, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -506,7 +518,9 @@ public class Player : User
 
 		if(this.Error=="")
 		{
-			string result = ServerController.instance.getResult();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
 			{
 				string[] data =result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
