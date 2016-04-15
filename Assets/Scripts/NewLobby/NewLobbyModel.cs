@@ -91,6 +91,7 @@ public class NewLobbyModel
 			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
 			results[i].Opponent.Division=ApplicationModel.player.CurrentDivision.Id;
 			results[i].Opponent.TrainingStatus=System.Convert.ToInt32(resultData[9]);
+			results[i].Opponent.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32(resultData[10]));
 		}
 		return results;
 	}

@@ -572,6 +572,16 @@ public class NewLobbyController : MonoBehaviour
 				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.IdProfilePicture);
 				this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Username;
 				this.results[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Division);
+				if(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.isPublic)
+				{
+					this.results[i].transform.FindChild("picture").GetComponent<NewLobbyResultsPictureController>().setIsActive(true);
+					this.results[i].transform.FindChild("username").GetComponent<NewLobbyResultsUsernameController>().setIsActive(true);
+				}
+				else
+				{
+					this.results[i].transform.FindChild("picture").GetComponent<NewLobbyResultsPictureController>().setIsActive(false);
+					this.results[i].transform.FindChild("username").GetComponent<NewLobbyResultsUsernameController>().setIsActive(false);	
+				}
 			}
 			else
 			{

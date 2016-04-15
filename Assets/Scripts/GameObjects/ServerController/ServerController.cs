@@ -9,6 +9,7 @@ public class ServerController : MonoBehaviour
 	public static ServerController instance;
 
 	private bool toDetectTimeOut;
+	private bool detectedTimeOut;
 	private float timer;
 	private string URL;
 	private WWWForm form;
@@ -24,8 +25,10 @@ public class ServerController : MonoBehaviour
 			if(this.timer>ApplicationModel.timeOutDelay)
 			{
 				this.toDetectTimeOut=false;
+				this.detectedTimeOut=true;
+                this.error=WordingServerError.getReference("5",true);
 				StopCoroutine(this.executeRequest());
-				this.lostConnection();
+                this.lostConnection();
 			}
 		}
 	}
@@ -43,20 +46,24 @@ public class ServerController : MonoBehaviour
 		this.result="";
 		this.error="";
 		this.toDetectTimeOut=true;
+		this.detectedTimeOut=false;
 		this.timer=0f;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
-		this.toDetectTimeOut=false;
-		if(w.error!=null)
+		if(!this.detectedTimeOut)
 		{
-			this.error=WordingServerError.getReference(w.error,false);
+			this.toDetectTimeOut=false;
+			if(w.error!=null)
+			{
+				this.error=WordingServerError.getReference(w.error,false);
+			}
+			else if(w.text.Contains("#ERROR#"))
+			{
+				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				this.error = WordingServerError.getReference(errors [1],true);
+			}
+			this.result=w.text;
 		}
-		else if(w.text.Contains("#ERROR#"))
-		{
-			string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
-			this.error = WordingServerError.getReference(errors [1],true);
-		}
-		this.result=w.text;
 	}
 	public string getResult()
 	{
@@ -75,6 +82,5 @@ public class ServerController : MonoBehaviour
 		ApplicationModel.player.ToDeconnect=true;
 		SceneManager.LoadScene("Authentication");
 	}
-
 }
 

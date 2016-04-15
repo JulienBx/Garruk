@@ -5,7 +5,8 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		if(ApplicationDesignRules.isMobileDevice)
+		SoundController.instance.playSound(9);
+		if(ApplicationDesignRules.isMobileScreen)
 		{
 			NewStoreController.instance.displayProductsPopUp ();
 		}

@@ -1151,6 +1151,16 @@ public class NewProfileController : MonoBehaviour
 				this.challengesRecordsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Username;
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
+				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.isPublic)
+				{
+					this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(true);
+					this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(true);
+				}
+				else
+				{
+					this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(false);
+					this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(false);
+				}
 				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.TrainingStatus==-1)
 				{
 					this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
@@ -1224,6 +1234,16 @@ public class NewProfileController : MonoBehaviour
 				}
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Username;
+				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.isPublic)
+				{
+					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
+					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
+				}
+				else
+				{
+					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
+					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
+				}
 				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.TrainingStatus==-1)
 				{
 					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
@@ -1253,6 +1273,16 @@ public class NewProfileController : MonoBehaviour
 				this.friendsDisplayed.Add (this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i);
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().reset();
 				this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().reset();
+				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].isPublic)
+				{
+					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
+					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
+				}
+				else
+				{
+					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(false);
+					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(false);
+				}
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Username;
 				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].TrainingStatus==-1)
@@ -1659,7 +1689,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
-		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().reset (ApplicationModel.player.FirstName,ApplicationModel.player.Surname,ApplicationModel.player.Mail);
+		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().reset (ApplicationModel.player.FirstName,ApplicationModel.player.Surname,ApplicationModel.player.Mail, ApplicationModel.player.isPublic);
 		this.isEditInformationsPopUpDisplayed = true;
 		this.editInformationsPopUp.SetActive (true);
 		this.editInformationsPopUpResize ();
@@ -1825,6 +1855,7 @@ public class NewProfileController : MonoBehaviour
 		string surname = this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getSecondInput ();
 		string mail = this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getThirdInput ();
 		string error = this.checkname (firstname);
+		bool isPublic =  this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().getIsPublic();
 
 		if(error=="")
 		{
@@ -1839,7 +1870,7 @@ public class NewProfileController : MonoBehaviour
 					{
 						isNewEmail=true;
 					}
-					StartCoroutine(updateUserInformations(firstname,surname,mail,isNewEmail));
+					StartCoroutine(updateUserInformations(firstname,surname,mail,isNewEmail,isPublic));
 				}
 			}
 		}
@@ -1849,11 +1880,11 @@ public class NewProfileController : MonoBehaviour
 		}
 		this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (error);
 	}
-	private IEnumerator updateUserInformations(string firstname, string surname, string mail, bool isNewEmail)
+	private IEnumerator updateUserInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		this.editInformationsPopUp.SetActive(false);
-		yield return StartCoroutine (ApplicationModel.player.updateInformations (firstname,surname,mail,isNewEmail));
+		yield return StartCoroutine (ApplicationModel.player.updateInformations (firstname,surname,mail,isNewEmail, isPublic));
 		this.editInformationsPopUp.SetActive(true);
 		if(ApplicationModel.player.Error=="")
 		{

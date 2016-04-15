@@ -38,7 +38,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	private GameObject topPacksScrollLine;
 
 	private GameObject[] products;
-	private GameObject productsPaginationButtons;
 
 	private GameObject storeBlock;
 	private GameObject storeBlockTitle;
@@ -77,7 +76,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	private bool isSelectCardTypePopUpDisplayed;
 
 	private Pagination packsPagination;
-	private Pagination productsPagination;
 
 	private int selectedPackIndex;
 	private int selectedCardType;
@@ -314,10 +312,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.buyCreditsButton.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingStore.getReference(6);
 		this.buyCreditsButton.AddComponent<NewStoreBuyCreditsButtonController> ();
 
-		this.productsPaginationButtons = GameObject.Find("ProductsPagination");
-		this.productsPaginationButtons.AddComponent<NewStoreProductsPaginationController> ();
-		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().initialize ();
-
 		this.focusedCard = GameObject.Find ("FocusedCard");
 		this.focusedCard.AddComponent<NewFocusedCardStoreController> ();
 		this.focusedCard.SetActive (false);
@@ -332,7 +326,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.selectCardTypePopUp = GameObject.Find ("SelectCardTypePopUp");
 		this.selectCardTypePopUp.SetActive (false);
 		this.productsPopUp = GameObject.Find ("ProductsPopUp");
-		this.productsPopUp.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(1);
 		this.productsPopUp.SetActive (false);
 	}
 	private IEnumerator initialization()
@@ -340,13 +333,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return(StartCoroutine(this.model.initializeStore()));
-		if(ApplicationDesignRules.isMobileDevice)
-		{
-			if (m_StoreController == null)
-	       	{
-	       		InitializeMobilePurchasing();
-	        }
-		}
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -371,11 +357,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.drawPaginationNumber();
 		this.drawPacks();
 	}
-	public void paginationProductsHandler()
-	{
-		SoundController.instance.playSound(9);
-		this.drawProducts();
-	}
 	public void initializePacks()
 	{
 		this.packsPagination.chosenPage = 0;
@@ -387,11 +368,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void initializeProducts()
 	{
-		this.productsPagination.chosenPage = 0;
-		this.productsPagination.totalElements = model.productList.Count;
-		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().p = productsPagination;
-		this.productsPaginationButtons.GetComponent<NewStoreProductsPaginationController> ().setPagination ();
-		this.drawProducts ();
+        for(int i=0;i<4;i++)
+        {
+            this.productsPopUp.transform.FindChild("product"+i).FindChild("Value").GetComponent<TextMeshPro>().text=model.productList[i].Crystals.ToString()+WordingProducts.getReferences(2);
+            this.productsPopUp.transform.FindChild("product"+i).FindChild("Price").GetComponent<TextMeshPro>().text=getProductsPrice(i);
+            this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(3);
+        }
 	}
 	public void drawPaginationNumber()
 	{
@@ -419,8 +401,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		float buyCreditsBlockHeight;
 
 		this.packsPagination = new Pagination ();
-		this.productsPagination = new Pagination();
-		this.productsPagination.nbElementsPerPage=4;
 		this.mainCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
 		this.mainCamera.transform.position = ApplicationDesignRules.mainCameraPosition;
 		this.sceneCamera.GetComponent<Camera> ().orthographicSize = ApplicationDesignRules.cameraSize;
@@ -822,24 +802,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		}
 		this.updatePackPrices ();
 	}
-	public void drawProducts()
-	{
-		this.productsDisplayed = new List<int> ();
-		
-		for(int i=0;i<this.productsPagination.nbElementsPerPage;i++)
-		{
-			if(this.productsPagination.chosenPage*(this.productsPagination.nbElementsPerPage)+i<model.productList.Count)
-			{
-				this.productsDisplayed.Add (this.productsPagination.chosenPage*(this.productsPagination.nbElementsPerPage)+i);
-				this.products[i].GetComponent<ProductsPopUpProductController>().show(model.productList[this.productsDisplayed[i]]);
-				this.products[i].SetActive(true);
-			}
-			else
-			{
-				this.products[i].SetActive(false);
-			}
-		}
-	}
 	public void cleanPacks()
 	{
 		for(int i=0;i<this.packs.Length;i++)
@@ -1076,21 +1038,11 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void displayProductsPopUp()
 	{
-		SoundController.instance.playSound(9);
-		BackOfficeController.instance.displayTransparentBackground ();
-		this.isProductsPopUpDisplayed = true;
-		this.productsPopUp.SetActive (true);
-		this.productsPopUpResize ();
-		this.productsPopUp.transform.FindChild("closebutton").GetComponent<ProductsPopUpCloseButtonController>().reset();
-		this.productsPopUp.transform.FindChild("ProductsPagination").GetComponent<NewStoreProductsPaginationController>().reset();
-		for(int i=0;i<productsPagination.nbElementsPerPage;i++)
-		{
-			this.productsPopUp.transform.FindChild("product"+i).GetComponent<ProductsPopUpProductController>().reset();
-		}
-		if(this.productsPagination.chosenPage!=0)
-		{
-			this.initializeProducts();	
-		}
+        SoundController.instance.playSound(9);
+        BackOfficeController.instance.displayTransparentBackground ();
+        this.isProductsPopUpDisplayed = true;
+        this.productsPopUp.SetActive (true);
+        this.productsPopUpResize ();
 	}
 	public void displaySelectCardTypePopUp()
 	{
@@ -1105,7 +1057,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		this.productsPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.productsPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
-		this.productsPopUp.transform.FindChild("ProductsPagination").GetComponent<NewStoreProductsPaginationController>().resize();
 	}
 	private void selectCardPopUpResize()
 	{
@@ -1195,11 +1146,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void InitializeMobilePurchasing() 
 	{
-	    if (IsInitialized())
+        if (IsInitialized())
 	    {
-	        return;
+	        this.displayProductsPopUp();
 	    }
-	    
+
+        BackOfficeController.instance.displayLoadingScreen();
 	   	var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
 	    for(int i=0;i<model.productList.Count;i++)
@@ -1214,7 +1166,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public string getProductsPrice(int id)
 	{
-		Product product = m_StoreController.products.WithID(model.productList[this.productsDisplayed[id]].ProductID);
+        Product product = m_StoreController.products.WithID(model.productList[this.productsDisplayed[id]].ProductID);
 		if(product!=null)
 		{
 			return product.metadata.localizedPriceString;
@@ -1270,7 +1222,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
 	{
-	    // Purchasing has succeeded initializing. Collect our Purchasing references.
+        // Purchasing has succeeded initializing. Collect our Purchasing references.
 	    Debug.Log("OnInitialized: PASS");
 	    
 	    // Overall Purchasing system, configured with products for this application.
@@ -1278,12 +1230,15 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    // Store specific subsystem, for accessing device-specific store features.
 	    m_StoreExtensionProvider = extensions;
 		this.initializeProducts();
+        BackOfficeController.instance.hideLoadingScreen();
+        this.displayProductsPopUp();
 	}
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 	    // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 	    Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
-		this.initializeProducts();
+        BackOfficeController.instance.hideLoadingScreen();
+        BackOfficeController.instance.displayErrorPopUp(WordingProducts.getReferences(3));
 	}
 	void Success (XsollaResult result)
 	{
@@ -1302,7 +1257,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			if (String.Equals(args.purchasedProduct.definition.id, model.productList[i].ProductID, StringComparison.Ordinal))
 		    {
 		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-		        StartCoroutine	(this.addGift((int)model.productList[i].Crystals));
+		        StartCoroutine	(this.addProduct((int)model.productList[i].Crystals));
     		}
 	    }
 	    BackOfficeController.instance.hideLoadingScreen();
@@ -1330,18 +1285,13 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			sdk.CreatePaymentForm(ApplicationModel.player.DesktopPurchasingToken,Success,Failure);
 		}
 	}
-	public IEnumerator addGift(int money)
+	public IEnumerator addProduct(int money)
 	{
-		yield return StartCoroutine	(ApplicationModel.player.addMoney(money));
-		if(ApplicationModel.player.Error=="")
-		{
-			ApplicationModel.player.Money=ApplicationModel.player.Money+money;
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-		}
+        PlayerPrefs.SetString("Product", ApplicationModel.Encrypt(money.ToString()));
+        PlayerPrefs.SetString("ProductOwner", ApplicationModel.Encrypt(ApplicationModel.player.Id.ToString()));
+        PlayerPrefs.Save();
+		ApplicationModel.player.Money=ApplicationModel.player.Money+money;
+		yield return StartCoroutine	(ApplicationModel.player.addMoney());
 	}
 	  
 	#region TUTORIAL FUNCTIONS
