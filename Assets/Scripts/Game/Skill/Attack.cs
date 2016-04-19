@@ -13,7 +13,7 @@ public class Attack : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentOpponentsTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)

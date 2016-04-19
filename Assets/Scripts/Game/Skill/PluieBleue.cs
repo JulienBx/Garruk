@@ -22,7 +22,7 @@ public class PluieBleue : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard targetCard ;
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		int minDamages;
@@ -170,7 +170,7 @@ public class PluieBleue : GameSkill
 			text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+minDamages)+"-"+Mathf.Min(targetCard.GetTotalLife(),(targetCard.getLife()+maxDamages))+"]";
 		}
 
-		int amount = GameView.instance.getCurrentSkill().proba;
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;

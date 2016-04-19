@@ -14,14 +14,14 @@ public class Senilite : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentOpponentsTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int max = 2 * GameView.instance.getCurrentSkill().Power+5;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
@@ -80,7 +80,7 @@ public class Senilite : GameSkill
 			text = "ATK : "+targetCard.getAttack()+" -> 1\nPermanent";
 		}
 
-		int amount = GameView.instance.getCurrentSkill().proba;
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;

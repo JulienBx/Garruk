@@ -19,7 +19,7 @@ public class Criderage : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 
 		List<Tile> tempTiles;
 		Tile t = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());

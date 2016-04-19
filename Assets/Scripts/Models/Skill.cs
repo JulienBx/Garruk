@@ -8,7 +8,7 @@ public class Skill
 	public int IsActivated;
 	public int Level;
 	public int Power;
-	public int proba;
+	private int proba;
 	public int ManaCost;
 	public int nextProba;
 	public string Description;
@@ -70,6 +70,12 @@ public class Skill
 		this.proba = p;
 		this.hasBeenPlayed = false ;
 	}
+
+	public Skill(int id, int power)
+	{
+		this.Id = id;
+		this.Power = power;
+	}
 	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)
 	{
@@ -104,6 +110,7 @@ public class Skill
 		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
 		this.Description = "";
 		this.hasBeenPlayed = false ;
+		this.IsActivated = 0 ; 
 	}
 	
 	public string getProbaText()

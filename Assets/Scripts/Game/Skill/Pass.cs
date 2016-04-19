@@ -7,7 +7,7 @@ public class Pass : GameSkill
 		
 	}
 	
-	public override string isLaunchable(){
+	public override string isLaunchable(Tile t){
 		return "" ;
 	}
 }

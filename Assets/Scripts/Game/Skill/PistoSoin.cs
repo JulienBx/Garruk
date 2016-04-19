@@ -14,14 +14,14 @@ public class PistoSoin : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayWoundedAllysButMeTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
@@ -83,7 +83,7 @@ public class PistoSoin : GameSkill
 			text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)+"-"+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)+"]";
 		}
 
-		int amount = GameView.instance.getCurrentSkill().proba;
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;

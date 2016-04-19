@@ -6,7 +6,7 @@ public class TimerController : MonoBehaviour
 {
 	float timerTurn = 0f ; 
 	int realTime = 0;
-	public float turnTime = 30f;
+	float turnTime = 30f;
 	public bool isShowing = false ;
 
 	void Awake(){
@@ -14,8 +14,8 @@ public class TimerController : MonoBehaviour
 	}
 
 	public void setTime(){
-		this.timerTurn = 30f;
-		this.realTime = 30 ;
+		this.timerTurn = turnTime;
+		this.realTime = (int)turnTime ;
 	}
 
 	public void setTime(float f){
@@ -27,6 +27,7 @@ public class TimerController : MonoBehaviour
 		this.timerTurn-=f ;
 
 		if(this.timerTurn<=0){
+			isShowing = false ;
 			if(GameView.instance.getCurrentCard().isMine){
 				GameView.instance.hideAllTargets();
 				GameController.instance.findNextPlayer();

@@ -13,7 +13,7 @@ public class Telepiege : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentTileTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<Tile> targetsTile)

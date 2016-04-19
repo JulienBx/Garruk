@@ -50,6 +50,7 @@ public class InterludeController : MonoBehaviour
 	}
 	
 	public void set(string s, int type){
+		print("SET");
 		this.isEndTurn = (type==3);
 		GameView.instance.myTimer.show(false);
 		GameView.instance.hisTimer.show(false);

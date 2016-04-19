@@ -19,7 +19,7 @@ public class Justice : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		GameController.instance.applyOn(-1);
 
 		int targetMax = GameView.instance.getMaxPVCard();

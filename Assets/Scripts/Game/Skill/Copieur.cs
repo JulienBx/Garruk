@@ -13,7 +13,7 @@ public class Copieur : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentUnitsTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -37,7 +37,6 @@ public class Copieur : GameSkill
 
 		currentCard.Skills[1].Id = targetCard.Skills[1].Id ;
 		currentCard.Skills[1].Power = targetCard.Skills[1].Power ;
-		currentCard.Skills[1].proba = targetCard.Skills[1].proba;
 		GameView.instance.getMyHoveredCardController().updateCharacter();
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 

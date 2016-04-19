@@ -14,7 +14,7 @@ public class Laser : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayOpponentsTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
@@ -22,7 +22,7 @@ public class Laser : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;
 	
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
@@ -74,7 +74,7 @@ public class Laser : GameSkill
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
 		
-		int amount = GameView.instance.getCurrentSkill().proba;
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		text += "\n\nHIT% : "+probaHit;

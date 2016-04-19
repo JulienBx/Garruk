@@ -13,13 +13,13 @@ public class Cannibale : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentAllyTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);int target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);

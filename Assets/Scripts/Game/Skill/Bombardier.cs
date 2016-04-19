@@ -25,7 +25,7 @@ public class Bombardier : GameSkill
 		if(currentCard.isFou()){
 			maxdamages = Mathf.RoundToInt(1.25f*maxdamages);
 		}
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		for(int i = 0 ; i < targets.Count ; i++){
 			if (Random.Range(1,101) <= GameView.instance.getCard(targets[i]).getMagicalEsquive()){
 				GameController.instance.esquive(targets[i],1);

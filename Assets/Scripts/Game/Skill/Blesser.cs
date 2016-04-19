@@ -13,14 +13,14 @@ public class Blesser : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentOpponentsTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int minMalus = GameView.instance.getCurrentSkill().Power ;
 		int maxMalus = GameView.instance.getCurrentSkill().Power*3+5;
 
@@ -70,7 +70,7 @@ public class Blesser : GameSkill
 			text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nATK : "+targetCard.getAttack()+" -> ["+Mathf.Max(1, targetCard.getAttack()-minMalus)+"-"+Mathf.Max(1, targetCard.getAttack()-maxMalus)+"]\nActif 1 tour\n(lâche)";				
 		}
 
-		int amount = GameView.instance.getCurrentSkill().proba;
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		

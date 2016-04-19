@@ -88,6 +88,17 @@ public class Card
 		this.Skills = skills;
 	}
 
+	public Card(string title, int life, int artIndex, int move, int attack, List<Skill> skills)
+	{
+		this.Title = title;
+		this.Life = life;
+		this.CardType=new CardType();
+		this.CardType.Id = artIndex;
+		this.Move = move;
+		this.Attack = attack;
+		this.Skills = skills;
+	}
+
 	public Card(int id, 
 	            string title, 
 	            int life, 
@@ -431,7 +442,6 @@ public class Card
 				this.Skills[j-1].Power=System.Convert.ToInt32(cardInfo[5]);
 				this.Skills[j-1].Upgrades=System.Convert.ToInt32(cardInfo[6]);
 				this.Skills[j-1].Description=WordingSkills.getDescription(this.Skills[j-1].Id,this.Skills[j-1].Power-1);
-				this.Skills[j-1].proba=WordingSkills.getProba(this.Skills[j-1].Id,this.Skills[j-1].Power-1);
 				this.Skills[j-1].nextDescription=cardInfo[9];
 				this.Skills[j-1].nextProba=System.Convert.ToInt32(cardInfo[10]);
 				this.Skills[j-1].nextLevel=System.Convert.ToInt32(cardInfo[11]);

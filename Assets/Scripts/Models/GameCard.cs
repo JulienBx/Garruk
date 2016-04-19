@@ -58,6 +58,18 @@ public class GameCard : Card
 		this.states = new List<Modifyer>();
 		this.isStateModifyed = false;
 	}
+
+	public GameCard(string title, int life, int artIndex, int move, int attack, List<Skill> skills, int dor)
+	{
+		this.Title = title;
+		this.Life = life;
+		this.CardType=new CardType();
+		this.CardType.Id = artIndex;
+		this.Move = move;
+		this.Attack = attack;
+		this.Skills = skills;
+		this.deckOrder = dor;
+	}
 	
 	public int getNbTurnsToWait(){
 		return this.nbTurnsToWait ;

@@ -14,14 +14,14 @@ public class Cristolife : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.displayAdjacentRockTargets();
+		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override void resolve(List<Tile> targetsPCC)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		Tile target = targetsPCC[0];
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){

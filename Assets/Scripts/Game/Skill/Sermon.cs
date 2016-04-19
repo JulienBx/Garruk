@@ -19,7 +19,7 @@ public class Sermon : GameSkill
 	
 	public override void resolve(List<int> targetsPCC)
 	{	
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 
 		List<int> tempTiles = GameView.instance.getEveryone();
 		

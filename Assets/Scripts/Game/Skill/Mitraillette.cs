@@ -26,7 +26,7 @@ public class Mitraillette : GameSkill
 		bool isFirstP = GameView.instance.getIsFirstPlayer();
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
 		Tile targetTile ; 
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int maxDamages = 5+GameView.instance.getCurrentSkill().Power*2;
 		if(currentCard.isFou()){
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);

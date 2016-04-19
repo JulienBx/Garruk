@@ -20,7 +20,7 @@ public class Implosion : GameSkill
 	public override void resolve(List<int> targetsPCC)
 	{	
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int proba = GameView.instance.getCurrentSkill().proba;
+		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		List<Tile> tempTiles;
 		Tile t = GameView.instance.getPlayingCardTile(GameView.instance.getCurrentPlayingCard());
 		tempTiles = t.getImmediateNeighbourTiles();

@@ -26,11 +26,11 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(s.Id);
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\n\nProbabilité de succès : "+s.proba+"%";
+		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\n\nProbabilité de succès : "+WordingSkills.getProba(s.Id,s.Power)+"%";
 	}
 	
 	public void getLaunchability(){
-		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable() ;
+		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard())) ;
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
