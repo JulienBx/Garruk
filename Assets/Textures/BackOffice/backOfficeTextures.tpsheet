@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:964d8024013cc07af35cd7d678e2b77d:912706e5d2963f9e6efb72e5e1eeb19f:bc88af7fd1853b38e6f4b3774171c499$
+# $TexturePacker:SmartUpdate:3c546ad79a55c5518c0704c6d6becbf2:375a5e3b488230a41b9fd7032ff8798b:bc88af7fd1853b38e6f4b3774171c499$
 #
 :format=40000
 :texture=backOfficeTextures.png
@@ -29,7 +29,7 @@ bell_icon;2727;2055;48;48;0.5;0.5
 blackBlock;858;1571;100;100;0.5;0.5
 bottomBar;1924;3896;1580;198;0.5;0.5
 button11;2300;1213;356;356;0.5;0.5
-button22;1354;261;121;120;0.5;0.5
+button22;1292;12;121;120;0.5;0.5
 button31;603;1459;199;81;0.5;0.5
 button51;2;1166;317;82;0.5;0.5
 button61;3714;901;377;81;0.5;0.5
@@ -39,13 +39,13 @@ button68;3506;3855;475;239;0.5;0.5
 button71;2956;2970;406;82;0.5;0.5
 button91;3345;2452;731;82;0.5;0.5
 button92;3345;2653;732;141;0.5;0.5
-buttonCristalopedia;1106;248;122;123;0.5;0.5
-buttonHome;1230;258;122;123;0.5;0.5
-buttonMarket;446;1135;123;123;0.5;0.5
-buttonMyGame;1725;1105;122;122;0.5;0.5
-buttonPlay;2;48;123;123;0.5;0.5
-buttonStore;1600;1105;123;122;0.5;0.5
-closebutton;127;48;123;123;0.5;0.5
+buttonCristalopedia;1231;258;122;123;0.5;0.5
+buttonHome;1352;1148;122;123;0.5;0.5
+buttonMarket;2;48;123;123;0.5;0.5
+buttonMyGame;1292;134;122;122;0.5;0.5
+buttonPlay;127;48;123;123;0.5;0.5
+buttonStore;1724;1105;123;122;0.5;0.5
+closebutton;252;48;123;123;0.5;0.5
 collectionPointsback;1909;2600;950;240;0.5;0.5
 cristalblue;2673;2051;52;52;0.5;0.5
 cursor;3426;3616;78;78;0.5;0.5
@@ -54,12 +54,12 @@ divisionIcon;1571;1421;325;325;0.5;0.5
 divisionTexture;606;1094;325;325;0.5;0.5
 drogueur;2;1250;190;190;0.5;0.5
 drone;1008;628;190;190;0.5;0.5
-editPasswordButton;1352;1148;122;123;0.5;0.5
+editPasswordButton;1476;1148;122;123;0.5;0.5
 editPictureButton;908;56;190;190;0.5;0.5
 emptyGauge;3345;1786;665;664;0.5;0.5
 english;321;1140;123;124;0.5;0.5
 englishbig;2;832;300;300;0.5;0.5
-exitButton;1292;134;122;122;0.5;0.5
+exitButton;1355;259;122;122;0.5;0.5
 facebookButton;3345;2536;732;115;0.5;0.5
 filterBar;3327;1754;399;30;0.5;0.5
 filterIcon;3426;3539;75;75;0.5;0.5
@@ -70,7 +70,7 @@ focusPicto3;2861;2452;75;75;0.5;0.5
 focusPicto4;2861;2375;75;75;0.5;0.5
 focusPicto5;4012;2375;75;75;0.5;0.5
 focusPicto6;4012;2298;75;75;0.5;0.5
-french;252;48;123;123;0.5;0.5
+french;377;48;123;123;0.5;0.5
 frenchBig;304;832;300;300;0.5;0.5
 friendly;404;248;325;325;0.5;0.5
 fullGauge;976;1475;593;598;0.5;0.5
@@ -84,7 +84,7 @@ inputText;2956;2970;406;82;0.5;0.5
 invocateur;1135;383;190;190;0.5;0.5
 largeCrystal;3506;3421;432;432;0.5;0.5
 largeInputText;3345;2452;731;82;0.5;0.5
-lastResultsButton;377;48;123;123;0.5;0.5
+lastResultsButton;933;1148;123;123;0.5;0.5
 lifeicon;706;46;200;200;0.5;0.5
 line;1924;3590;1500;2;0.5;0.5
 listElement;3505;3330;415;89;0.5;0.5
@@ -96,16 +96,16 @@ mitrailleur;1200;628;190;190;0.5;0.5
 mobileMenuBell;858;1673;115;119;0.5;0.5
 mobileMenuCristals;3384;3209;698;119;0.5;0.5
 mobileMenuHelp;3384;3418;119;119;0.5;0.5
-myGameAddButton;1476;1148;122;123;0.5;0.5
-myGameDeleteButton;933;1148;123;123;0.5;0.5
-myGameEditButton;1543;1296;122;123;0.5;0.5
-myGameListButton;1227;1148;123;123;0.5;0.5
+myGameAddButton;1543;1296;122;123;0.5;0.5
+myGameDeleteButton;1227;1148;123;123;0.5;0.5
+myGameEditButton;1427;917;122;123;0.5;0.5
+myGameListButton;502;51;123;123;0.5;0.5
 newSkillPopUpBack;1909;2418;950;180;0.5;0.5
 pack1;631;618;375;200;0.5;0.5
 pack2;858;840;375;200;0.5;0.5
 packTexture;3364;2796;688;242;0.5;0.5
-pagination0;502;51;123;123;0.5;0.5
-pagination1;1427;917;122;123;0.5;0.5
+pagination0;731;248;123;123;0.5;0.5
+pagination1;1551;917;122;123;0.5;0.5
 picon;731;373;200;200;0.5;0.5
 playPopUpBackground;3327;984;750;750;0.5;0.5
 polymorphe;1235;850;190;190;0.5;0.5
@@ -115,7 +115,7 @@ pretresse;1392;628;190;190;0.5;0.5
 probaPicto;3983;3986;108;108;0.5;0.5
 rememberMeButton;194;1266;124;124;0.5;0.5
 rememberMeButton2;320;1266;124;124;0.5;0.5
-roundButton;731;248;123;123;0.5;0.5
+roundButton;856;248;123;123;0.5;0.5
 skillPicto;3940;3330;152;152;0.5;0.5
 skillTypeAuto;2673;1798;250;250;0.5;0.5
 skillTypeCombat;2659;1546;250;250;0.5;0.5
@@ -126,14 +126,15 @@ skillTypeSoutien;606;840;250;250;0.5;0.5
 skillTypeTir;606;1542;250;250;0.5;0.5
 skillblack;976;2701;931;311;0.5;0.5
 skillblue;976;2388;931;311;0.5;0.5
-skillbutton;856;248;123;123;0.5;0.5
+skillbutton;981;248;123;123;0.5;0.5
 skilldescriptionback;1924;2842;1030;210;0.5;0.5
 skillgrey;1909;2105;931;311;0.5;0.5
 skillred;976;2075;931;311;0.5;0.5
 slideBackPicto;4012;2298;75;75;0.5;0.5
 slideLeft;4012;2144;75;75;0.5;0.5
 slideRight;4012;2067;75;75;0.5;0.5
-socialButton;1551;917;122;123;0.5;0.5
+socialButton;1600;1104;122;123;0.5;0.5
+soudSettingsButton;446;1135;124;123;0.5;0.5
 speedicon;933;373;200;200;0.5;0.5
 square_artilleur;2943;2428;400;400;0.5;0.5
 square_bersek;2938;2026;400;400;0.5;0.5
@@ -153,7 +154,7 @@ startlevelblack;3384;3358;119;58;0.5;0.5
 startlevelblue;2;1542;119;58;0.5;0.5
 startlevelgrey;1241;1074;119;58;0.5;0.5
 startlevelred;1362;1074;119;58;0.5;0.5
-statsButton;981;248;123;123;0.5;0.5
+statsButton;1106;248;123;123;0.5;0.5
 subFocusFeatureButton;933;1063;179;69;0.5;0.5
 tab;2300;1092;355;119;0.5;0.5
 thumbBorder;4012;1996;69;69;0.5;0.5

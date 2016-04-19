@@ -93,6 +93,7 @@ public class NewStoreModel
 			productList[i].ProductNameGooglePlay=PurchaseInformation[5];
 			productList[i].PriceUSD = float.Parse(PurchaseInformation[6]);
 			productList[i].PriceGBP = float.Parse(PurchaseInformation[7]);
+			productList[i].IsActive = System.Convert.ToBoolean(System.Convert.ToInt32(PurchaseInformation[8]));
 		}
 		return productList;
 	}

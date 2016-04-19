@@ -68,7 +68,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	private Vector3 lowerScrollCameraStorePosition;
 
 	private IList<int> packsDisplayed;
-	private IList<int> productsDisplayed;
 	
 	private GameObject productsPopUp;
 	private bool isProductsPopUpDisplayed;
@@ -370,8 +369,20 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
         for(int i=0;i<4;i++)
         {
+			string productPrice =getProductsPrice(i);
+			this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().setId(i);
             this.productsPopUp.transform.FindChild("product"+i).FindChild("Value").GetComponent<TextMeshPro>().text=model.productList[i].Crystals.ToString()+WordingProducts.getReferences(2);
-            this.productsPopUp.transform.FindChild("product"+i).FindChild("Price").GetComponent<TextMeshPro>().text=getProductsPrice(i);
+			this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().reset();
+			if(productPrice=="" || !model.productList[i].IsActive || productPrice==WordingProducts.getReferences(0))
+			{
+				this.productsPopUp.transform.FindChild("product"+i).FindChild("Price").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(0);
+				this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().setIsActive(false);
+			}
+			else
+			{
+				this.productsPopUp.transform.FindChild("product"+i).FindChild("Price").GetComponent<TextMeshPro>().text=productPrice;
+				this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().setIsActive(true);
+			}
             this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").FindChild("Title").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(3);
         }
 	}
@@ -1038,7 +1049,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void displayProductsPopUp()
 	{
-        SoundController.instance.playSound(9);
         BackOfficeController.instance.displayTransparentBackground ();
         this.isProductsPopUpDisplayed = true;
         this.productsPopUp.SetActive (true);
@@ -1166,20 +1176,20 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public string getProductsPrice(int id)
 	{
-        Product product = m_StoreController.products.WithID(model.productList[this.productsDisplayed[id]].ProductID);
+        Product product = m_StoreController.products.WithID(model.productList[id].ProductID);
 		if(product!=null)
 		{
 			return product.metadata.localizedPriceString;
 		}
 		else
 		{
-			return WordingProducts.getReferences(0);
+			return "";
 		}
 	}
 	public void buyProductHandler(int id)
 	{
 		BackOfficeController.instance.displayLoadingScreen();
-		this.BuyProductID(model.productList[this.productsDisplayed[id]].ProductID);
+		this.BuyProductID(model.productList[id].ProductID);
 		this.hideProductsPopUp();
 	}
 	void BuyProductID(string productId)
@@ -1229,9 +1239,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    m_StoreController = controller;
 	    // Store specific subsystem, for accessing device-specific store features.
 	    m_StoreExtensionProvider = extensions;
-		this.initializeProducts();
-        BackOfficeController.instance.hideLoadingScreen();
         this.displayProductsPopUp();
+		this.initializeProducts();
+		BackOfficeController.instance.hideLoadingScreen();
 	}
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
@@ -1251,6 +1261,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
 	{
 	    // A consumable product has been purchased by this user.
+	    bool isBuying=false;
 
 	    for(int i=0;i<model.productList.Count;i++)
 	    {
@@ -1258,9 +1269,13 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		    {
 		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
 		        StartCoroutine	(this.addProduct((int)model.productList[i].Crystals));
+		        isBuying=true;
     		}
 	    }
-	    BackOfficeController.instance.hideLoadingScreen();
+	    if(!isBuying)
+	    {
+	    	BackOfficeController.instance.hideLoadingScreen();
+	    }
 	    return PurchaseProcessingResult.Complete;
 	} 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
@@ -1287,11 +1302,13 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public IEnumerator addProduct(int money)
 	{
-        PlayerPrefs.SetString("Product", ApplicationModel.Encrypt(money.ToString()));
+		PlayerPrefs.SetString("Product", ApplicationModel.Encrypt(money.ToString()));
         PlayerPrefs.SetString("ProductOwner", ApplicationModel.Encrypt(ApplicationModel.player.Id.ToString()));
         PlayerPrefs.Save();
-		ApplicationModel.player.Money=ApplicationModel.player.Money+money;
 		yield return StartCoroutine	(ApplicationModel.player.addMoney());
+		ApplicationModel.player.Money=ApplicationModel.player.Money+money;
+        MenuController.instance.refreshMenuObject();
+		BackOfficeController.instance.hideLoadingScreen();
 	}
 	  
 	#region TUTORIAL FUNCTIONS

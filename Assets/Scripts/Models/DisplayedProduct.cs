@@ -12,6 +12,7 @@ public class DisplayedProduct
 	public string ProductID;
 	public string ProductNameApple;
 	public string ProductNameGooglePlay;
+	public bool IsActive;
 	
 	public DisplayedProduct()
 	{

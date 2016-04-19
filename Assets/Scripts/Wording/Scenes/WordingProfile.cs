@@ -61,5 +61,7 @@ public class WordingProfile
 		references.Add(new string[]{"Appuyez ici pour changer de langue d'affichage",""}); //44
 		references.Add(new string[]{"Déconnecter",""}); //45
 		references.Add(new string[]{"Appuyez ici pour vous déconnectez ou bien quitter le jeu",""}); //46
+		references.Add(new string[]{"Réglages du son",""}); //47
+		references.Add(new string[]{"Appuyez ici pour vous ajuster la musique et les effets sonores",""}); //48
 	}
 }

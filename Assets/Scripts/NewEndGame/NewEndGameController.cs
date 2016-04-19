@@ -63,7 +63,7 @@ public class NewEndGameController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.initializeHelp();
-		SoundController.instance.playMusic(new int[]{1,2});
+		SoundController.instance.playMusic(new int[]{0,1,2});
 		StartCoroutine (this.initialization ());
 	}
 	void Update () 

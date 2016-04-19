@@ -8,7 +8,7 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 		SoundController.instance.playSound(9);
 		if(ApplicationDesignRules.isMobileScreen)
 		{
-			NewStoreController.instance.displayProductsPopUp ();
+			NewStoreController.instance.InitializeMobilePurchasing();
 		}
 		else
 		{

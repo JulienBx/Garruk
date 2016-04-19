@@ -75,6 +75,11 @@ public class SoundController : MonoBehaviour
 			this.isInitialized=true;
 			this.currentTrack=-1;
 		}
+		else
+		{
+			this.stopPlayingMusic();
+			this.stopPlayingSound();
+		}
 	}
 	public void playMusic(int[] tracks)
 	{
@@ -90,6 +95,10 @@ public class SoundController : MonoBehaviour
 			this.playCurrentMusic();
 		}
 	}
+    public void changeVolume()
+    {
+        musicSource.volume=ApplicationModel.volMusic;
+    }
 	void playCurrentMusic()
 	{
 		musicSource.clip=this.musics[tracks[currentTrack]];
@@ -116,7 +125,11 @@ public class SoundController : MonoBehaviour
 	{
 		sfxSource.Stop();
 	}
-
+	public void stopPlayingMusic()
+	{
+		musicSource.Stop();
+		this.shouldPlay=false;
+	}
 
 	//0-> ShowFocusedSkill
 	//1-> DropCard
