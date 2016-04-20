@@ -17,12 +17,11 @@ public class Sermon : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 
 		List<int> tempTiles = GameView.instance.getEveryone();
-		
 		int i = 0 ;
 		int tempInt ;
 

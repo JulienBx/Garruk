@@ -30,7 +30,7 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void getLaunchability(){
-		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard())) ;
+		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), true) ;
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
@@ -152,7 +152,7 @@ public class SkillButtonController : MonoBehaviour
 			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
 				if(GameView.instance.getTileController(new Tile(x,y)).isDisplayingTarget){
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
-						GameView.instance.hitTarget(GameView.instance.getTileController(new Tile(x,y)).getCharacterID());
+						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
 					}
 					else{
@@ -161,7 +161,7 @@ public class SkillButtonController : MonoBehaviour
 					}
 				}
 				else if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
-					GameSkills.instance.getCurrentGameSkill().resolve(new List<int>());
+					GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
 					GameView.instance.dropSkillButton(this.id);
 				}

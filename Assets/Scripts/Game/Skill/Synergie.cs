@@ -12,14 +12,14 @@ public class Synergie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
-		int target = targetsPCC[0];
+		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
@@ -68,5 +68,24 @@ public class Synergie : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.2f+s.Power/20f)));
+		int score ;
+		if(damages>=targetCard.getLife()){
+			score=200;
+		}
+		else{
+			score=damages;
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+
+		return score ;
 	}
 }

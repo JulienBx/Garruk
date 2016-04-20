@@ -54,4 +54,14 @@ public class Cristopower : GameSkill
 		
 		return text ;
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getLife()/50f)*(2f)*(3f+1.5f*s.Power)) ;
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+
+		return score ;
+	}
 }

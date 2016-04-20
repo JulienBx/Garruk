@@ -74,7 +74,6 @@ public class GameView : MonoBehaviour
 	public List<Tile> skillEffects ;
 	public List<Tile> targets ;
 	public List<int> deads ;
-	TargetPCCHandler targetPCCHandler ;
 	TargetTileHandler targetTileHandler ;
 	
 	public bool amIReadyToFight= false ;
@@ -89,7 +88,7 @@ public class GameView : MonoBehaviour
 
 	public int draggingCard ;
 	public int draggingSkillButton ;
-	int nbTurns ;
+	public int nbTurns ;
 	int numberDeckLoaded ;
 
 	int nbCards = 8 ;
@@ -113,6 +112,7 @@ public class GameView : MonoBehaviour
 	public float tileScale;
 
 	public TimerController myTimer, hisTimer;
+	public ArtificialIntelligence IA ; 
 
 	void Awake()
 	{
@@ -178,6 +178,7 @@ public class GameView : MonoBehaviour
 		this.nbTurns = 0 ;
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
+		this.IA = GameObject.Find("Main Camera").GetComponent<ArtificialIntelligence>();
 	}
 
 	private void initializeServerController()
@@ -1839,7 +1840,7 @@ public class GameView : MonoBehaviour
 					tempTiles = new List<Tile>();
 					
 					for(int k = 0 ; k < baseTiles.Count ; k++){
-						tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k]);
+						tempNeighbours = this.getDestinationImmediateNeighbours(baseTiles[k], true);
 						for(int l = 0 ; l < tempNeighbours.Count ; l++){
 							
 							if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
@@ -1866,7 +1867,7 @@ public class GameView : MonoBehaviour
 					tempTiles = new List<Tile>();
 					
 					for(int k = 0 ; k < baseTiles.Count ; k++){
-						tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k]);
+						tempNeighbours = this.getDestinationHisImmediateNeighbours(baseTiles[k],true);
 						for(int l = 0 ; l < tempNeighbours.Count ; l++){
 							if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
 								tempTiles.Add(tempNeighbours[l]);
@@ -1949,102 +1950,102 @@ public class GameView : MonoBehaviour
 		}
 	}
 
-	public List<int> getAdjacentOpponentsTargets(Tile t){
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(t);
-		List<int> cibles = new List<int>();
+	public List<Tile> getAdjacentOpponentsTargets(Tile t, bool isM){
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(t, isM);
+		List<Tile> cibles = new List<Tile>();
 		int playerID;
 		foreach (Tile t2 in neighbourTiles)
 		{
 			playerID = this.getTileController(t2.x, t2.y).getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.getPlayingCardController(playerID).canBeTargeted() && !this.getCard(playerID).isMine){
-					cibles.Add(playerID);
+				if (this.getPlayingCardController(playerID).canBeTargeted() && this.getCard(playerID).isMine!=isM){
+					cibles.Add(t2);
 				}
 			}
 		}
 		return cibles;
 	}
 
-	public List<int> getMyUnitTarget(){
+	public List<Tile> getMyUnitTarget(){
 		PlayingCardController pcc;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 		
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (i == this.currentPlayingCard)
 			{
-				cibles.Add(i);
+				cibles.Add(this.getTile(i));
 			}
 		}
 		return cibles ;
 	}
 
-	public List<int> getAdjacentUnitsTargets(Tile t){
+	public List<Tile> getAdjacentUnitsTargets(Tile t){
 		List<Tile> neighbourTiles = this.getCharacterImmediateNeighbours(t);
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 		int playerID;
 		foreach (Tile t2 in neighbourTiles)
 		{
 			playerID = this.getTileController(t2.x, t2.y).getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.getPlayingCardController(playerID).canBeTargeted()){
-					cibles.Add(playerID);
+				if (playerID!=this.currentPlayingCard && this.getPlayingCardController(playerID).canBeTargeted()){
+					cibles.Add(t2);
 				}
 			}
 		}
 		return cibles ;
 	}
 	
-	public List<int> getAdjacentAllyTargets(Tile t)
+	public List<Tile> getAdjacentAllyTargets(Tile t, bool isM)
 	{
-		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(t);
-		List<int> cibles = new List<int>();
+		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(t, isM);
+		List<Tile> cibles = new List<Tile>();
 		int playerID;
 		foreach (Tile t2 in neighbourTiles)
 		{
 			playerID = this.getTileController(t2.x, t2.y).getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.getPlayingCardController(playerID).canBeTargeted() && this.getCard(playerID).isMine){
-					cibles.Add(playerID);
+				if (this.getPlayingCardController(playerID).canBeTargeted() && this.getCard(playerID).isMine==isM){
+					cibles.Add(t2);
 				}
 			}
 		}
 		return cibles;
 	}
 	
-	public List<int> getAllysButMeTargets()
+	public List<Tile> getAllysButMeTargets(bool isM)
 	{
 		PlayingCardController pcc;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (this.getCard(i).isMine && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
+			if (this.getCard(i).isMine==isM && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
 			{
-				cibles.Add(i);
+				cibles.Add(this.getTile(i));
 			}
 		}
 		return cibles;
 	}
 
-	public List<int> getWoundedAllysButMeTargets()
+	public List<Tile> getWoundedAllysButMeTargets(bool isM)
 	{
 		PlayingCardController pcc;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (this.getCard(i).isMine && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
+			if (this.getCard(i).isMine==isM && pcc.canBeTargeted() &&  i != this.currentPlayingCard)
 			{
 				if (this.getCard(i).getLife() != this.getCard(i).GetTotalLife())
 				{
-					cibles.Add(i);
+					cibles.Add(this.getTile(i));
 				}
 			}
 		}
@@ -2052,53 +2053,53 @@ public class GameView : MonoBehaviour
 		return cibles ;
 	}
 	
-	public List<int> getAllButMeTargets()
+	public List<Tile> getAllButMeTargets()
 	{
 		PlayingCardController pcc;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 		
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
 			if (pcc.canBeTargeted() &&  i != this.currentPlayingCard)
 			{
-				cibles.Add(i);
+				cibles.Add(this.getTile(i));
 			}
 		}	
 		return cibles;
 	}
 	
-	public List<int> getOpponentsTargets()
+	public List<Tile> getOpponentsTargets(bool isM)
 	{
 		PlayingCardController pcc;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 		
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (!this.getCard(i).isMine && pcc.canBeTargeted())
+			if (this.getCard(i).isMine!=isM && pcc.canBeTargeted())
 			{
-				cibles.Add(i);
+				cibles.Add(this.getTile(i));
 			}
 		}
 		return cibles;
 	}
 
-	public List<int> getAdjacentCristoidOpponents(){
-		List<int> cibles = new List<int>();
+	public List<Tile> getAdjacentCristoidOpponents(bool isM){
+		List<Tile> cibles = new List<Tile>();
 
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine && !this.getCard(i).isDead){
-				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i));
+			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==6 && this.getCard(i).isMine && !this.getCard(i).isDead){
+				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i), isM);
 				int playerID;
 				foreach (Tile t in neighbourTiles)
 				{
 					playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 					if (playerID != -1)
 					{
-						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine!=isM)
 						{
-							cibles.Add(playerID);
+							cibles.Add(t);
 						}
 					}
 				}
@@ -2120,19 +2121,19 @@ public class GameView : MonoBehaviour
 		return cibles ;
 	}
 	
-	public List<int> get1TileAwayOpponentsTargets(Tile tile)
+	public List<Tile> get1TileAwayOpponentsTargets(Tile tile, bool isM)
 	{
 		int playerID;
-		List<int> cibles = new List<int>();
+		List<Tile> cibles = new List<Tile>();
 		
 		if(tile.x>1){
 			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
-						cibles.Add(playerID);
+						cibles.Add(this.getTile(playerID));
 					}
 				}
 			}
@@ -2141,10 +2142,10 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
-						cibles.Add(playerID);
+						cibles.Add(this.getTile(playerID));
 					}
 				}
 			}
@@ -2153,10 +2154,10 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
-						cibles.Add(playerID);
+						cibles.Add(this.getTile(playerID));
 					}
 				}
 			}
@@ -2165,10 +2166,10 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
-						cibles.Add(playerID);
+						cibles.Add(this.getTile(playerID));
 					}
 				}
 			}
@@ -2176,7 +2177,7 @@ public class GameView : MonoBehaviour
 		return cibles;
 	}
 	
-	public string canLaunch1TileAwayOpponents(Tile tile)
+	public string canLaunch1TileAwayOpponents(Tile tile, bool isM)
 	{
 		string isLaunchable = "Aucun ennemi à portée de lance";
 		int playerID;
@@ -2186,7 +2187,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x-2, tile.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
 						isLaunchable="";
@@ -2198,7 +2199,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x+2, tile.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
 						isLaunchable="";
@@ -2210,7 +2211,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x, tile.y-2].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
 						isLaunchable="";
@@ -2222,7 +2223,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [tile.x, tile.y+2].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if(!this.getCard(playerID).isMine){
+				if(this.getCard(playerID).isMine!=isM){
 					if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 					{
 						isLaunchable="";
@@ -2251,18 +2252,18 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public string canLaunchAdjacentOpponents(Tile tile)
+	public string canLaunchAdjacentOpponents(Tile tile, bool isM)
 	{
 		string isLaunchable = "Aucun ennemi à proximité";
 		
-		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(tile);
+		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(tile, isM);
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine!=isM)
 				{
 					isLaunchable = "";
 				}
@@ -2271,20 +2272,20 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 
-	public string canLaunchAdjacentCristoidOpponents(Tile tile)
+	public string canLaunchAdjacentCristoidOpponents(Tile tile, bool isM)
 	{
 		string isLaunchable = "Aucun ennemi à proximité de cristoides alliés";
 		
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
-				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(tile);
+			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
+				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(tile, isM);
 				int playerID;
 				foreach (Tile t in neighbourTiles)
 				{
 					playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 					if (playerID != -1)
 					{
-						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && !this.getCard(playerID).isMine)
+						if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine!=isM)
 						{
 							isLaunchable = "";
 						}
@@ -2306,7 +2307,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
+				if (playerID!=this.currentPlayingCard && this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted())
 				{
 					isLaunchable = "";
 				}
@@ -2364,18 +2365,18 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 	
-	public string canLaunchAdjacentAllys(Tile tile)
+	public string canLaunchAdjacentAllys(Tile tile, bool isM)
 	{
 		string isLaunchable = "Aucun allié à proximité";
 		
-		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(tile);
+		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(tile, isM);
 		int playerID;
 		foreach (Tile t in neighbourTiles)
 		{
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine)
+				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine==isM)
 				{
 					isLaunchable = "";
 				}
@@ -2384,7 +2385,7 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 	
-	public string canLaunchOpponentsTargets()
+	public string canLaunchOpponentsTargets(bool isM)
 	{
 		string isLaunchable = "Aucun ennemi ne peut etre atteint";
 		
@@ -2393,7 +2394,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (!this.getCard(i).isMine && pcc.canBeTargeted())
+			if (this.getCard(i).isMine!=isM && pcc.canBeTargeted())
 			{
 				isLaunchable = "";
 			}
@@ -2418,7 +2419,7 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 	
-	public string canLaunchAllysButMeTargets()
+	public string canLaunchAllysButMeTargets(bool isM)
 	{
 		string isLaunchable = "Aucun allié ne peut etre atteint";
 		
@@ -2427,7 +2428,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (this.getCard(i).isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			if (this.getCard(i).isMine==isM && pcc.canBeTargeted() && i != this.currentPlayingCard)
 			{
 				isLaunchable = "";
 			}
@@ -2435,7 +2436,7 @@ public class GameView : MonoBehaviour
 		return isLaunchable;
 	}
 
-	public string canLaunchWoundedAllysButMeTargets()
+	public string canLaunchWoundedAllysButMeTargets(bool isM)
 	{
 		string isLaunchable = "Aucun allié n'est blessé";
 		
@@ -2444,7 +2445,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < this.nbCards; i++)
 		{
 			pcc = this.getPlayingCardController(i);
-			if (this.getCard(i).isMine && pcc.canBeTargeted() && i != this.currentPlayingCard)
+			if (this.getCard(i).isMine==isM && pcc.canBeTargeted() && i != this.currentPlayingCard)
 			{
 				if(this.getCard(i).getLife()!=this.getCard(i).GetTotalLife()){
 					isLaunchable = "";
@@ -2635,14 +2636,14 @@ public class GameView : MonoBehaviour
 		return freeNeighbours ;
 	}
 	
-	public List<Tile> getDestinationImmediateNeighbours(Tile t){
+	public List<Tile> getDestinationImmediateNeighbours(Tile t, bool isM){
 		bool b ; 
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
 			b = false ;
 			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
-				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine==isM){
 					b = true ;
 				}
 			}
@@ -2656,14 +2657,14 @@ public class GameView : MonoBehaviour
 		return freeNeighbours ;
 	}
 	
-	public List<Tile> getDestinationHisImmediateNeighbours(Tile t){
+	public List<Tile> getDestinationHisImmediateNeighbours(Tile t, bool isM){
 		bool b ; 
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
 			b = false ;
 			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
-				if(!this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine!=isM){
 					b = true ;
 				}
 			}
@@ -2677,12 +2678,12 @@ public class GameView : MonoBehaviour
 		return freeNeighbours ;
 	}
 	
-	public List<Tile> getOpponentImmediateNeighbours(Tile t){
+	public List<Tile> getOpponentImmediateNeighbours(Tile t, bool isM){
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
 			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
-				if(!this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine!=isM){
 					freeNeighbours.Add(neighbours[i]);
 				}
 			}
@@ -2694,19 +2695,19 @@ public class GameView : MonoBehaviour
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
-			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1 && this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
 				freeNeighbours.Add(neighbours[i]);
 			}
 		}
 		return freeNeighbours ;
 	}
 	
-	public List<Tile> getAllyImmediateNeighbours(Tile t){
+	public List<Tile> getAllyImmediateNeighbours(Tile t, bool isM){
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
 		for (int i = 0 ; i < neighbours.Count ; i++){
 			if(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()!=-1){
-				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine){
+				if(this.getCard(this.tiles[neighbours[i].x, neighbours[i].y].GetComponent<TileController>().getCharacterID()).isMine==isM){
 					freeNeighbours.Add(neighbours[i]);
 				}
 			}
@@ -2725,21 +2726,21 @@ public class GameView : MonoBehaviour
 		return freeNeighbours ;
 	}
 	
-	public List<int> getAllys(){
+	public List<int> getAllys(bool isM){
 		List<int> allys = new List<int>();
 		int CPC = GameView.instance.getCurrentPlayingCard();
 		for(int i = 0 ; i < this.nbCards; i++){
-			if(i!=CPC && !GameView.instance.getCard(i).isDead && GameView.instance.getCard(i).isMine){
+			if(i!=CPC && !this.getCard(i).isDead && this.getCard(i).isMine==isM){
 				allys.Add(i);
 			}
 		}
 		return allys;
 	}
-	
-	public List<int> getOpponents(){
+
+	public List<int> getOpponents(bool isM){
 		List<int> opponents = new List<int>();
 		for(int i = 0 ; i < this.nbCards;i++){
-			if(!this.getCard(i).isDead && !this.getCard(i).isMine){
+			if(!this.getCard(i).isDead && this.getCard(i).isMine!=isM){
 				opponents.Add(i);
 			}
 		}
@@ -2900,7 +2901,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			List<int> opponents = GameView.instance.getOpponents();
+			List<int> opponents = GameView.instance.getOpponents(this.getCurrentCard().isMine);
 			Tile t2 ;
 			bestDistance = 20;
 			for(int i = 0 ; i < destinations.Count ; i++){
@@ -2951,7 +2952,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			List<int> opponents = GameView.instance.getAllys();
+			List<int> opponents = GameView.instance.getAllys(this.getCurrentCard().isMine);
 			Tile t2 ;
 			distance = 0 ;
 			bestDistance = 20;
@@ -3051,20 +3052,10 @@ public class GameView : MonoBehaviour
 		return this.getCard(this.currentPlayingCard);
 	}
 	
-	public void initPCCTargetHandler(int numberOfExpectedTargets)
-	{
-		this.targetPCCHandler = new TargetPCCHandler(numberOfExpectedTargets);
-		this.hideSkillEffects();
-	}
-	
 	public void initTileTargetHandler(int numberOfExpectedTargets)
 	{
 		this.targetTileHandler = new TargetTileHandler(numberOfExpectedTargets);
 		this.hideSkillEffects();
-	}
-	
-	public void hitTarget(int c){
-		this.targetPCCHandler.addTargetPCC(c);
 	}
 	
 	public void hitTarget(Tile t){
@@ -3200,10 +3191,10 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,0);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*nbTurns);
 				}
 				else{
-					amount2 = amount ;
+					amount2 = amount*nbTurns ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3216,10 +3207,10 @@ public class GameView : MonoBehaviour
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
 				if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+					amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*nbTurns);
 				}
 				else{
-					amount2 = amount ;
+					amount2 = amount*nbTurns ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3236,10 +3227,10 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,1);
 					if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-1));
 					}
 					else{
-						amount2 = amount ;
+						amount2 = amount*(nbTurns-1) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3252,10 +3243,10 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-1));
 					}
 					else{
-						amount2 = amount ;
+						amount2 = amount*(nbTurns-1) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3273,10 +3264,10 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,2);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-2));
 					}
 					else{
-						amount2 = amount ;
+						amount2 = amount *(nbTurns-2);
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3289,10 +3280,10 @@ public class GameView : MonoBehaviour
 				t = new Tile(i,boardHeight-3);
 				if(this.getTileController(t).getCharacterID()!=-1){
 					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
-						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount);
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-2));
 					}
 					else{
-						amount2 = amount ;
+						amount2 = amount*(nbTurns-2) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false);
@@ -3304,7 +3295,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-		if(GameView.instance.sequenceID<24){
+		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<24){
 				
 		}
 		else{

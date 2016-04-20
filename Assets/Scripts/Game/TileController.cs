@@ -404,7 +404,7 @@ public class TileController : GameObjectController
 			}
 			if(this.characterID!=-1){
 				if(GameView.instance.getTileController(this.characterID).isDisplayingTarget){
-					GameView.instance.hitTarget(this.characterID);
+					GameView.instance.hitTarget(this.tile);
 				}
 				if(GameView.instance.getCard(this.characterID).isMine && (!GameView.instance.hasFightStarted ||(GameView.instance.getCurrentPlayingCard()==this.characterID && !GameView.instance.getCard(this.characterID).hasMoved))){
 					GameView.instance.clickCharacter(this.characterID);

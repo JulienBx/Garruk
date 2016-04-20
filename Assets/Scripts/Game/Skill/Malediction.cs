@@ -13,20 +13,21 @@ public class Malediction : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Malédiction", "Choisis une faction. Les unités de cette faction recevront un malus d'attaque");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	                     
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(false);
 
 		List<int> characters = GameView.instance.getEveryone();
 		for(int i = 0 ; i < characters.Count ; i++){
-			if(GameView.instance.getCard(characters[i]).CardType.Id == targetsPCC[0]){
+			if(GameView.instance.getCard(characters[i]).CardType.Id == targets[0].x)
+			{
 				GameController.instance.applyOn(characters[i]);
 			}
 		}

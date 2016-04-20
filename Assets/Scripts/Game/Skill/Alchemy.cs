@@ -17,7 +17,7 @@ public class Alchemy : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	                     
 		List<Tile> neighbours = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles();
 		int level = GameView.instance.getCurrentSkill().Power*4+20;
@@ -37,6 +37,7 @@ public class Alchemy : GameSkill
 	
 	public override void applyOn(int target, int value){
 		GameView.instance.getTileController(target,value).addRock(42);
+		GameView.instance.recalculateDestinations();
 	}
 
 	public override void applyOnMe(int value){
@@ -50,5 +51,24 @@ public class Alchemy : GameSkill
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npas de cristal créé", 0);
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		List<Tile> neighbours = t.getImmediateNeighbourTiles();
+		List<int> allys = GameView.instance.getAllys(false);
+
+		int score = 0 ;
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			if(GameView.instance.getTileController(neighbours[i].x, neighbours[i].y).canBeDestination()){
+				score += Mathf.RoundToInt(5f * (GameView.instance.getCurrentSkill().Power*4f+20f) /100f);
+				for (int j = 0 ; j < allys.Count ; j++){
+					if(GameView.instance.getCard(allys[j]).Skills[0].Id == 139 || GameView.instance.getCard(allys[j]).Skills[0].Id == 141){
+						score +=Mathf.RoundToInt(10f * (s.Power*4f+20f) /100f);
+					}
+				}
+			}
+		}
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
 	}
 }

@@ -21,7 +21,7 @@ public class PictoChoiceController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		GameView.instance.hitTarget(this.face);
+		GameView.instance.hitTarget(new Tile(this.face,0));
 	}
 
 	public void OnMouseEnter(){

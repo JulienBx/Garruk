@@ -17,7 +17,7 @@ public class Justice : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		GameController.instance.applyOn(-1);

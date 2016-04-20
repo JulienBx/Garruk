@@ -12,15 +12,15 @@ public class Copieur : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
-		int target = targetsPCC[0];
-		
+		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
+
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
 			GameController.instance.esquive(target,1);
@@ -56,5 +56,12 @@ public class Copieur : GameSkill
 		text += "\n\nHIT% : "+probaHit;
 		
 		return text ;
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = s.Power*2 ;
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+
+		return score ;
 	}
 }

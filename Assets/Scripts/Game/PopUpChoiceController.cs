@@ -26,7 +26,7 @@ public class PopUpChoiceController : MonoBehaviour
 	}
 
 	public void displayAllEnemyTypes(){
-		List<int> enemies = GameView.instance.getOpponents();
+		List<int> enemies = GameView.instance.getOpponents(true);
 		List<int> cardtypes = new List<int>();
 		int compteur = 1 ;
 		int c ;
@@ -42,7 +42,7 @@ public class PopUpChoiceController : MonoBehaviour
 	}
 
 	public void displayAllAllyTypes(){
-		List<int> enemies = GameView.instance.getAllys();
+		List<int> enemies = GameView.instance.getAllys(true);
 		List<int> cardtypes = new List<int>();
 		int compteur = 1 ;
 		int c ;
@@ -58,7 +58,7 @@ public class PopUpChoiceController : MonoBehaviour
 	}
 
 	public void displayAllDeads(){
-		List<int> allys = GameView.instance.getAllys();
+		List<int> allys = GameView.instance.getAllys(true);
 		int compteur = 1 ;
 		int c ;
 		for(int i = 0 ; i < allys.Count ; i++){

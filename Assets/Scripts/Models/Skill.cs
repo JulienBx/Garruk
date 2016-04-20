@@ -75,6 +75,7 @@ public class Skill
 	{
 		this.Id = id;
 		this.Power = power;
+		this.IsActivated=1;
 	}
 	
 	public Skill(string name, int id, int isactivated, int level, int power, int manaCost)

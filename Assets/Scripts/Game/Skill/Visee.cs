@@ -16,7 +16,7 @@ public class Visee : GameSkill
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
 	}
 
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.play(GameView.instance.runningSkill);
 		GameController.instance.applyOnMe(-1);

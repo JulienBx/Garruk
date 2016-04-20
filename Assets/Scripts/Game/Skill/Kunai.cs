@@ -17,9 +17,9 @@ public class Kunai : GameSkill
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targetsP)
 	{	
-		List<int> targets = GameView.instance.getOpponents();
+		List<int> targets = GameView.instance.getOpponents(GameView.instance.getCurrentCard().isMine);
 
 		int target = targets[Random.Range(0,targets.Count)];
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);

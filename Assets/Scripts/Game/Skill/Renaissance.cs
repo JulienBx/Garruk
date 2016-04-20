@@ -13,17 +13,17 @@ public class Renaissance : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Renaissance", "Choisissez une unité à ressusciter, elle réapparaitra à l'endroit de sa mort");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(GameView.instance.runningSkill);
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	                     
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(false);
-		GameController.instance.applyOn(targetsPCC[0]);
+		GameController.instance.applyOn(GameView.instance.getTileCharacterID(targets[0].x, targets[0].y));
 		GameController.instance.endPlay();
 	}
 

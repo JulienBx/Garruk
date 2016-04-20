@@ -12,14 +12,14 @@ public class Chocbleu : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.initPCCTargetHandler(numberOfExpectedTargets);
+		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
-	public override void resolve(List<int> targetsPCC)
+	public override void resolve(List<Tile> targets)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
-		int target = targetsPCC[0];
+		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 	
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
@@ -75,5 +75,25 @@ public class Chocbleu : GameSkill
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n-"+malus+" ATK", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		float malusAttack = currentCard.getAttack()/2f; ;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*s.Power)));
+		int score ;
+		if(damages>=targetCard.getLife()){
+			score=200;
+		}
+		else{
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+
+		score -= Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(currentCard.getLife()/50f)*(2f)*(malusAttack));
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+
+		return score ;
 	}
 }

@@ -50,7 +50,6 @@ public class InterludeController : MonoBehaviour
 	}
 	
 	public void set(string s, int type){
-		print("SET");
 		this.isEndTurn = (type==3);
 		GameView.instance.myTimer.show(false);
 		GameView.instance.hisTimer.show(false);
@@ -125,8 +124,11 @@ public class InterludeController : MonoBehaviour
 						}
 					}
 				}
-				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isFurious()){
+				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCurrentCard().isFurious()){
 					StartCoroutine(GameView.instance.launchFury());
+				}
+				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine){
+					GameView.instance.IA.play();
 				}
 				GameView.instance.runningSkill = -1;
 
@@ -145,8 +147,8 @@ public class InterludeController : MonoBehaviour
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
 					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
-					if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
-						List<int> opponents = GameView.instance.getOpponents();
+					if(GameView.instance.getCurrentCard().isMine){
+						List<int> opponents = GameView.instance.getOpponents(true);
 						List<int> nbHits = new List<int>();
 						for (int i = 0 ; i < opponents.Count ; i++){
 							nbHits.Add(0);

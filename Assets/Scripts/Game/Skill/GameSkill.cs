@@ -25,10 +25,11 @@ public class GameSkill
 	{
 		Debug.Log("Skill non implémenté");
 	}
-	
-	public virtual void resolve(List<int> targetsPCC)
+
+	public virtual int getActionScore(Tile target, Skill s)
 	{
-		Debug.Log("Skill non implémenté");
+		Debug.Log("IA non implémentée");
+		return 0 ; 
 	}
 	
 	public virtual void resolve(List<Tile> targetsTile)
@@ -58,6 +59,11 @@ public class GameSkill
 	public virtual void applyOn(Tile t)
 	{ 
 		Debug.Log("Skill non implémenté");
+	}
+
+	public virtual int getBestChoice(Tile t, Skill s){
+		Debug.Log("Skill non implémenté");
+		return -1;
 	}
 	
 	public virtual void applyOn(int target)
@@ -105,7 +111,7 @@ public class GameSkill
 		Debug.Log("Skill non implémenté");
 	}
 
-	public virtual string isLaunchable(Tile t)
+	public virtual string isLaunchable(Tile t, bool isM)
 	{
 		GameCard gc = GameView.instance.getCurrentCard();
 		Skill s = GameView.instance.getCurrentSkill();
@@ -124,19 +130,19 @@ public class GameSkill
 		}
 		else{
 			if(this.ciblage==1){
-				launchability = GameView.instance.canLaunchAdjacentOpponents(t);
+				launchability = GameView.instance.canLaunchAdjacentOpponents(t, isM);
 			}
 			else if(this.ciblage==-1){
-				launchability = GameView.instance.canLaunchAdjacentOpponents(t);
+				launchability = GameView.instance.canLaunchAdjacentOpponents(t, isM);
 			}
 			else if(this.ciblage==2){
-				launchability = GameView.instance.canLaunchAdjacentAllys(t);
+				launchability = GameView.instance.canLaunchAdjacentAllys(t, isM);
 			}
 			else if(this.ciblage==3){
-				launchability = GameView.instance.canLaunchOpponentsTargets();
+				launchability = GameView.instance.canLaunchOpponentsTargets(isM);
 			}
 			else if(this.ciblage==4){
-				launchability = GameView.instance.canLaunchAllysButMeTargets();
+				launchability = GameView.instance.canLaunchAllysButMeTargets(isM);
 			}
 			else if(this.ciblage==6){
 				launchability = GameView.instance.canLaunchAdjacentTileTargets(t);
@@ -145,7 +151,7 @@ public class GameSkill
 				launchability = GameView.instance.canLaunchAllButMeTargets();
 			}
 			else if(this.ciblage==8){
-				launchability = GameView.instance.canLaunch1TileAwayOpponents(t);
+				launchability = GameView.instance.canLaunch1TileAwayOpponents(t, isM);
 			}
 			else if(this.ciblage==9){
 				launchability = GameView.instance.canLaunchAdjacentUnits(t);
@@ -157,10 +163,10 @@ public class GameSkill
 				launchability = GameView.instance.canLaunchAdjacentRock(t);
 			}
 			else if(this.ciblage==14){
-				launchability = GameView.instance.canLaunchWoundedAllysButMeTargets();
+				launchability = GameView.instance.canLaunchWoundedAllysButMeTargets(isM);
 			}
 			else if(this.ciblage==15){
-				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents(t);
+				launchability = GameView.instance.canLaunchAdjacentCristoidOpponents(t, isM);
 			}
 			else if(this.ciblage==16){
 				launchability = GameView.instance.canLaunchNextCristal();
@@ -180,48 +186,43 @@ public class GameSkill
 		GameCard gc = GameView.instance.getCurrentCard();
 		Skill s = GameView.instance.getCurrentSkill();
 
-		if(this.ciblage==6 || this.ciblage==11){
-			List<Tile> targets = this.getTileTargets(t);
-			for (int i = 0 ; i < targets.Count ; i++){
-				Tile t2 = targets[i];
-				GameView.instance.targets.Add(t2);
-				GameView.instance.getTileController(t2.x,t2.y).displayTarget(true);
-				GameView.instance.getTileController(targets[i]).setTargetText(GameSkills.instance.getSkill(GameView.instance.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(-1));	
-			}
-		}
-		else{
-			List<int> targets = this.getTargets(t);
-			for (int i = 0 ; i < targets.Count ; i++){
-				Tile t2 = GameView.instance.getTile(targets[i]);
-				GameView.instance.targets.Add(t2);
-				GameView.instance.getTileController(t2.x,t2.y).displayTarget(true);
-				GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(GameView.instance.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(targets[i]));	
-			}
-		}
+		List<Tile> targets = this.getTargets(t, true);
+		for (int i = 0 ; i < targets.Count ; i++){
+			Tile t2 = targets[i];
+			GameView.instance.targets.Add(t2);
+			GameView.instance.getTileController(t2.x,t2.y).displayTarget(true);
+			GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(GameView.instance.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileCharacterID(targets[i].x,targets[i].y)));	
+		}		
 	}
 
-	public virtual List<int> getTargets(Tile t){
-		List<int> targets ;
+	public virtual List<Tile> getTargets(Tile t, bool isM){
+		List<Tile> targets ;
 		if(this.ciblage==1){
-			targets = GameView.instance.getAdjacentOpponentsTargets(t);
+			targets = GameView.instance.getAdjacentOpponentsTargets(t, isM);
 		}
 		else if(this.ciblage==-1){
-			targets = GameView.instance.getAdjacentOpponentsTargets(t);
+			targets = GameView.instance.getAdjacentOpponentsTargets(t, isM);
 		}
 		else if(this.ciblage==2){
-			targets = GameView.instance.getAdjacentAllyTargets(t);
+			targets = GameView.instance.getAdjacentAllyTargets(t, isM);
 		}
 		else if(this.ciblage==3){
-			targets = GameView.instance.getOpponentsTargets();
+			targets = GameView.instance.getOpponentsTargets(isM);
 		}
 		else if(this.ciblage==4){
-			targets = GameView.instance.getAllysButMeTargets();
+			targets = GameView.instance.getAllysButMeTargets(isM);
+		}
+		else if(this.ciblage==6){
+			targets = GameView.instance.getAdjacentTileTargets(t);
+		}
+		else if(this.ciblage==11){
+			targets = GameView.instance.getAdjacentRockTargets(t);
 		}
 		else if(this.ciblage==7){
 			targets = GameView.instance.getAllButMeTargets();
 		}
 		else if(this.ciblage==8){
-			targets = GameView.instance.get1TileAwayOpponentsTargets(t);
+			targets = GameView.instance.get1TileAwayOpponentsTargets(t, isM);
 		}
 		else if(this.ciblage==9){
 			targets = GameView.instance.getAdjacentUnitsTargets(t);
@@ -230,31 +231,15 @@ public class GameSkill
 			targets = GameView.instance.getMyUnitTarget();
 		}
 		else if(this.ciblage==14){
-			targets = GameView.instance.getWoundedAllysButMeTargets();
+			targets = GameView.instance.getWoundedAllysButMeTargets(isM);
 		}
 		else if(this.ciblage==15){
-			targets = GameView.instance.getAdjacentCristoidOpponents();
+			targets = GameView.instance.getAdjacentCristoidOpponents(isM);
 		}
 		else{
-			targets = new List<int>();
+			targets = new List<Tile>();
 		}
 		return targets;
-	}
-
-	public virtual List<Tile> getTileTargets(Tile t){
-		List<Tile> targets ;
-
-	    if(this.ciblage==6){
-			targets = GameView.instance.getAdjacentTileTargets(t);
-		}
-		else if(this.ciblage==11){
-			targets = GameView.instance.getAdjacentRockTargets(t);
-		}
-		else{
-			return new List<Tile>();
-		}
-
-		return targets ;
 	}
 
 	public virtual string getTargetText(int id)

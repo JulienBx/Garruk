@@ -505,6 +505,16 @@ public class GameCard : Card
 		}
 		return b;
 	}
+
+	public bool hasBonusChasseur(){
+		bool hasFoundBonus = false ;
+		for(int i = 0 ; i < this.bonusModifyers.Count ; i++){
+			if(this.bonusModifyers[i].targetType!=-1){
+				hasFoundBonus=true;
+			}
+		}
+		return hasFoundBonus;
+	}
 	
 	public Skill GetAttackSkill()
 	{

@@ -178,8 +178,143 @@ public class PluieBleue : GameSkill
 		return text ;
 	}
 
-	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	public override int getActionScore(Tile t, Skill s){
+		float score = 0 ;
+
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int missingLife;
+		int levelMin ;
+		int levelMax ;
+
+		int playerID = GameView.instance.getTileController(t).getCharacterID();
+		if(playerID!=-1){
+			targetCard = GameView.instance.getCard(playerID);
+			levelMin = currentCard.getNormalDamagesAgainst(targetCard,1);
+			levelMax = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power*2);
+			if(targetCard.CardType.Id==6){
+				missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+				if(targetCard.isMine){
+					score-=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+				}
+				else{
+					score+=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+				}
+			}
+			else{
+				if(targetCard.isMine){
+					score+=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(t.x<GameView.instance.boardWidth-1){
+			playerID = GameView.instance.getTileController(new Tile(t.x+1, t.y)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,1);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power*2);
+
+				if(targetCard.CardType.Id==6){
+					missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+					if(targetCard.isMine){
+						score-=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+					else{
+						score+=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+				}
+				else{
+					if(targetCard.isMine){
+						score+=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+					else{
+						score-=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+				}
+			}
+		}
+		if(t.x>0){
+			playerID = GameView.instance.getTileController(new Tile(t.x-1, t.y)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,1);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power*2);
+
+				if(targetCard.CardType.Id==6){
+					missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+					if(targetCard.isMine){
+						score-=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+					else{
+						score+=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+				}
+				else{
+					if(targetCard.isMine){
+						score+=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+					else{
+						score-=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+				}
+			}
+		}
+		if(t.y<GameView.instance.boardHeight-1){
+			playerID = GameView.instance.getTileController(new Tile(t.x, t.y+1)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,1);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power*2);
+				if(targetCard.CardType.Id==6){
+					missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+					if(targetCard.isMine){
+						score-=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+					else{
+						score+=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+				}
+				else{
+					if(targetCard.isMine){
+						score+=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+					else{
+						score-=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+				}
+			}
+		}
+		if(t.y>0){
+			playerID = GameView.instance.getTileController(new Tile(t.x, t.y-1)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,1);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power*2);
+				if(targetCard.CardType.Id==6){
+					missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+					if(targetCard.isMine){
+						score-=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+					else{
+						score+=((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f);
+					}
+				}
+				else{
+					if(targetCard.isMine){
+						score+=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+					else{
+						score-=((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+					}
+				}
+			}
+		}
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+
+		return (int)score ;
 	}
 }

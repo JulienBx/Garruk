@@ -25,7 +25,7 @@ public class SkillValidationController : MonoBehaviour
 		if(GameView.instance.isDisplayedPopUp){
 			GameView.instance.hideValidationButton();
 		}
-		GameSkills.instance.getCurrentGameSkill().resolve(new List<int>());
+		GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 	}
 	
 	public void show(bool b){
