@@ -95,4 +95,39 @@ public class PistoSoin : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard2;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int levelMin = s.Power;
+		int levelMax = 12+s.Power*3;
+		int missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+
+		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f));
+
+		if(currentCard.isVirologue()){
+			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			List<Tile> neighbours = t.getImmediateNeighbourTiles();
+			for(int i = 0; i < neighbours.Count; i++){
+				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
+					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
+					missingLife = targetCard2.GetTotalLife()-targetCard2.getLife();
+					if(targetCard2.isMine){
+						score-=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*((missingLife*(Mathf.Max(0f,levelMax2-missingLife)))+(((levelMin2+Mathf.Min(levelMax2,missingLife))/2f)*Mathf.Min(levelMax2,missingLife)))/(levelMax2-levelMin2+1f));
+					}
+					else{
+						score+=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*((missingLife*(Mathf.Max(0f,levelMax2-missingLife)))+(((levelMin2+Mathf.Min(levelMax2,missingLife))/2f)*Mathf.Min(levelMax2,missingLife)))/(levelMax2-levelMin2+1f));
+					}
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
+	}
 }

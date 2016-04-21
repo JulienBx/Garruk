@@ -62,4 +62,54 @@ public class Antibiotique : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		int tempScore ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard2;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		score+=2*(targetCard.Attack-targetCard.getAttack())+1*(targetCard.Life-targetCard.GetTotalLife())+5*(targetCard.Move-targetCard.getMove());
+		if(targetCard.isPoisoned()){
+			score+=20;
+		}
+		else if(targetCard.isEffraye()){
+			score+=15;
+		}
+		score = Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*score) ;
+		score+=targetCard.getLife()-40;
+		if(targetCard.isMine){
+			score = -1*score;
+		}
+
+		if(currentCard.isVirologue()){
+			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			List<Tile> neighbours = t.getImmediateNeighbourTiles();
+			for(int i = 0; i < neighbours.Count; i++){
+				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
+					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
+					tempScore = 0 ;
+					tempScore+=2*(targetCard.Attack-targetCard.getAttack())+1*(targetCard.Life-targetCard.GetTotalLife())+5*(targetCard.Move-targetCard.getMove());
+					if(targetCard.isPoisoned()){
+						tempScore+=20;
+					}
+					else if(targetCard.isEffraye()){
+						tempScore+=15;
+					}
+					tempScore = Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*tempScore) ;
+					tempScore+=targetCard.getLife()-40;
+					if(targetCard.isMine){
+						tempScore = -1*tempScore;
+					}
+					score+=tempScore;
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
+	}
 }

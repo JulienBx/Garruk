@@ -110,4 +110,40 @@ public class Vitamines : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard2;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int missingLife = targetCard.GetTotalLife()-targetCard.getLife();
+
+		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*Mathf.Min(missingLife,5+2*s.Power));
+		score+=10;
+
+		if(currentCard.isVirologue()){
+			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			List<Tile> neighbours = t.getImmediateNeighbourTiles();
+			for(int i = 0; i < neighbours.Count; i++){
+				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
+					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
+					missingLife = targetCard2.GetTotalLife()-targetCard2.getLife();
+					if(targetCard2.isMine){
+						score-=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*Mathf.Min(missingLife,5+2*s.Power));
+						score-=10;
+					}
+					else{
+						score+=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*Mathf.Min(missingLife,5+2*s.Power));
+						score+=10;
+					}
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
+	}
 }

@@ -3396,7 +3396,7 @@ public class GameView : MonoBehaviour
 		int nbCristals = this.countCristals();
 		int amount ;
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).isCristoMaster()){
+			if(this.getCard(i).isCristoMaster() && !this.getCard(i).isDead){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				GameView.instance.getPlayingCardController(i).updateAttack(GameView.instance.getCard(i).getAttack());
 				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+". Permanent."));
@@ -3607,5 +3607,19 @@ public class GameView : MonoBehaviour
 	public void convert(int target){
 		this.getCard(target).isMine = !this.getCard(target).isMine ;
 		this.getPlayingCardController(target).show();
+	}
+
+	public int countTraps(){
+		int nbTraps = 0;
+		for(int i = 0 ; i < boardWidth ;i++){
+			for(int j = 0 ; j < boardHeight ;j++){
+				if(this.getTileController(i,j).getIsTrapped()){
+					if(this.getTileController(i,j).trap.isVisible){
+						nbTraps++;
+					}
+				}
+			}
+		}
+		return nbTraps;
 	}
 }

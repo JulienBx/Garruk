@@ -63,4 +63,21 @@ public class CoupPrecis : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int damages = Mathf.RoundToInt(Mathf.Min(targetCard.getLife(),currentCard.getAttack()*(0.5f+0.05f*s.Power)));
+		int score ;
+		if(damages>=targetCard.getLife()){
+			score=200;
+		}
+		else{
+			score=Mathf.RoundToInt(damages+Mathf.Max(0,30-(targetCard.getLife()-damages)));
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

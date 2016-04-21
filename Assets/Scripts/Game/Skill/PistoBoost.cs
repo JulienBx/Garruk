@@ -86,4 +86,36 @@ public class PistoBoost : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard2;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int levelMin = 1;
+		int levelMax = 5+s.Power*2;
+
+		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2));
+
+		if(currentCard.isVirologue()){
+			levelMax = Mathf.RoundToInt((5+s.Power*2)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			List<Tile> neighbours = t.getImmediateNeighbourTiles();
+			for(int i = 0; i < neighbours.Count; i++){
+				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
+					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
+					if(targetCard2.isMine){
+						score-=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2));
+					}
+					else{
+						score+=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2));
+					}
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
+	}
 }

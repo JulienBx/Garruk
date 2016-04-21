@@ -48,4 +48,22 @@ public class Furtivite : GameSkill
 		
 		return text ;
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard ;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getLife()/50f)*(5f+s.Power));
+		List<int> enemies = GameView.instance.getOpponents(false);
+		for(int i = 0 ; i < enemies.Count ; i++){
+			targetCard = GameView.instance.getCard(enemies[i]);
+			if(targetCard.CardType.Id==3){
+				score+=15;
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+
+		return score ;
+	}
 }

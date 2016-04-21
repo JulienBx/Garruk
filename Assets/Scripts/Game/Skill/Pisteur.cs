@@ -46,4 +46,11 @@ public class Pisteur : GameSkill
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int nbTraps = GameView.instance.countTraps();
+		int score = Mathf.RoundToInt(nbTraps*10f*(0.5f+0.05f*s.Power));
+		score = score * GameView.instance.IA.getTrapFactor() ;
+		return score ;
+	}
 }

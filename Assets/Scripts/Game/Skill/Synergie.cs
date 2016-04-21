@@ -81,7 +81,7 @@ public class Synergie : GameSkill
 			score=200;
 		}
 		else{
-			score=damages;
+			score=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*damages);
 		}
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

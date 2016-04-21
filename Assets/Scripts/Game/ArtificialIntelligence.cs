@@ -49,6 +49,13 @@ public class ArtificialIntelligence : MonoBehaviour
 
 	public void updateDestinations(){
 		this.emplacements = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getDestinations();
+		for(int i = emplacements.Count-1 ; i>=0 ;i--){
+			if(GameView.instance.getTileController(emplacements[i]).getIsTrapped()){
+				if(!GameView.instance.getTileController(emplacements[i]).trap.isVisible){
+					emplacements.RemoveAt(i);
+				}
+			}
+		}
 		this.emplacements.Add(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
@@ -64,6 +71,7 @@ public class ArtificialIntelligence : MonoBehaviour
 		Tile bestTarget = new Tile(-1,-1);
 		Skill bestSkill = new Skill();
 		Skill passiveSkill = GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).Skills[0];
+		GameCard targetCard ;
 
 		GameSkill gs ;
 		List<Skill> skills = GameView.instance.getCurrentCard().Skills; 
@@ -73,6 +81,9 @@ public class ArtificialIntelligence : MonoBehaviour
 
 			if(i==emplacements.Count-1){
 				passiveScore+=20;
+				if(passiveSkill.Id==65){
+					passiveScore+=passiveSkill.Power+5;
+				}
 			}
 			else{
 				if((emplacements[i].y==7 || emplacements[i].y==0)){
@@ -103,7 +114,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				passiveScore+=Mathf.RoundToInt((GameView.instance.getCurrentCard().getLife()-40)*(7-emplacements[i].y)/10f);
 			}
 
-			if(passiveSkill.Id==138){
+			if(passiveSkill.Id==138 || passiveSkill.Id==76){
 				passiveScore += (emplacements[i].y)*3;
 			}
 			else if(passiveSkill.Id==140){
@@ -124,6 +135,18 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 					else{
 						passiveScore -= (11-passiveSkill.Power);
+					}
+				}
+			}
+			else if(passiveSkill.Id==75){
+				List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+				for(int s = 0 ; s < neighbours.Count ; s++){
+					if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+						targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y));
+						passiveScore+=Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife(), 3+2*GameView.instance.getCurrentCard().Skills[0].Power);
+						if(targetCard.isMine){
+							passiveScore=passiveScore*(-1);
+						}
 					}
 				}
 			}
@@ -159,7 +182,38 @@ public class ArtificialIntelligence : MonoBehaviour
 							}
 						}
 						for (int k = 0 ; k < targets.Count ;k++){
-							actionScore = gs.getActionScore(targets[k], skills[j]);
+							if(skills[j].Id==13 ||skills[j].Id==58){
+								actionScore=0;
+								List<Tile> neighbours = targets[k].getImmediateNeighbourTiles();
+								for(int n = 0 ; n < neighbours.Count ; n++){
+									if(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)==-1){
+										if(GameView.instance.getTileController(neighbours[n].x, neighbours[n].y).isRock()){
+											actionScore+=1;
+										}
+									}
+									else{
+										if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)).isMine){
+											actionScore+=1;
+										}
+										else{
+											actionScore+=3;
+										}
+									}
+								}
+								if(targets[k].y==1||targets[k].y==6){
+									actionScore+=1;
+								}
+								else if(targets[k].y==2||targets[k].y==5){
+									actionScore+=3;
+								}
+								else if(targets[k].y==3||targets[k].y==4){
+									actionScore+=5;
+								}
+								actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/2f);
+							}
+							else{
+								actionScore = gs.getActionScore(targets[k], skills[j]);
+							}
 							if(actionScore+passiveScore>bestScore){
 								bestScore = actionScore+passiveScore;
 								bestEmplacement = emplacements[i];
@@ -188,7 +242,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			GameSkills.instance.getSkill(bestSkill.Id).resolve(tempList);
 			yield return new WaitForSeconds(2f);
 
-			if(passiveSkill.Id==141){
+			if(passiveSkill.Id==141 ||bestSkill.Id==15){
 				bestScore = 0 ;
 				bestEmplacement = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 
@@ -197,7 +251,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				for (int i = 0 ; i < emplacements.Count ; i++){
 					tempTile = emplacements[i];
 					passiveScore = 0 ;
-					if(passiveSkill.Id==138){
+					if(passiveSkill.Id==138 || passiveSkill.Id==76){
 						passiveScore += (emplacements[i].y)*3;
 					}
 					else if(passiveSkill.Id==141){
@@ -207,6 +261,18 @@ public class ArtificialIntelligence : MonoBehaviour
 							}
 							else{
 								passiveScore -= (11-passiveSkill.Power);
+							}
+						}
+					}
+					else if(passiveSkill.Id==75){
+						List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+						for(int s = 0 ; s < neighbours.Count ; s++){
+							if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+								targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y));
+								passiveScore+=Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife(), 3+2*GameView.instance.getCurrentCard().Skills[0].Power);
+								if(targetCard.isMine){
+									passiveScore=passiveScore*(-1);
+								}
 							}
 						}
 					}
@@ -269,7 +335,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			for (int i = 0 ; i < emplacements.Count ; i++){
 				tempTile = emplacements[i];
 				passiveScore = 0 ;
-				if(passiveSkill.Id==138){
+				if(passiveSkill.Id==138 || passiveSkill.Id==76){
 					passiveScore += (emplacements[i].y)*3;
 				}
 				else if(passiveSkill.Id==141){
@@ -279,6 +345,18 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 						else{
 							passiveScore -= (11-passiveSkill.Power);
+						}
+					}
+				}
+				else if(passiveSkill.Id==75){
+					List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+					for(int s = 0 ; s < neighbours.Count ; s++){
+						if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+							targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y));
+							passiveScore+=Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife(), 3+2*GameView.instance.getCurrentCard().Skills[0].Power);
+							if(targetCard.isMine){
+								passiveScore=passiveScore*(-1);
+							}
 						}
 					}
 				}

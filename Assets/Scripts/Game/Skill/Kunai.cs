@@ -95,4 +95,26 @@ public class Kunai : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		float score = 0 ;
+		GameCard targetCard ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int levelMin ;
+		int levelMax ;
+
+		List<int> enemies = GameView.instance.getOpponents(false);
+		for(int i = 0 ; i < enemies.Count ; i++){
+			targetCard = GameView.instance.getCard(enemies[i]);
+			levelMin = currentCard.getNormalDamagesAgainst(targetCard,s.Power);
+			levelMax = currentCard.getNormalDamagesAgainst(targetCard,5+s.Power*2);
+
+			score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+		}
+		score = score/enemies.Count;
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return (int)score ;
+	}
 }

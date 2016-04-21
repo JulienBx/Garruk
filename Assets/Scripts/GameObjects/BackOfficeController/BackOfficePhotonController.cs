@@ -152,7 +152,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
 		}
 		SoundController.instance.playMusic(new int[]{3,4});
-		if(ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA)
+		if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			SceneManager.LoadScene("Game");
 		}
