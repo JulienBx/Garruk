@@ -942,7 +942,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void OnJoinedLobby()
 	{
-		if(ApplicationModel.player.ToDeconnect=false)
+		if(!ApplicationModel.player.ToDeconnect)
 		{
 			this.loadLevels();
 		}
