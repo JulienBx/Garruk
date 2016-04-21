@@ -540,7 +540,6 @@ public class BackOfficeController : MonoBehaviour
 		}
 		ApplicationModel.player.ToDeconnect = true;
 		PhotonNetwork.Disconnect();
-		SceneManager.LoadScene("Authentication");
 	}
 	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
 	{

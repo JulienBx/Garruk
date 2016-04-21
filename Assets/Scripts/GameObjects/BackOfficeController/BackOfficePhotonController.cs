@@ -116,7 +116,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			yield return StartCoroutine(deck.RetrieveCards());
 			if(deck.Error!="")
 			{
-				this.OnDisconnectedFromPhoton();
+				BackOfficeController.instance.toDisconnect();
 			}
             if(isFirstPlayer)
             {
@@ -149,7 +149,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			PhotonNetwork.room.open = false;
 			print("Je ferme la room START");
-
 		}
 		SoundController.instance.playMusic(new int[]{3,4});
 		if(ApplicationModel.player.ToLaunchGameTutorial)
@@ -163,7 +162,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	void OnDisconnectedFromPhoton()
 	{
-		ServerController.instance.lostConnection();
+		if(!ApplicationModel.player.ToDeconnect)
+		{
+			ApplicationModel.player.hastLostConnection=true;
+		}
+		SceneManager.LoadScene("Authentication");
 	}
 	private void CreateTutorialDeck()
 	{
