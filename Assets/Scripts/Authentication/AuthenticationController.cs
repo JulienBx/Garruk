@@ -942,7 +942,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	void OnJoinedLobby()
 	{
-		this.loadLevels();
+		if(ApplicationModel.player.ToDeconnect=false)
+		{
+			this.loadLevels();
+		}
 	}
 
 	#region Facebook
