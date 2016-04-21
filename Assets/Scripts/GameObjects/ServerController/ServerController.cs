@@ -75,12 +75,7 @@ public class ServerController : MonoBehaviour
 	}
 	public void lostConnection()
 	{
-		if(!ApplicationModel.player.ToDeconnect)
-		{
-			ApplicationModel.player.hastLostConnection=true;
-		}
-		ApplicationModel.player.ToDeconnect=true;
-		SceneManager.LoadScene("Authentication");
+		BackOfficeController.instance.toDisconnect();
 	}
 }
 
