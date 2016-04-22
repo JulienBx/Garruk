@@ -87,7 +87,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			}
 			else{
 				if((emplacements[i].y==7 || emplacements[i].y==0)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns+1))){
 						passiveScore-=500;
 					}
 					else{
@@ -95,7 +95,7 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 				}
 				else if((emplacements[i].y==6 || emplacements[i].y==1)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns))){
 						passiveScore-=500;
 					}
 					else{
@@ -103,7 +103,7 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 				}
 				else if((emplacements[i].y==5 || emplacements[i].y==2)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns-1))){
 						passiveScore-=500;
 					}
 					else{
@@ -178,7 +178,7 @@ public class ArtificialIntelligence : MonoBehaviour
 								}
 							}
 							else{
-								targets.Add(new Tile(0,0));
+								targets.Add(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 							}
 						}
 						for (int k = 0 ; k < targets.Count ;k++){
@@ -278,7 +278,7 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 
 					if((emplacements[i].y==7 || emplacements[i].y==0)){
-						if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1)){
+						if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns+1))){
 							passiveScore-=500;
 						}
 						else{
@@ -286,7 +286,7 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 					}
 					else if((emplacements[i].y==6 || emplacements[i].y==1)){
-						if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns)){
+						if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns))){
 							passiveScore-=500;
 						}
 						else{
@@ -294,7 +294,7 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 					}
 					else if((emplacements[i].y==5 || emplacements[i].y==2)){
-						if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1)){
+						if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns-1))){
 							passiveScore-=500;
 						}
 						else{
@@ -362,7 +362,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				}
 
 				if((emplacements[i].y==7 || emplacements[i].y==0)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns+1))){
 						passiveScore-=500;
 					}
 					else{
@@ -370,7 +370,7 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 				}
 				else if((emplacements[i].y==6 || emplacements[i].y==1)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns))){
 						passiveScore-=500;
 					}
 					else{
@@ -378,7 +378,7 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 				}
 				else if((emplacements[i].y==5 || emplacements[i].y==2)){
-					if(GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1)){
+					if((GameView.instance.getCurrentCard().getLife()<=10*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()-10<=10*(GameView.instance.nbTurns-1))){
 						passiveScore-=500;
 					}
 					else{

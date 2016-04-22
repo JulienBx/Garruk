@@ -423,16 +423,16 @@ public class WordingSkills
 		//18 - Frenesie
 		idSkills.Add(18);
 		names.Add(new string[]{"Frénésie","Bloodlust"}); 
-		descriptions.Add(new string[]{"S'inflige 070%ATK dégats et gagne 10ATK","Inflicts 070%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 065%ATK dégats et gagne 10ATK","Inflicts 065%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 060%ATK dégats et gagne 10ATK","Inflicts 060%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 055%ATK dégats et gagne 10ATK","Inflicts 055%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 050%ATK dégats et gagne 10ATK","Inflicts 050%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 045%ATK dégats et gagne 10ATK","Inflicts 045%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 040%ATK dégats et gagne 10ATK","Inflicts 040%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 035%ATK dégats et gagne 10ATK","Inflicts 035%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 030%ATK dégats et gagne 10ATK","Inflicts 030%ATK damage points to himself and gains 10ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 025%ATK dégats et gagne 10ATK","Inflicts 025%ATK damage points to himself and gains 10ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 050%ATK dégats et gagne 5ATK","Inflicts 050%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 045%ATK dégats et gagne 5ATK","Inflicts 045%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 040%ATK dégats et gagne 5ATK","Inflicts 040%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 035%ATK dégats et gagne 5ATK","Inflicts 035%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 030%ATK dégats et gagne 5ATK","Inflicts 030%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 025%ATK dégats et gagne 5ATK","Inflicts 025%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 020%ATK dégats et gagne 5ATK","Inflicts 020%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 015%ATK dégats et gagne 5ATK","Inflicts 015%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 010%ATK dégats et gagne 5ATK","Inflicts 010%ATK damage points to himself and gains 5ATK"}); 
+		descriptions.Add(new string[]{"S'inflige 005%ATK dégats et gagne 5ATK","Inflicts 005%ATK damage points to himself and gains 5ATK"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -1434,7 +1434,7 @@ public class WordingSkills
 		probas.Add(90);  
 		//63 - Massue
 		idSkills.Add(63);
-		names.Add(new string[]{"Massue",""}); 
+		names.Add(new string[]{"Massue","Hammer"}); 
 		descriptions.Add(new string[]{"Inflige [050%ATK-130%ATK] dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [050%ATK-140%ATK] dégats à l'unité ciblée",""}); 
 		descriptions.Add(new string[]{"Inflige [050%ATK-150%ATK] dégats à l'unité ciblée",""}); 

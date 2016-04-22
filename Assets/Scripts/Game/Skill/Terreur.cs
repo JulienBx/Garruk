@@ -86,4 +86,21 @@ public class Terreur : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*s.Power)));
+		if(damages>=targetCard.getLife()){
+			score+=200;
+		}
+		else{
+			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(15+damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

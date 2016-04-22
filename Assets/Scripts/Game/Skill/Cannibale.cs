@@ -83,8 +83,18 @@ public class Cannibale : GameSkill
 
 		GameView.instance.getPlayingCardController(targetMe).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, base.name, ". Permanent"));
-		GameView.instance.getPlayingCardController(targetMe).addDamagesModifyer(new Modifyer(-1*bonusLife, -1, 21, base.name, ". Permanent"), false);
+		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(targetMe, text, 2);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+
+		int score = -10-targetCard.getLife()+Mathf.RoundToInt(2*(0.2f+0.05f*s.Power)*targetCard.getAttack()+(0.2f+0.05f*s.Power)*targetCard.getLife());
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+
+		return score ;
 	}
 }

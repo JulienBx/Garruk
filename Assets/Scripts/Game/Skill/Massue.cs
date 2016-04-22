@@ -68,4 +68,19 @@ public class Massue : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int levelMin = Mathf.FloorToInt((Mathf.RoundToInt(targetCard.getAttack()*0.5f))*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMax = Mathf.FloorToInt((Mathf.RoundToInt(targetCard.getAttack()*1.2f+0.1f*s.Power))*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+
+		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

@@ -107,16 +107,16 @@ public class PistoLest : GameSkill
 		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = 1;
-		int levelMax = 10+s.Power*2;
+		int levelMin = Mathf.FloorToInt(1*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMax = Mathf.FloorToInt((10+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
 		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
 		score+=Mathf.Max(0,30-(targetCard.getLife()-(levelMin+levelMax)/2));
 		score+= Mathf.Min(targetCard.getMove(),1)*10;
 
 		if(currentCard.isVirologue()){
-			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
-			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMin2 = Mathf.RoundToInt(Mathf.FloorToInt(1*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))*s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt(Mathf.FloorToInt((10+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))*(25f+currentCard.Skills[0].Power*5f)/100f);
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for(int i = 0; i < neighbours.Count; i++){
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){

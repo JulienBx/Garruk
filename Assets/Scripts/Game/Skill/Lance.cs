@@ -69,4 +69,21 @@ public class Lance : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt((0.5f+0.05f*s.Power)*currentCard.getAttack()));
+		if(damages>=targetCard.getLife()){
+			score+=200;
+		}
+		else{
+			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+					
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

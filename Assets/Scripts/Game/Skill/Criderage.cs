@@ -69,4 +69,28 @@ public class Criderage : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard ;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int score = 0;
+
+		List<Tile> neighbours = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles();
+		for(int i = 0 ; i < neighbours.Count ; i++){
+			if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
+				targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
+				if(targetCard.isMine){
+					score-=Mathf.RoundToInt(((100f-targetCard.getEsquive())/100f)*(s.Power+2));
+				}
+				else{
+					score+=Mathf.RoundToInt(((100f-targetCard.getEsquive())/100f)*(s.Power+2));
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+
+		return score ;
+	}
 }

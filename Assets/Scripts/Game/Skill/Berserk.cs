@@ -74,4 +74,31 @@ public class Berserk : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), autotext, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		float malusAttack = currentCard.getAttack()/2f; ;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
+		int score ;
+		if(damages>=targetCard.getLife()){
+			score=200;
+		}
+		else{
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+
+		int ownDamages = 25-2*s.Power;
+		if(ownDamages>=currentCard.getLife()){
+			score-=200;
+		}
+		else{
+			score-=Mathf.RoundToInt(ownDamages+Mathf.Max(0,30-(currentCard.getLife()-ownDamages)));
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+
+		return score ;
+	}
 }

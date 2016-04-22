@@ -70,4 +70,38 @@ public class Attaque360 : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int damages;
+
+		List<Tile> neighbours = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).getImmediateNeighbourTiles();
+		for(int i = 0 ; i < neighbours.Count ; i++){
+			if(GameView.instance.getTileCharacterID(neighbours[i].x,neighbours[i].y)!=-1){
+				targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x,neighbours[i].y));
+				damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*s.Power)));
+				if(targetCard.isMine){
+					if(damages>=targetCard.getLife()){
+						score+=200;
+					}
+					else{
+						score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+					}
+				}
+				else{
+					if(damages>=targetCard.getLife()){
+						score-=200;
+					}
+					else{
+						score-=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+					}
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }
