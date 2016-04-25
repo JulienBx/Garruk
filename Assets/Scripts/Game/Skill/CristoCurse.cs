@@ -52,7 +52,7 @@ public class CristoCurse : GameSkill
 		string text = "-"+damages+"PV";
 						
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
 	}
 

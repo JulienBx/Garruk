@@ -35,11 +35,11 @@ public class Justice : GameSkill
 		int targetMin = GameView.instance.getMinPVCard();
 		int level = GameView.instance.getCurrentSkill().Power*2+10;
 
-		GameView.instance.getPlayingCardController(targetMax).addDamagesModifyer(new Modifyer(level,-1,1,"Attaque",level+" dégats subis"), (targetMax==GameView.instance.getCurrentPlayingCard()));
+		GameView.instance.getPlayingCardController(targetMax).addDamagesModifyer(new Modifyer(level,-1,1,"Attaque",level+" dégats subis"), (targetMax==GameView.instance.getCurrentPlayingCard()), -1);
 		GameView.instance.displaySkillEffect(targetMax, "-"+level+" PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMax), 95);
 
-		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*level,-1,1,"Attaque",level+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*level,-1,1,"Attaque",level+" dégats subis"), false, -1);
 		GameView.instance.displaySkillEffect(targetMin, "+"+level+" PV", 2);
 		GameView.instance.addAnim(GameView.instance.getTile(targetMin), 95);
 	}

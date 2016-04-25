@@ -174,6 +174,9 @@ public class GameSkill
 			else if(this.ciblage==17){
 				launchability = GameView.instance.canLaunchDead();
 			}
+			else if(this.ciblage==18){
+				launchability = GameView.instance.canLaunchAdjacentDroidOpponents(t, isM);
+			}
 			else{
 				launchability = "";
 			}
@@ -235,6 +238,9 @@ public class GameSkill
 		}
 		else if(this.ciblage==15){
 			targets = GameView.instance.getAdjacentCristoidOpponents(isM);
+		}
+		else if(this.ciblage==18){
+			targets = GameView.instance.getAdjacentDroidOpponents(isM);
 		}
 		else{
 			targets = new List<Tile>();

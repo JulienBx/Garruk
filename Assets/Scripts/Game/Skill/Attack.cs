@@ -35,7 +35,9 @@ public class Attack : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
-
+		if(currentCard.isHumaHunter() && (targetCard.CardType.Id==5 ||targetCard.CardType.Id==6)){
+			damages=0;
+		}
 		string text = "-"+damages+"PV";
 						
 		if (currentCard.isLache()){
@@ -53,7 +55,7 @@ public class Attack : GameSkill
 			}
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
 
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<14){
@@ -107,6 +109,10 @@ public class Attack : GameSkill
 		}
 		else{
 			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+
+		if(currentCard.isHumaHunter() && (targetCard.CardType.Id==5 ||targetCard.CardType.Id==6)){
+			score=0;
 		}
 					
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

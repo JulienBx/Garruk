@@ -124,10 +124,18 @@ public class InterludeController : MonoBehaviour
 						}
 					}
 				}
-				if(GameView.instance.getCurrentCard().isMine && GameView.instance.getCurrentCard().isFurious()){
-					StartCoroutine(GameView.instance.launchFury());
+				bool hasAutoPlayed = false ;
+				if(GameView.instance.getCurrentCard().isMine){
+					if(GameView.instance.getCurrentCard().isFurious()){
+						StartCoroutine(GameView.instance.launchFury());
+						hasAutoPlayed = true ;
+					}
+					else if(GameView.instance.getCurrentCard().isTourelle()){
+						StartCoroutine(GameView.instance.launchTourelle());
+						hasAutoPlayed = true ;
+					}
 				}
-				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine){
+				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();
 				}
 				GameView.instance.runningSkill = -1;

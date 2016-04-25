@@ -83,14 +83,14 @@ public class Mitraillette : GameSkill
 
 		string text ="-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(GameView.instance.getTile(target), 30);
 	}
 
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false,-1);
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
 		}
 		else{
@@ -98,5 +98,53 @@ public class Mitraillette : GameSkill
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		List<int> potentialTargets = GameView.instance.getEveryone();
+		List<int> targets = new List<int>();
+		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
+		Tile targetTile ; 
+		int levelMin ; 
+		int levelMax;
+		for(int i = 0 ; i < potentialTargets.Count ; i++){
+			targetTile = GameView.instance.getTile(potentialTargets[i]); 
+			if(currentTile.y>targetTile.y){
+				targets.Add(potentialTargets[i]);
+			}
+		}
+
+		for(int i = 0 ; i < targets.Count ; i++){
+			targetCard = GameView.instance.getCard(targets[i]);
+			levelMin = 1;
+			levelMax = Mathf.FloorToInt((5+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+
+			if(targetCard.isMine){
+				score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+			}
+			else{
+				score-=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+			}
+		}
+
+		score = Mathf.RoundToInt(score/targets.Count);
+
+		if(currentCard.isFou()){
+			int damages = 11-currentCard.Skills[0].Power;
+			if(damages>=currentCard.getLife()){
+				score-=100;
+			}
+			else{
+				score-=damages;
+			}
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+		}
 }
 

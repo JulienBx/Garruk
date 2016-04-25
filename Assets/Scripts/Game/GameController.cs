@@ -64,6 +64,28 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
+	public void addFontaine(int amount, Tile t){
+		photonView.RPC("addFontaineRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	}
+	
+	[PunRPC]
+	public void addFontaineRPC(int amount, int x, int y){
+		string description = "Soigne "+amount+" PV aux unités stationnées" ;
+		Trap trap = new Trap(amount, 4, true, "Fontaine", description);
+		GameView.instance.getTileController(x,y).setTrap(trap);
+	}
+
+	public void addCaserne(int amount, Tile t){
+		photonView.RPC("addCaserneRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	}
+	
+	[PunRPC]
+	public void addCaserneRPC(int amount, int x, int y){
+		string description = "+"+amount+" ATK aux unités stationnées" ;
+		Trap trap = new Trap(amount, 5, true, "Caserne", description);
+		GameView.instance.getTileController(x,y).setTrap(trap);
+	}
+
 	public void removeRock(Tile t){
 		photonView.RPC("removeRockRPC", PhotonTargets.AllBuffered, t.x, t.y);
 	}
@@ -125,7 +147,7 @@ public class GameController : Photon.MonoBehaviour
 		int damages = (2+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
 		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
 	}
 
@@ -141,15 +163,15 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
 	}
 
-	public void findNextPlayer()
+	public void findNextPlayer(bool b)
 	{
-		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered);
+		photonView.RPC("findNextPlayerRPC", PhotonTargets.AllBuffered, b);
 	}
 	
 	[PunRPC]
-	public void findNextPlayerRPC()
+	public void findNextPlayerRPC(bool b)
 	{
-		GameView.instance.setNextPlayer();
+		GameView.instance.setNextPlayer(b);
 	}
 	
 	public void clickDestination(Tile t, int c, bool toDisplay)

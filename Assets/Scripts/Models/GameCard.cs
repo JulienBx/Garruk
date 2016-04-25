@@ -144,6 +144,11 @@ public class GameCard : Card
 		return (base.Skills[0].Id == 35);
 	}
 
+	public bool isHumaHunter()
+	{
+		return (base.Skills[0].Id == 48);
+	}
+
 	public bool isSniperActive()
 	{
 		bool hasFound = false ;
@@ -654,6 +659,50 @@ public class GameCard : Card
 		return (hasFound);
 	}
 
+	public bool isTourelle()
+	{
+		bool hasFound = false ;
+		for (int i = 0 ; i < states.Count && !hasFound ; i++){
+			if(states[i].type==38){
+				hasFound = true ;
+			}
+		}
+		return (hasFound);
+	}
+
+	public bool isTechArmor()
+	{
+		bool hasFound = false ;
+		for (int i = 0 ; i < states.Count && !hasFound ; i++){
+			if(states[i].type==45){
+				hasFound = true ;
+			}
+		}
+		return (hasFound);
+	}
+
+	public int getTourelleDamages()
+	{
+		int damages = 0 ;
+		for (int i = 0 ; i < states.Count ; i++){
+			if(states[i].type==38){
+				damages=states[i].amount;
+			}
+		}
+		return (damages);
+	}
+
+	public int getArmorLevel()
+	{
+		int damages = 0 ;
+		for (int i = 0 ; i < states.Count ; i++){
+			if(states[i].type==45){
+				damages=states[i].amount;
+			}
+		}
+		return (damages);
+	}
+
 	public int getPoisonAmount(){
 		int amount = -1 ;
 		for (int i = 0 ; i < states.Count ; i++){
@@ -668,6 +717,28 @@ public class GameCard : Card
 	public void setFurious(Modifyer m){
 		for (int i = this.states.Count-1 ; i >= 0 ; i--){
 			if(this.states[i].type==93){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void setTourelle(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
+			if(this.states[i].type==38){
+				this.states.RemoveAt(i);
+			}
+		}
+		this.states.Add(m);
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
+	}
+
+	public void setArmureTech(Modifyer m){
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
+			if(this.states[i].type==45){
 				this.states.RemoveAt(i);
 			}
 		}

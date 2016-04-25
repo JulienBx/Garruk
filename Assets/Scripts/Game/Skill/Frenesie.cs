@@ -31,7 +31,7 @@ public class Frenesie : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"), true);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"), true,-1);
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\n+5ATK\n-"+damages+"PV", 1);
@@ -40,7 +40,6 @@ public class Frenesie : GameSkill
 
 	public override int getActionScore(Tile t, Skill s){
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		GameCard targetCard ;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 		int score = 0;
 		int damages = Mathf.RoundToInt((0.5f-s.Power*0.05f)*currentCard.getAttack());

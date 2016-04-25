@@ -65,7 +65,7 @@ public class Desequilibre : GameSkill
 			}
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 92, text, "-"+damages+" PV"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 92, text, "-"+damages+" PV"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 92);
 	}

@@ -44,14 +44,14 @@ public class Sacrifice : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 108, base.name, damages+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 108, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		List<Tile> voisins = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().getImmediateNeighbourTiles();
 
 		int amount = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f));
 		for (int i = 0 ; i < voisins.Count ; i++){
 			if(GameView.instance.getTileController(voisins[i]).getCharacterID()!=-1){
 				if(!GameView.instance.getCard(GameView.instance.getTileController(voisins[i]).getCharacterID()).isDead){
-					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, base.name, damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()));
+					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, base.name, damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()),-1);
 					GameView.instance.displaySkillEffect(GameView.instance.getTileController(voisins[i]).getCharacterID(), "-"+amount+"PV", 108);
 					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getTileController(voisins[i]).getCharacterID()), 108);
 				}

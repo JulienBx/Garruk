@@ -192,7 +192,7 @@ public class TileController : GameObjectController
 		bool isSuccess = false ;
 		if(this.isTrapped){
 			if(this.trap.getType()==1){
-				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"), true);
+				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"), true,-1);
 				GameView.instance.displaySkillEffect(this.characterID, "Piège!\n-"+this.trap.getAmount()+"PV", 0);
 				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
 			}

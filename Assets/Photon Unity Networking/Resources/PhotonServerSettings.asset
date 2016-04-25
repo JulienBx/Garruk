@@ -82,4 +82,6 @@ MonoBehaviour:
   - purifyRPC
   - convertRPC
   - quitGameHandlerRPC
+  - addFontaineRPC
+  - addCaserneRPC
   DisableAutoOpenWizard: 0

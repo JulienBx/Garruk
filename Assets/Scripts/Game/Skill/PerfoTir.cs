@@ -53,7 +53,7 @@ public class PerfoTir : GameSkill
 		}
 		int level = Mathf.Min(currentCard.getLife(),damages);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.getCard(target).emptyShieldModifyers();
 		GameView.instance.getPlayingCardController(target).showIcons();
 		string text = "-"+level+"PV";
@@ -89,12 +89,41 @@ public class PerfoTir : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false,-1);
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, s.Power+5);
+		if(damages>=targetCard.getLife()){
+			score+=200;
+		}
+		else{
+			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+
+		score+=targetCard.getBouclier();
+
+		if(currentCard.isFou()){
+			int damagesMe = 11-currentCard.Skills[0].Power;
+			if(damagesMe>=currentCard.getLife()){
+				score-=100;
+			}
+			else{
+				score-=damagesMe;
+			}
+		}
+					
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }

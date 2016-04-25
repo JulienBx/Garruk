@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Lance : GameSkill
+public class Virus : GameSkill
 {
-	public Lance(){
+	public Virus(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Lance";
-		base.ciblage = 8 ;
+		base.name = "Virus";
+		base.ciblage = 18 ;
 		base.auto = false;
 	}
 	
@@ -15,13 +15,13 @@ public class Lance : GameSkill
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
-
+	
 	public override void resolve(List<Tile> targets)
 	{	
 		GameController.instance.play(GameView.instance.runningSkill);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
-
+		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
 			GameController.instance.esquive(target,1);
@@ -37,31 +37,25 @@ public class Lance : GameSkill
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
-	
+
 	public override void applyOn(int target){
-		string text = base.name;
 		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
-
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 91, text, "-"+damages+" PV"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 91);
-	}
-
-	public override string getTargetText(int target){
-		GameCard targetCard = GameView.instance.getCard(target);
-		GameCard currentCard = GameView.instance.getCurrentCard();
-		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f))); ;
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
+		int damages = targetCard.getLife();
 		
-		int probaEsquive = targetCard.getMagicalEsquive();
-		int probaHit = Mathf.Max(0,100-probaEsquive) ;
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, base.name, damages+" dégats subis"), false,-1);
+		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 37);
+	}
+	
+	public override string getTargetText(int id){	
+		GameCard targetCard = GameView.instance.getCard(id);
+		string text = "Détruit l'unité!";
+
+		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
+		int probaEsquive = targetCard.getEsquive();
+		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
 		text += "\n\nHIT% : "+probaHit;
-		
 		return text ;
 	}
 
@@ -74,15 +68,10 @@ public class Lance : GameSkill
 		int score = 0 ;
 		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
 		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt((0.5f+0.05f*s.Power)*currentCard.getAttack()));
-		if(damages>=targetCard.getLife()){
-			score+=200;
-		}
-		else{
-			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
-		}
-					
+		score+=Mathf.RoundToInt((100f*proba/100f)*(targetCard.getLife()/50f));
+				
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 		return score ;
 	}

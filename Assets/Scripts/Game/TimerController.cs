@@ -30,7 +30,7 @@ public class TimerController : MonoBehaviour
 			isShowing = false ;
 			if(GameView.instance.getCurrentCard().isMine){
 				GameView.instance.hideAllTargets();
-				GameController.instance.findNextPlayer();
+				GameController.instance.findNextPlayer(true);
 			}
 		}
 		else{

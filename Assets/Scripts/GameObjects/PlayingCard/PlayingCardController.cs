@@ -249,15 +249,15 @@ public class PlayingCardController : GameObjectController
 		gameObject.SetActive(b);
 	}
 	
-	public void addDamagesModifyer(Modifyer m, bool endTurn){
+	public void addDamagesModifyer(Modifyer m, bool endTurn, int idLauncher){
 		this.updateLife(this.card.getLife());
 		if(m.amount<0){
 			m.amount = -1*Mathf.Min(-1*m.amount, this.card.GetTotalLife()-this.card.getLife()) ;
 		}
 		else{
 			if(m.amount>0){
+				GameCard targetCard ;
 				if(this.card.isFanatique()){
-					GameCard targetCard ;
 					int bonusAttack = this.card.Skills[0].Power;
 					bool isFanaMine = this.card.isMine;
 
@@ -272,6 +272,17 @@ public class PlayingCardController : GameObjectController
 							GameView.instance.displaySkillEffect(characters[i], "Martyr\n+"+bonus+" ATK", 2);
 							GameView.instance.addAnim(GameView.instance.getTile(characters[i]), 112);
 						}
+					}
+				}
+				if(this.card.isTechArmor()){
+					if(idLauncher!=-1){
+						targetCard = GameView.instance.getCard(idLauncher);
+						int bonus = Mathf.Min(targetCard.getLife(),Mathf.RoundToInt(m.amount*this.card.getArmorLevel()/100f));
+						GameView.instance.getPlayingCardController(idLauncher).updateLife(targetCard.getLife());
+						GameView.instance.getCard(idLauncher).damagesModifyers.Add(new Modifyer(bonus, -1, 45, "Armure tech", ""));
+
+						GameView.instance.displaySkillEffect(idLauncher, "Armure tech\n-"+bonus+" PV", 0);
+						GameView.instance.addAnim(GameView.instance.getTile(idLauncher), 45);
 					}
 				}
 			}
@@ -777,12 +788,26 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 
+	public void checkFantassin(bool toDisplay){
+		if((card.Skills[0].Id == 47)){
+			int level = 20+card.Skills[0].Power*4;
+						
+			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 47, "Agile", ". Permanent"));
+			GameView.instance.getPlayingCardController(this.id).showIcons();
+
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
+				GameView.instance.displaySkillEffect(this.id, "Fantassin\nEsquive : "+level+"%", 1);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 47);
+			}
+		}
+	}
+
 	public void checkAguerri(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
-			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(-1, -1, 71, "Costaud", ". Permanent."));
+			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(-1, -1, 68, "Robuste", ". Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
-			int bonusAttack = 2+card.Skills[0].Power;
-			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 68, "Costaud", ". Permanent."));
+			int bonusAttack = Mathf.RoundToInt(this.card.getAttack()*(10+10*card.Skills[0].Power)/100f);
+			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 68, "Robuste", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
 				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
@@ -790,9 +815,20 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 
+	public void checkHumaHunter(bool toDisplay){
+		if((card.Skills[0].Id == 48)){
+			int bonusAttack = Mathf.RoundToInt(this.card.getAttack()*(25+5*card.Skills[0].Power)/100f);
+			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 48, "Humaphobe", ". Permanent."));
+			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
+				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
+				GameView.instance.addAnim(GameView.instance.getTile(this.id), 48);
+			}
+		}
+	}
+
 	public void checkCuirasse(bool toDisplay){
 		if((card.Skills[0].Id == 70)){
-			int bonusShield = card.Skills[0].Power*3+20;
+			int bonusShield = card.Skills[0].Power*2+10;
 			GameView.instance.getPlayingCardController(this.id).addShieldModifyer(new Modifyer(bonusShield, -1, 70, "Cuirassé", ". Permanent."));
 			GameView.instance.displaySkillEffect(this.id, "Cuirassé\nBouclier "+bonusShield+"%", 2);
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
@@ -854,6 +890,8 @@ public class PlayingCardController : GameObjectController
 		this.checkCuirasse(toDisplay);
 		this.checkEmbusque(toDisplay);
 		this.checkSniper(toDisplay);
+		this.checkFantassin(toDisplay);
+		this.checkHumaHunter(toDisplay);
 	}
 }
 

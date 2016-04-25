@@ -45,7 +45,7 @@ public class Synergie : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.2f+level/20f)));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 133, text, "-"+damages+" PV"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 133, text, "-"+damages+" PV"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(target), 133);
 	}

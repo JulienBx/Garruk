@@ -137,7 +137,7 @@ public class LanceFlammes : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, base.name, value+" dégats subis"), false);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, base.name, value+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
 		GameView.instance.addAnim(GameView.instance.getTile(target), 27);
 	}
@@ -171,7 +171,7 @@ public class LanceFlammes : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false,-1);
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
 		}
 		else{
