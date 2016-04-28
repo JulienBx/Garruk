@@ -73,4 +73,38 @@ public class Implosion : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nSe détruit", 0);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int target ; 
+		int levelMin;
+		int levelMax;
+
+		score -=100 + 30 - currentCard.getLife();
+
+		List<Tile> tempTiles = t.getImmediateNeighbourTiles();
+		for(int i = 0 ; i < tempTiles.Count ; i++){
+			target = GameView.instance.getTileController(tempTiles[i]).getCharacterID();
+			if(target!=-1){
+				targetCard = GameView.instance.getCard(target);
+				levelMin = Mathf.FloorToInt((2*s.Power+5)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+				levelMax = Mathf.FloorToInt((20+3*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+				if(currentCard.isFou()){
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+				}
+				else{
+					score-=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

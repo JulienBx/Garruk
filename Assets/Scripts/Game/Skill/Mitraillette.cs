@@ -123,6 +123,10 @@ public class Mitraillette : GameSkill
 			levelMin = 1;
 			levelMax = Mathf.FloorToInt((5+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
+			if(currentCard.isFou()){
+				levelMax = Mathf.RoundToInt(1.25f*levelMax);
+			}
+
 			if(targetCard.isMine){
 				score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
 			}

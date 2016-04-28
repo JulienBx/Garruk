@@ -50,7 +50,7 @@ public class Furie : GameSkill
 	public override int getActionScore(Tile t, Skill s){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		GameCard targetCard ;
-		int score = 50 - (currentCard.getLife()+10+2*s.Power)+10+2*s.Power;
+		int score = 20+4*s.Power;
 
 		List<int> everyone = GameView.instance.getEveryoneButMe();
 		int smallestMove = 10; 
@@ -89,6 +89,7 @@ public class Furie : GameSkill
 		if(!isSmallestMoveEnnemi){
 			score-=100;
 		}
+		//print()
 		score += Mathf.RoundToInt(100f*((1.0f*moveAllies/nbAllies)-(1.0f*moveEnnemis/nbEnnemis)));
 				
 		return score ;

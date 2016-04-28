@@ -76,9 +76,9 @@ public class Massue : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		int levelMin = Mathf.FloorToInt((Mathf.RoundToInt(targetCard.getAttack()*0.5f))*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
-		int levelMax = Mathf.FloorToInt((Mathf.RoundToInt(targetCard.getAttack()*1.2f+0.1f*s.Power))*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMax = Mathf.FloorToInt((Mathf.RoundToInt(targetCard.getAttack()*(1.2f+0.1f*s.Power)))*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
-		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,1+levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*(Mathf.Min(levelMax,targetCard.getLife())-levelMin)))/(levelMax-levelMin+1f));
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 		return score ;

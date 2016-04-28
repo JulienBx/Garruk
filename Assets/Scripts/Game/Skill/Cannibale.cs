@@ -82,6 +82,7 @@ public class Cannibale : GameSkill
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 
 		GameView.instance.getPlayingCardController(targetMe).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(targetMe).updateLife(currentCard.getLife());
 		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(targetMe, text, 2);

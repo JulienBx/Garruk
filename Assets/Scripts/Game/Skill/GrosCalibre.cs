@@ -92,4 +92,26 @@ public class GrosCalibre : GameSkill
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+
+		int maxDamages = Mathf.RoundToInt(currentCard.getAttack()*(1.2f+s.Power/10f));
+		if(currentCard.isFou()){
+			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
+		}
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
+
+		if(damages>=targetCard.getLife()){
+			score+=200;
+		}
+		else{
+			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+		}
+					
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

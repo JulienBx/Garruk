@@ -100,7 +100,7 @@ public class PassController : MonoBehaviour
 	public void OnMouseDown(){
 		if (this.launchabilityText.Length<2){
 			GameView.instance.hideAllTargets();
-			GameController.instance.findNextPlayer(true);
+			GameController.instance.findNextPlayer(false);
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			

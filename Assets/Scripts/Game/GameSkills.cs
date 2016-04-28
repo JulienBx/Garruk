@@ -63,7 +63,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [47] = new GameSkill();
 		this.skills [48] = new GameSkill();
 		this.skills [49] = new GameSkill();
-		this.skills [50] = new GameSkill();
+		this.skills [50] = new Roues();
 		this.skills [51] = new GameSkill();
 		this.skills [52] = new GameSkill();
 		this.skills [53] = new GameSkill();

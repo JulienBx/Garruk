@@ -139,6 +139,11 @@ public class GameCard : Card
 		return (base.Skills[0].Id == 34);
 	}
 
+	public bool isSoutien()
+	{
+		return (base.Skills[0].Id == 49);
+	}
+
 	public bool isSniper()
 	{
 		return (base.Skills[0].Id == 35);
@@ -527,8 +532,14 @@ public class GameCard : Card
 	}
 	
 	public int getNormalDamagesAgainst(GameCard g, int attack){
-		int amount = Mathf.FloorToInt(attack*(1f+this.getBonus(g)/100f)*(1f-(g.getBouclier()/100f)));
-		amount = Mathf.Min(g.getLife(), amount);
+		int amount = Mathf.RoundToInt(attack*(1f+this.getBonus(g)/100f)*(1f-(g.getBouclier()/100f)));
+		int soutien = GameView.instance.hasSoutien(this.isMine);
+		if(soutien!=-1){
+			GameCard targetCard = GameView.instance.getCard(soutien);
+			int deflectedAmount = Mathf.RoundToInt(amount*(targetCard.Skills[0].Power*3f+10f)/100f);
+			amount = amount - deflectedAmount;
+		}
+		amount = Mathf.Min(g.getLife(),amount);
 		return amount ;
 	}
 	

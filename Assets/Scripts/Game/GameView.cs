@@ -411,8 +411,10 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(1), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(2), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(3), false);
+
 			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
+			this.placeIACards();
 			this.showStartButton();
 		}
 		else{
@@ -640,7 +642,7 @@ public class GameView : MonoBehaviour
 					this.gameTutoController.unslide();
 				}
 			}
-			this.setNextPlayer(true);
+			this.setNextPlayer(false);
 		}
 		else{
 			this.isFirstPlayerStarting = b;
@@ -1032,7 +1034,7 @@ public class GameView : MonoBehaviour
 		if(this.hasFightStarted){
 			this.meteoritesCounter--;
 			if(this.meteoritesCounter==0){
-				this.endTurnEffects(false);
+				StartCoroutine(this.endTurnEffects(false));
 			}
 			else{
 				if(!isEndMeteor){
@@ -1166,6 +1168,9 @@ public class GameView : MonoBehaviour
 			this.launchEndTurnEffects();
 		}
 		else{
+
+			print("Je lance météorites");
+		
 			List<int> idCards = new List<int>();
 			idCards.Add(currentPlayingCard);
 			int i = 0 ; 
@@ -1200,7 +1205,6 @@ public class GameView : MonoBehaviour
 			this.timeline.changeFaces(idCards);
 
 			this.isFreezed = true ;
-		
 			this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
 			
 			nbTurns++;
@@ -1225,7 +1229,7 @@ public class GameView : MonoBehaviour
 	public void launchEndTurnEffects(){
 		
 		if(!this.hasFightStarted){
-			this.changePlayer();
+			this.changePlayer(-1);
 		
 			if (this.getCurrentCard().isMine){
 				this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
@@ -1302,8 +1306,8 @@ public class GameView : MonoBehaviour
 		this.timeline.show(true);
 	}
 
-	public void changePlayer(){
-		print("Change");
+	public void changePlayer(int idToChange){
+		//print("Change");
 		if(this.hasFightStarted){
 			if(this.getCurrentCard().isMutant()){
 				this.getPlayingCardController(this.currentPlayingCard).nbTurns++;
@@ -1349,20 +1353,26 @@ public class GameView : MonoBehaviour
 			this.updateTimeline();
 		}
 
-		if(this.hasFightStarted){
-			this.indexPlayer++;
-			if(indexPlayer == this.nbCards){
-				indexPlayer = 0 ;
+		int nextPlayingCard ;
+		if(idToChange==-1){
+			if(this.hasFightStarted){
+				this.indexPlayer++;
+				if(indexPlayer == this.nbCards){
+					indexPlayer = 0 ;
+				}
 			}
-		}
-		this.updateTimeline();
-		while(this.getCard(this.orderCards[indexPlayer]).isDead || this.deads.Contains(this.orderCards[indexPlayer])){
-			this.indexPlayer++;
-			if(indexPlayer == this.nbCards){
-				indexPlayer = 0 ;
+			this.updateTimeline();
+			while(this.getCard(this.orderCards[indexPlayer]).isDead || this.deads.Contains(this.orderCards[indexPlayer])){
+				this.indexPlayer++;
+				if(indexPlayer == this.nbCards){
+					indexPlayer = 0 ;
+				}
 			}
+			nextPlayingCard = this.orderCards[indexPlayer];
 		}
-		int nextPlayingCard = this.orderCards[indexPlayer];
+		else{
+			nextPlayingCard = idToChange;
+		}
 
 		if(this.hasFightStarted){
 			this.hideTargets();
@@ -3225,7 +3235,7 @@ public class GameView : MonoBehaviour
 		}
 		if(toPassDead){
 			toPassDead = false ;
-			this.setNextPlayer(true);
+			this.setNextPlayer(false);
 		}
 	}
 	
@@ -3425,7 +3435,7 @@ public class GameView : MonoBehaviour
 
 	public IEnumerator waitThenLaunchEDE(){
 		yield return new WaitForSeconds(2f);
-		this.setNextPlayer(false);
+		this.setNextPlayer(true);
 		yield break ;
 	}
 
@@ -3741,5 +3751,241 @@ public class GameView : MonoBehaviour
 			}
 		}
 		return nbTraps;
+	}
+
+	public int hasSoutien(bool isM){
+		int soutien = -1 ;
+		for(int i = 0 ; i < nbCards ; i++){
+			if(!this.getCard(i).isDead){
+				if(this.getCard(i).isMine==isM){
+					if(this.getCard(i).isSoutien()){
+						soutien = i ;
+					}
+				}
+			}
+		}
+		return soutien;
+	}
+
+	public int getMinDistanceOpponent(Tile myTile, int j){
+		bool isM = this.getCard(j).isMine;
+		int minDistance = 99;
+		int distance ;
+		Tile tile ;
+		List<int> everyone = this.getEveryone();
+		for(int i = 0 ; i < everyone.Count ; i++){
+			if(this.getCard(everyone[i]).isMine!=isM || this.getCard(everyone[i]).isFurious()){
+				tile = this.getTile(everyone[i]);
+				distance = Mathf.Abs(tile.x-myTile.x)+Mathf.Abs(tile.y-myTile.y);
+				if(distance<minDistance){
+					minDistance = distance ;
+				}
+			}
+		}
+		return minDistance ;
+	}
+
+	public void placeIACards(){
+		int strategy = UnityEngine.Random.Range(1,11);
+		Tile startingTile = new Tile(-1,-1) ;
+		int tempInt ;
+		List<int> units = this.getOpponents(true);
+		int[,] tilesOccupancy = new int[6,2];
+		for(int i = 0 ; i < this.boardWidth ; i++){
+			for(int j = 6 ; j < this.boardHeight ; j++){
+				if(this.getTileController(new Tile(i,j)).isRock()){
+					tilesOccupancy[i,j-6]=-1;
+				}
+				else{
+					tilesOccupancy[i,j-6]=0;
+				}
+			}
+		}
+
+		for(int i = 0 ; i < units.Count ; i++){
+			if(this.getCard(units[i]).CardType.Id==0){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(3,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(3,1);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(2,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(2,1);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==1){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(0,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(5,0);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(1,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,0);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==2){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(2,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(1,0);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(3,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,0);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==3){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(0,1);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(1,1);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(4,1);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(5,1);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==4){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(1,1);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(3,1);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(5,1);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,0);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==5){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(1,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(2,0);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(3,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,0);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==6){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(2,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(3,0);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(3,1);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(2,1);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==7){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(1,1);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(0,1);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(5,1);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,1);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==8){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(0,0);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(1,0);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(4,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(5,0);
+				}
+			}
+			else if(this.getCard(units[i]).CardType.Id==9){
+				tempInt = UnityEngine.Random.Range(1,101);
+				if(tempInt<=25){
+					startingTile = new Tile(1,1);
+				}
+				else if(tempInt<=50){
+					startingTile = new Tile(4,1);
+				}
+				else if(tempInt<=75){
+					startingTile = new Tile(1,0);
+				}
+				else if(tempInt<=100){
+					startingTile = new Tile(4,0);
+				}
+			}
+
+			while(tilesOccupancy[startingTile.x, startingTile.y]!=0){
+				startingTile = new Tile(UnityEngine.Random.Range(0,6), UnityEngine.Random.Range(0,2));
+			}
+			tilesOccupancy[startingTile.x, startingTile.y]=10+i;
+
+
+		}
+
+		for(int i = 0 ; i < this.boardWidth ; i++){
+			for(int j = 0 ; j < 2 ; j++){
+				this.tiles[i,j+6].GetComponentInChildren<TileController>().setCharacterID(-1);
+			}
+		}
+
+		for(int i = 0 ; i < this.boardWidth ; i++){
+			for(int j = 0 ; j < 2 ; j++){
+				if(tilesOccupancy[i,j]>9){
+					this.getPlayingCardController(units[tilesOccupancy[i,j]-10]).changeTile(new Tile(i,j+6), this.tiles[i,j+6].GetComponentInChildren<TileController>().getPosition());
+					this.tiles[i,j+6].GetComponentInChildren<TileController>().setCharacterID(units[tilesOccupancy[i,j]-10]);
+				}
+			}
+		}
+	}
+
+	public int getMaxAttack(bool isM){
+		int maxAttack = 0 ; 
+		List<int> ennemis = this.getOpponents(isM);
+		for(int i = 0 ; i < ennemis.Count ; i++){
+			if(this.getCard(ennemis[i]).getAttack()>maxAttack){
+				maxAttack = this.getCard(ennemis[i]).getAttack();
+			}
+		}
+		return maxAttack ;
 	}
 }

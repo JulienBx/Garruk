@@ -104,6 +104,10 @@ public class PerfoTir : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, s.Power+5);
+		if(currentCard.isFou()){
+			damages = Mathf.RoundToInt(1.25f*damages);
+		}
+
 		if(damages>=targetCard.getLife()){
 			score+=200;
 		}

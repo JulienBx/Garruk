@@ -179,4 +179,225 @@ public class LanceFlammes : GameSkill
 		}
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		float bestScore = 0 ;
+		float score ;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int levelMin ;
+		int levelMax ;
+		int playerID ;
+
+		score = 0f;
+		for(int i = t.y-1 ; i>=0 ; i--){
+			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+		}
+		score = 0f;
+		for(int i = t.y+1 ; i<GameView.instance.boardHeight ; i++){
+			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+		}
+		score = 0f;
+		for(int i = t.x-1 ; i>=0 ; i--){
+			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+		}
+		score = 0f;
+		for(int i = t.x+1 ; i<GameView.instance.boardWidth ; i++){
+			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+		}
+
+		if(currentCard.isFou()){
+			int damages = 11-currentCard.Skills[0].Power;
+			if(damages>=currentCard.getLife()){
+				score-=100;
+			}
+			else{
+				score-=damages;
+			}
+		}
+
+		bestScore = bestScore * GameView.instance.IA.getAgressiveFactor() ;
+
+		return (int)bestScore ;
+	}
+
+	public override int getBestChoice(Tile t, Skill s){
+		float bestScore = 0 ;
+		float score ;
+		int bestResult =-1;
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int levelMin ;
+		int levelMax ;
+		int playerID ;
+
+		score = 0f;
+		for(int i = t.y-1 ; i>=0 ; i--){
+			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+			bestResult = 0 ;
+		}
+		score = 0f;
+		for(int i = t.y+1 ; i<GameView.instance.boardHeight ; i++){
+			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+			bestResult = 1 ;
+		}
+		score = 0f;
+		for(int i = t.x-1 ; i>=0 ; i--){
+			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+			bestResult = 2 ;
+		}
+		score = 0f;
+		for(int i = t.x+1 ; i<GameView.instance.boardWidth ; i++){
+			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
+			if(playerID != -1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				if(currentCard.isFou()){
+					levelMin = Mathf.RoundToInt(1.25f*levelMin);
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(score>bestScore){
+			bestScore = score ;
+			bestResult = 3 ;
+		}
+
+		return bestResult ;
+	}
 }

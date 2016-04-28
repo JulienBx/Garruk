@@ -258,7 +258,7 @@ public class PlayingCardController : GameObjectController
 			if(m.amount>0){
 				GameCard targetCard ;
 				if(this.card.isFanatique()){
-					int bonusAttack = this.card.Skills[0].Power;
+					int bonusAttack = 10+2*this.card.Skills[0].Power;
 					bool isFanaMine = this.card.isMine;
 
 					List<int> characters = GameView.instance.getEveryone();
@@ -284,6 +284,18 @@ public class PlayingCardController : GameObjectController
 						GameView.instance.displaySkillEffect(idLauncher, "Armure tech\n-"+bonus+" PV", 0);
 						GameView.instance.addAnim(GameView.instance.getTile(idLauncher), 45);
 					}
+				}
+				int soutien = GameView.instance.hasSoutien(this.card.isMine);
+				if(soutien!=-1){
+					targetCard = GameView.instance.getCard(soutien);
+					int deflectedAmount = Mathf.RoundToInt(m.amount*(targetCard.Skills[0].Power*3f+10f)/100f);
+					m.amount = m.amount - deflectedAmount;
+
+					GameView.instance.getPlayingCardController(soutien).updateLife(targetCard.getLife());
+					GameView.instance.getCard(soutien).damagesModifyers.Add(new Modifyer(deflectedAmount, -1, 49, "Armure tech", ""));
+
+					GameView.instance.displaySkillEffect(soutien, "Absorbe "+deflectedAmount+" dégats", 1);
+					GameView.instance.addAnim(GameView.instance.getTile(soutien), 49);
 				}
 			}
 			if (this.card.getLife()-m.amount<=0){
@@ -729,6 +741,8 @@ public class PlayingCardController : GameObjectController
 	{
 		this.card.checkModifyers();
 		this.show();
+		GameView.instance.getMyHoveredCardController().updateCharacter();
+		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}
 	
 	public bool canBeTargeted()
@@ -789,10 +803,10 @@ public class PlayingCardController : GameObjectController
 	}
 
 	public void checkFantassin(bool toDisplay){
-		if((card.Skills[0].Id == 47)){
+		if((card.Skills[0].Id == 68)){
 			int level = 20+card.Skills[0].Power*4;
 						
-			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 47, "Agile", ". Permanent"));
+			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 68, "Fantassin", ". Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
@@ -803,7 +817,7 @@ public class PlayingCardController : GameObjectController
 	}
 
 	public void checkAguerri(bool toDisplay){
-		if((card.Skills[0].Id == 68)){
+		if((card.Skills[0].Id == 47)){
 			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(-1, -1, 68, "Robuste", ". Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 			int bonusAttack = Mathf.RoundToInt(this.card.getAttack()*(10+10*card.Skills[0].Power)/100f);

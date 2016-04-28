@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Frenesie : GameSkill
+public class Roues : GameSkill
 {
-	public Frenesie()
+	public Roues()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Frénésie";
+		base.name = "Roues";
 		base.ciblage = 0 ;
 		base.auto = true;
 	}
@@ -27,29 +27,22 @@ public class Frenesie : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int level = GameView.instance.getCurrentSkill().Power;
-		int life = Mathf.RoundToInt((0.5f-level*0.05f)*currentCard.getAttack());
+		int malusAttack = Mathf.RoundToInt((0.5f-level*0.05f)*currentCard.getAttack());
 		int target = GameView.instance.getCurrentPlayingCard();
-		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"), true,-1);
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(2,-1,50,base.name,". Permanent"));
+		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, base.name, ". Permanent"));
-		GameView.instance.displaySkillEffect(target, base.name+"\n+5ATK\n-"+damages+"PV", 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 18);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malusAttack, -1, 50, base.name, ". Permanent"));
+		GameView.instance.displaySkillEffect(target, base.name+"\n+2MOV\n-"+malusAttack+"ATK", 1);
+		GameView.instance.addAnim(GameView.instance.getTile(target), 50);
 	}
 
 	public override int getActionScore(Tile t, Skill s){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
-		int score = 10;
-		int life = Mathf.RoundToInt((0.55f-s.Power*0.05f)*currentCard.getAttack());
-		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
-
-		score += Mathf.Min(0,currentCard.getLife()-damages-40);
-
-		if(damages>currentCard.getLife()){
-			score-=100;
-		}
+		int score = 0;
+		score = 10-2*Mathf.RoundToInt((0.5f-s.Power*0.05f)*currentCard.getAttack()) - (currentCard.getMove()-2)*5;
 
 		score = score * GameView.instance.IA.getSoutienFactor() ;
 		return score ;

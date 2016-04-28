@@ -94,7 +94,7 @@ public class Berserk : GameSkill
 			score-=200;
 		}
 		else{
-			score-=Mathf.RoundToInt(ownDamages+Mathf.Max(0,30-(currentCard.getLife()-ownDamages)));
+			score-=Mathf.RoundToInt(2*ownDamages+(40-currentCard.getLife()));
 		}
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

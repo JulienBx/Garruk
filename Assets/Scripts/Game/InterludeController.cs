@@ -100,7 +100,7 @@ public class InterludeController : MonoBehaviour
 			
 			if(!isEndTurn){
 				if(GameView.instance.hasFightStarted){
-					GameView.instance.changePlayer();
+					GameView.instance.changePlayer(-1);
 				}
 				else{
 					GameView.instance.hasFightStarted = true ;
