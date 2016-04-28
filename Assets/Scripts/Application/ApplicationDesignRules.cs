@@ -343,17 +343,17 @@ public class ApplicationDesignRules : MonoBehaviour
 			isMobileDevice=true;
 			if(Application.platform == RuntimePlatform.Android)
 			{
-				scrollCoeficient=1.5f;
+				scrollCoeficient=0.015f;
 			}
 			else
 			{
-				scrollCoeficient=0.5f;
+				scrollCoeficient=0.005f;
 			}
 		}
 		else
 		{
 			isMobileDevice=false;
-			scrollCoeficient=0.005f;
+			scrollCoeficient=0.5f;
 		}
 
 		if(screenRatio<=mobileScreenRatio)
