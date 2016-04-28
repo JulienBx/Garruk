@@ -1431,7 +1431,30 @@ public class WordingSkills
 		probas.Add(75); 
 		probas.Add(80); 
 		probas.Add(85); 
-		probas.Add(90);  
+		probas.Add(90);
+		//61 - Hypnose
+		idSkills.Add(62);
+		names.Add(new string[]{"",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		descriptions.Add(new string[]{"Endort un ennemi",""}); 
+		probas.Add(45); 
+		probas.Add(50); 
+		probas.Add(55); 
+		probas.Add(60); 
+		probas.Add(65); 
+		probas.Add(70); 
+		probas.Add(75); 
+		probas.Add(80); 
+		probas.Add(85); 
+		probas.Add(90);    
 		//63 - Massue
 		idSkills.Add(63);
 		names.Add(new string[]{"Massue","Hammer"}); 

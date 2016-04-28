@@ -125,10 +125,7 @@ public class SkillButtonController : MonoBehaviour
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.gameTutoController.showArrow(false);
 			}
-
-			if(!GameView.instance.isMobile){
-				GameSkills.instance.getSkill(this.skill.Id).launch();
-			}
+			GameSkills.instance.getSkill(this.skill.Id).launch();
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
