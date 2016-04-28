@@ -9,17 +9,18 @@ public class PerfoTir : GameSkill
 		base.name = "PerfoTir";
 		base.ciblage = 3 ;
 		base.auto = false;
+		base.id = 31 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 	
 	public override void resolve(List<Tile> targets)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);

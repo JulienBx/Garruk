@@ -65,7 +65,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [49] = new GameSkill();
 		this.skills [50] = new Roues();
 		this.skills [51] = new GameSkill();
-		this.skills [52] = new GameSkill();
+		this.skills [52] = new Manipulation();
 		this.skills [53] = new GameSkill();
 		this.skills [54] = new GameSkill();
 		this.skills [55] = new GameSkill();
@@ -108,7 +108,7 @@ public class GameSkills : MonoBehaviour
 		this.skills [92] = new Desequilibre();
 		this.skills [93] = new Furie();
 		this.skills [94] = new Poison();
-		this.skills [95] = new GameSkill();
+		this.skills [95] = new Justice();
 		this.skills [96] = new GameSkill();
 		this.skills [97] = new GameSkill();
 		this.skills [98] = new GameSkill();
@@ -121,8 +121,8 @@ public class GameSkills : MonoBehaviour
 		this.skills [105] = new Copieur();
 		this.skills [106] = new Malediction();
 		this.skills [107] = new Miracle();
-		this.skills [108] = new GameSkill();
-		this.skills [109] = new GameSkill();
+		this.skills [108] = new Sacrifice();
+		this.skills [109] = new RageDivine();
 		this.skills [110] = new GameSkill();
 		this.skills [111] = new GameSkill();
 		this.skills [112] = new GameSkill();

@@ -8,17 +8,18 @@ public class Telepiege : GameSkill
 		base.name = "Télépiège";
 		base.ciblage = 6 ;
 		base.auto = false;
+		base.id = 58 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		int amount = GameView.instance.getCurrentSkill().Power;
 		GameController.instance.addTelepiege(amount, targetsTile[0]);
 		GameController.instance.applyOnMe(-1);

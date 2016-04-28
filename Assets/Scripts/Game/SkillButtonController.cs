@@ -68,6 +68,7 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void showDescription(bool b){
+		print("SHOW "+b);
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b ;
@@ -90,25 +91,19 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void OnMouseExit(){
+		if (this.launchabilityText.Length<2){
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+		}
 		if(GameView.instance.isMobile){
-			this.showDescription(false);
+			if(!GameView.instance.getSkillZoneController().isRunningSkill){
+				GameView.instance.hideTargets();
+			}
 		}
 		else{
-			if (this.launchabilityText.Length<2){
-				gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+			if(!GameView.instance.getSkillZoneController().isRunningSkill){
+				GameView.instance.hideTargets();
 			}
-			if(GameView.instance.isMobile){
-				if(!GameView.instance.getSkillZoneController().isRunningSkill){
-					GameView.instance.hideTargets();
-					this.showDescription(false);
-				}
-			}
-			else{
-				if(!GameView.instance.getSkillZoneController().isRunningSkill){
-					GameView.instance.hideTargets();
-				}
-				this.showDescription(false);
-			}
+			this.showDescription(false);
 		}
 	}
 	
@@ -120,7 +115,9 @@ public class SkillButtonController : MonoBehaviour
 			else{
 				gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 				GameView.instance.clickSkillButton(this.id);
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+				GameView.instance.runningSkill = this.skill.Id ;
+
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1)));
 				this.showDescription(true);
 			}
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
@@ -128,7 +125,10 @@ public class SkillButtonController : MonoBehaviour
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.gameTutoController.showArrow(false);
 			}
-			GameSkills.instance.getSkill(this.skill.Id).launch();
+
+			if(!GameView.instance.isMobile){
+				GameSkills.instance.getSkill(this.skill.Id).launch();
+			}
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
@@ -150,7 +150,12 @@ public class SkillButtonController : MonoBehaviour
 			}
 
 			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
-				if(GameView.instance.getTileController(new Tile(x,y)).isDisplayingTarget){
+				if(GameSkills.instance.getCurrentGameSkill().auto){
+					GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
+					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
+					GameView.instance.dropSkillButton(this.id);
+				}
+				else if(GameView.instance.getTileController(new Tile(x,y)).isDisplayingTarget){
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
@@ -159,11 +164,6 @@ public class SkillButtonController : MonoBehaviour
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
 					}
-				}
-				else if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
-					GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
-					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
-					GameView.instance.dropSkillButton(this.id);
 				}
 				else{
 					GameView.instance.dropSkillButton(this.id);

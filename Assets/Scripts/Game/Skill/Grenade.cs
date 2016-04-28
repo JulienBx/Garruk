@@ -9,6 +9,7 @@ public class Grenade : GameSkill
 		base.name = "Grenade";
 		base.ciblage = -2 ;
 		base.auto = true;
+		base.id = 23 ;
 	}
 	
 	public override void launch()
@@ -19,7 +20,7 @@ public class Grenade : GameSkill
 	
 	public override void resolve(List<Tile> targetsTile)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		GameCard targetCard ;
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);

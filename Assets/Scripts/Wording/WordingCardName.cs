@@ -117,5 +117,8 @@ public class WordingCardName
 		idSkills.Add(144);
 		names.Add(new string[]{"Dieu Cristal","Cristal God"});
 
+		//113 - God
+		idSkills.Add(47);
+		names.Add(new string[]{"Blob","Blob"});
 	}
 }

@@ -9,12 +9,13 @@ public class Criderage : GameSkill
 		base.name = "Cri de rage";
 		base.ciblage = 2 ;
 		base.auto = true;
+		base.id = 19 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 	
 	public override void resolve(List<Tile> targets)

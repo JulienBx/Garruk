@@ -8,6 +8,7 @@ public class Vampire : GameSkill
 		base.name = "Vampire";
 		base.ciblage = 16 ;
 		base.auto = true;
+		base.id = 40 ;
 	}
 	
 	public override void launch()
@@ -17,7 +18,7 @@ public class Vampire : GameSkill
 	
 	public override void resolve(List<Tile> targetsP)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryoneNextCristal() ; 
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);

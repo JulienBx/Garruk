@@ -112,11 +112,14 @@ public class GameView : MonoBehaviour
 	public float tileScale;
 
 	public TimerController myTimer, hisTimer;
-	public ArtificialIntelligence IA ; 
+	public ArtificialIntelligence IA ;
+
+	bool areTilesLoaded ; 
 
 	void Awake()
 	{
 		instance = this;
+		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
 		this.initializeServerController();
 		this.displayLoadingScreen ();
@@ -427,22 +430,13 @@ public class GameView : MonoBehaviour
 		this.showStartButton();
 	}
 	
-	public void createTile(int x, int y, int type, bool isFirstP)
+	public void createTile(int x, int y, int type)
 	{
-		Vector3 position ;
-		
 		this.tiles [x, y] = (GameObject)Instantiate(this.tileModel);
 		this.tiles [x, y].GetComponent<TileController>().initTileController(new Tile(x,y), type);
-		
-		if (isFirstP){
-			position = new Vector3((-2.5f+x)*(tileScale), (-3.5f+y)*(tileScale), 0);
+		if(x==boardWidth-1&&y==boardHeight-1){
+			areTilesLoaded = true ;
 		}
-		else{
-			position = new Vector3((2.5f-x)*(tileScale), (3.5f-y)*(tileScale), 0);
-		}
-		
-		Vector3 scale = new Vector3(0.25f*tileScale, 0.25f*tileScale, 0.25f*tileScale);
-		this.tiles [x, y].GetComponent<TileController>().resize(position, scale);
 	}
 	
 	public void createPlayingCard(GameCard c, bool isFirstP)
@@ -460,14 +454,15 @@ public class GameView : MonoBehaviour
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, (isFirstP==isFirstPlayer), index);
 
 		if (!isFirstP){
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur), tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().getPosition());
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(4-c.deckOrder, hauteur));
 			this.tiles [4-c.deckOrder, hauteur].GetComponent<TileController>().setCharacterID(index);
 		}
 		else{
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(1+c.deckOrder, hauteur), tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().getPosition());
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(1+c.deckOrder, hauteur));
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setCharacterID(index);
-
 		}
+
+		this.playingCards [index].GetComponentInChildren<PlayingCardController>().resize();
 
 		if (isFirstP==isFirstPlayer){
 			this.tiles [c.deckOrder + 1, hauteur].GetComponent<TileController>().setDestination(5);
@@ -761,7 +756,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			this.draggingCard=-1;
-			this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+			this.getPlayingCardController(characterID).setTile(t);
 			if(GameView.instance.hasFightStarted){
 				if(!this.getPlayingCardController(characterID).getIsMine()){
 					this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(6);
@@ -854,7 +849,7 @@ public class GameView : MonoBehaviour
 	public void dropCharacter(int characterID){
 		this.draggingCard=-1;
 		Tile t = this.getPlayingCardTile(characterID);
-		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+		this.getPlayingCardController(characterID).setTile(t);
 		if(!hasFightStarted){
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
@@ -868,7 +863,7 @@ public class GameView : MonoBehaviour
 
 	public void dropMobileCharacter(int characterID){
 		Tile t = this.getPlayingCardTile(characterID);
-		this.getPlayingCardController(characterID).setTile(t, tiles [t.x, t.y].GetComponent<TileController>().getPosition());
+		this.getPlayingCardController(characterID).setTile(t);
 		if(!hasFightStarted){
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
@@ -1046,6 +1041,9 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
+			GameObject tempGO = GameObject.Find("mainLogo");
+			tempGO.GetComponent<SpriteRenderer>().enabled = false ;
+		
 			this.launchEndTurnEffects();
 		}
 	}
@@ -1605,7 +1603,7 @@ public class GameView : MonoBehaviour
 			this.getMyHoveredCardController().addTime(Time.deltaTime);
 		}
 		
-		if(this.getMyHoveredCardController().getIsRunning()){
+		if(this.getMyHoveredCardController().getIsRunning() && !this.isMobile){
 			this.getMyHoveredCardController().addTimeC(Time.deltaTime);
 		}
 		
@@ -1613,7 +1611,7 @@ public class GameView : MonoBehaviour
 			this.getHisHoveredCardController().addTime(Time.deltaTime);
 		}
 		
-		if(this.getHisHoveredCardController().getIsRunning()){
+		if(this.getHisHoveredCardController().getIsRunning() && !this.isMobile){
 			this.getHisHoveredCardController().addTimeC(Time.deltaTime);
 		}
 
@@ -1768,7 +1766,15 @@ public class GameView : MonoBehaviour
 		
 		GameObject tempGO = GameObject.Find("MyPlayerBox");
 		position = tempGO.transform.position ;
-		position.x = -0.5f*this.realwidth;
+		if(this.isMobile){
+			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = false ;
+			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = false ;
+		}
+		else{
+			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = true ;
+			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
+		}
+		position.x=-realwidth/2f;
 		tempGO.transform.position = position;
 		tempGO.transform.FindChild("MyPlayerName").GetComponent<TextContainer>().width = realwidth/2f-4 ;
 		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(realwidth/2f-4f,0f,0f) ;
@@ -1779,6 +1785,28 @@ public class GameView : MonoBehaviour
 		tempGO.transform.position = position;
 		tempGO.GetComponent<TextContainer>().width = realwidth/2f-4 ;
 		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(-realwidth/2f+4f,0f,0f) ;
+		if(this.isMobile){
+			tempGO.GetComponent<MeshRenderer>().enabled = false ;
+		}
+		else{
+			tempGO.GetComponent<MeshRenderer>().enabled = true ;
+		}
+
+		tempGO = GameObject.Find("mainLogo");
+		position = tempGO.transform.position ;
+		position.y = 2.5f+2*tileScale;
+		tempGO.transform.position = position;
+		if(this.hasFightStarted){
+			tempGO.GetComponent<SpriteRenderer>().enabled = false ;
+		}
+		else{
+			tempGO.GetComponent<SpriteRenderer>().enabled = true ;
+		}
+
+		tempGO = GameObject.Find("SB");
+		position = tempGO.transform.position ;
+		position.y = -2.5f-2*tileScale;
+		tempGO.transform.position = position;
 
 		tempTransform = this.interlude.transform.FindChild("Bar1");
 		scale = tempTransform.transform.localScale ;
@@ -1835,10 +1863,30 @@ public class GameView : MonoBehaviour
 		this.getMyHoveredCardController().resize(realwidth, tileScale);
 		this.getHisHoveredCardController().resize(realwidth, tileScale);
 		this.interlude.GetComponent<InterludeController>().resize(realwidth);
+
+		if(this.areTilesLoaded){
+			for(int i = 0 ; i < boardWidth ; i++){
+				for(int j = 0 ; j < boardHeight ; j++){
+					this.getTileController(i,j).resize();
+				}
+			}
+			for(int i = 0 ; i < this.nbCards ; i++){
+				this.getPlayingCardController(i).resize();
+			}
+		}
 	}
 	
 	public void hitExternalCollider(){
 		GameView.instance.hoverTile();
+
+		if(GameView.instance.isMobile){
+			if(GameView.instance.draggingSkillButton!=-1){
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
+			}
+		}
 	}
 	
 	public int getNbPlayingCards(){
@@ -3281,12 +3329,12 @@ public class GameView : MonoBehaviour
 		}
 		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, true, index);
 		if ((isFirstP==isFirstPlayer)){
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), tiles [x,y].GetComponent<TileController>().getPosition());
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y));
 			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [x,y].GetComponent<TileController>().setDestination(5);
 		}
 		else{
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y), tiles [x,y].GetComponent<TileController>().getPosition());
+			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y));
 			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
 			this.tiles [x,y].GetComponent<TileController>().setDestination(6);
 		}
@@ -3441,7 +3489,6 @@ public class GameView : MonoBehaviour
 
 	public void clickSkillButton(int i){
 		this.draggingSkillButton=i;
-
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showCollider(false);
 	}
 
@@ -3468,10 +3515,12 @@ public class GameView : MonoBehaviour
 	}
 
 	public void cancelSkill(){
-		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 		this.getSkillZoneController().isRunningSkill = false ;
 		this.runningSkill = -1;
 		this.hoveringZone = -1;
+		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
+		GameView.instance.passZone.GetComponent<PassController>().setLaunchability("");
+		GameView.instance.passZone.GetComponent<PassController>().show(true);
 	}
 
 	public List<Tile> getAllTilesWithin(Tile t, int r){

@@ -13,6 +13,7 @@ public class GameSkill
 	
 	public int ciblage ;
 	public bool auto ;
+	public int id ;
 	
 	public virtual void init(Skill s){
 		this.targets = new List<int>();
@@ -184,8 +185,9 @@ public class GameSkill
 		return launchability ;
 	}
 
-	public virtual void displayTargets(Tile t)
+	public virtual void displayTargets()
 	{
+		Tile t = GameView.instance.getCurrentCardTile();
 		GameCard gc = GameView.instance.getCurrentCard();
 		Skill s = GameView.instance.getCurrentSkill();
 
@@ -194,7 +196,7 @@ public class GameSkill
 			Tile t2 = targets[i];
 			GameView.instance.targets.Add(t2);
 			GameView.instance.getTileController(t2.x,t2.y).displayTarget(true);
-			GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(GameView.instance.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileCharacterID(targets[i].x,targets[i].y)));	
+			GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(this.id).name, GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileCharacterID(targets[i].x,targets[i].y)));	
 		}		
 	}
 

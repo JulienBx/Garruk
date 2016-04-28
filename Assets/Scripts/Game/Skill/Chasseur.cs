@@ -9,6 +9,7 @@ public class Chasseur : GameSkill
 		base.name = "Chasseur";
 		base.ciblage = 12 ;
 		base.auto = true;
+		base.id = 131 ;
 	}
 	
 	public override void launch()
@@ -17,7 +18,7 @@ public class Chasseur : GameSkill
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Chasseur", "Choisis une faction. L'unité active recevra un bonus contre les unités de cette faction");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 	
 	public override void resolve(List<Tile> target)

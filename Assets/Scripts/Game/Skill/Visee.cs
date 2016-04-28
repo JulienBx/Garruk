@@ -9,6 +9,7 @@ public class Visee : GameSkill
 		base.name = "Visee";
 		base.ciblage = 0 ;
 		base.auto = true;
+		base.id = 25 ;
 	}
 
 	public override void launch()
@@ -18,7 +19,7 @@ public class Visee : GameSkill
 
 	public override void resolve(List<Tile> targets)
 	{	                     
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}

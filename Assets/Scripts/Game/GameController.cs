@@ -20,7 +20,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
-		GameView.instance.createTile(x, y, type, GameView.instance.getIsFirstPlayer());
+		GameView.instance.createTile(x, y, type);
 	}
 
 	public void launchCardCreation(){

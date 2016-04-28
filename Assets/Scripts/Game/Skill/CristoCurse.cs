@@ -8,17 +8,18 @@ public class CristoCurse : GameSkill
 		base.name = "CristoCurse";
 		base.ciblage = 9 ;
 		base.auto = false;
+		base.id = 41 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 
 	public override void resolve(List<Tile> targetsP)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targetsP[0].x, targetsP[0].y);
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())

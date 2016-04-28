@@ -94,11 +94,22 @@ public class TileController : GameObjectController
 			this.showRock();
 		}
 		gameObject.name = "Tile " + (t.x) + "-" + (t.y);
+		this.resize();
 	}
 	
-	public void resize(Vector3 p, Vector3 s){
-		gameObject.transform.position = p ;
-		gameObject.transform.localScale = s ;
+	public void resize(){
+		Vector3 position ;
+		if (GameView.instance.getIsFirstPlayer()){
+			position = new Vector3((-2.5f+this.tile.x)*(GameView.instance.tileScale), (-3.5f+this.tile.y)*(GameView.instance.tileScale), 0);
+		}
+		else{
+			position = new Vector3((2.5f-this.tile.x)*(GameView.instance.tileScale), (3.5f-this.tile.y)*(GameView.instance.tileScale), 0);
+		}
+		
+		Vector3 scale = new Vector3(0.25f*GameView.instance.tileScale, 0.25f*GameView.instance.tileScale, 0.25f*GameView.instance.tileScale);
+
+		gameObject.transform.position = position ;
+		gameObject.transform.localScale = scale ;
 	}
 	
 	public void setTrap(Trap t){
@@ -292,7 +303,7 @@ public class TileController : GameObjectController
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 					}
 					else{
-						if(GameSkills.instance.getCurrentGameSkill().ciblage==0){
+						if(GameSkills.instance.getCurrentGameSkill().auto){
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 						}
 						else{

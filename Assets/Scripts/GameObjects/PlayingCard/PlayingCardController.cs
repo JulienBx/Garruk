@@ -536,11 +536,22 @@ public class PlayingCardController : GameObjectController
 		}
 	}
 
-	public void setTile(Tile t, Vector3 p)
+	public void setTile(Tile t)
 	{
 		this.tile = t;
+		this.adjustPosition();
+	}
+
+	public void adjustPosition(){
+		Vector3 p = GameView.instance.getTileController(this.tile).getPosition();
 		p.z = -0.5f;
+
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+	}
+
+	public void resize(){
+		gameObject.transform.localScale = new Vector3(GameView.instance.tileScale,GameView.instance.tileScale,GameView.instance.tileScale);
+		this.adjustPosition();
 	}
 
 	public void setPosition(Vector3 p){
@@ -689,7 +700,7 @@ public class PlayingCardController : GameObjectController
 		while(GameView.instance.getTileController(t).getCharacterID()!=-1){
 			t = new Tile(Random.Range(0, GameView.instance.boardWidth),Random.Range(0, GameView.instance.boardHeight));
 		}
-		this.setTile(t, GameView.instance.getTileController(t).getPosition());
+		this.setTile(t);
 		GameView.instance.getTileController(t).setCharacterID(this.id);
 		GameView.instance.recalculateDestinations();
 

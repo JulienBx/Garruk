@@ -1088,18 +1088,18 @@ public class WordingSkills
 		probas.Add(0); 
 		probas.Add(0); 
 		//47 - Blindé
-		idSkills.Add(68);
-		names.Add(new string[]{"Fantassin","Infantry"}); 
-		descriptions.Add(new string[]{"Esquive de 24% aux compétences à distance","24% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 28% aux compétences à distance","28% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 32% aux compétences à distance","32% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 36% aux compétences à distance","36% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 40% aux compétences à distance","40% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 44% aux compétences à distance","44% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 48% aux compétences à distance","48% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 52% aux compétences à distance","52% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 56% aux compétences à distance","56% chances of dodging distant skills"}); 
-		descriptions.Add(new string[]{"Esquive de 60% aux compétences à distance","60 % chances of dodging distant skills"}); 
+		idSkills.Add(47);
+		names.Add(new string[]{"Robuste","Strong"}); 
+		descriptions.Add(new string[]{"+020%ATK ATK et malus de 1 MOV","+020%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+030%ATK ATK et malus de 1 MOV","+030%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+040%ATK ATK et malus de 1 MOV","+040%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+050%ATK ATK et malus de 1 MOV","+050%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+060%ATK ATK et malus de 1 MOV","+060%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+070%ATK ATK et malus de 1 MOV","+070%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+080%ATK ATK et malus de 1 MOV","+080%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+090%ATK ATK et malus de 1 MOV","+090%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+100%ATK ATK et malus de 1 MOV","+100%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		descriptions.Add(new string[]{"+110%ATK ATK et malus de 1 MOV","+110%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -1109,7 +1109,7 @@ public class WordingSkills
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
-		probas.Add(100); 
+		probas.Add(100);
 		//48 - Drone
 		idSkills.Add(48);
 		names.Add(new string[]{"Humaphobe","Human Hunter"}); 
@@ -1205,7 +1205,7 @@ public class WordingSkills
 		//52 - Illusion
 		idSkills.Add(52);
 		names.Add(new string[]{"Manipulation","Manipulation"}); 
-		descriptions.Add(new string[]{"Prends le contrôle d'une unité alliée ce tour-ci"}); 
+		descriptions.Add(new string[]{"Prends le contrôle d'une unité alliée ce tour-ci", "Prends le contrôle d'une unité alliée ce tour-ci"}); 
 		descriptions.Add(new string[]{"Crée [1-2] copies (1PV) de soi-même et se cache parmi elles","Creates 1 copy of itself and hides amongst them"}); 
 		descriptions.Add(new string[]{"Crée [1-2] copies (1PV) de soi-même et se cache parmi elles","Creates 1 copy of itself and hides amongst them"}); 
 		descriptions.Add(new string[]{"Crée [1-4] copies (1PV) de soi-même et se cache parmi elles","Creates 1 copy of itself and hides amongst them"}); 
@@ -1548,18 +1548,18 @@ public class WordingSkills
 		probas.Add(100); 
 		probas.Add(100);  
 		//68 - Aguerri
-		idSkills.Add(47);
-		names.Add(new string[]{"Robuste","Strong"}); 
-		descriptions.Add(new string[]{"+020%ATK ATK et malus de 1 MOV","+020%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+030%ATK ATK et malus de 1 MOV","+030%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+040%ATK ATK et malus de 1 MOV","+040%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+050%ATK ATK et malus de 1 MOV","+050%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+060%ATK ATK et malus de 1 MOV","+060%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+070%ATK ATK et malus de 1 MOV","+070%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+080%ATK ATK et malus de 1 MOV","+080%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+090%ATK ATK et malus de 1 MOV","+090%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+100%ATK ATK et malus de 1 MOV","+100%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
-		descriptions.Add(new string[]{"+110%ATK ATK et malus de 1 MOV","+110%ATK ATK Bonus and -1 MOV Malus. Permanent effects"}); 
+		idSkills.Add(68);
+		names.Add(new string[]{"Fantassin","Infantry"}); 
+		descriptions.Add(new string[]{"Esquive de 24% aux compétences à distance","24% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 28% aux compétences à distance","28% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 32% aux compétences à distance","32% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 36% aux compétences à distance","36% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 40% aux compétences à distance","40% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 44% aux compétences à distance","44% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 48% aux compétences à distance","48% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 52% aux compétences à distance","52% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 56% aux compétences à distance","56% chances of dodging distant skills"}); 
+		descriptions.Add(new string[]{"Esquive de 60% aux compétences à distance","60% chances of dodging distant skills"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -1569,7 +1569,7 @@ public class WordingSkills
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
-		probas.Add(100);  
+		probas.Add(100); 
 		//69 - Frénétique
 		idSkills.Add(69);
 		names.Add(new string[]{"Frénétique","Berserk"}); 

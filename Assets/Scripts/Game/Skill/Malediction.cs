@@ -9,6 +9,7 @@ public class Malediction : GameSkill
 		base.name = "Malédiction";
 		base.ciblage = 12 ;
 		base.auto = true;
+		base.id = 106 ;
 	}
 	
 	public override void launch()
@@ -17,7 +18,7 @@ public class Malediction : GameSkill
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Malédiction", "Choisis une faction. Les unités de cette faction recevront un malus d'attaque");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 
 	public override void resolve(List<Tile> targets)

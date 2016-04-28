@@ -9,17 +9,18 @@ public class Senilite : GameSkill
 		base.name = "Sénilité";
 		base.ciblage = 3 ; 
 		base.auto = false;
+		base.id = 57 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 	
 	public override void resolve(List<Tile> targets)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int max = 2 * GameView.instance.getCurrentSkill().Power+5;

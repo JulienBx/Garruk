@@ -9,12 +9,13 @@ public class Miracle : GameSkill
 		base.name = "Miracle";
 		base.ciblage = 0 ;
 		base.auto = true;
+		base.id = 107 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name,  WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 	
 	public override void resolve(List<Tile> targetsP)

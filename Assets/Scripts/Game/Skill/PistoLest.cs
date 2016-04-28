@@ -9,17 +9,18 @@ public class PistoLest : GameSkill
 		base.name = "PistoLest";
 		base.ciblage = 3 ;
 		base.auto = false;
+		base.id = 5 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 	
 	public override void resolve(List<Tile> targets)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;

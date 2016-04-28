@@ -9,6 +9,7 @@ public class LanceFlammes : GameSkill
 		base.name = "Lanceflammes";
 		base.ciblage = -2 ;
 		base.auto = true;
+		base.id = 27 ;
 	}
 	
 	public override void launch()
@@ -19,7 +20,7 @@ public class LanceFlammes : GameSkill
 	
 	public override void resolve(List<Tile> targetsTile)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 		Tile tile = targetsTile[0];

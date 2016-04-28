@@ -9,6 +9,7 @@ public class Renaissance : GameSkill
 		base.name = "Renaissance";
 		base.ciblage = 17 ;
 		base.auto = true;
+		base.id = 100 ;
 	}
 	
 	public override void launch()
@@ -17,7 +18,7 @@ public class Renaissance : GameSkill
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Renaissance", "Choisissez une unité à ressusciter, elle réapparaitra à l'endroit de sa mort");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 	
 	public override void resolve(List<Tile> targets)

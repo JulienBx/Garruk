@@ -9,12 +9,13 @@ public class Sermon : GameSkill
 		base.name = "Sermon";
 		base.ciblage = 12 ;
 		base.auto = true;
+		base.id = 102 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 	}
 	
 	public override void resolve(List<Tile> targets)

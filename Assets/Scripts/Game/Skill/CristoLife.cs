@@ -9,17 +9,18 @@ public class Cristolife : GameSkill
 		base.name = "CristoLife";
 		base.ciblage = 11 ;
 		base.auto = false;
+		base.id = 129 ;
 	}
 	
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		this.displayTargets(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		this.displayTargets();
 	}
 	
 	public override void resolve(List<Tile> targetsPCC)
 	{	
-		GameController.instance.play(GameView.instance.runningSkill);
+		GameController.instance.play(this.id);
 		Tile target = targetsPCC[0];
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int level = GameView.instance.getCurrentSkill().Power;
