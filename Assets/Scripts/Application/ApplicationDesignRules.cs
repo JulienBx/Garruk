@@ -405,6 +405,12 @@ public class ApplicationDesignRules : MonoBehaviour
 			subMainTitleVerticalSpacing=0.95f;
 			gapBetweenCardsLine = 0.1f;
 			divisionIconDistance=new Vector3(0.3f,-0.3f,0f);
+
+            float focusedCardScale=.62590599f;
+            cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+
+            float skillFocusedScale=.62590599f;
+            focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale, skillFocusedScale);
 		}
 		else
 		{
@@ -432,6 +438,29 @@ public class ApplicationDesignRules : MonoBehaviour
 			buttonVerticalSpacing=0.2f;
 			gapBetweenCardsLine = 0.25f;
 			divisionIconDistance=new Vector3(0.2f,-0.2f,0f);
+
+            cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
+            float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
+            cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+            if(worldWidth-leftMargin-rightMargin<focusedCardScale*(cardFocusedSize.x/pixelPerUnit))
+            {
+                cardFocusedWorldSize.x = worldWidth - leftMargin - rightMargin;
+                focusedCardScale = cardFocusedWorldSize.x / (cardFocusedSize.x / pixelPerUnit);
+                cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
+            }
+
+            cardFocusedWorldSize = toWorldSize (cardFocusedSize, cardFocusedScale);
+
+            focusedSkillWorldSize.y = worldHeight - upMargin - downMargin;
+            float skillFocusedScale = focusedSkillWorldSize.y / (focusedSkillSize.y / pixelPerUnit);
+            focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale, skillFocusedScale);
+            if(worldWidth-leftMargin-rightMargin<skillFocusedScale*(focusedSkillSize.x/pixelPerUnit))
+            {
+                focusedSkillWorldSize.x = worldWidth - leftMargin - rightMargin;
+                skillFocusedScale = focusedSkillWorldSize.x / (focusedSkillSize.x / pixelPerUnit);
+                focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale,skillFocusedScale);
+            }
+
 		}
 
 		largeBlockHeight = 10f - upMargin - downMargin;
@@ -439,31 +468,7 @@ public class ApplicationDesignRules : MonoBehaviour
 		smallBlockHeight = (10f-upMargin-downMargin-gapBetweenBlocks)*(2.2f/5f);
 
 		
-		cardFocusedWorldSize.y = worldHeight - upMargin - downMargin;
-		float focusedCardScale = cardFocusedWorldSize.y / (cardFocusedSize.y / pixelPerUnit);
-        focusedCardScale=.62590599f;
-		cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
-		if(worldWidth-leftMargin-rightMargin<focusedCardScale*(cardFocusedSize.x/pixelPerUnit))
-		{
-			cardFocusedWorldSize.x = worldWidth - leftMargin - rightMargin;
-			focusedCardScale = cardFocusedWorldSize.x / (cardFocusedSize.x / pixelPerUnit);
-            focusedCardScale=.62590599f;
-			cardFocusedScale = new Vector3 (focusedCardScale, focusedCardScale, focusedCardScale);
-		}
 
-		cardFocusedWorldSize = toWorldSize (cardFocusedSize, cardFocusedScale);
-
-		focusedSkillWorldSize.y = worldHeight - upMargin - downMargin;
-		float skillFocusedScale = focusedSkillWorldSize.y / (focusedSkillSize.y / pixelPerUnit);
-        skillFocusedScale=.62590599f;
-		focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale, skillFocusedScale);
-		if(worldWidth-leftMargin-rightMargin<skillFocusedScale*(focusedSkillSize.x/pixelPerUnit))
-		{
-			focusedSkillWorldSize.x = worldWidth - leftMargin - rightMargin;
-			skillFocusedScale = focusedSkillWorldSize.x / (focusedSkillSize.x / pixelPerUnit);
-            skillFocusedScale=.62590599f;
-			focusedSkillScale = new Vector3 (skillFocusedScale, skillFocusedScale,skillFocusedScale);
-		}
 
 		focusedCardPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
 		focusedSkillPosition = new Vector3 (0f, -200f - (upMargin - downMargin)/2f, 0f);
