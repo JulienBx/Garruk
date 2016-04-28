@@ -90,7 +90,7 @@ public class ScrollingController : MonoBehaviour
 		float scroll = Input.GetAxis("Mouse ScrollWheel");
 		if(scroll !=0)
 		{
-			float step = scroll * 0.5f;
+			float step = scroll * ApplicationDesignRules.scrollCoeficient;
 			this.setCameraPosition(step);
 			return true;
 		}
@@ -99,7 +99,7 @@ public class ScrollingController : MonoBehaviour
 			Touch touch = Input.touches[0];
 			if (touch.phase == TouchPhase.Moved)
 			{
-				float step = -touch.deltaPosition.y*0.005f;
+				float step = -touch.deltaPosition.y*ApplicationDesignRules.scrollCoeficient;
 				this.setCameraPosition(step);
 				return true;
 			}

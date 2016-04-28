@@ -33,6 +33,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float mediumBlockHeight;
 	static public float smallBlockHeight;
 	static public float gapBetweenBlocks=0.05f;
+	static public float scrollCoeficient;
 	static public Color blackColor=new Color(0f,0f,0f);
 	static public Color blueColor=new Color(75f/255f,163f/255f,174f/255f);
 	static public Color redColor = new Color (218f / 255f, 70f / 255f, 70f / 255f);
@@ -340,10 +341,19 @@ public class ApplicationDesignRules : MonoBehaviour
 		if(SystemInfo.deviceType==DeviceType.Handheld)
 		{
 			isMobileDevice=true;
+			if(Application.platform == RuntimePlatform.Android)
+			{
+				scrollCoeficient=1.5f;
+			}
+			else
+			{
+				scrollCoeficient=0.5f;
+			}
 		}
 		else
 		{
 			isMobileDevice=false;
+			scrollCoeficient=0.005f;
 		}
 
 		if(screenRatio<=mobileScreenRatio)
