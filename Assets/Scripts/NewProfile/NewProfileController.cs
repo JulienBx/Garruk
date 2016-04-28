@@ -1037,7 +1037,7 @@ public class NewProfileController : MonoBehaviour
 			}
 			for(int i=0;i<this.profileInformations.Length;i++)
 			{
-				this.profileInformations[i].GetComponent<TextContainer>().width=profileBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-2f*ApplicationDesignRules.roundButtonWorldSize.x-ApplicationDesignRules.profilePictureWorldSize.x - 0.3f;
+				this.profileInformations[i].GetComponent<TextContainer>().width=profileBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing-3f*ApplicationDesignRules.roundButtonWorldSize.x-ApplicationDesignRules.profilePictureWorldSize.x - 0.3f;
 			}
 		}
 		this.searchBar.GetComponent<NewProfileSearchBarController>().resize();
