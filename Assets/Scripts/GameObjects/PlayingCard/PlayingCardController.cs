@@ -193,11 +193,11 @@ public class PlayingCardController : GameObjectController
 		}
 		else{
 			if (this.isGettingBigger){
-				float f = 1f + 0.2f * (this.timerSelection/this.selectionTime);
+				float f = GameView.instance.tileScale + 0.2f * (this.timerSelection/this.selectionTime);
 				gameObject.transform.localScale = new Vector3(f, f, f) ;
 			}
 			else {
-				float f = 1.2f - 0.2f * (this.timerSelection/this.selectionTime);
+				float f = GameView.instance.tileScale + 0.2f - 0.2f * (this.timerSelection/this.selectionTime);
 				gameObject.transform.localScale = new Vector3(f, f, f) ;
 			}
 		}
