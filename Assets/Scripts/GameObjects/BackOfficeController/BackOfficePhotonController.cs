@@ -14,8 +14,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	private int nbPlayersInRoom;
 	private int deckLoaded;
 	float waitingTime = 0f ; 
-	float limitTime = 5f ;
+	float limitTime = 2f ;
 	bool isWaiting ;
+	public AsyncOperation async ;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -84,8 +85,19 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		if(ApplicationModel.player.ChosenGameType<=20)
 		{
 			this.isWaiting = true ;
+			this.startLoadingScene();
 		}
 		yield break;
+	}
+
+	public void startLoadingScene(){
+		StartCoroutine("loadGame");
+	}
+
+	IEnumerator loadGame(){
+		this.async = SceneManager.LoadSceneAsync("Game");
+		this.async.allowSceneActivation = false ;
+		yield return async ;
 	}
 	
 	void OnJoinedRoom()
@@ -166,6 +178,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.hastLostConnection=true;
 		}
+		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(PhotonNetwork.room.name));
 		SceneManager.LoadScene("Authentication");
 	}
 	private void CreateTutorialDeck()

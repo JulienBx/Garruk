@@ -8,7 +8,6 @@ public class GameSkills : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		GameView.instance.readyToSkill();
 	}
 
 	public void initialize(){

@@ -243,7 +243,8 @@ public class LoadingScreenController : MonoBehaviour
 			}
 			if(isOver)
 			{
-				SceneManager.LoadScene("Game");
+				BackOfficeController.instance.photon.async.allowSceneActivation = true ;
+				toRewindPreMatchLoadingScreen = false ;
 			}
 		}
 		if(this.toShowLoading)
@@ -253,6 +254,7 @@ public class LoadingScreenController : MonoBehaviour
 			this.gameObject.transform.FindChild("loadingCircle").transform.rotation = target;
 		}
 	}
+
 	public void changeLoadingScreenLabel(string label)
 	{
 		this.gameObject.transform.FindChild ("title").GetComponent<TextMeshPro> ().text = label;

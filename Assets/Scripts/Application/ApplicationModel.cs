@@ -22,7 +22,7 @@ public class ApplicationModel
 
 	static public string myPlayerName; // A voir si on le met pas dans player ?
 	static public string hisPlayerName; // A voir si on le met pas dans un objet user ?
-
+	static public int hisPlayerID;
     static public int hisRankingPoints;
 
 	static public float volBackOfficeFx;
@@ -38,6 +38,8 @@ public class ApplicationModel
     static readonly string PasswordHash = "4sA4rQtdpgLMxCGJ";
     static readonly string SaltKey = "7MScM011s1C07n77";
     static readonly string VIKey = "ijA55x1s4mH2X792";
+
+    static public float timeAppModel ;
 
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
 	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial

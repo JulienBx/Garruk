@@ -23,7 +23,6 @@ public class GameView : MonoBehaviour
 	public Sprite[] skillSprites;
 	public Sprite[] skillTypeSprites;
 	public Sprite[] cardTypeSprites;
-	public Sprite[] iconSprites;
 
 	public int boardWidth ;
 	public int boardHeight ;
@@ -119,12 +118,17 @@ public class GameView : MonoBehaviour
 
 	void Awake()
 	{
-		Destroy(GameObject.Find("BackOfficeController"));
-		//GameObject.Find("BackOfficeController").SetActive(false);
+
+	}
+
+	void Start()
+	{
 		this.init();
 	}
 
 	public void init(){
+		print(Time.realtimeSinceStartup-ApplicationModel.timeAppModel);
+
 		instance = this;		
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
@@ -157,6 +161,7 @@ public class GameView : MonoBehaviour
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
 		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
 		this.runningSkill=-1;
+		this.isGameskillOK = true ;
 		this.createBackground();
 		this.targets = new List<Tile>();
 		this.skillEffects = new List<Tile>();
@@ -183,6 +188,8 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
 		this.IA = GameObject.Find("Main Camera").GetComponent<ArtificialIntelligence>();
+		print(Time.realtimeSinceStartup-ApplicationModel.timeAppModel);
+
 	}
 
 	private void initializeServerController()
@@ -1539,10 +1546,6 @@ public class GameView : MonoBehaviour
 	public void displayCurrentMove(){
 		this.displayDestinations(this.currentPlayingCard);
 	}
-
-	public void readyToSkill(){
-		this.isGameskillOK = true ;
-	} 
 	
 	void Update()
 	{
@@ -1659,10 +1662,6 @@ public class GameView : MonoBehaviour
 	
 	public Sprite getSprite(int i){
 		return this.sprites[i];
-	}
-
-	public Sprite getIconSprite(int i){
-		return this.iconSprites[i];
 	}
 
 	public Sprite getFactionSprite(int i){
@@ -2724,7 +2723,7 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public IEnumerator sendStat(string user1, string user2, int rankingPoints1, int rankingPoints2, int gameType, int percentageTotalDamages, int currentGameid, bool hasWon, bool connectionLost)
+	public IEnumerator sendStat(string idUser1, string idUser2, int rankingPoints1, int rankingPoints2, int gameType, int percentageTotalDamages, int currentGameid, bool hasWon, bool connectionLost)
 	{
         int hasWonInt = 0;
         if(hasWon)
@@ -2739,8 +2738,8 @@ public class GameView : MonoBehaviour
 		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick1", user1); 	                    // Pseudo de l'utilisateur victorieux
-		form.AddField("myform_nick2", user2); 	                    // Pseudo de l'autre utilisateur
+		form.AddField("myform_nick1", idUser1); 	                    // Pseudo de l'utilisateur victorieux
+		form.AddField("myform_nick2", idUser2); 	                    // Pseudo de l'autre utilisateur
         form.AddField("myform_rp1", rankingPoints1);                       // Pseudo de l'utilisateur victorieux
         form.AddField("myform_rp2", rankingPoints2);
 		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType);

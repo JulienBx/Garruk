@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class BackOfficeController : MonoBehaviour 
 {
 	public static BackOfficeController instance;
-	private BackOfficePhotonController photon;
+	public BackOfficePhotonController photon;
 	private BackOfficeRessources ressources;
 
 	private GameObject loadingScreen;
