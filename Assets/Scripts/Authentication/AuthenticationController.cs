@@ -912,25 +912,25 @@ public class AuthenticationController : Photon.MonoBehaviour
 			switch(ApplicationModel.player.TutorialStep)
 			{
 			case 0:
-				SceneManager.LoadScene("Tutorial");	
+                BackOfficeController.instance.loadScene("Tutorial");	
 				break;
 			case 1:
 				StartCoroutine(BackOfficeController.instance.joinTutorialGame());
 				break;
 			case 2: case 3:
-				SceneManager.LoadScene("NewHomePage");	
+				BackOfficeController.instance.loadScene("NewHomePage");	
 				break;
 			case 4:
-				SceneManager.LoadScene("NewStore");
+				BackOfficeController.instance.loadScene("NewStore");
 				break;
 			case 5:
-				SceneManager.LoadScene("newMyGame");
+				BackOfficeController.instance.loadScene("newMyGame");
 				break;
 			case 6:
-				SceneManager.LoadScene("NewHomePage");	
+				BackOfficeController.instance.loadScene("NewHomePage");	
 				break;
 			default:
-				SceneManager.LoadScene("NewHomePage");
+				BackOfficeController.instance.loadScene("NewHomePage");
 				break;
 			}
 		}

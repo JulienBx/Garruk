@@ -321,28 +321,28 @@ public class MenuController : MonoBehaviour
 	}
 	public void homePageLink()
 	{
-		SceneManager.LoadScene("NewHomePage");
+        BackOfficeController.instance.loadScene("NewHomePage");
 	}
 	public void profileLink() 
 	{
 		SoundController.instance.playSound(10);
-		SceneManager.LoadScene("NewProfile");
+        BackOfficeController.instance.loadScene("NewProfile");
 	}
 	public void myGameLink() 
 	{
-		SceneManager.LoadScene("newMyGame");
+        BackOfficeController.instance.loadScene("newMyGame");
 	}
 	public void marketLink() 
 	{
-		SceneManager.LoadScene("newMarket");
+        BackOfficeController.instance.loadScene("newMarket");
 	}
 	public void skillBookLink() 
 	{
-		SceneManager.LoadScene("NewSkillBook");
+        BackOfficeController.instance.loadScene("NewSkillBook");
 	}
 	public void storeLink() 
 	{
-		SceneManager.LoadScene("newStore");
+        BackOfficeController.instance.loadScene("newStore");
 	}
 	public void playLink() 
 	{
@@ -350,7 +350,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void adminBoardLink() 
 	{
-		SceneManager.LoadScene("AdminBoard");
+        BackOfficeController.instance.loadScene("AdminBoard");
 	}
 	public void changeThumbPicture()
 	{

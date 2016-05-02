@@ -40,7 +40,7 @@ public class SearchUsersPopUpUserController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		ApplicationModel.player.ProfileChosen = gameObject.transform.FindChild ("Username").GetComponent<TextMeshPro> ().text;
-		SceneManager.LoadScene ("NewProfile");	
+        BackOfficeController.instance.loadScene("NewProfile");	
 	}
 	public void show()
 	{

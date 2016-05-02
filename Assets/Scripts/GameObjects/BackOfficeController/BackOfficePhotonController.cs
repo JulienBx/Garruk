@@ -178,8 +178,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.hastLostConnection=true;
 		}
-		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(PhotonNetwork.room.name));
-		SceneManager.LoadScene("Authentication");
+        if(SceneManager.GetActiveScene().name=="Game")
+        {
+		    PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(PhotonNetwork.room.name));
+        }
+        BackOfficeController.instance.loadScene("Authentication");
 	}
 	private void CreateTutorialDeck()
 	{

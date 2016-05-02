@@ -46,6 +46,8 @@ public class BackOfficeController : MonoBehaviour
 	private float collectionPointsTimer;
 	private float refreshInterval;
 
+    private AsyncOperation async;
+
 	public virtual void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.Return)) 
@@ -749,6 +751,17 @@ public class BackOfficeController : MonoBehaviour
 	{
 		return isToolTipDisplayed;
 	}
+    public void loadScene(string sceneName)
+    {
+        StartCoroutine(this.preLoadScene(sceneName));
+        this.displayLoadingScreen();
+    }
+    private IEnumerator preLoadScene(string sceneName) 
+    {
+         async = Application.LoadLevelAsync(sceneName);
+         async.allowSceneActivation = true;
+         yield return async;
+     }
 	#region TUTORIAL FUNCTIONS
 
 	public bool getIsPlayPopUpDisplayed()

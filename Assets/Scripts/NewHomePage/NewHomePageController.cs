@@ -982,7 +982,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else
 		{
-			SceneManager.LoadScene ("newMyGame");
+            BackOfficeController.instance.loadScene("newMyGame");
 		}
 	}
 	public void displayDeckList()
@@ -1417,7 +1417,7 @@ public class NewHomePageController : MonoBehaviour
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
 		PhotonNetwork.Disconnect();
-		SceneManager.LoadScene ("NewStore");
+        BackOfficeController.instance.loadScene("NewStore");
 	}
 	private void manageNonReadsNotifications()
 	{
@@ -1550,7 +1550,7 @@ public class NewHomePageController : MonoBehaviour
 		this.wonPackPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isWonPackPopUpDisplayed = false;
-		SceneManager.LoadScene("NewStore");
+		BackOfficeController.instance.loadScene("NewStore");
 	}
 	public void hideTrainingPopUp()
 	{
@@ -1559,8 +1559,7 @@ public class NewHomePageController : MonoBehaviour
 		this.isTrainingPopUpDisplayed = false;
 		if(ApplicationModel.player.HasToBuyTrainingPack)
 		{
-			BackOfficeController.instance.displayLoadingScreen();
-			SceneManager.LoadScene("NewStore");
+			BackOfficeController.instance.loadScene("NewStore");
 		}
 		else if(ApplicationModel.player.TutorialStep==6)
 		{
@@ -1600,7 +1599,7 @@ public class NewHomePageController : MonoBehaviour
 		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
-			SceneManager.LoadScene("NewLobby");
+            BackOfficeController.instance.loadScene("NewLobby");
 		}
 		else
 		{
@@ -1724,7 +1723,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		SceneManager.LoadScene("NewProfile");
+        BackOfficeController.instance.loadScene("NewProfile");
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{

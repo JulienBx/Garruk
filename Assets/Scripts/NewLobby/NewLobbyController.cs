@@ -627,7 +627,7 @@ public class NewLobbyController : MonoBehaviour
 		SoundController.instance.playSound(9);
 		if(this.isEndCompetition)
 		{
-			SceneManager.LoadScene("NewLobby");
+            BackOfficeController.instance.loadScene("NewLobby");
 		}
 		else
 		{
@@ -733,7 +733,7 @@ public class NewLobbyController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.results [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		SceneManager.LoadScene("NewProfile");
+        BackOfficeController.instance.loadScene("NewProfile");
 	}
 	public void updateSubMainBlockTitle(string s)
 	{

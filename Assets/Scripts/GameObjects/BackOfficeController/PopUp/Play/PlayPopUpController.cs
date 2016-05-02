@@ -237,7 +237,7 @@ public class PlayPopUpController : MonoBehaviour
 		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
-			SceneManager.LoadScene("NewLobby");
+            BackOfficeController.instance.loadScene("NewLobby");
 		}
 		else
 		{

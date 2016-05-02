@@ -2180,13 +2180,13 @@ public class NewProfileController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.friendsContents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-		SceneManager.LoadScene("NewProfile");
+        BackOfficeController.instance.loadScene("NewProfile");
 	}
 	public void clickOnResultsContentProfile(int id)
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ProfileChosen = this.resultsContents [id].transform.FindChild ("title").GetComponent<TextMeshPro> ().text;
-		SceneManager.LoadScene("NewProfile");
+        BackOfficeController.instance.loadScene("NewProfile");
 	}
 	public void slideRight()
 	{
