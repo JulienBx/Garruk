@@ -181,6 +181,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         if(SceneManager.GetActiveScene().name=="Game")
         {
 		    PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(PhotonNetwork.room.name));
+            PlayerPrefs.SetString("GameMyPlayerId",ApplicationModel.Encrypt(ApplicationModel.player.Id.ToString()));
+            PlayerPrefs.SetString("GameHisPlayerId",ApplicationModel.Encrypt(ApplicationModel.hisPlayerID.ToString()));
         }
         BackOfficeController.instance.loadScene("Authentication");
 	}
