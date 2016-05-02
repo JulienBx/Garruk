@@ -138,16 +138,13 @@ public class GameView : MonoBehaviour
 		this.popUp = GameObject.Find("PopUp");
 		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
-
 		this.hisTimer = GameObject.Find("HisPlayerName").transform.FindChild("Time").GetComponent<TimerController>();
 		this.myTimer = GameObject.Find("MyPlayerBox").transform.FindChild("Time").GetComponent<TimerController>();
 		this.timerFront = GameObject.Find("TimerFront");
-
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.popUp.GetComponent<PopUpGameController>().show (false);
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 		this.gameTutoController = GameObject.Find("HelpController").GetComponent<GameTutoController>();
-
 		this.SB.GetComponent<StartButtonController>().show(false);
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
@@ -159,7 +156,6 @@ public class GameView : MonoBehaviour
 		this.anims = new List<Tile>();
 		this.deads = new List<int>();
 		this.orderCards = new List<int>();
-		//this.destinations
 		if (this.isFirstPlayer)
 		{
 			if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -172,10 +168,8 @@ public class GameView : MonoBehaviour
 				this.initGrid();
 			}
 		}
-
 		this.hasFightStarted = false ;
 		this.blockFury = false;
-	
 		draggingCard = -1 ;
 		draggingSkillButton = -1 ;
 		this.nbTurns = 0 ;

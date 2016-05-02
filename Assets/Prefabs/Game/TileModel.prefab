@@ -193,7 +193,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.756671, y: -8.249176, z: -1}
+  m_LocalPosition: {x: -12.62639, y: -7.522146, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 414956}
@@ -212,7 +212,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -1.02, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463794}
@@ -236,7 +236,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 122478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.161, y: 1.634, z: 0}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 444608}
@@ -299,7 +299,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.44569016, y: -0.20000005, z: 0}
+  m_LocalPosition: {x: 0, y: -0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 444608}
@@ -437,7 +437,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 4}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11426050
 MonoBehaviour:
@@ -456,9 +456,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3.4562407
-    height: 0.4414235
-  m_margins: {x: 0, y: 0, z: -0.35045815, w: -0.25161982}
+    width: 0.95
+    height: 0.3
+  m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11438908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,8 +476,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 4
-    height: 4
+    width: 1
+    height: 1
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11458074
 MonoBehaviour:
@@ -510,10 +510,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 6
-  m_fontSizeMin: 2
-  m_fontSizeMax: 12
-  m_fontSizeBase: 6
+  m_fontSize: 1.4
+  m_fontSizeMin: 1
+  m_fontSizeMax: 3
+  m_fontSizeBase: 0
   m_charSpacingMax: 0
   m_lineSpacingMax: 0
   m_charWidthMaxAdj: 0
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_isCullingEnabled: 0
   m_pageToDisplay: 1
   m_maskType: 0
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
 --- !u!114 &11471102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 9.55
+  m_fontSize: 2.35
   m_fontSizeMin: 2
   m_fontSizeMax: 40
   m_fontSizeBase: 6.5
@@ -634,9 +634,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 3.6086178
-    height: 0.55
-  m_margins: {x: 0.39893627, y: -0.79867744, z: -0.5205927, w: -1.362081}
+    width: 0.95
+    height: 0.6
+  m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11476312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -668,8 +668,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 4.9
-  m_fontSizeMin: 3
+  m_fontSize: 1.25
+  m_fontSizeMin: 0.8
   m_fontSizeMax: 5
   m_fontSizeBase: 5
   m_charSpacingMax: 0

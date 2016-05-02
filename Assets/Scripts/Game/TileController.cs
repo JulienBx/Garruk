@@ -106,7 +106,7 @@ public class TileController : GameObjectController
 			position = new Vector3((2.5f-this.tile.x)*(GameView.instance.tileScale), (3.5f-this.tile.y)*(GameView.instance.tileScale), 0);
 		}
 		
-		Vector3 scale = new Vector3(0.25f*GameView.instance.tileScale, 0.25f*GameView.instance.tileScale, 0.25f*GameView.instance.tileScale);
+		Vector3 scale = new Vector3(GameView.instance.tileScale, GameView.instance.tileScale, GameView.instance.tileScale);
 
 		gameObject.transform.position = position ;
 		gameObject.transform.localScale = scale ;
@@ -630,7 +630,7 @@ public class TileController : GameObjectController
 		else{
 			if(timerAnim<4*skillEffectTime){
 				gameObject.transform.FindChild("SkillEffect").localScale = new Vector3(0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)), 0.5f+0.5f*(1.0f*timerAnim/(4*skillEffectTime)));
-				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.5f*(1.0f*timerAnim/(skillEffectTime)), 0f);
+				gameObject.transform.FindChild("SkillEffect").localPosition = new Vector3(0, 0.15f*(1.0f*timerAnim/(skillEffectTime)), 0f);
 			}
 			else{
 				
