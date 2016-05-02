@@ -1227,7 +1227,7 @@ public class WordingSkills
 		probas.Add(80); 
 		//53 - Hacking
 		idSkills.Add(53);
-		names.Add(new string[]{"Hacking",""}); 
+		names.Add(new string[]{"Peur",""}); 
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
 		descriptions.Add(new string[]{"Désactive un robot adverse à distance",""}); 
@@ -1250,7 +1250,7 @@ public class WordingSkills
 		probas.Add(75); 
 		//54 - Manipulation
 		idSkills.Add(54);
-		names.Add(new string[]{"Manipulation","Manipulation"}); 
+		names.Add(new string[]{"Oubli","Manipulation"}); 
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour","Take control of a target ally unit this turn"}); 
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour","Take control of a target ally unit this turn"}); 
 		descriptions.Add(new string[]{"Prend le controle d'une unité alliée pour ce tour","Take control of a target ally unit this turn"}); 
@@ -1273,7 +1273,7 @@ public class WordingSkills
 		probas.Add(75);
 		//55 - Confusion
 		idSkills.Add(55);
-		names.Add(new string[]{"Confusion",""}); 
+		names.Add(new string[]{"Décérébrer ",""}); 
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
 		descriptions.Add(new string[]{"Rend confuse une unité ennemie à distance",""}); 
@@ -1388,7 +1388,7 @@ public class WordingSkills
 		probas.Add(100); 
 		//60 - Copiage
 		idSkills.Add(60);
-		names.Add(new string[]{"Copiage",""}); 
+		names.Add(new string[]{"Focus",""}); 
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 1",""}); 
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 2",""}); 
 		descriptions.Add(new string[]{"Choisit une unité et apprend une de ses compétences au niveau 3",""}); 
@@ -1411,7 +1411,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//61 - Hypnose
 		idSkills.Add(61);
-		names.Add(new string[]{"Hypnose",""}); 
+		names.Add(new string[]{"Surprise",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
@@ -1434,7 +1434,7 @@ public class WordingSkills
 		probas.Add(90);
 		//61 - Hypnose
 		idSkills.Add(62);
-		names.Add(new string[]{"",""}); 
+		names.Add(new string[]{"Affutage",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
 		descriptions.Add(new string[]{"Endort un ennemi",""}); 
@@ -1803,7 +1803,7 @@ public class WordingSkills
 		//78 - Joueur
 		idSkills.Add(78);
 		names.Add(new string[]{"Joueur",""}); 
-		descriptions.Add(new string[]{"Ajoute 1 cadeau sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
+		descriptions.Add(new string[]{"Ajoute 1 surprise sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
 		descriptions.Add(new string[]{"Ajoute 2 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
 		descriptions.Add(new string[]{"Ajoute 3 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
 		descriptions.Add(new string[]{"Ajoute 4 cadeaux sur le terrain. Le cadeau inflige 15 dégats ou rend 15 PV (Aléatoire)",""}); 
@@ -1848,7 +1848,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//80 - Vampire
 		idSkills.Add(80);
-		names.Add(new string[]{"Blabla",""}); 
+		names.Add(new string[]{"Vampire",""}); 
 		descriptions.Add(new string[]{"Gagne 2 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 4 PV à chaque fois qu'une unité meurt",""}); 
 		descriptions.Add(new string[]{"Gagne 6 PV à chaque fois qu'une unité meurt",""}); 
@@ -2075,7 +2075,30 @@ public class WordingSkills
 		probas.Add(80); 
 		probas.Add(80); 
 		probas.Add(80); 
-		probas.Add(80);   
+		probas.Add(80); 
+		//90 - 
+		idSkills.Add(90);
+		names.Add(new string[]{"Programmation",""}); 
+		descriptions.Add(new string[]{"Inflige 055%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 060%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 065%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 070%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 075%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 080%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 085%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 090%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 095%ATK et immobilise le personnage pendant 2 tours",""}); 
+		descriptions.Add(new string[]{"Inflige 100%ATK et immobilise le personnage pendant 2 tours",""}); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80); 
+		probas.Add(80);     
 		//91 - Lance
 		idSkills.Add(91);
 		names.Add(new string[]{"Lance",""}); 
@@ -2723,6 +2746,29 @@ public class WordingSkills
 		//119 - Armure
 		idSkills.Add(119);
 		names.Add(new string[]{"Armure",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 5%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 10%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 15%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 20%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 25%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 30%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 35%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 40%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 45%) sur une unité alliée adjacente",""}); 
+		descriptions.Add(new string[]{"Construit une armure (protection 50%) sur une unité alliée adjacente",""}); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100); 
+		probas.Add(100);  
+		//119 - Armure
+		idSkills.Add(120);
+		names.Add(new string[]{"Mutilation",""}); 
 		descriptions.Add(new string[]{"Construit une armure (protection 5%) sur une unité alliée adjacente",""}); 
 		descriptions.Add(new string[]{"Construit une armure (protection 10%) sur une unité alliée adjacente",""}); 
 		descriptions.Add(new string[]{"Construit une armure (protection 15%) sur une unité alliée adjacente",""}); 

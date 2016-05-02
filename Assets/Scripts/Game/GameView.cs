@@ -105,7 +105,7 @@ public class GameView : MonoBehaviour
 	int lastPlayingCard = -1 ;
 
 	public int sequenceID = 0 ;
-	public bool toLaunchCardCreation ; 
+	public bool toLaunchCardCreation = false ; 
 	public bool isGameskillOK;
 
 	int indexPlayer ; 
@@ -115,10 +115,17 @@ public class GameView : MonoBehaviour
 	public ArtificialIntelligence IA ;
 
 	bool areTilesLoaded ; 
+	BackOfficeController backOfficeController ;
 
 	void Awake()
 	{
-		instance = this;
+		Destroy(GameObject.Find("BackOfficeController"));
+		//GameObject.Find("BackOfficeController").SetActive(false);
+		this.init();
+	}
+
+	public void init(){
+		instance = this;		
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
 		this.initializeServerController();
@@ -267,10 +274,6 @@ public class GameView : MonoBehaviour
 					GameController.instance.createTile(x, y, 1);
 				}
 			}
-		}
-
-		if(!ApplicationModel.player.ToLaunchGameTutorial){
-			this.toLaunchCardCreation = true ;
 		}
 	}
 	
@@ -430,6 +433,9 @@ public class GameView : MonoBehaviour
 		this.tiles [x, y].GetComponent<TileController>().initTileController(new Tile(x,y), type);
 		if(x==boardWidth-1&&y==boardHeight-1){
 			areTilesLoaded = true ;
+			if(!ApplicationModel.player.ToLaunchGameTutorial){
+				this.toLaunchCardCreation = true ;
+			}
 		}
 	}
 	
