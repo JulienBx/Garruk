@@ -28,7 +28,7 @@ public class WordingServerError
 	static WordingServerError()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Erreur système code ",""}); //0
+		references.Add(new string[]{"Erreur système :",""}); //0
 		references.Add(new string[]{"\n\n Veuillez réessayer ultérieurement. \n\n Si l'erreur persiste contactez notre support admin@techticalwars.com",""}); //1
 		references.Add(new string[]{"Mauvais mot de passe","Wrong password"}); //2
 		references.Add(new string[]{"Mauvais login ou email","Wrong email or login"}); //3

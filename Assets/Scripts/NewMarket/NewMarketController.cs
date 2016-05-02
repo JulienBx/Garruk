@@ -302,6 +302,7 @@ public class NewMarketController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeMarketController>();
 		this.backOfficeController.GetComponent<BackOfficeMarketController>().initialize();
 	}
