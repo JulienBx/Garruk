@@ -252,7 +252,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
-		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeStoreController>();
 		this.backOfficeController.GetComponent<BackOfficeStoreController>().initialize();
 	}

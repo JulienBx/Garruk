@@ -29,11 +29,6 @@ public class BackOfficeRessources : MonoBehaviour
 	public Sprite[] caractersAvatars;
 	public Sprite[] preMatchScreenAvatars;
 
-	void Awake() 
-	{
-		DontDestroyOnLoad(transform.gameObject);
-    }
-
 }
 
 

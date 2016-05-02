@@ -13,7 +13,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	public static AuthenticationController instance;
 
 	public Sprite[] languagesSprites;
-	public GameObject backOfficeControllerObject;
 
 	private GameObject backOfficeController;
 	private GameObject soundController;
@@ -122,12 +121,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
-		if(this.backOfficeController==null)
-		{
-			this.backOfficeController = Instantiate (this.backOfficeControllerObject) as GameObject;
-			this.backOfficeController.name="BackOfficeController";
-		}
-		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeAuthenticationController>();
 		this.backOfficeController.GetComponent<BackOfficeAuthenticationController>().initialize();
 	}

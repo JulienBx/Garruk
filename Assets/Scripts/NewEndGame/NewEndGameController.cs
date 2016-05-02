@@ -109,7 +109,6 @@ public class NewEndGameController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
-		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeEndGameController>();
 		this.backOfficeController.GetComponent<BackOfficeEndGameController>().initialize();
 	}

@@ -255,7 +255,6 @@ public class NewSkillBookController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
-		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeSkillBookController>();
 		this.backOfficeController.GetComponent<BackOfficeSkillBookController>().initialize();
 	}

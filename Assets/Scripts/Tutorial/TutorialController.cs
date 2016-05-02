@@ -34,7 +34,6 @@ public class TutorialController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
-		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeTutorialController>();
 		this.backOfficeController.GetComponent<BackOfficeTutorialController>().initialize();
 	}
