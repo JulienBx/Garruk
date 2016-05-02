@@ -193,6 +193,7 @@ public class NewLobbyController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeLobbyController>();
 		this.backOfficeController.GetComponent<BackOfficeLobbyController>().initialize();
 	}

@@ -255,6 +255,7 @@ public class NewProfileController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeProfileController>();
 		this.backOfficeController.GetComponent<BackOfficeProfileController>().initialize();
 	}

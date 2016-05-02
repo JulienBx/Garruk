@@ -280,6 +280,7 @@ public class NewHomePageController : MonoBehaviour
 	private void initializeBackOffice()
 	{
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
+		Destroy(this.backOfficeController.GetComponent<BackOfficeController>());
 		this.backOfficeController.AddComponent<BackOfficeHomePageController>();
 		this.backOfficeController.GetComponent<BackOfficeHomePageController>().initialize();
 	}

@@ -6,10 +6,15 @@ using System.Collections.Generic;
 public class WordingTrainingPopUp
 {
 	public static IList<string[]> references;
+	public static IList<string[]> cardTypesDescription;
 
 	public static string getReference(int idReference)
 	{
 		return references[idReference][ApplicationModel.player.IdLanguage];
+	}
+	public static string getCardTypeDescription(int idCardType)
+	{
+		return cardTypesDescription[idCardType][ApplicationModel.player.IdLanguage];
 	}
 	static WordingTrainingPopUp()
 	{
@@ -25,7 +30,22 @@ public class WordingTrainingPopUp
 		references.Add(new string[]{"BRAVO !\n\nVotre apprentissage de la faction ",""}); //8
 		references.Add(new string[]{" est désormais terminé  ",""}); //9
 		references.Add(new string[]{"Vous pouvez maintenant découvrir la faction ",""}); //10
-		references.Add(new string[]{" ,cliquez sur ok pour découvrir de nouvelles unités",""}); //11
+		references.Add(new string[]{"\n\ncliquez sur ok pour découvrir de nouvelles unités",""}); //11
 		references.Add(new string[]{"Votre apprentissage étant maintenant terminé, allons découvrir le mode conquête !",""}); //12
+
+		cardTypesDescription=new List<string[]>();
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Médic",""}); //0
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Assassin",""}); //1
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Prédateur",""}); //2
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Trooper",""}); //3
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Mentaliste",""}); //4
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Robot",""}); //5
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Cristoid",""}); //6
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Mystique",""}); //7
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Artisan",""}); //8
+		cardTypesDescription.Add(new string[]{"\n\nDescription de la classe Terraformeur",""}); //9
+
+
 	}
+
 }

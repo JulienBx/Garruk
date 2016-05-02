@@ -118,7 +118,7 @@ public class TrainingPopUpController : MonoBehaviour
 		if(this.cardTypeUnlocked)
 		{
 			gameObject.transform.FindChild("Training").GetComponent<TrainingController>().draw(ApplicationModel.player.TrainingStatus);
-			gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTrainingPopUp.getReference(10) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(11);
+			gameObject.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingTrainingPopUp.getReference(10) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getCardTypeDescription(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(11);
 			this.cardTypeUnlocked=false;
 		}
 		else if(this.divisionModeUnlocked)
