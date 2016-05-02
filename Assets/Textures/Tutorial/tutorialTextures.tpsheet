@@ -4,12 +4,12 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:13fa40468e9eeaaf8bdfe9923847f28f:54efb99980427de01a57d49278fe771d:fdaf31e214b410cade3f9029a14e931f$
+# $TexturePacker:SmartUpdate:bd274931a88ffddaac5bcaabc323d50a:54efb99980427de01a57d49278fe771d:fdaf31e214b410cade3f9029a14e931f$
 #
 :format=40000
 :texture=tutorialTextures.png
-:size=2048x4096
+:size=4096x4096
 
 back4;2;3014;1920;1080;0.5;0.5
-left;642;1932;634;1080;0.5110410094637224;0.5
-right;2;1932;638;1080;0.45689655172413796;0.5
+left;2564;3014;634;1080;0.5110410094637224;0.5
+right;1924;3014;638;1080;0.45689655172413796;0.5
