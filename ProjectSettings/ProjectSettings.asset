@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 8
   AndroidProfiler: 0
   defaultScreenOrientation: 0
-  targetDevice: 0
+  targetDevice: 1
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: oojump
