@@ -78,7 +78,8 @@ public class Player : User
 	public int TrainingAllowedCardType;
 	public int TrainingPreviousAllowedCardType;
 	public bool HasToBuyTrainingPack;
-	public bool hastLostConnection;
+	public bool HasLostConnection;
+    public bool HasToJoinLeavedRoom;
   
 	public Player()
 	{

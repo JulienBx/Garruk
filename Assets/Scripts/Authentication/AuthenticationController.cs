@@ -67,9 +67,9 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
-			if(ApplicationModel.player.hastLostConnection)
+			if(ApplicationModel.player.HasLostConnection)
 			{
-				ApplicationModel.player.hastLostConnection=false;
+				ApplicationModel.player.HasLostConnection=false;
 				this.loginPopUp.GetComponent<LoginPopUpController>().setError(WordingAuthentication.getReference(14));
 			}
 			BackOfficeController.instance.hideLoadingScreen();
@@ -105,12 +105,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 		string lastUsername = ApplicationModel.player.Username;
 		int lastIDLanguage = ApplicationModel.player.IdLanguage;
 		bool lastToDeconnect = ApplicationModel.player.ToDeconnect;
-		bool lastHastLostConnection = ApplicationModel.player.hastLostConnection;
+		bool lastHastLostConnection = ApplicationModel.player.HasLostConnection;
 		ApplicationModel.player=new Player();
 		ApplicationModel.player.Username=lastUsername;
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
-		ApplicationModel.player.hastLostConnection=lastHastLostConnection;
+		ApplicationModel.player.HasLostConnection=lastHastLostConnection;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
 	}
 	private void initializeServerController()
@@ -907,9 +907,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void loadLevels()
 	{
 		SoundController.instance.playMusic(new int[]{0,1,2});
-		if(PlayerPrefs.HasKey("GameRoomId") && PlayerPrefs.GetString("GameMyPlayerName")&&ApplicationModel.player.Username)
+		if(PlayerPrefs.HasKey("GameRoomId") && PlayerPrefs.GetString("GameMyPlayerName")==ApplicationModel.player.Username)
 		{
 			this.retrieveGameData();
+            ApplicationModel.player.HasToJoinLeavedRoom=true;
+            BackOfficeController.instance.joinLeavedRoom();
 		}
 		else if(ApplicationModel.player.TutorialStep!=-1)
 		{
@@ -951,16 +953,48 @@ public class AuthenticationController : Photon.MonoBehaviour
 
 	void retrieveGameData()
 	{
-
-		ApplicationModel.gameRoomId=PlayerPrefs.GetString("GameRoomId");
-		ApplicationModel.player.ChosenGameType=System.Convert.ToInt32(PlayerPrefs.GetString("ChosenGameType"));
-		ApplicationModel.player.IsFirstPlayer=System.Convert.ToBoolean(PlayerPrefs.GetString("IsFirstPlayer"));
-		ApplicationModel.myPlayerName=PlayerPrefs.GetString("GameMyPlayerName");
-		ApplicationModel.hisPlayerName=PlayerPrefs.GetString("GameHisPlayerName");
-		ApplicationModel.player.RankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString("GameMyRankingPoints"));
-		ApplicationModel.hisRankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString("GameHisRankingPoints"));
+        ApplicationModel.gameRoomId=PlayerPrefs.GetString(ApplicationModel.Decrypt("GameRoomId"));
+        ApplicationModel.player.ChosenGameType=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt("ChosenGameType")));
+        ApplicationModel.player.IsFirstPlayer=System.Convert.ToBoolean(PlayerPrefs.GetString(ApplicationModel.Decrypt("IsFirstPlayer")));
+        ApplicationModel.myPlayerName=PlayerPrefs.GetString(ApplicationModel.Decrypt("GameMyPlayerName"));
+        ApplicationModel.hisPlayerName=PlayerPrefs.GetString(ApplicationModel.Decrypt("GameHisPlayerName"));
+        ApplicationModel.player.RankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt("GameMyRankingPoints")));
+        ApplicationModel.hisRankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt("GameHisRankingPoints")));
+        ApplicationModel.player.MyDeck=this.retrieveDeckData(true);
+        ApplicationModel.opponentDeck=this.retrieveDeckData(false);
 
 	}
+    private Deck retrieveDeckData(bool isMine)
+    {
+        Deck deck = new Deck();
+        deck.cards=new List<Card>();
+
+        string name="My";
+
+        if(!isMine)
+        {
+            name="His";
+        }
+        for(int i=0; i<4;i++)
+        {
+            deck.cards.Add(new Card());
+            deck.cards[i].Id=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name + "Card"+i+"Id")));
+            deck.cards[i].Title=PlayerPrefs.GetString(ApplicationModel.Decrypt(name + "Card"+i+"Name"));
+            deck.cards[i].Life=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name + "Card"+i+"Life")));
+            deck.cards[i].Attack=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name + "Card"+i+"Attack")));
+            deck.cards[i].Move=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name + "Card"+i+"Move")));
+
+            for(int j=0;j<deck.cards.Count;j++)
+            {
+                deck.cards[i].Skills.Add(new Skill());
+                deck.cards[i].Skills[j].Id=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name+"Card"+i+"Skill"+j+"Id")));
+                deck.cards[i].Skills[j].IsActivated=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name+"Card"+i+"Skill"+j+"IsActivated")));
+                deck.cards[i].Skills[j].Power=System.Convert.ToInt32(PlayerPrefs.GetString(ApplicationModel.Decrypt(name+"Card"+i+"Skill"+j+"Power")));
+            }
+        }
+
+        return deck;
+    }
 
 	#region Facebook
 

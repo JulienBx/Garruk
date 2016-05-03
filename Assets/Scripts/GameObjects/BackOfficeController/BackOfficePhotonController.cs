@@ -58,10 +58,22 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 
+    public void joinLeavedRoom()
+    {
+        
+    }
+
 	void OnPhotonRandomJoinFailed()
 	{
-        Debug.Log("Can't join random room! - creating a new room");
-        StartCoroutine(this.CreateNewRoom ());
+        if(ApplicationModel.player.HasToJoinLeavedRoom)
+        {
+            BackOfficeController.instance.loadScene("NewHomePage");
+        }
+        else
+        {
+            Debug.Log("Can't join random room! - creating a new room");
+            StartCoroutine(this.CreateNewRoom ());
+        }
 	}
 	public IEnumerator CreateNewRoom()
 	{
@@ -102,9 +114,15 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
 	{
-		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
-		print("Je rejoins une nouvelle room");
-		BackOfficeController.instance.displayLoadingScreenButton(true);
+        if(ApplicationModel.player.HasToJoinLeavedRoom)
+        {
+        }
+        else
+        {
+            photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
+		    print("Je rejoins une nouvelle room");
+		    BackOfficeController.instance.displayLoadingScreenButton(true);
+        }
 	}
 	
 	[PunRPC]
@@ -177,7 +195,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	{
 		if(!ApplicationModel.player.ToDeconnect)
 		{
-			ApplicationModel.player.hastLostConnection=true;
+			ApplicationModel.player.HasLostConnection=true;
 		}
         BackOfficeController.instance.loadScene("Authentication");
 	}
