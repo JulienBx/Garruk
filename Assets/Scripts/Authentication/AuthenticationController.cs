@@ -907,7 +907,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void loadLevels()
 	{
 		SoundController.instance.playMusic(new int[]{0,1,2});
-		if(ApplicationModel.player.TutorialStep!=-1)
+		if(PlayerPrefs.HasKey("GameRoomId") && PlayerPrefs.GetString("GameMyPlayerName")&&ApplicationModel.player.Username)
+		{
+			this.retrieveGameData();
+		}
+		else if(ApplicationModel.player.TutorialStep!=-1)
 		{
 			switch(ApplicationModel.player.TutorialStep)
 			{
@@ -943,6 +947,19 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void OnJoinedLobby()
 	{
 		this.loadLevels();
+	}
+
+	void retrieveGameData()
+	{
+
+		ApplicationModel.gameRoomId=PlayerPrefs.GetString("GameRoomId");
+		ApplicationModel.player.ChosenGameType=System.Convert.ToInt32(PlayerPrefs.GetString("ChosenGameType"));
+		ApplicationModel.player.IsFirstPlayer=System.Convert.ToBoolean(PlayerPrefs.GetString("IsFirstPlayer"));
+		ApplicationModel.myPlayerName=PlayerPrefs.GetString("GameMyPlayerName");
+		ApplicationModel.hisPlayerName=PlayerPrefs.GetString("GameHisPlayerName");
+		ApplicationModel.player.RankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString("GameMyRankingPoints"));
+		ApplicationModel.hisRankingPoints=System.Convert.ToInt32(PlayerPrefs.GetString("GameHisRankingPoints"));
+
 	}
 
 	#region Facebook

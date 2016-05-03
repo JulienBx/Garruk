@@ -328,9 +328,45 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
-		SceneManager.LoadScene("Authentication");
-	}
+		ApplicationModel.player.hastLostConnection=true;
 
+		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
+		PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
+		PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer).ToString());
+		PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
+		PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
+		PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints));
+		PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints));
+
+		this.saveDeckData(true,ApplicationModel.player.MyDeck);
+		this.saveDeckData(false,ApplicationModel.opponentDeck);
+
+        SceneManager.LoadScene("Authentication");
+	}
+	private void saveDeckData(bool isMine, Deck deck)
+	{
+		string name="My";
+
+		if(!isMine)
+		{
+			name="His";
+		}
+		for(int i=0; i<4;i++)
+		{
+			PlayerPrefs.SetString("Card"+i+"Id",deck.cards[i].Id.ToString());
+			PlayerPrefs.SetString("Card"+i+"Name",deck.cards[i].getName());
+			PlayerPrefs.SetString("Card"+i+"Life",deck.cards[i].Life.ToString());
+			PlayerPrefs.SetString("Card"+i+"Attack",deck.cards[i].Attack.ToString());
+			PlayerPrefs.SetString("Card"+i+"Move",deck.cards[i].Move.ToString());
+
+			for(int j=0;j<deck.cards.Count;j++)
+			{
+				PlayerPrefs.SetString("Card"+i+"Skill"+j+"Id",deck.cards[i].Skills[j].Id.ToString());	
+				PlayerPrefs.SetString("Card"+i+"Skill"+j+"IsActivated",deck.cards[i].Skills[j].IsActivated.ToString());	
+				PlayerPrefs.SetString("Card"+i+"Skill"+j+"Power",deck.cards[i].Skills[j].Power.ToString());	
+			}
+		}
+	}
     public void quitGameHandler(bool hasFirstPlayerLost)
 	{
         photonView.RPC("quitGameHandlerRPC", PhotonTargets.AllBuffered,hasFirstPlayerLost);

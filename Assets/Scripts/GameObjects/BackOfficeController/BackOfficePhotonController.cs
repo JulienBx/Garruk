@@ -151,6 +151,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			this.nbPlayersReady++;
 			if(this.nbPlayersReady==2)
 			{
+				ApplicationModel.gameRoomId	=PhotonNetwork.room.name;
                 this.startGame();
 			}
 		}
@@ -178,13 +179,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.hastLostConnection=true;
 		}
-        if(SceneManager.GetActiveScene().name=="Game")
-        {
-		    PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(PhotonNetwork.room.name));
-            PlayerPrefs.SetString("GameMyPlayerId",ApplicationModel.Encrypt(ApplicationModel.player.Id.ToString()));
-            PlayerPrefs.SetString("GameHisPlayerId",ApplicationModel.Encrypt(ApplicationModel.hisPlayerID.ToString()));
-        }
         BackOfficeController.instance.loadScene("Authentication");
+	}
+	private void storeGameInformations()
+	{
+		
 	}
 	private void CreateTutorialDeck()
 	{

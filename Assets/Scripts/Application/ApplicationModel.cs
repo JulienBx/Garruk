@@ -32,6 +32,7 @@ public class ApplicationModel
 	static public float volMaxMusic;
 
 	static public Deck opponentDeck;
+	static public string gameRoomId;
 
 	static public float timeOutDelay;
 
