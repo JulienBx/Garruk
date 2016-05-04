@@ -21,7 +21,7 @@ public class HasLeftRoomPopUpController : MonoBehaviour
     public void exitPopUp()
     {
         SoundController.instance.playSound(8);
-        NewHomePageController.instance.hideConnectionBonusPopUp ();
+        NewHomePageController.instance.hideHasLeftRoomPopUp ();
     }
 }
 
