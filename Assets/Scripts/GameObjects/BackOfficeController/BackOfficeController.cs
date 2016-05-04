@@ -536,12 +536,28 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void toDisconnect() 
 	{
+		SoundController.instance.stopPlayingMusic();
 		if(isDisconnectedPopUpDisplayed)
 		{
 			this.hideDisconnectedPopUp();
 		}
-		ApplicationModel.player.ToDeconnect = true;
-		PhotonNetwork.Disconnect();
+		if(PhotonNetwork.connectionState==ConnectionState.Disconnected)
+		{
+			if(SceneManager.GetActiveScene().name!="Authentication")
+			{
+				ApplicationModel.player.ToDeconnect = true;
+				if(!ApplicationModel.player.ToDeconnect)
+				{
+					ApplicationModel.player.HasLostConnection=true;
+				}
+		       	this.loadScene("Authentication");
+			}
+		}
+		else
+		{
+			ApplicationModel.player.ToDeconnect = true;
+			PhotonNetwork.Disconnect();
+		}
 	}
 	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
 	{

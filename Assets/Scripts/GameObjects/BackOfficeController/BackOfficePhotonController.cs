@@ -191,17 +191,13 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			BackOfficeController.instance.launchPreMatchLoadingScreen();
 		}
 	}
-	void OnDisconnectedFromPhoton()
+	public void OnDisconnectedFromPhoton()
 	{
 		if(!ApplicationModel.player.ToDeconnect)
 		{
 			ApplicationModel.player.HasLostConnection=true;
 		}
         BackOfficeController.instance.loadScene("Authentication");
-	}
-	private void storeGameInformations()
-	{
-		
 	}
 	private void CreateTutorialDeck()
 	{

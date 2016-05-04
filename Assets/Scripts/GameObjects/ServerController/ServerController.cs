@@ -45,9 +45,9 @@ public class ServerController : MonoBehaviour
 	{
 		this.result="";
 		this.error="";
+		this.timer=0f;
 		this.toDetectTimeOut=true;
 		this.detectedTimeOut=false;
-		this.timer=0f;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
 		if(!this.detectedTimeOut)

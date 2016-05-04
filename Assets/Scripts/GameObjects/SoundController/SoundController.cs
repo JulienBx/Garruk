@@ -63,23 +63,15 @@ public class SoundController : MonoBehaviour
 	}
 	public void initialize()
 	{
-		if(!this.isInitialized)
-		{
-			instance = this;
-			this.sounds = GetComponents<AudioSource>();
-			this.musicSource=sounds[0];
-			this.sfxSource=sounds[1];
-			this.speed=2f;
-			this.musicVolRatio=1f;
-			DontDestroyOnLoad(this.gameObject);
-			this.isInitialized=true;
-			this.currentTrack=-1;
-		}
-		else
-		{
-			this.stopPlayingMusic();
-			this.stopPlayingSound();
-		}
+		instance = this;
+		this.sounds = GetComponents<AudioSource>();
+		this.musicSource=sounds[0];
+		this.sfxSource=sounds[1];
+		this.speed=2f;
+		this.musicVolRatio=1f;
+		DontDestroyOnLoad(this.gameObject);
+		this.isInitialized=true;
+		this.currentTrack=-1;
 	}
 	public void playMusic(int[] tracks)
 	{

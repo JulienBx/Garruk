@@ -13,6 +13,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	public static AuthenticationController instance;
 
 	public Sprite[] languagesSprites;
+	public GameObject soundControllerObject;
 
 	private GameObject backOfficeController;
 	private GameObject soundController;
@@ -127,7 +128,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void initializeMusic()
 	{
 		this.soundController = GameObject.Find ("SoundController");
-		this.soundController.GetComponent<SoundController>().initialize();
+		if(this.soundController==null)
+		{
+			this.soundController=GameObject.Instantiate(this.soundControllerObject);
+			this.soundController.name="SoundController";
+			this.soundController.GetComponent<SoundController>().initialize();	
+		}
 	}
 	private IEnumerator checkPermanentConnection()
 	{
