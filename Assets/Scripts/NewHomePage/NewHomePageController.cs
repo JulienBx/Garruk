@@ -318,6 +318,8 @@ public class NewHomePageController : MonoBehaviour
         {
             this.displayHasLeftRoomPopUp();
             ApplicationModel.player.HasToJoinLeavedRoom=false;
+			PlayerPrefs.DeleteKey("GameRoomId");
+			PlayerPrefs.Save();
         }
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{

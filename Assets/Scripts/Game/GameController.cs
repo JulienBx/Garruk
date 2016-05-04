@@ -342,6 +342,8 @@ public class GameController : Photon.MonoBehaviour
 		this.saveDeckData(true,ApplicationModel.player.MyDeck);
 		this.saveDeckData(false,ApplicationModel.opponentDeck);
 
+		PlayerPrefs.Save();
+
         SceneManager.LoadScene("Authentication");
 	}
 
