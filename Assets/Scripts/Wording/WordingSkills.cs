@@ -675,7 +675,7 @@ public class WordingSkills
 		probas.Add(100); 
 		//29 - Protection
 		idSkills.Add(29);
-		names.Add(new string[]{"Protection","Barrier"}); 
+		names.Add(new string[]{"Barrière","Barrier"}); 
 		descriptions.Add(new string[]{"Ajoute un bouclier : Réduit de 14% les dégats subis par l'unité","Equips a shield : 14% decrease to inflicted damages"}); 
 		descriptions.Add(new string[]{"Ajoute un bouclier : Réduit de 18% les dégats subis par l'unité","Equips a shield : 18% decrease to inflicted damages"}); 
 		descriptions.Add(new string[]{"Ajoute un bouclier : Réduit de 22% les dégats subis par l'unité","Equips a shield : 22% decrease to inflicted damages"}); 

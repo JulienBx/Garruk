@@ -69,6 +69,7 @@ public class Criderage : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameController.instance.disconnect();
 	}
 
 	public override int getActionScore(Tile t, Skill s){

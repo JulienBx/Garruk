@@ -60,13 +60,16 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
     public void joinLeavedRoom()
     {
-        
+        string idRoom = PlayerPrefs.GetString("GameRoomId");
+		this.emptyPrefs();
+        PhotonNetwork.JoinRoom(idRoom);
     }
 
 	void OnPhotonRandomJoinFailed()
 	{
         if(ApplicationModel.player.HasToJoinLeavedRoom)
         {
+			print("La room n'existe plus");
             BackOfficeController.instance.loadScene("NewHomePage");
         }
         else
@@ -75,6 +78,59 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             StartCoroutine(this.CreateNewRoom ());
         }
 	}
+
+	void OnPhotonJoinRoomFailed()
+	{
+		print("La room n'existe plus");
+        BackOfficeController.instance.loadScene("NewHomePage");
+	}
+
+	void emptyPrefs(){
+		PlayerPrefs.DeleteKey("GameRoomId");
+		PlayerPrefs.DeleteKey("ChosenGameType");
+		PlayerPrefs.DeleteKey("IsFirstPlayer");
+		PlayerPrefs.DeleteKey("GameMyPlayerName");
+		PlayerPrefs.DeleteKey("GameHisPlayerName");
+		PlayerPrefs.DeleteKey("GameMyRankingPoints");
+		PlayerPrefs.DeleteKey("GameHisRankingPoints");
+
+		for(int i=0; i<4;i++)
+		{
+			PlayerPrefs.DeleteKey("MyCard"+i+"Id");
+			PlayerPrefs.DeleteKey("MyCard"+i+"Name");
+			PlayerPrefs.DeleteKey("MyCard"+i+"Life");
+			PlayerPrefs.DeleteKey("MyCard"+i+"Attack");
+			PlayerPrefs.DeleteKey("MyCard"+i+"Move");
+
+			for(int j=0;j<4;j++)
+			{
+				if(PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Id")){
+					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"Id");	
+					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"IsActivated");	
+					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"Power");	
+				}
+			}
+		}
+
+		for(int i=0; i<4;i++)
+		{
+			PlayerPrefs.DeleteKey("HisCard"+i+"Id");
+			PlayerPrefs.DeleteKey("HisCard"+i+"Name");
+			PlayerPrefs.DeleteKey("HisCard"+i+"Life");
+			PlayerPrefs.DeleteKey("HisCard"+i+"Attack");
+			PlayerPrefs.DeleteKey("HisCard"+i+"Move");
+
+			for(int j=0;j<4;j++)
+			{
+				if(PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Id")){
+					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"Id");	
+					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"IsActivated");	
+					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"Power");	
+				}
+			}
+		}
+	}
+
 	public IEnumerator CreateNewRoom()
 	{
         ApplicationModel.player.IsFirstPlayer = true;
@@ -116,6 +172,13 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	{
         if(ApplicationModel.player.HasToJoinLeavedRoom)
         {
+			ApplicationModel.gameRoomId	=PhotonNetwork.room.name;		
+
+			if(PhotonNetwork.room.playerCount==2){
+				PhotonNetwork.room.open = false;
+				print("Je ferme la room START");
+			}
+			SceneManager.LoadScene("Game");
         }
         else
         {
@@ -176,6 +239,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	}
 	private void startGame()
 	{
+		ApplicationModel.gameRoomId	=PhotonNetwork.room.name;		
 		if(ApplicationModel.player.IsFirstPlayer==true)
 		{
 			PhotonNetwork.room.open = false;
@@ -197,6 +261,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.HasLostConnection=true;
 		}
+		print("blabla");
         BackOfficeController.instance.loadScene("Authentication");
 	}
 	private void storeGameInformations()

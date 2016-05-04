@@ -343,6 +343,7 @@ public class GameController : Photon.MonoBehaviour
 
         SceneManager.LoadScene("Authentication");
 	}
+
 	private void saveDeckData(bool isMine, Deck deck)
 	{
 		string name="My";
@@ -359,7 +360,7 @@ public class GameController : Photon.MonoBehaviour
             PlayerPrefs.SetString(name+"Card"+i+"Attack",ApplicationModel.Encrypt(deck.cards[i].Attack.ToString()));
             PlayerPrefs.SetString(name+"Card"+i+"Move",ApplicationModel.Encrypt(deck.cards[i].Move.ToString()));
 
-			for(int j=0;j<deck.cards.Count;j++)
+			for(int j=0;j<deck.cards[i].Skills.Count;j++)
 			{
                 PlayerPrefs.SetString(name+"Card"+i+"Skill"+j+"Id",ApplicationModel.Encrypt(deck.cards[i].Skills[j].Id.ToString()));	
                 PlayerPrefs.SetString(name+"Card"+i+"Skill"+j+"IsActivated",ApplicationModel.Encrypt(deck.cards[i].Skills[j].IsActivated.ToString()));	
@@ -381,6 +382,11 @@ public class GameController : Photon.MonoBehaviour
 	public void quitGame()
 	{
         PhotonNetwork.LeaveRoom ();
+	}
+
+	public void disconnect()
+	{
+		PhotonNetwork.Disconnect();
 	}
 
 	void OnLeftRoom()

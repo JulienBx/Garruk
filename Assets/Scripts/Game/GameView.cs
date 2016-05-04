@@ -127,8 +127,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public void init(){
-		print(Time.realtimeSinceStartup-ApplicationModel.timeAppModel);
-
 		instance = this;		
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
@@ -188,8 +186,6 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
 		this.IA = GameObject.Find("Main Camera").GetComponent<ArtificialIntelligence>();
-		print(Time.realtimeSinceStartup-ApplicationModel.timeAppModel);
-
 	}
 
 	private void initializeServerController()
