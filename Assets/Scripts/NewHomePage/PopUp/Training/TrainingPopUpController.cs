@@ -32,14 +32,14 @@ public class TrainingPopUpController : MonoBehaviour
 			this.divisionModeUnlocked=false;
 			this.trainingStatus=ApplicationModel.player.TrainingStatus-7;
 		}
-		else if(hasWon && ApplicationModel.player.TrainingStatus==91)
+		else if(hasWon && ApplicationModel.player.TrainingStatus==51)
 		{
 			text=WordingTrainingPopUp.getReference(0) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(1) + "2" + WordingTrainingPopUp.getReference(3) + WordingTrainingPopUp.getReference(5);
 			this.cardTypeUnlocked=false;
 			this.divisionModeUnlocked=false;
 			this.trainingStatus=ApplicationModel.player.TrainingStatus;	
 		}
-		else if(hasWon && ApplicationModel.player.TrainingStatus==92)
+		else if(hasWon && ApplicationModel.player.TrainingStatus==52)
 		{
 			text=WordingTrainingPopUp.getReference(0) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(1) + "1" + WordingTrainingPopUp.getReference(2) + WordingTrainingPopUp.getReference(5);
 			this.cardTypeUnlocked=false;
@@ -60,21 +60,21 @@ public class TrainingPopUpController : MonoBehaviour
 			this.divisionModeUnlocked=false;
 			this.trainingStatus=ApplicationModel.player.TrainingStatus;	
 		}
-		else if(!hasWon && ApplicationModel.player.TrainingStatus==90)
+		else if(!hasWon && ApplicationModel.player.TrainingStatus==50)
 		{
 			text=WordingTrainingPopUp.getReference(6) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(1) + "3" + WordingTrainingPopUp.getReference(3) + WordingTrainingPopUp.getReference(4);
 			this.cardTypeUnlocked=false;
 			this.divisionModeUnlocked=false;
 			this.trainingStatus=ApplicationModel.player.TrainingStatus;	
 		}
-		else if(!hasWon && ApplicationModel.player.TrainingStatus==91)
+		else if(!hasWon && ApplicationModel.player.TrainingStatus==51)
 		{
 			text=WordingTrainingPopUp.getReference(6) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(1) + "2" + WordingTrainingPopUp.getReference(3) + WordingTrainingPopUp.getReference(4);
 			this.cardTypeUnlocked=false;
 			this.divisionModeUnlocked=false;
 			this.trainingStatus=ApplicationModel.player.TrainingStatus;	
 		}
-		else if(!hasWon && ApplicationModel.player.TrainingStatus==92)
+		else if(!hasWon && ApplicationModel.player.TrainingStatus==52)
 		{
 			text=WordingTrainingPopUp.getReference(6) + WordingCardTypes.getName(ApplicationModel.player.TrainingAllowedCardType) + WordingTrainingPopUp.getReference(1) + "1" + WordingTrainingPopUp.getReference(2) + WordingTrainingPopUp.getReference(4);
 			this.cardTypeUnlocked=false;
