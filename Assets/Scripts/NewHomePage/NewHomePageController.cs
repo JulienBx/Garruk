@@ -118,6 +118,8 @@ public class NewHomePageController : MonoBehaviour
 	private bool isTrainingPopUpDisplayed;
 	private GameObject wonPackPopUp;
 	private bool isWonPackPopUpDisplayed;
+    private GameObject hasLeftRoomPopUp;
+    private bool isHasLeftRoomPopUpDisplayed;
 
 	private bool toSlideRight;
 	private bool toSlideLeft;
@@ -312,6 +314,11 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.displayWonPackPopUp();
 		}
+        else if(ApplicationModel.player.HasToJoinLeavedRoom)
+        {
+            this.displayHasLeftRoomPopUp();
+            ApplicationModel.player.HasToJoinLeavedRoom=false;
+        }
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{
 			this.displayConnectionBonusPopUp();
@@ -555,6 +562,9 @@ public class NewHomePageController : MonoBehaviour
 
 		this.wonPackPopUp = GameObject.Find("wonPackPopUp");
 		this.wonPackPopUp.SetActive(false);
+
+        this.hasLeftRoomPopUp = GameObject.Find("hasLeftRoomPopUp");
+        this.hasLeftRoomPopUp.SetActive(false);
 
 		this.mainCamera = gameObject;
 		this.sceneCamera = GameObject.Find ("sceneCamera");
@@ -1048,6 +1058,11 @@ public class NewHomePageController : MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.hideConnectionBonusPopUp();
 		}
+        else if(isHasLeftRoomPopUpDisplayed)
+        {
+            SoundController.instance.playSound(8);
+            this.hideHasLeftRoomPopUp();
+        }
 	}
 	public void escapePressed()
 	{
@@ -1065,6 +1080,11 @@ public class NewHomePageController : MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.hideConnectionBonusPopUp();
 		}
+        else if(isHasLeftRoomPopUpDisplayed)
+        {
+            SoundController.instance.playSound(8);
+            this.hideHasLeftRoomPopUp();
+        }
 		else
 		{
 			SoundController.instance.playSound(8);
@@ -1484,6 +1504,15 @@ public class NewHomePageController : MonoBehaviour
 		this.connectionBonusPopUp.SetActive (true);
 		this.connectionBonusPopUpResize();
 	}
+    public void displayHasLeftRoomPopUp()
+    {
+        SoundController.instance.playSound(3);
+        BackOfficeController.instance.displayTransparentBackground ();
+        this.hasLeftRoomPopUp.transform.GetComponent<HasLeftRoomPopUpController> ().reset ();
+        this.isHasLeftRoomPopUpDisplayed = true;
+        this.hasLeftRoomPopUp.SetActive (true);
+        this.hasLeftRoomPopUpResize();
+    }
 	public void displayWonPackPopUp()
 	{
 		SoundController.instance.playSound(3);
@@ -1515,6 +1544,12 @@ public class NewHomePageController : MonoBehaviour
 		this.endGamePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.endGamePopUp.GetComponent<EndGamePopUpController> ().resize ();
 	}
+    public void hasLeftRoomPopUpResize()
+    {
+        this.hasLeftRoomPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+        this.hasLeftRoomPopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+        this.hasLeftRoomPopUp.GetComponent<HasLeftRoomPopUpController> ().resize ();
+    }
 	public void trainingPopUpResize()
 	{
 		this.trainingPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
@@ -1545,6 +1580,12 @@ public class NewHomePageController : MonoBehaviour
 		BackOfficeController.instance.hideTransparentBackground();
 		this.isConnectionBonusPopUpDisplayed = false;
 	}
+    public void hideHasLeftRoomPopUp()
+    {
+        this.hasLeftRoomPopUp.SetActive (false);
+        BackOfficeController.instance.hideTransparentBackground();
+        this.isHasLeftRoomPopUpDisplayed = false;
+    }
 	public void hideWonPackPopUp()
 	{
 		this.wonPackPopUp.SetActive (false);

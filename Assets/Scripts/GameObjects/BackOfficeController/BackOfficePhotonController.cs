@@ -255,7 +255,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			BackOfficeController.instance.launchPreMatchLoadingScreen();
 		}
 	}
-	void OnDisconnectedFromPhoton()
+	public void OnDisconnectedFromPhoton()
 	{
 		if(!ApplicationModel.player.ToDeconnect)
 		{
@@ -263,10 +263,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		}
 		print("blabla");
         BackOfficeController.instance.loadScene("Authentication");
-	}
-	private void storeGameInformations()
-	{
-		
 	}
 	private void CreateTutorialDeck()
 	{
