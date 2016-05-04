@@ -119,97 +119,97 @@ public class TrainingController : MonoBehaviour
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				break;
 			case 40:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 41:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 42:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 43:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				break;
 			case 50:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 51:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 52:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 53:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(6);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				break;
 			case 60:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 61:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 62:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 63:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(4);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				break;
 			case 70:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 71:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 72:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[0];
 				break;
 			case 73:
-				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(7);
+				this.cardType.transform.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(5);
 				this.stars[0].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[1].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];
 				this.stars[2].transform.GetComponent<SpriteRenderer>().sprite=this.sprites[1];

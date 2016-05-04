@@ -686,8 +686,8 @@ public class Player : User
 	{
 		if(TrainingStatus==-1)
 		{
-			this.TrainingAllowedCardType=6;
-			this.TrainingPreviousAllowedCardType=6;
+			this.TrainingAllowedCardType=7;
+			this.TrainingPreviousAllowedCardType=7;
 		}
 		else if(TrainingStatus<9)
 		{
@@ -711,28 +711,28 @@ public class Player : User
 		}
 		else if(TrainingStatus<49)
 		{
-			this.TrainingAllowedCardType=4;
+			this.TrainingAllowedCardType=6;
 			this.TrainingPreviousAllowedCardType=0;
 		}
 		else if(TrainingStatus<59)
 		{
-			this.TrainingAllowedCardType=6;
-			this.TrainingPreviousAllowedCardType=4;
+			this.TrainingAllowedCardType=7;
+			this.TrainingPreviousAllowedCardType=6;
 		}
 //		else if(TrainingStatus<69)
 //		{
-//			this.TrainingAllowedCardType=5;
-//			this.TrainingPreviousAllowedCardType=6;
+//			this.TrainingAllowedCardType=4;
+//			this.TrainingPreviousAllowedCardType=7;
 //		}
 //		else if(TrainingStatus<79)
 //		{
-//			this.TrainingAllowedCardType=7;
-//			this.TrainingPreviousAllowedCardType=6;
+//			this.TrainingAllowedCardType=5;
+//			this.TrainingPreviousAllowedCardType=4;
 //		}
 //		else if(TrainingStatus<89)
 //		{
 //			this.TrainingAllowedCardType=8;
-//			this.TrainingPreviousAllowedCardType=7;
+//			this.TrainingPreviousAllowedCardType=5;
 //		}
 //		else if(TrainingStatus<99)
 //		{
