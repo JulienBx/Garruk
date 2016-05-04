@@ -329,6 +329,7 @@ public class GameController : Photon.MonoBehaviour
 	void OnDisconnectedFromPhoton()
 	{
 		ApplicationModel.player.HasLostConnection=true;
+		ApplicationModel.player.ToDeconnect = true;
 
 		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
 		PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
