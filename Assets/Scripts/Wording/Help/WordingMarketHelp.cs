@@ -14,7 +14,7 @@ public class WordingMarketHelp
 	static WordingMarketHelp()
 	{
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Les colons peuvent acquérir des unités appartenant à leurs confrères, moyennant une compensation décidée par le vendeur! Vendez vos boulets en essayant de trouver un prix suffisamment attractif, et veillez les bonnes affaires!",""}); //1
-		helpContents.Add(new string[]{"Le marché est immense, mais ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes!",""}); //3
+		helpContents.Add(new string[]{"Les colons peuvent acheter des unités aux enchères, moyennant une compensation décidée par le vendeur ! Certains colons s'enrichissent sur Cristalia grâce au commerce d'unités",""}); //1
+		helpContents.Add(new string[]{"Ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes!",""}); //3
 	}
 }

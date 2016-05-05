@@ -14,8 +14,8 @@ public class WordingCollectionPointsPopUp
 	static WordingCollectionPointsPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Collections Points : + ","Collection Score : "}); //0
-		references.Add(new string[]{"\nClassement : ","\nRanking : "}); //1
+		references.Add(new string[]{"Points de collection + ","Collection Score : "}); //0
+		references.Add(new string[]{"\nClassement collectionneur : ","\nRanking : "}); //1
 
 	}
 }

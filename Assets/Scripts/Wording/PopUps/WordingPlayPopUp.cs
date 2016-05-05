@@ -14,7 +14,7 @@ public class WordingPlayPopUp
 	static WordingPlayPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisir un mode de bataille","Choose a fight mode"}); //0
+		references.Add(new string[]{"Choisir un mode de combat","Choose a fight mode"}); //0
 		references.Add(new string[]{"Annuler","Cancel"}); //1
 		references.Add(new string[]{"Refuser","Decline"}); //2
 

@@ -14,6 +14,6 @@ public class WordingSelectCardTypePopUp
 	static WordingSelectCardTypePopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Choisissez une faction :","Choose your faction"}); //0
+		references.Add(new string[]{"Veuillez choisir une faction :","Choose your faction"}); //0
 	}
 }

@@ -21,15 +21,15 @@ public class WordingHelp
 		references=new List<string[]>();
 		references.Add(new string[]{"Quitter le tutoriel",""}); //0
 		references.Add(new string[]{"Quitter l'aide",""}); //1
-		references.Add(new string[]{"Vous êtes encore en apprentissage !\n Attendez d'avoir disputé votre première bataille \npour pouvoir ensuite réaliser cette action",""}); //2
+		references.Add(new string[]{"Disputez votre premier combat \navant de pouvoir accéder à ce menu !",""}); //2
 		references.Add(new string[]{"Continuer",""}); //3
 
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Description de la faction ...",""}); //0
-		helpContents.Add(new string[]{"Description de l'expérience ...",""}); //1
-		helpContents.Add(new string[]{"Description des points d'attaque / vie",""}); //2
-		helpContents.Add(new string[]{"Description des compétences",""}); //3
-		helpContents.Add(new string[]{"Description du skill focused",""}); //4
-		helpContents.Add(new string[]{"Description de l'augmentation ...",""}); //5
+		helpContents.Add(new string[]{"La faction de l'unité détermine les compétences auxquelles l'unité a accès, ainsi que sa mobilité sur le champ de bataille",""}); //0
+		helpContents.Add(new string[]{"Les unités peuvent progresser au fil des combats en accumulant de l'expérience. L'expérience permet à l'unité de gagner des niveaux et d'améliorer ses caractéristiques et compétences",""}); //1
+		helpContents.Add(new string[]{"L'attaque et les points de vie sont les deux caractéristiques les plus importantes au combat. Les points de vie déterminent la résistance de l'unité, l'attaque sa force",""}); //2
+		helpContents.Add(new string[]{"L'unité dispose de 2 à 4 compétences selon son niveau, dont une compétence passive (en noir). Les compétences actives peuvent être utilisées pendant le tour de l'unité",""}); //3
+		helpContents.Add(new string[]{"Cliquer sur une compétence permet d'accéder à la liste de ses effets selon le niveau de maitrise atteint",""}); //4
+		helpContents.Add(new string[]{"Votre unité est montée au niveau supérieur! Choisissez la caractéristique OU la compétence à améliorer ! Aux niveaux 4 et 8, l'unité apprend une nouvelle compétence",""}); //5
 	}
 }

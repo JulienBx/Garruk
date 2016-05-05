@@ -14,14 +14,14 @@ public class WordingProfileHelp
 	static WordingProfileHelp()
 	{
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Votre vie de colon sur Cristalia vous permettra de rencontrer d'autres colons. Ce profil est votre carte d'identité accessible de tous sur la Cristalosphère.",""}); //0
-		helpContents.Add(new string[]{"De nombreux trophées sillonneront votre présence sur Cristalia, récompensant votre aptitude au combat, vos connaissances du Cristal ou votre activité sur la planète",""}); //1
-		helpContents.Add(new string[]{"Recherchez ici un colon en inscrivant sur son nom!",""}); //2
-		helpContents.Add(new string[]{"Vous créer une vie sociale sur Cristalia vous permettra d'entrainer vos équipes à plusieurs, et de rompre avec la solitude du combattant, mal fréquent chez les colons fraichement débarqués.",""}); //3
+		helpContents.Add(new string[]{"Chaque colon dispose d'un profil sur Cristalia. Ce profil est votre carte d'identité Cristalienne accessible de tous sur la Cristalosphère.",""}); //0
+		helpContents.Add(new string[]{"Le département du mérite Cristalien aime décerner des trophées, récompensant votre aptitude au combat ou votre niveau de collection des unités. Votre vitrine des trophés affiche les récompenses gagnées depuis votre arrivée sur la planète.",""}); //1
+		helpContents.Add(new string[]{"Recherchez ici un colon en tapant les premières lettres de son pseudo!",""}); //2
+		helpContents.Add(new string[]{"Vous pourrez défier vos amis dans l'arène, et ainsi rompre avec la solitude du combattant, mal fréquent chez les colons fraichement débarqués. Attention, les combats avec les amis ne rapportent pas de cristaux",""}); //3
 
-		helpContents.Add(new string[]{"Vous pouvez accéder ici au profil d'un colon, et rentrer en relation avec lui. Ce système de mise en relation vous permettra notamment de vous entrainer face à lui dans les arènes privatisées de Cristalia",""}); //4
-		helpContents.Add(new string[]{"Vous pourrez également accéder à la liste des derniers combats du colon, et consulter ainsi l'état de forme de ses équipes",""}); //5
-		helpContents.Add(new string[]{"Vous pouvez ici consulter la liste des amis du colon",""}); //6
+		helpContents.Add(new string[]{"Vous pouvez accéder ici au profil d'un colon, et le demander en ami. Vous pourrez ensuite le défier dans l'arène",""}); //4
+		helpContents.Add(new string[]{"La liste des derniers combats du colon dans l'arène, pour consulter l'état de forme de ses équipes",""}); //5
+		helpContents.Add(new string[]{"Consultez ici la liste des amis du colon",""}); //6
 
 	}
 }

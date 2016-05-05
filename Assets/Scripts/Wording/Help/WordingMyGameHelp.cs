@@ -19,17 +19,17 @@ public class WordingMyGameHelp
 	static WordingMyGameHelp()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Bienvenue sur l'écran de gestion de vos équipes, commençons par créer une équipe et donnons lui un nom",""}); //0
-		tutorialContents.Add(new string[]{"Vous allez déplacer 4 de vos unités dans l'équipe",""}); //1
-		tutorialContents.Add(new string[]{"Votre équipe est complète il est bientot temps pour moi de vous quitter",""}); //2
-		tutorialContents.Add(new string[]{"Lorsque vous serez prêt, cliquez sur combattre pour affronter de nouveaux adversaire",""}); //3
-		tutorialContents.Add(new string[]{"Si vous souhaitez améliorer vos connaissances tactiques allez visiter la cristalopédia",""}); //4
-		tutorialContents.Add(new string[]{"Pour faire du commerce avec vos carte allez visiter le marché",""}); //5
-		tutorialContents.Add(new string[]{"Enfin, si vous souhaitez me convoquer à nouveau cliquez sur le bouton aide que vous trouverez partout",""}); //6
+		tutorialContents.Add(new string[]{"Vous pouvez consulter ici vos unités et les organiser en équipe (seule une équipe complète peut combattre sur Cristalia). Commencez par créer une équipe!",""}); //0
+		tutorialContents.Add(new string[]{"Maintenant choisissez les membres de votre équipe et déplacez-les vers celle-ci",""}); //1
+		tutorialContents.Add(new string[]{"Bravo, votre équipe est complète. Vous êtes maintenant prêt à affronter les dangers de Cristalia seul",""}); //2
+		tutorialContents.Add(new string[]{"Pour combattre et gagner de nouveaux cristaux, il vous suffira d'accéder à l'arène",""}); //3
+		tutorialContents.Add(new string[]{"Vos connaissances sur Cristalia seront rassemblées dans la Cristalopedia",""}); //4
+		tutorialContents.Add(new string[]{"Enfin pour tenter de vendre vos unités ou d'en acquérir de nouvelles, faites un tour aux enchères",""}); //5
+		tutorialContents.Add(new string[]{"Il est temps pour moi de vous quitter, mais je ne serai pas loin. Utilisez le bouton d'aide pour me convoquer!",""}); //6
 
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Organisez vos unités en équipes de 4. N'oubliez jamais que l'ordre des unités dans l'équipe déterminé l'ordre d'action pendant les batailles",""}); //1
-		helpContents.Add(new string[]{"Accédez à l'ensemble de vos unités, et n'hésitez pas à cliquer sur une unité pour consulter le détail de ses compétences",""}); //3
-		helpContents.Add(new string[]{"Plus vous posséderez d'unités, plus il sera difficile de parcourir votre armée. Les filtres vous permettront de trouver rapidement des unités répondant à des critères spécifiques",""}); //5
+		helpContents.Add(new string[]{"Organisez vos unités en équipes de 4 pour entrer dans l'arène. L'ordre des unités dans les équipes détermine leur ordre d'action en combat",""}); //1
+		helpContents.Add(new string[]{"Toutes vos unités disponibles (sauf celles mises aux enchères) sont accessibles ici. Touchez une unité pour accéder à sa carte détaillée",""}); //3
+		helpContents.Add(new string[]{"Les filtres vous permettront de trouver rapidement des unités répondant à vos besoins. Torak, colon de la première vague, disposant d'une armée de plus de 1200 unités, ne peut plus s'en passer!",""}); //5
 	}
 }

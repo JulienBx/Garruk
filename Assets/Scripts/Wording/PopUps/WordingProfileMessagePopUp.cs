@@ -15,6 +15,6 @@ public class WordingProfileMessagePopUp
 	{
 		references=new List<string[]>();
 		references.Add(new string[]{"OK!","OK!"}); //0
-		references.Add(new string[]{"Vous avez modifié votre adresse email. Pour pouvoir vous connecter à nouveau, il vous suffira de cliquer sur le nouveau lien d'activation qui vient de vous être envoyé par mail.","You have just changed your emalil account information. You will have to click on the activation link we have sent you before logging in the next time you want to play"}); //3
+		references.Add(new string[]{"Vous avez modifié votre adresse email. Pour pouvoir vous connecter à nouveau, il vous suffira de cliquer sur le lien d'activation qui vient de vous être envoyé par mail.","You have just changed your emalil account information. You will have to click on the activation link we have sent you before logging in the next time you want to play"}); //3
 	}
 }
