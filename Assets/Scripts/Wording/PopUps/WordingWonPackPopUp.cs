@@ -14,7 +14,7 @@ public class WordingWonPackPopUp
 	static WordingWonPackPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"De nouvelles cartes vous attendent à la boutique. Cliquez sur ok pour les découvrir !"}); //0
+		references.Add(new string[]{"De nouvelles cartes vous attendent au centre de recrutement!"}); //0
 		references.Add(new string[]{"OK!","OK!"}); //1
 	}
 }

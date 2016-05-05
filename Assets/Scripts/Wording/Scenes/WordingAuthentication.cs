@@ -14,7 +14,7 @@ public class WordingAuthentication
 	static WordingAuthentication()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Connexion à Techtical Wars ...","Connecting to Techtical Wars..."}); //0
+		references.Add(new string[]{"Connexion au réseau Cristalien en cours...","Connecting to Techtical Wars..."}); //0
 		references.Add(new string[]{"Veuillez saisir votre pseudo","Enter your player name"}); //1
 		references.Add(new string[]{"Votre pseudo doit comporter au moins 3 caractères","Your player name must be made of more than 3 characters"}); //2
 		references.Add(new string[]{"Vous ne pouvez pas utiliser de caractères spéciaux","You can not use special characters"}); //3
