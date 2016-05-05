@@ -23,6 +23,7 @@ public class InputTextGuiController : InterfaceController
 		base.Awake();
 		this.textFieldStyle=new GUIStyle();
 		this.textFieldStyle.font=this.font;
+        this.textFieldStyle.fontSize=Mathf.RoundToInt((0.025f)*(float)Screen.height);
 		this.textFieldStyle.alignment=TextAnchor.MiddleCenter;
 		this.textFieldStyle.normal.textColor=ApplicationDesignRules.whiteTextColor;
 	}
