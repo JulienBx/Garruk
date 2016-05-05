@@ -4,18 +4,15 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:1bc9d81803f661e02fb52d5f541e2733:a8c080c3f39ef90849d90047fe9ea423:f5e7ab90a85bebdde37a8495660bfbf8$
+# $TexturePacker:SmartUpdate:4a37638fb59c1897f8db6890b402cf81:856592aa528e7917ee31f8ade47578cf:f5e7ab90a85bebdde37a8495660bfbf8$
 #
 :format=40000
 :texture=backOfficeTextures2.png
 :size=2048x2048
 
-bulle0;723;1084;889;206;0.5;0.5
-bulle1;723;1292;890;322;0.5;0.5
-bulle2;723;1616;891;431;0.5;0.5
-companion;723;259;581;742;0.5;0.5
-drag3;1616;1304;343;342;0.5;0.5
-miniCompanion;1615;1003;300;299;0.5;0.5
+companion;723;1305;581;742;0.5;0.5
+drag3;1651;1705;343;342;0.5;0.5
+miniCompanion;1651;1404;300;299;0.5;0.5
 nexLevelPopUp;1;1043;720;1004;0.5;0.5
-slideUp;1616;1648;343;399;0.5;0.5
+slideUp;1306;1648;343;399;0.5;0.5
 soldPanel;1;37;720;1004;0.5;0.5

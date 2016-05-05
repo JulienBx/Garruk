@@ -364,7 +364,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 114792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.067932, y: 1.3935719, z: 0}
+  m_LocalPosition: {x: -0.17522036, y: 203.96436, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 463756}
@@ -433,7 +433,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 1.9199998, z: 0}
+  m_LocalPosition: {x: 0.43853378, y: 1.8380463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 428700}
@@ -659,9 +659,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogs:
-  - {fileID: 21300006, guid: 091635da0d354cf45823a0691cc4c062, type: 3}
-  - {fileID: 21300008, guid: 091635da0d354cf45823a0691cc4c062, type: 3}
-  - {fileID: 21300010, guid: 091635da0d354cf45823a0691cc4c062, type: 3}
+  - {fileID: 21300008, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
+  - {fileID: 21300010, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
+  - {fileID: 21300012, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
   scrollingSprites:
   - {fileID: 21300016, guid: 091635da0d354cf45823a0691cc4c062, type: 3}
   - {fileID: 21300392, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
@@ -864,8 +864,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 7.3230033
-    height: 3.54009
+    width: 6.339635
+    height: 3.6103263
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!212 &21213068
 SpriteRenderer:
@@ -893,7 +893,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1945406385
   m_SortingOrder: 102
-  m_Sprite: {fileID: 21300010, guid: 091635da0d354cf45823a0691cc4c062, type: 3}
+  m_Sprite: {fileID: 21300012, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

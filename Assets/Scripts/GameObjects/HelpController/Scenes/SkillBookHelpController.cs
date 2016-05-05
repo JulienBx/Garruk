@@ -9,7 +9,12 @@ using TMPro;
 public class SkillBookHelpController : HelpController 
 {
 
-	#region Help
+    public override Vector3 getFocusedSkillPosition()
+    {
+        return NewSkillBookController.instance.getFocusedSkillPosition();
+    }
+
+    #region Help
 
 	public override void getDesktopHelpSequenceSettings()
 	{
@@ -23,6 +28,9 @@ public class SkillBookHelpController : HelpController
 			this.setFlashingBlock (NewSkillBookController.instance.returnFiltersBlock (),true);
 			this.setCompanion(WordingSkillBookHelp.getHelpContent(1),true,true,true,0f);
 			break;
+        default:
+            base.getDesktopHelpSequenceSettings();
+            break;
 		}
 	}
 	public override void getMobileHelpSequenceSettings()
@@ -46,16 +54,28 @@ public class SkillBookHelpController : HelpController
 			this.setCompanion(WordingSkillBookHelp.getHelpContent(1),true,false,true,0f);
 			this.setFlashingBlock (NewSkillBookController.instance.returnFiltersBlock (),true);
 			break;
+        default:
+            base.getMobileHelpSequenceSettings();
+            break;
 		}
 	}
 	public override void getHelpNextAction()
 	{
-		if (sequenceId < 1) 
-		{
-			this.sequenceId++;
-			this.launchHelpSequence ();
-		} 
-		else
+		if(this.sequenceId>99)
+        {
+            base.getHelpNextAction();
+        }
+        else if(NewSkillBookController.instance.getIsFocusedSkillDisplayed())
+        {
+            this.sequenceId=400;
+            this.launchHelpSequence();
+        } 
+        else if (sequenceId < 1) 
+        {
+            this.sequenceId++;
+            this.launchHelpSequence ();
+        }
+        else 
 		{
 			if(ApplicationDesignRules.isMobileScreen)
 			{

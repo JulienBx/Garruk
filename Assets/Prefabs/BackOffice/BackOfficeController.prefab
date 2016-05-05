@@ -3281,10 +3281,10 @@ MonoBehaviour:
   - {fileID: 21300140, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   - {fileID: 21300142, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   packPictures:
-  - {fileID: 21300080, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
-  - {fileID: 21300064, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
-  - {fileID: 21300084, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
-  - {fileID: 21300082, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
+  - {fileID: 21300004, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
+  - {fileID: 21300014, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
+  - {fileID: 21300016, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
+  - {fileID: 21300006, guid: a15647d772e1bff47883fbadcd3ec1d3, type: 3}
   tabsPictures:
   - {fileID: 21300078, guid: d4d0df9c0d8326741b75d655697fac3b, type: 3}
   - {fileID: 21300066, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
