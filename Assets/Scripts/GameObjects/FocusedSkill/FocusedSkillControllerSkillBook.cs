@@ -13,6 +13,11 @@ public class FocusedSkillControllerSkillBook : FocusedSkillController
 	}
 	public override string getDescription(int idSkill, int level)
 	{
-		return WordingSkills.getDescription(idSkill,level);
+        string description = WordingSkills.getDescription(idSkill,level);
+        if(WordingSkills.getProba(idSkill,level)<100)
+        {
+            description +=WordingCard.getReference(0)+WordingSkills.getProba(idSkill,level)+WordingCard.getReference(1);
+        }
+        return description;
 	}
 }
