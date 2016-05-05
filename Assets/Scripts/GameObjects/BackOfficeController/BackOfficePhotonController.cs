@@ -261,7 +261,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		{
 			ApplicationModel.player.HasLostConnection=true;
 		}
-		print("blabla");
         BackOfficeController.instance.loadScene("Authentication");
 	}
 	private void CreateTutorialDeck()

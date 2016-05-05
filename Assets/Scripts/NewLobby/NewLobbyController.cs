@@ -569,7 +569,7 @@ public class NewLobbyController : MonoBehaviour
 				}
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
 				this.results[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=textColor;
-				this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.IdProfilePicture);
+                this.results[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.IdProfilePicture);
 				this.results[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Username;
 				this.results[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.Division);
 				if(model.lastResults[this.pagination.chosenPage*this.pagination.nbElementsPerPage+i].Opponent.isPublic)

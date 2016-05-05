@@ -118,10 +118,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static private Vector3 competitionMobileScale = new Vector3 (0.5f, 0.5f, 0.5f);
 	static public Vector3 competitionScale;
 
-	static private Vector2 thumbSize = new Vector2(63f,63f);
+	static private Vector2 thumbSize = new Vector2(190f,190f);
 	static public Vector2 thumbWorldSize;
-	static private Vector3 thumbOriginalScale=new Vector3(1.2f,1.2f,1.2f);
-	static private Vector3 thumbMobileScale = new Vector3(1.4f,1.4f,1.4f);
+	static private Vector3 thumbOriginalScale=new Vector3(0.44f,0.44f,0.44f);
+	static private Vector3 thumbMobileScale = new Vector3(0.44f,0.44f,0.44f);
 	static public Vector3 thumbScale;
 
 	static private Vector2 cardTypeThumbSize = new Vector2(386f,386f);

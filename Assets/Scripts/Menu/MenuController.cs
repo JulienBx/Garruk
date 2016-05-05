@@ -354,8 +354,8 @@ public class MenuController : MonoBehaviour
 	}
 	public void changeThumbPicture()
 	{
-		gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnThumbPicture (ApplicationModel.player.IdProfilePicture);
-		gameObject.transform.FindChild("MobilePicture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnThumbPicture (ApplicationModel.player.IdProfilePicture);
+        gameObject.transform.FindChild("UserBlock").FindChild ("Picture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture(ApplicationModel.player.IdProfilePicture);
+        gameObject.transform.FindChild("MobilePicture").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnLargeProfilePicture(ApplicationModel.player.IdProfilePicture);
 	}
 	#region TUTORIAL FUNCTIONS
 

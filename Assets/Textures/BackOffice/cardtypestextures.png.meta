@@ -1,0 +1,353 @@
+fileFormatVersion: 2
+guid: fc5e269ca67b74355a1e8521b84b2d19
+timeCreated: 1455720781
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Mystic
+    21300002: assassin
+    21300004: cristoid
+    21300006: droid
+    21300008: medic
+    21300010: predator
+    21300012: scientist
+    21300014: telepath
+    21300016: terraformer
+    21300018: trooper
+    21300020: assassin-b
+    21300022: assassin-g
+    21300024: assassin-r
+    21300026: cristoid-b
+    21300028: cristoid-g
+    21300030: cristoid-r
+    21300032: droid-b
+    21300034: droid-g
+    21300036: droid-r
+    21300038: medic-b
+    21300040: medic-g
+    21300042: medic-r
+    21300044: mystic-b
+    21300046: mystic-g
+    21300048: mystic-r
+    21300050: predator-b
+    21300052: predator-g
+    21300054: predator-r
+    21300056: scientist-b
+    21300058: scientist-g
+    21300060: scientist-r
+    21300062: telepath-b
+    21300064: telepath-g
+    21300066: telepath-r
+    21300068: terr&a-b
+    21300070: terra-g
+    21300072: terra-r
+    21300074: trooper-b
+    21300076: trooper-g
+    21300078: trooper-r
+    21300080: terra-b
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 512
+    textureFormat: 33
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
+  spriteSheet:
+    sprites:
+    - name: Mystic
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 773
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: assassin
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 521
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: cristoid
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 269
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: droid
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 17
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: medic
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 773
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: predator
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 773
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: scientist
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 773
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: telepath
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 521
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: terraformer
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 269
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    - name: trooper
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 17
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 65}
+        - {x: 4, y: 120}
+        - {x: -3, y: 120}
+        - {x: -37, y: 103}
+        - {x: -106, y: 61}
+        - {x: -106, y: -63}
+        - {x: -62, y: -89}
+        - {x: -39, y: -100}
+        - {x: -5, y: -121}
+        - {x: 1, y: -121}
+        - {x: 8, y: -118}
+        - {x: 72, y: -81}
+        - {x: 104, y: -62}
+        - {x: 104, y: 60}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

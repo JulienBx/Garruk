@@ -1,0 +1,14 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:8a8a0ad8c82802b9f6c5c0debea0678e:a8a6f56069521f502d17e965bdaef740:9b2c0ada4567812c723bf7def4e4d798$
+#
+:format=40000
+:texture=backOfficeTransparentTextures2.png
+:size=2048x2048
+
+cardbox;1;1097;1500;950;0.5;0.5
+companionBack;1;261;916;834;0.5;0.5

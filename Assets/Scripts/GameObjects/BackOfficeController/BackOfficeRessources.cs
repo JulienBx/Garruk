@@ -13,7 +13,6 @@ public class BackOfficeRessources : MonoBehaviour
 	public GameObject transparentBackgroundObject;
 	public GameObject invitationPopUpObject;
 	public Sprite[] loadingScreenBackgrounds;
-	public Sprite[] profilePictures;
 	public Sprite[] largeProfilePictures;
 	public Sprite[] packPictures;
 	public Sprite[] tabsPictures;

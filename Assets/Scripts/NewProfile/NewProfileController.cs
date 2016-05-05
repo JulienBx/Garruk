@@ -1172,7 +1172,7 @@ public class NewProfileController : MonoBehaviour
 			{
 				this.challengesRecordsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Username;
-				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
+				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
 				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.isPublic)
 				{
 					this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(true);
@@ -1254,7 +1254,7 @@ public class NewProfileController : MonoBehaviour
 					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
 					this.friendsStatusButtons[2*i+1].SetActive(false);
 				}
-				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
+                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Username;
 				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.isPublic)
 				{
@@ -1305,7 +1305,7 @@ public class NewProfileController : MonoBehaviour
 					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(false);
 					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(false);
 				}
-				this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
+                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
 				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Username;
 				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].TrainingStatus==-1)
 				{
