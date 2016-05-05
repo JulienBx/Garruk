@@ -623,10 +623,6 @@ public class BackOfficeController : MonoBehaviour
 		ApplicationModel.player.ChosenGameType=-1;
 		BackOfficeController.instance.joinRandomRoomHandler();
 	}
-	public Sprite returnThumbPicture(int id)
-	{
-		return ressources.profilePictures [id];
-	}
 	public Sprite returnPackPicture(int id)
 	{
 		return ressources.packPictures [id];

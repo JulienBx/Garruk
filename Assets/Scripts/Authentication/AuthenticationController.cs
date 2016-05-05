@@ -912,11 +912,9 @@ public class AuthenticationController : Photon.MonoBehaviour
 	}
 	private void loadLevels()
 	{
-		print("Blabla");
 		SoundController.instance.playMusic(new int[]{0,1,2});
 		if(PlayerPrefs.HasKey("GameRoomId") && ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyPlayerName"))==ApplicationModel.player.Username)
 		{
-			print("Blabla2");
 			this.retrieveGameData();
             ApplicationModel.player.HasToJoinLeavedRoom=true;
             BackOfficeController.instance.joinLeavedRoom();

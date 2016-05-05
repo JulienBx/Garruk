@@ -294,6 +294,10 @@ public class HelpController : MonoBehaviour
 			this.quitHelp ();
 			StartCoroutine(ApplicationModel.player.setNextLevelTutorial(true));
 		}
+        else if(this.sequenceId==400)
+        {
+            this.quitHelp ();
+        }
 	}
 	public virtual void getTutorialNextAction()
 	{
@@ -393,6 +397,10 @@ public class HelpController : MonoBehaviour
 			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedCardPosition().y,5.4f,7.7f),0f,0f);
 			this.setCompanion (WordingHelp.getHelpContent (5), true, false, true, 0f);
 			break;
+        case 400:
+            this.setBackground (true,new Rect(this.getFocusedSkillPosition().x,-ApplicationDesignRules.upMargin/2f+this.getFocusedSkillPosition().y,5.4f,7.7f),0f,0f);
+            this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
+            break;
 		}
 	}
 	public virtual void getMobileHelpSequenceSettings()
@@ -428,6 +436,10 @@ public class HelpController : MonoBehaviour
 			this.setBackground (true,new Rect(this.getFocusedCardPosition().x,this.getFocusedCardPosition().y,4.2f,5.8f),0f,0f);
 			this.setCompanion (WordingHelp.getHelpContent (5), true, false, true, 0f);
 			break;
+        case 400:
+            this.setBackground (true,new Rect(this.getFocusedSkillPosition().x,this.getFocusedSkillPosition().y,4.2f,5.8f),0f,0f);
+            this.setCompanion (WordingHelp.getHelpContent (4), true, false, true, 0f);
+            break;
 		}
 	}
 	public virtual void getDesktopTutorialSequenceSettings()
@@ -526,6 +538,10 @@ public class HelpController : MonoBehaviour
 	{
 		return new Vector3();
 	}
+    public virtual Vector3 getFocusedSkillPosition()
+    {
+        return new Vector3();
+    }
 	#endregion
 
 	#region Companion Methods

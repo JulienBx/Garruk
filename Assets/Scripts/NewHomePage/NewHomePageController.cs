@@ -1388,7 +1388,7 @@ public class NewHomePageController : MonoBehaviour
 			this.contents[contentId].transform.FindChild("picture").GetComponent<NewHomePageContentPictureController>().setIsActive(false);
 			this.contents[contentId].transform.FindChild("username").GetComponent<NewHomePageContentUsernameController>().setIsActive(false);
 		}
-		this.contents[contentId].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnThumbPicture(user.IdProfilePicture);
+        this.contents[contentId].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(user.IdProfilePicture);
 		this.contents[contentId].transform.FindChild("username").GetComponent<TextMeshPro>().text=user.Username;
 		if(user.TrainingStatus!=-1)
 		{
