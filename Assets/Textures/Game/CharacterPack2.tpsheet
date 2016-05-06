@@ -1,0 +1,21 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:3b1a5f8107fd894e526bfc42f51c65de:a4707f450d648213ec58431d23659b87:c401ce08aa9c4dfe99edf1537134ed82$
+#
+:format=40000
+:texture=CharacterPack2.png
+:size=4096x4096
+
+06;1;1241;735;920;0.5;0.5
+07;668;374;794;865;0.5;0.5
+08;1076;3185;440;910;0.5;0.5
+110MissionnaireBig;586;2217;668;914;0.5;0.5
+111ProtecteurBig;1;347;665;892;0.5;0.5
+113PurificateurBig;738;1471;641;744;0.5;0.5
+64PiegeurBig;1;2163;583;968;0.5;0.5
+71RapideBig;1;3133;1073;962;0.5;0.5
+Mudo;1256;2480;273;703;0.5;0.5

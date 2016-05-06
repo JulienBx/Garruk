@@ -14,7 +14,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	private int nbPlayersInRoom;
 	private int deckLoaded;
 	float waitingTime = 0f ; 
-	float limitTime = 2f ;
+	float limitTime = 10f ;
 	bool isWaiting ;
 	public AsyncOperation async ;
 
@@ -48,8 +48,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		PhotonNetwork.LeaveRoom ();
 	}
 
+	void OnCreatedRoom()
+	{
+		//photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
+	}
+
 	public void joinRandomRoom()
 	{
+		print("Jessaye de join une room");
 		this.nbPlayersInRoom = 0;
 		this.nbPlayersReady = 0;
 		TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
@@ -133,6 +139,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
 	public IEnumerator CreateNewRoom()
 	{
+		print("Je crée une nouvelle Room");
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
@@ -145,15 +152,13 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
         PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-      
-        if(!ApplicationModel.player.ToLaunchGameTutorial)
+		if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
             yield return StartCoroutine(this.initializeGame());
         }
 		if(ApplicationModel.player.ChosenGameType<=20)
 		{
 			this.isWaiting = true ;
-			this.startLoadingScene();
 		}
 		yield break;
 	}
@@ -167,25 +172,19 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		this.async.allowSceneActivation = false ;
 		yield return async ;
 	}
-	
-	void OnJoinedRoom()
-	{
-        if(ApplicationModel.player.HasToJoinLeavedRoom)
-        {
-			ApplicationModel.gameRoomId	=PhotonNetwork.room.name;		
 
-			if(PhotonNetwork.room.playerCount==2){
-				PhotonNetwork.room.open = false;
-				print("Je ferme la room START");
-			}
-			SceneManager.LoadScene("Game");
-        }
-        else
-        {
-            photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
-		    print("Je rejoins une nouvelle room");
-		    BackOfficeController.instance.displayLoadingScreenButton(true);
-        }
+	void OnJoinedRoom(){
+		print("Je join la room random "+ApplicationModel.player.IsFirstPlayer);
+		photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
+	    BackOfficeController.instance.displayLoadingScreenButton(true);
+		this.startLoadingScene();
+
+		ApplicationModel.gameRoomId	=PhotonNetwork.room.name;		
+
+		if(PhotonNetwork.room.playerCount==2){
+			PhotonNetwork.room.open = false;
+			print("Je ferme la room START");
+		}
 	}
 	
 	[PunRPC]
@@ -220,14 +219,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 				ApplicationModel.myPlayerName=loginName;
                 ApplicationModel.player.RankingPoints=rankingPoints;
 				ApplicationModel.player.MyDeck=deck;
-				print("deck :"+ApplicationModel.myPlayerName);
+				print("mon deck :"+ApplicationModel.myPlayerName);
 			} 
 			else
 			{
 				ApplicationModel.hisPlayerName=loginName;
                 ApplicationModel.hisRankingPoints=rankingPoints;
 				ApplicationModel.opponentDeck=deck;
-				print("deck :"+ApplicationModel.hisPlayerName);
+				print("son deck :"+ApplicationModel.hisPlayerName);
 			}
 			this.nbPlayersReady++;
 			if(this.nbPlayersReady==2)

@@ -22,16 +22,6 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameView.instance.createTile(x, y, type);
 	}
-
-	public void launchCardCreation(){
-		photonView.RPC("launchCardCreationRPC", PhotonTargets.AllBuffered);
-	}
-	
-	[PunRPC]
-	void launchCardCreationRPC()
-	{
-		GameView.instance.loadMyDeck();
-	}
 	
 	public void addPiegeurTrap(Tile t, int level, bool isFirstP){
 		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level);

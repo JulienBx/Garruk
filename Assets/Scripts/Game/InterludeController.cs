@@ -10,7 +10,6 @@ public class InterludeController : MonoBehaviour
 	public float time;
 	public bool isRunning;
 	public Sprite[] sprites ;
-	public Sprite[] characterSprites ;
 	bool isEndTurn ;
 	
 	bool isPaused ;

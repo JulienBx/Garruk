@@ -1,0 +1,36 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:ba932a27a4dcc6421f264ae5399d33fa:9fd1d4439ae8e91d82cbcd73c5fb2b2a:75657517c7c59505db30f9673a56c86e$
+#
+:format=40000
+:texture=CharacterPack1.png
+:size=4096x4096
+
+112PretresseBig;1420;3210;597;885;0.5;0.5
+138MutantBig;1370;2299;738;904;0.5;0.5
+139CristomaitreBig;3432;2275;587;914;0.5;0.5
+140CreateurBig;628;2320;740;903;0.5;0.5
+144DieuBig;2110;2292;691;911;0.5;0.5
+32EmbusqueBig;3309;355;550;972;0.5;0.5
+33PUissantBig;1080;397;607;961;0.5;0.5
+34SanguinaireBig;1;1428;499;931;0.5;0.5
+35SniperBig;2548;365;759;962;0.5;0.5
+56;680;3225;738;870;0.5;0.5
+58;3493;3191;595;904;0.5;0.5
+59;1;2361;625;912;0.5;0.5
+60;2803;2281;627;912;0.5;0.5
+65LacheBig;1;473;474;953;0.5;0.5
+66AgileBig;1;3275;677;820;0.5;0.5
+67NinjaBig;942;1376;389;942;0.5;0.5
+68FantassinBig;2019;3205;858;890;0.5;0.5
+69FrenetiqueBig;1689;382;857;961;0.5;0.5
+70CuirasseBig;1333;1360;888;930;0.5;0.5
+72VirologueBig;2800;1329;838;944;0.5;0.5
+73PaladinBig;477;417;601;957;0.5;0.5
+75InfirmiereBig;502;1380;438;938;0.5;0.5
+76LeaderBig;2223;1345;575;945;0.5;0.5
+83;2879;3195;612;900;0.5;0.5

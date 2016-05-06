@@ -5,8 +5,6 @@ using TMPro;
 
 public class PopUpChoiceController : MonoBehaviour
 {
-	public Sprite[] factions ;
-
 	void Awake(){
 		this.show(false);
 	}

@@ -6,7 +6,6 @@ public class TileController : GameObjectController
 {
 	public Sprite[] trapSprites ;
 	public Sprite[] destinationSprites ;
-	public Sprite[] targetSprites ;
 	public Color[] skillEffectColor;
 	public Sprite[] animSprites;
 	
@@ -54,7 +53,6 @@ public class TileController : GameObjectController
 	public void displayTarget(bool b){
 		this.isDisplayingTarget = b ;
 		this.isTargetDisplayed = b ;
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = this.targetSprites[0] ;
 		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
 		this.timerTarget=0f;
 	}
@@ -65,10 +63,10 @@ public class TileController : GameObjectController
 			this.isTargetDisplayed = !this.isTargetDisplayed ;
 			if(!this.isHovering){
 				if(this.isTargetDisplayed){
-					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f) ;
 				}
 				else{
-					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[1] ;
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 				}
 			}
 			this.timerTarget = 0f ;
@@ -267,14 +265,6 @@ public class TileController : GameObjectController
 		}
 		else{
 			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = false;
-		}
-	}
-
-	public void setTargetSprite(int i){
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[i] ;
-		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = true;
-		if(this.characterID!=-1){
-			this.showDescription(true);
 		}
 	}
 

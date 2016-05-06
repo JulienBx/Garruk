@@ -1733,7 +1733,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//75 - Infirmier
 		idSkills.Add(75);
-		names.Add(new string[]{"Infirmier","Nurse"}); 
+		names.Add(new string[]{"Infirmière","Nurse"}); 
 		descriptions.Add(new string[]{"Rend 5 PV aux alliés adjacents en fin de tour","Heals 5 PV to all adjacent allys"}); 
 		descriptions.Add(new string[]{"Rend 7 PV aux alliés adjacents en fin de tour","Heals 7 PV to all adjacent allys"}); 
 		descriptions.Add(new string[]{"Rend 9 PV aux alliés adjacents en fin de tour","Heals 9 PV to all adjacent allys"}); 
@@ -2584,7 +2584,7 @@ public class WordingSkills
 		probas.Add(100);  
 		//112 - Fanatique
 		idSkills.Add(112);
-		names.Add(new string[]{"Martyr","Martyr"}); 
+		names.Add(new string[]{"Prêtresse","Priestress"}); 
 		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 12% ATK","Everytime the unit is wounded, allys gain 12% ATK"}); 
 		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 14% ATK","Everytime the unit is wounded, allys gain 14% ATK"}); 
 		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 16% ATK","Everytime the unit is wounded, allys gain 16% ATK"}); 

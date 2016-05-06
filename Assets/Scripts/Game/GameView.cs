@@ -14,19 +14,14 @@ public class GameView : MonoBehaviour
 	public GameObject tileModel ;
 	public GameObject verticalBorderModel;
 	public GameObject horizontalBorderModel;
-	public GameObject backgroundImageModel;
 	public GameObject playingCardModel;
-	public GameObject skillButtonModel;
-	public GameObject TutorialObject;
 	public Sprite[] sprites;
 	public Sprite[] factionSprites;
 	public Sprite[] skillSprites;
 	public Sprite[] skillTypeSprites;
-	public Sprite[] cardTypeSprites;
-
 	public int boardWidth ;
 	public int boardHeight ;
-	public int nbCardsPerPlayer ;
+	int nbCardsPerPlayer ;
 	public int nbFreeRowsAtBeginning ;
 
 	bool isLoadingScreenDisplayed = false ;
@@ -282,6 +277,7 @@ public class GameView : MonoBehaviour
 	
 	public void loadMyDeck()
 	{
+		print("LOADMYDECK");
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			List<Skill> skills = new List<Skill>();
 			skills.Add (new Skill("Lâche", 65, 1, 1, 2, 0, "", 0, 0));
@@ -1565,7 +1561,7 @@ public class GameView : MonoBehaviour
 
 		if(this.toLaunchCardCreation && this.isGameskillOK){
 			this.toLaunchCardCreation = false ; 
-			GameController.instance.launchCardCreation();
+			this.loadMyDeck();
 		}
 
 		if(this.draggingSkillButton!=-1){
@@ -3149,10 +3145,6 @@ public class GameView : MonoBehaviour
 	
 	public Sprite getSkillSprite(int i){
 		return this.skillSprites[i];
-	}
-
-	public Sprite getCardTypeSprite(int i){
-		return this.cardTypeSprites[i];
 	}
 
 	public Sprite getSkillTypeSprite(int i){
