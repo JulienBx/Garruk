@@ -23,7 +23,7 @@ public class InputTextGuiController : InterfaceController
 		base.Awake();
 		this.textFieldStyle=new GUIStyle();
 		this.textFieldStyle.font=this.font;
-		this.textFieldStyle.fontSize=20;
+        this.textFieldStyle.fontSize=Mathf.RoundToInt((0.025f)*(float)Screen.height);
 		this.textFieldStyle.alignment=TextAnchor.MiddleCenter;
 		this.textFieldStyle.normal.textColor=ApplicationDesignRules.whiteTextColor;
 	}
@@ -48,6 +48,7 @@ public class InputTextGuiController : InterfaceController
 		float width = ((ApplicationDesignRules.largeInputTextWorldSize.x-0.3f) / ApplicationDesignRules.worldWidth) * Screen.width;
 		float heigth = (ApplicationDesignRules.largeInputTextWorldSize.y / ApplicationDesignRules.worldHeight) * Screen.height;
 		this.rect = new Rect (x, y, width, heigth);
+        this.textFieldStyle.fontSize=Mathf.RoundToInt((0.025f)*(float)Screen.height);
 	}
 	void OnGUI()
 	{
