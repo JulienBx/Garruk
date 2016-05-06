@@ -1438,12 +1438,12 @@ public class newMyGameController : MonoBehaviour
 					switch (this.sortingOrder)
 					{
 					case 0:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Power;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Power;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 1:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Power;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Power;
+						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 2:
 						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;

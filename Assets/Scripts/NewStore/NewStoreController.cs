@@ -1248,7 +1248,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 	    Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
         BackOfficeController.instance.hideLoadingScreen();
-        BackOfficeController.instance.displayErrorPopUp(WordingProducts.getReferences(3));
+        BackOfficeController.instance.displayErrorPopUp(WordingProducts.getReferences(4));
 	}
 	void Success (XsollaResult result)
 	{

@@ -47,8 +47,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.initializeScene ();
-        ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("sfxVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
-        ApplicationModel.volMusic=PlayerPrefs.GetFloat("musicVol",0.5f)*ApplicationModel.volMaxMusic;
+		if(PlayerPrefs.HasKey("sfxVol"))
+		{
+			ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("sfxVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
+		}
+		if(PlayerPrefs.HasKey("musicVol"))
+		{
+			ApplicationModel.volMusic=PlayerPrefs.GetFloat("musicVol",0.5f)*ApplicationModel.volMaxMusic;
+		}
 	}
 	void Start()
 	{
@@ -913,7 +919,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void loadLevels()
 	{
 		SoundController.instance.playMusic(new int[]{0,1,2});
-		if(PlayerPrefs.HasKey("GameRoomId") && ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyPlayerName"))==ApplicationModel.player.Username)
+		if(PlayerPrefs.HasKey("GameRoomId") && this.checkPlayerPrefs() && ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyPlayerName"))==ApplicationModel.player.Username)
 		{
 			this.retrieveGameData();
             ApplicationModel.player.HasToJoinLeavedRoom=true;
@@ -968,6 +974,48 @@ public class AuthenticationController : Photon.MonoBehaviour
 		ApplicationModel.hisRankingPoints=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString("GameHisRankingPoints")));
         ApplicationModel.player.MyDeck=this.retrieveDeckData(true);
         ApplicationModel.opponentDeck=this.retrieveDeckData(false);
+	}
+	private bool checkPlayerPrefs()
+	{
+		if(!PlayerPrefs.HasKey("GameRoomId") ||
+			!PlayerPrefs.HasKey("IsFirstPlayer") ||
+			!PlayerPrefs.HasKey("GameMyPlayerName") ||
+			!PlayerPrefs.HasKey("GameHisPlayerName") ||
+			!PlayerPrefs.HasKey("GameMyRankingPoints") ||
+			!PlayerPrefs.HasKey("GameHisRankingPoints"))
+		{
+			return false;
+		}
+
+		for(int i=0; i<4;i++)
+        {
+			if(!PlayerPrefs.HasKey("MyCard"+i+"Id") ||
+				!PlayerPrefs.HasKey("MyCard"+i+"Name") ||
+				!PlayerPrefs.HasKey("MyCard"+i+"Life") ||
+				!PlayerPrefs.HasKey("MyCard"+i+"Attack") ||
+				!PlayerPrefs.HasKey("MyCard"+i+"Move") ||
+				!PlayerPrefs.HasKey("HisCard"+i+"Id") ||
+				!PlayerPrefs.HasKey("HisCard"+i+"Name") ||
+				!PlayerPrefs.HasKey("HisCard"+i+"Life") ||
+				!PlayerPrefs.HasKey("HisCard"+i+"Attack") ||
+				!PlayerPrefs.HasKey("HisCard"+i+"Move"))
+			{
+				return false;
+			}
+			for(int j=0;j<4;j++)
+            {
+				if(!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Id") ||
+					!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"IsActivated") ||
+					!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Power")||
+					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Id") ||
+					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"IsActivated") ||
+					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Power"))
+				{
+					return false;
+				}
+            }
+        }
+        return true;
 	}
     private Deck retrieveDeckData(bool isMine)
     {
