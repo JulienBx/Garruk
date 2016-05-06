@@ -14,7 +14,7 @@ public class NewPackButtonController : SimpleButtonController
 	}
 	public override void showToolTip ()
 	{
-		BackOfficeController.instance.displayToolTip(WordingPacks.getReferences(1),WordingPacks.getReferences(2));
+		//BackOfficeController.instance.displayToolTip(WordingPacks.getReferences(1),WordingPacks.getReferences(2));
 	}
 }
 

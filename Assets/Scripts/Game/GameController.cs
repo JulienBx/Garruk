@@ -328,21 +328,24 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
+		if(!ApplicationModel.player.ToLaunchGameTutorial)
+		{
+			PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
+			PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
+			PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer.ToString()));
+			PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
+			PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
+			PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints.ToString()));
+			PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints.ToString()));
+
+			this.saveDeckData(true,ApplicationModel.player.MyDeck);
+			this.saveDeckData(false,ApplicationModel.opponentDeck);
+
+			PlayerPrefs.Save();
+		}
+
 		ApplicationModel.player.HasLostConnection=true;
 		ApplicationModel.player.ToDeconnect = true;
-
-		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
-		PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
-		PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer.ToString()));
-		PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
-		PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
-		PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints.ToString()));
-		PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints.ToString()));
-
-		this.saveDeckData(true,ApplicationModel.player.MyDeck);
-		this.saveDeckData(false,ApplicationModel.opponentDeck);
-
-		PlayerPrefs.Save();
 
         SceneManager.LoadScene("Authentication");
 	}
@@ -384,7 +387,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGame()
 	{
-        PhotonNetwork.LeaveRoom ();
+		ApplicationModel.player.ShouldQuitGame=true;
+		PhotonNetwork.LeaveRoom ();
 	}
 
 	public void disconnect()
@@ -394,14 +398,18 @@ public class GameController : Photon.MonoBehaviour
 
 	void OnLeftRoom()
 	{
-		if(ApplicationModel.player.ToLaunchGameTutorial)
+		if(ApplicationModel.player.ShouldQuitGame)
 		{
-			ApplicationModel.player.ToLaunchGameTutorial=false;
-			SceneManager.LoadScene("NewHomePage");
-		}
-		else
-		{
-			SceneManager.LoadScene("EndGame");
+			ApplicationModel.player.ShouldQuitGame=false;
+			if(ApplicationModel.player.ToLaunchGameTutorial)
+			{
+				ApplicationModel.player.ToLaunchGameTutorial=false;
+				SceneManager.LoadScene("NewHomePage");
+			}
+			else
+			{
+				SceneManager.LoadScene("EndGame");
+			}
 		}
 	}
 	

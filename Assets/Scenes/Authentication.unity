@@ -601,7 +601,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1245,7 +1245,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1688,7 +1688,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1931,7 +1931,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2088,7 +2088,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2478,7 +2478,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2758,7 +2758,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2915,7 +2915,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3072,7 +3072,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3446,7 +3446,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3603,7 +3603,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3762,7 +3762,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4004,7 +4004,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4363,7 +4363,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4520,7 +4520,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4903,7 +4903,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5318,7 +5318,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5475,7 +5475,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5844,7 +5844,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6003,7 +6003,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6160,7 +6160,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6405,7 +6405,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6649,7 +6649,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6806,7 +6806,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6963,7 +6963,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7120,7 +7120,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7363,7 +7363,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7520,7 +7520,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7735,7 +7735,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7978,7 +7978,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8135,7 +8135,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8378,7 +8378,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8535,7 +8535,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8692,7 +8692,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8849,7 +8849,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9091,7 +9091,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9336,7 +9336,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9744,7 +9744,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9926,7 +9926,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10083,7 +10083,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10240,7 +10240,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10397,7 +10397,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10554,7 +10554,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10711,7 +10711,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11200,7 +11200,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11357,7 +11357,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11514,7 +11514,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11756,7 +11756,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11998,7 +11998,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12155,7 +12155,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12419,7 +12419,7 @@ MonoBehaviour:
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
   isInputParsingRequired: 0
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1

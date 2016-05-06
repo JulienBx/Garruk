@@ -80,6 +80,7 @@ public class Player : User
 	public bool HasToBuyTrainingPack;
 	public bool HasLostConnection;
     public bool HasToJoinLeavedRoom;
+    public bool ShouldQuitGame;
   
 	public Player()
 	{
