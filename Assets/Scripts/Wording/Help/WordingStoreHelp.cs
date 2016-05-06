@@ -33,6 +33,6 @@ public class WordingStoreHelp
 		helpContents=new List<string[]>();
 		helpContents.Add(new string[]{"Le centre de recrutement propose plusieurs offres. Plus vous recruterez d'unités simultanément, plus le prix par unité sera bas",""}); //1
 		helpContents.Add(new string[]{"L'argent terrien peut vous permettre d'acheter des cristaux à la boutique",""}); //3
-		helpContents.Add(new string[]{"Les unités acquises au centre de recrutement peuvent ensuite être retrouvées dans 'mes unités'",""}); //5
+		helpContents.Add(new string[]{"Les unités acquises au centre de recrutement peuvent ensuite être retrouvées dans 'Mes unités'",""}); //5
 	}
 }

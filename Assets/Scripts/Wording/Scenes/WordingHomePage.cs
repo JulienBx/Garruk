@@ -15,10 +15,10 @@ public class WordingHomePage
 	{
 		references=new List<string[]>();
 		references.Add(new string[]{"Mon équipe","My team"}); //0
-		references.Add(new string[]{"Combattre","Fight"}); //1
-		references.Add(new string[]{"Recruter","Enlistment"}); //2
+		references.Add(new string[]{"Arène","Fight"}); //1
+		references.Add(new string[]{"Centre de recrutement","Enlistment"}); //2
 		references.Add(new string[]{"Alertes","Alerts"}); //3
-		references.Add(new string[]{"Fil d'actualités","Newsfeed"}); //4
-		references.Add(new string[]{"Amis","Friends"}); //5
+		references.Add(new string[]{"Actualités","Newsfeed"}); //4
+		references.Add(new string[]{"Mes amis","Friends"}); //5
 	}
 }

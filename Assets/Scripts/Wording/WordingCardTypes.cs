@@ -31,15 +31,15 @@ public class WordingCardTypes
 		names.Add(new string[]{"Terraformeur","Terraformer"});
 
 		descriptions=new List<string[]>();
-		descriptions.Add(new string[]{"Le medic est une unité de soutien. Ses capacités lui permettent d'aider ou de soigner ses alliés","Medic units can heal or boost their allys with their unique set of skills"});
-		descriptions.Add(new string[]{"L'assassin est une unité rapide mais peu résistante, capable d'utiliser diverses attaques","Assassins are fast units but do not have much HP. They can use a wide set of skills to inflict average damages"});
-		descriptions.Add(new string[]{"Le prédateur est l'unité la plus offensive de Cristalia, mais ne peut attaquer que de près","Predators are the strongest units, but they are slow and need to come closer to their ennemies to attack"});
-		descriptions.Add(new string[]{"Le trooper dispose d'armes pour attaquer à distance. Ses faibles protections le rendent inapte au combat rappproché","The trooper can use his long range weapons to attack ennemies. Troopers are difficult to protect as they do not have much HP"});
-		descriptions.Add(new string[]{"Le mentaliste est le maitre de l'illusion et peut dérouter le colon ennemi par ses surprenantes compétences","Mentalist master illusions and can get to their ennemies mind to confuse or use them"});
-		descriptions.Add(new string[]{"Les robots sont des unités solides mais très lentes, capables de se spécialiser selon le type de  ","Robots a"});
-		descriptions.Add(new string[]{"Description de Cristoide",""});
-		descriptions.Add(new string[]{"Description de Mystique",""});
-		descriptions.Add(new string[]{"Description de Artisan",""});
-		descriptions.Add(new string[]{"Description de Terraformeur",""});
+		descriptions.Add(new string[]{"Les MEDICS peuvent aider leurs alliés sur le champ de bataille grâce à leurs compétences uniques.","Medic units can heal or boost their allys with their unique set of skills"});
+		descriptions.Add(new string[]{"Les ASSASSINS sont des unités mobiles capable d'infliger de lourds dégats ou de piéger le terrain.","Assassins are fast units but do not have much HP. They can use a wide set of skills to inflict average damages"});
+		descriptions.Add(new string[]{"Les PREDATEURS sont les unités les plus puissantes de Cristalia mais ne sont efficaces qu'au corps à corps","Predators are the strongest units, but they are slow and need to come closer to their ennemies to attack"});
+		descriptions.Add(new string[]{"Les TROOPERS préfèrent attaquer à distance et sont très peu résistants. Protégez-les au maximum!","The trooper can use his long range weapons to attack ennemies. Troopers are difficult to protect as they do not have much HP"});
+		descriptions.Add(new string[]{"Les MENTALISTES disposent de compétences unques pour perturber les stratégies et unités ennemies.","Mentalist master illusions and can get to their ennemies mind to confuse or use them"});
+		descriptions.Add(new string[]{"Les ROBOTS sont des unités très résistantes mais peu puissantes, à moins qu'un SCIENTIFIQUE ne les aide","Robots a"});
+		descriptions.Add(new string[]{"Les CRISTOIDES sont les habitants originels de Cristalia, et se renforcent mutuellement sur le champ de bataille.",""});
+		descriptions.Add(new string[]{"Les MYSTIQUES disposent de compétences puissantes mais qui peuvent également pénaliser vos unités.",""});
+		descriptions.Add(new string[]{"Les ARTISANS peuvent aider leurs alliés en façonnant des armures ou des batiments de soutien",""});
+		descriptions.Add(new string[]{"Les TERRAFORMEURS sont les maitres du champ de bataille, et peuvent utiliser celui-ci pour triompher!",""});
 	}
 }

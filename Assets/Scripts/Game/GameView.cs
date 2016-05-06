@@ -1570,7 +1570,7 @@ public class GameView : MonoBehaviour
 
 		if(this.draggingSkillButton!=-1){
 			Vector3 mousePos = Input.mousePosition;
-			this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition2(Camera.main.ScreenToWorldPoint(mousePos));
+			this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition3(Camera.main.ScreenToWorldPoint(mousePos));
 		}
 
 		if(this.timeDragging>=0){
@@ -3502,7 +3502,7 @@ public class GameView : MonoBehaviour
 			mousePos = new Vector3(0.5f+stepButton, -4.4f, 0f);
 		}
 
-		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition2(mousePos);
+		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition4(mousePos);
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
 		this.hideTargets();
 		this.cancelSkill();

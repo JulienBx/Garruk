@@ -176,7 +176,14 @@ public class SkillButtonController : MonoBehaviour
 		}
 	}
 
-	public void setPosition2(Vector3 p){
+	public void setPosition3(Vector3 p){
+		p.z = -0.5f;
+		p.x -= GameView.instance.stepButton;
+		p.y+=0.5f;
+		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+	}
+
+	public void setPosition4(Vector3 p){
 		p.z = -0.5f;
 		p.x -= GameView.instance.stepButton;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);

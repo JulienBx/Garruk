@@ -16,16 +16,16 @@ public class WordingStore
 		references=new List<string[]>();
 		references.Add(new string[]{"Acheter","Buy"}); //0
 		references.Add(new string[]{"Retour","Go back"}); //1
-		references.Add(new string[]{"Recrutement","Enlistment"}); //2
-		references.Add(new string[]{"Enrolez de nouvelles unités en sélectionnant le pack que vous souhaitez","Click on the pack you want to enlist new units"}); //3
-		references.Add(new string[]{"Echanger l'argent de votre planète au bureau de change de Cristalia","Use the Cristalian foreign exchange office to buy cristals"}); //4
+		references.Add(new string[]{"le centre de recrutement","Enlistment"}); //2
+		references.Add(new string[]{"Accédez aux offres du centre de recrutement pour trouver les unités qui vous intéressent. Chaque unité possède ses propres compétences et caractéristiques, que vous ne découvrirez qu'après les avoir recrutées!","Click on the pack you want to enlist new units"}); //3
+		references.Add(new string[]{"La boutique vous permet d'échanger de l'argent terrien contre des cristaux, selon le taux de change Terra-Cristalien en vigueur","Use the Cristalian foreign exchange office to buy cristals"}); //4
 		references.Add(new string[]{"Acheter des cristaux","Buy cristals"}); //5
 		references.Add(new string[]{"Boutique","Shop"}); //6
 		references.Add(new string[]{"Merci de bien vouloir saisir une valeur","Please type a number"}); //7
 		references.Add(new string[]{"Vendre","Sell"}); //8
-		references.Add(new string[]{"Acheter des crédits",""}); //9
-		references.Add(new string[]{"a compléter",""}); //10
+		references.Add(new string[]{"Acheter des cristaux",""}); //9
+		references.Add(new string[]{"La boutique vous permet d'acheter des cristaux supplémentaires et d'accélérer votre progression dans le jeu",""}); //10
 		references.Add(new string[]{"Retour",""}); //11
-		references.Add(new string[]{"Cliquez ici pour retourner à l'écran précédent",""}); //12
+		references.Add(new string[]{"Revenir au centre de recrutement",""}); //12
 	}
 }

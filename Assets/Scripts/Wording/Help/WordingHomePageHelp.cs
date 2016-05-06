@@ -21,7 +21,7 @@ public class WordingHomePageHelp
 		tutorialContents=new List<string[]>();
 		tutorialContents.Add(new string[]{"Vous avez gagné votre première bataille sur Cristalia! D'autres colons plus forts encore vous attendent... Améliorez votre équipe et disputez d'autres combats!",""}); //0
 		tutorialContents.Add(new string[]{"Vous n'avez pas démérité mais ce premier combat est perdu. Recrutez d'autres unités ou entrainez votre équipe pour retenter votre chance !",""}); //1
-		tutorialContents.Add(new string[]{"Vous êtes ici sur votre tableau de bord depuis lequel vous pouvez accéder aux combats, aux nouveautés, ou à la boutique",""}); //2
+		tutorialContents.Add(new string[]{"Vous êtes ici sur votre tableau de bord depuis lequel vous pouvez accéder aux combats, aux nouveautés, ou aux dernières offres du centre de recrutement",""}); //2
 		tutorialContents.Add(new string[]{"Commencez par engager des unités au centre de recrutement",""}); //3
 		tutorialContents.Add(new string[]{"Découvrez le mode conquête pour gagner plus de cristaux",""}); //4
 		tutorialContents.Add(new string[]{"Le mode conquête est maintenant disponible à la place des matchs d'entrainement !",""}); //5
