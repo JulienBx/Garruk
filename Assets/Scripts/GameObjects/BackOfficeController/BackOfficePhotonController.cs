@@ -419,7 +419,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		names.Add("Aoide");
 		names.Add("Tiamat");
 
-		ApplicationModel.hisPlayerName=names[UnityEngine.Random.Range(0,names.Count)];
+		ApplicationModel.hisPlayerName=names[UnityEngine.Random.Range(0,names.Count-1)];
 
 		ApplicationModel.opponentDeck=new Deck();
 		ApplicationModel.opponentDeck.cards=new List<Card>();
@@ -482,7 +482,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		 
 		for (int i = 0 ; i < 4 ; i++){
 			if(fixedIDType==-1){
-				cardType = UnityEngine.Random.Range(1,11);
+				cardType = UnityEngine.Random.Range(1,10);
+				while(cardType==4 || cardType==5 || cardType==8 || cardType==9){
+					cardType = UnityEngine.Random.Range(1,11);
+				}
 			}
 			else{
 				cardType = fixedIDType;
