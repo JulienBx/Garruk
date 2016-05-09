@@ -593,10 +593,6 @@ public class BackOfficeController : MonoBehaviour
 			StartCoroutine(invitation.changeStatus(-1));
 		}
 	}
-    public void joinLeavedRoom()
-    {
-        photon.joinLeavedRoom();
-    }
 	public void joinRandomRoomHandler()
 	{
 		this.displayLoadingScreen ();

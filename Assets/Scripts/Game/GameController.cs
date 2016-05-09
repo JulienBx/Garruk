@@ -311,49 +311,12 @@ public class GameController : Photon.MonoBehaviour
 	{
 		if(!ApplicationModel.player.ToLaunchGameTutorial)
 		{
-			PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
-			PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
-			PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer.ToString()));
-			PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
-			PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
-			PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints.ToString()));
-			PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints.ToString()));
-
-			this.saveDeckData(true,ApplicationModel.player.MyDeck);
-			this.saveDeckData(false,ApplicationModel.opponentDeck);
-
-			PlayerPrefs.Save();
+			ApplicationModel.player.HasLostConnectionDuringGame=true;
 		}
-
 		ApplicationModel.player.HasLostConnection=true;
 		ApplicationModel.player.ToDeconnect = true;
 
         SceneManager.LoadScene("Authentication");
-	}
-
-	private void saveDeckData(bool isMine, Deck deck)
-	{
-		string name="My";
-
-		if(!isMine)
-		{
-			name="His";
-		}
-		for(int i=0; i<4;i++)
-		{
-            PlayerPrefs.SetString(name+"Card"+i+"Id",ApplicationModel.Encrypt(deck.cards[i].Id.ToString()));
-            PlayerPrefs.SetString(name+"Card"+i+"Name",ApplicationModel.Encrypt(deck.cards[i].Title));
-            PlayerPrefs.SetString(name+"Card"+i+"Life",ApplicationModel.Encrypt(deck.cards[i].Life.ToString()));
-            PlayerPrefs.SetString(name+"Card"+i+"Attack",ApplicationModel.Encrypt(deck.cards[i].Attack.ToString()));
-            PlayerPrefs.SetString(name+"Card"+i+"Move",ApplicationModel.Encrypt(deck.cards[i].Move.ToString()));
-
-			for(int j=0;j<deck.cards[i].Skills.Count;j++)
-			{
-                PlayerPrefs.SetString(name+"Card"+i+"Skill"+j+"Id",ApplicationModel.Encrypt(deck.cards[i].Skills[j].Id.ToString()));	
-                PlayerPrefs.SetString(name+"Card"+i+"Skill"+j+"IsActivated",ApplicationModel.Encrypt(deck.cards[i].Skills[j].IsActivated.ToString()));	
-                PlayerPrefs.SetString(name+"Card"+i+"Skill"+j+"Power",ApplicationModel.Encrypt(deck.cards[i].Skills[j].Power.ToString()));	
-			}
-		}
 	}
     public void quitGameHandler(bool hasFirstPlayerLost)
 	{

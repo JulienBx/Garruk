@@ -113,11 +113,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 		int lastIDLanguage = ApplicationModel.player.IdLanguage;
 		bool lastToDeconnect = ApplicationModel.player.ToDeconnect;
 		bool lastHastLostConnection = ApplicationModel.player.HasLostConnection;
+		bool lastHastLostConnectionDuringGame = ApplicationModel.player.HasLostConnectionDuringGame;
 		ApplicationModel.player=new Player();
 		ApplicationModel.player.Username=lastUsername;
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
 		ApplicationModel.player.HasLostConnection=lastHastLostConnection;
+		ApplicationModel.player.HasLostConnectionDuringGame=lastHastLostConnectionDuringGame;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
 	}
 	private void initializeServerController()
@@ -207,6 +209,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 			error=this.checkPasswordComplexity(password);
 			if(error=="")
 			{
+				if(ApplicationModel.player.Username!=login)
+				{
+					ApplicationModel.player.HasLostConnectionDuringGame=false;
+				}
 				ApplicationModel.player.Username=login;
 				ApplicationModel.player.Password=password;
 				ApplicationModel.player.ToRememberLogins=this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe();
@@ -919,13 +925,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void loadLevels()
 	{
 		SoundController.instance.playMusic(new int[]{0,1,2});
-		if(PlayerPrefs.HasKey("GameRoomId") && this.checkPlayerPrefs() && ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyPlayerName"))==ApplicationModel.player.Username)
-		{
-			this.retrieveGameData();
-            ApplicationModel.player.HasToJoinLeavedRoom=true;
-            BackOfficeController.instance.joinLeavedRoom();
-		}
-		else if(ApplicationModel.player.TutorialStep!=-1)
+		if(ApplicationModel.player.TutorialStep!=-1)
 		{
 			switch(ApplicationModel.player.TutorialStep)
 			{
@@ -962,93 +962,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.loadLevels();
 	}
-
-	void retrieveGameData()
-	{
-		ApplicationModel.gameRoomId=ApplicationModel.Decrypt(PlayerPrefs.GetString("GameRoomId"));
-		ApplicationModel.player.ChosenGameType=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString("ChosenGameType")));
-		ApplicationModel.player.IsFirstPlayer=System.Convert.ToBoolean(ApplicationModel.Decrypt(PlayerPrefs.GetString("IsFirstPlayer")));
-		ApplicationModel.myPlayerName=ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyPlayerName"));
-		ApplicationModel.hisPlayerName=ApplicationModel.Decrypt(PlayerPrefs.GetString("GameHisPlayerName"));
-		ApplicationModel.player.RankingPoints=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString("GameMyRankingPoints")));
-		ApplicationModel.hisRankingPoints=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString("GameHisRankingPoints")));
-        ApplicationModel.player.MyDeck=this.retrieveDeckData(true);
-        ApplicationModel.opponentDeck=this.retrieveDeckData(false);
-	}
-	private bool checkPlayerPrefs()
-	{
-		if(!PlayerPrefs.HasKey("GameRoomId") ||
-			!PlayerPrefs.HasKey("IsFirstPlayer") ||
-			!PlayerPrefs.HasKey("GameMyPlayerName") ||
-			!PlayerPrefs.HasKey("GameHisPlayerName") ||
-			!PlayerPrefs.HasKey("GameMyRankingPoints") ||
-			!PlayerPrefs.HasKey("GameHisRankingPoints"))
-		{
-			return false;
-		}
-
-		for(int i=0; i<4;i++)
-        {
-			if(!PlayerPrefs.HasKey("MyCard"+i+"Id") ||
-				!PlayerPrefs.HasKey("MyCard"+i+"Name") ||
-				!PlayerPrefs.HasKey("MyCard"+i+"Life") ||
-				!PlayerPrefs.HasKey("MyCard"+i+"Attack") ||
-				!PlayerPrefs.HasKey("MyCard"+i+"Move") ||
-				!PlayerPrefs.HasKey("HisCard"+i+"Id") ||
-				!PlayerPrefs.HasKey("HisCard"+i+"Name") ||
-				!PlayerPrefs.HasKey("HisCard"+i+"Life") ||
-				!PlayerPrefs.HasKey("HisCard"+i+"Attack") ||
-				!PlayerPrefs.HasKey("HisCard"+i+"Move"))
-			{
-				return false;
-			}
-			for(int j=0;j<4;j++)
-            {
-				if(!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Id") ||
-					!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"IsActivated") ||
-					!PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Power")||
-					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Id") ||
-					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"IsActivated") ||
-					!PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Power"))
-				{
-					return false;
-				}
-            }
-        }
-        return true;
-	}
-    private Deck retrieveDeckData(bool isMine)
-    {
-        Deck deck = new Deck();
-        deck.cards=new List<Card>();
-
-        string name="My";
-
-        if(!isMine)
-        {
-            name="His";
-        }
-        for(int i=0; i<4;i++)
-        {
-            deck.cards.Add(new Card());
-			deck.cards[i].Id=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name + "Card"+i+"Id")));
-			deck.cards[i].Title=PlayerPrefs.GetString(ApplicationModel.Decrypt(PlayerPrefs.GetString(name + "Card"+i+"Name")));
-			deck.cards[i].Life=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name + "Card"+i+"Life")));
-			deck.cards[i].Attack=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name + "Card"+i+"Attack")));
-			deck.cards[i].Move=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name + "Card"+i+"Move")));
-
-            for(int j=0;j<deck.cards.Count;j++)
-            {
-				if(PlayerPrefs.HasKey(name+"Card"+i+"Skill"+j+"Id")){
-	                deck.cards[i].Skills.Add(new Skill());
-					deck.cards[i].Skills[j].Id=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name+"Card"+i+"Skill"+j+"Id")));
-					deck.cards[i].Skills[j].IsActivated=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name+"Card"+i+"Skill"+j+"IsActivated")));
-					deck.cards[i].Skills[j].Power=System.Convert.ToInt32(ApplicationModel.Decrypt(PlayerPrefs.GetString(name+"Card"+i+"Skill"+j+"Power")));
-				}
-            }
-        }
-        return deck;
-    }
 
 	#region Facebook
 

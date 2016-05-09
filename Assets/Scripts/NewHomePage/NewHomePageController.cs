@@ -314,12 +314,10 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.displayWonPackPopUp();
 		}
-        else if(ApplicationModel.player.HasToJoinLeavedRoom)
+        else if(ApplicationModel.player.HasLostConnectionDuringGame)
         {
             this.displayHasLeftRoomPopUp();
-            ApplicationModel.player.HasToJoinLeavedRoom=false;
-			PlayerPrefs.DeleteKey("GameRoomId");
-			PlayerPrefs.Save();
+            ApplicationModel.player.HasLostConnectionDuringGame=false;
         }
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{
