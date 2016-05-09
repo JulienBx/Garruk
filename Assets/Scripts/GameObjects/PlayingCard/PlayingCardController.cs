@@ -583,7 +583,14 @@ public class PlayingCardController : GameObjectController
 			if(GameView.instance.hasFightStarted){
 				GameView.instance.updateActionStatus();
 			}
-			this.moveBackward();
+			if(GameView.instance.hasFightStarted){
+				if(this.id!=GameView.instance.getCurrentPlayingCard()){
+					this.moveBackward();
+				}
+			}
+			else{
+				this.moveBackward();
+			}
 		}
 		else{
 			float rapport = this.timerMove/this.MoveTime;
@@ -752,6 +759,8 @@ public class PlayingCardController : GameObjectController
 	
 	public void checkModyfiers()
 	{
+		this.updateAttack(this.card.getAttack());
+		this.updateLife(this.card.getLife());
 		this.card.checkModifyers();
 		this.show();
 		GameView.instance.getMyHoveredCardController().updateCharacter();

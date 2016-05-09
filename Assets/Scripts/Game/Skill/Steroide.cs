@@ -24,7 +24,8 @@ public class Steroide : GameSkill
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int max = 2 * GameView.instance.getCurrentSkill().Power+5;
-		
+
+		Debug.Log(targets[0].x+","+targets[0].y);
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);
 		}

@@ -61,6 +61,7 @@ public class Sacrifice : GameSkill
 
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
+		SoundController.instance.playSound(34);
 	}	
 	
 	public override string getTargetText(int target){

@@ -284,8 +284,9 @@ public class ArtificialIntelligence : MonoBehaviour
 		}
 		Tile origine = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 		if(bestEmplacement.x!=origine.x || bestEmplacement.y!=origine.y){
+
 			GameView.instance.dropCharacter(GameView.instance.getCurrentPlayingCard(), bestEmplacement, false, true);
-			yield return new WaitForSeconds(2f);
+			yield return new WaitForSeconds(UnityEngine.Random.Range(2,6));
 
 			List<Tile> tempList = new List<Tile>();
 			tempList.Add(bestTarget);
@@ -506,7 +507,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				yield return new WaitForSeconds(2f);
 			}
 		}
-
+		yield return new WaitForSeconds(2f);
 		GameView.instance.setNextPlayer(false);
 		yield break;
 	}
