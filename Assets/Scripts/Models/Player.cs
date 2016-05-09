@@ -79,7 +79,7 @@ public class Player : User
 	public int TrainingPreviousAllowedCardType;
 	public bool HasToBuyTrainingPack;
 	public bool HasLostConnection;
-    public bool HasToJoinLeavedRoom;
+    public bool HasLostConnectionDuringGame;
     public bool ShouldQuitGame;
   
 	public Player()

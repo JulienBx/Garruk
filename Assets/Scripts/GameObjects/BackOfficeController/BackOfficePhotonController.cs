@@ -64,25 +64,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
 	}
 
-    public void joinLeavedRoom()
-    {
-        string idRoom = PlayerPrefs.GetString("GameRoomId");
-		this.emptyPrefs();
-        PhotonNetwork.JoinRoom(idRoom);
-    }
-
 	void OnPhotonRandomJoinFailed()
 	{
-        if(ApplicationModel.player.HasToJoinLeavedRoom)
-        {
-			print("La room n'existe plus");
-            BackOfficeController.instance.loadScene("NewHomePage");
-        }
-        else
-        {
-            Debug.Log("Can't join random room! - creating a new room");
-            StartCoroutine(this.CreateNewRoom ());
-        }
+		Debug.Log("Can't join random room! - creating a new room");
+		StartCoroutine(this.CreateNewRoom ());
 	}
 
 	void OnPhotonJoinRoomFailed()
@@ -91,51 +76,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         BackOfficeController.instance.loadScene("NewHomePage");
 	}
 
-	void emptyPrefs(){
-		PlayerPrefs.DeleteKey("GameRoomId");
-		PlayerPrefs.DeleteKey("ChosenGameType");
-		PlayerPrefs.DeleteKey("IsFirstPlayer");
-		PlayerPrefs.DeleteKey("GameMyPlayerName");
-		PlayerPrefs.DeleteKey("GameHisPlayerName");
-		PlayerPrefs.DeleteKey("GameMyRankingPoints");
-		PlayerPrefs.DeleteKey("GameHisRankingPoints");
-
-		for(int i=0; i<4;i++)
-		{
-			PlayerPrefs.DeleteKey("MyCard"+i+"Id");
-			PlayerPrefs.DeleteKey("MyCard"+i+"Name");
-			PlayerPrefs.DeleteKey("MyCard"+i+"Life");
-			PlayerPrefs.DeleteKey("MyCard"+i+"Attack");
-			PlayerPrefs.DeleteKey("MyCard"+i+"Move");
-
-			for(int j=0;j<4;j++)
-			{
-				if(PlayerPrefs.HasKey("MyCard"+i+"Skill"+j+"Id")){
-					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"Id");	
-					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"IsActivated");	
-					PlayerPrefs.DeleteKey("MyCard"+i+"Skill"+j+"Power");	
-				}
-			}
-		}
-
-		for(int i=0; i<4;i++)
-		{
-			PlayerPrefs.DeleteKey("HisCard"+i+"Id");
-			PlayerPrefs.DeleteKey("HisCard"+i+"Name");
-			PlayerPrefs.DeleteKey("HisCard"+i+"Life");
-			PlayerPrefs.DeleteKey("HisCard"+i+"Attack");
-			PlayerPrefs.DeleteKey("HisCard"+i+"Move");
-
-			for(int j=0;j<4;j++)
-			{
-				if(PlayerPrefs.HasKey("HisCard"+i+"Skill"+j+"Id")){
-					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"Id");	
-					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"IsActivated");	
-					PlayerPrefs.DeleteKey("HisCard"+i+"Skill"+j+"Power");	
-				}
-			}
-		}
-	}
 
 	public IEnumerator CreateNewRoom()
 	{
