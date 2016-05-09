@@ -24,14 +24,22 @@ public class TimerController : MonoBehaviour
 	}
 
 	public void addTime(float f){
-		this.timerTurn-=f ;
+		if(!ApplicationModel.player.ToLaunchGameTutorial){
+			this.timerTurn-=f ;
+		}
 
 		if(this.timerTurn<=0){
+			if(PhotonNetwork.room.playerCount<2){
+				GameView.instance.sendStat(ApplicationModel.myPlayerName,ApplicationModel.hisPlayerName,ApplicationModel.player.RankingPoints,ApplicationModel.hisRankingPoints,ApplicationModel.player.ChosenGameType,ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,true,true);
+				GameController.instance.quitGame();
+			}
+
 			isShowing = false ;
 			if(GameView.instance.getCurrentCard().isMine){
 				GameView.instance.hideAllTargets();
 				GameController.instance.findNextPlayer(true);
 			}
+
 		}
 		else{
 			int i = Mathf.Max(0,Mathf.CeilToInt(this.timerTurn));

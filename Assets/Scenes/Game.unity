@@ -294,7 +294,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1062614
-    height: 0.19999988
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &12586490
 GameObject:
@@ -655,7 +655,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 34936618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 1.9199998, z: 0}
+  m_LocalPosition: {x: 0.35, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1924606176}
@@ -775,8 +775,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 7.3230033
-    height: 3.54009
+    width: 6.5
+    height: 3
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!33 &34936623
 MeshFilter:
@@ -1203,7 +1203,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &111700171
 GameObject:
@@ -1883,7 +1883,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &231457381
 GameObject:
@@ -2672,7 +2672,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -2761,7 +2761,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &333926157
 GameObject:
@@ -2974,7 +2974,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &356900572
 GameObject:
@@ -3722,7 +3722,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &463452818
 GameObject:
@@ -4281,7 +4281,7 @@ MonoBehaviour:
   - {fileID: 21300024, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 21300030, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 21300032, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300038, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300036, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4359,6 +4359,7 @@ MonoBehaviour:
   myTimer: {fileID: 0}
   hisTimer: {fileID: 0}
   IA: {fileID: 0}
+  isChangingTurn: 0
 --- !u!114 &481987443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4948,7 +4949,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &515284324
 GameObject:
@@ -5960,7 +5961,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -6049,7 +6050,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &595099361
 GameObject:
@@ -6254,7 +6255,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &603102870
 GameObject:
@@ -7305,7 +7306,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -7394,7 +7395,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &736156808
 GameObject:
@@ -7732,7 +7733,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -7821,7 +7822,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &758050022
 GameObject:
@@ -8764,7 +8765,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -8853,7 +8854,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &873477807
 GameObject:
@@ -9999,7 +10000,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &982540085
 GameObject:
@@ -10063,7 +10064,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -10152,7 +10153,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &987719817
 GameObject:
@@ -10305,7 +10306,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1009497368
 GameObject:
@@ -11076,7 +11077,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 0
@@ -11165,7 +11166,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1066501338
 GameObject:
@@ -11318,7 +11319,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1069478159
 GameObject:
@@ -11689,7 +11690,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1097367022
 GameObject:
@@ -12114,7 +12115,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1145224522
 GameObject:
@@ -12965,7 +12966,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1225492935
 GameObject:
@@ -13176,7 +13177,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1244132733
 GameObject:
@@ -13298,7 +13299,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -13387,7 +13388,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1254536334
 GameObject:
@@ -13509,7 +13510,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -13598,7 +13599,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1291826701
 GameObject:
@@ -14320,7 +14321,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1361609250
 GameObject:
@@ -14473,7 +14474,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1377839475
 GameObject:
@@ -14869,7 +14870,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -14958,7 +14959,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1422783392
 GameObject:
@@ -15498,7 +15499,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1534008619
 GameObject:
@@ -15980,7 +15981,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1581691902
 GameObject:
@@ -16133,7 +16134,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1585411051
 GameObject:
@@ -16645,7 +16646,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -16734,7 +16735,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1617760728
 GameObject:
@@ -17143,7 +17144,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -17232,7 +17233,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1648715756
 GameObject:
@@ -18301,7 +18302,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -18390,7 +18391,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1755654687
 GameObject:
@@ -19015,7 +19016,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1788120304
 GameObject:
@@ -19437,7 +19438,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1.1
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1831911039
 GameObject:
@@ -19501,7 +19502,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -19590,7 +19591,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1833722285
 GameObject:
@@ -19654,7 +19655,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -19743,7 +19744,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1838385054
 GameObject:
@@ -20663,7 +20664,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -20752,7 +20753,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &1898404461
 GameObject:
@@ -21646,7 +21647,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -21735,7 +21736,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0, y: 0, z: 0.05, w: 0}
 --- !u!1 &1988801006
 GameObject:
@@ -22792,7 +22793,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 1.5
@@ -22881,7 +22882,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &2112761520
 GameObject:
@@ -23266,7 +23267,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 1.35
+  m_fontSize: 1.2
   m_fontSizeMin: 0.5
   m_fontSizeMax: 1.5
   m_fontSizeBase: 0.5
@@ -23355,7 +23356,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 0.6
-    height: 0.2
+    height: 0.15
   m_margins: {x: 0.05, y: 0, z: 0, w: 0}
 --- !u!1 &2130648682
 GameObject:

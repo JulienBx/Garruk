@@ -7,7 +7,7 @@ public class Steroide : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Stéroides";
-		base.ciblage = 4 ;
+		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 56 ;
 	}

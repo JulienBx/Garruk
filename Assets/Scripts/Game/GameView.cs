@@ -109,6 +109,7 @@ public class GameView : MonoBehaviour
 
 	bool areTilesLoaded ; 
 	BackOfficeController backOfficeController ;
+	public bool isChangingTurn ;
 
 	void Awake()
 	{
@@ -122,6 +123,7 @@ public class GameView : MonoBehaviour
 
 	public void init(){
 		instance = this;		
+		this.isChangingTurn = false;
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
 		this.initializeServerController();
@@ -274,7 +276,6 @@ public class GameView : MonoBehaviour
 	
 	public void loadMyDeck()
 	{
-		print("LOADMYDECK");
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			List<Skill> skills = new List<Skill>();
 			skills.Add (new Skill("Lâche", 65, 1, 1, 2, 0, "", 0, 0));
@@ -763,7 +764,9 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
-			this.getPlayingCardController(characterID).moveBackward();
+			if(!this.hasFightStarted){
+				this.getPlayingCardController(characterID).moveBackward();
+			}
 		}
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
@@ -1018,33 +1021,36 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setNextPlayer(bool isEndMeteor){
-
-		isFreezed = true ;
-		this.hideButtons();
-		//this.hideSkillEffects();
-		if(this.sequenceID==19){
-			this.hitNextTutorial();
-		}
-		this.hoveringZone=-1 ;
-		if(this.hasFightStarted){
-			this.meteoritesCounter--;
-			if(this.meteoritesCounter==0){
-				StartCoroutine(this.endTurnEffects(false));
+		
+		if(!this.isChangingTurn){
+			this.isChangingTurn = true;
+			isFreezed = true ;
+			this.hideButtons();
+			//this.hideSkillEffects();
+			if(this.sequenceID==19){
+				this.hitNextTutorial();
 			}
-			else{
-				if(!isEndMeteor){
-					StartCoroutine(endTurnEffects(true));
+			this.hoveringZone=-1 ;
+			if(this.hasFightStarted){
+				this.meteoritesCounter--;
+				if(this.meteoritesCounter==0){
+					StartCoroutine(this.endTurnEffects(false));
 				}
 				else{
-					this.launchEndTurnEffects();
+					if(!isEndMeteor){
+						StartCoroutine(endTurnEffects(true));
+					}
+					else{
+						this.launchEndTurnEffects();
+					}
 				}
 			}
-		}
-		else{
-			GameObject tempGO = GameObject.Find("mainLogo");
-			tempGO.GetComponent<SpriteRenderer>().enabled = false ;
-		
-			this.launchEndTurnEffects();
+			else{
+				GameObject tempGO = GameObject.Find("mainLogo");
+				tempGO.GetComponent<SpriteRenderer>().enabled = false ;
+			
+				this.launchEndTurnEffects();
+			}
 		}
 	}
 
@@ -1126,7 +1132,11 @@ public class GameView : MonoBehaviour
 						if (playerID != -1)
 						{
 							if (UnityEngine.Random.Range(1,101)<proba){
-								GameController.instance.purify(playerID);
+								GameController.instance.purify(playerID, true);
+								isSuccess = true ;
+							}
+							else{
+								GameController.instance.purify(playerID, false);
 								isSuccess = true ;
 							}
 						}
@@ -1262,11 +1272,16 @@ public class GameView : MonoBehaviour
 		}
 	}
 
-	public void purify(int target){
-		this.getPlayingCardController(target).emptyModifiers();
-		GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
-		GameView.instance.addAnim(0,GameView.instance.getTile(target));
-		SoundController.instance.playSound(28);
+	public void purify(int target, bool b){
+		if(b || !b){
+			this.getPlayingCardController(target).emptyModifiers();
+			GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
+			GameView.instance.addAnim(0,GameView.instance.getTile(target));
+		}
+		else{
+			GameView.instance.displaySkillEffect(target, "Echec purification", 0);	
+			GameView.instance.addAnim(8,GameView.instance.getTile(target));
+		}
 	}
 
 	public void updateTimeline(){
@@ -3234,12 +3249,12 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void removeAnim(Tile t){
+		this.getTileController(t).displayAnim(false);
 		for(int i = anims.Count-1 ; i >= 0 ; i--){
 			if(anims[i].x==t.x && anims[i].y==t.y){
 				anims.RemoveAt(i);
 			}
 		}
-		this.getTileController(t).displayAnim(false);
 		this.addSE(t);
 	}
 

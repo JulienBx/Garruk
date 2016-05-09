@@ -658,7 +658,6 @@ public class TileController : GameObjectController
 	}
 	
 	public void changeAnimSprite(int index){
-		print(index);
 		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().sprite = this.animSprites[index] ;
 	}
 	
@@ -666,6 +665,9 @@ public class TileController : GameObjectController
 		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().enabled = b ;
 		this.timerAnim = 0f;
 		this.animIndex = 0;
+		if(b){
+			print("DisplayANim "+this.characterID);
+		}
 	}
 	
 	public void showEffect(bool b){

@@ -181,6 +181,7 @@ public class InterludeController : MonoBehaviour
 						}
 					}
 				}
+				GameView.instance.isChangingTurn = false ;
 			}
 			else{
 				GameView.instance.hideEndTurnPopUp();

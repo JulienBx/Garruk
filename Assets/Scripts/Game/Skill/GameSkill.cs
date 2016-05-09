@@ -29,7 +29,7 @@ public class GameSkill
 
 	public virtual int getActionScore(Tile target, Skill s)
 	{
-		Debug.Log("IA non implémentée");
+		Debug.Log("IA non implémentée "+s.Id);
 		return 0 ; 
 	}
 	
