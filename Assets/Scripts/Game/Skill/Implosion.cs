@@ -77,7 +77,7 @@ public class Implosion : GameSkill
 
 	public override int getActionScore(Tile t, Skill s){
 		int score = 0 ;
-		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard targetCard ;
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 		int target ; 

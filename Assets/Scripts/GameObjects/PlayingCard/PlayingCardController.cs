@@ -131,6 +131,8 @@ public class PlayingCardController : GameObjectController
 		this.card.bouclierModifyers = new List<Modifyer>();
 		this.card.isStateModifyed = false ;
 		this.card.states = new List<Modifyer>();
+
+		this.showIcons();
 		GameView.instance.getMyHoveredCardController().updateCharacter();
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 	}

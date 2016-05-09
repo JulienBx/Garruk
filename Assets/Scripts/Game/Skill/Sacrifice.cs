@@ -46,14 +46,14 @@ public class Sacrifice : GameSkill
 		int damages = targetCard.getLife();
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 108, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		List<Tile> voisins = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().getImmediateNeighbourTiles();
+		List<Tile> voisins = GameView.instance.getPlayingCardController(target).getTile().getImmediateNeighbourTiles();
 
 		int amount = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f));
 		for (int i = 0 ; i < voisins.Count ; i++){
 			if(GameView.instance.getTileController(voisins[i]).getCharacterID()!=-1){
 				if(!GameView.instance.getCard(GameView.instance.getTileController(voisins[i]).getCharacterID()).isDead){
 					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, base.name, damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()),-1);
-					GameView.instance.displaySkillEffect(GameView.instance.getTileController(voisins[i]).getCharacterID(), "-"+amount+"PV", 108);
+					GameView.instance.displaySkillEffect(GameView.instance.getTileController(voisins[i]).getCharacterID(), "-"+amount+"PV", 0);
 					GameView.instance.addAnim(5,GameView.instance.getTile(GameView.instance.getTileController(voisins[i]).getCharacterID()));
 				}
 			}
@@ -65,8 +65,9 @@ public class Sacrifice : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
+		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int value = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f));
+		int value = currentCard.getNormalDamagesAgainst(targetCard,Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f)));
 
 		string text = "Tue l'unité et inflige "+value+" dégats aux unités adjacentes!";
 
@@ -81,5 +82,47 @@ public class Sacrifice : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int level = GameView.instance.getCurrentSkill().Power;
+
+		int target ; 
+		int levelMin;
+
+		score -=100 + 30 - targetCard.getLife();
+
+		List<Tile> tempTiles = t.getImmediateNeighbourTiles();
+		for(int i = 0 ; i < tempTiles.Count ; i++){
+			target = GameView.instance.getTileController(tempTiles[i]).getCharacterID();
+			if(target!=-1){
+				targetCard = GameView.instance.getCard(target);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f)));
+
+				if(levelMin>=targetCard.getLife()){
+					if(targetCard.isMine){
+						score+=100;
+					}
+					else{
+						score-=100 + 30 - targetCard.getLife();;
+					}
+				}
+				else{
+					if(targetCard.isMine){
+						score+=levelMin+(30-targetCard.getLife()-levelMin);
+					}
+					else{
+						score-=levelMin+(30-targetCard.getLife()-levelMin);
+					}
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }
