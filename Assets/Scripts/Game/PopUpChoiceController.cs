@@ -15,6 +15,7 @@ public class PopUpChoiceController : MonoBehaviour
 	}
 	
 	public void show(bool b){
+		print("Show "+b);
 		gameObject.GetComponent<SpriteRenderer>().enabled=b;
 		gameObject.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled=b;
 		gameObject.transform.FindChild("Description").GetComponent<MeshRenderer>().enabled=b;

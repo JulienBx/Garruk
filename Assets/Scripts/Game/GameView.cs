@@ -764,7 +764,12 @@ public class GameView : MonoBehaviour
 			if(this.getPlayingCardController(characterID).getIsMine()){
 				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 			}
-			if(!this.hasFightStarted){
+			if(GameView.instance.hasFightStarted){
+				if(characterID!=GameView.instance.getCurrentPlayingCard()){
+					this.getPlayingCardController(characterID).moveBackward();
+				}
+			}
+			else{
 				this.getPlayingCardController(characterID).moveBackward();
 			}
 		}
@@ -1273,7 +1278,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void purify(int target, bool b){
-		if(b || !b){
+		if(b){
 			this.getPlayingCardController(target).emptyModifiers();
 			GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
 			GameView.instance.addAnim(0,GameView.instance.getTile(target));

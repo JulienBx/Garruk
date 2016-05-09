@@ -150,10 +150,12 @@ public class TileController : GameObjectController
 		if(type==140){
 			GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
 			GameView.instance.addAnim(0,this.tile);
+			SoundController.instance.playSound(28);
 		}
 		else if(type==42){
 			GameView.instance.displaySkillEffect(this.tile, "Cristal créé", 2);
 			GameView.instance.addAnim(0,this.tile);
+			SoundController.instance.playSound(28);
 		}
 
 		GameView.instance.updateCristoEater();
@@ -211,7 +213,6 @@ public class TileController : GameObjectController
 			else if(this.trap.getType()==2){	
 				GameView.instance.getCard(this.characterID).setPoison(new Modifyer(this.trap.getAmount(), -1, 58, "Poison", "-"+this.trap.getAmount()+"PV par tour"));
 				GameView.instance.getPlayingCardController(this.characterID).showIcons();
-
 				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	
 				GameView.instance.addAnim(4,GameView.instance.getTile(this.characterID));
 			}
@@ -222,10 +223,10 @@ public class TileController : GameObjectController
 				if(GameView.instance.getCard(this.characterID).isMine){
 					List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
 					Tile tile = tiles[Random.Range(0,tiles.Count)];
-
 					GameController.instance.clickDestination(tile, this.characterID, true);
 				}
 			}
+			SoundController.instance.playSound(34);
 			this.removeTrap();
 			this.showDescription(false);
 			isSuccess = true ;
@@ -665,9 +666,6 @@ public class TileController : GameObjectController
 		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().enabled = b ;
 		this.timerAnim = 0f;
 		this.animIndex = 0;
-		if(b){
-			print("DisplayANim "+this.characterID);
-		}
 	}
 	
 	public void showEffect(bool b){
