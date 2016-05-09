@@ -14,8 +14,9 @@ public class Benediction : GameSkill
 	
 	public override void launch()
 	{
+		Debug.Log("Je me launche");
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Malédiction", "Choisis une faction. Les unités de cette faction recevront un malus d'attaque");
+		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Bénédiction", "Choisis une faction. Les unités de cette faction recevront un bonus d'attaque");
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllAllyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(this.id);

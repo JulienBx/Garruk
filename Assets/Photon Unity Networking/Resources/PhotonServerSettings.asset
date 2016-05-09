@@ -84,4 +84,5 @@ MonoBehaviour:
   - quitGameHandlerRPC
   - addFontaineRPC
   - addCaserneRPC
+  - LaunchGame
   DisableAutoOpenWizard: 0

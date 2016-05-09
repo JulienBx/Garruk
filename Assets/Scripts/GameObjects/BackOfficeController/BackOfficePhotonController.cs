@@ -140,7 +140,10 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             }
             Deck deck;
             deck = new Deck(selectedDeckId);
+			print("Je lance ma couroutine "+this.nbPlayersInRoom);
             yield return StartCoroutine(deck.RetrieveCards());
+			print("J'ai lancé ma coroutine "+this.nbPlayersInRoom);
+            
             if(deck.Error!="")
             {
                 BackOfficeController.instance.toDisconnect();
@@ -186,7 +189,8 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         }
         else
         {
-            photonView.RPC("LaunchGame", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId);
+        	this.launch();
+            //photonView.RPC("LaunchGame", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId);
         }
 		yield break;
     }
@@ -198,12 +202,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         {
             ApplicationModel.currentGameId=currentGameId;
         }
-        this.nbPlayersReady++;
-        if(this.nbPlayersReady==2)
-        {
-            SoundController.instance.playMusic(new int[]{3,4});
-            BackOfficeController.instance.launchPreMatchLoadingScreen();
-        }
+       
+        SoundController.instance.playMusic(new int[]{3,4});
+        BackOfficeController.instance.launchPreMatchLoadingScreen();
+    }
+
+    public void launch(){
+        SoundController.instance.playMusic(new int[]{3,4});
+        BackOfficeController.instance.launchPreMatchLoadingScreen();
     }
 
     public void OnDisconnectedFromPhoton()
