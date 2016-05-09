@@ -36,7 +36,7 @@ public class Frenesie : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\n+5ATK\n-"+damages+"PV", 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 18);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

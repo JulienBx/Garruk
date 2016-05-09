@@ -41,7 +41,8 @@ public class Cristolife : GameSkill
 		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 129);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
+		SoundController.instance.playSound(37);
 	}
 	
 	public override string getTargetText(int target){

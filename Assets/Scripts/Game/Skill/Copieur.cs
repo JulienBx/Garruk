@@ -42,7 +42,8 @@ public class Copieur : GameSkill
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 105);
+		GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		SoundController.instance.playSound(31);
 	}
 
 	public override string getTargetText(int target){

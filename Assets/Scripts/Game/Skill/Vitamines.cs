@@ -57,14 +57,14 @@ public class Vitamines : GameSkill
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, base.name, "+1MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, "+1MOV\n1 tour", 2);	
-			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"), false,-1);
 			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(1, 1, 6, base.name, "+1MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, "+"+soin+"PV\n+1MOV\n1 tour", 2);	
-			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		GameView.instance.recalculateDestinations();
 	}
@@ -80,14 +80,14 @@ public class Vitamines : GameSkill
 			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, "(Virus)\n+"+move+"MOV\n1 tour", 2);	
-			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, base.name, "+"+soin+" PV"), false,-1);
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, base.name, "+"+move+"MOV. Actif 1 tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 			GameView.instance.displaySkillEffect(target, "(Virus)\n+"+soin+"PV\n+"+move+"MOV\n1 tour", 2);	
-			GameView.instance.addAnim(GameView.instance.getTile(target), 6);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		GameView.instance.recalculateDestinations();
 	}	
@@ -109,7 +109,7 @@ public class Vitamines : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

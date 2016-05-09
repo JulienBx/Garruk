@@ -34,7 +34,8 @@ public class ArmureTech : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 45);
+		GameView.instance.addAnim(1,GameView.instance.getTile(target));
+		SoundController.instance.playSound(31);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

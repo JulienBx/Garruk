@@ -33,15 +33,6 @@ public class GameController : Photon.MonoBehaviour
 		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), "Poisonpiège", description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
-
-	public void addCharacter(int id, int atk, int pv, Tile t){
-		photonView.RPC("addCharacterRPC", PhotonTargets.AllBuffered, id, atk, pv, t.x, t.y, GameView.instance.getIsFirstPlayer());
-	}
-	
-	[PunRPC]
-	public void addCharacterRPC(int id, int atk, int pv, int x, int y, bool isFirstP){
-		GameView.instance.addCharacter(id, atk, pv, x, y, isFirstP);
-	}
 	
 	public void addElectropiege(int amount, Tile t){
 		photonView.RPC("addElectropiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
@@ -138,7 +129,7 @@ public class GameController : Photon.MonoBehaviour
 		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
+		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
 	public void sendEsquiveShuriken(int target, int currentCard){
@@ -150,7 +141,7 @@ public class GameController : Photon.MonoBehaviour
 	{	
 		string text = "Shuriken\nEsquive!";
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 67);
+		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 	}
 
 	public void findNextPlayer(bool b)
@@ -318,21 +309,24 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
+		if(!ApplicationModel.player.ToLaunchGameTutorial)
+		{
+			PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
+			PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
+			PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer.ToString()));
+			PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
+			PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
+			PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints.ToString()));
+			PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints.ToString()));
+
+			this.saveDeckData(true,ApplicationModel.player.MyDeck);
+			this.saveDeckData(false,ApplicationModel.opponentDeck);
+
+			PlayerPrefs.Save();
+		}
+
 		ApplicationModel.player.HasLostConnection=true;
 		ApplicationModel.player.ToDeconnect = true;
-
-		PlayerPrefs.SetString("GameRoomId",ApplicationModel.Encrypt(ApplicationModel.gameRoomId));
-		PlayerPrefs.SetString("ChosenGameType",ApplicationModel.Encrypt(ApplicationModel.player.ChosenGameType.ToString()));
-		PlayerPrefs.SetString("IsFirstPlayer",ApplicationModel.Encrypt(ApplicationModel.player.IsFirstPlayer.ToString()));
-		PlayerPrefs.SetString("GameMyPlayerName",ApplicationModel.Encrypt(ApplicationModel.myPlayerName));
-		PlayerPrefs.SetString("GameHisPlayerName",ApplicationModel.Encrypt(ApplicationModel.hisPlayerName));
-		PlayerPrefs.SetString("GameMyRankingPoints",ApplicationModel.Encrypt(ApplicationModel.player.RankingPoints.ToString()));
-		PlayerPrefs.SetString("GameHisRankingPoints",ApplicationModel.Encrypt(ApplicationModel.hisRankingPoints.ToString()));
-
-		this.saveDeckData(true,ApplicationModel.player.MyDeck);
-		this.saveDeckData(false,ApplicationModel.opponentDeck);
-
-		PlayerPrefs.Save();
 
         SceneManager.LoadScene("Authentication");
 	}
@@ -374,7 +368,8 @@ public class GameController : Photon.MonoBehaviour
 
 	public void quitGame()
 	{
-        PhotonNetwork.LeaveRoom ();
+		ApplicationModel.player.ShouldQuitGame=true;
+		PhotonNetwork.LeaveRoom ();
 	}
 
 	public void disconnect()
@@ -384,14 +379,18 @@ public class GameController : Photon.MonoBehaviour
 
 	void OnLeftRoom()
 	{
-		if(ApplicationModel.player.ToLaunchGameTutorial)
+		if(ApplicationModel.player.ShouldQuitGame)
 		{
-			ApplicationModel.player.ToLaunchGameTutorial=false;
-			SceneManager.LoadScene("NewHomePage");
-		}
-		else
-		{
-			SceneManager.LoadScene("EndGame");
+			ApplicationModel.player.ShouldQuitGame=false;
+			if(ApplicationModel.player.ToLaunchGameTutorial)
+			{
+				ApplicationModel.player.ToLaunchGameTutorial=false;
+				SceneManager.LoadScene("NewHomePage");
+			}
+			else
+			{
+				SceneManager.LoadScene("EndGame");
+			}
 		}
 	}
 	

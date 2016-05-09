@@ -28,7 +28,7 @@ public class Attaque360 : GameSkill
 		
 		int i = 0 ;
 		int tempInt ; 
-		
+
 		while (i<tempTiles.Count){
 			t = tempTiles[i];
 			tempInt = GameView.instance.getTileCharacterID(t.x, t.y);
@@ -52,6 +52,8 @@ public class Attaque360 : GameSkill
 			}
 			i++;
 		}
+		SoundController.instance.playSound(25);
+
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -64,12 +66,12 @@ public class Attaque360 : GameSkill
 		
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,17,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.addAnim(GameView.instance.getTile(target), 17);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

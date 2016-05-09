@@ -23,6 +23,7 @@ public class CancelZoneController : MonoBehaviour
 		if(GameView.instance.hoveringZone!=-1){
 			GameView.instance.hideAllTargets();
 		}
+		SoundController.instance.playSound(20);
 		GameView.instance.cancelSkill();
 	}
 

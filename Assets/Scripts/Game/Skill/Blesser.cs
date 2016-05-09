@@ -55,7 +55,8 @@ public class Blesser : GameSkill
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 11, base.name, ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 11);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
+		SoundController.instance.playSound(25);
 	}
 	
 	public override string getTargetText(int target){
@@ -82,7 +83,7 @@ public class Blesser : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

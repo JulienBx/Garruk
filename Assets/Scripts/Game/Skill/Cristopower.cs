@@ -42,7 +42,7 @@ public class Cristopower : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 128);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){

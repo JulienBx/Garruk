@@ -44,6 +44,6 @@ public class Malediction : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 106, base.name, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "-"+malus+"ATK", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 106);
+		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 }

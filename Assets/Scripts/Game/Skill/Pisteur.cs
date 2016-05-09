@@ -30,7 +30,7 @@ public class Pisteur : GameSkill
 				GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
 
 				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert !", 1);
-				GameView.instance.addAnim(trappedTiles[i], 14);
+				GameView.instance.addAnim(0,trappedTiles[i]);
 				compteur++;
 			}
 		}
@@ -45,7 +45,7 @@ public class Pisteur : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\naucun piège découvert", 2);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

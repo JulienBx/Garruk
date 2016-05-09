@@ -57,7 +57,7 @@ public class Laser : GameSkill
 		string text = base.name+"\n-"+damages+"PV";
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 22);
+		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){
@@ -92,6 +92,6 @@ public class Laser : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

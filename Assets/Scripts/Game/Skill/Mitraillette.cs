@@ -85,7 +85,7 @@ public class Mitraillette : GameSkill
 		string text ="-"+damages+"PV";
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.addAnim(GameView.instance.getTile(target), 30);
+		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
@@ -97,7 +97,7 @@ public class Mitraillette : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

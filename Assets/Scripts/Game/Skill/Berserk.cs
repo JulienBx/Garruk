@@ -48,7 +48,8 @@ public class Berserk : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 16);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
+		SoundController.instance.playSound(25);
 	}
 	
 	public override string getTargetText(int target){
@@ -73,7 +74,7 @@ public class Berserk : GameSkill
 		string autotext = base.name+"\n-"+autoDamages+" PV";				
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,base.name,autoDamages+" dégats subis"), true, -1);
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), autotext, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

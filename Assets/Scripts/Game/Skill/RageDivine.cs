@@ -46,11 +46,11 @@ public class RageDivine : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 109, base.name, damages+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
 		GameView.instance.displaySkillEffect(target, "Fureur divine", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 109);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

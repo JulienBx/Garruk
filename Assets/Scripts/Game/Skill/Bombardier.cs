@@ -40,6 +40,7 @@ public class Bombardier : GameSkill
 				}
 			}
 		}
+		SoundController.instance.playSound(36);
 		if(currentCard.isFou()){
 			GameController.instance.applyOnMe(1);
 		}
@@ -56,7 +57,9 @@ public class Bombardier : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 24);
+		GameView.instance.addAnim(5,GameView.instance.getTile(target));
+
+			
 	}
 
 	public override void applyOnMe(int value){
@@ -68,6 +71,6 @@ public class Bombardier : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

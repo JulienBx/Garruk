@@ -43,7 +43,8 @@ public class Antibiotique : GameSkill
 		GameView.instance.getPlayingCardController(target).emptyModifiers();
 		GameView.instance.getPlayingCardController(target).show();
 		GameView.instance.displaySkillEffect(target, "Succès\nEffets dissipés", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 7);
+		GameView.instance.addAnim(1,GameView.instance.getTile(target));
+		SoundController.instance.playSound(31);
 	}	
 	
 	public override string getTargetText(int target){
@@ -61,7 +62,7 @@ public class Antibiotique : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

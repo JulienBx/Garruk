@@ -145,12 +145,12 @@ public class PluieBleue : GameSkill
 			else{
 				GameView.instance.displaySkillEffect(target, "+"+Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())+" PV", 1);
 			}
-			GameView.instance.addAnim(GameView.instance.getTile(target), 130);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 130, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
 			GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
-			GameView.instance.addAnim(GameView.instance.getTile(target), 130);
+			GameView.instance.addAnim(5,GameView.instance.getTile(target));
 		}
 	}
 	

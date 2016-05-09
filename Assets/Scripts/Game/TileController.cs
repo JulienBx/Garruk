@@ -6,6 +6,7 @@ public class TileController : GameObjectController
 {
 	public Sprite[] trapSprites ;
 	public Sprite[] destinationSprites ;
+	public Sprite[] targetSprites ;
 	public Color[] skillEffectColor;
 	public Sprite[] animSprites;
 	
@@ -53,6 +54,7 @@ public class TileController : GameObjectController
 	public void displayTarget(bool b){
 		this.isDisplayingTarget = b ;
 		this.isTargetDisplayed = b ;
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
 		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = b ;
 		this.timerTarget=0f;
 	}
@@ -63,10 +65,10 @@ public class TileController : GameObjectController
 			this.isTargetDisplayed = !this.isTargetDisplayed ;
 			if(!this.isHovering){
 				if(this.isTargetDisplayed){
-					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f) ;
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[0] ;
 				}
 				else{
-					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
+					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[1] ;
 				}
 			}
 			this.timerTarget = 0f ;
@@ -91,6 +93,7 @@ public class TileController : GameObjectController
 		if (this.type==1){
 			this.showRock();
 		}
+		this.showDestination(false);
 		gameObject.name = "Tile " + (t.x) + "-" + (t.y);
 		this.resize();
 	}
@@ -146,11 +149,11 @@ public class TileController : GameObjectController
 
 		if(type==140){
 			GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
-			GameView.instance.addAnim(this.tile, 0);
+			GameView.instance.addAnim(0,this.tile);
 		}
 		else if(type==42){
 			GameView.instance.displaySkillEffect(this.tile, "Cristal créé", 2);
-			GameView.instance.addAnim(this.tile, 42);
+			GameView.instance.addAnim(0,this.tile);
 		}
 
 		GameView.instance.updateCristoEater();
@@ -203,18 +206,18 @@ public class TileController : GameObjectController
 			if(this.trap.getType()==1){
 				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"), true,-1);
 				GameView.instance.displaySkillEffect(this.characterID, "Piège!\n-"+this.trap.getAmount()+"PV", 0);
-				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 13);
+				GameView.instance.addAnim(5,GameView.instance.getTile(this.characterID));
 			}
 			else if(this.trap.getType()==2){	
 				GameView.instance.getCard(this.characterID).setPoison(new Modifyer(this.trap.getAmount(), -1, 58, "Poison", "-"+this.trap.getAmount()+"PV par tour"));
 				GameView.instance.getPlayingCardController(this.characterID).showIcons();
 
 				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	
-				GameView.instance.addAnim(GameView.instance.getTile(this.characterID), 58);
+				GameView.instance.addAnim(4,GameView.instance.getTile(this.characterID));
 			}
 			else if(this.trap.getType()==3){	
 				GameView.instance.displaySkillEffect(this.characterID, "Téléporté !", 0);	
-				GameView.instance.addAnim(this.tile, 58);
+				GameView.instance.addAnim(0,this.tile);
 
 				if(GameView.instance.getCard(this.characterID).isMine){
 					List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
@@ -268,12 +271,21 @@ public class TileController : GameObjectController
 		}
 	}
 
+	public void setTargetSprite(int i){
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[i] ;
+		gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().enabled = true;
+		if(this.characterID!=-1){
+			this.showDescription(true);
+		}
+	}
+
 	public void OnMouseEnter()
 	{
 		if(!ApplicationModel.player.ToLaunchGameTutorial || GameView.instance.sequenceID>5){
 			if(GameView.instance.isMobile){
 				if(GameView.instance.draggingSkillButton!=-1){
 					if(this.isDisplayingTarget){
+						SoundController.instance.playSound(32);
 						if(this.characterID!=-1){
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
 						}
@@ -358,6 +370,8 @@ public class TileController : GameObjectController
 					}
 				}
 				else if(this.isDisplayingTarget){
+					SoundController.instance.playSound(32);
+						
 					gameObject.transform.FindChild("TargetLayer").GetComponent<SpriteRenderer>().sprite = this.targetSprites[2] ;
 					this.showDescription(true);
 				}
@@ -518,10 +532,12 @@ public class TileController : GameObjectController
 					}
 					else{
 						GameView.instance.dropCharacter(this.characterID); 
+
 					}
 				}
 				else{
 					GameView.instance.dropCharacter(this.characterID);
+
 				}
 			}
 			else{
@@ -642,6 +658,7 @@ public class TileController : GameObjectController
 	}
 	
 	public void changeAnimSprite(int index){
+		print(index);
 		gameObject.transform.FindChild("AnimLayer").GetComponent<SpriteRenderer>().sprite = this.animSprites[index] ;
 	}
 	

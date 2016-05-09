@@ -63,12 +63,13 @@ public class Criderage : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, base.name, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 19);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		SoundController.instance.playSound(37);
 		GameController.instance.disconnect();
 	}
 

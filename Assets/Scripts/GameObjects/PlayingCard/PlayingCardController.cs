@@ -270,7 +270,7 @@ public class PlayingCardController : GameObjectController
 							GameView.instance.getPlayingCardController(characters[i]).addAttackModifyer(new Modifyer(bonus, 2, 112, base.name, ". Actif 1 tour"));
 
 							GameView.instance.displaySkillEffect(characters[i], "Martyr\n+"+bonus+" ATK", 2);
-							GameView.instance.addAnim(GameView.instance.getTile(characters[i]), 112);
+							GameView.instance.addAnim(7,GameView.instance.getTile(characters[i]));
 						}
 					}
 				}
@@ -282,7 +282,7 @@ public class PlayingCardController : GameObjectController
 						GameView.instance.getCard(idLauncher).damagesModifyers.Add(new Modifyer(bonus, -1, 45, "Armure tech", ""));
 
 						GameView.instance.displaySkillEffect(idLauncher, "Armure tech\n-"+bonus+" PV", 0);
-						GameView.instance.addAnim(GameView.instance.getTile(idLauncher), 45);
+						GameView.instance.addAnim(4,GameView.instance.getTile(idLauncher));
 					}
 				}
 				int soutien = GameView.instance.hasSoutien(this.card.isMine);
@@ -295,7 +295,7 @@ public class PlayingCardController : GameObjectController
 					GameView.instance.getCard(soutien).damagesModifyers.Add(new Modifyer(deflectedAmount, -1, 49, "Armure tech", ""));
 
 					GameView.instance.displaySkillEffect(soutien, "Absorbe "+deflectedAmount+" dégats", 1);
-					GameView.instance.addAnim(GameView.instance.getTile(soutien), 49);
+					GameView.instance.addAnim(4,GameView.instance.getTile(soutien));
 				}
 			}
 			if (this.card.getLife()-m.amount<=0){
@@ -794,7 +794,7 @@ public class PlayingCardController : GameObjectController
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Paladin\n+"+bonusAttack+" ATK\n"+bonusMove+"MOV", 1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 73);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -808,7 +808,7 @@ public class PlayingCardController : GameObjectController
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Agile\nEsquive : "+level+"%", 1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 66);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -822,7 +822,7 @@ public class PlayingCardController : GameObjectController
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Fantassin\nEsquive : "+level+"%", 1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 47);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -835,7 +835,7 @@ public class PlayingCardController : GameObjectController
 			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 68, "Robuste", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 68);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -846,7 +846,7 @@ public class PlayingCardController : GameObjectController
 			this.addAttackModifyer (new Modifyer(bonusAttack, -1, 48, "Humaphobe", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "+"+bonusAttack+"ATK", 2);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 48);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -858,7 +858,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.displaySkillEffect(this.id, "Cuirassé\nBouclier "+bonusShield+"%", 2);
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.getPlayingCardController(this.id).showIcons();
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 70);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -873,7 +873,7 @@ public class PlayingCardController : GameObjectController
 			GameView.instance.getPlayingCardController(this.id).addAttackModifyer(new Modifyer(-1*level, -1, 71, "Rapide", ". Permanent."));
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 71);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -882,12 +882,12 @@ public class PlayingCardController : GameObjectController
 		if((card.Skills[0].Id == 32)){
 			int level = 20+4*card.Skills[0].Power;
 		
-			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 32, "Embusqué", "Esquive à distance:"+level+"%"));
+			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 32, "Embusqué", ""));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Embusqué\nEsquive : "+level+"%", 2);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 32);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}
@@ -901,7 +901,7 @@ public class PlayingCardController : GameObjectController
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.displaySkillEffect(this.id, "Sniper\nrésistance météorite "+bonus+"%\nimmobile", 1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.id), 35);
+				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}
 	}

@@ -48,7 +48,7 @@ public class Vampire : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()),-1);
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 40);
+		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
@@ -57,7 +57,7 @@ public class Vampire : GameSkill
 
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(-1*damages, -1, 40, base.name, damages+" dégats subis"), false,-1);
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n+"+damages+"PV", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(7,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

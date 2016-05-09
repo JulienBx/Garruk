@@ -54,7 +54,7 @@ public class Poison : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Perd "+level+"PV par tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}	
 
 	public override void applyOnViro(int target, int value){
@@ -64,7 +64,7 @@ public class Poison : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "(Virus)\nPerd "+level+"PV par tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 94);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){	
@@ -83,7 +83,7 @@ public class Poison : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

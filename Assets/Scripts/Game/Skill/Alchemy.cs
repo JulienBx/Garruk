@@ -44,14 +44,17 @@ public class Alchemy : GameSkill
 	public override void applyOnMe(int value){
 		if(value>1){
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+"cristaux créés", 2);
+			SoundController.instance.playSound(28);
 		}
 		else if(value==1){
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+"cristal créé", 2);
+			SoundController.instance.playSound(28);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npas de cristal créé", 0);
+			SoundController.instance.playSound(34);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

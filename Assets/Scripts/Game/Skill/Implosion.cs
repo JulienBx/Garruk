@@ -65,14 +65,14 @@ public class Implosion : GameSkill
 	public override void applyOn(int target, int value){
 		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value,-1,28,base.name,value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 28);
+		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(currentCard.getLife(),-1,28,base.name,value+" dégats subis"), true,-1);
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nSe détruit", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

@@ -36,7 +36,7 @@ public class Furtivite : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 9);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){

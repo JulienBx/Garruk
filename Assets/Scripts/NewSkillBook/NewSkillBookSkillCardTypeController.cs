@@ -7,7 +7,7 @@ public class NewSkillBookSkillCardTypeController : TextToHoverController
 
 	public override void showToolTip ()
 	{
-		BackOfficeController.instance.displayToolTip(WordingCardTypes.getName(this.cardTypeId),WordingCardTypes.getName(this.cardTypeId));
+		BackOfficeController.instance.displayToolTip(WordingCardTypes.getName(this.cardTypeId),WordingCardTypes.getDescription(this.cardTypeId));
 	}
 	public void setCardType(int id)
 	{

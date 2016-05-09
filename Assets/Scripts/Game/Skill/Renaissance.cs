@@ -35,6 +35,6 @@ public class Renaissance : GameSkill
 
 		GameView.instance.getPlayingCardController(i).rebirth();
 		GameView.instance.displaySkillEffect(i, "Renaissance!", 1);
-		GameView.instance.addAnim(GameView.instance.getTile(i), 100);
+		GameView.instance.addAnim(0,GameView.instance.getTile(i));
 	}
 }

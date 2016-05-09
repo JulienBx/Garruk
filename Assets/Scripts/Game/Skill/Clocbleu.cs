@@ -48,7 +48,8 @@ public class Chocbleu : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 132);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
+		SoundController.instance.playSound(28);
 	}
 	
 	public override string getTargetText(int target){
@@ -75,7 +76,7 @@ public class Chocbleu : GameSkill
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addAttackModifyer(new Modifyer(-1*malus, -1, 11, base.name, ". Permanent"));
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n-"+malus+" ATK", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(2,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

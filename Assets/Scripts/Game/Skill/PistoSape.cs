@@ -56,7 +56,7 @@ public class PistoSape : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK\n1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
+		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnViro2(int target, int value, int amount){
@@ -67,7 +67,7 @@ public class PistoSape : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK\n1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 4);
+		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){
@@ -87,7 +87,7 @@ public class PistoSape : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

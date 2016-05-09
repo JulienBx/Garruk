@@ -34,7 +34,7 @@ public class Tourelle : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 38);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}
 
 	public override void applyOn(int target){
@@ -46,7 +46,7 @@ public class Tourelle : GameSkill
 		 
 		GameView.instance.displaySkillEffect(target, "Tourelle\n-"+damages+"PV", 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, -1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 38);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

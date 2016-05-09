@@ -34,7 +34,6 @@ public class GameView : MonoBehaviour
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
 	GameObject[] playingCards ;
-	GameObject popUp;
 	public GameObject timerFront;
 	public GameObject choicePopUp;
 	GameObject validationSkill;
@@ -139,14 +138,12 @@ public class GameView : MonoBehaviour
 		this.interlude = GameObject.Find("Interlude");
 		this.passZone = GameObject.Find("PassZone");
 		this.skillZone = GameObject.Find("SkillZone");
-		this.popUp = GameObject.Find("PopUp");
 		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
 		this.hisTimer = GameObject.Find("HisPlayerName").transform.FindChild("Time").GetComponent<TimerController>();
 		this.myTimer = GameObject.Find("MyPlayerBox").transform.FindChild("Time").GetComponent<TimerController>();
 		this.timerFront = GameObject.Find("TimerFront");
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
-		this.popUp.GetComponent<PopUpGameController>().show (false);
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 		this.gameTutoController = GameObject.Find("HelpController").GetComponent<GameTutoController>();
 		this.SB.GetComponent<StartButtonController>().show(false);
@@ -517,7 +514,7 @@ public class GameView : MonoBehaviour
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
 							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
-							GameView.instance.addAnim(GameView.instance.getTile(i), 76);
+							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
 					if(this.getCard(i).isProtector()){
@@ -530,7 +527,7 @@ public class GameView : MonoBehaviour
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
 							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
-							GameView.instance.addAnim(GameView.instance.getTile(i), 111);
+							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
 				}
@@ -563,7 +560,7 @@ public class GameView : MonoBehaviour
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
 							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
-							GameView.instance.addAnim(GameView.instance.getTile(i), 111);
+							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
 				}
@@ -727,6 +724,7 @@ public class GameView : MonoBehaviour
 		this.draggingCard = this.clickedCharacterId;
 		this.getPlayingCardController(draggingCard).moveForward();
 		this.timeDragging=0f;
+		SoundController.instance.playSound(26);
 	}
 
 	public void clickMobileCharacter(int characterID){
@@ -735,6 +733,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
+		SoundController.instance.playSound(27);
 		Tile origine = this.getPlayingCardController(characterID).getTile();
 		this.removeSE(origine);
 		if(this.hasFightStarted){
@@ -777,7 +776,8 @@ public class GameView : MonoBehaviour
 				int pv = 11-this.getCard(characterID).getSkills()[0].Power;
 				GameView.instance.displaySkillEffect(characterID, "Golem\n-"+pv+"PV", 0);
 				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(pv,-1,1,"Attaque","10 dégats subis"), true, -1);
-				GameView.instance.addAnim(GameView.instance.getTile(characterID), 141);
+				GameView.instance.addAnim(4,GameView.instance.getTile(characterID));
+				SoundController.instance.playSound(34);
 			}
 			this.removeDestinations();
 			this.recalculateDestinations();
@@ -846,6 +846,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void dropCharacter(int characterID){
+		SoundController.instance.playSound(19);
 		this.draggingCard=-1;
 		Tile t = this.getPlayingCardTile(characterID);
 		this.getPlayingCardController(characterID).setTile(t);
@@ -1055,7 +1056,8 @@ public class GameView : MonoBehaviour
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
 					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"), false, -1);
-					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 94);
+					GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+					SoundController.instance.playSound(34);
 					isSuccess = true ;
 				}
 				if(this.getCurrentTileController().getIsTrapped()){
@@ -1063,19 +1065,21 @@ public class GameView : MonoBehaviour
 						int soin = Mathf.Min(this.getCurrentCard().GetTotalLife()-this.getCurrentCard().getLife(), this.getCurrentTileController().trap.getAmount());
 						if(soin==0){
 							GameView.instance.displaySkillEffect(this.currentPlayingCard, "Soin sans effet", 1);	
-							GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 44);
+							GameView.instance.addAnim(8,GameView.instance.getTile(this.currentPlayingCard));
 						}
 						else{
 							this.getPlayingCardController(this.currentPlayingCard).addDamagesModifyer(new Modifyer(-1*soin, -1, 44, "Fontaine", "+"+(soin)+"PV"), false, -1);
 							GameView.instance.displaySkillEffect(this.currentPlayingCard, "+"+soin+"PV", 2);	
-							GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 44);
+							GameView.instance.addAnim(1,GameView.instance.getTile(this.currentPlayingCard));
+							SoundController.instance.playSound(37);
 						}
 						isSuccess = true ;
 					}
 					else if(this.getCurrentTileController().trap.getType()==4){
 						this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(this.getCurrentTileController().trap.getAmount(), -1, 46, "Caserne", "+"+(this.getCurrentTileController().trap.getAmount())+"ATK"));
 						GameView.instance.displaySkillEffect(this.currentPlayingCard, "+"+this.getCurrentTileController().trap.getAmount()+"ATK", 2);	
-						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 46);
+						GameView.instance.addAnim(7,GameView.instance.getTile(this.currentPlayingCard));
+						SoundController.instance.playSound(37);
 						isSuccess = true ;
 					}
 				}
@@ -1095,19 +1099,20 @@ public class GameView : MonoBehaviour
 								isSuccess = true ;
 								if(soin==0){
 									GameView.instance.displaySkillEffect(playerID, "Soin sans effet", 1);	
-									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+									GameView.instance.addAnim(8,GameView.instance.getTile(playerID));
 								}
 								else{
 									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false, -1);
 									GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
-									GameView.instance.addAnim(GameView.instance.getTile(playerID), 75);
+									GameView.instance.addAnim(1,GameView.instance.getTile(playerID));
+									SoundController.instance.playSound(37);
 								}
 							}
 						}
 					}
 					if(isSuccess){
 						GameView.instance.displaySkillEffect(this.currentPlayingCard, "Infirmier", 1);	
-						GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 75);
+						GameView.instance.addAnim(8,GameView.instance.getTile(this.currentPlayingCard));
 					}
 				}
 				else if(this.getCard(this.currentPlayingCard).isPurificateur() && this.getCurrentCard().isMine){
@@ -1152,7 +1157,8 @@ public class GameView : MonoBehaviour
 					GameView.instance.getPlayingCardController(target).updateAttack(this.getCard(target).getAttack());
 					GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, -1, 18, "Frenetique", ". Permanent."));
 					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+level+" ATK\n-10PV", 1);
-					GameView.instance.addAnim(GameView.instance.getTile(target), 69);
+					GameView.instance.addAnim(0,GameView.instance.getTile(target));
+					SoundController.instance.playSound(28);
 					isSuccess = true ;
 				}
 				if(isSuccess){
@@ -1165,7 +1171,6 @@ public class GameView : MonoBehaviour
 			this.launchEndTurnEffects();
 		}
 		else{
-
 			print("Je lance météorites");
 		
 			List<int> idCards = new List<int>();
@@ -1260,7 +1265,8 @@ public class GameView : MonoBehaviour
 	public void purify(int target){
 		this.getPlayingCardController(target).emptyModifiers();
 		GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 113);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
+		SoundController.instance.playSound(28);
 	}
 
 	public void updateTimeline(){
@@ -1320,7 +1326,8 @@ public class GameView : MonoBehaviour
 					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
 					this.getPlayingCardController(this.currentPlayingCard).show();
 					GameView.instance.displaySkillEffect(this.currentPlayingCard, "Mutant\nse transforme!", 2);
-					GameView.instance.addAnim(GameView.instance.getTile(this.currentPlayingCard), 0);
+					GameView.instance.addAnim(4,GameView.instance.getTile(this.currentPlayingCard));
+					SoundController.instance.playSound(31);
 				}
 			}
 			this.lastPlayingCard = currentPlayingCard;
@@ -1693,11 +1700,7 @@ public class GameView : MonoBehaviour
 		this.isBackgroundLoaded = true ;
 		this.resize();
 	}
-	
-	public void hidePopUp(){
-		this.popUp.transform.position = new Vector3(0, -10, 0);
-	}
-	
+
 	public List<Tile> getFreeCenterTiles(){
 		List<Tile> freeCenterTiles = new List<Tile>();
 //		for(int x = 0 ; x < this.boardWidth ; x++){
@@ -1830,12 +1833,6 @@ public class GameView : MonoBehaviour
 		tempTransform = this.interlude.transform.FindChild("Text");
 		tempTransform.GetComponent<TextContainer>().width = realwidth ;
 		tempTransform.GetComponent<TextContainer>().height = 2*(realwidth/20f) ;
-
-		tempTransform = this.skillZone.transform;
-		position = tempTransform.position ;
-		position.x = Mathf.Max(-3,-0.5f*this.realwidth);
-		this.stepButton = Mathf.Max(-3,-0.5f*this.realwidth);
-		tempTransform.position = position;
 
 		tempTransform = this.passZone.transform;
 		position = tempTransform.position ;
@@ -2674,7 +2671,7 @@ public class GameView : MonoBehaviour
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
-					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
+					GameView.instance.addAnim(4,GameView.instance.getTile(j));
 				}
 			}
 		}
@@ -2685,7 +2682,7 @@ public class GameView : MonoBehaviour
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
-					GameView.instance.addAnim(GameView.instance.getTile(j), 76);
+					GameView.instance.addAnim(4,GameView.instance.getTile(j));
 				}
 			}
 		}
@@ -2701,7 +2698,7 @@ public class GameView : MonoBehaviour
 
 			GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, -1, 34, "Sanguinaire", ". Permanent."));
 			GameView.instance.displaySkillEffect(target, "Dégats à distance +"+bonus+"%", 2);
-			GameView.instance.addAnim(GameView.instance.getTile(target), 34);
+			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 
 		this.getPlayingCardController(c).displayDead(true);
@@ -3227,11 +3224,10 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hideTuto(){
-		this.popUp.GetComponent<PopUpGameController>().show(false);
 		this.interlude.GetComponent<InterludeController>().unPause();
 	}
 	
-	public void addAnim(Tile t, int i){
+	public void addAnim(int i, Tile t){
 		this.anims.Add(t);
 		this.getTileController(t).setAnimIndex(i);
 		this.getTileController(t).displayAnim(true);
@@ -3304,35 +3300,6 @@ public class GameView : MonoBehaviour
 		}
 	}
 
-	public void addCharacter(int id, int atk, int pv, int x, int y, bool isFirstP){
-		this.playingCards[nbCards]=(GameObject)Instantiate(this.playingCardModel);
-		this.nbCards++;
-		int index = this.nbCards-1;
-		GameCard c = null ;
-		if(id==6){
-			c = new GameCard(atk, pv, "Bouclier", 0, 11, 0);
-			c.Skills = new List<Skill>();
-			c.Skills.Add(new Skill("Protection",6));
-		}
-		this.playingCards [index].GetComponentInChildren<PlayingCardController>().setCard(c, true, index);
-		if ((isFirstP==isFirstPlayer)){
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y));
-			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
-			this.tiles [x,y].GetComponent<TileController>().setDestination(5);
-		}
-		else{
-			this.playingCards [index].GetComponentInChildren<PlayingCardController>().setTile(new Tile(x,y));
-			this.tiles [x,y].GetComponent<TileController>().setCharacterID(index);
-			this.tiles [x,y].GetComponent<TileController>().setDestination(6);
-		}
-
-		this.playingCards [index].GetComponentInChildren<PlayingCardController>().show();
-		if(id==6){
-			GameView.instance.displaySkillEffect(index, "Protection", 2);
-			GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 29);
-		}
-	}
-
 	public int getBonusMeteorites(){
 		int bonus = 100 ; 
 		for (int i = 0 ; i < this.nbCards ; i++){
@@ -3351,6 +3318,7 @@ public class GameView : MonoBehaviour
 		int bonus = this.getBonusMeteorites();
 
 		amount = Mathf.RoundToInt(amount * bonus / 100f);
+		SoundController.instance.playSound(25);
 
 		for(int i = 0 ; i < boardWidth ; i++){
 			t = new Tile(i,0);
@@ -3363,11 +3331,11 @@ public class GameView : MonoBehaviour
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
-				GameView.instance.addAnim(t, 1);
+				GameView.instance.addAnim(3,t);
 			}
 			t = new Tile(i,boardHeight-1);
 			if(this.getTileController(t).getCharacterID()!=-1){
@@ -3379,11 +3347,11 @@ public class GameView : MonoBehaviour
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-				GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
-				GameView.instance.addAnim(t, 1);
+				GameView.instance.addAnim(3,t);
 			}
 		}
 
@@ -3399,11 +3367,11 @@ public class GameView : MonoBehaviour
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 1);
+					GameView.instance.addAnim(3,t);
 				}
 				t = new Tile(i,boardHeight-2);
 				if(this.getTileController(t).getCharacterID()!=-1){
@@ -3415,11 +3383,11 @@ public class GameView : MonoBehaviour
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 1);
+					GameView.instance.addAnim(3,t);
 				}
 			}
 		}
@@ -3436,11 +3404,11 @@ public class GameView : MonoBehaviour
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 1);
+					GameView.instance.addAnim(3,t);
 				}
 				t = new Tile(i,boardHeight-3);
 				if(this.getTileController(t).getCharacterID()!=-1){
@@ -3452,11 +3420,11 @@ public class GameView : MonoBehaviour
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
 					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
-					GameView.instance.addAnim(GameView.instance.getTile(this.getTileController(t).getCharacterID()), 1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
-					GameView.instance.addAnim(t, 1);
+					GameView.instance.addAnim(3,t);
 				}
 			}
 		}
@@ -3567,7 +3535,7 @@ public class GameView : MonoBehaviour
 				GameView.instance.getPlayingCardController(i).updateAttack(GameView.instance.getCard(i).getAttack());
 				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+". Permanent."));
 				GameView.instance.displaySkillEffect(i, "Cristomaitre\n+"+amount+" ATK", 2);
-				GameView.instance.addAnim(GameView.instance.getTile(i), 0);
+				GameView.instance.addAnim(0,GameView.instance.getTile(i));
 			}
 		}
 	}

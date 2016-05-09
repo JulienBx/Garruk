@@ -61,7 +61,7 @@ public class PistoLest : GameSkill
 		GameView.instance.recalculateDestinations();
 
 		GameView.instance.displaySkillEffect(target,"-"+damages+"PV\n"+move+"MOV\n1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
+		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}	
 
 	public override void applyOnViro2(int target, int amount, int amount2){
@@ -76,7 +76,7 @@ public class PistoLest : GameSkill
 		GameView.instance.recalculateDestinations();
 
 		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV\n1 tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 5);
+		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}	
 
 	public override string getTargetText(int target){
@@ -98,7 +98,7 @@ public class PistoLest : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

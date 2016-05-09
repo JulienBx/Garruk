@@ -168,7 +168,7 @@ public class Grenade : GameSkill
 	public override void applyOn(int target, int value){
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 23, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 23);
+		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){
@@ -206,6 +206,6 @@ public class Grenade : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

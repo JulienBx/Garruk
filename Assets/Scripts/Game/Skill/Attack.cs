@@ -57,7 +57,8 @@ public class Attack : GameSkill
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.addAnim(GameView.instance.getTile(target), 1);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
+		SoundController.instance.playSound(25);
 
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<14){
 			GameView.instance.hitNextTutorial();
@@ -96,7 +97,7 @@ public class Attack : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

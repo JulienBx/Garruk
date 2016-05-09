@@ -45,7 +45,7 @@ public class Cannibale : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "Dévoré!", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 21);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){
@@ -87,7 +87,8 @@ public class Cannibale : GameSkill
 		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(targetMe, text, 2);
-		GameView.instance.addAnim(GameView.instance.getTile(targetMe), 21);
+		GameView.instance.addAnim(7,GameView.instance.getTile(targetMe));
+		SoundController.instance.playSound(37);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

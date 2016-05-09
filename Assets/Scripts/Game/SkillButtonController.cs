@@ -108,6 +108,7 @@ public class SkillButtonController : MonoBehaviour
 	
 	public void OnMouseDown(){
 		if (this.launchabilityText.Length<2){
+			SoundController.instance.playSound(24);
 			if(!GameView.instance.isMobile){
 				this.showDescription(false);
 			}
@@ -127,6 +128,9 @@ public class SkillButtonController : MonoBehaviour
 			if(!GameSkills.instance.getSkill(this.skill.Id).auto){
 				GameSkills.instance.getSkill(this.skill.Id).launch();
 			}
+		}
+		else{
+			SoundController.instance.playSound(22);
 		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
@@ -152,24 +156,30 @@ public class SkillButtonController : MonoBehaviour
 					GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
 					GameView.instance.dropSkillButton(this.id);
+					SoundController.instance.playSound(24);
 				}
 				else if(GameView.instance.getTileController(new Tile(x,y)).isDisplayingTarget){
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
+						SoundController.instance.playSound(24);
+
 					}
 					else{
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
+						SoundController.instance.playSound(24);
 					}
 				}
 				else{
 					GameView.instance.dropSkillButton(this.id);
+					SoundController.instance.playSound(22);
 					GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 				}
 			}
 			else{
 				GameView.instance.dropSkillButton(this.id);
+				SoundController.instance.playSound(22);
 				GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 			}
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;

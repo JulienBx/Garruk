@@ -62,7 +62,7 @@ public class PerfoTir : GameSkill
 			text+="\nBouclier détruit";
 		}
 		GameView.instance.displaySkillEffect(target, text, 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 31);
+		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){
@@ -96,7 +96,7 @@ public class PerfoTir : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

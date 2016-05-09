@@ -32,6 +32,6 @@ public class Visee : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 25);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 }

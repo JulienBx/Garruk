@@ -52,7 +52,7 @@ public class Guerilla : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,15,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 15);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){
@@ -77,7 +77,7 @@ public class Guerilla : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npeut se déplacer", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

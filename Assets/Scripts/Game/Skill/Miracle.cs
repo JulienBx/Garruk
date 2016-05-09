@@ -56,11 +56,11 @@ public class Miracle : GameSkill
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 107, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, text, 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 107);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

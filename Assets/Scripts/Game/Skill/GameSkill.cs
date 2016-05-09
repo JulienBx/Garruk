@@ -281,5 +281,6 @@ public class GameSkill
 
 		GameView.instance.displaySkillEffect(target, text, type);
 		GameView.instance.addSE(GameView.instance.getTile(target));
+		SoundController.instance.playSound(22);
 	}
 }

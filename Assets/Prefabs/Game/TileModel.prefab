@@ -193,7 +193,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.410061, y: 9.66708, z: -1}
+  m_LocalPosition: {x: -18.364725, y: -8.663177, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 414956}
@@ -720,7 +720,7 @@ MonoBehaviour:
   GOPosition: {x: 0, y: 0}
   GOSize: {x: 0, y: 0}
   trapSprites:
-  - {fileID: 21300104, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
+  - {fileID: 21300000, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   - {fileID: 21300064, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   - {fileID: 21300104, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   - {fileID: 21300146, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
@@ -731,7 +731,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   destinationSprites:
-  - {fileID: 0}
+  - {fileID: 21300018, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   - {fileID: 21300018, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   - {fileID: 21300024, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   - {fileID: 0}
@@ -832,6 +832,16 @@ MonoBehaviour:
   - {fileID: 21300184, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   - {fileID: 21300186, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   - {fileID: 21300170, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   isDisplayingTarget: 0
   isFinishedTransi: 0
 --- !u!212 &21200074
@@ -980,7 +990,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300018, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1010,7 +1020,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 59
-  m_Sprite: {fileID: 21300064, guid: 7e1b4151ad140b74da11c36c23719857, type: 3}
+  m_Sprite: {fileID: 21300034, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1040,7 +1050,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300018, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1057,7 +1067,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.size
-      value: 2000
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: trapSprites.Array.size
@@ -1688,48 +1698,39 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[80]
       value: 
-      objectReference: {fileID: 21300038, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[81]
       value: 
-      objectReference: {fileID: 21300040, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[82]
       value: 
-      objectReference: {fileID: 21300042, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[83]
       value: 
-      objectReference: {fileID: 21300044, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[84]
       value: 
-      objectReference: {fileID: 21300046, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[85]
       value: 
-      objectReference: {fileID: 21300048, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[86]
       value: 
-      objectReference: {fileID: 21300050, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[87]
       value: 
-      objectReference: {fileID: 21300052, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[88]
       value: 
-      objectReference: {fileID: 21300054, guid: b1c87354a2dcc0745b8513e759375dcc,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[90]
       value: 
@@ -5670,6 +5671,20 @@ Prefab:
       propertyPath: animSprites.Array.data[509]
       value: 
       objectReference: {fileID: 21300036, guid: b1c87354a2dcc0745b8513e759375dcc,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[79]
+      value: 
+      objectReference: {fileID: 21300170, guid: 7e0e8e306a94a954ea8c735ba5deb1ec,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: animSprites.Array.data[89]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: destinationSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300018, guid: 5518c1990afcd93448c894f332997e19,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

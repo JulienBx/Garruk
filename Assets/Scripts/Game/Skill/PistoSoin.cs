@@ -55,7 +55,7 @@ public class PistoSoin : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false,-1);
 		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hitNextTutorial();
 		}
@@ -67,7 +67,7 @@ public class PistoSoin : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"),false,-1);
 		GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 2);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}	
 	
 	public override string getTargetText(int target){
@@ -94,7 +94,7 @@ public class PistoSoin : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

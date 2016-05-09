@@ -49,7 +49,7 @@ public class Fatality : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Meurt au prochain tour", 0);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 101);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int target){
@@ -68,6 +68,6 @@ public class Fatality : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

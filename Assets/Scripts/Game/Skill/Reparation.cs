@@ -34,7 +34,7 @@ public class Reparation : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*i,-1,36,base.name,i+" dégats soignés"), false,-1);
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+i+"PV", 2);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 36);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

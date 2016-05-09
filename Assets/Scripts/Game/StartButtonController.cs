@@ -24,6 +24,7 @@ public class StartButtonController : MonoBehaviour
 	
 	public void OnMouseDown(){
 		if(this.isPushed==false){
+			SoundController.instance.playSound(30);
 			this.isPushed = true ;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente du joueur 2";

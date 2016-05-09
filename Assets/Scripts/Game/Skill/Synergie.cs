@@ -48,7 +48,7 @@ public class Synergie : GameSkill
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 133, text, "-"+damages+" PV"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 133);
+		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){
@@ -68,7 +68,7 @@ public class Synergie : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

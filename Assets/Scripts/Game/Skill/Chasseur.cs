@@ -36,7 +36,8 @@ public class Chasseur : GameSkill
 		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, base.name," VS "+WordingCardTypes.getName(i),i));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.displaySkillEffect(target, base.name+"Dégats +"+bonus+"% VS "+WordingCardTypes.getName(i), 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 131);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
+		SoundController.instance.playSound(28);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

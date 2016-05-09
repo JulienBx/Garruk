@@ -37,6 +37,7 @@ public class TimerController : MonoBehaviour
 			int i = Mathf.Max(0,Mathf.CeilToInt(this.timerTurn));
 			if(i!=realTime){
 				if(i==20 ||i==15 || i==10 || i==5 || i==4 || i==3 || i==2 || i==1){
+					SoundController.instance.playSound(33);
 					GameView.instance.timerFront.GetComponent<TimerFrontController>().setTime(i);
 					GameView.instance.timerFront.GetComponent<TimerFrontController>().show(true);
 				}

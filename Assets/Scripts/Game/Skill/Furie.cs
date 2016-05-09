@@ -45,7 +45,7 @@ public class Furie : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 93);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

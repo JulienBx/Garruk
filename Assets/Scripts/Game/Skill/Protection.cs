@@ -39,7 +39,7 @@ public class Protection : GameSkill
 		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 29, base.name, ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
-		GameView.instance.addAnim(GameView.instance.getTile(target), 29);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 
 		if(currentCard.isFou()){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;

@@ -16,7 +16,7 @@ public class InterludeController : MonoBehaviour
 		
 	void Awake(){
 		this.isRunning = false ;
-		gameObject.GetComponent<SpriteRenderer>().enabled = false ;
+		gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
@@ -52,7 +52,7 @@ public class InterludeController : MonoBehaviour
 		this.isEndTurn = (type==3);
 		GameView.instance.myTimer.show(false);
 		GameView.instance.hisTimer.show(false);
-		gameObject.GetComponent<SpriteRenderer>().enabled = true ;
+		gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = true ;
 		Vector3 position ;
 		position = gameObject.transform.FindChild("Bar1").localPosition ;
 		position.x = realwidth/2f+10f;
@@ -64,16 +64,19 @@ public class InterludeController : MonoBehaviour
 		position.x = realwidth/2f+10f;
 		gameObject.transform.FindChild("Bar3").localPosition = position;
 		if(type==1){
+			SoundController.instance.playSound(39);
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[0];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[1];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[2];
 		}
 		else if(type==2){
+			SoundController.instance.playSound(40);
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[3];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
 		}
 		else if(type==3){
+			SoundController.instance.playSound(38);
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
@@ -153,7 +156,8 @@ public class InterludeController : MonoBehaviour
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
-					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 67);
+					SoundController.instance.playSound(36);
+					GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 					if(GameView.instance.getCurrentCard().isMine){
 						List<int> opponents = GameView.instance.getOpponents(true);
 						List<int> nbHits = new List<int>();
@@ -215,7 +219,7 @@ public class InterludeController : MonoBehaviour
 			GameView.instance.isFreezed = false ;
 			this.isRunning = false ;
 			GameView.instance.hideSkillEffects();
-			gameObject.GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;

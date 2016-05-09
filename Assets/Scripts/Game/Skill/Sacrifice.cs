@@ -54,13 +54,13 @@ public class Sacrifice : GameSkill
 				if(!GameView.instance.getCard(GameView.instance.getTileController(voisins[i]).getCharacterID()).isDead){
 					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, base.name, damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()),-1);
 					GameView.instance.displaySkillEffect(GameView.instance.getTileController(voisins[i]).getCharacterID(), "-"+amount+"PV", 108);
-					GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getTileController(voisins[i]).getCharacterID()), 108);
+					GameView.instance.addAnim(5,GameView.instance.getTile(GameView.instance.getTileController(voisins[i]).getCharacterID()));
 				}
 			}
 		}
 
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 108);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}	
 	
 	public override string getTargetText(int target){
@@ -80,6 +80,6 @@ public class Sacrifice : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

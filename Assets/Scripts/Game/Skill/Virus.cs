@@ -45,7 +45,7 @@ public class Virus : GameSkill
 		
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, base.name, damages+" dégats subis"), false,-1);
 		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 37);
+		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int id){	
@@ -62,7 +62,7 @@ public class Virus : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

@@ -31,6 +31,7 @@ public class Benediction : GameSkill
 				GameController.instance.applyOn(characters[i]);
 			}
 		}
+		SoundController.instance.playSound(37);
 		GameController.instance.endPlay();
 	}
 
@@ -43,6 +44,6 @@ public class Benediction : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(malus, 1, 103, base.name, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "+"+malus+"ATK", 0);
-		GameView.instance.addAnim(GameView.instance.getTile(target), 103);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}
 }

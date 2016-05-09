@@ -43,7 +43,7 @@ public class Faveur : GameSkill
 	public override void applyOn(int target){
 		GameView.instance.advanceTurn(target);
 		GameView.instance.displaySkillEffect(target, "Prochaine unité à jouer", 2);	
-		GameView.instance.addAnim(GameView.instance.getTile(target), 104);
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}	
 
 	public override string getTargetText(int target){
@@ -61,6 +61,6 @@ public class Faveur : GameSkill
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
-		GameView.instance.addAnim(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), 0);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }
