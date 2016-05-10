@@ -309,10 +309,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector3 divisionIconScale;
 	static public Vector3 divisionIconDistance;
 
-	static private Vector2 flipObjectSize=new Vector2(1441f,200f);
+	static private Vector2 flipObjectSize=new Vector2(1153f,160f);
 	static public Vector2 flipObjectWorldSize;
-	static private Vector3 flipObjectOriginalScale=new Vector3(0.8f,0.8f,0.8f);
-	static private Vector3 flipObjectMobileScale =new Vector3(0.4f,0.4f,0.4f); 
+	static private Vector3 flipObjectOriginalScale=new Vector3(1f,1f,1f);
+	static private Vector3 flipObjectMobileScale =new Vector3(0.5f,0.5f,0.5f); 
 	static public Vector3 flipObjectScale;
 
 	static private Vector3 flipNameOriginalScale=new Vector3(0.5f,0.5f,0.5f);
