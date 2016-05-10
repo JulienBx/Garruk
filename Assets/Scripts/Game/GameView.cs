@@ -2750,6 +2750,11 @@ public class GameView : MonoBehaviour
         {
             isConnectionLostInt=1;
         }
+        int isFirstPlayerInt =0;
+        if(ApplicationModel.player.IsFirstPlayer)
+        {
+            isFirstPlayerInt=1;
+        }
 		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -2762,7 +2767,7 @@ public class GameView : MonoBehaviour
         form.AddField("myform_currentgameid",currentGameid);
         form.AddField("myform_haswon",hasWonInt);
         form.AddField("myform_connectionlost",isConnectionLostInt);
-		form.AddField("myform_isfirstplayer",ApplicationModel.player.IsFirstPlayer);
+		form.AddField("myform_isfirstplayer",isFirstPlayerInt);
 
         ServerController.instance.setRequest(URLStat, form);
         yield return ServerController.instance.StartCoroutine("executeRequest");
