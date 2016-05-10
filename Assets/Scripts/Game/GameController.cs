@@ -512,5 +512,16 @@ public class GameController : Photon.MonoBehaviour
 	{
 		GameView.instance.convert(target);
 	}
+
+	public void playSound(int id)
+	{
+		photonView.RPC("playSoundRPC", PhotonTargets.AllBuffered, id);
+	}
+	
+	[PunRPC]
+	public void playSoundRPC(int id)
+	{
+		SoundController.instance.playSound(id);
+	}
 }
 

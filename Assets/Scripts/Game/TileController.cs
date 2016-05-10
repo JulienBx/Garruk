@@ -117,6 +117,7 @@ public class TileController : GameObjectController
 		this.trap = t ;
 		isTrapped = true ;
 		this.showTrap (this.trap.getIsVisible());
+		SoundController.instance.playSound(41);
 	}
 	
 	public int getIsDestination(){
@@ -321,6 +322,7 @@ public class TileController : GameObjectController
 				this.isHovering = true ;
 				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 				if(GameView.instance.hoveringZone!=-1){
+					print("HOVERINGZONE");
 					if(GameView.instance.hoveringZone==1){
 						GameView.instance.hideAllTargets();
 						this.setTargetSprite(3) ;

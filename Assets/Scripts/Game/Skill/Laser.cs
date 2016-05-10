@@ -58,6 +58,7 @@ public class Laser : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);	
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
+		SoundController.instance.playSound(35);
 	}
 	
 	public override string getTargetText(int target){

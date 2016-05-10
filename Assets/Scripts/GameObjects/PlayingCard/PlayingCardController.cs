@@ -271,7 +271,7 @@ public class PlayingCardController : GameObjectController
 							GameView.instance.getPlayingCardController(characters[i]).updateAttack(targetCard.getAttack());
 							GameView.instance.getPlayingCardController(characters[i]).addAttackModifyer(new Modifyer(bonus, 2, 112, base.name, ". Actif 1 tour"));
 
-							GameView.instance.displaySkillEffect(characters[i], "Martyr\n+"+bonus+" ATK", 2);
+							GameView.instance.displaySkillEffect(characters[i], "Prêtresse\n+"+bonus+" ATK", 2);
 							GameView.instance.addAnim(7,GameView.instance.getTile(characters[i]));
 						}
 					}
@@ -905,13 +905,13 @@ public class PlayingCardController : GameObjectController
 
 	public void checkSniper(bool toDisplay){
 		if((card.Skills[0].Id == 35)){
-			int bonus = 5*card.Skills[0].Power;
+			int bonus = 50+5*card.Skills[0].Power;
 		
 			GameView.instance.getCard(this.id).states.Add(new Modifyer(0, -1, 35, "Sniper", "Immobile. Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
 			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
-				GameView.instance.displaySkillEffect(this.id, "Sniper\nrésistance météorite "+bonus+"%\nimmobile", 1);
+				GameView.instance.displaySkillEffect(this.id, "Sniper\nrésistance météorite "+bonus+"%", 1);
 				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
 			}
 		}

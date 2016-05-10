@@ -403,11 +403,11 @@ public class GameView : MonoBehaviour
 			this.showStartButton();
 		}
 		else if(ApplicationModel.player.ToLaunchGameIA){
-			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(0), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(1), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(2), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(3), false);
+			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 
 			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
@@ -492,7 +492,7 @@ public class GameView : MonoBehaviour
 			GameView.instance.hideLoadingScreen ();
 		}
 		
-		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial){
+		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA){
 			int level;
 			int attackValue ;
 			int pvValue ;
@@ -518,12 +518,17 @@ public class GameView : MonoBehaviour
 							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
-					if(this.getCard(i).isProtector()){
+					else if(this.getCard(i).isProtector()){
 						level = this.getCard(i).getSkills()[0].Power*2+10;
-						for(int j = 0 ; j < this.nbCards ; j++){
-							if(this.getCard(j).isMine && i!=j){
-								this.getPlayingCardController(j).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
-								this.getPlayingCardController(j).show();
+						List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
+						int characterID ;
+						for(int j = 0 ; j < tiles.Count ; j++){
+							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
+							if(characterID!=-1){
+								if(this.getCard(characterID).isMine){
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
+									this.getPlayingCardController(characterID).showIcons();
+								}
 							}
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
@@ -549,19 +554,18 @@ public class GameView : MonoBehaviour
 							}
 						}
 					}
-					if(this.getCard(i).isProtector()){
+					else if(this.getCard(i).isProtector()){
 						level = this.getCard(i).getSkills()[0].Power*2+10;
-						for(int j = 0 ; j < this.nbCards ; j++){
-							if(!this.getCard(j).isMine && i!=j){
-								this.getPlayingCardController(j).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
-								this.getPlayingCardController(j).show();
-								this.getPlayingCardController(j).updateLife(0);
-								this.getPlayingCardController(j).updateAttack(0);
+						List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
+						int characterID ;
+						for(int j = 0 ; j < tiles.Count ; j++){
+							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
+							if(characterID!=-1){
+								if(!this.getCard(characterID).isMine){
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
+									this.getPlayingCardController(characterID).showIcons();
+								}
 							}
-						}
-						if(!ApplicationModel.player.ToLaunchGameTutorial){
-							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
-							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
 				}
@@ -810,6 +814,7 @@ public class GameView : MonoBehaviour
 				if(tempInt!=-1){
 					if(this.getCard(tempInt).isMine==isM){
 						this.getCard(tempInt).isProtected(true);
+						this.getPlayingCardController(tempInt).showIcons();
 					}
 				}
 			}
@@ -820,26 +825,28 @@ public class GameView : MonoBehaviour
 				if(tempInt!=-1){
 					if(this.getCard(tempInt).isMine==isM){
 						this.getCard(tempInt).isProtected(true);
-						bonus = this.getCard(i).getSkills()[0].Power*2+10;
-						this.getPlayingCardController(i).addShieldModifyer(new Modifyer(bonus, -1, 111, base.name, "Bouclier "+bonus+"%"));
+						bonus = this.getCard(tempInt).getSkills()[0].Power*2+10;
+						this.getPlayingCardController(tempInt).addShieldModifyer(new Modifyer(bonus, -1, 111, "Protecteur", ""));
+						this.getPlayingCardController(tempInt).showIcons();
 					}
 				}
 			}
 		}
 		else{
 			this.getCard(characterID).isProtected(true);
+			this.getPlayingCardController(characterID).showIcons();
 			isM = this.getCard(characterID).isMine;
 
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for (int i = 0 ; i < neighbours.Count ; i++){
 				tempInt = this.getTileController(neighbours[i]).getCharacterID();
-
 				if(tempInt!=-1){
 					if(this.getCard(tempInt).isProtector()){
-						if(this.getCard(i).isMine==isM){
-							this.getCard(tempInt).isProtected(true);
-							bonus = this.getCard(i).getSkills()[0].Power*2+10;
-							this.getPlayingCardController(tempInt).addShieldModifyer(new Modifyer(bonus, -1, 111, base.name, "Bouclier "+bonus+"%"));
+						if(this.getCard(tempInt).isMine==isM){
+							bonus = this.getCard(tempInt).getSkills()[0].Power*2+10;
+
+							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(bonus, -1, 111, "Protecteur", ""));
+							this.getPlayingCardController(characterID).showIcons();
 						}
 					}
 				}
@@ -1026,9 +1033,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setNextPlayer(bool isEndMeteor){
-		print("SET NEXT PLAYER "+isEndMeteor);
 		if(!this.isChangingTurn){
-			print("CHANGETURN");
 			this.isChangingTurn = true;
 			isFreezed = true ;
 			this.hideButtons();
@@ -2915,6 +2920,17 @@ public class GameView : MonoBehaviour
 		return allys;
 	}
 
+	public List<int> getAllysAndMe(bool isM){
+		List<int> allys = new List<int>();
+		int CPC = GameView.instance.getCurrentPlayingCard();
+		for(int i = 0 ; i < this.nbCards; i++){
+			if(!this.getCard(i).isDead && this.getCard(i).isMine==isM){
+				allys.Add(i);
+			}
+		}
+		return allys;
+	}
+
 	public List<int> getOpponents(bool isM){
 		List<int> opponents = new List<int>();
 		for(int i = 0 ; i < this.nbCards;i++){
@@ -3309,6 +3325,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setHoveringZone(int i, string t, string d){
+		print("SETHO");
 		this.hoveringZone = i ;
 		if(i>0){
 			for (int a = 0; a < this.boardWidth; a++){
@@ -3503,10 +3520,12 @@ public class GameView : MonoBehaviour
 	public List<Tile> getAllTilesWithin(Tile t, int r){
 		List<Tile> tiles = new List<Tile>();
 		Tile tempTile ;
+		int distance = 0 ;
 		for (int i = 0 ; i < boardWidth ; i++){
 			for (int j = 0 ; j < boardHeight ; j++){
 				tempTile = new Tile(i,j);
-				if(this.getDistanceBetweenTiles(t,tempTile)<=r){
+				distance = this.getDistanceBetweenTiles(t,tempTile);
+				if(distance<=r && distance>r){
 					if(this.getTileController(tempTile).getCharacterID()==-1 && !this.getTileController(tempTile).isRock()){
 						tiles.Add(tempTile);
 					}

@@ -40,8 +40,8 @@ public class Grenade : GameSkill
 			}
 			else if (Random.Range(1,101) <= proba){
 				targetCard = GameView.instance.getCard(playerID);
-				minDamages = currentCard.getNormalDamagesAgainst(targetCard, 2+level);
-				maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 6+2*level);
+				minDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+level);
+				maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 9+level);
 				if(currentCard.isFou()){
 					minDamages = Mathf.RoundToInt(1.25f*minDamages);
 					maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -63,8 +63,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 2+level);
-					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 6+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+level);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 9*level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -88,8 +88,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 2+level);
-					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 6+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+level);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 9+level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -113,8 +113,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 2+level);
-					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 6+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+level);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 9+level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -138,8 +138,8 @@ public class Grenade : GameSkill
 				}
 				else if (Random.Range(1,101) <= proba){
 					targetCard = GameView.instance.getCard(playerID);
-					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 2+level);
-					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 6+2*level);
+					minDamages = currentCard.getNormalDamagesAgainst(targetCard, 4+level);
+					maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 9+level);
 					if(currentCard.isFou()){
 						minDamages = Mathf.RoundToInt(1.25f*minDamages);
 						maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -176,12 +176,12 @@ public class Grenade : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages, maxDamages;
-		int damages = 2+level;
+		int damages = 4+level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
 		minDamages = currentCard.getNormalDamagesAgainst(targetCard, damages);
-		damages = 6+2*level;
+		damages = 9+level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
@@ -207,5 +207,92 @@ public class Grenade : GameSkill
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		SoundController.instance.playSound(36);
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		float score = 0 ;
+
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int levelMin ;
+		int levelMax ;
+
+		int playerID = GameView.instance.getTileController(t).getCharacterID();
+		if(playerID!=-1){
+			targetCard = GameView.instance.getCard(playerID);
+			levelMin = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power);
+			levelMax = currentCard.getNormalDamagesAgainst(targetCard,9+s.Power);
+			if(targetCard.isMine){
+				score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+			}
+			else{
+				score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+			}
+		}
+		if(t.x<GameView.instance.boardWidth-1){
+			playerID = GameView.instance.getTileController(new Tile(t.x+1, t.y)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,9+s.Power);
+
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(t.x>0){
+			playerID = GameView.instance.getTileController(new Tile(t.x-1, t.y)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,9+s.Power);
+
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(t.y<GameView.instance.boardHeight-1){
+			playerID = GameView.instance.getTileController(new Tile(t.x, t.y+1)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,9+s.Power);
+
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		if(t.y>0){
+			playerID = GameView.instance.getTileController(new Tile(t.x, t.y-1)).getCharacterID();
+			if(playerID!=-1){
+				targetCard = GameView.instance.getCard(playerID);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard,4+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard,9+s.Power);
+
+				if(targetCard.isMine){
+					score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+				else{
+					score-=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+				}
+			}
+		}
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+
+		return (int)score ;
 	}
 }

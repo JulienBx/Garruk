@@ -86,7 +86,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			tempTile = emplacements[i];
 			passiveScore=0;
 			lifeBonus = 0 ; 
-			if(passiveSkill.Id!=35){
+			if(passiveSkill.Id!=35 || i==emplacements.Count-1){
 				if(GameView.instance.getTileController(emplacements[i]).getIsTrapped()){
 					if(GameView.instance.getTileController(emplacements[i]).trap.getType()==4){
 						lifeBonus = Mathf.Min(GameView.instance.getCurrentCard().GetTotalLife()-GameView.instance.getCurrentCard().getLife(),GameView.instance.getTileController(emplacements[i]).trap.getAmount());
@@ -293,7 +293,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			tempList.Add(bestTarget);
 			GameController.instance.play(bestSkill.Id);
 
-			if(bestSkill.Id == 131){
+			if(bestSkill.Id == 131 || bestSkill.Id == 103){
 				tempList[0].x = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill());
 			}
 			if(bestSkill.Id == 27){
@@ -409,7 +409,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				}
 			}
 		}
-		else{
+		else if(passiveSkill.Id!=35){
 			if(bestScore>20){
 				yield return new WaitForSeconds(2f);
 
