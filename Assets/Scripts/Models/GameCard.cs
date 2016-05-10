@@ -157,9 +157,9 @@ public class GameCard : Card
 	public bool isSniperActive()
 	{
 		bool hasFound = false ;
-		for (int i = moveModifyers.Count-1 ; i >= 0 ; i--)
+		for (int i = states.Count-1 ; i >= 0 ; i--)
 		{
-			if(moveModifyers[i].type==35){
+			if(states[i].type==35){
 				hasFound = true;
 			}
 		}

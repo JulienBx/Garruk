@@ -515,16 +515,16 @@ public class WordingSkills
 		//22 - Laser
 		idSkills.Add(22);
 		names.Add(new string[]{"Rayon laser","Laser beam"}); 
-		descriptions.Add(new string[]{"Inflige [11-22] dégats à l'ennemi distant ciblé","Inflicts [11-23] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [12-24] dégats à l'ennemi distant ciblé","Inflicts [12-26] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [13-26] dégats à l'ennemi distant ciblé","Inflicts [13-29] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [14-28] dégats à l'ennemi distant ciblé","Inflicts [14-32] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [15-30] dégats à l'ennemi distant ciblé","Inflicts [15-35] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [16-32] dégats à l'ennemi distant ciblé","Inflicts [16-38] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [17-34] dégats à l'ennemi distant ciblé","Inflicts [17-41] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [18-36] dégats à l'ennemi distant ciblé","Inflicts [18-44] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [19-38] dégats à l'ennemi distant ciblé","Inflicts [19-47] damage points to a distant enemy target"}); 
-		descriptions.Add(new string[]{"Inflige [20-40] dégats à l'ennemi distant ciblé","Inflicts [20-50] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [11-21] dégats à l'ennemi distant ciblé","Inflicts [11-23] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [12-22] dégats à l'ennemi distant ciblé","Inflicts [12-26] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [13-23] dégats à l'ennemi distant ciblé","Inflicts [13-29] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [14-24] dégats à l'ennemi distant ciblé","Inflicts [14-32] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [15-25] dégats à l'ennemi distant ciblé","Inflicts [15-35] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [16-26] dégats à l'ennemi distant ciblé","Inflicts [16-38] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [17-27] dégats à l'ennemi distant ciblé","Inflicts [17-41] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [18-28] dégats à l'ennemi distant ciblé","Inflicts [18-44] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [19-29] dégats à l'ennemi distant ciblé","Inflicts [19-47] damage points to a distant enemy target"}); 
+		descriptions.Add(new string[]{"Inflige [20-30] dégats à l'ennemi distant ciblé","Inflicts [20-50] damage points to a distant enemy target"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

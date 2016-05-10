@@ -15,12 +15,13 @@ public class PopUpChoiceController : MonoBehaviour
 	}
 	
 	public void show(bool b){
-		print("Show "+b);
 		gameObject.GetComponent<SpriteRenderer>().enabled=b;
 		gameObject.transform.FindChild("Title").GetComponent<MeshRenderer>().enabled=b;
 		gameObject.transform.FindChild("Description").GetComponent<MeshRenderer>().enabled=b;
-		for (int i = 1 ; i < 5 ; i++){
-			gameObject.transform.FindChild("Choice"+i).GetComponent<PictoChoiceController>().show(false);
+		if(!b){
+			for (int i = 1 ; i < 5 ; i++){
+				gameObject.transform.FindChild("Choice"+i).GetComponent<PictoChoiceController>().show(false);
+			}
 		}
 	}
 
@@ -30,9 +31,10 @@ public class PopUpChoiceController : MonoBehaviour
 		int compteur = 1 ;
 		int c ;
 		for(int i = 0 ; i < enemies.Count ; i++){
+			print(enemies[i]);
 			c = GameView.instance.getCard(enemies[i]).CardType.Id; 
 			if(!cardtypes.Contains(c)){
-				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getFactionSprite(c), i);
+				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().setFace(GameView.instance.getFactionSprite(c), c);
 				gameObject.transform.FindChild("Choice"+compteur).GetComponent<PictoChoiceController>().show(true);
 				cardtypes.Add(c);
 				compteur++;

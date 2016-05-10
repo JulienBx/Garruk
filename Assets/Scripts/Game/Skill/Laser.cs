@@ -31,7 +31,7 @@ public class Laser : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(10+level, 20+2*level+1));
+				GameController.instance.applyOn2(target, Random.Range(10+level, 20+level));
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -65,7 +65,7 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minDamages = 10 + level;
-		int maxDamages = 20+2*level;
+		int maxDamages = 20 + level;
 		if(currentCard.isFou()){
 			minDamages = Mathf.RoundToInt(1.25f*minDamages);
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -93,5 +93,20 @@ public class Laser : GameSkill
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		int levelMin = Mathf.FloorToInt((10+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMax = Mathf.FloorToInt((20+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+
+		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*(Mathf.Min(levelMax,targetCard.getLife())-levelMin)))/(levelMax-levelMin+1f));
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }

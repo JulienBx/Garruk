@@ -1026,8 +1026,9 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setNextPlayer(bool isEndMeteor){
-		
+		print("SET NEXT PLAYER "+isEndMeteor);
 		if(!this.isChangingTurn){
+			print("CHANGETURN");
 			this.isChangingTurn = true;
 			isFreezed = true ;
 			this.hideButtons();
@@ -3448,6 +3449,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+		this.isChangingTurn = false;
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<24){
 				
 		}

@@ -172,109 +172,110 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 					}
 				}
-			}
-			for(int j = 0 ; j < skills.Count ; j++){
-				if(j==0){
-					gs = GameSkills.instance.getSkill(0);
-					targets = gs.getTargets(tempTile, false);
-					for (int k = 0 ; k < targets.Count ;k++){
-						actionScore = gs.getActionScore(targets[k], skills[j]);
-						if(actionScore>0){
-							Debug.Log("Attaque trouvé : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
-						}
-						if(actionScore+passiveScore>bestScore){
-							bestScore = actionScore+passiveScore;
-							bestEmplacement = emplacements[i];
-							bestTarget = targets[k];
-							bestSkill.Id = 0;
-							Debug.Log("Meilleur score trouvé");
+			
+				for(int j = 0 ; j < skills.Count ; j++){
+					if(j==0){
+						gs = GameSkills.instance.getSkill(0);
+						targets = gs.getTargets(tempTile, false);
+						for (int k = 0 ; k < targets.Count ;k++){
+							actionScore = gs.getActionScore(targets[k], skills[j]);
+							if(actionScore>0){
+								Debug.Log("Attaque trouvé : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
+							}
+							if(actionScore+passiveScore>bestScore){
+								bestScore = actionScore+passiveScore;
+								bestEmplacement = emplacements[i];
+								bestTarget = targets[k];
+								bestSkill.Id = 0;
+								Debug.Log("Meilleur score trouvé");
+							}
 						}
 					}
-				}
-				else{
-					gs = GameSkills.instance.getSkill(skills[j].Id);
-					if (gs.isLaunchable(emplacements[i], false).Length<3){
-						targets = new List<Tile>();
-						if(gs.auto){
-							if(skills[j].Id==130){
-								for(int i2 = 0; i2 < 6 ; i2++){
-									for(int i3 = 0; i3 < 8 ; i3++){
-										targets.Add(new Tile(i2,i3));
+					else{
+						gs = GameSkills.instance.getSkill(skills[j].Id);
+						if (gs.isLaunchable(emplacements[i], false).Length<3){
+							targets = new List<Tile>();
+							if(gs.auto){
+								if(skills[j].Id==130){
+									for(int i2 = 0; i2 < 6 ; i2++){
+										for(int i3 = 0; i3 < 8 ; i3++){
+											targets.Add(new Tile(i2,i3));
+										}
 									}
+								}
+								else{
+									targets.Add(emplacements[i]);
 								}
 							}
 							else{
-								targets.Add(emplacements[i]);
+								targets = gs.getTargets(tempTile, false);
 							}
-						}
-						else{
-							targets = gs.getTargets(tempTile, false);
-						}
-						for (int k = 0 ; k < targets.Count ;k++){
-							if(skills[j].Id==13 ||skills[j].Id==58){
-								actionScore=0;
-								List<Tile> neighbours = targets[k].getImmediateNeighbourTiles();
-								for(int n = 0 ; n < neighbours.Count ; n++){
-									if(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)==-1){
-										if(GameView.instance.getTileController(neighbours[n].x, neighbours[n].y).isRock()){
-											actionScore+=1;
-										}
-									}
-									else{
-										if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)).isMine){
-											actionScore+=1;
+							for (int k = 0 ; k < targets.Count ;k++){
+								if(skills[j].Id==13 ||skills[j].Id==58){
+									actionScore=0;
+									List<Tile> neighbours = targets[k].getImmediateNeighbourTiles();
+									for(int n = 0 ; n < neighbours.Count ; n++){
+										if(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)==-1){
+											if(GameView.instance.getTileController(neighbours[n].x, neighbours[n].y).isRock()){
+												actionScore+=1;
+											}
 										}
 										else{
-											actionScore+=3;
-										}
-									}
-								}
-								if(targets[k].y==1||targets[k].y==6){
-									actionScore+=1;
-								}
-								else if(targets[k].y==2||targets[k].y==5){
-									actionScore+=3;
-								}
-								else if(targets[k].y==3||targets[k].y==4){
-									actionScore+=5;
-								}
-								actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/2f);
-							}
-							else{
-								actionScore = gs.getActionScore(targets[k], skills[j]);
-								if(skills[j].Id==92){
-									Tile desti = new Tile(2*targets[k].x-emplacements[i].x, 2*targets[k].y-emplacements[i].y);
-									if(desti.x>=0 && desti.x<GameView.instance.boardWidth && desti.y>=0 && desti.y<GameView.instance.boardHeight){
-										if(GameView.instance.getTileController(desti).getIsTrapped()){
-											int trap = GameView.instance.getTileController(desti).trap.getType();
-											if(trap==1){
-												actionScore+=10;
+											if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)).isMine){
+												actionScore+=1;
 											}
-											else if(trap==2){
-												actionScore+=10;
-											}
-											else if(trap==3){
-												actionScore+=10;
-											}
-											else if(trap==4){
-												actionScore-=10;
-											}
-											else if(trap==5){
-												actionScore-=10;
+											else{
+												actionScore+=3;
 											}
 										}
 									}
+									if(targets[k].y==1||targets[k].y==6){
+										actionScore+=1;
+									}
+									else if(targets[k].y==2||targets[k].y==5){
+										actionScore+=3;
+									}
+									else if(targets[k].y==3||targets[k].y==4){
+										actionScore+=5;
+									}
+									actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/2f);
 								}
-							}
+								else{
+									actionScore = gs.getActionScore(targets[k], skills[j]);
+									if(skills[j].Id==92){
+										Tile desti = new Tile(2*targets[k].x-emplacements[i].x, 2*targets[k].y-emplacements[i].y);
+										if(desti.x>=0 && desti.x<GameView.instance.boardWidth && desti.y>=0 && desti.y<GameView.instance.boardHeight){
+											if(GameView.instance.getTileController(desti).getIsTrapped()){
+												int trap = GameView.instance.getTileController(desti).trap.getType();
+												if(trap==1){
+													actionScore+=10;
+												}
+												else if(trap==2){
+													actionScore+=10;
+												}
+												else if(trap==3){
+													actionScore+=10;
+												}
+												else if(trap==4){
+													actionScore-=10;
+												}
+												else if(trap==5){
+													actionScore-=10;
+												}
+											}
+										}
+									}
+								}
 
-							if(actionScore>0){
-								Debug.Log("Choix trouvé : ("+passiveScore+"+"+actionScore+") - "+skills[j].Id+" - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
-								if(actionScore+passiveScore>bestScore){
-									bestScore = actionScore+passiveScore;
-									bestEmplacement = emplacements[i];
-									bestTarget = targets[k];
-									bestSkill = skills[j];
-									Debug.Log("Meilleur score trouvé !");
+								if(actionScore>0){
+									Debug.Log("Choix trouvé : ("+passiveScore+"+"+actionScore+") - "+skills[j].Id+" - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
+									if(actionScore+passiveScore>bestScore){
+										bestScore = actionScore+passiveScore;
+										bestEmplacement = emplacements[i];
+										bestTarget = targets[k];
+										bestSkill = skills[j];
+										Debug.Log("Meilleur score trouvé !");
+									}
 								}
 							}
 						}
