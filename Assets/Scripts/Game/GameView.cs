@@ -2762,6 +2762,7 @@ public class GameView : MonoBehaviour
         form.AddField("myform_currentgameid",currentGameid);
         form.AddField("myform_haswon",hasWonInt);
         form.AddField("myform_connectionlost",isConnectionLostInt);
+		form.AddField("myform_isfirstplayer",ApplicationModel.player.IsFirstPlayer);
 
         ServerController.instance.setRequest(URLStat, form);
         yield return ServerController.instance.StartCoroutine("executeRequest");
