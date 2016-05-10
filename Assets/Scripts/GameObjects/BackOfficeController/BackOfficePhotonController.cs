@@ -25,7 +25,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             this.addWaitingTime(Time.deltaTime);
         }
     }
-
     public void addWaitingTime(float f){
         
         this.waitingTime += f ;
@@ -35,7 +34,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             StartCoroutine(this.startIAGame());
         }
     }
-
     public void leaveRoom()
     {
         this.isWaiting = false ;
@@ -163,7 +161,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	private void startTutorialGame()
     {
 		this.CreateTutorialDeck();
-		this.launchGame();
+		SoundController.instance.playMusic(new int[]{3,4});
+		this.async.allowSceneActivation = true ;
+
     }
     private void launchGame()
     {
