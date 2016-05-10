@@ -149,24 +149,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &18132995 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 18132994}
---- !u!61 &18132996
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 18132995}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &39428003
 Prefab:
   m_ObjectHideFlags: 0
@@ -1485,24 +1467,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &210201374 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 210201373}
---- !u!61 &210201375
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 210201374}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &215240563
 Prefab:
   m_ObjectHideFlags: 0
@@ -1887,24 +1851,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &347198231 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 347198230}
---- !u!61 &347198232
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 347198231}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1 &353597428 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 197800, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
@@ -2206,24 +2152,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &392339084 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 392339083}
---- !u!61 &392339085
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 392339084}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.0138888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &425338405
 Prefab:
   m_ObjectHideFlags: 0
@@ -3140,24 +3068,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &560308315 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 560308314}
---- !u!61 &560308316
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 560308315}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &564179814
 Prefab:
   m_ObjectHideFlags: 0
@@ -6149,7 +6059,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404348, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_RootOrder
-      value: 21
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
       propertyPath: m_Name
@@ -6176,24 +6086,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1493646412 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 1493646411}
---- !u!61 &1493646413
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1493646412}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &1513790156
 Prefab:
   m_ObjectHideFlags: 0
@@ -7138,24 +7030,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1636904224 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 1636904223}
---- !u!61 &1636904225
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1636904224}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &1652846850
 Prefab:
   m_ObjectHideFlags: 0
@@ -7220,24 +7094,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1652846851 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 1652846850}
---- !u!61 &1652846852
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1652846851}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &1726580902
 Prefab:
   m_ObjectHideFlags: 0
@@ -7356,24 +7212,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1735015287 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 1735015286}
---- !u!61 &1735015288
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1735015287}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.0138888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1 &1753247733 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 198624, guid: 2d975155c53e441c9bdeec9f4f695c14, type: 2}
@@ -7603,24 +7441,6 @@ Prefab:
     - {fileID: 6108004, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1861184502 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 196790, guid: 5339a47b0097045b486ef51f1d6832cf, type: 2}
-  m_PrefabInternal: {fileID: 1861184501}
---- !u!61 &1861184503
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1861184502}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013888955, y: -0.004629612}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.25}
 --- !u!1001 &1874942960
 Prefab:
   m_ObjectHideFlags: 0

@@ -159,10 +159,10 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public Vector2 nextLevelPopUpWorldSize;
 	static public Vector3 nextLevelPopUpScale = new Vector3(1.014f, 1.014f,1.014f);
 
-	static private Vector2 cardTypeFilterSize = new Vector2(209f,243f);
+	static private Vector2 cardTypeFilterSize = new Vector2(100f,125f);
 	static public Vector2 cardTypeFilterWorldSize;
-	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.35f,0.35f,0.35f);
-	static private Vector3 cardTypeFilterMobileScale = new Vector3 (0.45f, 0.45f, 0.45f);
+	static private Vector3 cardTypeFilterOriginalScale=new Vector3(0.7f,0.7f,0.7f);
+	static private Vector3 cardTypeFilterMobileScale = new Vector3 (0.9f, 0.9f, 0.9f);
 	static public Vector3 cardTypeFilterScale;
 
 	static private Vector2 skillTypeFilterSize = new Vector2(244f,244f);
