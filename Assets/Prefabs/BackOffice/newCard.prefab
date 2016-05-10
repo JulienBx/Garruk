@@ -45,8 +45,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 407186}
   - 212: {fileID: 21217712}
-  - 61: {fileID: 6124952}
   - 114: {fileID: 11488088}
+  - 61: {fileID: 6133016}
   m_Layer: 0
   m_Name: CardType
   m_TagString: Untagged
@@ -1130,7 +1130,7 @@ Transform:
   m_GameObject: {fileID: 103962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.329, y: 3.539, z: -0.1}
-  m_LocalScale: {x: 0.8731334, y: 0.87313366, z: 0.87313366}
+  m_LocalScale: {x: 1.5159734, y: 1.5159746, z: 1.5159746}
   m_Children: []
   m_Father: {fileID: 407260}
   m_RootOrder: 5
@@ -1141,7 +1141,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4672978, y: -16.674603, z: 0}
+  m_LocalPosition: {x: -14.922928, y: -11.778813, z: 0}
   m_LocalScale: {x: 0.26944447, y: 0.26944447, z: 0.26944447}
   m_Children:
   - {fileID: 487878}
@@ -1550,7 +1550,7 @@ Transform:
   m_GameObject: {fileID: 192798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 407260}
   m_RootOrder: 1
@@ -2496,20 +2496,6 @@ BoxCollider2D:
   m_Offset: {x: 0.004629612, y: -0.004629612}
   serializedVersion: 2
   m_Size: {x: 1.1296296, y: 1.1296296}
---- !u!61 &6124952
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 103962}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -0.013890862, y: -0.004630566}
-  serializedVersion: 2
-  m_Size: {x: 1.9351852, y: 2.2500002}
 --- !u!61 &6126348
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2566,6 +2552,20 @@ BoxCollider2D:
   m_Offset: {x: -0.0000019073486, y: -0.0000009536743}
   serializedVersion: 2
   m_Size: {x: 2.3148148, y: 2.3148148}
+--- !u!61 &6133016
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103962}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0.0000038146973, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1.1574074, y: 1.1574073}
 --- !u!61 &6135886
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -5803,15 +5803,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: colors.Array.data[1].a
