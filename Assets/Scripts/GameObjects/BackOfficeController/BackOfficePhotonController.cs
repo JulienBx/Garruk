@@ -10,9 +10,7 @@ using UnityEngine.SceneManagement;
 public class BackOfficePhotonController : Photon.MonoBehaviour 
 {
     public const string roomNamePrefix = "GarrukGame";
-    private int nbPlayersReady;
     private int nbPlayersInRoom;
-    private int deckLoaded;
     float waitingTime = 0f ; 
     float limitTime = 2f ;
     bool isWaiting ;
@@ -33,8 +31,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         if(waitingTime>limitTime){
             isWaiting = false ;
             ApplicationModel.player.ToLaunchGameIA  = true ;
-            this.CreateIADeck();
-            StartCoroutine(this.startGame());
+            StartCoroutine(this.startIAGame());
         }
     }
 
@@ -57,7 +54,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         print("Jessaye de join une room");
         this.nbPlayersInRoom = 0;
-        this.nbPlayersReady = 0;
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
@@ -82,7 +78,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
-        this.nbPlayersReady = 0;
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -109,107 +104,78 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
     void OnJoinedRoom(){
         print("Je join la room random "+ApplicationModel.player.IsFirstPlayer);
-        photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
-        BackOfficeController.instance.displayLoadingScreenButton(true);
-        this.startLoadingScene();
 
-        ApplicationModel.gameRoomId    =PhotonNetwork.room.name;        
+		this.startLoadingScene();
+		ApplicationModel.gameRoomId=PhotonNetwork.room.name;
+		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
-        if(PhotonNetwork.room.playerCount==2){
+		if(PhotonNetwork.room.playerCount==2)
+		{
             PhotonNetwork.room.open = false;
-            print("Je ferme la room START");
+        }
+
+        if(!ApplicationModel.player.ToLaunchGameTutorial)
+        {
+			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId);
+        	BackOfficeController.instance.displayLoadingScreenButton(true);
+        }
+        else
+        {
+            this.startTutorialGame();
         }
     }
     
     [PunRPC]
-    IEnumerator AddPlayerToList(int id, string loginName, int selectedDeckId, bool isFirstPlayer, int currentGameId, int rankingPoints)
+    IEnumerator AddPlayerToList(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
     {
-        if(ApplicationModel.player.ToLaunchGameTutorial)
+		this.nbPlayersInRoom++;
+        if(this.nbPlayersInRoom==2)
         {
-            this.CreateTutorialDeck();
-            PhotonNetwork.room.open = false;
-            SceneManager.LoadScene("Game");
-            yield break;
+			this.isWaiting=false;
+        }
+        if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
+        {
+        	ApplicationModel.hisPlayerName=playerName;
+			ApplicationModel.hisPlayerID=playerId;
+			ApplicationModel.hisRankingPoints=playerRankingPoints;
+			yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,false, playerId,playerRankingPoints,playerSelectedDeckId));
+			this.startGame();
         }
         else
         {
-            this.nbPlayersInRoom++;
-            if(this.nbPlayersInRoom==2)
-            {
-                this.isWaiting=false;
-            }
-            Deck deck;
-            deck = new Deck(selectedDeckId);
-			print("Je lance ma couroutine "+this.nbPlayersInRoom);
-            yield return StartCoroutine(deck.RetrieveCards());
-			print("J'ai lancé ma coroutine "+this.nbPlayersInRoom);
-            
-            if(deck.Error!="")
-            {
-                BackOfficeController.instance.toDisconnect();
-            }
-            if(isFirstPlayer)
-            {
-                ApplicationModel.currentGameId=currentGameId;
-            }
-            if (ApplicationModel.player.IsFirstPlayer == isFirstPlayer)
-            {
-                ApplicationModel.myPlayerName=loginName;
-                ApplicationModel.player.RankingPoints=rankingPoints;
-                ApplicationModel.player.MyDeck=deck;
-                print("mon deck :"+ApplicationModel.myPlayerName);
-            } 
-            else
-            {
-                ApplicationModel.hisPlayerName=loginName;
-                ApplicationModel.hisRankingPoints=rankingPoints;
-                ApplicationModel.opponentDeck=deck;
-                print("son deck :"+ApplicationModel.hisPlayerName);
-            }
-            this.nbPlayersReady++;
-            if(this.nbPlayersReady==2)
-            {
-                this.nbPlayersReady=0;
-                StartCoroutine(startGame());
-            }
+			yield break;
         }
     }
-    private IEnumerator startGame()
+    private void startGame()
     {
-        ApplicationModel.gameRoomId    =PhotonNetwork.room.name;
-        if(ApplicationModel.player.IsFirstPlayer)
-        {
-            PhotonNetwork.room.open = false;
-            yield return StartCoroutine(this.initializeGame());
-        }
-        if(ApplicationModel.player.ToLaunchGameIA)
-        {
-            SoundController.instance.playMusic(new int[]{3,4});
-            BackOfficeController.instance.launchPreMatchLoadingScreen();
-        }
-        else
-        {
-        	this.launch();
-            //photonView.RPC("LaunchGame", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId);
-        }
-		yield break;
+		photonView.RPC("getGameId", PhotonTargets.AllBuffered, ApplicationModel.currentGameId);
+		this.launchGame();
+    }
+	private IEnumerator startIAGame()
+    {
+		PhotonNetwork.room.open = false;
+		this.CreateIADeck();
+		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
+		this.launchGame();
+    }
+	private void startTutorialGame()
+    {
+		this.CreateTutorialDeck();
+		this.launchGame();
+    }
+    private void launchGame()
+    {
+		SoundController.instance.playMusic(new int[]{3,4});
+        BackOfficeController.instance.launchPreMatchLoadingScreen();
     }
 
     [PunRPC]
-    void LaunchGame(int id, bool isFirstPlayer, int currentGameId)
+    void getGameId(int currentGameId)
     {
-        if(isFirstPlayer)
+        if(!ApplicationModel.player.IsFirstPlayer)
         {
             ApplicationModel.currentGameId=currentGameId;
         }
-       
-        SoundController.instance.playMusic(new int[]{3,4});
-        BackOfficeController.instance.launchPreMatchLoadingScreen();
-    }
-
-    public void launch(){
-        SoundController.instance.playMusic(new int[]{3,4});
-        BackOfficeController.instance.launchPreMatchLoadingScreen();
     }
 
     public void OnDisconnectedFromPhoton()
@@ -289,95 +255,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 
     private void CreateIADeck()
     {
-        ApplicationModel.myPlayerName=ApplicationModel.player.Username;
-        List<string> names = new List<string>();
-        names.Add("Paliel");
-        names.Add("Lalil");
-        names.Add("Glorion");
-        names.Add("Lorar");
-        names.Add("Lorond");
-        names.Add("Sirer");
-        names.Add("Sere");
-        names.Add("Taraen");
-        names.Add("Hiril");
-        names.Add("Linaen");
-        names.Add("Atar");
-        names.Add("Lalur");
-        names.Add("Turet");
-        names.Add("Athul");
-        names.Add("Finer");
-        names.Add("Nimul");
-        names.Add("Hedis");
-        names.Add("Sipin");
-        names.Add("Jizon");
-        names.Add("Todabis");
-        names.Add("Drukar");
-        names.Add("Thebril");
-        names.Add("Rarur");
-        names.Add("Brorer");
-        names.Add("Mener");
-        names.Add("Sauscos");
-        names.Add("Raran");
-        names.Add("Utas");
-        names.Add("Drusos");
-        names.Add("Paraver");
-        names.Add("Liter");
-        names.Add("Drupever");
-        names.Add("Rulinor8");
-        names.Add("Dakin");
-        names.Add("Neger");
-        names.Add("Degan");
-        names.Add("Gurran");
-        names.Add("Dewen");
-        names.Add("Paugan");
-        names.Add("Lokin");
-        names.Add("Dangan");
-        names.Add("Landam");
-        names.Add("Leto");
-        names.Add("Rhel");
-        names.Add("Lenlek");
-        names.Add("Brirell");
-        names.Add("Kunrell");
-        names.Add("Loran");
-        names.Add("Danlo");
-        names.Add("Edrik");
-        names.Add("Zigmund");
-        names.Add("Liberius");
-        names.Add("Weland");
-        names.Add("Piudreiks");
-        names.Add("Theothelm");
-        names.Add("Bellona");
-        names.Add("Harmonia");
-        names.Add("Raquel");
-        names.Add("Spyridon");
-        names.Add("Phoebe");
-        names.Add("Heru");
-        names.Add("Silvester");
-        names.Add("Narcissa");
-        names.Add("Hugleikr");
-        names.Add("Scholastica");
-        names.Add("Gudrun");
-        names.Add("Laelia");
-        names.Add("Edward");
-        names.Add("Nikephoros");
-        names.Add("Wolfgang");
-        names.Add("Sita");
-        names.Add("Wilhelm");
-        names.Add("Ermingard");
-        names.Add("Bhaskara");
-        names.Add("Surya");
-        names.Add("Adonis");
-        names.Add("Adalheidis");
-        names.Add("Hunfrid");
-        names.Add("Anahit");
-        names.Add("Nikias");
-        names.Add("Byelobog");
-        names.Add("Indrajit");
-        names.Add("Aoide");
-        names.Add("Tiamat");
-
-        ApplicationModel.hisPlayerName=names[UnityEngine.Random.Range(0,names.Count-1)];
-
         ApplicationModel.opponentDeck=new Deck();
         ApplicationModel.opponentDeck.cards=new List<Card>();
         int fixedIDType = -1;
@@ -585,19 +462,70 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         }
     }
 
-    private IEnumerator initializeGame()
+    private IEnumerator initializeGame(bool isFirstPlayer, bool isIAGame, int hisId, int hisRankingPoints, int hisDeckId)
     {
-        WWWForm form = new WWWForm();                                       // Création de la connexion
-        form.AddField("myform_hash", ApplicationModel.hash);                // hashcode de sécurité, doit etre identique à celui sur le serveur
-        form.AddField("myform_nick", ApplicationModel.player.Username);     // Pseudo de l'utilisateur connecté
+    	string isFirstPlayerString="1";
+    	if(!isFirstPlayer)
+    	{
+    		isFirstPlayerString="0";
+    	}
+		string isIAGameString="1";
+    	if(!isIAGame)
+    	{
+    		isIAGameString="0";
+    	}
+        WWWForm form = new WWWForm();                                       
+        form.AddField("myform_hash", ApplicationModel.hash);                
+		form.AddField("myform_isfirstplayer", isFirstPlayerString);
+		form.AddField("myform_isiagame", isIAGameString);        
+		form.AddField("myform_myid", ApplicationModel.player.Id.ToString());     
+		form.AddField("myform_hisid", hisId.ToString());     
+		form.AddField("myform_myrankingpoints",ApplicationModel.player.RankingPoints.ToString());     
+		form.AddField("myform_hisrankingpoints", hisRankingPoints.ToString());  
+		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType.ToString());    
+		form.AddField("myform_mydeck", ApplicationModel.player.SelectedDeckId.ToString());     
+		form.AddField("myform_hisdeck", hisDeckId.ToString()); 
 
         ServerController.instance.setRequest(URLInitiliazeGame, form);
         yield return ServerController.instance.StartCoroutine("executeRequest");
         
         if(ServerController.instance.getError()=="")
         {
-            string result = ServerController.instance.getResult();
-            ApplicationModel.currentGameId=System.Convert.ToInt32(result);
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+
+			ApplicationModel.player.MyDeck=new Deck();
+
+			string[] myDeckData = data[0].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+			for(int i = 0 ; i < myDeckData.Length ; i++){
+				ApplicationModel.player.MyDeck.cards.Add(new Card());
+				ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckData[i]);
+				ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+			}
+
+			if(!isIAGame)
+			{
+				ApplicationModel.opponentDeck=new Deck();
+
+				string[] hisDeckData = data[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+				for(int i = 0 ; i < hisDeckData.Length ; i++){
+					ApplicationModel.opponentDeck.cards.Add(new Card());
+					ApplicationModel.opponentDeck.cards[i].parseCard(myDeckData[i]);
+					ApplicationModel.opponentDeck.cards[i].deckOrder=i;
+				}
+			}
+			else
+			{
+				string[] iAData = data[1].Split(new string[] { "#IAINFO#" }, System.StringSplitOptions.None);
+				ApplicationModel.hisPlayerID=System.Convert.ToInt32(iAData[0]);
+				ApplicationModel.hisPlayerName=iAData[1];
+				ApplicationModel.hisRankingPoints=System.Convert.ToInt32(iAData[2]);
+			}
+
+			if(isFirstPlayer)
+			{
+				ApplicationModel.currentGameId=System.Convert.ToInt32(data[2]);
+			}
         }
         else
         {
