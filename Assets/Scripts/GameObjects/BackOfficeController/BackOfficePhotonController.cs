@@ -11,6 +11,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 {
     public const string roomNamePrefix = "GarrukGame";
     private int nbPlayersInRoom;
+    private int nbDecksLoaded;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
     float limitTime = 2f ;
@@ -147,16 +148,12 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 			yield break;
         }
     }
-    private void startGame()
-    {
-		photonView.RPC("getGameId", PhotonTargets.AllBuffered, ApplicationModel.currentGameId);
-    }
 	private IEnumerator startIAGame()
     {
 		PhotonNetwork.room.open = false;
 		this.CreateIADeck();
 		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
-		this.launchPreMatch();
+		this.startGame();
     }
 	private void startTutorialGame()
     {
@@ -165,7 +162,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		this.async.allowSceneActivation = true ;
 
     }
-    private void launchPreMatch()
+    private void startGame()
     {
 		SoundController.instance.playMusic(new int[]{3,4});
         BackOfficeController.instance.launchPreMatchLoadingScreen();
@@ -175,7 +172,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
     	if(!ApplicationModel.player.ToLaunchGameIA)
     	{
-			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered);
+			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered,ApplicationModel.currentGameId);
 		}
 		else
 		{
@@ -184,26 +181,16 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-    void launchGameRPC()
+	void launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
-		if(this.nbPlayersReady==2)
-        {
-			async.allowSceneActivation=true;
-        }
-    }
-
-    [PunRPC]
-    void getGameId(int currentGameId)
-    {
-    	this.nbPlayersReady++;
-        if(!ApplicationModel.player.IsFirstPlayer)
+		if(!ApplicationModel.player.IsFirstPlayer)
         {
             ApplicationModel.currentGameId=currentGameId;
         }
-        if(this.nbPlayersReady==2)
+		if(this.nbPlayersReady==2)
         {
-			this.launchPreMatch();
+			async.allowSceneActivation=true;
         }
     }
 
