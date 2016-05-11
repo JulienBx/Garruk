@@ -156,7 +156,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		PhotonNetwork.room.open = false;
 		this.CreateIADeck();
 		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
-		this.launchGame();
+		this.launchPreMatch();
     }
 	private void startTutorialGame()
     {
@@ -165,10 +165,32 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 		this.async.allowSceneActivation = true ;
 
     }
-    private void launchGame()
+    private void launchPreMatch()
     {
 		SoundController.instance.playMusic(new int[]{3,4});
         BackOfficeController.instance.launchPreMatchLoadingScreen();
+    }
+
+	public void launchGame()
+    {
+    	if(!ApplicationModel.player.ToLaunchGameIA)
+    	{
+			photonView.RPC("getGameId", PhotonTargets.AllBuffered, ApplicationModel.currentGameId);
+		}
+		else
+		{
+			async.allowSceneActivation=true;
+		}
+    }
+
+	[PunRPC]
+    void launchGameRPC()
+    {
+    	this.nbPlayersReady++;
+		if(this.nbPlayersReady==2)
+        {
+			async.allowSceneActivation=true;
+        }
     }
 
     [PunRPC]
@@ -181,7 +203,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         }
         if(this.nbPlayersReady==2)
         {
-			this.launchGame();
+			this.launchPreMatch();
         }
     }
 

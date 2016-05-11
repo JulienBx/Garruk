@@ -258,9 +258,8 @@ public class LoadingScreenController : MonoBehaviour
 		{
 			if(BackOfficeController.instance.photon.async.progress>=0.9f)
 			{
-				print(BackOfficeController.instance.photon.async.progress);
 				this.toLoadScene=false;
-				BackOfficeController.instance.photon.async.allowSceneActivation = true ;
+				BackOfficeController.instance.photon.launchGame();
 			}
 		}
 	}
