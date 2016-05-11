@@ -314,11 +314,6 @@ public class NewHomePageController : MonoBehaviour
 		{
 			this.displayWonPackPopUp();
 		}
-        else if(ApplicationModel.player.HasLostConnectionDuringGame)
-        {
-            this.displayHasLeftRoomPopUp();
-            ApplicationModel.player.HasLostConnectionDuringGame=false;
-        }
 		else if(ApplicationModel.player.ConnectionBonus>0)
 		{
 			this.displayConnectionBonusPopUp();

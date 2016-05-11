@@ -309,10 +309,6 @@ public class GameController : Photon.MonoBehaviour
 	
 	void OnDisconnectedFromPhoton()
 	{
-		if(!ApplicationModel.player.ToLaunchGameTutorial)
-		{
-			ApplicationModel.player.HasLostConnectionDuringGame=true;
-		}
 		ApplicationModel.player.HasLostConnection=true;
 		ApplicationModel.player.ToDeconnect = true;
 
