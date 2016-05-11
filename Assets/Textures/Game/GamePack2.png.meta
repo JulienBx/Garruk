@@ -152,25 +152,34 @@ TextureImporter:
     - name: 01
       rect:
         serializedVersion: 2
-        x: 1922
-        y: 1940
-        width: 108
-        height: 107
+        x: 1
+        y: 1834
+        width: 216
+        height: 213
       alignment: 9
-      pivot: {x: 0.5, y: 0.5046729}
+      pivot: {x: 0.5, y: 0.49295774}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -47, y: 53}
-        - {x: -54, y: 43}
-        - {x: -54, y: -54}
-        - {x: 54, y: -54}
-        - {x: 54, y: 38}
-        - {x: 29, y: 53}
+      - - {x: 106, y: 24}
+        - {x: 93, y: 49}
+        - {x: 73, y: 69}
+        - {x: 42, y: 77}
+        - {x: 29, y: 98}
+        - {x: -25, y: 106}
+        - {x: -59, y: 106}
+        - {x: -108, y: 23}
+        - {x: -108, y: -35}
+        - {x: -80, y: -98}
+        - {x: -41, y: -105}
+        - {x: 28, y: -105}
+        - {x: 82, y: -84}
+        - {x: 108, y: -35}
+        - {x: 108, y: 17}
     - name: BSlash1
       rect:
         serializedVersion: 2
-        x: 83
-        y: 244
+        x: 219
+        y: 1995
         width: 58
         height: 52
       alignment: 9
@@ -189,8 +198,8 @@ TextureImporter:
     - name: BSlash10
       rect:
         serializedVersion: 2
-        x: 1891
-        y: 1943
+        x: 279
+        y: 2017
         width: 19
         height: 30
       alignment: 9
@@ -200,8 +209,8 @@ TextureImporter:
     - name: BSlash2
       rect:
         serializedVersion: 2
-        x: 363
-        y: 1310
+        x: 300
+        y: 1976
         width: 88
         height: 71
       alignment: 9
@@ -221,8 +230,8 @@ TextureImporter:
     - name: BSlash3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 772
+        x: 390
+        y: 1941
         width: 103
         height: 106
       alignment: 9
@@ -241,8 +250,8 @@ TextureImporter:
     - name: BSlash4
       rect:
         serializedVersion: 2
-        x: 1
-        y: 455
+        x: 495
+        y: 1944
         width: 101
         height: 103
       alignment: 9
@@ -259,8 +268,8 @@ TextureImporter:
     - name: BSlash5
       rect:
         serializedVersion: 2
-        x: 1
-        y: 880
+        x: 598
+        y: 1940
         width: 101
         height: 107
       alignment: 9
@@ -277,8 +286,8 @@ TextureImporter:
     - name: BSlash6
       rect:
         serializedVersion: 2
-        x: 173
-        y: 993
+        x: 701
+        y: 1942
         width: 102
         height: 105
       alignment: 9
@@ -294,8 +303,8 @@ TextureImporter:
     - name: BSlash7
       rect:
         serializedVersion: 2
-        x: 1
-        y: 666
+        x: 805
+        y: 1943
         width: 91
         height: 104
       alignment: 9
@@ -315,8 +324,8 @@ TextureImporter:
     - name: BSlash8
       rect:
         serializedVersion: 2
-        x: 1974
-        y: 1306
+        x: 898
+        y: 1952
         width: 70
         height: 95
       alignment: 9
@@ -333,8 +342,8 @@ TextureImporter:
     - name: BSlash9
       rect:
         serializedVersion: 2
-        x: 1995
-        y: 1769
+        x: 970
+        y: 1987
         width: 52
         height: 60
       alignment: 9
@@ -352,8 +361,28 @@ TextureImporter:
     - name: BSplash1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 227
+        x: 1024
+        y: 1978
+        width: 80
+        height: 69
+      alignment: 9
+      pivot: {x: 0.5125, y: 0.47826087}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: -19}
+        - {x: -38, y: -24}
+        - {x: -14, y: -33}
+        - {x: 25, y: -33}
+        - {x: 39, y: -32}
+        - {x: 39, y: 10}
+        - {x: 30, y: 36}
+        - {x: -22, y: 36}
+        - {x: -41, y: 29}
+    - name: BSplash7
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1978
         width: 80
         height: 69
       alignment: 9
@@ -372,8 +401,8 @@ TextureImporter:
     - name: BSplash10
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1305
+        x: 1106
+        y: 1971
         width: 89
         height: 76
       alignment: 9
@@ -402,8 +431,68 @@ TextureImporter:
     - name: BSplash2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1305
+        x: 1106
+        y: 1971
+        width: 89
+        height: 76
+      alignment: 9
+      pivot: {x: 0.505618, y: 0.47368422}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 8}
+        - {x: 31, y: 37}
+        - {x: 16, y: 40}
+        - {x: -26, y: 40}
+        - {x: -45, y: 20}
+        - {x: -45, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -32, y: -2}
+        - {x: -41, y: -13}
+        - {x: -44, y: -22}
+        - {x: -39, y: -26}
+        - {x: -9, y: -36}
+        - {x: -5, y: -36}
+        - {x: -3, y: -35}
+        - {x: 3, y: -36}
+        - {x: 44, y: -36}
+    - name: BSplash6
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1971
+        width: 89
+        height: 76
+      alignment: 9
+      pivot: {x: 0.505618, y: 0.47368422}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 8}
+        - {x: 31, y: 37}
+        - {x: 16, y: 40}
+        - {x: -26, y: 40}
+        - {x: -45, y: 20}
+        - {x: -45, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -32, y: -2}
+        - {x: -41, y: -13}
+        - {x: -44, y: -22}
+        - {x: -39, y: -26}
+        - {x: -9, y: -36}
+        - {x: -5, y: -36}
+        - {x: -3, y: -35}
+        - {x: 3, y: -36}
+        - {x: 44, y: -36}
+    - name: BSplash8
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1971
         width: 89
         height: 76
       alignment: 9
@@ -432,8 +521,48 @@ TextureImporter:
     - name: BSplash3
       rect:
         serializedVersion: 2
-        x: 298
-        y: 1122
+        x: 1197
+        y: 1962
+        width: 98
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: 0.47058824}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -49, y: 33}
+        - {x: -49, y: -21}
+        - {x: -47, y: -29}
+        - {x: -21, y: -40}
+        - {x: 34, y: -40}
+        - {x: 46, y: -39}
+        - {x: 49, y: -38}
+        - {x: 49, y: 45}
+    - name: BSplash5
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 1962
+        width: 98
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: 0.47058824}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -49, y: 33}
+        - {x: -49, y: -21}
+        - {x: -47, y: -29}
+        - {x: -21, y: -40}
+        - {x: 34, y: -40}
+        - {x: 46, y: -39}
+        - {x: 49, y: -38}
+        - {x: 49, y: 45}
+    - name: BSplash9
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 1962
         width: 98
         height: 85
       alignment: 9
@@ -452,8 +581,8 @@ TextureImporter:
     - name: BSplash4
       rect:
         serializedVersion: 2
-        x: 1885
-        y: 1730
+        x: 1297
+        y: 1948
         width: 108
         height: 99
       alignment: 9
@@ -468,141 +597,52 @@ TextureImporter:
         - {x: 48, y: 50}
         - {x: -38, y: 50}
         - {x: -54, y: 33}
-    - name: BSplash5
-      rect:
-        serializedVersion: 2
-        x: 298
-        y: 1122
-        width: 98
-        height: 85
-      alignment: 9
-      pivot: {x: 0.5, y: 0.47058824}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -31, y: 45}
-        - {x: -49, y: 33}
-        - {x: -49, y: -21}
-        - {x: -47, y: -29}
-        - {x: -21, y: -40}
-        - {x: 34, y: -40}
-        - {x: 46, y: -39}
-        - {x: 49, y: -38}
-        - {x: 49, y: 45}
-    - name: BSplash6
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 1305
-        width: 89
-        height: 76
-      alignment: 9
-      pivot: {x: 0.505618, y: 0.47368422}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 44, y: 8}
-        - {x: 31, y: 37}
-        - {x: 16, y: 40}
-        - {x: -26, y: 40}
-        - {x: -45, y: 20}
-        - {x: -45, y: 6}
-        - {x: -36, y: 7}
-        - {x: -26, y: 1}
-        - {x: -26, y: 2}
-        - {x: -28, y: 1}
-        - {x: -32, y: -2}
-        - {x: -41, y: -13}
-        - {x: -44, y: -22}
-        - {x: -39, y: -26}
-        - {x: -9, y: -36}
-        - {x: -5, y: -36}
-        - {x: -3, y: -35}
-        - {x: 3, y: -36}
-        - {x: 44, y: -36}
-    - name: BSplash7
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 227
-        width: 80
-        height: 69
-      alignment: 9
-      pivot: {x: 0.5125, y: 0.47826087}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -41, y: -19}
-        - {x: -38, y: -24}
-        - {x: -14, y: -33}
-        - {x: 25, y: -33}
-        - {x: 39, y: -32}
-        - {x: 39, y: 10}
-        - {x: 30, y: 36}
-        - {x: -22, y: 36}
-        - {x: -41, y: 29}
-    - name: BSplash8
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 1305
-        width: 89
-        height: 76
-      alignment: 9
-      pivot: {x: 0.505618, y: 0.47368422}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 44, y: 8}
-        - {x: 31, y: 37}
-        - {x: 16, y: 40}
-        - {x: -26, y: 40}
-        - {x: -45, y: 20}
-        - {x: -45, y: 6}
-        - {x: -36, y: 7}
-        - {x: -26, y: 1}
-        - {x: -26, y: 2}
-        - {x: -28, y: 1}
-        - {x: -32, y: -2}
-        - {x: -41, y: -13}
-        - {x: -44, y: -22}
-        - {x: -39, y: -26}
-        - {x: -9, y: -36}
-        - {x: -5, y: -36}
-        - {x: -3, y: -35}
-        - {x: 3, y: -36}
-        - {x: 44, y: -36}
-    - name: BSplash9
-      rect:
-        serializedVersion: 2
-        x: 298
-        y: 1122
-        width: 98
-        height: 85
-      alignment: 9
-      pivot: {x: 0.5, y: 0.47058824}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -31, y: 45}
-        - {x: -49, y: 33}
-        - {x: -49, y: -21}
-        - {x: -47, y: -29}
-        - {x: -21, y: -40}
-        - {x: 34, y: -40}
-        - {x: 46, y: -39}
-        - {x: 49, y: -38}
-        - {x: 49, y: 45}
     - name: Caserne
       rect:
         serializedVersion: 2
-        x: 99
-        y: 376
-        width: 97
-        height: 24
+        x: 1407
+        y: 2000
+        width: 185
+        height: 47
       alignment: 9
-      pivot: {x: 0.53608245, y: 0.375}
+      pivot: {x: 0.5135135, y: 0.34042552}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: 11, y: -5}
+        - {x: 1, y: -5}
+        - {x: 13, y: -5}
+        - {x: 13, y: 12}
+        - {x: 12, y: 20}
+        - {x: -48, y: 27}
+        - {x: -87, y: 27}
+        - {x: -95, y: 22}
+        - {x: -95, y: -7}
+        - {x: -91, y: -16}
+        - {x: 11, y: -16}
+        - {x: 13, y: -14}
+        - {x: 13, y: -7}
+      - - {x: 61, y: 17}
+        - {x: 13, y: 17}
+        - {x: 13, y: -16}
+        - {x: 61, y: -16}
+      - - {x: 87, y: -5}
+        - {x: 90, y: -2}
+        - {x: 90, y: 9}
+        - {x: 89, y: 12}
+        - {x: 85, y: 17}
+        - {x: 63, y: 17}
+        - {x: 61, y: 10}
+        - {x: 61, y: -15}
+        - {x: 63, y: -16}
+        - {x: 90, y: -16}
+        - {x: 90, y: -9}
+        - {x: 89, y: -7}
+        - {x: 87, y: -5}
+        - {x: 78, y: -5}
     - name: Down1
       rect:
         serializedVersion: 2
-        x: 2032
+        x: 1594
         y: 2046
         width: 1
         height: 1
@@ -613,7 +653,40 @@ TextureImporter:
     - name: Down10
       rect:
         serializedVersion: 2
-        x: 2032
+        x: 1594
+        y: 2046
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Tir1
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 2046
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Tir10
+      rect:
+        serializedVersion: 2
+        x: 1594
+        y: 2046
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Up1
+      rect:
+        serializedVersion: 2
+        x: 1594
         y: 2046
         width: 1
         height: 1
@@ -624,8 +697,8 @@ TextureImporter:
     - name: Down2
       rect:
         serializedVersion: 2
-        x: 1992
-        y: 1676
+        x: 1597
+        y: 2018
         width: 52
         height: 29
       alignment: 9
@@ -635,8 +708,8 @@ TextureImporter:
     - name: Down3
       rect:
         serializedVersion: 2
-        x: 99
-        y: 402
+        x: 1651
+        y: 1996
         width: 94
         height: 51
       alignment: 9
@@ -653,8 +726,8 @@ TextureImporter:
     - name: Down4
       rect:
         serializedVersion: 2
-        x: 183
-        y: 1306
+        x: 1747
+        y: 1972
         width: 85
         height: 75
       alignment: 9
@@ -674,8 +747,8 @@ TextureImporter:
     - name: Down5
       rect:
         serializedVersion: 2
-        x: 193
-        y: 1209
+        x: 1834
+        y: 1952
         width: 91
         height: 95
       alignment: 9
@@ -692,8 +765,8 @@ TextureImporter:
     - name: Down6
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1211
+        x: 1927
+        y: 1957
         width: 92
         height: 90
       alignment: 9
@@ -713,7 +786,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 86
+        y: 1764
         width: 92
         height: 68
       alignment: 9
@@ -731,8 +804,8 @@ TextureImporter:
     - name: Down8
       rect:
         serializedVersion: 2
-        x: 143
-        y: 270
+        x: 95
+        y: 1787
         width: 86
         height: 45
       alignment: 9
@@ -750,8 +823,8 @@ TextureImporter:
     - name: Down9
       rect:
         serializedVersion: 2
-        x: 1984
-        y: 1403
+        x: 183
+        y: 1809
         width: 63
         height: 23
       alignment: 9
@@ -761,49 +834,76 @@ TextureImporter:
     - name: ElecTrap
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1099
-        width: 102
-        height: 108
+        x: 248
+        y: 1617
+        width: 201
+        height: 215
       alignment: 9
-      pivot: {x: 0.5294118, y: 0.5}
+      pivot: {x: 0.50248754, y: 0.4976744}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 17.999996, y: 7}
-        - {x: 12.999996, y: -2}
-        - {x: 8.999996, y: 0}
-        - {x: 6.999996, y: 0}
-        - {x: 11.999996, y: 1}
-        - {x: 15.999996, y: 5}
-        - {x: 18.999996, y: 11}
-        - {x: 30.999996, y: 19}
-        - {x: 27.999996, y: 46}
-        - {x: 17.999996, y: 54}
-        - {x: -18.000004, y: 54}
-        - {x: -33.000004, y: 45}
-        - {x: -48.000004, y: 3}
-        - {x: -48.000004, y: -45}
-        - {x: -42.000004, y: -54}
-        - {x: 44.999996, y: -54}
-        - {x: 47.999996, y: -50}
-        - {x: 47.999996, y: -4}
-        - {x: 42.999996, y: 10}
+      - - {x: 50, y: 62}
+        - {x: 41, y: 61}
+        - {x: 51, y: 68}
+        - {x: 57, y: 74}
+        - {x: 47, y: 108}
+        - {x: -90, y: 108}
+        - {x: -94, y: 107}
+        - {x: -94, y: -63}
+        - {x: -81, y: -77}
+        - {x: -37, y: -107}
+        - {x: 48, y: -107}
+        - {x: 96, y: -91}
+        - {x: 96, y: -13}
+        - {x: 88, y: 12}
     - name: Fontaine
       rect:
         serializedVersion: 2
-        x: 119
-        y: 169
-        width: 99
-        height: 21
+        x: 451
+        y: 1782
+        width: 202
+        height: 50
       alignment: 9
-      pivot: {x: 0.4848485, y: 0.33333334}
+      pivot: {x: 0.47524753, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: 31, y: 17}
+        - {x: 30, y: 26}
+        - {x: -12, y: 28}
+        - {x: -64, y: 19}
+        - {x: -71, y: 13}
+        - {x: -68, y: 20}
+        - {x: -70, y: 29}
+        - {x: -96, y: 29}
+        - {x: -96, y: -12}
+        - {x: -94, y: -14}
+        - {x: 31, y: -14}
+      - - {x: 41, y: 29}
+        - {x: 33, y: 29}
+        - {x: 31, y: 28}
+        - {x: 31, y: -14}
+        - {x: 45, y: -14}
+        - {x: 45, y: 27}
+      - - {x: 67, y: 19}
+        - {x: 47, y: 19}
+        - {x: 45, y: 17}
+        - {x: 45, y: -14}
+        - {x: 72, y: -14}
+        - {x: 73, y: -13}
+        - {x: 73, y: 13}
+      - - {x: 99, y: 19}
+        - {x: 75, y: 19}
+        - {x: 73, y: 17}
+        - {x: 73, y: -7}
+        - {x: 75, y: -14}
+        - {x: 100, y: -14}
+        - {x: 103, y: -12}
+        - {x: 103, y: 18}
     - name: Griffe1
       rect:
         serializedVersion: 2
-        x: 150
-        y: 339
+        x: 655
+        y: 1797
         width: 81
         height: 35
       alignment: 9
@@ -835,8 +935,8 @@ TextureImporter:
     - name: Griffe2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 22
+        x: 738
+        y: 1770
         width: 95
         height: 62
       alignment: 9
@@ -870,8 +970,8 @@ TextureImporter:
     - name: Griffe3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 371
+        x: 835
+        y: 1750
         width: 96
         height: 82
       alignment: 9
@@ -904,8 +1004,8 @@ TextureImporter:
     - name: Griffe4
       rect:
         serializedVersion: 2
-        x: 95
-        y: 1210
+        x: 933
+        y: 1739
         width: 96
         height: 93
       alignment: 9
@@ -939,8 +1039,8 @@ TextureImporter:
     - name: Griffe5
       rect:
         serializedVersion: 2
-        x: 1912
-        y: 1831
+        x: 1031
+        y: 1725
         width: 108
         height: 107
       alignment: 9
@@ -976,8 +1076,8 @@ TextureImporter:
     - name: Griffe6
       rect:
         serializedVersion: 2
-        x: 1882
-        y: 1523
+        x: 1141
+        y: 1728
         width: 107
         height: 104
       alignment: 9
@@ -1024,8 +1124,8 @@ TextureImporter:
     - name: Griffe7
       rect:
         serializedVersion: 2
-        x: 105
-        y: 1100
+        x: 1250
+        y: 1725
         width: 87
         height: 107
       alignment: 9
@@ -1077,8 +1177,8 @@ TextureImporter:
     - name: Griffe8
       rect:
         serializedVersion: 2
-        x: 1
-        y: 989
+        x: 1339
+        y: 1724
         width: 67
         height: 108
       alignment: 9
@@ -1143,8 +1243,8 @@ TextureImporter:
     - name: Griffe9
       rect:
         serializedVersion: 2
-        x: 1992
-        y: 1640
+        x: 1408
+        y: 1798
         width: 48
         height: 34
       alignment: 9
@@ -1177,7 +1277,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1975
+        y: 1543
         width: 1919
         height: 72
       alignment: 9
@@ -1223,7 +1323,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1753
+        y: 1469
         width: 1879
         height: 72
       alignment: 9
@@ -1263,7 +1363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1531
+        y: 1395
         width: 1876
         height: 72
       alignment: 9
@@ -1313,7 +1413,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1901
+        y: 1321
         width: 1888
         height: 72
       alignment: 9
@@ -1359,7 +1459,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1679
+        y: 1247
         width: 1879
         height: 72
       alignment: 9
@@ -1399,7 +1499,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1457
+        y: 1173
         width: 1873
         height: 72
       alignment: 9
@@ -1449,7 +1549,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1383
+        y: 1099
         width: 1864
         height: 72
       alignment: 9
@@ -1487,7 +1587,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1827
+        y: 1025
         width: 1882
         height: 72
       alignment: 9
@@ -1541,7 +1641,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1605
+        y: 951
         width: 1879
         height: 72
       alignment: 9
@@ -1590,27 +1690,30 @@ TextureImporter:
     - name: PoisonTrap
       rect:
         serializedVersion: 2
-        x: 1867
-        y: 1303
-        width: 105
-        height: 108
+        x: 1
+        y: 734
+        width: 196
+        height: 215
       alignment: 9
-      pivot: {x: 0.4857143, y: 0.5}
+      pivot: {x: 0.49489796, y: 0.4976744}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -24, y: 54}
-        - {x: -48, y: 26}
-        - {x: -48, y: -48}
-        - {x: -28, y: -54}
-        - {x: 47, y: -54}
-        - {x: 49, y: -50}
-        - {x: 49, y: 29}
-        - {x: 19, y: 54}
+      - - {x: 20, y: 108}
+        - {x: -22, y: 108}
+        - {x: -49, y: 39}
+        - {x: -92, y: 14}
+        - {x: -94, y: -1}
+        - {x: -94, y: -78}
+        - {x: -41, y: -107}
+        - {x: 37, y: -107}
+        - {x: 96, y: -85}
+        - {x: 96, y: 12}
+        - {x: 37, y: 96}
     - name: RSlash1
       rect:
         serializedVersion: 2
-        x: 90
-        y: 317
+        x: 199
+        y: 897
         width: 58
         height: 52
       alignment: 9
@@ -1629,8 +1732,8 @@ TextureImporter:
     - name: RSlash10
       rect:
         serializedVersion: 2
-        x: 1891
-        y: 1911
+        x: 259
+        y: 919
         width: 19
         height: 30
       alignment: 9
@@ -1640,8 +1743,8 @@ TextureImporter:
     - name: RSlash2
       rect:
         serializedVersion: 2
-        x: 453
-        y: 1310
+        x: 280
+        y: 878
         width: 88
         height: 71
       alignment: 9
@@ -1661,8 +1764,8 @@ TextureImporter:
     - name: RSlash3
       rect:
         serializedVersion: 2
-        x: 104
-        y: 882
+        x: 370
+        y: 843
         width: 103
         height: 106
       alignment: 9
@@ -1681,8 +1784,8 @@ TextureImporter:
     - name: RSlash4
       rect:
         serializedVersion: 2
-        x: 94
-        y: 667
+        x: 475
+        y: 846
         width: 101
         height: 103
       alignment: 9
@@ -1699,8 +1802,8 @@ TextureImporter:
     - name: RSlash5
       rect:
         serializedVersion: 2
-        x: 70
-        y: 990
+        x: 578
+        y: 842
         width: 101
         height: 107
       alignment: 9
@@ -1717,8 +1820,8 @@ TextureImporter:
     - name: RSlash6
       rect:
         serializedVersion: 2
-        x: 194
-        y: 1102
+        x: 681
+        y: 844
         width: 102
         height: 105
       alignment: 9
@@ -1734,8 +1837,8 @@ TextureImporter:
     - name: RSlash7
       rect:
         serializedVersion: 2
-        x: 1
-        y: 560
+        x: 785
+        y: 845
         width: 91
         height: 104
       alignment: 9
@@ -1755,8 +1858,8 @@ TextureImporter:
     - name: RSlash8
       rect:
         serializedVersion: 2
-        x: 1974
-        y: 1209
+        x: 878
+        y: 854
         width: 70
         height: 95
       alignment: 9
@@ -1773,8 +1876,8 @@ TextureImporter:
     - name: RSlash9
       rect:
         serializedVersion: 2
-        x: 1995
-        y: 1707
+        x: 950
+        y: 889
         width: 52
         height: 60
       alignment: 9
@@ -1792,8 +1895,28 @@ TextureImporter:
     - name: RSplash1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 156
+        x: 1004
+        y: 880
+        width: 80
+        height: 69
+      alignment: 9
+      pivot: {x: 0.5125, y: 0.47826087}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: -19}
+        - {x: -38, y: -24}
+        - {x: -14, y: -33}
+        - {x: 25, y: -33}
+        - {x: 39, y: -32}
+        - {x: 39, y: 10}
+        - {x: 30, y: 36}
+        - {x: -22, y: 36}
+        - {x: -41, y: 29}
+    - name: RSplash7
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 880
         width: 80
         height: 69
       alignment: 9
@@ -1812,8 +1935,8 @@ TextureImporter:
     - name: RSplash10
       rect:
         serializedVersion: 2
-        x: 92
-        y: 1305
+        x: 1086
+        y: 873
         width: 89
         height: 76
       alignment: 9
@@ -1842,8 +1965,68 @@ TextureImporter:
     - name: RSplash2
       rect:
         serializedVersion: 2
-        x: 92
-        y: 1305
+        x: 1086
+        y: 873
+        width: 89
+        height: 76
+      alignment: 9
+      pivot: {x: 0.505618, y: 0.47368422}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 8}
+        - {x: 31, y: 37}
+        - {x: 16, y: 40}
+        - {x: -26, y: 40}
+        - {x: -45, y: 20}
+        - {x: -45, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -32, y: -2}
+        - {x: -41, y: -13}
+        - {x: -44, y: -22}
+        - {x: -39, y: -26}
+        - {x: -9, y: -36}
+        - {x: -5, y: -36}
+        - {x: -3, y: -35}
+        - {x: 3, y: -36}
+        - {x: 44, y: -36}
+    - name: RSplash6
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 873
+        width: 89
+        height: 76
+      alignment: 9
+      pivot: {x: 0.505618, y: 0.47368422}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 8}
+        - {x: 31, y: 37}
+        - {x: 16, y: 40}
+        - {x: -26, y: 40}
+        - {x: -45, y: 20}
+        - {x: -45, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -32, y: -2}
+        - {x: -41, y: -13}
+        - {x: -44, y: -22}
+        - {x: -39, y: -26}
+        - {x: -9, y: -36}
+        - {x: -5, y: -36}
+        - {x: -3, y: -35}
+        - {x: 3, y: -36}
+        - {x: 44, y: -36}
+    - name: RSplash8
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 873
         width: 89
         height: 76
       alignment: 9
@@ -1872,8 +2055,48 @@ TextureImporter:
     - name: RSplash3
       rect:
         serializedVersion: 2
-        x: 373
-        y: 1216
+        x: 1177
+        y: 864
+        width: 98
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: 0.47058824}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -49, y: 33}
+        - {x: -49, y: -21}
+        - {x: -47, y: -29}
+        - {x: -21, y: -40}
+        - {x: 34, y: -40}
+        - {x: 46, y: -39}
+        - {x: 49, y: -38}
+        - {x: 49, y: 45}
+    - name: RSplash5
+      rect:
+        serializedVersion: 2
+        x: 1177
+        y: 864
+        width: 98
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: 0.47058824}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -49, y: 33}
+        - {x: -49, y: -21}
+        - {x: -47, y: -29}
+        - {x: -21, y: -40}
+        - {x: 34, y: -40}
+        - {x: 46, y: -39}
+        - {x: 49, y: -38}
+        - {x: 49, y: 45}
+    - name: RSplash9
+      rect:
+        serializedVersion: 2
+        x: 1177
+        y: 864
         width: 98
         height: 85
       alignment: 9
@@ -1892,8 +2115,8 @@ TextureImporter:
     - name: RSplash4
       rect:
         serializedVersion: 2
-        x: 1882
-        y: 1629
+        x: 1277
+        y: 850
         width: 108
         height: 99
       alignment: 9
@@ -1908,179 +2131,37 @@ TextureImporter:
         - {x: 48, y: 50}
         - {x: -38, y: 50}
         - {x: -54, y: 33}
-    - name: RSplash5
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 1216
-        width: 98
-        height: 85
-      alignment: 9
-      pivot: {x: 0.5, y: 0.47058824}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -31, y: 45}
-        - {x: -49, y: 33}
-        - {x: -49, y: -21}
-        - {x: -47, y: -29}
-        - {x: -21, y: -40}
-        - {x: 34, y: -40}
-        - {x: 46, y: -39}
-        - {x: 49, y: -38}
-        - {x: 49, y: 45}
-    - name: RSplash6
-      rect:
-        serializedVersion: 2
-        x: 92
-        y: 1305
-        width: 89
-        height: 76
-      alignment: 9
-      pivot: {x: 0.505618, y: 0.47368422}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 44, y: 8}
-        - {x: 31, y: 37}
-        - {x: 16, y: 40}
-        - {x: -26, y: 40}
-        - {x: -45, y: 20}
-        - {x: -45, y: 6}
-        - {x: -36, y: 7}
-        - {x: -26, y: 1}
-        - {x: -26, y: 2}
-        - {x: -28, y: 1}
-        - {x: -32, y: -2}
-        - {x: -41, y: -13}
-        - {x: -44, y: -22}
-        - {x: -39, y: -26}
-        - {x: -9, y: -36}
-        - {x: -5, y: -36}
-        - {x: -3, y: -35}
-        - {x: 3, y: -36}
-        - {x: 44, y: -36}
-    - name: RSplash7
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 156
-        width: 80
-        height: 69
-      alignment: 9
-      pivot: {x: 0.5125, y: 0.47826087}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -41, y: -19}
-        - {x: -38, y: -24}
-        - {x: -14, y: -33}
-        - {x: 25, y: -33}
-        - {x: 39, y: -32}
-        - {x: 39, y: 10}
-        - {x: 30, y: 36}
-        - {x: -22, y: 36}
-        - {x: -41, y: 29}
-    - name: RSplash8
-      rect:
-        serializedVersion: 2
-        x: 92
-        y: 1305
-        width: 89
-        height: 76
-      alignment: 9
-      pivot: {x: 0.505618, y: 0.47368422}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 44, y: 8}
-        - {x: 31, y: 37}
-        - {x: 16, y: 40}
-        - {x: -26, y: 40}
-        - {x: -45, y: 20}
-        - {x: -45, y: 6}
-        - {x: -36, y: 7}
-        - {x: -26, y: 1}
-        - {x: -26, y: 2}
-        - {x: -28, y: 1}
-        - {x: -32, y: -2}
-        - {x: -41, y: -13}
-        - {x: -44, y: -22}
-        - {x: -39, y: -26}
-        - {x: -9, y: -36}
-        - {x: -5, y: -36}
-        - {x: -3, y: -35}
-        - {x: 3, y: -36}
-        - {x: 44, y: -36}
-    - name: RSplash9
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 1216
-        width: 98
-        height: 85
-      alignment: 9
-      pivot: {x: 0.5, y: 0.47058824}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -31, y: 45}
-        - {x: -49, y: 33}
-        - {x: -49, y: -21}
-        - {x: -47, y: -29}
-        - {x: -21, y: -40}
-        - {x: 34, y: -40}
-        - {x: 46, y: -39}
-        - {x: 49, y: -38}
-        - {x: 49, y: 45}
     - name: TeleTrap
       rect:
         serializedVersion: 2
-        x: 1876
-        y: 1413
-        width: 106
-        height: 108
+        x: 1387
+        y: 735
+        width: 196
+        height: 214
       alignment: 9
-      pivot: {x: 0.49056605, y: 0.5}
+      pivot: {x: 0.49489796, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 18, y: 7}
-        - {x: 23, y: 11}
-        - {x: 27, y: 13}
-        - {x: 34, y: 20}
-        - {x: 35, y: 24}
-        - {x: 33, y: 27}
-        - {x: 18, y: 54}
-        - {x: -18, y: 54}
-        - {x: -48, y: 34}
-        - {x: -48, y: -35}
-        - {x: -22, y: -54}
-        - {x: 46, y: -54}
-        - {x: 49, y: -44}
-        - {x: 49, y: 3}
-        - {x: 30, y: 7}
-    - name: Tir1
-      rect:
-        serializedVersion: 2
-        x: 2032
-        y: 2046
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-    - name: Tir10
-      rect:
-        serializedVersion: 2
-        x: 2032
-        y: 2046
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      - - {x: -1, y: 107}
+        - {x: -6, y: 99}
+        - {x: -23, y: 94}
+        - {x: -32, y: 90}
+        - {x: -71, y: 59}
+        - {x: -71, y: 44}
+        - {x: -67, y: 42}
+        - {x: -59, y: 39}
+        - {x: -94, y: 10}
+        - {x: -94, y: -74}
+        - {x: -63, y: -107}
+        - {x: 82, y: -107}
+        - {x: 96, y: -82}
+        - {x: 96, y: 52}
+        - {x: 32, y: 107}
     - name: Tir2
       rect:
         serializedVersion: 2
-        x: 83
-        y: 156
+        x: 1585
+        y: 915
         width: 34
         height: 34
       alignment: 9
@@ -2098,8 +2179,8 @@ TextureImporter:
     - name: Tir3
       rect:
         serializedVersion: 2
-        x: 1991
-        y: 1536
+        x: 1621
+        y: 869
         width: 38
         height: 80
       alignment: 9
@@ -2124,8 +2205,8 @@ TextureImporter:
     - name: Tir4
       rect:
         serializedVersion: 2
-        x: 1991
-        y: 1456
+        x: 1661
+        y: 871
         width: 38
         height: 78
       alignment: 9
@@ -2151,8 +2232,8 @@ TextureImporter:
     - name: Tir5
       rect:
         serializedVersion: 2
-        x: 94
-        y: 564
+        x: 1701
+        y: 848
         width: 67
         height: 101
       alignment: 9
@@ -2177,8 +2258,8 @@ TextureImporter:
     - name: Tir6
       rect:
         serializedVersion: 2
-        x: 106
-        y: 782
+        x: 1770
+        y: 851
         width: 78
         height: 98
       alignment: 9
@@ -2212,8 +2293,8 @@ TextureImporter:
     - name: Tir7
       rect:
         serializedVersion: 2
-        x: 186
-        y: 782
+        x: 1850
+        y: 851
         width: 76
         height: 98
       alignment: 9
@@ -2249,8 +2330,8 @@ TextureImporter:
     - name: Tir8
       rect:
         serializedVersion: 2
-        x: 186
-        y: 782
+        x: 1850
+        y: 851
         width: 76
         height: 98
       alignment: 9
@@ -2286,8 +2367,8 @@ TextureImporter:
     - name: Tir9
       rect:
         serializedVersion: 2
-        x: 286
-        y: 1210
+        x: 1928
+        y: 851
         width: 85
         height: 98
       alignment: 9
@@ -2319,22 +2400,11 @@ TextureImporter:
         - {x: -8, y: 25}
         - {x: -8, y: 45}
         - {x: -18, y: 48}
-    - name: Up1
-      rect:
-        serializedVersion: 2
-        x: 2032
-        y: 2046
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
     - name: Up10
       rect:
         serializedVersion: 2
-        x: 106
-        y: 776
+        x: 1
+        y: 728
         width: 63
         height: 4
       alignment: 9
@@ -2344,8 +2414,8 @@ TextureImporter:
     - name: Up2
       rect:
         serializedVersion: 2
-        x: 1992
-        y: 1618
+        x: 66
+        y: 712
         width: 43
         height: 20
       alignment: 9
@@ -2355,8 +2425,8 @@ TextureImporter:
     - name: Up3
       rect:
         serializedVersion: 2
-        x: 83
-        y: 192
+        x: 111
+        y: 682
         width: 84
         height: 50
       alignment: 9
@@ -2373,8 +2443,8 @@ TextureImporter:
     - name: Up4
       rect:
         serializedVersion: 2
-        x: 1
-        y: 298
+        x: 197
+        y: 661
         width: 87
         height: 71
       alignment: 9
@@ -2393,8 +2463,8 @@ TextureImporter:
     - name: Up5
       rect:
         serializedVersion: 2
-        x: 209
-        y: 896
+        x: 286
+        y: 637
         width: 85
         height: 95
       alignment: 9
@@ -2413,8 +2483,8 @@ TextureImporter:
     - name: Up6
       rect:
         serializedVersion: 2
-        x: 277
-        y: 1007
+        x: 373
+        y: 639
         width: 92
         height: 93
       alignment: 9
@@ -2432,8 +2502,8 @@ TextureImporter:
     - name: Up7
       rect:
         serializedVersion: 2
-        x: 270
-        y: 1310
+        x: 467
+        y: 661
         width: 91
         height: 71
       alignment: 9
@@ -2451,8 +2521,8 @@ TextureImporter:
     - name: Up8
       rect:
         serializedVersion: 2
-        x: 95
-        y: 105
+        x: 560
+        y: 683
         width: 89
         height: 49
       alignment: 9
@@ -2468,8 +2538,8 @@ TextureImporter:
     - name: Up9
       rect:
         serializedVersion: 2
-        x: 1984
-        y: 1428
+        x: 651
+        y: 706
         width: 63
         height: 26
       alignment: 9
