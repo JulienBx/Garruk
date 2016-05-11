@@ -14,7 +14,7 @@ public class Miracle : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+		GameView.instance.launchValidationButton(base.name,  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
