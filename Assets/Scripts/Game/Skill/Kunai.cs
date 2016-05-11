@@ -44,34 +44,34 @@ public class Kunai : GameSkill
 	public int getValue(int level){
 		int value = -1;
 		if(level==1){
-			value=Random.Range(1,8);
+			value=Random.Range(3,8);
 		}
 		else if(level==2){
-			value=Random.Range(2,10);
+			value=Random.Range(4,9);
 		}
 		else if(level==3){
-			value=Random.Range(3,12);
+			value=Random.Range(5,10);
 		}
 		else if(level==4){
-			value=Random.Range(4,14);
+			value=Random.Range(6,11);
 		}
 		else if(level==5){
-			value=Random.Range(5,16);
+			value=Random.Range(7,12);
 		}
 		else if(level==6){
-			value=Random.Range(6,18);
+			value=Random.Range(8,13);
 		}
 		else if(level==7){
-			value=Random.Range(7,20);
+			value=Random.Range(9,14);
 		}
 		else if(level==8){
-			value=Random.Range(8,22);
+			value=Random.Range(10,15);
 		}
 		else if(level==9){
-			value=Random.Range(9,24);
+			value=Random.Range(11,16);
 		}
 		else if(level==10){
-			value=Random.Range(10,26);
+			value=Random.Range(12,17);
 		}
 		return value;
 	}
@@ -95,6 +95,7 @@ public class Kunai : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		SoundController.instance.playSound(35);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

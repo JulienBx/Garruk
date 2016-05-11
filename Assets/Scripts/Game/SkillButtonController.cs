@@ -125,7 +125,7 @@ public class SkillButtonController : MonoBehaviour
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.gameTutoController.showArrow(false);
 			}
-			if(!GameSkills.instance.getSkill(this.skill.Id).auto || GameSkills.instance.getSkill(this.skill.Id).ciblage==12 || GameSkills.instance.getSkill(this.skill.Id).ciblage==-2){
+			if(!GameView.instance.isMobile){
 				GameSkills.instance.getSkill(this.skill.Id).launch();
 			}
 		}

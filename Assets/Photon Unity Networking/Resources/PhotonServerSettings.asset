@@ -85,4 +85,6 @@ MonoBehaviour:
   - addFontaineRPC
   - addCaserneRPC
   - LaunchGame
+  - playSoundRPC
+  - getGameId
   DisableAutoOpenWizard: 0
