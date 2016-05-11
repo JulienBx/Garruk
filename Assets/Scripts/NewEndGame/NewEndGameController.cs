@@ -54,6 +54,7 @@ public class NewEndGameController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+        ApplicationModel.player.HasLostConnectionDuringGame=false;
 		this.updateSpeed = 1.5f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;

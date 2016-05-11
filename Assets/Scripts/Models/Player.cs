@@ -483,6 +483,21 @@ public class Player : User
 				this.Mail=profileData[8];
 				this.CurrentDivision=new Division();
 				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+                if(System.Convert.ToInt32(profileData[10])!=-1)
+                {
+                    this.HasLostConnectionDuringGame=true;
+                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[10]));
+                    this.ChosenGameType=System.Convert.ToInt32(profileData[11]);
+                    ApplicationModel.player.MyDeck=new Deck();
+                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+                    {
+                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+                    }
+                }
 			}
 			else
 			{
@@ -542,6 +557,22 @@ public class Player : User
 				this.Mail=profileData[9];
 				this.CurrentDivision=new Division();
 				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[10]);
+                if(System.Convert.ToInt32(profileData[11])!=-1)
+                {
+                    this.HasLostConnectionDuringGame=true;
+                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[11]));
+                    this.ChosenGameType=System.Convert.ToInt32(profileData[12]);
+                    ApplicationModel.player.MyDeck=new Deck();
+                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+                    {
+                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+                    }
+                }
+
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}
@@ -611,6 +642,7 @@ public class Player : User
 				this.Mail=profileData[8];
 				this.CurrentDivision=new Division();
 				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+                
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 			}

@@ -112,14 +112,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 		string lastUsername = ApplicationModel.player.Username;
 		int lastIDLanguage = ApplicationModel.player.IdLanguage;
 		bool lastToDeconnect = ApplicationModel.player.ToDeconnect;
-		bool lastHastLostConnection = ApplicationModel.player.HasLostConnection;
-		bool lastHastLostConnectionDuringGame = ApplicationModel.player.HasLostConnectionDuringGame;
+		bool lastHasLostConnection = ApplicationModel.player.HasLostConnection;
 		ApplicationModel.player=new Player();
 		ApplicationModel.player.Username=lastUsername;
 		ApplicationModel.player.IdLanguage=lastIDLanguage;
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
-		ApplicationModel.player.HasLostConnection=lastHastLostConnection;
-		ApplicationModel.player.HasLostConnectionDuringGame=lastHastLostConnectionDuringGame;
+		ApplicationModel.player.HasLostConnection=lastHasLostConnection;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
 	}
 	private void initializeServerController()
@@ -209,10 +207,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 			error=this.checkPasswordComplexity(password);
 			if(error=="")
 			{
-				if(ApplicationModel.player.Username!=login)
-				{
-					ApplicationModel.player.HasLostConnectionDuringGame=false;
-				}
 				ApplicationModel.player.Username=login;
 				ApplicationModel.player.Password=password;
 				ApplicationModel.player.ToRememberLogins=this.loginPopUp.transform.GetComponent<LoginPopUpController> ().getRememberMe();
@@ -952,9 +946,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 				break;
 			}
 		}
+        else if(ApplicationModel.player.HasLostConnectionDuringGame)
+        {
+            BackOfficeController.instance.loadScene("EndGame");
+        }
 		else
 		{
-			SceneManager.LoadScene("NewHomePage");
+            BackOfficeController.instance.loadScene("NewHomePage");
 		}
 
 	}
