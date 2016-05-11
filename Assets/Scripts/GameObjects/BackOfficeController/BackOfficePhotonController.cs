@@ -181,7 +181,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-	void launchGameRPC(int currentGameId)
+	IEnumerator launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
 		if(!ApplicationModel.player.IsFirstPlayer)
@@ -190,6 +190,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         }
 		if(this.nbPlayersReady==2)
         {
+        	yield return new WaitForSeconds(2);
 			async.allowSceneActivation=true;
         }
     }
