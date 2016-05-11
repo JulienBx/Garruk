@@ -38,7 +38,6 @@ public class HoveredCardController : MonoBehaviour
 	
 	public virtual void setNextDisplayedCharacter(int i, GameCard c){
 		if(this.nextDisplayedCharacter!=i){
-			SoundController.instance.playSound(21);
 			this.nextDisplayedCharacter = i;
 			this.nextDisplayedCard = c;
 			this.stopAnim();

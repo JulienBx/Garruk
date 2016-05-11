@@ -665,6 +665,8 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverCharacter(int characterID){
+		SoundController.instance.playSound(21);
+			
 		if(!ApplicationModel.player.ToLaunchGameTutorial || sequenceID>6){
 			if (this.getPlayingCardController(characterID).getIsMine()){	
 				this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
@@ -699,6 +701,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void mobileClick(int characterID){
+		SoundController.instance.playSound(21);
 		if (this.getPlayingCardController(characterID).getIsMine()){	
 			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
 		}
