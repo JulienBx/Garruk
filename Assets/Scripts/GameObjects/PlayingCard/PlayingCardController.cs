@@ -536,6 +536,15 @@ public class PlayingCardController : GameObjectController
 		if(!this.isHidden){
 			this.showIcons();
 		}
+		if (this.card.isMine){
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
+			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[0];
+
+		}
+		else {
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
+			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
+		}
 	}
 
 	public void setTile(Tile t)

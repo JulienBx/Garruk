@@ -944,8 +944,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2320288, y: 0.37707973, z: 1}
-  m_Center: {x: 0.043846667, y: -0.6130408, z: 0}
+  m_Size: {x: 1.2320288, y: 0.49387097, z: 1}
+  m_Center: {x: 0.043846667, y: -0.62651694, z: 0}
 --- !u!212 &80687955
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -971,7 +971,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 41
+  m_SortingOrder: 101
   m_Sprite: {fileID: 21300006, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5005,7 +5005,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 42
+  m_SortingOrder: 102
   m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8065,7 +8065,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 60
+  m_SortingOrder: 120
 --- !u!1 &781675586
 GameObject:
   m_ObjectHideFlags: 0
@@ -20971,7 +20971,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 60
+  m_SortingOrder: 120
 --- !u!114 &1900131079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22730,7 +22730,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 60
+  m_SortingOrder: 120
 --- !u!1 &2101848128
 GameObject:
   m_ObjectHideFlags: 0

@@ -96,7 +96,7 @@ public class Blesser : GameSkill
 			score=200;
 		}
 		else{
-			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
 		}
 
 		int levelMin = s.Power;

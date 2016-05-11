@@ -102,8 +102,8 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = Mathf.FloorToInt((10+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
-		int levelMax = Mathf.FloorToInt((20+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMin = Mathf.FloorToInt((10+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
+		int levelMax = Mathf.FloorToInt((20+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
 
 		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*(Mathf.Min(levelMax,targetCard.getLife())-levelMin)))/(levelMax-levelMin+1f));
 

@@ -20,7 +20,7 @@ public class Miracle : GameSkill
 	
 	public override void resolve(List<Tile> targetsP)
 	{	
-		List<int> targets = GameView.instance.getOpponents(GameView.instance.getCurrentCard().isMine);
+		List<int> targets = GameView.instance.getAllys(GameView.instance.getCurrentCard().isMine);
 
 		int target = targets[Random.Range(0,targets.Count)];
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
@@ -44,7 +44,7 @@ public class Miracle : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		int percentage = 10+GameView.instance.getCurrentSkill().Power*3;
+		int percentage = 5+GameView.instance.getCurrentSkill().Power*2;
 		int bonusLife = Mathf.RoundToInt(targetCard.Life*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
 
@@ -53,14 +53,31 @@ public class Miracle : GameSkill
 		text+="+"+bonusAttack+"ATK";
 
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
+		GameView.instance.getPlayingCardController(target).updateLife(currentCard.getLife());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 107, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, text, 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
+		SoundController.instance.playSound(28);
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		List<int> ennemis = GameView.instance.getAllys(false);
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int score = 0 ;
+
+		for(int i = 0 ; i < ennemis.Count ; i++){
+			GameCard targetCard = GameView.instance.getCard(ennemis[UnityEngine.Random.Range(0,ennemis.Count)]);
+			score+=Mathf.RoundToInt(2*targetCard.getAttack()*(5+2*s.Power)/100f);
+			score+=Mathf.RoundToInt(targetCard.getLife()*(5+2*s.Power)/100f);
+		}
+
+		score = (score/ennemis.Count) * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }

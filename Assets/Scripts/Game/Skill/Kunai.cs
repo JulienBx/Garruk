@@ -109,8 +109,8 @@ public class Kunai : GameSkill
 		List<int> enemies = GameView.instance.getOpponents(false);
 		for(int i = 0 ; i < enemies.Count ; i++){
 			targetCard = GameView.instance.getCard(enemies[i]);
-			levelMin = currentCard.getNormalDamagesAgainst(targetCard,s.Power);
-			levelMax = currentCard.getNormalDamagesAgainst(targetCard,5+s.Power*2);
+			levelMin = currentCard.getNormalDamagesAgainst(targetCard,s.Power)+Mathf.RoundToInt(5-targetCard.getLife()/10f);
+			levelMax = currentCard.getNormalDamagesAgainst(targetCard,5+s.Power*2)+Mathf.RoundToInt(5-targetCard.getLife()/10f);
 
 			score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
 		}

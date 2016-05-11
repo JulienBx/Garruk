@@ -1163,7 +1163,7 @@ public class GameView : MonoBehaviour
 						playerID = this.getTileController(t.x, t.y).getCharacterID();
 						if (playerID != -1)
 						{
-							if (UnityEngine.Random.Range(1,101)<=proba){
+							if (UnityEngine.Random.Range(1,101)<=200){
 								GameController.instance.convert(playerID);
 								isSuccess = true ;
 							}
@@ -3588,7 +3588,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public void hitNextTutorial(){
-		print("nexttuto");
 		if(this.sequenceID==0){
 			this.initGrid();
 			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);

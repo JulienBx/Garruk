@@ -12,10 +12,9 @@ public class ArtificialIntelligence : MonoBehaviour
 	List<Tile> emplacements ; 
 
 	void Awake(){
-		this.aggressiveFactor = UnityEngine.Random.Range(1,4);
-		this.soutienFactor = UnityEngine.Random.Range(1,4);
-		this.trapFactor = UnityEngine.Random.Range(1,4);
-		print("IA Parameters ("+this.aggressiveFactor+","+this.soutienFactor+","+this.trapFactor+")");
+		this.aggressiveFactor = 1;
+		this.soutienFactor = 1;
+		this.trapFactor = 1;
 	}
 
 	public int getAgressiveFactor(){

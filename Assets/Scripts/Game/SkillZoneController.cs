@@ -58,33 +58,69 @@ public class SkillZoneController : MonoBehaviour
 	}
 	
 	public void showSkills(GameCard card){
-		if(card.getSkills()[3].IsActivated==1){
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setSkill(card.getSkills()[2]);
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().setSkill(card.getSkills()[3]);
-			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(true);	
+		if(card.getSkills().Count>3){
+			if(card.getSkills()[3].IsActivated==1){
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setSkill(card.getSkills()[2]);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().setSkill(card.getSkills()[3]);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(true);	
+			}
+			else if(card.getSkills()[2].IsActivated==1){
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setSkill(card.getSkills()[2]);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+			}
+			else{
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(false);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+			}
 		}
-		else if(card.getSkills()[2].IsActivated==1){
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setSkill(card.getSkills()[2]);
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().getLaunchability();
-			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(true);
-			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+		else if(card.getSkills().Count>2){
+			if(card.getSkills()[2].IsActivated==1){
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().setSkill(card.getSkills()[2]);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+			}
+			else{
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().setSkill(card.getSkills()[1]);
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().getLaunchability();
+				gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
+				gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(false);
+				gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+			}
 		}
-		else{
+		else if(card.getSkills().Count>1){
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().setSkill(card.GetAttackSkill());
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().getLaunchability();
 			gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(true);
@@ -93,6 +129,7 @@ public class SkillZoneController : MonoBehaviour
 			gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(true);
 			gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(false);
 			gameObject.transform.FindChild("SkillButton2").GetComponent<SkillButtonController>().show(false);
+			
 		}
 	}
 

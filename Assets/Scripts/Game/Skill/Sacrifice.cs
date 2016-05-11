@@ -109,15 +109,15 @@ public class Sacrifice : GameSkill
 						score+=100;
 					}
 					else{
-						score-=100 + 30 - targetCard.getLife();;
+						score-=100;
 					}
 				}
 				else{
 					if(targetCard.isMine){
-						score+=levelMin+(30-targetCard.getLife()-levelMin);
+						score+=levelMin+Mathf.RoundToInt(5-targetCard.getLife()/10f);
 					}
 					else{
-						score-=levelMin+(30-targetCard.getLife()-levelMin);
+						score-=levelMin+Mathf.RoundToInt(5-targetCard.getLife()/10f);
 					}
 				}
 			}

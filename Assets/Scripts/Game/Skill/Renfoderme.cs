@@ -22,6 +22,7 @@ public class Renfoderme : GameSkill
 	{	
 		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
+		Debug.Log(target);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){

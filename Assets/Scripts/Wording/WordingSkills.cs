@@ -2470,16 +2470,16 @@ public class WordingSkills
 		//107 - Miracle
 		idSkills.Add(107);
 		names.Add(new string[]{"Miracle","Miracle"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 12% ATK et 12% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 14% ATK et 14% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 16% ATK et 16% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 18% ATK et 18% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 20% ATK et 20% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 22% ATK et 22% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 24% ATK et 24% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 26% ATK et 26% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 28% ATK et 28% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
-		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 30% ATK et 30% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 7% ATK et 7% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 9% ATK et 9% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 11% ATK et 11% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 13% ATK et 13% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 15% ATK et 15% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 17% ATK et 17% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 19% ATK et 19% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 21% ATK et 21% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 23% ATK et 23% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
+		descriptions.Add(new string[]{"Un allié aléatoire gagne un bonus de 25% ATK et 25% PV","Random ally unit gets a 12% bonus to ATK et HP"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
