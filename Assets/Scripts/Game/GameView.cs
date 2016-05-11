@@ -2749,7 +2749,7 @@ public class GameView : MonoBehaviour
             hasWonInt=1;
         }
         int isFirstPlayerInt =0;
-        if(ApplicationModel.player.IsFirstPlayer)
+        if(isFirstPlayer)
         {
             isFirstPlayerInt=1;
         }
