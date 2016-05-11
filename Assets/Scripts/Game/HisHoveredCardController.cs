@@ -79,8 +79,6 @@ public class HisHoveredCardController : HoveredCardController
 			gameObject.transform.Find("Skill2").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
 			gameObject.transform.Find("Skill3").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
 
-			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 0;
-			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = false;
 			gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
 
 			gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 2;
