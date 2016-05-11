@@ -11,8 +11,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 {
     public const string roomNamePrefix = "GarrukGame";
     private int nbPlayersInRoom;
+    private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 2f ;
+    float limitTime = 10f ;
     bool isWaiting ;
     public AsyncOperation async ;
 
@@ -24,7 +25,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             this.addWaitingTime(Time.deltaTime);
         }
     }
-
     public void addWaitingTime(float f){
         
         this.waitingTime += f ;
@@ -34,7 +34,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             StartCoroutine(this.startIAGame());
         }
     }
-
     public void leaveRoom()
     {
         this.isWaiting = false ;
@@ -54,6 +53,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         print("Jessaye de join une room");
         this.nbPlayersInRoom = 0;
+        this.nbPlayersReady=0;
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
@@ -78,6 +78,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
+        this.nbPlayersReady=0;
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -149,7 +150,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     private void startGame()
     {
 		photonView.RPC("getGameId", PhotonTargets.AllBuffered, ApplicationModel.currentGameId);
-		this.launchGame();
     }
 	private IEnumerator startIAGame()
     {
@@ -161,7 +161,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 	private void startTutorialGame()
     {
 		this.CreateTutorialDeck();
-		this.launchGame();
+		SoundController.instance.playMusic(new int[]{3,4});
+		this.async.allowSceneActivation = true ;
+
     }
     private void launchGame()
     {
@@ -172,9 +174,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     [PunRPC]
     void getGameId(int currentGameId)
     {
+    	this.nbPlayersReady++;
         if(!ApplicationModel.player.IsFirstPlayer)
         {
             ApplicationModel.currentGameId=currentGameId;
+        }
+        if(this.nbPlayersReady==2)
+        {
+			this.launchGame();
         }
     }
 
