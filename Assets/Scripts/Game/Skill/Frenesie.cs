@@ -14,7 +14,7 @@ public class Frenesie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name,GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -28,7 +28,7 @@ public class Frenesie : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int level = GameView.instance.getCurrentSkill().Power;
-		int life = Mathf.RoundToInt((0.5f-level*0.05f)*currentCard.getAttack());
+		int life = Mathf.RoundToInt((0.55f-level*0.05f)*currentCard.getAttack());
 		int target = GameView.instance.getCurrentPlayingCard();
 		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 

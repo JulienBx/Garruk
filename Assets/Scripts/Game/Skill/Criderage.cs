@@ -14,7 +14,7 @@ public class Criderage : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -70,7 +70,6 @@ public class Criderage : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 		SoundController.instance.playSound(37);
-		GameController.instance.disconnect();
 	}
 
 	public override int getActionScore(Tile t, Skill s){

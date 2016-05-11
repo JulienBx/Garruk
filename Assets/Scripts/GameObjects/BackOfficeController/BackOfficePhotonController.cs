@@ -13,7 +13,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 10f ;
+    float limitTime = 2f ;
     bool isWaiting ;
     public AsyncOperation async ;
 
