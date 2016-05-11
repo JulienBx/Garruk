@@ -2738,17 +2738,12 @@ public class GameView : MonoBehaviour
 		}
 	}
 	
-	public IEnumerator sendStat(string idUser1, string idUser2, int rankingPoints1, int rankingPoints2, int gameType, int percentageTotalDamages, int currentGameid, bool hasWon, bool connectionLost)
+	public IEnumerator sendStat(int percentageTotalDamages, int currentGameid, bool hasWon, bool isFirstPlayer)
 	{
         int hasWonInt = 0;
         if(hasWon)
         {
             hasWonInt=1;
-        }
-        int isConnectionLostInt = 0;
-        if(connectionLost)
-        {
-            isConnectionLostInt=1;
         }
         int isFirstPlayerInt =0;
         if(ApplicationModel.player.IsFirstPlayer)
@@ -2758,16 +2753,10 @@ public class GameView : MonoBehaviour
 		
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick1", idUser1); 	                    // Pseudo de l'utilisateur victorieux
-		form.AddField("myform_nick2", idUser2); 	                    // Pseudo de l'autre utilisateur
-        form.AddField("myform_rp1", rankingPoints1);                       // Pseudo de l'utilisateur victorieux
-        form.AddField("myform_rp2", rankingPoints2);
-		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType);
-		form.AddField("myform_percentagelooser",percentageTotalDamages);
+        form.AddField("myform_percentagelooser",percentageTotalDamages);
         form.AddField("myform_currentgameid",currentGameid);
         form.AddField("myform_haswon",hasWonInt);
-        form.AddField("myform_connectionlost",isConnectionLostInt);
-		form.AddField("myform_isfirstplayer",isFirstPlayerInt);
+        form.AddField("myform_isfirstplayer",isFirstPlayerInt);
 
         ServerController.instance.setRequest(URLStat, form);
         yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -2810,7 +2799,7 @@ public class GameView : MonoBehaviour
                 ApplicationModel.player.HasWonLastGame=true;
                 ApplicationModel.player.PercentageLooser=GameView.instance.getPercentageTotalDamages(true);
             }
-            yield return (StartCoroutine(this.sendStat(ApplicationModel.myPlayerName,ApplicationModel.hisPlayerName,ApplicationModel.player.RankingPoints,ApplicationModel.hisRankingPoints,ApplicationModel.player.ChosenGameType,ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,isConnectionLost)));
+            yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
 		}
         GameController.instance.quitGame();
 	}

@@ -30,7 +30,7 @@ public class TimerController : MonoBehaviour
 
 		if(this.timerTurn<=0){
 			if(!ApplicationModel.player.ToLaunchGameIA && PhotonNetwork.room.playerCount<2){
-				GameView.instance.sendStat(ApplicationModel.myPlayerName,ApplicationModel.hisPlayerName,ApplicationModel.player.RankingPoints,ApplicationModel.hisRankingPoints,ApplicationModel.player.ChosenGameType,ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,true,true);
+                GameView.instance.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer);
 				GameController.instance.quitGame();
 			}
 
