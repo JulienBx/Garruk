@@ -243,6 +243,7 @@ public class LoadingScreenController : MonoBehaviour
 			}
 			if(isOver)
 			{
+				print(BackOfficeController.instance.photon.async.progress);
 				BackOfficeController.instance.photon.async.allowSceneActivation = true ;
 				toRewindPreMatchLoadingScreen = false ;
 			}
