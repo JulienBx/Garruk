@@ -256,7 +256,7 @@ public class LoadingScreenController : MonoBehaviour
 		}
 		if(this.toLoadScene)
 		{
-			if(BackOfficeController.instance.photon.async.progress>=0.9)
+			if(BackOfficeController.instance.photon.async.progress>=0.9f)
 			{
 				this.toLoadScene=false;
 				BackOfficeController.instance.photon.async.allowSceneActivation = true ;
