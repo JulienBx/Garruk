@@ -382,6 +382,7 @@ public class NewEndGameController : MonoBehaviour
 			this.xpWon=System.Convert.ToInt32(data[6]);
 			ApplicationModel.player.Money=System.Convert.ToInt32(data[7]);
 			this.bonus=System.Convert.ToInt32(data[8]);
+			ApplicationModel.player.NextLevelTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[9]));
 		}
 		else
 		{
