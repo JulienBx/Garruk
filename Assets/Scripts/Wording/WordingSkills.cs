@@ -2194,16 +2194,16 @@ public class WordingSkills
 		//95 - Justice
 		idSkills.Add(95);
 		names.Add(new string[]{"Justice","Justice"}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 7, l'unité ayant le moins de PV en gagne 12",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 9, l'unité ayant le moins de PV en gagne 14",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 11, l'unité ayant le moins de PV en gagne 16",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 13, l'unité ayant le moins de PV en gagne 18",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 15, l'unité ayant le moins de PV en gagne 20",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 17, l'unité ayant le moins de PV en gagne 22",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 19, l'unité ayant le moins de PV en gagne 24",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 21, l'unité ayant le moins de PV en gagne 26",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 23, l'unité ayant le moins de PV en gagne 28",""}); 
-		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 25, l'unité ayant le moins de PV en gagne 30",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 7, l'unité ayant le moins de PV en gagne 7",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 9, l'unité ayant le moins de PV en gagne 9",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 11, l'unité ayant le moins de PV en gagne 11",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 13, l'unité ayant le moins de PV en gagne 13",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 15, l'unité ayant le moins de PV en gagne 15",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 17, l'unité ayant le moins de PV en gagne 17",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 19, l'unité ayant le moins de PV en gagne 19",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 21, l'unité ayant le moins de PV en gagne 21",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 23, l'unité ayant le moins de PV en gagne 23",""}); 
+		descriptions.Add(new string[]{"L'unité ayant le plus de PV en perd 25, l'unité ayant le moins de PV en gagne 25",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
