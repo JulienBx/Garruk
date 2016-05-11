@@ -1163,7 +1163,7 @@ public class GameView : MonoBehaviour
 						playerID = this.getTileController(t.x, t.y).getCharacterID();
 						if (playerID != -1)
 						{
-							if (UnityEngine.Random.Range(1,101)<=200){
+							if (UnityEngine.Random.Range(1,101)<=proba){
 								GameController.instance.convert(playerID);
 								isSuccess = true ;
 							}
