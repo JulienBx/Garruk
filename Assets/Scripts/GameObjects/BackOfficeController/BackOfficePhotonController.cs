@@ -175,7 +175,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
     	if(!ApplicationModel.player.ToLaunchGameIA)
     	{
-			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered, ApplicationModel.currentGameId);
+			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered);
 		}
 		else
 		{
