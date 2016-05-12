@@ -48,6 +48,7 @@ public class Massue : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
+		SoundController.instance.playSound(25);
 	}
 
 	public override string getTargetText(int target){

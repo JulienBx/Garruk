@@ -21,6 +21,7 @@ public class Sermon : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
+		int level = GameView.instance.getCurrentSkill().Power+5;
 
 		List<int> tempTiles = GameView.instance.getEveryone();
 		int i = 0 ;
@@ -38,7 +39,7 @@ public class Sermon : GameSkill
 					}
 					else{
 						if (Random.Range(1,101) <= proba){
-							GameController.instance.applyOn(tempInt);
+							GameController.instance.applyOn2(tempInt,UnityEngine.Random.Range(1,level+1));
 						}
 						else{
 							GameController.instance.esquive(tempInt,base.name);
@@ -52,18 +53,42 @@ public class Sermon : GameSkill
 		GameController.instance.endPlay();
 	}
 	
-	public override void applyOn(int target){
+	public override void applyOn(int target, int value){
 		int level = GameView.instance.getCurrentSkill().Power+5;
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 102, base.name, ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, 1, 102, base.name, ". Actif 1 tour"));
+		GameView.instance.displaySkillEffect(target, "+"+value+"ATK", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard ;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int score = 0;
+		List<int> neighbours = GameView.instance.getEveryone();
+		int bonus = Mathf.RoundToInt((6f+s.Power)/2f);
+
+		for(int i = 0 ; i < neighbours.Count ; i++){
+			targetCard = GameView.instance.getCard(neighbours[i]);
+			if(targetCard.CardType.Id!=5 && targetCard.CardType.Id!=8){
+				if(targetCard.isMine){
+					score-=bonus*2;
+				}
+				else{
+					score+=bonus*2;
+				}
+			}
+		}
+
+		score = score * GameView.instance.IA.getSoutienFactor() ;
+		return score ;
 	}
 }

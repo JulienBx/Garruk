@@ -101,7 +101,7 @@ public class Benediction : GameSkill
 			for(int j = 0 ; j < everyone.Count ; j++){
 				if(GameView.instance.getCard(everyone[j]).CardType.Id==cardType){
 					if(GameView.instance.getCard(everyone[j]).isMine){
-						score=Mathf.RoundToInt(GameView.instance.getCard(everyone[j]).getAttack()*(10f+2*s.Power)/100f);
+						score-=Mathf.RoundToInt(GameView.instance.getCard(everyone[j]).getAttack()*(10f+2*s.Power)/100f);
 					}
 					else{
 						score+=Mathf.RoundToInt(GameView.instance.getCard(everyone[j]).getAttack()*(10f+2*s.Power)/100f);

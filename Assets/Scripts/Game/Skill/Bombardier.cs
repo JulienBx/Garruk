@@ -21,7 +21,8 @@ public class Bombardier : GameSkill
 	{	
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		List<int> targets = GameView.instance.getEveryone() ; 
-		int maxdamages = 10+GameView.instance.getCurrentSkill().Power*2;
+		int mindamages = GameView.instance.getCurrentSkill().Power;
+		int maxdamages = 5+GameView.instance.getCurrentSkill().Power;
 
 		if(currentCard.isFou()){
 			maxdamages = Mathf.RoundToInt(1.25f*maxdamages);
@@ -33,14 +34,14 @@ public class Bombardier : GameSkill
 			}
 			else{
 				if (Random.Range(1,101) <= proba){
-					GameController.instance.applyOn2(targets[i], Random.Range(1,maxdamages+1));
+					GameController.instance.applyOn2(targets[i], Random.Range(mindamages,maxdamages+1));
 				}
 				else{
 					GameController.instance.esquive(targets[i],base.name);
 				}
 			}
 		}
-		SoundController.instance.playSound(36);
+		GameController.instance.playSound(36);
 		if(currentCard.isFou()){
 			GameController.instance.applyOnMe(1);
 		}
@@ -58,8 +59,6 @@ public class Bombardier : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
-
-			
 	}
 
 	public override void applyOnMe(int value){
@@ -72,5 +71,33 @@ public class Bombardier : GameSkill
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		GameCard targetCard ;
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+		int score = 0;
+		List<int> neighbours = GameView.instance.getEveryone();
+		int min;
+		int max;
+		int mindamages = GameView.instance.getCurrentSkill().Power;
+		int maxdamages = 5+GameView.instance.getCurrentSkill().Power;
+
+		for(int i = 0 ; i < neighbours.Count ; i++){
+			targetCard = GameView.instance.getCard(neighbours[i]);
+			min = currentCard.getNormalDamagesAgainst(targetCard, mindamages);
+			max = currentCard.getNormalDamagesAgainst(targetCard, maxdamages); 
+
+			if(targetCard.isMine){
+				score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
+			}
+			else{
+				score-=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
+			}
+		}
+
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }

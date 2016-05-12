@@ -14,7 +14,7 @@ public class Furie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power));
+		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 		GameController.instance.play(this.id);
 	}
 	
@@ -46,6 +46,7 @@ public class Furie : GameSkill
 
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
+		SoundController.instance.playSound(37);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

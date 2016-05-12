@@ -494,9 +494,10 @@ public class ArtificialIntelligence : MonoBehaviour
 						passiveScore-=2*(10-minDistanceOpponent);
 					}
 				}
-
+				Debug.Log("Score déplacement : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
+					
 				if(passiveScore>bestScore){
-					Debug.Log("Meilleur score déplacement : "+passiveScore+" - ("+bestEmplacement.x+","+bestEmplacement.y+")");
+					Debug.Log("Meilleur score");
 					bestScore = passiveScore ; 
 					bestEmplacement = emplacements[i];
 				}

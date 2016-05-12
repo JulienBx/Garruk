@@ -87,4 +87,5 @@ MonoBehaviour:
   - LaunchGame
   - playSoundRPC
   - getGameId
+  - launchGameRPC
   DisableAutoOpenWizard: 0

@@ -172,7 +172,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
     	if(!ApplicationModel.player.ToLaunchGameIA)
     	{
+			print("Je RPC launch game");
 			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered,ApplicationModel.currentGameId);
+			print("J'ai RPC launch game");
 		}
 		else
 		{
@@ -190,6 +192,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         }
 		if(this.nbPlayersReady==2)
         {
+        	print("READY2");
         	yield return new WaitForSeconds(2);
 			async.allowSceneActivation=true;
         }

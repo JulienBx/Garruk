@@ -45,8 +45,8 @@ public class Miracle : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		int percentage = 5+GameView.instance.getCurrentSkill().Power*2;
-		int bonusLife = Mathf.RoundToInt(targetCard.Life*percentage/100f);
-		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
+		int bonusLife = Mathf.Max(1,Mathf.RoundToInt(targetCard.Life*percentage/100f));
+		int bonusAttack = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*percentage/100f));
 
 		string text = "";
 		text+="+"+bonusLife+"PV\n";

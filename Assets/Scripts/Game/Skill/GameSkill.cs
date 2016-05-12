@@ -269,6 +269,7 @@ public class GameSkill
 		string text = "Echec "+s;
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addSE(GameView.instance.getTile(target));
+		SoundController.instance.playSound(27);
 	}
 
 	public virtual void esquive(int target, int result)
@@ -281,6 +282,6 @@ public class GameSkill
 
 		GameView.instance.displaySkillEffect(target, text, type);
 		GameView.instance.addSE(GameView.instance.getTile(target));
-		SoundController.instance.playSound(22);
+		SoundController.instance.playSound(27);
 	}
 }

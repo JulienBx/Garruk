@@ -2147,7 +2147,7 @@ public class GameView : MonoBehaviour
 			playerID = this.getTileController(t2.x, t2.y).getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.getPlayingCardController(playerID).canBeTargeted() && this.getCard(playerID).isMine==isM){
+				if (playerID!=this.currentPlayingCard && this.getPlayingCardController(playerID).canBeTargeted() && this.getCard(playerID).isMine==isM){
 					cibles.Add(t2);
 				}
 			}
@@ -2562,7 +2562,7 @@ public class GameView : MonoBehaviour
 			playerID = this.tiles [t.x, t.y].GetComponent<TileController>().getCharacterID();
 			if (playerID != -1)
 			{
-				if (this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine==isM)
+				if (playerID!=this.currentPlayingCard && this.playingCards [playerID].GetComponent<PlayingCardController>().canBeTargeted() && this.getCard(playerID).isMine==isM)
 				{
 					isLaunchable = "";
 				}
