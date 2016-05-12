@@ -17,7 +17,7 @@ public class ApplicationDesignRules : MonoBehaviour
 	static public float pixelPerUnit=108f;
 	static public float screenRatio;
 	static public float optimalScreenRatio=1.77f;
-	static public float mobileScreenRatio =1.5f;
+	static public float mobileScreenRatio =1.32f;
 	static public float cameraSize=5f;
 	static public float backgroundCameraSize=5f;
 	static public bool isMobileScreen;
@@ -356,7 +356,7 @@ public class ApplicationDesignRules : MonoBehaviour
 			scrollCoeficient=0.5f;
 		}
 
-		if(screenRatio<=mobileScreenRatio)
+        if(screenRatio<=mobileScreenRatio || isMobileDevice)
 		{
 			reductionRatio=1f;
 			isMobileScreen=true;
@@ -400,9 +400,9 @@ public class ApplicationDesignRules : MonoBehaviour
 			{
 				blockHorizontalSpacing=0.15f;
 			}
-			mainTitleVerticalSpacing=0.2f;
+			mainTitleVerticalSpacing=0.15f;
 			buttonVerticalSpacing=0.2f;
-			subMainTitleVerticalSpacing=0.95f;
+			subMainTitleVerticalSpacing=0.8f;
 			gapBetweenCardsLine = 0.1f;
 			divisionIconDistance=new Vector3(0.3f,-0.3f,0f);
 
@@ -433,8 +433,8 @@ public class ApplicationDesignRules : MonoBehaviour
 			sceneCameraStandardPosition = new Vector3 (0f,0f, -10f);
 
 			blockHorizontalSpacing=0.3f;
-			mainTitleVerticalSpacing=0.2f;
-			subMainTitleVerticalSpacing=1.2f;
+			mainTitleVerticalSpacing=0.15f;
+			subMainTitleVerticalSpacing=0.95f;
 			buttonVerticalSpacing=0.2f;
 			gapBetweenCardsLine = 0.25f;
 			divisionIconDistance=new Vector3(0.2f,-0.2f,0f);

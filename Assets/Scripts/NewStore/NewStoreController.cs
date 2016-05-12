@@ -569,6 +569,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		Vector2 storeBlockOrigin = this.storeBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 		this.storeBlockTitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.mainTitleVerticalSpacing, 0f);
 		this.storeBlockTitle.transform.localScale = ApplicationDesignRules.mainTitleScale;
+        this.storeBlockTitle.transform.GetComponent<TextContainer>().width=storeBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
 
 		this.storeSubtitle.transform.position = new Vector3 (storeBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, storeBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 		this.storeSubtitle.transform.GetComponent<TextContainer>().width=storeBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
@@ -579,6 +580,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 		this.buyCreditsBlock.GetComponent<NewBlockController> ().resize(buyCreditsBlockLeftMargin,buyCreditsBlockUpMargin,ApplicationDesignRules.blockWidth,buyCreditsBlockHeight);
 		Vector3 buyCreditsBlockUpperLeftPosition = this.buyCreditsBlock.GetComponent<NewBlockController> ().getUpperLeftCornerPosition ();
+        Vector3 buyCreditsBlockLowerLeftPosition = this.buyCreditsBlock.GetComponent<NewBlockController> ().getLowerLeftCornerPosition ();
 		Vector2 buyCreditsBlockSize = this.buyCreditsBlock.GetComponent<NewBlockController> ().getSize ();
 		Vector3 buyCreditsOrigin = this.buyCreditsBlock.GetComponent<NewBlockController> ().getOriginPosition ();
 
@@ -587,9 +589,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 
 		this.buyCreditsSubtitle.transform.position = new Vector3 (buyCreditsBlockUpperLeftPosition.x + ApplicationDesignRules.blockHorizontalSpacing, buyCreditsBlockUpperLeftPosition.y - ApplicationDesignRules.subMainTitleVerticalSpacing, 0f);
 		this.buyCreditsSubtitle.transform.GetComponent<TextContainer>().width=buyCreditsBlockSize.x-2f*ApplicationDesignRules.blockHorizontalSpacing;
+        this.buyCreditsSubtitle.transform.GetComponent<TextContainer>().height=buyCreditsBlockSize.y-ApplicationDesignRules.button62WorldSize.y-1f;
 		this.buyCreditsSubtitle.transform.localScale = ApplicationDesignRules.subMainTitleScale;
 
-		this.buyCreditsButton.transform.position = new Vector3(buyCreditsOrigin.x,buyCreditsOrigin.y-0.5f,buyCreditsOrigin.z);
+		this.buyCreditsButton.transform.position = new Vector3(buyCreditsOrigin.x,buyCreditsBlockLowerLeftPosition.y+ApplicationDesignRules.buttonVerticalSpacing+ApplicationDesignRules.button62WorldSize.y/2f,buyCreditsOrigin.z);
 		this.buyCreditsButton.transform.localScale = ApplicationDesignRules.button62Scale;
 
 		this.backButton.transform.position = new Vector3 (ApplicationDesignRules.randomCardsPosition.x, ApplicationDesignRules.sceneCameraRandomCardsPosition.y-ApplicationDesignRules.worldHeight/2f+ApplicationDesignRules.downMargin+ApplicationDesignRules.button62WorldSize.y, 0f);
