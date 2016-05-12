@@ -17,6 +17,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     float limitTime = 2f ;
     bool isWaiting ;
     public AsyncOperation async ;
+    private bool toLoadScene;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -24,6 +25,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         if(this.isWaiting){
             this.addWaitingTime(Time.deltaTime);
+        }
+        if(this.toLoadScene)
+        {
+            if(this.async.progress>=0.9f)
+            {
+                this.toLoadScene=false;
+                this.launchGame();
+            }
         }
     }
     public void addWaitingTime(float f){
@@ -157,29 +166,19 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 	private void startTutorialGame()
     {
-		this.CreateTutorialDeck();
-		SoundController.instance.playMusic(new int[]{3,4});
-		this.async.allowSceneActivation = true ;
-
+        SoundController.instance.playMusic(new int[]{3,4});
+        this.toLoadScene=true;
     }
     private void startGame()
     {
 		SoundController.instance.playMusic(new int[]{3,4});
         BackOfficeController.instance.launchPreMatchLoadingScreen();
     }
-
 	public void launchGame()
     {
-    	if(!ApplicationModel.player.ToLaunchGameIA)
-    	{
-			print("Je RPC launch game");
-			photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered,ApplicationModel.currentGameId);
-			print("J'ai RPC launch game");
-		}
-		else
-		{
-			async.allowSceneActivation=true;
-		}
+        print("Je RPC launch game");
+        photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered,ApplicationModel.currentGameId);
+        print("J'ai RPC launch game");
     }
 
 	[PunRPC]
@@ -190,7 +189,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         {
             ApplicationModel.currentGameId=currentGameId;
         }
-		if(this.nbPlayersReady==2)
+        if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
         {
         	print("READY2");
         	yield return new WaitForSeconds(2);
@@ -552,5 +551,9 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             Debug.Log(ServerController.instance.getError());
             ServerController.instance.lostConnection();
         }
+    }
+    public void setToLoadScene(bool value)
+    {
+        this.toLoadScene=value;
     }
 }

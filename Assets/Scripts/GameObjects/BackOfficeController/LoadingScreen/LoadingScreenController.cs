@@ -47,7 +47,6 @@ public class LoadingScreenController : MonoBehaviour
 	private bool toAnimatePreMatchLoadingScreen;
 	private bool toRewindPreMatchLoadingScreen;
 	private bool toShowLoading;
-	private bool toLoadScene;
 
 	void Awake()
 	{
@@ -245,7 +244,7 @@ public class LoadingScreenController : MonoBehaviour
 			if(isOver)
 			{
 				this.toRewindPreMatchLoadingScreen = false ;
-				this.toLoadScene=true;
+                BackOfficeController.instance.photon.setToLoadScene(true);
 			}
 		}
 		if(this.toShowLoading)
@@ -253,14 +252,6 @@ public class LoadingScreenController : MonoBehaviour
 			this.angle = this.angle + this.speed * Time.deltaTime;
 			this.target = Quaternion.Euler (0f,this.angle, 0f);
 			this.gameObject.transform.FindChild("loadingCircle").transform.rotation = target;
-		}
-		if(this.toLoadScene)
-		{
-			if(BackOfficeController.instance.photon.async.progress>=0.9f)
-			{
-				this.toLoadScene=false;
-				BackOfficeController.instance.photon.launchGame();
-			}
 		}
 	}
 
