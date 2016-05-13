@@ -1431,7 +1431,6 @@ public class NewHomePageController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
-		PhotonNetwork.Disconnect();
         BackOfficeController.instance.loadScene("NewStore");
 	}
 	private void manageNonReadsNotifications()
