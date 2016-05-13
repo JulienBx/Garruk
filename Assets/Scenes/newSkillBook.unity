@@ -1519,11 +1519,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: havePropertiesChanged
@@ -1652,6 +1652,18 @@ Prefab:
     - target: {fileID: 133188, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMax
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
@@ -3761,11 +3773,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: havePropertiesChanged
@@ -3889,11 +3901,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_fontSizeBase
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 133188, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMax
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
@@ -5394,11 +5418,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: havePropertiesChanged
@@ -5522,11 +5546,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_fontSizeBase
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 133188, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMax
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
@@ -6093,11 +6129,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: havePropertiesChanged
@@ -6226,6 +6262,18 @@ Prefab:
     - target: {fileID: 133188, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421642, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}
+      propertyPath: m_fontSizeMax
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: afd6678f3f33e468ebebbe78ea5720e9, type: 2}

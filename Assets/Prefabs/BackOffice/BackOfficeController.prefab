@@ -1421,8 +1421,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -669901963
-  m_SortingOrder: 11
+  m_SortingLayerID: -1945406385
+  m_SortingOrder: 31
 --- !u!23 &2313632
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1759,8 +1759,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -669901963
-  m_SortingOrder: 11
+  m_SortingLayerID: -1945406385
+  m_SortingOrder: 31
 --- !u!33 &3314236
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -3796,6 +3796,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300118, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300122, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300126, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300130, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3824,7 +3828,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300158, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300162, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300166, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300170, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300174, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300178, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300184, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300188, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300192, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300196, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
+  - {fileID: 21300200, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300204, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3858,6 +3874,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300026, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300028, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300034, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300038, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3882,30 +3902,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300058, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300062, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300068, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300072, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   preMatchScreenAvatars:
   - {fileID: 0}
@@ -4715,8 +4715,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -669901963
-  m_SortingOrder: 10
+  m_SortingLayerID: -1945406385
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300060, guid: d4d0df9c0d8326741b75d655697fac3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

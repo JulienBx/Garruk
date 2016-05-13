@@ -97,7 +97,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         newRoomOptions.customRoomPropertiesForLobby = new string[] { "C0" }; // C0 est récupérable dans le lobby
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
         PhotonNetwork.CreateRoom(roomNamePrefix + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-        if(ApplicationModel.player.ChosenGameType<=20)
+        if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
         {
             this.isWaiting = true ;
         }
@@ -125,7 +125,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             PhotonNetwork.room.open = false;
         }
 
-        if(!ApplicationModel.player.ToLaunchGameTutorial)
+       	if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
 			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId);
         	BackOfficeController.instance.displayLoadingScreenButton(true);
