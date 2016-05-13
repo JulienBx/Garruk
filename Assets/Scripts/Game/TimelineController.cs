@@ -33,11 +33,11 @@ public class TimelineController : MonoBehaviour
 				if(idCards[i]>=0){
 					if(GameView.instance.getCard(idCards[i]).isMine){
 						gameObject.transform.Find("Unit"+i).GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-						gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(-0.98f, 0.98f,0.98f);
+						gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(-0.9f, 0.9f,0.9f);
 					}
 					else{
 						gameObject.transform.Find("Unit"+i).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-						gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(0.98f, 0.98f,0.98f);
+						gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(0.9f, 0.9f,0.9f);
 					}
 					gameObject.transform.Find("Unit"+i).FindChild("Character").GetComponent<SpriteRenderer>().sprite = GameView.instance.getPlayingCardController(0).getBackgroundSprite(GameView.instance.getCard(idCards[i]).Skills[0].Id);
 
@@ -45,7 +45,7 @@ public class TimelineController : MonoBehaviour
 				else{
 					gameObject.transform.Find("Unit"+i).GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 					gameObject.transform.Find("Unit"+i).FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.background[-1*idCards[i]];
-					gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(0.98f, 0.98f,0.98f);
+					gameObject.transform.Find("Unit"+i).FindChild("Character").transform.localScale = new Vector3(0.9f, 0.9f,0.9f);
 				}
 			}
 		}

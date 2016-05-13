@@ -124,6 +124,14 @@ public class SkillButtonController : MonoBehaviour
 			GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				GameView.instance.gameTutoController.showArrow(false);
+				if(GameView.instance.sequenceID==11){
+					GameView.instance.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
+					GameView.instance.gameTutoController.showArrow(true);
+				}
+				if(GameView.instance.sequenceID==18){
+					GameView.instance.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
+					GameView.instance.gameTutoController.showArrow(true);
+				}
 			}
 			if(!GameView.instance.isMobile){
 				GameSkills.instance.getSkill(this.skill.Id).launch();

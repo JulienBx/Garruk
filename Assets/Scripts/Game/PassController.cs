@@ -27,12 +27,16 @@ public class PassController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Terminer le tour";
-		if(GameView.instance.getCurrentPlayingCard()!=-1){
+		if(GameView.instance.sequenceID<18 && ApplicationModel.player.ToLaunchGameTutorial){
+			this.show(false);
+		}
+		else if(GameView.instance.getCurrentPlayingCard()!=-1){
 			this.show (!GameView.instance.getCurrentCard().hasPlayed || !GameView.instance.getCurrentCard().hasMoved);
 		}
 		else{
 			this.show (true);
 		}
+
 	}
 
 	public void getLaunchability(){

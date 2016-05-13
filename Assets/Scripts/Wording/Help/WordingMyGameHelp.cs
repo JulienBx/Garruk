@@ -19,9 +19,9 @@ public class WordingMyGameHelp
 	static WordingMyGameHelp()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Vous pouvez consulter ici vos unités et les organiser en équipe (seule une équipe complète peut combattre sur Cristalia). Commencez par créer une équipe!",""}); //0
-		tutorialContents.Add(new string[]{"Maintenant choisissez les membres de votre équipe et déplacez-les vers celle-ci",""}); //1
-		tutorialContents.Add(new string[]{"Bravo, votre équipe est complète. Vous êtes maintenant prêt à affronter les dangers de Cristalia seul",""}); //2
+		tutorialContents.Add(new string[]{"Vous pouvez consulter ici vos unités et les organiser en équipes (seule une équipe complète peut combattre sur Cristalia). Commencez par créer une équipe!",""}); //0
+		tutorialContents.Add(new string[]{"Maintenant choisissez les membres de votre équipe et déplacez-les vers celle-ci.",""}); //1
+		tutorialContents.Add(new string[]{"Bravo, votre équipe est complète. Vous êtes maintenant prêt à affronter les dangers de Cristalia.",""}); //2
 		tutorialContents.Add(new string[]{"Pour combattre et gagner de nouveaux cristaux, il vous suffira d'accéder à l'arène",""}); //3
 		tutorialContents.Add(new string[]{"Vos connaissances sur Cristalia seront rassemblées dans la Cristalopedia",""}); //4
 		tutorialContents.Add(new string[]{"Enfin pour tenter de vendre vos unités ou d'en acquérir de nouvelles, faites un tour aux enchères",""}); //5

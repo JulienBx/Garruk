@@ -179,13 +179,13 @@ public class GameTutoController : MonoBehaviour
 			{
 				this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [0];
 				dialogBoxPosition.y=2.4f;
-				dialogTitlePosition.y=0.86f;
+				dialogTitlePosition.y=0.6f;
 			} 
 			else if (companionTextDisplayed.Length< 300) 
 			{
 				this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [1];
 				dialogBoxPosition.y=3f;
-				dialogTitlePosition.y=1.42f;
+				dialogTitlePosition.y=1.2f;
 			} 
 			else 
 			{

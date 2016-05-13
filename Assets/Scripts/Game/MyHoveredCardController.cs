@@ -24,6 +24,7 @@ public class MyHoveredCardController : HoveredCardController
 			gameObject.transform.Find("Skill3").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*this.realwidth-4.5f;
 
 			gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
+			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = false;
 
 			gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 2;
 			gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 20;
@@ -108,6 +109,9 @@ public class MyHoveredCardController : HoveredCardController
 			gameObject.transform.Find("Skill2").FindChild("Text").GetComponent<TextContainer>().width = this.realwidth-1.5f;
 			gameObject.transform.Find("Skill3").FindChild("Text").GetComponent<TextContainer>().width = this.realwidth-1.5f;
 			gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 201;
+			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 200;
+
+			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = true;
 
 			gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 202;
 			gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 220;

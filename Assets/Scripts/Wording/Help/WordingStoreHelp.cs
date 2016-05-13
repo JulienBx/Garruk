@@ -19,7 +19,7 @@ public class WordingStoreHelp
 	static WordingStoreHelp()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Bienvenue au centre de recrutement. Plusieurs offres sont disponibles, commençons par recrutrer 5 cristaliens",""}); //0
+		tutorialContents.Add(new string[]{"Bienvenue au centre de recrutement. Plusieurs offres sont disponibles, commençons par recruter 5 cristaliens",""}); //0
 		tutorialContents.Add(new string[]{"Le comité d'accueil de Cristalia est fier de vous présenter vos premières unités!",""}); //1
 		tutorialContents.Add(new string[]{"Examinons de plus près un de vos nouveaux champions",""}); //2
 		tutorialContents.Add(new string[]{"Le blason en haut à gauche correspond à la faction de la recrue. La faction détermine le type de l'unité, et les compétences auxquelles elle aura accès",""}); //3

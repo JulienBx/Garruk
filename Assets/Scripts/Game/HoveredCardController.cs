@@ -387,7 +387,9 @@ public class HoveredCardController : MonoBehaviour
 
 	public void OnMouseDown()
 	{
-		this.empty();
+		if(GameView.instance.sequenceID!=8){
+			this.empty();
+		}
 		if(GameView.instance.hasFightStarted){
 			GameView.instance.removeDestinations();
 			if(!GameView.instance.getCurrentCard().hasMoved){

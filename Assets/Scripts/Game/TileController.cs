@@ -574,20 +574,14 @@ public class TileController : GameObjectController
 			}
 			if(this.characterID==-1){
 				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;
-				if(this.isDisplayingTarget){
-					gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = false;
-					gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=false;
-					gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=false;
 
-				}
-				this.isDisplayingDescription = false ;
 			}
 			else if(GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
 				gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = false ;	
 			}
 			
 			if(this.type==1 || this.type==2 || this.isTrapped){
-				this.showDescription(false);
+				//this.showDescription(false);
 			}
 		}
 	}

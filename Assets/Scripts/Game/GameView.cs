@@ -164,9 +164,15 @@ public class GameView : MonoBehaviour
 		{
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.gameTutoController.initialize();
-				this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 0);
+				if(GameView.instance.isMobile){
+					this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 3);
+				}
+				else{
+					this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 0);
+				}
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 20f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
+
 			}
 			else{
 				this.initGrid();
@@ -327,7 +333,7 @@ public class GameView : MonoBehaviour
 
 			skills = new List<Skill>();
 			skills.Add (new Skill("Agile", 66, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Assassinat", 18, 1, 2, 10, 0, "", 0, 80));
+			skills.Add (new Skill("Assassinat", 10, 1, 2, 10, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Slayer", 35, 2, 0, 3, 16, skills);
@@ -386,7 +392,7 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(g1, false);
 			
 			skills = new List<Skill>();
-			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("Fantassin", 68, 1, 1, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
 			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
@@ -701,6 +707,11 @@ public class GameView : MonoBehaviour
 	}
 
 	public void mobileClick(int characterID){
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			if(this.sequenceID==7){
+				this.hitNextTutorial();
+			}
+		}
 		SoundController.instance.playSound(21);
 		if (this.getPlayingCardController(characterID).getIsMine()){	
 			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
@@ -1540,7 +1551,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public bool getIsFirstPlayer(){
-		return this.isFirstPlayer ;
+		return ApplicationModel.player.IsFirstPlayer ;
 	}
 	
 	public GameCard getCard(int i){
@@ -3144,7 +3155,7 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			List<int> opponents = GameView.instance.getAllys(this.getCurrentCard().isMine);
+			List<int> opponents = GameView.instance.getOpponents(false);
 			Tile t2 ;
 			distance = 0 ;
 			bestDistance = 20;
@@ -3154,6 +3165,7 @@ public class GameView : MonoBehaviour
 					if (this.getCard(opponents[j]).isMine){
 						t2 = this.getTile(opponents[j]);
 						distance = Mathf.Abs(t2.x-t.x)+Mathf.Abs(t2.y-t.y);
+						print("d:"+distance);
 						if(distance < bestDistance){
 							bestDistance = distance ;
 							chosenTile = t;
@@ -3512,7 +3524,17 @@ public class GameView : MonoBehaviour
 		this.hoveringZone = -1;
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
 		GameView.instance.passZone.GetComponent<PassController>().setLaunchability("");
-		GameView.instance.passZone.GetComponent<PassController>().show(true);
+		if(GameView.instance.sequenceID>18 || !ApplicationModel.player.ToLaunchGameTutorial){
+			GameView.instance.passZone.GetComponent<PassController>().show(true);
+		}
+		if(this.sequenceID==11){
+			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.4f,0f));
+			this.gameTutoController.showArrow(true);
+		}
+		if(GameView.instance.sequenceID==18){
+			this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
+			GameView.instance.gameTutoController.showArrow(true);
+		}
 	}
 
 	public List<Tile> getAllTilesWithin(Tile t, int r){
@@ -3580,150 +3602,282 @@ public class GameView : MonoBehaviour
 	}
 
 	public void hitNextTutorial(){
-		if(this.sequenceID==0){
-			this.initGrid();
-			this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==1){
-			this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(-0.5f, -1.5f, 1f, 1f), 1f, 1f);
-			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.8f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==2){
-			this.loadMyDeck();
-			this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
-			this.gameTutoController.setArrow("down",new Vector3(-0.5f,-3.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==3){
-			this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==4){
-			this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 3f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==5){
-			this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 1);
-			this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==6){
-			string text = "";
-			if(this.isMobile){
-				text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
+		if(!GameView.instance.isMobile){
+			if(this.sequenceID==0){
+				this.initGrid();
+				this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
 			}
-			else{
-				text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en survolant l'unité.";
+			else if(this.sequenceID==1){
+				this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(-0.5f, -1.5f, 1f, 1f), 1f, 1f);
+				this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.8f,0f));
+				this.gameTutoController.showSequence(true, true, true);
 			}
-			this.gameTutoController.setCompanion(text, false, true, false, 1);
-			this.gameTutoController.setBackground(true, new Rect(0.5f, 2.5f, 1f, 1f), 1f, 1f);
-			this.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==7){
-			this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 1);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-			this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==8){
-			this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 1);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-			this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==9){
-			this.gameTutoController.showArrow(false);
-			this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 1);
-			this.hoverTile();
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
-			this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==10){
-			string text = "";
-			if(this.isMobile){
-				text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacer la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
+			else if(this.sequenceID==2){
+				this.loadMyDeck();
+				this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
+				this.gameTutoController.setArrow("down",new Vector3(-1.5f,-3.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
 			}
-			else{
-				text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
+			else if(this.sequenceID==3){
+				this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
 			}
-			this.gameTutoController.setCompanion(text, false, false, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.5f,0f));
-			this.gameTutoController.showSequence(true, true, true);
+			else if(this.sequenceID==4){
+				this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 3f), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==5){
+				this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 1);
+				this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==6){
+				string text = "";
+				if(this.isMobile){
+					text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
+				}
+				else{
+					text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en survolant l'unité.";
+				}
+				this.gameTutoController.setCompanion(text, false, true, false, 1);
+				this.gameTutoController.setBackground(true, new Rect(0.5f, 2.5f, 1f, 1f), 1f, 1f);
+				this.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==7){
+				this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 1);
+				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+				this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==8){
+				this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 1);
+				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
+				this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==9){
+				this.gameTutoController.showArrow(false);
+				this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 1);
+				this.hoverTile();
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
+				this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==10){
+				string text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
+				this.gameTutoController.setCompanion(text, false, false, true, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.4f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==11){
+				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==12){
+				this.hideSkillEffects();
+				this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
+				this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==13){
+				this.gameTutoController.showSequence(false, false, false);
+				GameController.instance.findNextPlayer (true);
+			}
+			else if(this.sequenceID==14){
+				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
+				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==15){
+				this.gameTutoController.showSequence(false, false, false);
+				StartCoroutine(launchIABourrin());
+			}
+			else if(this.sequenceID==16){
+				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==17){
+				this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==18){
+				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==19){
+				this.gameTutoController.showSequence(false, false, false);
+			}
+			else if(this.sequenceID==20){
+				this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==21){
+				this.hideSkillEffects();
+				this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==22){
+				this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==23){
+				this.gameTutoController.showSequence(false, false, false);
+				StartCoroutine(this.waitThenLaunchEDE());
+			}
 		}
-		else if(this.sequenceID==11){
-			this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==12){
-			this.hideSkillEffects();
-			this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
-			this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==13){
-			this.gameTutoController.showSequence(false, false, false);
-			GameController.instance.findNextPlayer (true);
-		}
-		else if(this.sequenceID==14){
-			this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
-			this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==15){
-			this.gameTutoController.showSequence(false, false, false);
-			StartCoroutine(launchIABourrin());
-		}
-		else if(this.sequenceID==16){
-			this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==17){
-			this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==18){
-			this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
-			this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-			this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
-			this.gameTutoController.showSequence(true, true, true);
-		}
-		else if(this.sequenceID==19){
-			this.gameTutoController.showSequence(false, false, false);
-		}
-		else if(this.sequenceID==20){
-			this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==21){
-			this.hideSkillEffects();
-			this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==22){
-			this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
-			this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
-			this.gameTutoController.showSequence(true, true, false);
-		}
-		else if(this.sequenceID==23){
-			this.gameTutoController.showSequence(false, false, false);
-			StartCoroutine(this.waitThenLaunchEDE());
+		else{
+			if(this.sequenceID==0){
+				this.initGrid();
+				this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 3);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f,  8*this.tileScale), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==1){
+				this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Touchez un cristal pour découvrir sa fonction!", true, false, false, 3);
+				this.gameTutoController.setBackground(true, new Rect(-0.5f*this.tileScale, -1.5f*this.tileScale, this.tileScale, this.tileScale), 1f, 1f);
+				this.gameTutoController.setArrow("up",new Vector3(-0.5f*this.tileScale,-1.8f*this.tileScale,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==2){
+				this.loadMyDeck();
+				this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 3);
+				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f*this.tileScale, 4f*this.tileScale, 1f*this.tileScale), 0f, 0f);
+				this.gameTutoController.setArrow("down",new Vector3(-1.5f*this.tileScale,-3.2f*this.tileScale,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==3){
+				this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 3);
+				this.gameTutoController.setBackground(true, new Rect(0f, -3f*this.tileScale, 6f*this.tileScale, 2f*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==4){
+				this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 3);
+				this.gameTutoController.setBackground(true, new Rect(0f, -2.5f-this.tileScale, 6f*this.tileScale, 5-2*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==5){
+				this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 3f*this.tileScale, 6f*this.tileScale, 2f*this.tileScale), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==6){
+				string text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
+				this.gameTutoController.setCompanion(text, false, true, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0.5f*this.tileScale, 2.5f*this.tileScale, 1f*this.tileScale, 1f*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
+				this.gameTutoController.setArrow("up",new Vector3(0.5f*this.tileScale,2.2f*this.tileScale,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==7){
+				this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, true, 6);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 0f, 0f), 0f, 0f);
+				this.gameTutoController.setArrow("down",new Vector3(2f,-2.6f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==8){
+				this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 6);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 0f, 0f), 0f, 0f);
+				this.gameTutoController.setArrow("down",new Vector3(2f,-3.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==9){
+				this.gameTutoController.showArrow(false);
+				this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 6);
+				this.hoverTile();
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f*this.tileScale, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==10){
+				string text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacez la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
+				
+				this.gameTutoController.setCompanion(text, false, false, true, 2);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, this.realwidth, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("down",new Vector3(-2.5f*this.tileScale,-4.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==11){
+				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==12){
+				this.hideSkillEffects();
+				this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
+				this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==13){
+				this.gameTutoController.showSequence(false, false, false);
+				GameController.instance.findNextPlayer (true);
+			}
+			else if(this.sequenceID==14){
+				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
+				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==15){
+				this.gameTutoController.showSequence(false, false, false);
+				StartCoroutine(launchIABourrin());
+			}
+			else if(this.sequenceID==16){
+				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==17){
+				this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==18){
+				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
+				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
+				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
+				this.gameTutoController.showSequence(true, true, true);
+			}
+			else if(this.sequenceID==19){
+				this.gameTutoController.showSequence(false, false, false);
+			}
+			else if(this.sequenceID==20){
+				this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==21){
+				this.hideSkillEffects();
+				this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==22){
+				this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
+				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
+				this.gameTutoController.showSequence(true, true, false);
+			}
+			else if(this.sequenceID==23){
+				this.gameTutoController.showSequence(false, false, false);
+				StartCoroutine(this.waitThenLaunchEDE());
+			}
 		}
 
 		sequenceID++;
