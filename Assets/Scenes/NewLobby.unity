@@ -758,11 +758,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -775,6 +775,10 @@ Prefab:
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
       value: LastResultsBlockTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_textAlignment
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -1081,11 +1085,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -1098,6 +1102,10 @@ Prefab:
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
       value: CompetitionBlockTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_textAlignment
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -2201,7 +2209,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_rect.height
-      value: .600000024
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_enableWordWrapping
@@ -2209,6 +2217,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11431600, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
       propertyPath: m_textAlignment
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414588, guid: b381e9eb1d6c74c07aa10627ed9f5864, type: 2}
+      propertyPath: m_anchorPosition
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3578,11 +3594,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -3595,6 +3611,10 @@ Prefab:
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
       value: MainBlockTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_textAlignment
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
@@ -3901,11 +3921,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: checkPaddingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: havePropertiesChanged
@@ -3918,6 +3938,10 @@ Prefab:
     - target: {fileID: 167542, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
       propertyPath: m_Name
       value: StatsBlockTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445630, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}
+      propertyPath: m_textAlignment
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf2298cd4387e46cdb6aef3b52c57ac0, type: 2}

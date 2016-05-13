@@ -15,20 +15,20 @@ public class NewCardPanelMarketController : SimpleButtonController
 	}
 	public override void setInitialState ()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(1f,1f,1f);
-		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
+		gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
+		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.whiteSpriteColor;
 	}
 	public override void setHoveredState ()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(155f/255f,220f/255f,1f);
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(155f/255f,220f/255f,1f);
+		gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.blueColor;
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
 	}
 	public override void setForbiddenState ()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
-		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=new Color(166f/255f,31f/255f,28f/255f);
-		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=new Color(166f/255f,31f/255f,28f/255f);
+		gameObject.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
+		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
+		gameObject.transform.FindChild("Cristal").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 	}
 	public override void mainInstruction ()
 	{

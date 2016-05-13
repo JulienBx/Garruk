@@ -32,5 +32,8 @@ public class WordingNextLevelPopUp
 		references.Add(new string[]{"Niv. ","Lev. "}); //15
 		references.Add(new string[]{"Confirmer","Confirm"}); //16
 		references.Add(new string[]{"Max","Max"}); //17
+		references.Add(new string[]{"Augmentation","Increase"}); //18
+		references.Add(new string[]{"Cette caractéristique a déjà été augmentée ","This stat has been increased "}); //19
+		references.Add(new string[]{" fois sur 3 augmentations possibles"," times on 3 possibles"}); //20
 	}
 }

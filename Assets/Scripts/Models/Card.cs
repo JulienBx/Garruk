@@ -48,6 +48,8 @@ public class Card
 	public int UpgradedSpeedLevel;
 	public static bool xpDone = false;
 	public bool isMine ;
+	public int LifeNbUpgrades;
+	public int AttackNbUpgrades;
 	
 	public Card()
 	{
@@ -422,12 +424,14 @@ public class Card
 				this.nbLoose=System.Convert.ToInt32(cardInfo[21]);
 				this.destructionPrice=System.Convert.ToInt32(cardInfo[22]);
 				this.Power=System.Convert.ToInt32(cardInfo[23]);
-				this.UpgradedLife=System.Convert.ToInt32(cardInfo[24]);
-				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[25]);
-				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[26]);
-				this.UpgradedLifeLevel=System.Convert.ToInt32(cardInfo[27]);
-				this.UpgradedAttackLevel=System.Convert.ToInt32(cardInfo[28]);
-				this.UpgradedSpeedLevel=System.Convert.ToInt32(cardInfo[29]);
+				this.LifeNbUpgrades=System.Convert.ToInt32(cardInfo[24]);
+				this.AttackNbUpgrades=System.Convert.ToInt32(cardInfo[25]);
+				this.UpgradedLife=System.Convert.ToInt32(cardInfo[26]);
+				this.UpgradedAttack=System.Convert.ToInt32(cardInfo[27]);
+				this.UpgradedSpeed=System.Convert.ToInt32(cardInfo[28]);
+				this.UpgradedLifeLevel=System.Convert.ToInt32(cardInfo[29]);
+				this.UpgradedAttackLevel=System.Convert.ToInt32(cardInfo[30]);
+				this.UpgradedSpeedLevel=System.Convert.ToInt32(cardInfo[31]);
 				this.Skills=new List<Skill>();
 			}
 			else

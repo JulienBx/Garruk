@@ -570,28 +570,33 @@ public class HelpController : MonoBehaviour
 				this.companionDialogTitle.SetActive(true);
 				Vector3 dialogBoxPosition = this.companionDialogBox.transform.localPosition;
 				Vector3 dialogTitlePosition = this.companionDialogTitle.transform.localPosition;
+                float dialogHeight;
 				if (this.companionTextDisplayed.Length < 100) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [0];
 					dialogBoxPosition.y=2.4f;
-					dialogTitlePosition.y=0.86f;
+					dialogTitlePosition.y=0.75f;
+                    dialogHeight=1.52f;
 				} 
 				else if (companionTextDisplayed.Length< 300) 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [1];
 					dialogBoxPosition.y=3f;
-					dialogTitlePosition.y=1.42f;
+					dialogTitlePosition.y=1.3f;
+                    dialogHeight=2.57f;
 				} 
 				else 
 				{
 					this.companionDialogBox.GetComponent<SpriteRenderer> ().sprite = ressources.dialogs [2];
 					dialogBoxPosition.y=3.55f;
-					dialogTitlePosition.y=1.92f;
+					dialogTitlePosition.y=1.8f;
+                    dialogHeight=3.61f;
 				}
 				this.companionDialogBox.transform.localPosition=dialogBoxPosition;
 				this.companionDialogTitle.transform.localPosition = dialogTitlePosition;
 				this.companionDialogTitle.GetComponent<TextMeshPro>().text=this.companionTextDisplayed;
 				this.companionDialogTitle.GetComponent<TextMeshPro>().maxVisibleCharacters=0;
+                this.companionDialogTitle.GetComponent<TextContainer>().height=dialogHeight;
 				this.toWriteCompanionText=true;
 			}
 			else
