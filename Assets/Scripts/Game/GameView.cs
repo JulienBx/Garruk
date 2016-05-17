@@ -2755,7 +2755,7 @@ public class GameView : MonoBehaviour
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
 
-		if(this.areAllMyPlayersDead() || (this.areAllHisPlayersDead() && ApplicationModel.player.ToLaunchGameIA)){
+		if(this.areAllMyPlayersDead() || (this.areAllHisPlayersDead() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
 			GameView.instance.quitGameHandler();
 		}
 		else{
