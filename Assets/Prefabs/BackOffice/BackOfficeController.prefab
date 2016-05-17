@@ -2662,8 +2662,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 423700}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &11434644
 MonoBehaviour:
@@ -3268,7 +3268,7 @@ MonoBehaviour:
     type: 2}
   loadingScreenBackgrounds:
   - {fileID: 21300006, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
-  - {fileID: 21300232, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300000, guid: 824f0ffe1c5d6474ea9196671a885806, type: 3}
   largeProfilePictures:
   - {fileID: 21300132, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
   - {fileID: 21300126, guid: ec8fe55bfa35c4d46ba7d026602e8928, type: 3}
