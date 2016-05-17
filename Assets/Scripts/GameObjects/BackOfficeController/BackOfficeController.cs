@@ -738,7 +738,7 @@ public class BackOfficeController : MonoBehaviour
 			}
 			MenuController.instance.refreshMenuObject();
 		}
-		if(ApplicationModel.player.IsInvited && !this.isInvitationPopUpDisplayed && !ApplicationModel.player.IsInviting && !ApplicationModel.player.IsBusy)
+		if(ApplicationModel.player.IsInvited && !this.isInvitationPopUpDisplayed && !ApplicationModel.player.IsInviting && !ApplicationModel.player.IsBusy && !PhotonNetwork.inRoom)
 		{
 			if(this.isPlayPopUpDisplayed)
 			{
