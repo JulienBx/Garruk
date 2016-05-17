@@ -4,12 +4,11 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:bb33702d58a518b047ce37831d75dee4:77d10a605934a30a43c410f612895ff4:08ca1db9d9471395c4b4380567aa3dc6$
+# $TexturePacker:SmartUpdate:4eb3ec456764129bda0638f67fdb1487:77d10a605934a30a43c410f612895ff4:b4a3d80527cf42c347db0701a5bbe3aa$
 #
 :format=40000
 :texture=GamePack1.png
 :size=2048x2048
-:normalmap=GamePack1_n.png
 
 0Attaque;1519;1928;108;108;0.5;0.5
 100Renaissance;1519;1818;108;108;0.5;0.5
