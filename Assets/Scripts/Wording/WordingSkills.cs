@@ -2493,16 +2493,16 @@ public class WordingSkills
 		//108 - Sacrifice
 		idSkills.Add(108);
 		names.Add(new string[]{"Sacrifice","Sacrifice"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 60% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 60% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 70% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 70% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 80% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 80% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 90% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 90% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 100% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 100% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 110% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 110% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 120% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 120% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 130% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 130% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 140% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 140% of its ATK to adjacent units"}); 
-		descriptions.Add(new string[]{"Tue un allié distant qui inflige 150% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 150% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 60% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 60% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 70% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 70% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 80% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 80% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 90% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 90% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 100% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 100% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 110% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 110% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 120% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 120% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 130% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 130% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 140% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 140% of its ATK to adjacent units"}); 
+		descriptions.Add(new string[]{"Sacrifie un allié distant qui inflige 150% de son ATK aux unités adjacentes","Kill a distant ally and inflicts 150% of its ATK to adjacent units"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

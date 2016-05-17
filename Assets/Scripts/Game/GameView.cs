@@ -2794,8 +2794,9 @@ public class GameView : MonoBehaviour
 	}
     public void quitGameHandler()
     {
-        GameController.instance.quitGameHandler(this.areAllMyPlayersDead2());
+        GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
     }
+
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
         ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();

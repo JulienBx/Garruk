@@ -21,6 +21,7 @@ public class ArmureTech : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(31);
 		GameController.instance.endPlay();
 	}
 	
@@ -35,7 +36,7 @@ public class ArmureTech : GameSkill
 
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
-		SoundController.instance.playSound(31);
+
 	}
 
 	public override int getActionScore(Tile t, Skill s){

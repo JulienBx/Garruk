@@ -35,6 +35,7 @@ public class Antibiotique : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(31);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -44,7 +45,6 @@ public class Antibiotique : GameSkill
 		GameView.instance.getPlayingCardController(target).show();
 		GameView.instance.displaySkillEffect(target, "Succès\nEffets dissipés", 2);
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
-		SoundController.instance.playSound(31);
 	}	
 	
 	public override string getTargetText(int target){

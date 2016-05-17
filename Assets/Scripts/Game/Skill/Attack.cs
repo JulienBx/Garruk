@@ -29,6 +29,8 @@ public class Attack : GameSkill
 		else{
 			GameController.instance.applyOn(target);
 		}
+		GameController.instance.playSound(25);
+
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -59,7 +61,6 @@ public class Attack : GameSkill
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
-		SoundController.instance.playSound(25);
 
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<14){
 			GameView.instance.hitNextTutorial();
