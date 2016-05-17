@@ -48,7 +48,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         this.isWaiting = false ;
         this.waitingTime = 0f;
-        PhotonNetwork.room.open = false;
+        //PhotonNetwork.room.open = false;
         print("Je ferme la room LEAVE");
 
         PhotonNetwork.LeaveRoom ();

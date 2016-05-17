@@ -351,11 +351,11 @@ public class LoadingScreenController : MonoBehaviour
 					horizontalGap = 1.1f;
 					firstLineGap=1f;
 				}
-				this.myNameStartPosition=new Vector3(-2f*ApplicationDesignRules.worldWidth/2f,ApplicationDesignRules.worldHeight/2f-0.4f,0f);
+				this.myNameStartPosition=new Vector3(-3f*ApplicationDesignRules.worldWidth/2f,ApplicationDesignRules.worldHeight/2f-0.4f,0f);
 				this.myName.transform.localPosition=this.myNameStartPosition;
 				this.myNameEndPosition=new Vector3(0.2f-ApplicationDesignRules.worldWidth/2f,this.myNameStartPosition.y,0f);
 
-				this.hisNameStartPosition=new Vector3(2f*ApplicationDesignRules.worldWidth/2f,-ApplicationDesignRules.worldHeight/2f+0.4f,0f);
+				this.hisNameStartPosition=new Vector3(3f*ApplicationDesignRules.worldWidth/2f,-ApplicationDesignRules.worldHeight/2f+0.4f,0f);
 				this.hisName.transform.localPosition=this.hisNameStartPosition;
 				this.hisNameEndPosition=new Vector3(-0.2f+ApplicationDesignRules.worldWidth/2f,this.hisNameStartPosition.y,0f);
 
