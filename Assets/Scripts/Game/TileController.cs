@@ -522,11 +522,18 @@ public class TileController : GameObjectController
 					}
 					else if(GameView.instance.hasFightStarted && GameView.instance.getTileController(t).getIsDestination()==1){
 						if(ApplicationModel.player.ToLaunchGameTutorial){
-							if(GameView.instance.sequenceID==13){
-								if(this.tile.x==3 && this.tile.y==5){
+							if(GameView.instance.sequenceID==10){
+								if(x==3 && y==5){
 									GameController.instance.clickDestination(t, this.characterID, false);
+									GameView.instance.hitNextTutorial();
 								}
-							}	
+								else{
+									GameView.instance.dropCharacter(this.characterID); 
+								}
+							}
+							else{
+								GameView.instance.dropCharacter(this.characterID); 
+							}
 						}
 						else{
 							GameController.instance.clickDestination(t, this.characterID, false);
@@ -540,7 +547,6 @@ public class TileController : GameObjectController
 				}
 				else{
 					GameView.instance.dropCharacter(this.characterID);
-
 				}
 			}
 			else{

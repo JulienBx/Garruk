@@ -34,7 +34,7 @@ public class Justice : GameSkill
 	public override void applyOn(int target){
 		int targetMax = GameView.instance.getMaxPVCard();
 		int targetMin = GameView.instance.getMinPVCard();
-		int level = GameView.instance.getCurrentSkill().Power*2+10;
+		int level = GameView.instance.getCurrentSkill().Power*2+5;
 
 		int malus = Mathf.Min(GameView.instance.getCard(targetMax).getLife(),level);
 		GameView.instance.getPlayingCardController(targetMax).addDamagesModifyer(new Modifyer(malus,-1,1,"Attaque",malus+" dégats subis"), (targetMax==GameView.instance.getCurrentPlayingCard()), -1);
@@ -59,8 +59,8 @@ public class Justice : GameSkill
 		GameCard targetCardMax = GameView.instance.getCard(GameView.instance.getMaxPVCard());
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
-		int bonusMax = currentCard.getNormalDamagesAgainst(targetCardMax, 10+2*s.Power);
-		int bonusMin = Mathf.Min(targetCardMin.GetTotalLife()-targetCardMin.getLife(), 10+2*s.Power);
+		int bonusMax = currentCard.getNormalDamagesAgainst(targetCardMax, 5+2*s.Power);
+		int bonusMin = Mathf.Min(targetCardMin.GetTotalLife()-targetCardMin.getLife(), 5+2*s.Power);
 
 		if(targetCardMax.getLife()<=bonusMax){
 			if(targetCardMax.isMine){

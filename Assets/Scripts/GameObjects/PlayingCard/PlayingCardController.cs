@@ -143,12 +143,12 @@ public class PlayingCardController : GameObjectController
 		c.isMine = b ;
 		gameObject.transform.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[this.card.getSkills()[0].Id];
 		if (c.isMine){
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-0.5f,0.5f,0.5f);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[0];
 
 		}
 		else {
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(0.5f,0.5f,0.5f);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
 		}
 
@@ -537,12 +537,12 @@ public class PlayingCardController : GameObjectController
 			this.showIcons();
 		}
 		if (this.card.isMine){
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(-0.5f,0.5f,0.5f);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[0];
 
 		}
 		else {
-			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(1,1,1);
+			gameObject.transform.Find("Background").FindChild("Character").transform.localScale = new Vector3(0.5f,0.5f,0.5f);
 			gameObject.transform.Find("Background").FindChild("Circle").GetComponent<SpriteRenderer>().sprite = this.backgroundSprites[1];
 		}
 	}

@@ -13,6 +13,7 @@ public class Attack : GameSkill
 	
 	public override void launch()
 	{
+		Debug.Log("Launch");
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets();
 	}

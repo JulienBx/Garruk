@@ -707,23 +707,25 @@ public class GameView : MonoBehaviour
 	}
 
 	public void mobileClick(int characterID){
+		if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID==7 || this.sequenceID>22){
+			SoundController.instance.playSound(21);
+			if (this.getPlayingCardController(characterID).getIsMine()){	
+				this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+			}
+			else{
+				this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
+			}
+			
+			if(this.hasFightStarted && this.hoveringZone==-1){
+				this.removeDestinations();
+				if(!this.getCard(characterID).isSniperActive()){
+					this.displayDestinations(characterID);
+				}
+			}
+		}
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			if(this.sequenceID==7){
 				this.hitNextTutorial();
-			}
-		}
-		SoundController.instance.playSound(21);
-		if (this.getPlayingCardController(characterID).getIsMine()){	
-			this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
-		}
-		else{
-			this.getHisHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
-		}
-		
-		if(this.hasFightStarted && this.hoveringZone==-1){
-			this.removeDestinations();
-			if(!this.getCard(characterID).isSniperActive()){
-				this.displayDestinations(characterID);
 			}
 		}
 	}
@@ -1801,28 +1803,37 @@ public class GameView : MonoBehaviour
 		GameObject tempGO = GameObject.Find("MyPlayerBox");
 		position = tempGO.transform.position ;
 		if(this.isMobile){
+			position.x=-realwidth/2f+1;
+			tempGO.transform.position = position;
 			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = false ;
 			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = false ;
 		}
 		else{
+			position.x=-realwidth/2f;
+			tempGO.transform.position = position;
 			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = true ;
 			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
 		}
-		position.x=-realwidth/2f;
-		tempGO.transform.position = position;
+
 		tempGO.transform.FindChild("MyPlayerName").GetComponent<TextContainer>().width = realwidth/2f-4 ;
 		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(realwidth/2f-4f,0f,0f) ;
 
 		tempGO = GameObject.Find("HisPlayerName");
-		position = tempGO.transform.position ;
-		position.x = 0.48f*this.realwidth;
-		tempGO.transform.position = position;
+
 		tempGO.GetComponent<TextContainer>().width = realwidth/2f-4 ;
 		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(-realwidth/2f+4f,0f,0f) ;
 		if(this.isMobile){
-			tempGO.GetComponent<MeshRenderer>().enabled = false ;
+			position = tempGO.transform.position ;
+			position.x = 0.48f*this.realwidth;
+			tempGO.transform.position = position;
+
+			tempGO.transform.position = position;tempGO.GetComponent<MeshRenderer>().enabled = false ;
 		}
 		else{
+			position = tempGO.transform.position ;
+			position.x = 0.48f*this.realwidth-1;
+			tempGO.transform.position = position;
+
 			tempGO.GetComponent<MeshRenderer>().enabled = true ;
 		}
 
@@ -2075,7 +2086,7 @@ public class GameView : MonoBehaviour
 	
 	public void displayDestinations(int c)
 	{
-		if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving()){
+		if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
 			int i = -1;
 			if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
 				if(this.getCard(c).isMine){
@@ -2744,7 +2755,7 @@ public class GameView : MonoBehaviour
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
 
-		if(this.areAllMyPlayersDead()){
+		if(this.areAllMyPlayersDead() || (this.areAllHisPlayersDead() && ApplicationModel.player.ToLaunchGameIA)){
 			GameView.instance.quitGameHandler();
 		}
 		else{
@@ -2783,7 +2794,7 @@ public class GameView : MonoBehaviour
 	}
     public void quitGameHandler()
     {
-        GameController.instance.quitGameHandler(this.isFirstPlayer);
+        GameController.instance.quitGameHandler(this.areAllMyPlayersDead());
     }
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
@@ -3053,6 +3064,41 @@ public class GameView : MonoBehaviour
 			areMyPlayersDead = true ;
 			for (int i = 0 ; i < 8 ; i++){
 				if (this.getCard(i).isMine){
+					if (!this.getCard(i).isDead){
+						areMyPlayersDead = false ;
+					}
+				}
+			}
+		}
+		return areMyPlayersDead ;
+	}
+
+	public bool areAllHisPlayersDead(){
+		bool areMyPlayersDead = true ;
+		if(ApplicationModel.player.ToLaunchGameTutorial){
+			areMyPlayersDead = false ;
+			for (int i = 0 ; i < 8 ; i++){
+				if (this.getCard(i).isMine){
+					if (!this.getCard(i).isDead){
+						areMyPlayersDead = false ;
+					}
+				}
+			}
+			if(!areMyPlayersDead){
+				areMyPlayersDead = true ;
+				for (int i = 0 ; i < 8 ; i++){
+					if (!this.getCard(i).isMine){
+						if (!this.getCard(i).isDead){
+							areMyPlayersDead = false ;
+						}
+					}
+				}
+			}
+		}
+		else{
+			areMyPlayersDead = true ;
+			for (int i = 0 ; i < 8 ; i++){
+				if (!this.getCard(i).isMine){
 					if (!this.getCard(i).isDead){
 						areMyPlayersDead = false ;
 					}
@@ -3499,22 +3545,26 @@ public class GameView : MonoBehaviour
 	public void dropSkillButton(int i){
 		Vector3 mousePos;
 		if(i==0){
-			mousePos = new Vector3(1.6f+stepButton, -4.4f, 0f);
+			mousePos = new Vector3(-1.5f*this.tileScale, 0.1f, 0f);
 		}
 		else if(i==1){
-			mousePos = new Vector3(2.6f+stepButton, -4.4f, 0f);
+			mousePos = new Vector3(-0.5f*this.tileScale, 0.1f, 0f);
 		}
 		else if(i==2){
-			mousePos = new Vector3(3.6f+stepButton, -4.4f, 0f);
+			mousePos = new Vector3(0.5f*this.tileScale, 0.1f, 0f);
 		}
 		else {
-			mousePos = new Vector3(0.5f+stepButton, -4.4f, 0f);
+			mousePos = new Vector3(-2.5f*this.tileScale, 0.1f, 0f);
 		}
 
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition4(mousePos);
 		this.getSkillZoneController().getSkillButtonController(draggingSkillButton).showDescription(false);
 		this.hideTargets();
-		this.cancelSkill();
+		if(this.runningSkill!=-1){
+			if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
+				this.cancelSkill();
+			}
+		}
 		this.draggingSkillButton=-1;
 	}
 
@@ -3602,6 +3652,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void hitNextTutorial(){
+		print("HITNEXT");
 		if(!GameView.instance.isMobile){
 			if(this.sequenceID==0){
 				this.initGrid();
@@ -3808,26 +3859,26 @@ public class GameView : MonoBehaviour
 			else if(this.sequenceID==10){
 				string text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacez la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
 				
-				this.gameTutoController.setCompanion(text, false, false, true, 2);
+				this.gameTutoController.setCompanion(text, false, true, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, this.realwidth, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("down",new Vector3(-2.5f*this.tileScale,-4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==11){
-				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
+				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==12){
 				this.hideSkillEffects();
 				this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
-				this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
+				this.gameTutoController.setBackground(true, new Rect(0f, 2.5f+2*this.tileScale, 6f*this.tileScale, 5-4*this.tileScale), 0f, 0f);
 				this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==13){
 				this.gameTutoController.showSequence(false, false, false);
-				GameController.instance.findNextPlayer (true);
+				this.setNextPlayer(true);
 			}
 			else if(this.sequenceID==14){
 				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
@@ -3850,6 +3901,7 @@ public class GameView : MonoBehaviour
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==18){
+				this.displayDestinations(this.currentPlayingCard);
 				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));

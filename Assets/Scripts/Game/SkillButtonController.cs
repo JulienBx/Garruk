@@ -136,6 +136,11 @@ public class SkillButtonController : MonoBehaviour
 			if(!GameView.instance.isMobile){
 				GameSkills.instance.getSkill(this.skill.Id).launch();
 			}
+			else{
+				if(!GameSkills.instance.getSkill(this.skill.Id).auto){
+					GameSkills.instance.getSkill(this.skill.Id).launch();
+				}
+			}
 		}
 		else{
 			SoundController.instance.playSound(22);
@@ -161,7 +166,12 @@ public class SkillButtonController : MonoBehaviour
 
 			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
 				if(GameSkills.instance.getCurrentGameSkill().auto){
-					GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
+					if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
+						GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
+					}
+					else{
+						GameSkills.instance.getCurrentGameSkill().launch();
+					}
 					GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(false);
 					GameView.instance.dropSkillButton(this.id);
 					SoundController.instance.playSound(24);
@@ -170,24 +180,28 @@ public class SkillButtonController : MonoBehaviour
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
+						print("DROP2");
+				
 						SoundController.instance.playSound(24);
-
 					}
 					else{
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
+						print("DROP3");
 						SoundController.instance.playSound(24);
 					}
 				}
 				else{
 					GameView.instance.dropSkillButton(this.id);
 					SoundController.instance.playSound(22);
+					print("DROP4");
 					GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 				}
 			}
 			else{
 				GameView.instance.dropSkillButton(this.id);
 				SoundController.instance.playSound(22);
+				print("DROP5");
 				GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 			}
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
@@ -197,7 +211,7 @@ public class SkillButtonController : MonoBehaviour
 	public void setPosition3(Vector3 p){
 		p.z = -0.5f;
 		p.x -= GameView.instance.stepButton;
-		p.y+=0.5f;
+		p.y+=5f;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
 	}
 

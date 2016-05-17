@@ -119,24 +119,26 @@ public class Mitraillette : GameSkill
 			}
 		}
 
-		for(int i = 0 ; i < targets.Count ; i++){
-			targetCard = GameView.instance.getCard(targets[i]);
-			levelMin = 1;
-			levelMax = Mathf.FloorToInt((5+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		if(targets.Count>0){
+			for(int i = 0 ; i < targets.Count ; i++){
+				targetCard = GameView.instance.getCard(targets[i]);
+				levelMin = 1;
+				levelMax = Mathf.FloorToInt((5+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
-			if(currentCard.isFou()){
-				levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				if(currentCard.isFou()){
+					levelMax = Mathf.RoundToInt(1.25f*levelMax);
+				}
+
+				if(targetCard.isMine){
+					score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+				}
+				else{
+					score-=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+				}
 			}
 
-			if(targetCard.isMine){
-				score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
-			}
-			else{
-				score-=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
-			}
+			score = Mathf.RoundToInt(score/targets.Count);
 		}
-
-		score = Mathf.RoundToInt(score/targets.Count);
 
 		if(currentCard.isFou()){
 			int damages = 11-currentCard.Skills[0].Power;
