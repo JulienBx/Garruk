@@ -165,7 +165,22 @@ public class SkillButtonController : MonoBehaviour
 			}
 
 			if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
-				if(GameSkills.instance.getCurrentGameSkill().auto){
+				if(GameView.instance.hoveringZone!=-1){
+					if(GameView.instance.hoveringZone==1){
+						GameView.instance.hitTarget(new Tile(x,y));
+						this.showDescription(false);
+					}
+					else if(GameView.instance.hoveringZone==2){
+						Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+						if(x == currentTile.x || y == currentTile.y){
+							if(x != currentTile.x || y != currentTile.y){
+								GameView.instance.hitTarget(new Tile(x,y));
+								this.showDescription(false);
+							}
+						}
+					}
+				}
+				else if(GameSkills.instance.getCurrentGameSkill().auto){
 					if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
 						GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					}
@@ -180,21 +195,18 @@ public class SkillButtonController : MonoBehaviour
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
-						print("DROP2");
-				
+
 						SoundController.instance.playSound(24);
 					}
 					else{
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
-						print("DROP3");
 						SoundController.instance.playSound(24);
 					}
 				}
 				else{
 					GameView.instance.dropSkillButton(this.id);
 					SoundController.instance.playSound(22);
-					print("DROP4");
 					GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 				}
 			}

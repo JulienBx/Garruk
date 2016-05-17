@@ -96,7 +96,7 @@ public class HoveredCardController : MonoBehaviour
 			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f);
 		}
-		else if(c.Skills[0].Level<9){
+		else if(c.Skills[0].Power<9){
 			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 		}

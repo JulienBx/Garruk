@@ -7,7 +7,7 @@ public class Protection : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Protection";
 		base.ciblage = 0 ;
-		base.auto = auto;
+		base.auto = true;
 		base.id = 29 ;
 	}
 	

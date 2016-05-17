@@ -2755,7 +2755,7 @@ public class GameView : MonoBehaviour
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
 
-		if(this.areAllMyPlayersDead() || (this.areAllHisPlayersDead() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
+		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
 			GameView.instance.quitGameHandler();
 		}
 		else{
@@ -2794,7 +2794,7 @@ public class GameView : MonoBehaviour
 	}
     public void quitGameHandler()
     {
-        GameController.instance.quitGameHandler(this.areAllMyPlayersDead());
+        GameController.instance.quitGameHandler(this.areAllMyPlayersDead2());
     }
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
@@ -3038,7 +3038,7 @@ public class GameView : MonoBehaviour
 		return compteur ;
 	}
 	
-	public bool areAllMyPlayersDead(){
+	public bool areAllMyPlayersDead2(){
 		bool areMyPlayersDead = true ;
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			areMyPlayersDead = false ;
@@ -3073,7 +3073,7 @@ public class GameView : MonoBehaviour
 		return areMyPlayersDead ;
 	}
 
-	public bool areAllHisPlayersDead(){
+	public bool areAllHisPlayersDead2(){
 		bool areMyPlayersDead = true ;
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			areMyPlayersDead = false ;
@@ -3381,7 +3381,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setHoveringZone(int i, string t, string d){
-		print("SETHO");
 		this.hoveringZone = i ;
 		if(i>0){
 			for (int a = 0; a < this.boardWidth; a++){

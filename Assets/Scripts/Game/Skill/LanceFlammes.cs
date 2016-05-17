@@ -8,7 +8,7 @@ public class LanceFlammes : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Lanceflammes";
 		base.ciblage = -2 ;
-		base.auto = true;
+		base.auto = false;
 		base.id = 27 ;
 	}
 	

@@ -269,6 +269,7 @@ public class GameSkill
 		string text = "Echec "+s;
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addSE(GameView.instance.getTile(target));
+		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		SoundController.instance.playSound(27);
 	}
 

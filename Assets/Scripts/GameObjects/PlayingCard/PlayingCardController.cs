@@ -691,8 +691,9 @@ public class PlayingCardController : GameObjectController
 				GameView.instance.recalculateDestinations();
 				GameView.instance.removeDead(this.id);
 			}
-			if(GameView.instance.areAllMyPlayersDead()){
+			if(GameView.instance.areAllMyPlayersDead2() || (GameView.instance.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
 				GameView.instance.quitGameHandler();
+			
 			}
 		}
 	}

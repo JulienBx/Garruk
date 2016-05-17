@@ -286,7 +286,65 @@ public class TileController : GameObjectController
 		if(!ApplicationModel.player.ToLaunchGameTutorial || GameView.instance.sequenceID>5){
 			if(GameView.instance.isMobile){
 				if(GameView.instance.draggingSkillButton!=-1){
-					if(this.isDisplayingTarget){
+					if(GameView.instance.hoveringZone!=-1){
+						if(GameView.instance.hoveringZone==1){
+							GameView.instance.hideAllTargets();
+							this.setTargetSprite(3) ;
+							if(this.tile.x<GameView.instance.boardWidth-1){
+								GameView.instance.getTileController(new Tile(this.tile.x+1, this.tile.y)).setTargetSprite(3);
+							}
+							if(this.tile.x>0){
+								GameView.instance.getTileController(new Tile(this.tile.x-1, this.tile.y)).setTargetSprite(3);
+							}
+							if(this.tile.y<GameView.instance.boardHeight-1){
+								GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y+1)).setTargetSprite(3);
+							}
+							if(this.tile.y>0){
+								GameView.instance.getTileController(new Tile(this.tile.x, this.tile.y-1)).setTargetSprite(3);
+							}
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+						}
+						else if(GameView.instance.hoveringZone==2){
+							GameView.instance.hideAllTargets();
+							Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+							if(this.tile.x == currentTile.x || this.tile.y == currentTile.y){
+								if(this.tile.x != currentTile.x || this.tile.y != currentTile.y){
+									GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
+									if(this.tile.x==currentTile.x){
+										if(this.tile.y<currentTile.y){
+											for(int i = currentTile.y-1 ; i>=0 ; i--){
+												GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+											}
+										}
+										else if(this.tile.y>currentTile.y){
+											for(int i = currentTile.y+1 ; i<GameView.instance.boardHeight ; i++){
+												GameView.instance.getTileController(new Tile(this.tile.x, i)).setTargetSprite(3);
+											}
+										}
+									}
+									else if(this.tile.y==currentTile.y){
+										if(this.tile.x<currentTile.x){
+											for(int i = currentTile.x-1 ; i>=0 ; i--){
+												GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+											}
+										}
+										else if(this.tile.x>currentTile.x){
+											for(int i = currentTile.x+1 ; i<GameView.instance.boardWidth ; i++){
+												GameView.instance.getTileController(new Tile(i, this.tile.y)).setTargetSprite(3);
+											}
+										}
+									} 
+								}
+								else{
+									GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+								}
+							}
+							else{
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
+							}
+						}
+					}
+					else if(this.isDisplayingTarget){
 						SoundController.instance.playSound(32);
 						if(this.characterID!=-1){
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(this.characterID));
@@ -306,7 +364,7 @@ public class TileController : GameObjectController
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 					}
-					else{
+					else if(GameView.instance.runningSkill!=-1){
 						if(GameSkills.instance.getCurrentGameSkill().auto){
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 						}
