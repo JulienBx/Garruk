@@ -48,7 +48,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         this.isWaiting = false ;
         this.waitingTime = 0f;
-        //PhotonNetwork.room.open = false;
         print("Je ferme la room LEAVE");
 
         PhotonNetwork.LeaveRoom ();
@@ -110,10 +109,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 
     IEnumerator loadGame(){
-    	this.async=new AsyncOperation();
-        this.async = SceneManager.LoadSceneAsync("Game");
-        this.async.allowSceneActivation = false ;
-        yield return async ;
+    	if(async==null)
+    	{
+    		this.async=new AsyncOperation();
+        	this.async = SceneManager.LoadSceneAsync("Game");
+        	this.async.allowSceneActivation = false ;
+        	yield return async ;
+        }
+        yield break;
     }
 
     void OnJoinedRoom(){
