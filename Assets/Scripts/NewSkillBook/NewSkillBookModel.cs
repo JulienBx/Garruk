@@ -149,7 +149,6 @@ public class NewSkillBookModel
 				{
 					this.skillsList[i].Level=this.ownSkillsList[j].Level;
 					this.skillsList[i].Power=this.ownSkillsList[j].Power;
-					break;
 				}
 			}
 		}
