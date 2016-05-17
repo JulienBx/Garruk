@@ -42,6 +42,12 @@ public class ApplicationModel
 
     static public float timeAppModel ;
 
+	#if (UNITY_EDITOR)
+    static public int[] onlineStatus;
+	static public string[] onlineCheck;
+	#endif
+
+
 	//static public bool isFirstPlayer; // A REMPLACER PAR ApplicationModel.player.IsFirstPlayer
 	//static public bool launchGameTutorial; // A REMPLACER PAR ApplicationModel.player.ToLaunchGameTutorial
 	//static public int gameType; // A REMPLACER PAR ApplicationModel.player.ChosenGameType
@@ -61,6 +67,18 @@ public class ApplicationModel
 		timeOutDelay=10f;
         currentGameId=-1;
 		player=new Player();
+
+		#if (UNITY_EDITOR)
+		onlineCheck=new string[3];
+		onlineCheck[0]="guillaume";
+		onlineCheck[1]="julien";
+		onlineCheck[2]="yoann";
+		onlineStatus=new int[3];
+		onlineStatus[0]=0;
+		onlineStatus[1]=0;
+		onlineStatus[2]=0;
+		#endif
+
 	}
 
     static public string Encrypt(string plainText)

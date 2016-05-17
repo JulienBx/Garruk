@@ -46,6 +46,11 @@ public class BackOfficeController : MonoBehaviour
 	private float collectionPointsTimer;
 	private float refreshInterval;
 
+	#if (UNITY_EDITOR)
+	private float checkOnlineTimer;
+	private float checkOnlineRefreshInterval;
+	#endif
+
     private AsyncOperation async;
 
 	public virtual void Update()
@@ -107,6 +112,19 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.drawToolTip();
 		}
+
+		#if (UNITY_EDITOR)
+		if(ApplicationModel.player.IsAdmin)
+		{
+			checkOnlineTimer=checkOnlineTimer+Time.deltaTime;
+			if(checkOnlineTimer>refreshInterval)
+			{
+				this.checkOnlineTimer=0;
+				this.checkOnlineStatus();
+			}
+		}
+		#endif
+
 	}
 	public virtual void initialize()
 	{
@@ -120,6 +138,10 @@ public class BackOfficeController : MonoBehaviour
 		this.isMenuLoaded=false;
 		this.timer=0f;
 		this.speed=5f;
+		#if (UNITY_EDITOR)
+		this.checkOnlineTimer=0f;
+		this.checkOnlineRefreshInterval=5f;
+		#endif
 		this.refreshInterval=5f;
 		this.isRefreshing=false;
 		this.toolTip=this.gameObject.transform.FindChild("toolTip").gameObject;
@@ -781,5 +803,58 @@ public class BackOfficeController : MonoBehaviour
 	}
 
 	#endregion
+
+	#if (UNITY_EDITOR)
+	private void checkOnlineStatus()
+	{
+		if(PhotonNetwork.insideLobby)
+		{
+			PhotonNetwork.FindFriends (ApplicationModel.onlineCheck);
+		}
+	}
+
+	public void OnUpdatedFriendList()
+	{
+		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
+		{
+			for(int j=0;j<ApplicationModel.onlineCheck.Length;j++)
+			{
+				if(ApplicationModel.onlineCheck[j]==PhotonNetwork.Friends[i].Name)
+				{
+					if(PhotonNetwork.Friends[i].IsInRoom)
+					{
+						if(ApplicationModel.onlineStatus[j]!=2)
+						{
+							ApplicationModel.onlineStatus[j]=2;
+							SoundController.instance.playSound(11);
+							print(ApplicationModel.onlineCheck[j] + " a rejoint un match");
+						}
+					}
+					else if(PhotonNetwork.Friends[i].IsOnline)
+					{
+						if(ApplicationModel.onlineStatus[j]!=1)
+						{
+							ApplicationModel.onlineStatus[j]=1;
+							SoundController.instance.playSound(11);
+							print(ApplicationModel.onlineCheck[j] + " a rejoint le lobby");
+						}
+					}
+					else if(!PhotonNetwork.Friends[i].IsOnline && !PhotonNetwork.Friends[i].IsInRoom)
+					{
+						if(ApplicationModel.onlineStatus[j]!=0)
+						{
+							ApplicationModel.onlineStatus[j]=0;
+							SoundController.instance.playSound(11);
+							print(ApplicationModel.onlineCheck[j] + " a quitté le jeu");
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
+
+	#endif
+
 }
 

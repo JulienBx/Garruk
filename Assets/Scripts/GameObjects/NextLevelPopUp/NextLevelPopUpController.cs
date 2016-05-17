@@ -73,15 +73,24 @@ public class NextLevelPopUpController : MonoBehaviour
 			canUpgrade=true;
 
 		}
-		if(c.AttackNbUpgrades==1)
+		if(c.AttackNbUpgrades==0)
+		{
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade1").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade2").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade3").gameObject.SetActive(false);
+		}
+		else if(c.AttackNbUpgrades==1)
 		{
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade1").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade2").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade3").gameObject.SetActive(false);
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(1);
 		}
 		else if(c.AttackNbUpgrades==2)
 		{
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade1").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade2").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade3").gameObject.SetActive(false);
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
 		}
@@ -94,15 +103,24 @@ public class NextLevelPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
 			this.gameObject.transform.FindChild("AttackButton").FindChild("upgrade3").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
 		}
-		if(c.LifeNbUpgrades==1)
+		if(c.LifeNbUpgrades==0)
+		{
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade1").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade2").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade3").gameObject.SetActive(false);
+		}
+		else if(c.LifeNbUpgrades==1)
 		{
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade1").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade2").gameObject.SetActive(false);
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade3").gameObject.SetActive(false);
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(1);
 		}
 		else if(c.LifeNbUpgrades==2)
 		{
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade1").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade2").gameObject.SetActive(true);
+			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade3").gameObject.SetActive(false);
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
 			this.gameObject.transform.FindChild("LifeButton").FindChild("upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
 		}
@@ -118,6 +136,37 @@ public class NextLevelPopUpController : MonoBehaviour
 
 		for(int i=0;i<4;i++)
 		{
+			if(c.Skills[i].Upgrades==0)
+			{
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade3").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
+			}
+			if(c.Skills[i].Upgrades==1)
+			{
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade3").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(1);
+			}
+			if(c.Skills[i].Upgrades==2)
+			{
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade3").gameObject.SetActive(false);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
+			}
+			if(c.Skills[i].Upgrades==3)
+			{
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade3").gameObject.SetActive(true);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
+				gameObject.transform.FindChild("Skill"+i+"Upgrade3").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
+			}
 			if(i<c.Skills.Count && c.Skills[i].IsActivated==1 && c.Skills[i].Power!=10 && c.Skills[i].Upgrades<3)
 			{
 				gameObject.transform.FindChild("Skill"+i).gameObject.SetActive(true);
@@ -128,22 +177,6 @@ public class NextLevelPopUpController : MonoBehaviour
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Name").GetComponent<TextMeshPro> ().text = WordingSkills.getName(c.Skills[i].Id);
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Power").GetComponent<TextMeshPro> ().text = WordingNextLevelPopUp.getReference(15)+c.Skills[i].Power.ToString();
 				gameObject.transform.FindChild("Skill"+i).FindChild ("Description").GetComponent<TextMeshPro> ().text = this.c.getSkillText(WordingSkills.getDescription(this.c.Skills[i].Id,this.c.Skills[i].Power-1));
-				if(i==0)
-				{
-					gameObject.transform.FindChild("Skill"+i).GetComponent<SpriteRenderer>().color=new Color(0f,0f,0f);
-				}
-				if(c.Skills[i].Upgrades==1)
-				{
-					gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(1);
-				}
-				if(c.Skills[i].Upgrades==2)
-				{
-					gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(2);
-				}
 				canUpgrade=true;
 			}
 			else
@@ -162,9 +195,6 @@ public class NextLevelPopUpController : MonoBehaviour
 				{
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(9);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade1").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade2").gameObject.SetActive(true);
-					gameObject.transform.FindChild("Skill"+i+"Upgrade3").gameObject.SetActive(true);
 					gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
 					gameObject.transform.FindChild("Skill"+i+"Upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
 					gameObject.transform.FindChild("Skill"+i+"Upgrade3").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);

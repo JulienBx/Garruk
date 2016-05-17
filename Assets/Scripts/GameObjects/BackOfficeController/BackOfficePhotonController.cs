@@ -529,7 +529,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
 				string[] hisDeckData = data[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
 				for(int i = 0 ; i < hisDeckData.Length ; i++){
 					ApplicationModel.opponentDeck.cards.Add(new Card());
-					ApplicationModel.opponentDeck.cards[i].parseCard(myDeckData[i]);
+					ApplicationModel.opponentDeck.cards[i].parseCard(hisDeckData[i]);
 					ApplicationModel.opponentDeck.cards[i].deckOrder=i;
 				}
 			}
