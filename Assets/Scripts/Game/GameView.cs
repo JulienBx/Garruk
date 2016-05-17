@@ -3904,7 +3904,7 @@ public class GameView : MonoBehaviour
 				this.displayDestinations(this.currentPlayingCard);
 				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
+				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.45f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==19){
