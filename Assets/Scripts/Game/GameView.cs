@@ -2720,6 +2720,7 @@ public class GameView : MonoBehaviour
 				if(this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
+					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
@@ -2731,6 +2732,7 @@ public class GameView : MonoBehaviour
 				if(!this.getCard(j).isMine && target!=j){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
+					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
