@@ -48,7 +48,6 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     {
         this.isWaiting = false ;
         this.waitingTime = 0f;
-        PhotonNetwork.room.open = false;
         print("Je ferme la room LEAVE");
 
         PhotonNetwork.LeaveRoom ();
@@ -64,6 +63,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         print("Jessaye de join une room");
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
+        this.toLoadScene=false;
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
@@ -89,6 +89,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
+        this.toLoadScene=false;
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -108,9 +109,14 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 
     IEnumerator loadGame(){
-        this.async = SceneManager.LoadSceneAsync("Game");
-        this.async.allowSceneActivation = false ;
-        yield return async ;
+    	if(async==null)
+    	{
+    		this.async=new AsyncOperation();
+        	this.async = SceneManager.LoadSceneAsync("Game");
+        	this.async.allowSceneActivation = false ;
+        	yield return async ;
+        }
+        yield break;
     }
 
     void OnJoinedRoom(){
