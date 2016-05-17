@@ -738,7 +738,7 @@ public class BackOfficeController : MonoBehaviour
 			}
 			MenuController.instance.refreshMenuObject();
 		}
-		if(ApplicationModel.player.IsInvited && !this.isInvitationPopUpDisplayed && !ApplicationModel.player.IsInviting && !ApplicationModel.player.IsBusy)
+		if(ApplicationModel.player.IsInvited && !this.isInvitationPopUpDisplayed && !ApplicationModel.player.IsInviting && !ApplicationModel.player.IsBusy && !PhotonNetwork.inRoom)
 		{
 			if(this.isPlayPopUpDisplayed)
 			{
@@ -791,9 +791,18 @@ public class BackOfficeController : MonoBehaviour
     }
     private IEnumerator preLoadScene(string sceneName) 
     {
-         async = Application.LoadLevelAsync(sceneName);
-         async.allowSceneActivation = true;
-         yield return async;
+    	if(photon.async==null)
+    	{
+			async = Application.LoadLevelAsync(sceneName);
+         	async.allowSceneActivation = true;
+         	yield return async;
+    	}
+    	else
+    	{
+    		SceneManager.LoadScene(sceneName);
+    		yield break;
+    	}
+         
      }
 	#region TUTORIAL FUNCTIONS
 
