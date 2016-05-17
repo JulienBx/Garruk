@@ -2758,7 +2758,7 @@ public class GameView : MonoBehaviour
 		this.deads.Add(c);
 
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
-			GameView.instance.quitGameHandler();
+			GameView.instance.quitGameHandler(true);
 		}
 		else{
 			this.updateTimeline();
@@ -2794,9 +2794,14 @@ public class GameView : MonoBehaviour
             ServerController.instance.lostConnection();
         }
 	}
-    public void quitGameHandler()
+    public void quitGameHandler(bool b)
     {
+   		if(b){
         GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
+        }
+        else{
+			GameController.instance.quitGameHandler(this.isFirstPlayer);
+        }
     }
 
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
@@ -3409,7 +3414,7 @@ public class GameView : MonoBehaviour
 	public void hideEndTurnPopUp(){
 		this.isFreezed = false ;
 		Tile t ;
-		int amount = 10 ;
+		int amount = 5 ;
 		int amount2 ; 
 		int bonus = this.getBonusMeteorites();
 
@@ -3524,6 +3529,44 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+
+		if(nbTurns>=4){
+			for(int i = 0 ; i < boardWidth ; i++){
+				t = new Tile(i,3);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-3));
+					}
+					else{
+						amount2 = amount *(nbTurns-3);
+					}
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+				}
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(3,t);
+				}
+				t = new Tile(i,boardHeight-4);
+				if(this.getTileController(t).getCharacterID()!=-1){
+					if(this.getCard(this.getTileController(t).getCharacterID()).isSniperActive()){
+						amount2 = Mathf.RoundToInt((0.5f-0.05f*this.getCard(this.getTileController(t).getCharacterID()).Skills[0].Power)*amount*(nbTurns-3));
+					}
+					else{
+						amount2 = amount*(nbTurns-3) ;
+					}
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+				}
+				else{
+					GameView.instance.displaySkillEffect(t, "", 0);
+					GameView.instance.addAnim(3,t);
+				}
+			}
+		}
+
 		this.isChangingTurn = false;
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<24){
 				

@@ -450,7 +450,7 @@ public class GameCard : Card
 		{
 			if(pvModifyers[i].type==76){
 				if(this.getLife()-pvModifyers[i].amount<1){
-					pvModifyers[i].amount = 1;
+					pvModifyers[i].amount = pvModifyers[i].amount- this.getLife()+1;
 				}
 				else{
 					pvModifyers.RemoveAt(i);

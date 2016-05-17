@@ -73,7 +73,7 @@ public class ArtificialIntelligence : MonoBehaviour
 		GameCard targetCard ;
 		int minDistanceOpponent = -1 ;
 
-		int amount = 10 ;
+		int amount = 5 ;
 		int bonusM = GameView.instance.getBonusMeteorites();
 		amount = Mathf.RoundToInt(amount * bonusM / 100f);
 		int lifeBonus ;
@@ -121,6 +121,14 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 						else{
 							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+						}
+					}
+					else if((emplacements[i].y==4 || emplacements[i].y==3)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
+							passiveScore-=500;
+						}
+						else{
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
 						}
 					}
 
@@ -385,6 +393,14 @@ public class ArtificialIntelligence : MonoBehaviour
 							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
 						}
 					}
+					else if((emplacements[i].y==4 || emplacements[i].y==3)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
+							passiveScore-=500;
+						}
+						else{
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
+						}
+					}
 				
 					if(passiveSkill.Id!=141){
 						minDistanceOpponent = GameView.instance.getMinDistanceOpponent(emplacements[i], GameView.instance.getCurrentPlayingCard());
@@ -481,6 +497,14 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 					else{
 						passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+					}
+				}
+				else if((emplacements[i].y==4 || emplacements[i].y==3)){
+					if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
+						passiveScore-=500;
+					}
+					else{
+						passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
 					}
 				}
 			
