@@ -3462,6 +3462,7 @@ MonoBehaviour:
   - {fileID: 21300122, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300124, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   cardTypesPictos:
   - {fileID: 21300008, guid: fc5e269ca67b74355a1e8521b84b2d19, type: 3}
   - {fileID: 21300002, guid: fc5e269ca67b74355a1e8521b84b2d19, type: 3}
@@ -3618,6 +3619,7 @@ MonoBehaviour:
   - {fileID: 21300042, guid: a441a5778e848d542a1dc943514f1e8a, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300044, guid: a441a5778e848d542a1dc943514f1e8a, type: 3}
   largeCardsCaracters:
   - {fileID: 0}
   - {fileID: 0}
@@ -3763,6 +3765,7 @@ MonoBehaviour:
   - {fileID: 21300042, guid: 6d66ae4680f644018a11386266e41346, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300044, guid: 6d66ae4680f644018a11386266e41346, type: 3}
   caractersAvatars:
   - {fileID: 0}
   - {fileID: 0}
