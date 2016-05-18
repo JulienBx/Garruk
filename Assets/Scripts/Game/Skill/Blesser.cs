@@ -37,6 +37,7 @@ public class Blesser : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(25);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -56,7 +57,6 @@ public class Blesser : GameSkill
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
-		SoundController.instance.playSound(25);
 	}
 	
 	public override string getTargetText(int target){

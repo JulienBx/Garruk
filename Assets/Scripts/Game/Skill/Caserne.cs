@@ -23,6 +23,7 @@ public class Caserne : GameSkill
 		int amount = 2+GameView.instance.getCurrentSkill().Power;
 		GameController.instance.addCaserne(amount, targetsTile[0]);
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(28);
 		GameController.instance.endPlay();
 	}
 
@@ -35,7 +36,7 @@ public class Caserne : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
-		SoundController.instance.playSound(28);
+
 	}
 
 	public override int getActionScore(Tile t, Skill s){

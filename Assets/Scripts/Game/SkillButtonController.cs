@@ -68,6 +68,7 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void showDescription(bool b){
+		print(b);
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b ;
@@ -168,7 +169,7 @@ public class SkillButtonController : MonoBehaviour
 				if(GameView.instance.hoveringZone!=-1){
 					if(GameView.instance.hoveringZone==1){
 						GameView.instance.hitTarget(new Tile(x,y));
-						GameView.instance.hoveringZone=-1;
+						GameView.instance.draggingSkillButton=-1;
 						this.showDescription(false);
 					}
 					else if(GameView.instance.hoveringZone==2){
@@ -177,6 +178,7 @@ public class SkillButtonController : MonoBehaviour
 							if(x != currentTile.x || y != currentTile.y){
 								GameView.instance.hitTarget(new Tile(x,y));
 								GameView.instance.hoveringZone=-1;
+								GameView.instance.draggingSkillButton=-1;
 								this.showDescription(false);
 							}
 						}

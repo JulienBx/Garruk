@@ -34,6 +34,8 @@ public class Cannibale : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+
+		GameController.instance.playSound(37);
 		GameController.instance.applyOnMe(target);
 		GameController.instance.endPlay();
 	}
@@ -88,7 +90,7 @@ public class Cannibale : GameSkill
 		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(targetMe, text, 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(targetMe));
-		SoundController.instance.playSound(37);
+
 	}
 
 	public override int getActionScore(Tile t, Skill s){
