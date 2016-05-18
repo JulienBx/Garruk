@@ -204,11 +204,13 @@ public class Player : User
 		
 		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
 		yield return w; 
+
+		this.SelectedDeckId=selectedDeckId;
 													// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
 			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		} 
+		}
 	}
 	public IEnumerator cleanCards()
 	{
