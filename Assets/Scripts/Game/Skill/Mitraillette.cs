@@ -68,6 +68,8 @@ public class Mitraillette : GameSkill
 			targets.RemoveAt(chosenTarget);
 			nbTargets++ ;
 		}
+		GameController.instance.playSound(35);
+
 		if(currentCard.isFou()){
 			GameController.instance.applyOnMe(1);
 		}

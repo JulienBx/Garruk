@@ -36,6 +36,8 @@ public class Miracle : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(37);
+
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
@@ -58,7 +60,6 @@ public class Miracle : GameSkill
 		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, text, 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
-		SoundController.instance.playSound(28);
 	}
 
 	public override void applyOnMe(int value){

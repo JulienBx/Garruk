@@ -36,6 +36,7 @@ public class Synergie : GameSkill
 			}
 		}
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(25);
 		GameController.instance.endPlay();
 	}
 	

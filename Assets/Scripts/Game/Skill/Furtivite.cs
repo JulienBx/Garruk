@@ -21,6 +21,8 @@ public class Furtivite : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(37);
+
 		GameController.instance.endPlay();
 	}
 	

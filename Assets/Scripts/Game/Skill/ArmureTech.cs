@@ -21,7 +21,7 @@ public class ArmureTech : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
-		GameController.instance.playSound(31);
+		GameController.instance.playSound(28);
 		GameController.instance.endPlay();
 	}
 	
@@ -35,7 +35,7 @@ public class ArmureTech : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(1,GameView.instance.getTile(target));
+		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 
 	}
 

@@ -35,6 +35,7 @@ public class Virus : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(30);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}

@@ -46,6 +46,7 @@ public class Senilite : GameSkill
 			}
 		}
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(34);
 		GameController.instance.endPlay();
 	}
 	

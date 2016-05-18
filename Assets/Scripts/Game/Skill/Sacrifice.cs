@@ -6,7 +6,7 @@ public class Sacrifice : GameSkill
 	public Sacrifice()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "";
+		base.name = "Sacrifice";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 108 ;
@@ -37,6 +37,7 @@ public class Sacrifice : GameSkill
 			}
 		}
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(30);
 		GameController.instance.endPlay();
 	}
 	
@@ -61,7 +62,6 @@ public class Sacrifice : GameSkill
 
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
-		SoundController.instance.playSound(34);
 	}	
 	
 	public override string getTargetText(int target){

@@ -25,6 +25,7 @@ public class Chasseur : GameSkill
 	{	                     
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(false);
 		GameController.instance.applyOnMe(target[0].x);
+		GameController.instance.playSound(28);
 		GameController.instance.endPlay();
 	}
 
@@ -37,7 +38,6 @@ public class Chasseur : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.displaySkillEffect(target, base.name+"Dégats +"+bonus+"% VS "+WordingCardTypes.getName(i), 1);
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
-		SoundController.instance.playSound(28);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

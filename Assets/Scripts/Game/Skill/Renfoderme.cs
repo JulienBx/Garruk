@@ -44,6 +44,7 @@ public class Renfoderme : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(28);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}

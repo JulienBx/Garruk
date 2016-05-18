@@ -129,6 +129,7 @@ public class PluieBleue : GameSkill
 				}
 			}
 		}
+		GameController.instance.playSound(28);
 		if(!hasFoundMe){
 			GameController.instance.applyOnMe(-1);
 		}
@@ -152,6 +153,11 @@ public class PluieBleue : GameSkill
 			GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
 			GameView.instance.addAnim(5,GameView.instance.getTile(target));
 		}
+	}
+
+	public override void applyOnMe(int value){
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	
 	public override string getTargetText(int target){

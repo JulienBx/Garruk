@@ -25,6 +25,7 @@ public class Reparation : GameSkill
 		int bonusMin = level;
 		int bonusMax = level*2+5;
 		GameController.instance.applyOnMe(Mathf.Min(currentCard.GetTotalLife()-currentCard.getLife(),UnityEngine.Random.Range(bonusMin, bonusMax+1)));
+		GameController.instance.playSound(37);
 		GameController.instance.endPlay();
 	}
 	

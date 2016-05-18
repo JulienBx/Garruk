@@ -54,6 +54,8 @@ public class NewEndGameController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
+		SoundController.instance.playMusic(new int[]{3});
+        
         ApplicationModel.player.HasLostConnectionDuringGame=false;
 		this.updateSpeed = 1.5f;
 		this.updateRatio = 0;
@@ -64,7 +66,6 @@ public class NewEndGameController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.initializeHelp();
-		SoundController.instance.playMusic(new int[]{0,1,2});
 		StartCoroutine (this.initialization ());
 	}
 	void Update () 
@@ -209,6 +210,8 @@ public class NewEndGameController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		ApplicationModel.player.ToLaunchEndGameSequence=true;
+		SoundController.instance.playMusic(new int[]{0,1,2});
+
 		if(ApplicationModel.player.ChosenGameType>10 && ApplicationModel.player.ChosenGameType<21)
 		{
 			Application.LoadLevel("NewLobby");

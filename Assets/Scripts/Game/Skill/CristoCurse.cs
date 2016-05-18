@@ -40,6 +40,7 @@ public class CristoCurse : GameSkill
 				GameController.instance.applyOn(targets[i]);
 			}
 		}
+		GameController.instance.playSound(36);
 
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();

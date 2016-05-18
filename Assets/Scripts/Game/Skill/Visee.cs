@@ -21,6 +21,7 @@ public class Visee : GameSkill
 	{	                     
 		GameController.instance.play(this.id);
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(37);
 		GameController.instance.endPlay();
 	}
 

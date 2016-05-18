@@ -32,7 +32,8 @@ public class Cristopower : GameSkill
 		else{
 			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),base.name);
 		}
-		
+		GameController.instance.playSound(37);
+
 		GameController.instance.endPlay();
 	}
 

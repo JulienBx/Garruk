@@ -21,6 +21,7 @@ public class Tourelle : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(28);
 		GameController.instance.endPlay();
 	}
 	

@@ -164,8 +164,8 @@ public class InterludeController : MonoBehaviour
 					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
 					SoundController.instance.playSound(36);
 					GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
-					if(GameView.instance.getCurrentCard().isMine){
-						List<int> opponents = GameView.instance.getOpponents(true);
+					if(GameView.instance.getCurrentCard().isMine || ApplicationModel.player.ToLaunchGameIA){
+						List<int> opponents = GameView.instance.getOpponents(GameView.instance.getCurrentCard().isMine);
 						List<int> nbHits = new List<int>();
 						for (int i = 0 ; i < opponents.Count ; i++){
 							nbHits.Add(0);

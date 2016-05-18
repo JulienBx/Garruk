@@ -128,6 +128,8 @@ public class LanceFlammes : GameSkill
 				}
 			}
 		}
+		GameController.instance.playSound(36);
+
 		if(currentCard.isFou()){
 			GameController.instance.applyOnMe(1);
 		}

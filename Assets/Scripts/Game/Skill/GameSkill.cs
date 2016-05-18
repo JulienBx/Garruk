@@ -99,7 +99,7 @@ public class GameSkill
 
 	public virtual void applyOnMe(int value)
 	{ 
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Apply On Me non implémenté");
 	}
 
 	public virtual void launchFou(int target)

@@ -29,6 +29,7 @@ public class Copieur : GameSkill
 		else{
 			GameController.instance.applyOnMe(target);
 		}
+		GameController.instance.playSound(28);
 		GameController.instance.endPlay();
 	}
 	
@@ -42,8 +43,7 @@ public class Copieur : GameSkill
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
-		GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
-		SoundController.instance.playSound(31);
+		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override string getTargetText(int target){

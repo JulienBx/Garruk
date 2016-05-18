@@ -152,6 +152,7 @@ public class Grenade : GameSkill
 				}
 			}
 		}
+		GameController.instance.playSound(35);
 		if(currentCard.isFou()){
 			if(!hasFoundMe){
 				GameController.instance.applyOnMe(1);
@@ -207,7 +208,6 @@ public class Grenade : GameSkill
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
-		SoundController.instance.playSound(36);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

@@ -34,6 +34,13 @@ public class Pisteur : GameSkill
 				compteur++;
 			}
 		}
+
+		if(compteur>0){
+			GameController.instance.playSound(28);
+		}
+		else{
+			GameController.instance.playSound(30);
+		}
 		GameController.instance.applyOnMe(compteur);
 		GameController.instance.endPlay();
 	}

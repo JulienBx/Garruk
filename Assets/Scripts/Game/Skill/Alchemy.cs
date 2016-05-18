@@ -35,7 +35,7 @@ public class Alchemy : GameSkill
 			GameController.instance.playSound(28);
 		}
 		else{
-			GameController.instance.playSound(34);
+			GameController.instance.playSound(30);
 		}
 		GameController.instance.applyOnMe(compteur);
 		GameController.instance.endPlay();
@@ -56,7 +56,7 @@ public class Alchemy : GameSkill
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npas de cristal créé", 0);
 		}
-		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

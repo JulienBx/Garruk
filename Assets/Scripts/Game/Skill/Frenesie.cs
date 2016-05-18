@@ -21,6 +21,8 @@ public class Frenesie : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(37);
+
 		GameController.instance.endPlay();
 	}
 	
@@ -37,7 +39,6 @@ public class Frenesie : GameSkill
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, base.name+"\n+5ATK\n-"+damages+"PV", 1);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
-		SoundController.instance.playSound(37);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

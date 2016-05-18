@@ -123,7 +123,8 @@ public class GameView : MonoBehaviour
 
 	public void init(){
 		instance = this;		
-		this.isChangingTurn = false;
+		SoundController.instance.playMusic(new int[]{4,5,6});
+        this.isChangingTurn = false;
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
 		this.initializeServerController();

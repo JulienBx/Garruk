@@ -37,6 +37,7 @@ public class Fatality : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(30);
 
 		GameController.instance.endPlay();
 	}

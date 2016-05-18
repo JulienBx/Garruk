@@ -35,7 +35,7 @@ public class Vampire : GameSkill
 				}
 			}
 		}
-
+		GameController.instance.playSound(36);
 		GameController.instance.applyOnMe(targets.Count);
 		GameController.instance.endPlay();
 	}
@@ -69,28 +69,33 @@ public class Vampire : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 		int level = 2+s.Power;
 		int life = currentCard.getLife();
-
+		int bonusLife = 0 ;
+		int malus ;
 		for(int i = 0 ; i < targets.Count ; i++){
 			targetCard = GameView.instance.getCard(targets[i]);
-			if(level>=targetCard.getLife()){
+			malus = currentCard.getNormalDamagesAgainst(targetCard, level);
+			bonusLife+=malus;
+			if(targetCard.getLife()<=malus){
 				if(targetCard.isMine){
-					score+=Mathf.RoundToInt(200f*(proba-targetCard.getMagicalEsquive())/100f);
+					score += Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*200f);
 				}
 				else{
-					score-=Mathf.RoundToInt(200f*(proba-targetCard.getMagicalEsquive())/100f);
+					score -= Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*200f);
 				}
-				score+=Mathf.Min(currentCard.GetTotalLife()-life,targetCard.getLife());
-				life+=Mathf.RoundToInt(targetCard.getLife()*(proba-targetCard.getMagicalEsquive())/100f);
 			}
 			else{
-				score+=Mathf.RoundToInt(level*(proba-targetCard.getMagicalEsquive())/100f);
-				if(!targetCard.isMine){
-					score = score*(-1);
+				if(targetCard.isMine){
+					score += Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*malus);
 				}
-				score+=Mathf.Min(currentCard.GetTotalLife()-life,level);
-				life+=Mathf.RoundToInt(level*(proba-targetCard.getMagicalEsquive())/100f);
+				else{
+					score -= Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*malus);
+				}
 			}
 		}
+
+		bonusLife = Mathf.Min(bonusLife, currentCard.GetTotalLife()-currentCard.getLife());
+		score+=bonusLife;
+
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 
 		return score ;

@@ -50,6 +50,7 @@ public class Sermon : GameSkill
 			i++;
 		}
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(37);
 		GameController.instance.endPlay();
 	}
 	

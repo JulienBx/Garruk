@@ -28,6 +28,7 @@ public class Justice : GameSkill
 		if(targetMin!=GameView.instance.getCurrentPlayingCard() && targetMax!=GameView.instance.getCurrentPlayingCard()){
 			GameController.instance.applyOnMe(-1);
 		}
+		GameController.instance.playSound(30);
 		GameController.instance.endPlay();
 	}
 	
@@ -45,7 +46,7 @@ public class Justice : GameSkill
 		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*bonus,-1,1,"Attaque",bonus+" dégats subis"), false, -1);
 		GameView.instance.displaySkillEffect(targetMin, "+"+bonus+" PV", 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(targetMin));
-		SoundController.instance.playSound(37);
+
 	}
 
 	public override void applyOnMe(int value){
@@ -80,10 +81,10 @@ public class Justice : GameSkill
 		}
 
 		if(targetCardMin.isMine){
-			score+=bonusMin;
+			score-=bonusMin;
 		}
 		else{
-			score-=bonusMin;
+			score+=bonusMin;
 		}
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

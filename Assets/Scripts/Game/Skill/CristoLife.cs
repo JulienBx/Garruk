@@ -32,7 +32,8 @@ public class Cristolife : GameSkill
 		else{
 			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),base.name);
 		}
-		
+		GameController.instance.playSound(37);
+
 		GameController.instance.endPlay();
 	}
 
@@ -42,7 +43,6 @@ public class Cristolife : GameSkill
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
 		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV", 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
-		SoundController.instance.playSound(37);
 	}
 	
 	public override string getTargetText(int target){

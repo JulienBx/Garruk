@@ -37,6 +37,8 @@ public class Faveur : GameSkill
 			}
 		}
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(28);
+
 		GameController.instance.endPlay();
 	}
 	

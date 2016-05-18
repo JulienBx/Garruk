@@ -21,6 +21,7 @@ public class Furie : GameSkill
 	public override void resolve(List<Tile> targets)
 	{	                     
 		GameController.instance.applyOnMe(-1);
+		GameController.instance.playSound(37);
 		GameController.instance.endPlay();
 	}
 	
@@ -45,8 +46,8 @@ public class Furie : GameSkill
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addAnim(0,GameView.instance.getTile(target));
-		SoundController.instance.playSound(37);
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
+
 	}
 
 	public override int getActionScore(Tile t, Skill s){

@@ -44,6 +44,7 @@ public class PistoSape : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(34);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}

@@ -45,7 +45,7 @@ public class Benediction : GameSkill
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(malus, 1, 103, base.name, ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "+"+malus+"ATK", 0);
-		GameView.instance.addAnim(0,GameView.instance.getTile(target));
+		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override int getActionScore(Tile t, Skill s){

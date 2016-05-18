@@ -172,13 +172,11 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     }
 	private void startTutorialGame()
     {
-        SoundController.instance.playMusic(new int[]{3,4});
         this.toLoadScene=true;
     }
     private void startGame()
     {
-		SoundController.instance.playMusic(new int[]{3,4});
-        BackOfficeController.instance.launchPreMatchLoadingScreen();
+		BackOfficeController.instance.launchPreMatchLoadingScreen();
     }
 	public void launchGame()
     {

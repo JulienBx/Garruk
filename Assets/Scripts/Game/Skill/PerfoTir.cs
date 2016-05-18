@@ -36,6 +36,8 @@ public class PerfoTir : GameSkill
 				GameController.instance.esquive(target,base.name);
 			}
 		}
+		GameController.instance.playSound(35);
+
 		if(currentCard.isFou()){
 			GameController.instance.applyOnMe(1);
 		}

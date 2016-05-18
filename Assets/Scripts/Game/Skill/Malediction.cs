@@ -32,7 +32,7 @@ public class Malediction : GameSkill
 				GameController.instance.applyOn(characters[i]);
 			}
 		}
-		GameController.instance.playSound(23);
+		GameController.instance.playSound(34);
 		GameController.instance.endPlay();
 	}
 
