@@ -453,6 +453,5 @@ public class Card
 				this.Skills[j-1].CardType.Id=this.CardType.Id;
 			}
 		}
-
 	}
 }

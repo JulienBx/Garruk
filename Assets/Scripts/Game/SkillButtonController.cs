@@ -168,6 +168,7 @@ public class SkillButtonController : MonoBehaviour
 				if(GameView.instance.hoveringZone!=-1){
 					if(GameView.instance.hoveringZone==1){
 						GameView.instance.hitTarget(new Tile(x,y));
+						GameView.instance.hoveringZone=-1;
 						this.showDescription(false);
 					}
 					else if(GameView.instance.hoveringZone==2){
@@ -175,6 +176,7 @@ public class SkillButtonController : MonoBehaviour
 						if(x == currentTile.x || y == currentTile.y){
 							if(x != currentTile.x || y != currentTile.y){
 								GameView.instance.hitTarget(new Tile(x,y));
+								GameView.instance.hoveringZone=-1;
 								this.showDescription(false);
 							}
 						}
@@ -195,12 +197,13 @@ public class SkillButtonController : MonoBehaviour
 					if(GameView.instance.getTileController(new Tile(x,y)).getCharacterID()!=-1){
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
-
+						this.showDescription(false);
 						SoundController.instance.playSound(24);
 					}
 					else{
 						GameView.instance.hitTarget(new Tile(x,y));
 						GameView.instance.dropSkillButton(this.id);
+						this.showDescription(false);
 						SoundController.instance.playSound(24);
 					}
 				}

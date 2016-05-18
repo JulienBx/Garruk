@@ -8,7 +8,7 @@ public class Grenade : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Grenade";
 		base.ciblage = -2 ;
-		base.auto = true;
+		base.auto = false;
 		base.id = 23 ;
 	}
 	

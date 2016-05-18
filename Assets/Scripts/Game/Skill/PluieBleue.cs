@@ -8,7 +8,7 @@ public class PluieBleue : GameSkill
 		this.numberOfExpectedTargets = 1 ; 
 		base.name = "Pluie Bleue";
 		base.ciblage = -2 ;
-		base.auto = true;
+		base.auto = false;
 		base.id = 130 ;
 	}
 	

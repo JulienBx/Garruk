@@ -52,7 +52,7 @@ public class Attaque360 : GameSkill
 			}
 			i++;
 		}
-		SoundController.instance.playSound(25);
+		GameController.instance.playSound(25);
 
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
