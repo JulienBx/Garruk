@@ -71,4 +71,16 @@ public class Fatality : GameSkill
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		score+=Mathf.RoundToInt((60f*(proba-targetCard.getMagicalEsquive())/100f)*(targetCard.getLife()/50f));
+				
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
+	}
 }

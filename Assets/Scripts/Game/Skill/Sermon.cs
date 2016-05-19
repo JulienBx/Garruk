@@ -81,10 +81,10 @@ public class Sermon : GameSkill
 			targetCard = GameView.instance.getCard(neighbours[i]);
 			if(targetCard.CardType.Id!=5 && targetCard.CardType.Id!=8){
 				if(targetCard.isMine){
-					score-=bonus*2;
+					score-=(100-targetCard.getMagicalEsquive())*(bonus*2);
 				}
 				else{
-					score+=bonus*2;
+					score+=(100-targetCard.getMagicalEsquive())*(bonus*2);
 				}
 			}
 		}

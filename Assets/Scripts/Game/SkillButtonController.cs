@@ -82,7 +82,7 @@ public class SkillButtonController : MonoBehaviour
 				gameObject.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			}
 			GameView.instance.runningSkill = this.skill.Id ;
-			if(!GameSkills.instance.getCurrentGameSkill().auto){
+			if(!GameSkills.instance.getCurrentGameSkill().auto && GameSkills.instance.getCurrentGameSkill().ciblage!=-2){
 				GameSkills.instance.getSkill(this.skill.Id).launch();
 			}
 			this.showDescription(true);

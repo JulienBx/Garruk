@@ -6,7 +6,7 @@ public class Faveur : GameSkill
 	public Faveur()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "PistoBoost";
+		base.name = "Faveur";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 104 ;
@@ -64,5 +64,22 @@ public class Faveur : GameSkill
 	public override void applyOnMe(int value){
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
+	}
+
+	public override int getActionScore(Tile t, Skill s){
+		int score = 0 ;
+		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
+
+		if(targetCard.CardType.Id==3){
+			score = 10 ; 
+		}
+		else{
+			score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*(targetCard.getLife()+targetCard.getAttack()-60f));
+		}
+				
+		score = score * GameView.instance.IA.getAgressiveFactor() ;
+		return score ;
 	}
 }
