@@ -3616,6 +3616,8 @@ public class GameView : MonoBehaviour
 
 	public void cancelSkill(){
 		this.getSkillZoneController().isRunningSkill = false ;
+		this.choicePopUp.GetComponent<PopUpChoiceController>().show(false);
+
 		this.runningSkill = -1;
 		this.hoveringZone = -1;
 		this.getSkillZoneController().updateButtonStatus(this.getCurrentCard());
@@ -3690,7 +3692,7 @@ public class GameView : MonoBehaviour
 			if(this.getCard(i).isCristoMaster() && !this.getCard(i).isDead){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				GameView.instance.getPlayingCardController(i).updateAttack(GameView.instance.getCard(i).getAttack());
-				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster",amount+". Permanent."));
+				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster", ". Permanent."));
 				GameView.instance.displaySkillEffect(i, "Cristomaitre\n+"+amount+" ATK", 2);
 				GameView.instance.addAnim(0,GameView.instance.getTile(i));
 			}

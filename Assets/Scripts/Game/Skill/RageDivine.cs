@@ -30,6 +30,7 @@ public class RageDivine : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
+				Debug.Log("RAGEDIVINE "+target);
 				GameController.instance.applyOn(target);
 				SoundController.instance.playSound(34);
 			}
@@ -65,10 +66,10 @@ public class RageDivine : GameSkill
 		for(int i = 0 ; i < neighbours.Count ; i++){
 			targetCard = GameView.instance.getCard(neighbours[i]);
 			if(targetCard.isMine){
-				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*200f+5-targetCard.getLife());
+				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+5-targetCard.getLife());
 			}
 			else{
-				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())*200f+5-targetCard.getLife());
+				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+5-targetCard.getLife());
 			}
 		}
 
