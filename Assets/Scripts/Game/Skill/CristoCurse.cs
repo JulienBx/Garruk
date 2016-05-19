@@ -88,6 +88,7 @@ public class CristoCurse : GameSkill
 		List<int> targets = GameView.instance.getEveryoneCardtype(GameView.instance.getCard(target).CardType.Id) ; 
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 		int damages ;
+		int bonus ; 
 
 		for(int i = 0 ; i < targets.Count ; i++){
 			targetCard = GameView.instance.getCard(targets[i]);
@@ -95,18 +96,20 @@ public class CristoCurse : GameSkill
 
 			if(damages>=targetCard.getLife()){
 				if(targetCard.isMine){
-					score+=Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
+					bonus=Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
 				}
 				else{
-					score-=Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
+					bonus=-1*Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
 				}
 			}
 			else{
-				score+=Mathf.RoundToInt((damages+Mathf.Max(0,30-(targetCard.getLife()-damages)))*(proba-targetCard.getMagicalEsquive())/100f);
+				bonus=Mathf.RoundToInt((damages+5-targetCard.getLife()/10f)*(proba-targetCard.getMagicalEsquive())/100f);
 				if(!targetCard.isMine){
-					score = score*(-1);
+					bonus = bonus*(-1);
 				}
 			}
+
+			score+=bonus;
 		}
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 

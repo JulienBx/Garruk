@@ -96,7 +96,7 @@ public class Steroide : GameSkill
 		int levelMin = 1;
 		int levelMax = 5+s.Power*2;
 
-		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2)*2);
+		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2)*2);
 
 		if(currentCard.isVirologue()){
 			levelMax = Mathf.RoundToInt((5+s.Power*2)*(25f+currentCard.Skills[0].Power*5f)/100f);
@@ -105,10 +105,10 @@ public class Steroide : GameSkill
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
 					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
 					if(targetCard2.isMine){
-						score-=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2)*2);
+						score-=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2)*2);
 					}
 					else{
-						score+=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2)*2);
+						score+=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*(targetCard2.getLife()/50f)*((levelMin+levelMax)/2)*2);
 					}
 				}
 			}

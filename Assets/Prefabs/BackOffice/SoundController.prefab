@@ -193,8 +193,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 154745e124e0146948229b47bfd6f0c0, type: 3}
   - {fileID: 8300000, guid: 64c2b47c47ca844449cc4dfa80136a36, type: 3}
   - {fileID: 8300000, guid: 49914d4912db540dda6cd5d1e27d67a7, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: d7cb5c8eeeb77ad41b76113954421dcd, type: 3}
+  - {fileID: 8300000, guid: 4ec3407d4d3417249868f4f0b0a7dbc4, type: 3}
+  - {fileID: 8300000, guid: a175120cb5936644c8f21d327714b478, type: 3}
+  - {fileID: 8300000, guid: 84bad5dc2b9fc014cbcb2bae73b020d1, type: 3}
   backOfficeSfx:
   - {fileID: 8300000, guid: 0fc0be89c69244fa99dd35c229560b5f, type: 3}
   - {fileID: 8300000, guid: 71d5c2d70bae74e1a9adcea79b815f59, type: 3}
@@ -253,6 +255,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: musics.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: backOfficeSfx.Array.size
       value: 50
@@ -345,6 +351,22 @@ Prefab:
       propertyPath: backOfficeSfx.Array.data[40]
       value: 
       objectReference: {fileID: 8300000, guid: 38eb0802435605d46992266eb2dabb06, type: 3}
+    - target: {fileID: 0}
+      propertyPath: musics.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: d7cb5c8eeeb77ad41b76113954421dcd, type: 3}
+    - target: {fileID: 0}
+      propertyPath: musics.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ec3407d4d3417249868f4f0b0a7dbc4, type: 3}
+    - target: {fileID: 0}
+      propertyPath: musics.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: a175120cb5936644c8f21d327714b478, type: 3}
+    - target: {fileID: 0}
+      propertyPath: musics.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 84bad5dc2b9fc014cbcb2bae73b020d1, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 188870}

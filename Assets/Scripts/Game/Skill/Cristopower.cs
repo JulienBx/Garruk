@@ -26,7 +26,7 @@ public class Cristopower : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){
-			GameController.instance.applyOnMe(Random.Range(level, 1+6+2*level));
+			GameController.instance.applyOnMe(Random.Range(level, 1+4+level));
 			GameController.instance.removeRock(target);
 		}
 		else{
@@ -49,7 +49,7 @@ public class Cristopower : GameSkill
 	public override string getTargetText(int target){
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minBonus = level;
-		int maxBonus = 2*level + 6 ;
+		int maxBonus = level + 4 ;
 
 		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] ATK";
 		text += "\n\nHIT% : 100";

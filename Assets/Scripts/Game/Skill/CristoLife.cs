@@ -26,7 +26,7 @@ public class Cristolife : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){
-			GameController.instance.applyOnMe(Random.Range(2*level, 6+3*level));
+			GameController.instance.applyOnMe(Random.Range(2*level, 7+2*level));
 			GameController.instance.removeRock(target);
 		}
 		else{
@@ -48,7 +48,7 @@ public class Cristolife : GameSkill
 	public override string getTargetText(int target){
 		int level = GameView.instance.getCurrentSkill().Power;
 		int minBonus = 2*level;
-		int maxBonus = 3*level+5;
+		int maxBonus = 2*level+6;
 
 		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] PV";
 		text += "\n\nHIT% : 100";
