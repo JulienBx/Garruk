@@ -90,10 +90,10 @@ public class Bombardier : GameSkill
 			max = currentCard.getNormalDamagesAgainst(targetCard, maxdamages); 
 
 			if(targetCard.isMine){
-				score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
+				score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200f*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
 			}
 			else{
-				score-=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
+				score-=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200f*(Mathf.Max(0f,1+max-targetCard.getLife())))+(((min+Mathf.Min(max,targetCard.getLife()))/2f)*(Mathf.Min(max,targetCard.getLife())-min)))/(max-min+1f));
 			}
 		}
 

@@ -30,7 +30,6 @@ public class RageDivine : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				Debug.Log("RAGEDIVINE "+target);
 				GameController.instance.applyOn(target);
 				SoundController.instance.playSound(34);
 			}
@@ -44,6 +43,8 @@ public class RageDivine : GameSkill
 	}
 	
 	public override void applyOn(int target){
+		Debug.Log("Réussite");
+
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		

@@ -132,18 +132,25 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 
 					if(passiveSkill.Id!=141){
-						minDistanceOpponent = GameView.instance.getMinDistanceOpponent(emplacements[i], GameView.instance.getCurrentPlayingCard());
-						if((GameView.instance.getCurrentCard().getLife()+lifeBonus-GameView.instance.getMaxAttack(false))>0){
-							if(minDistanceOpponent>1){
-								passiveScore+=2*(10-minDistanceOpponent);
+						List<int> ennemis = GameView.instance.getOpponents(false);
+						int tempScore = 0 ;
+						int distance ;
+						Tile tmpTile ;
+
+						for(int j = 0 ; j < ennemis.Count ; j++){
+							tempScore = 0 ; 
+							tmpTile = GameView.instance.getTile(ennemis[j]);
+							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
+
+							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
+								tempScore -= 3+Mathf.RoundToInt(GameView.instance.getCard(ennemis[j]).getAttack()/15f);
 							}
-							else{
-								passiveScore-=10;
+							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
+								tempScore += 5+Mathf.RoundToInt(GameView.instance.getCurrentCard().getAttack()/15f);;
 							}
+							passiveScore += tempScore;
 						}
-						else{
-							passiveScore-=2*(10-minDistanceOpponent);
-						}
+						passiveScore += 7-emplacements[i].y;
 					}
 				}
 
@@ -207,7 +214,13 @@ public class ArtificialIntelligence : MonoBehaviour
 						if (gs.isLaunchable(emplacements[i], false).Length<3){
 							targets = new List<Tile>();
 							if(gs.auto){
-								if(skills[j].Id==130){
+								targets.Add(emplacements[i]);
+							}
+							else{
+								if(gs.id==27){
+									targets.Add(emplacements[i]);
+								}
+								else if(skills[j].Id==130 || skills[j].Id==23){
 									for(int i2 = 0; i2 < 6 ; i2++){
 										for(int i3 = 0; i3 < 8 ; i3++){
 											targets.Add(new Tile(i2,i3));
@@ -215,11 +228,8 @@ public class ArtificialIntelligence : MonoBehaviour
 									}
 								}
 								else{
-									targets.Add(emplacements[i]);
+									targets = gs.getTargets(tempTile, false);
 								}
-							}
-							else{
-								targets = gs.getTargets(tempTile, false);
 							}
 							for (int k = 0 ; k < targets.Count ;k++){
 								if(skills[j].Id==13 ||skills[j].Id==58){
@@ -409,18 +419,25 @@ public class ArtificialIntelligence : MonoBehaviour
 					}
 				
 					if(passiveSkill.Id!=141){
-						minDistanceOpponent = GameView.instance.getMinDistanceOpponent(emplacements[i], GameView.instance.getCurrentPlayingCard());
-						if((GameView.instance.getCurrentCard().getLife()+lifeBonus-GameView.instance.getMaxAttack(false))>0){
-							if(minDistanceOpponent>1){
-								passiveScore+=2*(10-minDistanceOpponent);
+						List<int> ennemis = GameView.instance.getOpponents(false);
+						int tempScore = 0 ;
+						int distance ;
+						Tile tmpTile ;
+
+						for(int j = 0 ; j < ennemis.Count ; j++){
+							tempScore = 0 ; 
+							tmpTile = GameView.instance.getTile(ennemis[j]);
+							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
+
+							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
+								tempScore -= 5+Mathf.RoundToInt(GameView.instance.getCard(ennemis[j]).getAttack()/15f);
 							}
-							else{
-								passiveScore-=10;
+							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
+								tempScore += 5;
 							}
+							passiveScore += tempScore;
 						}
-						else{
-							passiveScore-=2*(10-minDistanceOpponent);
-						}
+						passiveScore += 7-emplacements[i].y;
 					}
 
 					if(passiveScore>bestScore){
@@ -434,7 +451,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				}
 			}
 		}
-		else if(passiveSkill.Id!=35){
+		else{
 			if(bestScore>20){
 				yield return new WaitForSeconds(2f);
 
@@ -446,106 +463,115 @@ public class ArtificialIntelligence : MonoBehaviour
 			}
 			yield return new WaitForSeconds(2f);
 
-			this.updateDestinations();
-			bestScore = -200 ;
-			bestEmplacement = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
+			if(passiveSkill.Id!=35){
+				this.updateDestinations();
+				bestScore = -200 ;
+				bestEmplacement = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 
-			for (int i = 0 ; i < emplacements.Count ; i++){
-				tempTile = emplacements[i];
-				passiveScore = 0 ;
-				lifeBonus = 0 ;
-				if(GameView.instance.getTileController(emplacements[i]).getIsTrapped()){
-					if(GameView.instance.getTileController(emplacements[i]).trap.getType()==4){
-						lifeBonus = Mathf.Min(GameView.instance.getCurrentCard().GetTotalLife()-GameView.instance.getCurrentCard().getLife(),GameView.instance.getTileController(emplacements[i]).trap.getAmount());
-						passiveScore+=lifeBonus;
-					}
-				}
-				if(passiveSkill.Id==138 || passiveSkill.Id==76){
-					passiveScore += (emplacements[i].y)*3;
-				}
-				else if(passiveSkill.Id==141){
-					if(i<emplacements.Count-1){
-						if((11-passiveSkill.Power)>=GameView.instance.getCurrentCard().getLife()+lifeBonus){
-							passiveScore-=500;
-						}
-						else{
-							passiveScore -= (11-passiveSkill.Power);
+				for (int i = 0 ; i < emplacements.Count ; i++){
+					tempTile = emplacements[i];
+					passiveScore = 0 ;
+					lifeBonus = 0 ;
+					if(GameView.instance.getTileController(emplacements[i]).getIsTrapped()){
+						if(GameView.instance.getTileController(emplacements[i]).trap.getType()==4){
+							lifeBonus = Mathf.Min(GameView.instance.getCurrentCard().GetTotalLife()-GameView.instance.getCurrentCard().getLife(),GameView.instance.getTileController(emplacements[i]).trap.getAmount());
+							passiveScore+=lifeBonus;
 						}
 					}
-				}
-				else if(passiveSkill.Id==75){
-					List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
-					for(int s = 0 ; s < neighbours.Count ; s++){
-						if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
-							targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y));
-							passiveScore+=Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife(), 3+2*GameView.instance.getCurrentCard().Skills[0].Power);
-							if(targetCard.isMine){
-								passiveScore=passiveScore*(-1);
+					if(passiveSkill.Id==138 || passiveSkill.Id==76){
+						passiveScore += (emplacements[i].y)*3;
+					}
+					else if(passiveSkill.Id==141){
+						if(i<emplacements.Count-1){
+							if((11-passiveSkill.Power)>=GameView.instance.getCurrentCard().getLife()+lifeBonus){
+								passiveScore-=500;
+							}
+							else{
+								passiveScore -= (11-passiveSkill.Power);
 							}
 						}
 					}
-				}
+					else if(passiveSkill.Id==75){
+						List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+						for(int s = 0 ; s < neighbours.Count ; s++){
+							if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+								targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y));
+								passiveScore+=Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife(), 3+2*GameView.instance.getCurrentCard().Skills[0].Power);
+								if(targetCard.isMine){
+									passiveScore=passiveScore*(-1);
+								}
+							}
+						}
+					}
 
-				if((emplacements[i].y==7 || emplacements[i].y==0)){
-					if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns+1))){
-						passiveScore-=500;
-					}
-					else{
-						passiveScore-=amount*(GameView.instance.nbTurns+1);
-					}
-				}
-				else if((emplacements[i].y==6 || emplacements[i].y==1)){
-					if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
-						passiveScore-=500;
-					}
-					else{
-						passiveScore-=amount*(GameView.instance.nbTurns);
-					}
-				}
-				else if((emplacements[i].y==5 || emplacements[i].y==2)){
-					if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-1))){
-						passiveScore-=500;
-					}
-					else{
-						passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
-					}
-				}
-				else if((emplacements[i].y==4 || emplacements[i].y==3)){
-					if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
-						passiveScore-=500;
-					}
-					else{
-						passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
-					}
-				}
-			
-				if(passiveSkill.Id!=141){
-					minDistanceOpponent = GameView.instance.getMinDistanceOpponent(emplacements[i], GameView.instance.getCurrentPlayingCard());
-					//print("Empla ("+emplacements[i].x+"-"+emplacements[i].y+") - "+minDistanceOpponent);
-					if((GameView.instance.getCurrentCard().getLife()+lifeBonus-GameView.instance.getMaxAttack(false))>0){
-						if(minDistanceOpponent>1){
-							passiveScore+=2*(10-minDistanceOpponent);
+					if((emplacements[i].y==7 || emplacements[i].y==0)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns+1))){
+							passiveScore-=500;
 						}
 						else{
-							passiveScore-=10;
+							passiveScore-=amount*(GameView.instance.nbTurns+1);
 						}
 					}
-					else{
-						passiveScore-=2*(10-minDistanceOpponent);
+					else if((emplacements[i].y==6 || emplacements[i].y==1)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
+							passiveScore-=500;
+						}
+						else{
+							passiveScore-=amount*(GameView.instance.nbTurns);
+						}
+					}
+					else if((emplacements[i].y==5 || emplacements[i].y==2)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-1))){
+							passiveScore-=500;
+						}
+						else{
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+						}
+					}
+					else if((emplacements[i].y==4 || emplacements[i].y==3)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
+							passiveScore-=500;
+						}
+						else{
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
+						}
+					}
+				
+					if(passiveSkill.Id!=141){
+						List<int> ennemis = GameView.instance.getOpponents(false);
+						int tempScore = 0 ;
+						int distance ;
+						Tile tmpTile ;
+
+						for(int j = 0 ; j < ennemis.Count ; j++){
+							tempScore = 0 ; 
+							tmpTile = GameView.instance.getTile(ennemis[j]);
+							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
+
+							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
+								tempScore -= 5+Mathf.RoundToInt(GameView.instance.getCard(ennemis[j]).getAttack()/15f);
+							}
+							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
+								tempScore += 5;
+							}
+							passiveScore += tempScore;
+						}
+						passiveScore += 7-emplacements[i].y;
+					}
+
+					Debug.Log("Score déplacement : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
+						
+					if(passiveScore>bestScore){
+						Debug.Log("Meilleur score");
+						bestScore = passiveScore ; 
+						bestEmplacement = emplacements[i];
 					}
 				}
-				Debug.Log("Score déplacement : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
-					
-				if(passiveScore>bestScore){
-					Debug.Log("Meilleur score");
-					bestScore = passiveScore ; 
-					bestEmplacement = emplacements[i];
-				}
-			}
 
-			if(bestEmplacement.x!=GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).x||bestEmplacement.y!=GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).y){
-				GameView.instance.dropCharacter(GameView.instance.getCurrentPlayingCard(), bestEmplacement, false, true);
-				yield return new WaitForSeconds(2f);
+				if(bestEmplacement.x!=GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).x||bestEmplacement.y!=GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()).y){
+					GameView.instance.dropCharacter(GameView.instance.getCurrentPlayingCard(), bestEmplacement, false, true);
+					yield return new WaitForSeconds(2f);
+				}
 			}
 		}
 		yield return new WaitForSeconds(2f);

@@ -268,13 +268,13 @@ public class GameSkill
 	{ 
 		string text = "Echec "+s;
 		GameView.instance.displaySkillEffect(target, text, 1);
-		GameView.instance.addSE(GameView.instance.getTile(target));
 		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		SoundController.instance.playSound(27);
 	}
 
 	public virtual void esquive(int target, int result)
 	{ 
+		Debug.Log("Echec2");
 		string text = "";
 		int type = 1 ; 
 		if(result==1){
@@ -282,7 +282,7 @@ public class GameSkill
 		}
 
 		GameView.instance.displaySkillEffect(target, text, type);
-		GameView.instance.addSE(GameView.instance.getTile(target));
+		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		SoundController.instance.playSound(27);
 	}
 }

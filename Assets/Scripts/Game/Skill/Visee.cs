@@ -35,4 +35,8 @@ public class Visee : GameSkill
 		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
+
+	public override int getActionScore(Tile t, Skill s){
+		return 10;
+	}
 }

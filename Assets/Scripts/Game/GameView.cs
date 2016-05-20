@@ -3984,12 +3984,22 @@ public class GameView : MonoBehaviour
 	}
 
 	public void advanceTurn(int character){
-		
-		for(int i = 0 ; i < orderCards.Count ; i++){
+
+		bool hasFound = false;
+		bool hasFoundCurrent = false;
+		for(int i = 0 ; !hasFound ; i++){
 			if(orderCards[i]==character){
 				this.orderCards.RemoveAt(i);
+				hasFound = true ;
+			}
+			else if(orderCards[i]==this.currentPlayingCard){
+				hasFoundCurrent = true ;
 			}
 		} 
+
+		if(!hasFoundCurrent){
+			this.indexPlayer--;
+		}
 
 		for(int i = 0 ; i < orderCards.Count ; i++){
 			if(orderCards[i]==this.currentPlayingCard){
