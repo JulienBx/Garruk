@@ -530,7 +530,8 @@ public class NewProfileController : MonoBehaviour
 		this.profileChooseLanguageButton = GameObject.Find("ProfileChooseLanguageButton");
 		this.profileChooseLanguageButton.AddComponent<NewProfileChooseLanguageButtonController>();
 		this.profileChooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languageSprites[ApplicationModel.player.IdLanguage];
-		this.profileChooseLanguageButton.SetActive(this.isMyProfile);
+		//this.profileChooseLanguageButton.SetActive(this.isMyProfile);
+		this.profileChooseLanguageButton.SetActive(false);
 		this.profileStats = new GameObject[4];
 		for(int i=0;i<this.profileStats.Length;i++)
 		{

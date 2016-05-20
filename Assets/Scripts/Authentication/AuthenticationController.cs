@@ -181,6 +181,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.sceneCamera = GameObject.Find ("sceneCamera");
 		this.mainLogo = GameObject.Find("mainLogo");
 		this.chooseLanguageButton = GameObject.Find("chooseLanguageButton");
+		this.chooseLanguageButton.SetActive(false);
 		this.facebookButton=GameObject.Find("FacebookButton");
 		this.quitButton=GameObject.Find("QuitButton");
 		this.quitButton.AddComponent<AuthenticationQuitButtonController>();

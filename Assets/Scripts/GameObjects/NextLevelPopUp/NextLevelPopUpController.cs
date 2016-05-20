@@ -181,6 +181,8 @@ public class NextLevelPopUpController : MonoBehaviour
 			}
 			else
 			{
+				gameObject.transform.FindChild("SkillMessage"+i).gameObject.SetActive(true);
+				gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 				gameObject.transform.FindChild("SkillMessage"+i).GetComponent<SpriteRenderer>().sprite=this.getContourSprite(1);
 				gameObject.transform.FindChild("SkillMessage"+i).GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
 				gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.redColor;
@@ -188,12 +190,10 @@ public class NextLevelPopUpController : MonoBehaviour
 
 				if(c.Skills[i].Power==10)
 				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(10);
 				}
 				else if(c.Skills[i].Upgrades>=3)
 				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(9);
 					gameObject.transform.FindChild("Skill"+i+"Upgrade1").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
 					gameObject.transform.FindChild("Skill"+i+"Upgrade2").GetComponent<NextLevelPopUpNextLevelIconController>().setUpgrades(3);
@@ -201,12 +201,10 @@ public class NextLevelPopUpController : MonoBehaviour
 				}
 				else if(i==2)
 				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text= WordingNextLevelPopUp.getReference(3);
 				}
 				else if(i==3)
 				{
-					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").gameObject.SetActive(true);
 					gameObject.transform.FindChild("SkillMessage"+i).FindChild("Title").GetComponent<TextMeshPro>().text=WordingNextLevelPopUp.getReference(4);
 				}
 
