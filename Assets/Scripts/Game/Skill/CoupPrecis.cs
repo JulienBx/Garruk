@@ -76,7 +76,7 @@ public class CoupPrecis : GameSkill
 			score=200;
 		}
 		else{
-			score=Mathf.RoundToInt(damages+Mathf.Max(0,30-(targetCard.getLife()-damages)));
+			score=Mathf.RoundToInt(damages+5-targetCard.getLife()/10f);
 		}
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

@@ -111,6 +111,9 @@ public class GameView : MonoBehaviour
 	BackOfficeController backOfficeController ;
 	public bool isChangingTurn ;
 
+	float compteurStart = 0f; 
+	int timeStartIA ;
+
 	void Awake()
 	{
 
@@ -123,6 +126,7 @@ public class GameView : MonoBehaviour
 
 	public void init(){
 		instance = this;		
+		this.timeStartIA = UnityEngine.Random.Range(2,13);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
@@ -143,8 +147,8 @@ public class GameView : MonoBehaviour
 		this.skillZone = GameObject.Find("SkillZone");
 		this.choicePopUp = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline").GetComponent<TimelineController>();
-		this.hisTimer = GameObject.Find("HisPlayerName").transform.FindChild("Time").GetComponent<TimerController>();
-		this.myTimer = GameObject.Find("MyPlayerBox").transform.FindChild("Time").GetComponent<TimerController>();
+		this.hisTimer = GameObject.Find("HisTime").GetComponent<TimerController>();
+		this.myTimer = GameObject.Find("MyTime").GetComponent<TimerController>();
 		this.timerFront = GameObject.Find("TimerFront");
 		this.validationSkill = GameObject.Find("ValidationAutoSkill");
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
@@ -187,6 +191,10 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
 		this.IA = GameObject.Find("Main Camera").GetComponent<ArtificialIntelligence>();
+	}
+
+	public void addCompteurStartTime(float f){
+		this.compteurStart +=f ;
 	}
 
 	private void initializeServerController()
@@ -627,7 +635,10 @@ public class GameView : MonoBehaviour
 		}
 		nbPlayersReadyToFight++;
 
-		if (nbPlayersReadyToFight == 2 ||ApplicationModel.player.ToLaunchGameTutorial ||ApplicationModel.player.ToLaunchGameIA)
+		if(ApplicationModel.player.ToLaunchGameIA){
+			StartCoroutine(IAReady());
+		}
+		else if (nbPlayersReadyToFight == 2 ||ApplicationModel.player.ToLaunchGameTutorial)
 		{
 			this.SB.GetComponent<StartButtonController>().show(false);
 			this.removeDestinations();
@@ -650,6 +661,29 @@ public class GameView : MonoBehaviour
 		else{
 			this.isFirstPlayerStarting = b;
 		}
+	}
+
+	public IEnumerator IAReady(){
+		print(this.compteurStart+","+this.timeStartIA);
+		if(this.compteurStart>this.timeStartIA){
+			this.isFirstPlayerStarting = false;
+		}
+		else{
+			yield return new WaitForSeconds(Mathf.CeilToInt(this.timeStartIA-this.compteurStart));
+		}
+
+		this.SB.GetComponent<StartButtonController>().show(false);
+		this.removeDestinations();
+		this.displayOpponentCards();
+		this.updateCristoEater();
+		if(this.isMobile){
+			GameObject tempGO = GameObject.Find("MyPlayerName");
+			tempGO.GetComponent<MeshRenderer>().enabled = false ;
+
+		    tempGO = GameObject.Find("HisPlayerName");
+			tempGO.transform.GetComponent<MeshRenderer>().enabled = false ;
+		}
+		this.setNextPlayer(false);
 	}
 
 	public void authorizeDrag(){
@@ -1404,8 +1438,12 @@ public class GameView : MonoBehaviour
 		if(idToChange==-1){
 			if(this.hasFightStarted){
 				this.indexPlayer++;
+				int j = 0 ; 
 				if(indexPlayer == this.nbCards){
-					indexPlayer = 0 ;
+					while(this.getCard(this.orderCards[j]).isDead || this.deads.Contains(this.orderCards[j])){
+						j++;
+					}
+					indexPlayer = j ;
 				}
 			}
 			this.updateTimeline();
@@ -1499,7 +1537,7 @@ public class GameView : MonoBehaviour
 		GameController.instance.findNextPlayer(true);
 	}
 
-	public IEnumerator launchIABourrin(){
+	public IEnumerator launchIABourrin2(){
 		
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			while(!this.blockFury){
@@ -1595,6 +1633,10 @@ public class GameView : MonoBehaviour
 			if (this.widthScreen!=Screen.width){
 				this.resize();
 			}
+		}
+
+		if(this.nbPlayersReadyToFight==0){
+			this.addCompteurStartTime(Time.deltaTime);
 		}
 
 		if(this.timerFront.GetComponent<TimerFrontController>().isShowing){
@@ -1801,41 +1843,45 @@ public class GameView : MonoBehaviour
 			this.verticalBorders [i].transform.localScale = new Vector3(0.5f,tileScale,1f);
 		}
 		
-		GameObject tempGO = GameObject.Find("MyPlayerBox");
-		position = tempGO.transform.position ;
+		GameObject tempGO = GameObject.Find("Forfeit");
 		if(this.isMobile){
-			position.x=-realwidth/2f+1;
-			tempGO.transform.position = position;
-			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = false ;
-			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = false ;
+			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.25f, 4.75f, 0f) ;
+			tempGO.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f) ;
 		}
 		else{
-			position.x=-realwidth/2f;
-			tempGO.transform.position = position;
-			tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = true ;
-			tempGO.transform.FindChild("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
+			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.5f, 4.5f, 0f) ;
+			tempGO.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f) ;
 		}
 
-		tempGO.transform.FindChild("MyPlayerName").GetComponent<TextContainer>().width = realwidth/2f-4 ;
-		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(realwidth/2f-4f,0f,0f) ;
+		tempGO = GameObject.Find("MyTime");
+		if(this.isMobile){
+			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.02f, 4.25f, 0f) ;
+		}
+		else{
+			tempGO.transform.localPosition = new Vector3(-2.98f, 4.25f, 0f) ;
+		}
+
+		tempGO = GameObject.Find("HisTime");
+		if(this.isMobile){
+			tempGO.transform.localPosition = new Vector3(realwidth/2f-0.52f, 4.25f, 0f) ;
+		}
+		else{
+			tempGO.transform.localPosition = new Vector3(2.48f, 4.25f, 0f) ;
+		}
+		tempGO = GameObject.Find("MyPlayerName");
+		if(this.isMobile){
+			tempGO.GetComponent<MeshRenderer>().enabled = false ;
+		}
+		else{
+			tempGO.transform.localPosition = new Vector3(-realwidth/2f+1f, 4.5f, 0f) ;
+		}
 
 		tempGO = GameObject.Find("HisPlayerName");
-
-		tempGO.GetComponent<TextContainer>().width = realwidth/2f-4 ;
-		tempGO.transform.FindChild("Time").transform.localPosition = new Vector3(-realwidth/2f+4f,0f,0f) ;
 		if(this.isMobile){
-			position = tempGO.transform.position ;
-			position.x = 0.48f*this.realwidth;
-			tempGO.transform.position = position;
-
-			tempGO.transform.position = position;tempGO.GetComponent<MeshRenderer>().enabled = false ;
+			tempGO.GetComponent<MeshRenderer>().enabled = false ;
 		}
 		else{
-			position = tempGO.transform.position ;
-			position.x = 0.48f*this.realwidth-1;
-			tempGO.transform.position = position;
-
-			tempGO.GetComponent<MeshRenderer>().enabled = true ;
+			tempGO.transform.localPosition = new Vector3(realwidth/2f, 4.5f, 0f) ;
 		}
 
 		tempGO = GameObject.Find("mainLogo");
@@ -3799,7 +3845,7 @@ public class GameView : MonoBehaviour
 			}
 			else if(this.sequenceID==15){
 				this.gameTutoController.showSequence(false, false, false);
-				StartCoroutine(launchIABourrin());
+				StartCoroutine(launchIABourrin2());
 			}
 			else if(this.sequenceID==16){
 				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
@@ -3935,7 +3981,7 @@ public class GameView : MonoBehaviour
 			}
 			else if(this.sequenceID==15){
 				this.gameTutoController.showSequence(false, false, false);
-				StartCoroutine(launchIABourrin());
+				StartCoroutine(launchIABourrin2());
 			}
 			else if(this.sequenceID==16){
 				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);

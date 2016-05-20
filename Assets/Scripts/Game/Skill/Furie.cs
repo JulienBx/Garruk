@@ -52,49 +52,13 @@ public class Furie : GameSkill
 
 	public override int getActionScore(Tile t, Skill s){
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		GameCard targetCard ;
-		int score = 20+4*s.Power;
-
-		List<int> everyone = GameView.instance.getEveryoneButMe();
-		int smallestMove = 10; 
-		bool isSmallestMoveEnnemi = false ;
-		int nbEnnemis =0; 
-		int nbAllies =0;
-		int moveAllies =0;
-		int moveEnnemis =0;
-		int move ;
-		Tile tile ;
-		for(int i = 0 ; i < everyone.Count ; i++){
-			targetCard = GameView.instance.getCard(everyone[i]);
-			tile = GameView.instance.getTile(everyone[i]);
-			move = Mathf.Abs(t.x-tile.x)+Mathf.Abs(t.y-tile.y);
-			if(move<=smallestMove){
-				if(move==smallestMove){
-					if(!targetCard.isMine){
-						isSmallestMoveEnnemi = false ;
-					}
-				}
-				else{
-					smallestMove = move ;
-					isSmallestMoveEnnemi = targetCard.isMine;
-				}
-			}
-			if(targetCard.isMine){
-				nbEnnemis++;
-				moveEnnemis+=move;
-			}
-			else{
-				nbAllies++;
-				moveAllies+=move;
-			}
+		int score = 0;
+		List<int> allys = GameView.instance.getAllys(false);
+		if(allys.Count<=1){
+			score+=50;
 		}
 
-		if(!isSmallestMoveEnnemi){
-			score-=100;
-		}
-		//print()
-		score += Mathf.RoundToInt(100f*((1.0f*moveAllies/nbAllies)-(1.0f*moveEnnemis/nbEnnemis)));
-				
+		score+=10-currentCard.getLife();
 		return score ;
 	}
 }

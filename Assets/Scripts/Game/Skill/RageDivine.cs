@@ -43,8 +43,6 @@ public class RageDivine : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		Debug.Log("Réussite");
-
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		

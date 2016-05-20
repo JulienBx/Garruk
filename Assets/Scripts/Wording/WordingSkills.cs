@@ -1688,6 +1688,8 @@ public class WordingSkills
 		//73 - Paladin
 		idSkills.Add(73);
 		names.Add(new string[]{"Paladin","Paladin"}); 
+		descriptions.Add(new string[]{"Gagne 010%ATK ATK et perd 1 MOV. Permanent","Gains 010%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 020%ATK ATK et perd 1 MOV. Permanent","Gains 020%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 030%ATK ATK et perd 1 MOV. Permanent","Gains 030%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 040%ATK ATK et perd 1 MOV. Permanent","Gains 040%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 050%ATK ATK et perd 1 MOV. Permanent","Gains 050%ATK ATK and loses 1 MOV"}); 
@@ -1696,8 +1698,6 @@ public class WordingSkills
 		descriptions.Add(new string[]{"Gagne 080%ATK ATK et perd 1 MOV. Permanent","Gains 080%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 090%ATK ATK et perd 1 MOV. Permanent","Gains 090%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 100%ATK ATK et perd 1 MOV. Permanent","Gains 100%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 110%ATK ATK et perd 1 MOV. Permanent","Gains 110%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 120%ATK ATK et perd 1 MOV. Permanent","Gains 120%ATK ATK and loses 1 MOV"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 
@@ -2447,16 +2447,16 @@ public class WordingSkills
 		//106 - Malédiction
 		idSkills.Add(106);
 		names.Add(new string[]{"Malédiction","Curse"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 17% ATK","Choose a faction. 17% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 19% ATK","Choose a faction. 19% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 21% ATK","Choose a faction. 21% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 23% ATK","Choose a faction. 23% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 25% ATK","Choose a faction. 25% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 27% ATK","Choose a faction. 27% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 29% ATK","Choose a faction. 29% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 31% ATK","Choose a faction. 31% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 33% ATK","Choose a faction. 33% ATK malus on all units from this faction"}); 
-		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 35% ATK","Choose a faction. 35% ATK malus on all units from this faction"});
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 17% ATK pour 1 tour","Choose a faction. 17% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 19% ATK pour 1 tour","Choose a faction. 19% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 21% ATK pour 1 tour","Choose a faction. 21% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 23% ATK pour 1 tour","Choose a faction. 23% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 25% ATK pour 1 tour","Choose a faction. 25% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 27% ATK pour 1 tour","Choose a faction. 27% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 29% ATK pour 1 tour","Choose a faction. 29% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 31% ATK pour 1 tour","Choose a faction. 31% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 33% ATK pour 1 tour","Choose a faction. 33% ATK malus on all units from this faction"}); 
+		descriptions.Add(new string[]{"Choisit une faction. Toutes les unités de cette faction perdent 35% ATK pour 1 tour","Choose a faction. 35% ATK malus on all units from this faction"});
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

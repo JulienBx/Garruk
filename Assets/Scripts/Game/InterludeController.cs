@@ -122,7 +122,7 @@ public class InterludeController : MonoBehaviour
 				if(ApplicationModel.player.ToLaunchGameTutorial){
 					if (GameView.instance.sequenceID!=14){
 						if(!GameView.instance.getCurrentCard().isMine){
-							StartCoroutine(GameView.instance.launchIABourrin());
+							StartCoroutine(GameView.instance.launchIABourrin2());
 						}
 					}
 				}
