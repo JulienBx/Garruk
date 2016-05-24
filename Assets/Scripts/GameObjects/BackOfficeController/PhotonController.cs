@@ -214,8 +214,9 @@ public class PhotonController : Photon.MonoBehaviour
         if(!ApplicationModel.player.ToDeconnect)
         {
             ApplicationModel.player.HasLostConnection=true;
+			ApplicationModel.player.ToDeconnect = true;
         }
-        BackOfficeController.instance.loadScene("Authentication");
+		SceneManager.LoadScene("Authentication");
     }
     private void CreateTutorialDeck()
     {
