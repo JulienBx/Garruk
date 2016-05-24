@@ -54,13 +54,6 @@ public class SoundController : MonoBehaviour
 			this.playCurrentMusic();
 		}
 	}
-	void Awake()
-	{
-		if(this.isInitialized)
-		{
-			Destroy(this.gameObject);
-		}
-	}
 	public void initialize()
 	{
 		instance = this;

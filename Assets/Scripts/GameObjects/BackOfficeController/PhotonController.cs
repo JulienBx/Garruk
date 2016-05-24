@@ -7,9 +7,10 @@ using System.Reflection;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class BackOfficePhotonController : Photon.MonoBehaviour 
+public class PhotonController : Photon.MonoBehaviour 
 {
     public const string roomNamePrefix = "GarrukGame";
+	public static PhotonController instance;
     private int nbPlayersInRoom;
     private int nbDecksLoaded;
     private int nbPlayersReady;
@@ -18,6 +19,7 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
     bool isWaiting ;
     public AsyncOperation async ;
     private bool toLoadScene;
+	private bool isInitialized;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -35,6 +37,12 @@ public class BackOfficePhotonController : Photon.MonoBehaviour
             }
         }
     }
+	public void initialize()
+	{
+		instance = this;
+		DontDestroyOnLoad(this.gameObject);
+		this.isInitialized=true;
+	}
     public void addWaitingTime(float f){
         
         this.waitingTime += f ;
