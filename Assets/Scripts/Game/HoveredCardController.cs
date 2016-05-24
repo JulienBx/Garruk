@@ -387,7 +387,7 @@ public class HoveredCardController : MonoBehaviour
 
 	public void OnMouseDown()
 	{
-		if(GameView.instance.sequenceID!=8){
+		if(GameView.instance.sequenceID!=8 && GameView.instance.sequenceID!=9){
 			this.empty();
 		}
 		if(GameView.instance.hasFightStarted){

@@ -158,6 +158,8 @@ public class GameController : Photon.MonoBehaviour
 	public void clickDestination(Tile t, int c, bool toDisplay)
 	{
 		//print(toDisplay);
+		GameView.instance.draggingCard = -1;
+
 		photonView.RPC("clickDestinationRPC", PhotonTargets.AllBuffered, t.x, t.y, c, GameView.instance.getIsFirstPlayer(), toDisplay);
 	}
 	

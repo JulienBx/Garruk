@@ -125,6 +125,9 @@ public class TileController : GameObjectController
 	}
 	
 	public void setDestination(int i){
+		if(this.tile.x==0 && this.tile.y==0){
+			print("Je set "+i);
+		}
 		this.isDestination = i ;
 		this.showDestination (true);
 	}
@@ -506,7 +509,6 @@ public class TileController : GameObjectController
 				else if(this.characterID==-1){
 					if(GameView.instance.draggingCard==-1){
 						if(!this.isDisplayingDescription){
-							gameObject.transform.FindChild("HoverLayer").GetComponent<SpriteRenderer>().enabled = true ;
 							if(this.isDisplayingTarget){
 								if(GameView.instance.hoveringZone==-1){
 									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = GameSkills.instance.getCurrentGameSkill().name;
@@ -581,7 +583,7 @@ public class TileController : GameObjectController
 						if(ApplicationModel.player.ToLaunchGameTutorial){
 							if(GameView.instance.sequenceID==10){
 								if(x==3 && y==5){
-									GameController.instance.clickDestination(t, this.characterID, false);
+									GameController.instance.clickDestination(t, this.characterID, true);
 									GameView.instance.hitNextTutorial();
 								}
 								else{
@@ -589,11 +591,11 @@ public class TileController : GameObjectController
 								}
 							}
 							else{
-								GameView.instance.dropCharacter(this.characterID); 
+								GameController.instance.clickDestination(t, this.characterID, true);
 							}
 						}
 						else{
-							GameController.instance.clickDestination(t, this.characterID, false);
+							GameController.instance.clickDestination(t, this.characterID, true);
 						}
 
 					}

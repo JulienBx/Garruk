@@ -21,7 +21,7 @@ public class ForfeitController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		GameView.instance.quitGameHandler(false);
+		GameView.instance.quitGameHandler2(false);
 		gameObject.GetComponent<BoxCollider>().enabled = false ;
 	}
 }

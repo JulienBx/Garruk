@@ -645,8 +645,8 @@ public class GameView : MonoBehaviour
 			this.displayOpponentCards();
 			this.updateCristoEater();
 			if(this.isMobile){
-				GameObject tempGO = GameObject.Find("MyPlayerBox");
-				tempGO.transform.FindChild("MyPlayerName").GetComponent<MeshRenderer>().enabled = false ;
+				GameObject tempGO = GameObject.Find("MyPlayerName");
+				tempGO.GetComponent<MeshRenderer>().enabled = false ;
 
 			    tempGO = GameObject.Find("HisPlayerName");
 				tempGO.transform.GetComponent<MeshRenderer>().enabled = false ;
@@ -742,7 +742,10 @@ public class GameView : MonoBehaviour
 	}
 
 	public void mobileClick(int characterID){
-		if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID==7 || this.sequenceID>22){
+		if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID>=7){
+			if(ApplicationModel.player.ToLaunchGameTutorial && this.sequenceID>=8){
+				this.gameTutoController.showSequence(false, false, false);
+			}
 			SoundController.instance.playSound(21);
 			if (this.getPlayingCardController(characterID).getIsMine()){	
 				this.getMyHoveredCardController().setNextDisplayedCharacter(characterID, this.getCard(characterID));
@@ -801,7 +804,8 @@ public class GameView : MonoBehaviour
 				this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(0);
 			}
 		}
-		if(isFirstP!=this.isFirstPlayer || toDisplayMove){
+
+		if(isFirstP!=this.isFirstPlayer){
 			if(GameView.instance.hasFightStarted){
 				this.setLaunchability("Déplacement en cours !");
 			}
@@ -809,16 +813,17 @@ public class GameView : MonoBehaviour
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
 		}
 		else{
+			if(toDisplayMove){
+				if(GameView.instance.hasFightStarted){
+					this.setLaunchability("Déplacement en cours !");
+				}
+				this.getPlayingCardController(characterID).moveForward();
+				this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
+			}
+
 			this.draggingCard=-1;
 			this.getPlayingCardController(characterID).setTile(t);
-			if(GameView.instance.hasFightStarted){
-				if(!this.getPlayingCardController(characterID).getIsMine()){
-					this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(6);
-				}
-			}
-			if(this.getPlayingCardController(characterID).getIsMine()){
-				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
-			}
+
 			if(GameView.instance.hasFightStarted){
 				if(characterID!=GameView.instance.getCurrentPlayingCard()){
 					this.getPlayingCardController(characterID).moveBackward();
@@ -828,6 +833,17 @@ public class GameView : MonoBehaviour
 				this.getPlayingCardController(characterID).moveBackward();
 			}
 		}
+
+		if(GameView.instance.hasFightStarted){
+			if(!this.getPlayingCardController(characterID).getIsMine()){
+				this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(6);
+			}
+		}
+		if(this.getPlayingCardController(characterID).getIsMine()){
+			print("Je set à 5 !");
+			this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
+		}
+
 		this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setCharacterID(-1);
 		this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setCharacterID(characterID);
 
@@ -1847,6 +1863,7 @@ public class GameView : MonoBehaviour
 		if(this.isMobile){
 			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.25f, 4.75f, 0f) ;
 			tempGO.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f) ;
+			tempGO.GetComponent<SpriteRenderer>().enabled = false ;
 		}
 		else{
 			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.5f, 4.5f, 0f) ;
@@ -2805,7 +2822,7 @@ public class GameView : MonoBehaviour
 		this.deads.Add(c);
 
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
-			GameView.instance.quitGameHandler(true);
+			GameView.instance.quitGameHandler2(true);
 		}
 		else{
 			this.updateTimeline();
@@ -2841,10 +2858,13 @@ public class GameView : MonoBehaviour
             ServerController.instance.lostConnection();
         }
 	}
-    public void quitGameHandler(bool b)
+    public void quitGameHandler2(bool b)
     {
    		if(b){
-        GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
+			GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				ApplicationModel.player.HasWonLastGame = !this.areAllMyPlayersDead2();
+			}
         }
         else{
 			GameController.instance.quitGameHandler(this.isFirstPlayer);
@@ -3340,6 +3360,8 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
+				this.recalculateDestinations();
+				this.displayDestinations(this.currentPlayingCard);
 				this.updateActionStatus();
 			}
 		}
@@ -3746,7 +3768,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public void hitNextTutorial(){
-		print("HITNEXT");
 		if(!GameView.instance.isMobile){
 			if(this.sequenceID==0){
 				this.initGrid();
@@ -3945,7 +3966,12 @@ public class GameView : MonoBehaviour
 			else if(this.sequenceID==9){
 				this.gameTutoController.showArrow(false);
 				this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 6);
-				this.hoverTile();
+				if(this.isMobile){
+					this.hisHoveredRPC.GetComponent<HisHoveredCardController>().empty();
+				}
+				else{
+					this.hoverTile();
+				}
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f*this.tileScale, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);

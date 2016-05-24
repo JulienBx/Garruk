@@ -211,7 +211,9 @@ public class InterludeController : MonoBehaviour
 				else{
 					GameView.instance.myTimer.setTime(25f-GameView.instance.getCard(u).getSkills()[0].Power);
 				}
-				GameView.instance.myTimer.show(true);
+				if(!ApplicationModel.player.ToLaunchGameTutorial){
+					GameView.instance.myTimer.show(true);
+				}
 			}
 			else{
 				if(u==-1){
@@ -220,7 +222,9 @@ public class InterludeController : MonoBehaviour
 				else{
 					GameView.instance.hisTimer.setTime(25f-GameView.instance.getCard(u).getSkills()[0].Power);
 				}
-				GameView.instance.hisTimer.show(true);
+				if(!ApplicationModel.player.ToLaunchGameTutorial){
+					GameView.instance.hisTimer.show(true);
+				}
 			}
 
 			GameView.instance.isFreezed = false ;

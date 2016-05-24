@@ -384,7 +384,6 @@ public class GameTutoController : MonoBehaviour
 
 	public void setArrow(string orientation, Vector3 position)
 	{
-		print("Je set Arrow");
 		this.arrowOrientation = orientation;
 		this.endArrowPosition = position;
 		this.toMoveArrow = true;
