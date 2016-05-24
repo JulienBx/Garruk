@@ -244,7 +244,7 @@ public class LoadingScreenController : MonoBehaviour
 			if(isOver)
 			{
 				this.toRewindPreMatchLoadingScreen = false ;
-                BackOfficeController.instance.photon.setToLoadScene(true);
+                PhotonController.instance.setToLoadScene(true);
 			}
 		}
 		if(this.toShowLoading)
@@ -378,7 +378,7 @@ public class LoadingScreenController : MonoBehaviour
 	}
 	private IEnumerator toRewind()
 	{
-		yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(3.5f);
 		this.vs.SetActive(false);
 		this.toAnimateHisCards[ApplicationModel.nbCardsByDeck-1]=true;
 		this.toAnimateMyCards[ApplicationModel.nbCardsByDeck-1]=true;

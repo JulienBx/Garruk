@@ -14,9 +14,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 
 	public Sprite[] languagesSprites;
 	public GameObject soundControllerObject;
+	public GameObject photonControllerObject;
 
 	private GameObject backOfficeController;
 	private GameObject soundController;
+	private GameObject photonController;
 	private GameObject mainLogo;
 	private GameObject chooseLanguageButton;
 	private GameObject facebookButton;
@@ -62,6 +64,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.initPlayer();
 		this.initLanguage();
 		this.initializeServerController();
+		this.initializePhotonController();
 		this.initializeBackOffice();
 		this.initializeMusic();
 		this.resize ();
@@ -141,6 +144,16 @@ public class AuthenticationController : Photon.MonoBehaviour
 			this.soundController.GetComponent<SoundController>().initialize();	
 		}
 	}
+	private void initializePhotonController()
+	{
+		this.photonController = GameObject.Find ("PhotonController");
+		if(this.photonController==null)
+		{
+			this.photonController=GameObject.Instantiate(this.photonControllerObject);
+			this.photonController.name="PhotonController";
+			this.photonController.GetComponent<PhotonController>().initialize();	
+		}
+	}
 	private IEnumerator checkPermanentConnection()
 	{
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
@@ -189,6 +202,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void connectToPhoton()
 	{
 		BackOfficeController.instance.changeLoadingScreenLabel (WordingAuthentication.getReference(0));
+		photonController.GetComponent<PhotonView>().viewID=ApplicationModel.player.Id;
 		PhotonNetwork.playerName = ApplicationModel.player.Username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;

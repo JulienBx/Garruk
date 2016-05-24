@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class BackOfficeController : MonoBehaviour 
 {
 	public static BackOfficeController instance;
-	public BackOfficePhotonController photon;
 	private BackOfficeRessources ressources;
 
 	private GameObject loadingScreen;
@@ -134,7 +133,6 @@ public class BackOfficeController : MonoBehaviour
 			ApplicationDesignRules.computeDesignRules();
 		}
 		this.ressources = this.gameObject.GetComponent<BackOfficeRessources> ();
-		this.photon = this.gameObject.GetComponent<BackOfficePhotonController> ();
 		this.isMenuLoaded=false;
 		this.timer=0f;
 		this.speed=5f;
@@ -598,7 +596,7 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
 			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
-            photon.joinRandomRoom();
+            PhotonController.instance.joinRandomRoom();
 			ApplicationModel.player.IsInviting = true;	
 		}
 	}
@@ -606,7 +604,7 @@ public class BackOfficeController : MonoBehaviour
 	public void leaveRandomRoomHandler()
 	{
 		this.hideLoadingScreen ();
-		photon.leaveRoom ();
+		PhotonController.instance.leaveRoom ();
 
 		if(ApplicationModel.player.ChosenGameType>20)
 		{
@@ -623,7 +621,7 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
-		photon.joinRandomRoom ();
+		PhotonController.instance.joinRandomRoom ();
 	}
 	public void joinInvitationRoomFailed()
 	{
@@ -753,7 +751,7 @@ public class BackOfficeController : MonoBehaviour
 		if(ApplicationModel.player.IsInviting && ApplicationModel.player.Error!="")
 		{
 			this.hideLoadingScreen ();
-			photon.leaveRoom();
+			PhotonController.instance.leaveRoom();
 			ApplicationModel.player.IsInviting=false;
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 			ApplicationModel.player.Error="";
@@ -791,7 +789,7 @@ public class BackOfficeController : MonoBehaviour
     }
     private IEnumerator preLoadScene(string sceneName) 
     {
-    	if(photon.async==null)
+		if(PhotonController.instance.async==null)
     	{
 			async = Application.LoadLevelAsync(sceneName);
          	async.allowSceneActivation = true;
