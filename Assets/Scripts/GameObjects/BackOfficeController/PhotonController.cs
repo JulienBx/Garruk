@@ -194,7 +194,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-	IEnumerator launchGameRPC(int currentGameId)
+	void launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
 		if(!ApplicationModel.player.IsFirstPlayer)
@@ -204,7 +204,7 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
         {
         	print("READY2");
-        	yield return new WaitForSeconds(2);
+        	//yield return new WaitForSeconds(2);
 			async.allowSceneActivation=true;
         }
     }
