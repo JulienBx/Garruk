@@ -295,6 +295,8 @@ public class PhotonController : Photon.MonoBehaviour
         int compteurSkills;
         int idSkill=-1;
         bool hasFoundSkill ;
+        int difficultyLevel = -1 ; 
+        int randomTest ;
         List<int> passive = new List<int>() ;
 
         int[,] passiveSkills = new int[10,4];
@@ -340,9 +342,38 @@ public class PhotonController : Photon.MonoBehaviour
         passiveSkills[9,3]=0;
 
         int[,] activeSkills = new int[10,10]{{2,3,4,5,6,7,39,56,57,94},{8,9,10,11,12,13,14,15,58,59},{16,17,18,19,20,21,63,91,92,93},{22,23,24,25,26,27,28,29,30,31},{0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0},{40,41,42,105,128,129,130,131,132,133},{95,101,100,102,103,104,106,107,108,109},{0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0}};
-    
+		randomTest = UnityEngine.Random.Range(1,11);
+
         if(ApplicationModel.player.ChosenGameType>0 && ApplicationModel.player.ChosenGameType<11){
             fixedIDType = ApplicationModel.player.ChosenGameType-1;
+           	if(randomTest<6){
+           		difficultyLevel = 1 ; 
+           	}
+			else if(randomTest<9){
+           		difficultyLevel = 2 ; 
+           	}
+           	else{
+				difficultyLevel = 3 ; 
+           	}
+        }
+		else if(ApplicationModel.player.ChosenGameType==0){
+			if(randomTest<6){
+           		difficultyLevel = 1 ; 
+           	}
+			else if(randomTest<9){
+           		difficultyLevel = 2 ; 
+           	}
+           	else{
+				difficultyLevel = 3 ; 
+           	}
+        }
+		else if(ApplicationModel.player.ChosenGameType<21){
+			if(randomTest<ApplicationModel.player.ChosenGameType-12){
+				difficultyLevel=2;
+			}
+			else{
+				difficultyLevel=3;
+			}
         }
          
         for (int i = 0 ; i < 4 ; i++){
@@ -371,7 +402,17 @@ public class PhotonController : Photon.MonoBehaviour
             passive.Add(idSkill);
             skills.Add(new Skill(idSkill, 11-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,101)))));
 
-            nbSkills = UnityEngine.Random.Range(1,4);
+            nbSkills = 0 ;
+            if(difficultyLevel==1){
+            	nbSkills = UnityEngine.Random.Range(1,4);
+            }
+			else if(difficultyLevel==2){
+            	nbSkills = UnityEngine.Random.Range(2,4);
+            }
+			else if(difficultyLevel==3){
+            	nbSkills = 3;
+            }
+
             compteurSkills=0 ; 
 
             for(int j = 0 ; j < nbSkills ; j++){
@@ -387,76 +428,109 @@ public class PhotonController : Photon.MonoBehaviour
                         }
                     }
                 }
-                skills.Add(new Skill(idSkill, 11-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,101)))));
+
+                if(difficultyLevel==1){
+					randomTest = UnityEngine.Random.Range(1,11);
+                }
+				else if(difficultyLevel==2){
+					randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,100)));
+                }
+				else if(difficultyLevel==3){
+					randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(50,100)));
+                }
+
+                skills.Add(new Skill(idSkill, randomTest));
                 compteurSkills++;
             }
-            ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType), skills,i));
+			ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
         }
     }
 
-    private int getRandomLife(int cardType){
+    private int getRandomLife(int cardType, int difficultyLevel){
+    	int randomTest = -1;
+
+		if(difficultyLevel==1){
+			randomTest = UnityEngine.Random.Range(1,11);
+        }
+		else if(difficultyLevel==2){
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
+        }
+		else if(difficultyLevel==3){
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(5000,10000)));
+        }
         if(cardType==0){
-            return (40+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (40+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==1){
-            return (30+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+            return (30+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==2){
-            return (50+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (50+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==3){
-            return (20+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (30+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==4){
-            return (20+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (40+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==5){
-            return (60+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (60+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==6){
-            return (40+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (30+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==7){
-            return (30+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (30+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else if(cardType==8){
-            return (50+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (50+Mathf.RoundToInt(20*(randomTest)/100f));
         }
         else{
-            return (40+Mathf.RoundToInt(20*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (40+Mathf.RoundToInt(20*(randomTest)/100f));
         }
     }
 
-    private int getRandomAttack(int cardType){
+    private int getRandomAttack(int cardType, int difficultyLevel){
+    	int randomTest = -1;
+		if(difficultyLevel==1){
+			randomTest = UnityEngine.Random.Range(1,11);
+        }
+		else if(difficultyLevel==2){
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
+        }
+		else if(difficultyLevel==3){
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(5000,10000)));
+        }
+
         if(cardType==0){
-            return (10+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+            return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==1){
-            return (15+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (15+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==2){
-            return (20+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (20+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==3){
-            return (5+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (5+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==4){
-            return (10+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (5+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==5){
-            return (15+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (15+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==6){
-            return (10+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==7){
-            return (5+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==8){
-            return (10+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else{
-            return (15+Mathf.RoundToInt(15*(101-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,10001))))/100f));
+			return (15+Mathf.RoundToInt(15*(randomTest)/100f));
         }
     }
 
