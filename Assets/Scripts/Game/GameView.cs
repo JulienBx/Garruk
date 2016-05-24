@@ -3360,8 +3360,10 @@ public class GameView : MonoBehaviour
 				}
 			}
 			else{
-				this.recalculateDestinations();
-				this.displayDestinations(this.currentPlayingCard);
+				if(!this.getCard(this.currentPlayingCard).hasMoved){
+					this.recalculateDestinations();
+					this.displayDestinations(this.currentPlayingCard);
+				}
 				this.updateActionStatus();
 			}
 		}

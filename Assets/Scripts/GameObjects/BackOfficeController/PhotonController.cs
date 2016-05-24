@@ -194,7 +194,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-	void launchGameRPC(int currentGameId)
+	IEnumerator launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
 		if(!ApplicationModel.player.IsFirstPlayer)
@@ -204,7 +204,7 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
         {
         	print("READY2");
-        	//yield return new WaitForSeconds(2);
+        	yield return new WaitForSeconds(2);
 			async.allowSceneActivation=true;
         }
     }
@@ -214,9 +214,8 @@ public class PhotonController : Photon.MonoBehaviour
         if(!ApplicationModel.player.ToDeconnect)
         {
             ApplicationModel.player.HasLostConnection=true;
-			ApplicationModel.player.ToDeconnect = true;
         }
-		SceneManager.LoadScene("Authentication");
+        BackOfficeController.instance.loadScene("Authentication");
     }
     private void CreateTutorialDeck()
     {
@@ -401,7 +400,16 @@ public class PhotonController : Photon.MonoBehaviour
             }
 
             passive.Add(idSkill);
-            skills.Add(new Skill(idSkill, 11-Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(1,101)))));
+			if(difficultyLevel==1){
+				randomTest = UnityEngine.Random.Range(1,11);
+            }
+			else if(difficultyLevel==2){
+				randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,100)));
+            }
+			else if(difficultyLevel==3){
+				randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
+            }
+            skills.Add(new Skill(idSkill, randomTest));
 
             nbSkills = 0 ;
             if(difficultyLevel==1){
@@ -437,7 +445,7 @@ public class PhotonController : Photon.MonoBehaviour
 					randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,100)));
                 }
 				else if(difficultyLevel==3){
-					randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(50,100)));
+					randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
                 }
 
                 skills.Add(new Skill(idSkill, randomTest));
@@ -457,7 +465,7 @@ public class PhotonController : Photon.MonoBehaviour
 			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
         }
 		else if(difficultyLevel==3){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(5000,10000)));
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
         }
         if(cardType==0){
 			return (40+Mathf.RoundToInt(20*(randomTest)/100f));
@@ -500,7 +508,7 @@ public class PhotonController : Photon.MonoBehaviour
 			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
         }
 		else if(difficultyLevel==3){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(5000,10000)));
+			randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
         }
 
         if(cardType==0){
