@@ -72,6 +72,7 @@ public class NewLobbyModel
 		ApplicationModel.player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
 		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [6]);
 		ApplicationModel.player.LobbyHelp=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
+		ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32 (array [8]);
 	}
 	public IList<PlayerResult> parseResults(string[] array)
 	{
