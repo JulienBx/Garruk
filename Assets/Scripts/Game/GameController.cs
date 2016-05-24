@@ -309,14 +309,7 @@ public class GameController : Photon.MonoBehaviour
 	public void displaySkillEffectRPC(int id, string text, int color){
 		GameView.instance.displaySkillEffect(id, text, color);
 	}
-	
-	void OnDisconnectedFromPhoton()
-	{
-		ApplicationModel.player.HasLostConnection=true;
-		ApplicationModel.player.ToDeconnect = true;
 
-        SceneManager.LoadScene("Authentication");
-	}
     public void quitGameHandler(bool hasFirstPlayerLost)
 	{
         photonView.RPC("quitGameHandlerRPC", PhotonTargets.AllBuffered,hasFirstPlayerLost);
