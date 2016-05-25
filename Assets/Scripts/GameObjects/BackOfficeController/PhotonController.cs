@@ -555,7 +555,7 @@ public class PhotonController : Photon.MonoBehaviour
 
     private int getRandomLife(int cardType, int difficultyLevel){
     	int randomTest = -1;
-
+		randomTest = UnityEngine.Random.Range(1,101);
 		if(difficultyLevel==1){
 			if(randomTest>90){
 				randomTest = 10;
@@ -687,7 +687,8 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
     private int getRandomAttack(int cardType, int difficultyLevel){
-    	int randomTest = -1;
+    	float randomTest = -1;
+		randomTest = UnityEngine.Random.Range(1,101);
 		if(difficultyLevel==1){
 			if(randomTest>90){
 				randomTest = 10;
@@ -784,10 +785,10 @@ public class PhotonController : Photon.MonoBehaviour
 				randomTest = 1;
 			}
         }
-        randomTest = randomTest*10;
+        randomTest = randomTest*10f;
 
         if(cardType==0){
-            return (10+Mathf.RoundToInt(15*(randomTest)/100f));
+			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==1){
 			return (15+Mathf.RoundToInt(15*(randomTest)/100f));

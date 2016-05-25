@@ -24,8 +24,7 @@ public class Fatality : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
-		int level = GameView.instance.getCurrentSkill().Power;
-	
+
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getMagicalEsquive()){
 			GameController.instance.esquive(target,1);
 		}
@@ -46,7 +45,7 @@ public class Fatality : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setFatality(new Modifyer(0, -1, 101, base.name, "Meurt au prochain tour"));
+		GameView.instance.getCard(target).setFatality(new Modifyer(0, 1, 101, base.name, "Meurt au prochain tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Meurt au prochain tour", 0);	

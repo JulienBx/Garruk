@@ -472,8 +472,8 @@ public class TileController : GameObjectController
 			GameView.instance.hideValidationButton();
 			if(GameView.instance.getSkillZoneController().isRunningSkill){
 				GameView.instance.hideTargets();
-				GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 				GameView.instance.getSkillZoneController().isRunningSkill = false ;
+				GameView.instance.getSkillZoneController().updateButtonStatus(GameView.instance.getCurrentCard());
 			}
 		}
 		else{

@@ -221,6 +221,16 @@ public class GameCard : Card
 		return (this.Skills[0].Id == 112);
 	}
 
+	public bool hasFatality(){
+		bool fatalBool = false ;
+		for (int i = this.states.Count-1 ; i >= 0 ; i--){
+			if(this.states[i].type==101){
+				fatalBool = true ;
+			}
+		}
+		return fatalBool;
+	}
+
 	public bool isProtected(bool toRemove){
 		bool hasFound = false ;
 		for (int i = this.bouclierModifyers.Count-1 ; i >= 0 ; i--)

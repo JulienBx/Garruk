@@ -30,7 +30,7 @@ public class RageDivine : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn(target);
+				GameController.instance.applyOn(GameView.instance.getCurrentPlayingCard());
 				SoundController.instance.playSound(34);
 			}
 			else{

@@ -47,13 +47,17 @@ public class SkillZoneController : MonoBehaviour
 				this.showCancelButton (true);
 			}
 		}
-		else if(g.hasPlayed){
-			this.showSkillButtons(false);
-			this.showCancelButton (false);
-		}
 		else{
-			this.showCancelButton (false);
-			this.showSkills(g);
+			GameView.instance.passZone.GetComponent<PassController>().setLaunchability("");
+			GameView.instance.passZone.GetComponent<PassController>().show(true);
+			if(g.hasPlayed){
+				this.showSkillButtons(false);
+				this.showCancelButton (false);
+			}
+			else{
+				this.showCancelButton (false);
+				this.showSkills(g);
+			}
 		}
 	}
 	

@@ -126,7 +126,7 @@ public class GameView : MonoBehaviour
 
 	public void init(){
 		instance = this;		
-		this.timeStartIA = UnityEngine.Random.Range(2,13);
+		this.timeStartIA = UnityEngine.Random.Range(2,6);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
@@ -1066,12 +1066,10 @@ public class GameView : MonoBehaviour
 				}
 			}
 			if(this.hasFightStarted){
-				if(this.runningSkill==-1){
-					this.removeDestinations();
-					if(this.currentPlayingCard!=-1){
-						if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
-							this.displayDestinations(this.currentPlayingCard);
-						}
+				this.removeDestinations();
+				if(this.currentPlayingCard!=-1){
+					if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
+						this.displayDestinations(this.currentPlayingCard);
 					}
 				}
 			}
@@ -1135,6 +1133,7 @@ public class GameView : MonoBehaviour
 	public IEnumerator endTurnEffects(bool toLaunchEndTurn){
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
+
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
@@ -1247,6 +1246,15 @@ public class GameView : MonoBehaviour
 					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+level+" ATK\n-10PV", 1);
 					GameView.instance.addAnim(0,GameView.instance.getTile(target));
 					SoundController.instance.playSound(28);
+					isSuccess = true ;
+				}
+				if(this.getCard(this.currentPlayingCard).hasFatality()){
+					int target = GameView.instance.getCurrentPlayingCard();
+					int level = this.getCard(this.currentPlayingCard).getLife();
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level,-1,69,"Fatalité","10 dégats subis"), false, -1);
+					GameView.instance.displaySkillEffect(target, "Fatalité!", 0);
+					GameView.instance.addAnim(4,GameView.instance.getTile(target));
+					SoundController.instance.playSound(34);
 					isSuccess = true ;
 				}
 				if(isSuccess){
