@@ -399,7 +399,6 @@ public class Card
 			cardInfo = cardData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
 			if (j==0)
 			{
-				Debug.Log("Texte "+cardInfo[0]);
 				this.Id=System.Convert.ToInt32(cardInfo[0]);
 				this.Title=cardInfo[1];
 				this.Life=System.Convert.ToInt32(cardInfo[2]);
