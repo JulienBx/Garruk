@@ -15,7 +15,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbDecksLoaded;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 2f ;
+    float limitTime = 10f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private bool isInitialized;
