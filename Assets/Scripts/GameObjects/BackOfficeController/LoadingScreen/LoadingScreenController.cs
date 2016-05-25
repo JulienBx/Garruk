@@ -244,7 +244,7 @@ public class LoadingScreenController : MonoBehaviour
 			if(isOver)
 			{
 				this.toRewindPreMatchLoadingScreen = false ;
-                PhotonController.instance.setToLoadScene(true);
+                PhotonController.instance.launchGame();
 			}
 		}
 		if(this.toShowLoading)

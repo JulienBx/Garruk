@@ -18,8 +18,8 @@ public class PhotonController : Photon.MonoBehaviour
     float limitTime = 10f ;
     bool isWaiting ;
     public AsyncOperation async ;
-    private bool toLoadScene;
 	private bool isInitialized;
+	private bool isScenePreloaded;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -28,14 +28,14 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.isWaiting){
             this.addWaitingTime(Time.deltaTime);
         }
-        if(this.toLoadScene)
-        {
-            if(this.async.progress>=0.9f)
-            {
-                this.toLoadScene=false;
-                this.launchGame();
-            }
-        }
+//        if(this.toLoadScene)
+//        {
+//            if(this.async.progress>=0.9f)
+//            {
+//                this.toLoadScene=false;
+//                this.launchGame();
+//            }
+//        }
     }
 	public void initialize()
 	{
@@ -50,6 +50,7 @@ public class PhotonController : Photon.MonoBehaviour
             isWaiting = false ;
             ApplicationModel.player.ToLaunchGameIA  = true ;
             StartCoroutine(this.startIAGame());
+            this.waitingTime=0f;
         }
     }
     public void leaveRoom()
@@ -71,7 +72,6 @@ public class PhotonController : Photon.MonoBehaviour
         print("Jessaye de join une room");
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
-        this.toLoadScene=false;
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
@@ -97,7 +97,6 @@ public class PhotonController : Photon.MonoBehaviour
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
-        this.toLoadScene=false;
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -109,6 +108,7 @@ public class PhotonController : Photon.MonoBehaviour
         if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
         {
             this.isWaiting = true ;
+            this.waitingTime=0f;
         }
     }
 
@@ -117,14 +117,18 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
     IEnumerator loadGame(){
-    	if(async==null)
-    	{
-    		this.async=new AsyncOperation();
+	    if(this.isScenePreloaded)
+	    {
+	    	yield break;
+	    }
+	    else
+	    {
+			this.async=new AsyncOperation();
         	this.async = SceneManager.LoadSceneAsync("Game");
-        	this.async.allowSceneActivation = false ;
+       	 	this.async.allowSceneActivation = false ;
+       	 	this.isScenePreloaded=true;
         	yield return async ;
-        }
-        yield break;
+	    }
     }
 
     void OnJoinedRoom(){
@@ -180,7 +184,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	private void startTutorialGame()
     {
-        this.toLoadScene=true;
+        this.launchGame();
     }
     private void startGame()
     {
@@ -194,7 +198,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-	IEnumerator launchGameRPC(int currentGameId)
+	void launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
 		if(!ApplicationModel.player.IsFirstPlayer)
@@ -204,7 +208,8 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
         {
         	print("READY2");
-        	yield return new WaitForSeconds(2);
+        	//yield return new WaitForSeconds(2);
+        	this.isScenePreloaded=false;
 			async.allowSceneActivation=true;
         }
     }
@@ -214,8 +219,9 @@ public class PhotonController : Photon.MonoBehaviour
         if(!ApplicationModel.player.ToDeconnect)
         {
             ApplicationModel.player.HasLostConnection=true;
+            ApplicationModel.player.ToDeconnect=true;
         }
-        BackOfficeController.instance.loadScene("Authentication");
+        SceneManager.LoadScene("Authentication");
     }
     private void CreateTutorialDeck()
     {
@@ -647,8 +653,8 @@ public class PhotonController : Photon.MonoBehaviour
             ServerController.instance.lostConnection();
         }
     }
-    public void setToLoadScene(bool value)
-    {
-        this.toLoadScene=value;
-    }
+//    public void setToLoadScene(bool value)
+//    {
+//        this.toLoadScene=value;
+//    }
 }
