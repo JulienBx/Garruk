@@ -433,6 +433,7 @@ public class GameView : MonoBehaviour
 			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 			this.loadDeck(ApplicationModel.opponentDeck, !this.isFirstPlayer);
 		}
+		GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
 		this.nbCards=8;
 		this.myDeck = ApplicationModel.player.MyDeck;
 		this.setInitialDestinations(this.isFirstPlayer);
@@ -1860,10 +1861,10 @@ public class GameView : MonoBehaviour
 		}
 		
 		GameObject tempGO = GameObject.Find("Forfeit");
+		tempGO.GetComponent<SpriteRenderer>().enabled = false ;
 		if(this.isMobile){
 			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.25f, 4.75f, 0f) ;
 			tempGO.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f) ;
-			tempGO.GetComponent<SpriteRenderer>().enabled = false ;
 		}
 		else{
 			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.5f, 4.5f, 0f) ;

@@ -45,59 +45,61 @@ public class HisHoveredCardController : HoveredCardController
 				else{
 					base.setStatus(0);
 				}
-				if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID>=8 && this.nextDisplayedCharacter==-1){
-					if(GameView.instance.sequenceID==9){
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==10){
-						GameView.instance.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==11){
-						GameView.instance.gameTutoController.setArrow("down",new Vector3(-2.5f*GameView.instance.tileScale,-4.2f,0f));
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==12){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==13){
-						GameView.instance.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==14){
-						GameView.instance.gameTutoController.showSequence(false, false, false);
-					}
-					else if(GameView.instance.sequenceID==15){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==16){
-						GameView.instance.gameTutoController.showSequence(false, false, false);
-					}
-					else if(GameView.instance.sequenceID==17){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==18){
-						GameView.instance.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==19){
-						GameView.instance.gameTutoController.setArrow("left",new Vector3(2.2f,-4.45f,0f));
-						GameView.instance.gameTutoController.showSequence(true, true, true);
-					}
-					else if(GameView.instance.sequenceID==20){
-						GameView.instance.gameTutoController.showSequence(false, false, false);
-					}
-					else if(GameView.instance.sequenceID==21){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==22){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==23){
-						GameView.instance.gameTutoController.showSequence(true, true, false);
-					}
-					else if(GameView.instance.sequenceID==24){
-						GameView.instance.gameTutoController.showSequence(false, false, false);
+				if(GameView.instance.isMobile){
+					if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID>=8 && this.nextDisplayedCharacter==-1){
+						if(GameView.instance.sequenceID==9){
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==10){
+							GameView.instance.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==11){
+							GameView.instance.gameTutoController.setArrow("down",new Vector3(-2.5f*GameView.instance.tileScale,-4.2f,0f));
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==12){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==13){
+							GameView.instance.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==14){
+							GameView.instance.gameTutoController.showSequence(false, false, false);
+						}
+						else if(GameView.instance.sequenceID==15){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==16){
+							GameView.instance.gameTutoController.showSequence(false, false, false);
+						}
+						else if(GameView.instance.sequenceID==17){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==18){
+							GameView.instance.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==19){
+							GameView.instance.gameTutoController.setArrow("left",new Vector3(2.2f,-4.45f,0f));
+							GameView.instance.gameTutoController.showSequence(true, true, true);
+						}
+						else if(GameView.instance.sequenceID==20){
+							GameView.instance.gameTutoController.showSequence(false, false, false);
+						}
+						else if(GameView.instance.sequenceID==21){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==22){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==23){
+							GameView.instance.gameTutoController.showSequence(true, true, false);
+						}
+						else if(GameView.instance.sequenceID==24){
+							GameView.instance.gameTutoController.showSequence(false, false, false);
+						}
 					}
 				}
 			}

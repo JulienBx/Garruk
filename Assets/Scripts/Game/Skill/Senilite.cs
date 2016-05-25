@@ -23,7 +23,7 @@ public class Senilite : GameSkill
 		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
-		int max = 2 * GameView.instance.getCurrentSkill().Power+5;
+		int max = GameView.instance.getCurrentSkill().Power+6;
 		
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
 			GameController.instance.esquive(target,1);
@@ -72,7 +72,7 @@ public class Senilite : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		int level = 5+2*GameView.instance.getCurrentSkill().Power;
+		int level = 6+GameView.instance.getCurrentSkill().Power;
 		string text = "";
 
 		if(targetCard.getAttack()>2){
@@ -103,7 +103,7 @@ public class Senilite : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		int levelMin = 1;
-		int levelMax = 5+s.Power*2;
+		int levelMax = 6+s.Power;
 
 		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2))*2);
 

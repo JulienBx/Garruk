@@ -30,7 +30,7 @@ public class PistoBoost : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(1, 3+2*level+1));
+				GameController.instance.applyOn2(target, Random.Range(level, 5+level+1));
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
@@ -73,9 +73,9 @@ public class PistoBoost : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		int level = 3+GameView.instance.getCurrentSkill().Power*2;
+		int level = 5+GameView.instance.getCurrentSkill().Power;
 
-		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+1)+"-"+(targetCard.getAttack()+level)+"]\nActif 1 tour";
+		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+GameView.instance.getCurrentSkill().Power)+"-"+(targetCard.getAttack()+level)+"]\nActif 1 tour";
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
@@ -97,8 +97,8 @@ public class PistoBoost : GameSkill
 		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = 1;
-		int levelMax = 5+s.Power*2;
+		int levelMin = s.Power;
+		int levelMax = 5+s.Power;
 
 		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2));
 

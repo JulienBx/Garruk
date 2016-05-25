@@ -97,9 +97,9 @@ public class InterludeController : MonoBehaviour
 		if(!isPaused){
 			this.time += f ;
 		}
+		bool hasAutoPlayed = false ;
 		
 		if(this.time>4f*this.animationTime){
-			
 			if(!isEndTurn){
 				if(GameView.instance.hasFightStarted){
 					GameView.instance.changePlayer(-1);
@@ -126,7 +126,6 @@ public class InterludeController : MonoBehaviour
 						}
 					}
 				}
-				bool hasAutoPlayed = false ;
 				if(GameView.instance.getCurrentCard().isMine){
 					if(GameView.instance.getCurrentCard().isFurious()){
 						StartCoroutine(GameView.instance.launchFury());
@@ -143,9 +142,7 @@ public class InterludeController : MonoBehaviour
 						hasAutoPlayed = true ;
 					}
 				}
-				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
-					GameView.instance.IA.play();
-				}
+
 				GameView.instance.runningSkill = -1;
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isMine){
@@ -235,6 +232,13 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+			print("Je quitte"+Time.realtimeSinceStartup);
+			if(!isEndTurn){
+				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
+					GameView.instance.IA.play();
+				}
+			}
+
 			if (GameView.instance.sequenceID==14){
 				GameView.instance.hitNextTutorial();
 			}

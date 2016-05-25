@@ -30,7 +30,7 @@ public class PistoLest : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				int amount = Random.Range(1,2*level+10+1);
+				int amount = Random.Range(1,2*level+5+1);
 				GameController.instance.applyOn2(target, amount);
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
@@ -84,7 +84,7 @@ public class PistoLest : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, 2*level+10);
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, 2*level+5);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
 		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n"+move+"MOV\nActif 1 tour";
@@ -109,8 +109,8 @@ public class PistoLest : GameSkill
 		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = Mathf.FloorToInt(1*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
-		int levelMax = Mathf.FloorToInt((10+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMin = Mathf.FloorToInt((1)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+		int levelMax = Mathf.FloorToInt((5+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
 		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
 		score+=Mathf.Max(0,30-(targetCard.getLife()-(levelMin+levelMax)/2));

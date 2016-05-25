@@ -30,7 +30,7 @@ public class PistoSoin : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				int amount = Random.Range(1*level,3*level+12+1);
+				int amount = Random.Range(level+4, 15+level);
 				GameController.instance.applyOn2(target, amount);
 				if(GameView.instance.getCurrentCard().isVirologue()){
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
@@ -74,8 +74,8 @@ public class PistoSoin : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = GameView.instance.getCurrentSkill().Power;
-		int soinMin = 1*level;
-		int soinMax = 3*level+12;
+		int soinMin = 4+level;
+		int soinMax = 14+level;
 		string text = "";
 
 		if(Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)==Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)){
@@ -105,8 +105,8 @@ public class PistoSoin : GameSkill
 		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = s.Power;
-		int levelMax = 12+s.Power*3;
+		int levelMin = 4+s.Power;
+		int levelMax = 14+s.Power;
 		int missingLife = targetCard.GetTotalLife()-targetCard.getLife();
 
 		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f));

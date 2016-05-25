@@ -15,7 +15,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbDecksLoaded;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 10f ;
+    float limitTime = 2f ;
     bool isWaiting ;
     public AsyncOperation async ;
     private bool toLoadScene;
@@ -286,6 +286,7 @@ public class PhotonController : Photon.MonoBehaviour
 
     private void CreateIADeck()
     {
+    	print("Je crée le deck de l'IA");
         ApplicationModel.opponentDeck=new Deck();
         ApplicationModel.opponentDeck.cards=new List<Card>();
         int fixedIDType = -1;
@@ -438,14 +439,102 @@ public class PhotonController : Photon.MonoBehaviour
                     }
                 }
 
+				randomTest = UnityEngine.Random.Range(1,101);
                 if(difficultyLevel==1){
-					randomTest = UnityEngine.Random.Range(1,11);
+					if(randomTest>90){
+						randomTest = 10;
+					}
+					else if(randomTest>80){
+						randomTest = 9;
+					}
+					else if(randomTest>70){
+						randomTest = 8;
+					}
+					else if(randomTest>60){
+						randomTest = 7;
+					}
+					else if(randomTest>50){
+						randomTest = 6;
+					}
+					else if(randomTest>40){
+						randomTest = 5;
+					}
+					else if(randomTest>30){
+						randomTest = 4;
+					}
+					else if(randomTest>20){
+						randomTest = 3;
+					}
+					else if(randomTest>10){
+						randomTest = 2;
+					}
+					else {
+						randomTest = 1;
+					}
                 }
 				else if(difficultyLevel==2){
-					randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,100)));
+					if(randomTest>85){
+						randomTest = 10;
+					}
+					else if(randomTest>71){
+						randomTest = 9;
+					}
+					else if(randomTest>58){
+						randomTest = 8;
+					}
+					else if(randomTest>46){
+						randomTest = 7;
+					}
+					else if(randomTest>35){
+						randomTest = 6;
+					}
+					else if(randomTest>25){
+						randomTest = 5;
+					}
+					else if(randomTest>16){
+						randomTest = 4;
+					}
+					else if(randomTest>8){
+						randomTest = 3;
+					}
+					else if(randomTest>3){
+						randomTest = 2;
+					}
+					else {
+						randomTest = 1;
+					}
                 }
 				else if(difficultyLevel==3){
-					randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
+					if(randomTest>75){
+						randomTest = 10;
+					}
+					else if(randomTest>60){
+						randomTest = 9;
+					}
+					else if(randomTest>42){
+						randomTest = 8;
+					}
+					else if(randomTest>32){
+						randomTest = 7;
+					}
+					else if(randomTest>24){
+						randomTest = 6;
+					}
+					else if(randomTest>18){
+						randomTest = 5;
+					}
+					else if(randomTest>13){
+						randomTest = 4;
+					}
+					else if(randomTest>9){
+						randomTest = 3;
+					}
+					else if(randomTest>4){
+						randomTest = 2;
+					}
+					else {
+						randomTest = 1;
+					}
                 }
 
                 skills.Add(new Skill(idSkill, randomTest));
@@ -459,14 +548,103 @@ public class PhotonController : Photon.MonoBehaviour
     	int randomTest = -1;
 
 		if(difficultyLevel==1){
-			randomTest = UnityEngine.Random.Range(1,11);
+			if(randomTest>90){
+				randomTest = 10;
+			}
+			else if(randomTest>80){
+				randomTest = 9;
+			}
+			else if(randomTest>70){
+				randomTest = 8;
+			}
+			else if(randomTest>60){
+				randomTest = 7;
+			}
+			else if(randomTest>50){
+				randomTest = 6;
+			}
+			else if(randomTest>40){
+				randomTest = 5;
+			}
+			else if(randomTest>30){
+				randomTest = 4;
+			}
+			else if(randomTest>20){
+				randomTest = 3;
+			}
+			else if(randomTest>10){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
 		else if(difficultyLevel==2){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
+			if(randomTest>85){
+				randomTest = 10;
+			}
+			else if(randomTest>71){
+				randomTest = 9;
+			}
+			else if(randomTest>58){
+				randomTest = 8;
+			}
+			else if(randomTest>46){
+				randomTest = 7;
+			}
+			else if(randomTest>35){
+				randomTest = 6;
+			}
+			else if(randomTest>25){
+				randomTest = 5;
+			}
+			else if(randomTest>16){
+				randomTest = 4;
+			}
+			else if(randomTest>8){
+				randomTest = 3;
+			}
+			else if(randomTest>3){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
 		else if(difficultyLevel==3){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
+			if(randomTest>75){
+				randomTest = 10;
+			}
+			else if(randomTest>60){
+				randomTest = 9;
+			}
+			else if(randomTest>42){
+				randomTest = 8;
+			}
+			else if(randomTest>32){
+				randomTest = 7;
+			}
+			else if(randomTest>24){
+				randomTest = 6;
+			}
+			else if(randomTest>18){
+				randomTest = 5;
+			}
+			else if(randomTest>13){
+				randomTest = 4;
+			}
+			else if(randomTest>9){
+				randomTest = 3;
+			}
+			else if(randomTest>4){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
+        randomTest = randomTest*10;
+
         if(cardType==0){
 			return (40+Mathf.RoundToInt(20*(randomTest)/100f));
         }
@@ -502,14 +680,102 @@ public class PhotonController : Photon.MonoBehaviour
     private int getRandomAttack(int cardType, int difficultyLevel){
     	int randomTest = -1;
 		if(difficultyLevel==1){
-			randomTest = UnityEngine.Random.Range(1,11);
+			if(randomTest>90){
+				randomTest = 10;
+			}
+			else if(randomTest>80){
+				randomTest = 9;
+			}
+			else if(randomTest>70){
+				randomTest = 8;
+			}
+			else if(randomTest>60){
+				randomTest = 7;
+			}
+			else if(randomTest>50){
+				randomTest = 6;
+			}
+			else if(randomTest>40){
+				randomTest = 5;
+			}
+			else if(randomTest>30){
+				randomTest = 4;
+			}
+			else if(randomTest>20){
+				randomTest = 3;
+			}
+			else if(randomTest>10){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
 		else if(difficultyLevel==2){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000)));
+			if(randomTest>85){
+				randomTest = 10;
+			}
+			else if(randomTest>71){
+				randomTest = 9;
+			}
+			else if(randomTest>58){
+				randomTest = 8;
+			}
+			else if(randomTest>46){
+				randomTest = 7;
+			}
+			else if(randomTest>35){
+				randomTest = 6;
+			}
+			else if(randomTest>25){
+				randomTest = 5;
+			}
+			else if(randomTest>16){
+				randomTest = 4;
+			}
+			else if(randomTest>8){
+				randomTest = 3;
+			}
+			else if(randomTest>3){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
 		else if(difficultyLevel==3){
-			randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
+			if(randomTest>75){
+				randomTest = 10;
+			}
+			else if(randomTest>60){
+				randomTest = 9;
+			}
+			else if(randomTest>42){
+				randomTest = 8;
+			}
+			else if(randomTest>32){
+				randomTest = 7;
+			}
+			else if(randomTest>24){
+				randomTest = 6;
+			}
+			else if(randomTest>18){
+				randomTest = 5;
+			}
+			else if(randomTest>13){
+				randomTest = 4;
+			}
+			else if(randomTest>9){
+				randomTest = 3;
+			}
+			else if(randomTest>4){
+				randomTest = 2;
+			}
+			else {
+				randomTest = 1;
+			}
         }
+        randomTest = randomTest*10;
 
         if(cardType==0){
             return (10+Mathf.RoundToInt(15*(randomTest)/100f));

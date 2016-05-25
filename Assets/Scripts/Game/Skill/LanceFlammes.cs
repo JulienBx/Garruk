@@ -41,8 +41,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 7+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 13+level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -64,8 +64,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 7+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 13+level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -89,8 +89,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 7+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 13+level);
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
 								maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -112,8 +112,8 @@ public class LanceFlammes : GameSkill
 						}
 						else if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(playerID);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+level);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+3*level);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 7+level);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 13+level);
 
 							if(currentCard.isFou()){
 								minDamages = Mathf.RoundToInt(1.25f*minDamages);
@@ -150,12 +150,12 @@ public class LanceFlammes : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 
-		int damages = 5+level;
+		int damages = 7+level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
 		int minDamages = currentCard.getNormalDamagesAgainst(targetCard, damages);
-		damages = 10+3*level;
+		damages = 13+level;
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
@@ -198,8 +198,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -220,8 +220,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13*s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -242,8 +242,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -264,8 +264,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -313,8 +313,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -336,8 +336,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(t.x, i)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -359,8 +359,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
@@ -382,8 +382,8 @@ public class LanceFlammes : GameSkill
 			playerID = GameView.instance.getTileController(new Tile(i, t.y)).getCharacterID();
 			if(playerID != -1){
 				targetCard = GameView.instance.getCard(playerID);
-				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 5+s.Power);
-				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 10+3*s.Power);
+				levelMin = currentCard.getNormalDamagesAgainst(targetCard, 7+s.Power);
+				levelMax = currentCard.getNormalDamagesAgainst(targetCard, 13+s.Power);
 				if(currentCard.isFou()){
 					levelMin = Mathf.RoundToInt(1.25f*levelMin);
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
