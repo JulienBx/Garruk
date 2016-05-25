@@ -202,7 +202,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void connectToPhoton()
 	{
 		BackOfficeController.instance.changeLoadingScreenLabel (WordingAuthentication.getReference(0));
-		photonController.GetComponent<PhotonView>().viewID=ApplicationModel.player.Id;
+		photonController.GetComponent<PhotonView>().viewID=1;
 		PhotonNetwork.playerName = ApplicationModel.player.Username;
 		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
 		PhotonNetwork.autoCleanUpPlayerObjects = false;
