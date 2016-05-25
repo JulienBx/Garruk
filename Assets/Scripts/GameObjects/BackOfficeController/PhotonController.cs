@@ -20,6 +20,7 @@ public class PhotonController : Photon.MonoBehaviour
     public AsyncOperation async ;
 	private bool isInitialized;
 	private bool isScenePreloaded;
+	private bool toLoadScene;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -28,14 +29,14 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.isWaiting){
             this.addWaitingTime(Time.deltaTime);
         }
-//        if(this.toLoadScene)
-//        {
-//            if(this.async.progress>=0.9f)
-//            {
-//                this.toLoadScene=false;
-//                this.launchGame();
-//            }
-//        }
+        if(this.toLoadScene)
+        {
+            if(this.async.progress>=0.9f)
+            {
+                this.toLoadScene=false;
+                this.launchGame();
+            }
+        }
     }
 	public void initialize()
 	{
@@ -72,6 +73,7 @@ public class PhotonController : Photon.MonoBehaviour
         print("Jessaye de join une room");
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
+		this.setToLoadScene(false);
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
@@ -97,6 +99,7 @@ public class PhotonController : Photon.MonoBehaviour
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
+        this.setToLoadScene(false);
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -184,7 +187,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	private void startTutorialGame()
     {
-        this.launchGame();
+       this.setToLoadScene(true);
     }
     private void startGame()
     {
@@ -198,7 +201,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 
 	[PunRPC]
-	void launchGameRPC(int currentGameId)
+	IEnumerator launchGameRPC(int currentGameId)
     {
     	this.nbPlayersReady++;
 		if(!ApplicationModel.player.IsFirstPlayer)
@@ -208,7 +211,7 @@ public class PhotonController : Photon.MonoBehaviour
         if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
         {
         	print("READY2");
-        	//yield return new WaitForSeconds(2);
+        	yield return new WaitForSeconds(2);
         	this.isScenePreloaded=false;
 			async.allowSceneActivation=true;
         }
@@ -653,8 +656,8 @@ public class PhotonController : Photon.MonoBehaviour
             ServerController.instance.lostConnection();
         }
     }
-//    public void setToLoadScene(bool value)
-//    {
-//        this.toLoadScene=value;
-//    }
+    public void setToLoadScene(bool value)
+    {
+        this.toLoadScene=value;
+    }
 }
