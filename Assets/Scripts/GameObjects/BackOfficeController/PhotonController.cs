@@ -926,4 +926,8 @@ public class PhotonController : Photon.MonoBehaviour
     {
         this.toLoadScene=value;
     }
+	public void setIsScenePreloaded(bool value)
+    {
+        this.isScenePreloaded=value;
+    }
 }
