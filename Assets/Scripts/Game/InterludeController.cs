@@ -167,7 +167,7 @@ public class InterludeController : MonoBehaviour
 						for (int i = 0 ; i < opponents.Count ; i++){
 							nbHits.Add(0);
 						}
-						int nbShurikens = UnityEngine.Random.Range(1,4);
+						int nbShurikens = UnityEngine.Random.Range(1,3);
 						for (int i = 1 ; i < nbShurikens+1 ;i++){
 							int chosenOne = UnityEngine.Random.Range(0,opponents.Count);
 							nbHits[chosenOne]++;
