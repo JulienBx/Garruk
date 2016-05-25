@@ -50,9 +50,9 @@ public class WordingFocusedCard
 		references.Add(new string[]{"Entrainer l'unité",""}); //33
 		references.Add(new string[]{"Faites gagner à votre unité un niveau d'expérience",""}); //34
 		references.Add(new string[]{"Points d'attaque",""}); //35
-		references.Add(new string[]{"Les points d'attaque représentent les dégats de base infligés par l'unité quand elle attaque un ennemi",""}); //36
+		references.Add(new string[]{"Les points d'attaque (ATK) représentent les dégats de base infligés par l'unité quand elle attaque un ennemi",""}); //36
 		references.Add(new string[]{"Points de vie",""}); //37
-		references.Add(new string[]{"Les points de vie représentent la résistance de la carte pendant un combat",""}); //38
+		references.Add(new string[]{"Les points de vie (PV) représentent la résistance de la carte pendant un combat",""}); //38
 		references.Add(new string[]{"Statistiques",""}); //39
 		references.Add(new string[]{"Les victoires et défaites de l'unité sont affichées ici",""}); //40
 	}

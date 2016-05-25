@@ -796,6 +796,7 @@ public class BackOfficeController : MonoBehaviour
     	}
     	else
     	{
+    		PhotonController.instance.setIsScenePreloaded(false);
     		SceneManager.LoadScene(sceneName);
     		yield break;
     	}
