@@ -733,7 +733,7 @@ public class GameView : MonoBehaviour
 				}
 			}
 			
-			if(this.hasFightStarted && this.hoveringZone==-1 && this.runningSkill==-1){
+			if(this.hasFightStarted && this.hoveringZone==-1 && !this.getTileController(characterID).isDisplayingTarget){
 				this.removeDestinations();
 				if(!this.getCard(characterID).isSniperActive()){
 					this.displayDestinations(characterID);
@@ -1027,7 +1027,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverTile(){
-		
 		if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
 			if(!this.isMobile){
 				if(this.currentPlayingCard!=-1){
@@ -2151,7 +2150,10 @@ public class GameView : MonoBehaviour
 	
 	public void displayDestinations(int c)
 	{
+		print("Je veux display "+c);
 		if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
+			print("Je display");
+		
 			int i = -1;
 			if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
 				if(this.getCard(c).isMine){
@@ -2822,6 +2824,18 @@ public class GameView : MonoBehaviour
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
 
+		List<Tile> neighbours = this.getTile(c).getImmediateNeighbourTiles();
+		int tempInt; 
+		for (int i = 0 ; i < neighbours.Count ; i++){
+			tempInt = this.getTileController(neighbours[i]).getCharacterID();
+			if(tempInt!=-1){
+				if(this.getCard(tempInt).isMine==this.getCard(c).isMine){
+					this.getCard(tempInt).isProtected(true);
+					this.getPlayingCardController(tempInt).showIcons();
+				}
+			}
+		}
+
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
 			GameView.instance.quitGameHandler2(true);
 		}
@@ -2861,7 +2875,10 @@ public class GameView : MonoBehaviour
 	}
     public void quitGameHandler2(bool b)
     {
-   		if(b){
+    	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
+			GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)>this.getTotalPV(!this.isFirstPlayer)));
+    	}
+   		else if(b){
 			GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				ApplicationModel.player.HasWonLastGame = !this.areAllMyPlayersDead2();
@@ -2870,6 +2887,16 @@ public class GameView : MonoBehaviour
         else{
 			GameController.instance.quitGameHandler(this.isFirstPlayer);
         }
+    }
+
+    public int getTotalPV(bool isM){
+    	int compteur = 0 ; 
+    	for(int i = 0 ; i < playingCards.Length ; i++){
+			if(this.getCard(i).isMine==isM){
+				compteur+=this.getCard(i).Life;
+			}
+    	}
+    	return compteur ;
     }
 
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
