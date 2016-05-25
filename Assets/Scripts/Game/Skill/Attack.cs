@@ -44,20 +44,6 @@ public class Attack : GameSkill
 		}
 		string text = "-"+damages+"PV";
 						
-		if (currentCard.isLache()){
-			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
-				}
-			}
-			else{
-				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
-					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="-"+damages+"PV"+"\n(lache)";
-				}
-			}
-		}
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));

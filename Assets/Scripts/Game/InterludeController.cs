@@ -232,7 +232,6 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
-			print("Je quitte"+Time.realtimeSinceStartup);
 			if(!isEndTurn){
 				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();

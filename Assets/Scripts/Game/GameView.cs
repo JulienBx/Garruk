@@ -3205,12 +3205,13 @@ public class GameView : MonoBehaviour
 		int distance = 0;
 		int character = -1;
 		Tile t;
+		Tile t2 = this.getCurrentCardTile();
 		for(int i = 0 ; i < destinations.Count ; i++){
 			t = destinations[i];
 			tempTiles = t.getImmediateNeighbourTiles();
 			for(int j = 0 ; j < tempTiles.Count ; j++){
 				if (this.getTileController(tempTiles[j]).getCharacterID()!=-1 && this.getTileController(tempTiles[j]).getCharacterID()!=this.currentPlayingCard){
-					distance = Mathf.Abs(tempTiles[j].x-t.x)+Mathf.Abs(tempTiles[j].y-t.y);
+					distance = Mathf.Abs(t2.x-t.x)+Mathf.Abs(t2.y-t.y);
 					if(distance < bestDistance){
 						bestDistance = distance ;
 						chosenTile = t;
@@ -3227,13 +3228,13 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			List<int> opponents = GameView.instance.getOpponents(this.getCurrentCard().isMine);
-			Tile t2 ;
+			Tile t3 ;
 			bestDistance = 20;
 			for(int i = 0 ; i < destinations.Count ; i++){
 				t = destinations[i];
 				for(int j = 0 ; j < opponents.Count ; j++){
-					t2 = this.getTile(opponents[j]);
-					distance = Mathf.Abs(t2.x-t.x)+Mathf.Abs(t2.y-t.y);
+					t3 = this.getTile(opponents[j]);
+					distance = Mathf.Abs(t3.x-t.x)+Mathf.Abs(t3.y-t.y);
 					if(distance < bestDistance){
 						bestDistance = distance ;
 						chosenTile = t;
