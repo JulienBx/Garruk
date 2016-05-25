@@ -2876,7 +2876,12 @@ public class GameView : MonoBehaviour
     public void quitGameHandler2(bool b)
     {
     	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
-			GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)>this.getTotalPV(!this.isFirstPlayer)));
+			if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
+				GameController.instance.quitGameHandler(this.isFirstPlayer);
+    		}
+    		else{
+				GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)>this.getTotalPV(!this.isFirstPlayer)));
+			}
     	}
    		else if(b){
 			GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
