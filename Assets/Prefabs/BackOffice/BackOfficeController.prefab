@@ -46,7 +46,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 423700}
   - 114: {fileID: 11486180}
-  - 114: {fileID: 11433898}
   m_Layer: 0
   m_Name: BackOfficeController
   m_TagString: Untagged
@@ -2564,31 +2563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40236c21ec5c0c4c949fe832a16c1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11433898
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  prefixBackup: -1
-  observed: {fileID: 0}
-  synchronization: 3
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 423700}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  isRuntimeInstantiated: 0
 --- !u!114 &11434644
 MonoBehaviour:
   m_ObjectHideFlags: 1
