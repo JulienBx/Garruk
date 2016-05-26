@@ -95,7 +95,7 @@ public class Attack : GameSkill
 
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 		if(damages>=targetCard.getLife()){
-			score+=Mathf.RoundToInt((100f-targetCard.getEsquive())*200f);
+			score+=Mathf.RoundToInt((100f-targetCard.getEsquive())*2f+targetCard.getLife()/10f);
 		}
 		else{
 			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));

@@ -87,10 +87,10 @@ public class Chocbleu : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*s.Power)));
 		int score ;
 		if(damages>=targetCard.getLife()){
-			score=200;
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200)+targetCard.getLife()/10f);
 		}
 		else{
-			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
 		}
 
 		score -= Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(currentCard.getLife()/50f)*(2f)*(malusAttack));

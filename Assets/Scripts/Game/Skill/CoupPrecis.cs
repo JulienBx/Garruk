@@ -73,7 +73,7 @@ public class CoupPrecis : GameSkill
 		int damages = Mathf.RoundToInt(Mathf.Min(targetCard.getLife(),currentCard.getAttack()*(0.5f+0.05f*s.Power)));
 		int score ;
 		if(damages>=targetCard.getLife()){
-			score=200;
+			score=Mathf.RoundToInt(200+5-targetCard.getLife()/10f);
 		}
 		else{
 			score=Mathf.RoundToInt(damages+5-targetCard.getLife()/10f);

@@ -87,18 +87,18 @@ public class Attaque360 : GameSkill
 				damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*s.Power)));
 				if(targetCard.isMine){
 					if(damages>=targetCard.getLife()){
-						score+=200;
+						score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(200f)+targetCard.getLife()/10f);
 					}
 					else{
-						score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+						score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
 					}
 				}
 				else{
 					if(damages>=targetCard.getLife()){
-						score-=200;
+						score-=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(200f)+targetCard.getLife()/10f);
 					}
 					else{
-						score-=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+						score-=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
 					}
 				}
 			}

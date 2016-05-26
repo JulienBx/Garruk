@@ -515,5 +515,19 @@ public class GameController : Photon.MonoBehaviour
 	{
 		SoundController.instance.playSound(id);
 	}
+
+	public void addAttackPretresse(int id, int value)
+	{
+		photonView.RPC("addAttackPretresseRPC", PhotonTargets.AllBuffered, id, value);
+	}
+	
+	[PunRPC]
+	public void addAttackPretresseRPC(int id, int value)
+	{
+		GameView.instance.getPlayingCardController(id).updateAttack(GameView.instance.getCard(id).getAttack());
+		GameView.instance.getPlayingCardController(id).addAttackModifyer(new Modifyer(value, 2, 112, "Prêtresse", ". Actif 1 tour"));
+		GameView.instance.displaySkillEffect(id, "Prêtresse\n+"+value+" ATK", 2);
+		GameView.instance.addAnim(7,GameView.instance.getTile(id));
+	}
 }
 

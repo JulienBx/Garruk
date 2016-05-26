@@ -2585,16 +2585,16 @@ public class WordingSkills
 		//112 - Fanatique
 		idSkills.Add(112);
 		names.Add(new string[]{"Prêtresse","Priestress"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 12% ATK","Everytime the unit is wounded, allys gain 12% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 14% ATK","Everytime the unit is wounded, allys gain 14% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 16% ATK","Everytime the unit is wounded, allys gain 16% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 18% ATK","Everytime the unit is wounded, allys gain 18% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 20% ATK","Everytime the unit is wounded, allys gain 20% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 22% ATK","Everytime the unit is wounded, allys gain 22% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 24% ATK","Everytime the unit is wounded, allys gain 24% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 26% ATK","Everytime the unit is wounded, allys gain 26% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 28% ATK","Everytime the unit is wounded, allys gain 28% ATK"}); 
-		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent 30% ATK","Everytime the unit is wounded, allys gain 30% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-3] ATK","Everytime the unit is wounded, allys gain 12% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-4] ATK","Everytime the unit is wounded, allys gain 14% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-5] ATK","Everytime the unit is wounded, allys gain 16% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-6] ATK","Everytime the unit is wounded, allys gain 18% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-7] ATK","Everytime the unit is wounded, allys gain 20% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-8] ATK","Everytime the unit is wounded, allys gain 22% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-9] ATK","Everytime the unit is wounded, allys gain 24% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-10] ATK","Everytime the unit is wounded, allys gain 26% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-11] ATK","Everytime the unit is wounded, allys gain 28% ATK"}); 
+		descriptions.Add(new string[]{"Chaque fois que l'unité est blessée, ses alliés gagnent [1-12] ATK","Everytime the unit is wounded, allys gain 30% ATK"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

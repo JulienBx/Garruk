@@ -148,9 +148,10 @@ public class ArtificialIntelligence : MonoBehaviour
 							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
 								tempScore += 5+Mathf.RoundToInt(GameView.instance.getCurrentCard().getAttack()/15f);;
 							}
+
+							tempScore+=(8-distance)*GameView.instance.nbTurns;
 							passiveScore += tempScore;
 						}
-						passiveScore += 7-emplacements[i].y;
 					}
 				}
 
@@ -254,10 +255,10 @@ public class ArtificialIntelligence : MonoBehaviour
 										actionScore+=1;
 									}
 									else if(targets[k].y==2||targets[k].y==5){
-										actionScore+=3;
+										actionScore+=5;
 									}
 									else if(targets[k].y==3||targets[k].y==4){
-										actionScore+=5;
+										actionScore+=9;
 									}
 									actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/2f);
 								}
@@ -321,6 +322,7 @@ public class ArtificialIntelligence : MonoBehaviour
 			}
 			if(bestSkill.Id == 27){
 				int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
+				Debug.Log("Lance-Flammes "+resultat);
 				if(resultat==0){
 					tempList[0].x = bestEmplacement.x;
 					tempList[0].y = bestEmplacement.y-1;
@@ -435,9 +437,9 @@ public class ArtificialIntelligence : MonoBehaviour
 							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
 								tempScore += 5;
 							}
+							tempScore+=(8-distance)*GameView.instance.nbTurns;
 							passiveScore += tempScore;
 						}
-						passiveScore += 7-emplacements[i].y;
 					}
 
 					if(passiveScore>bestScore){
@@ -459,6 +461,31 @@ public class ArtificialIntelligence : MonoBehaviour
 				List<Tile> tempList = new List<Tile>();
 				tempList.Add(bestTarget);
 				GameController.instance.play(bestSkill.Id);
+
+				if(bestSkill.Id == 131 || bestSkill.Id == 103){
+					tempList[0].x = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill());
+				}
+				if(bestSkill.Id == 27){
+					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
+					Debug.Log("Lance-Flammes "+resultat);
+					if(resultat==0){
+						tempList[0].x = bestEmplacement.x;
+						tempList[0].y = bestEmplacement.y-1;
+					}
+					else if(resultat==1){
+						tempList[0].x = bestEmplacement.x;
+						tempList[0].y = bestEmplacement.y+1;
+					}
+					else if(resultat==2){
+						tempList[0].x = bestEmplacement.x-1;
+						tempList[0].y = bestEmplacement.y;
+					}
+					else if(resultat==3){
+						tempList[0].x = bestEmplacement.x+1;
+						tempList[0].y = bestEmplacement.y;
+					}
+				}
+
 				GameSkills.instance.getSkill(bestSkill.Id).resolve(tempList);
 			}
 			yield return new WaitForSeconds(2f);
@@ -549,17 +576,18 @@ public class ArtificialIntelligence : MonoBehaviour
 							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
 
 							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
-								tempScore -= 5+Mathf.RoundToInt(GameView.instance.getCard(ennemis[j]).getAttack()/15f);
+								tempScore -= 3+Mathf.RoundToInt(GameView.instance.getCard(ennemis[j]).getAttack()/15f);
 							}
 							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
-								tempScore += 5;
+								tempScore += 5+Mathf.RoundToInt(GameView.instance.getCurrentCard().getAttack()/15f);;
 							}
+
+							tempScore+=(8-distance)*GameView.instance.nbTurns;
 							passiveScore += tempScore;
 						}
-						passiveScore += 7-emplacements[i].y;
 					}
 
-					Debug.Log("Score déplacement : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
+					Debug.Log("Score déplacement2 : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
 						
 					if(passiveScore>bestScore){
 						Debug.Log("Meilleur score");

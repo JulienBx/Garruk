@@ -76,7 +76,7 @@ public class Faveur : GameSkill
 			score = 10 ; 
 		}
 		else{
-			score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*(targetCard.getLife()+targetCard.getAttack()-60f));
+			score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*(targetCard.getAttack()-15f));
 		}
 				
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

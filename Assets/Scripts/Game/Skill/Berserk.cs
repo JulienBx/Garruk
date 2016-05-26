@@ -86,15 +86,15 @@ public class Berserk : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
 		int score ;
 		if(damages>=targetCard.getLife()){
-			score=200;
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200f)+targetCard.getLife()/10f);
 		}
 		else{
-			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
 		}
 
 		int ownDamages = 25-2*s.Power;
 		if(ownDamages>=currentCard.getLife()){
-			score-=200;
+			score-=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200f)+targetCard.getLife()/10f);
 		}
 		else{
 			score-=Mathf.RoundToInt(2*ownDamages+(40-currentCard.getLife()));

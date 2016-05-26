@@ -112,10 +112,10 @@ public class PerfoTir : GameSkill
 		}
 
 		if(damages>=targetCard.getLife()){
-			score+=200;
+			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(200)+targetCard.getLife()/10f);
 		}
 		else{
-			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(damages)+5-targetCard.getLife()/10f);
 		}
 
 		score+=targetCard.getBouclier();

@@ -77,13 +77,14 @@ public class Lance : GameSkill
 		int score = 0 ;
 		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
 		GameCard currentCard = GameView.instance.getCurrentCard();
+		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt((0.5f+0.05f*s.Power)*currentCard.getAttack()));
 		if(damages>=targetCard.getLife()){
-			score+=200;
+			score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200)+targetCard.getLife()/10f);
 		}
 		else{
-			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+			score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(damages)+5-targetCard.getLife()/10f);
 		}
 					
 		score = score * GameView.instance.IA.getAgressiveFactor() ;

@@ -130,6 +130,7 @@ public class Mitraillette : GameSkill
 		int levelMax;
 		for(int i = 0 ; i < potentialTargets.Count ; i++){
 			targetTile = GameView.instance.getTile(potentialTargets[i]); 
+			Debug.Log(currentTile.y+">"+targetTile.y);
 			if(currentTile.y>targetTile.y){
 				targets.Add(potentialTargets[i]);
 			}

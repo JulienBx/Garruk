@@ -125,9 +125,6 @@ public class TileController : GameObjectController
 	}
 	
 	public void setDestination(int i){
-		if(this.tile.x==0 && this.tile.y==0){
-			print("Je set "+i);
-		}
 		this.isDestination = i ;
 		this.showDestination (true);
 	}
@@ -226,7 +223,7 @@ public class TileController : GameObjectController
 
 				if(GameView.instance.getCard(this.characterID).isMine){
 					List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
-					Tile tile = tiles[Random.Range(0,tiles.Count)];
+					Tile tile = tiles[UnityEngine.Random.Range(0,tiles.Count)];
 					GameController.instance.clickDestination(tile, this.characterID, true);
 				}
 			}

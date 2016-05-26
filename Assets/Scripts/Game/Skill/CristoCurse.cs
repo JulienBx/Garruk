@@ -96,10 +96,10 @@ public class CristoCurse : GameSkill
 
 			if(damages>=targetCard.getLife()){
 				if(targetCard.isMine){
-					bonus=Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
+					bonus=Mathf.RoundToInt(200f*(proba-targetCard.getMagicalEsquive())/100f+targetCard.getLife()/10f);
 				}
 				else{
-					bonus=-1*Mathf.RoundToInt(1000f*(proba-targetCard.getMagicalEsquive())/100f);
+					bonus=-1*Mathf.RoundToInt(200*(proba-targetCard.getMagicalEsquive())/100f+targetCard.getLife()/10f);
 				}
 			}
 			else{

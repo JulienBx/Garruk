@@ -30,6 +30,7 @@ public class Chasseur : GameSkill
 	}
 
 	public override void applyOnMe(int i){
+		Debug.Log("Chasseur "+i);
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonus = 20+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();

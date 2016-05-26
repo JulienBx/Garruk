@@ -258,20 +258,14 @@ public class PlayingCardController : GameObjectController
 		else{
 			if(m.amount>0){
 				GameCard targetCard ;
-				if(this.card.isFanatique()){
-					int bonusAttack = 10+2*this.card.Skills[0].Power;
+				if(this.card.isFanatique() && this.card.isMine){
+					int bonusAttack = 2+this.card.Skills[0].Power;
 					bool isFanaMine = this.card.isMine;
 
 					List<int> characters = GameView.instance.getEveryone();
 					for(int i = 0 ; i < characters.Count ; i++){
 						if(GameView.instance.getCard(characters[i]).isMine == isFanaMine && this.id!=characters[i]){
-							targetCard = GameView.instance.getCard(characters[i]);
-							int bonus = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*bonusAttack/100f));
-							GameView.instance.getPlayingCardController(characters[i]).updateAttack(targetCard.getAttack());
-							GameView.instance.getPlayingCardController(characters[i]).addAttackModifyer(new Modifyer(bonus, 2, 112, "Prêtresse", ". Actif 1 tour"));
-
-							GameView.instance.displaySkillEffect(characters[i], "Prêtresse\n+"+bonus+" ATK", 2);
-							GameView.instance.addAnim(7,GameView.instance.getTile(characters[i]));
+							GameController.instance.addAttackPretresse(characters[i], UnityEngine.Random.Range(1,bonusAttack+1));
 						}
 					}
 				}
@@ -512,7 +506,7 @@ public class PlayingCardController : GameObjectController
 					}
 					else{
 						gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(this.card.moveModifyers[j].type);
-						if(this.card.moveModifyers[j].amount>0){
+						if(this.card.moveModifyers[j].amount>0 || this.card.moveModifyers[j].type==73){
 							gameObject.transform.Find("Background").FindChild("Icon"+compteurIcones).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 						}
 						else{

@@ -112,8 +112,8 @@ public class PistoLest : GameSkill
 		int levelMin = Mathf.FloorToInt((1)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 		int levelMax = Mathf.FloorToInt((5+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
-		score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
-		score+=Mathf.Max(0,30-(targetCard.getLife()-(levelMin+levelMax)/2));
+		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+		score+=Mathf.RoundToInt(5-targetCard.getLife()/10f);
 		score+= Mathf.Min(targetCard.getMove(),1)*10;
 
 		if(currentCard.isVirologue()){
@@ -124,10 +124,10 @@ public class PistoLest : GameSkill
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
 					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
 					if(targetCard2.isMine){
-						score+=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*((200*(Mathf.Max(0f,levelMax2-targetCard2.getLife())))+(((levelMin2+Mathf.Min(levelMax2,targetCard2.getLife()))/2f)*Mathf.Min(levelMax2,targetCard2.getLife())))/(levelMax2-levelMin2+1f));
+						score+=Mathf.RoundToInt(((proba-targetCard2.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,levelMax2-targetCard2.getLife())))+(((levelMin2+Mathf.Min(levelMax2,targetCard2.getLife()))/2f)*Mathf.Min(levelMax2,targetCard2.getLife())))/(levelMax2-levelMin2+1f));
 					}
 					else{
-						score-=Mathf.RoundToInt((proba-targetCard2.getMagicalEsquive()/100f)*((200*(Mathf.Max(0f,levelMax2-targetCard2.getLife())))+(((levelMin2+Mathf.Min(levelMax2,targetCard2.getLife()))/2f)*Mathf.Min(levelMax2,targetCard2.getLife())))/(levelMax2-levelMin2+1f));
+						score-=Mathf.RoundToInt(((proba-targetCard2.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,levelMax2-targetCard2.getLife())))+(((levelMin2+Mathf.Min(levelMax2,targetCard2.getLife()))/2f)*Mathf.Min(levelMax2,targetCard2.getLife())))/(levelMax2-levelMin2+1f));
 					}
 				}
 			}

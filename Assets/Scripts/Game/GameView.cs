@@ -126,7 +126,7 @@ public class GameView : MonoBehaviour
 
 	public void init(){
 		instance = this;		
-		this.timeStartIA = UnityEngine.Random.Range(2,6);
+		this.timeStartIA = UnityEngine.Random.Range(2,8);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
@@ -665,7 +665,6 @@ public class GameView : MonoBehaviour
 	}
 
 	public IEnumerator IAReady(){
-		print(this.compteurStart+","+this.timeStartIA);
 		if(this.compteurStart>this.timeStartIA){
 			this.isFirstPlayerStarting = false;
 		}
@@ -841,7 +840,6 @@ public class GameView : MonoBehaviour
 			}
 		}
 		if(this.getPlayingCardController(characterID).getIsMine()){
-			print("Je set à 5 !");
 			this.tiles[t.x, t.y].GetComponentInChildren<TileController>().setDestination(5);
 		}
 
@@ -2158,10 +2156,7 @@ public class GameView : MonoBehaviour
 	
 	public void displayDestinations(int c)
 	{
-		print("Je veux display "+c);
 		if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
-			print("Je display");
-		
 			int i = -1;
 			if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
 				if(this.getCard(c).isMine){
@@ -3755,7 +3750,7 @@ public class GameView : MonoBehaviour
 			for (int j = 0 ; j < boardHeight ; j++){
 				tempTile = new Tile(i,j);
 				distance = this.getDistanceBetweenTiles(t,tempTile);
-				if(distance<=r && distance>r){
+				if(distance<=r){
 					if(this.getTileController(tempTile).getCharacterID()==-1 && !this.getTileController(tempTile).isRock()){
 						tiles.Add(tempTile);
 					}

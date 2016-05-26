@@ -73,7 +73,7 @@ public class Assassinat : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		score+=Mathf.RoundToInt((100f*(proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f));
+		score+=Mathf.RoundToInt((100f*(proba-targetCard.getEsquive())/100f)+targetCard.getLife()/10f);
 				
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 		return score ;

@@ -95,10 +95,10 @@ public class Combo : GameSkill
 		int nbHitMax = s.Power+5;
 		for (int i = 1 ; i <= nbHitMax ; i++){
 			if((damages*i)>=targetCard.getLife()){
-				score=200;
+				score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200)+targetCard.getLife()/10f);
 			}
 			else{
-				score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((damages*i)+Mathf.Max(0,30-(targetCard.getLife()-damages))));
+				score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((damages*i)+5-targetCard.getLife()/10f));
 			}
 		}
 
