@@ -121,6 +121,8 @@ public class PhotonController : Photon.MonoBehaviour
     }
     public void leaveRoom()
     {
+    	this.isWaiting=false;
+    	this.waitingTime=0f;
         PhotonNetwork.LeaveRoom ();
     }
     void OnJoinedRoom()
