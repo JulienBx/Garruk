@@ -65,10 +65,10 @@ public class RageDivine : GameSkill
 		for(int i = 0 ; i < neighbours.Count ; i++){
 			targetCard = GameView.instance.getCard(neighbours[i]);
 			if(targetCard.isMine){
-				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+5-targetCard.getLife());
+				score+=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+targetCard.getLife()/10f);
 			}
 			else{
-				score-=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+5-targetCard.getLife());
+				score-=Mathf.RoundToInt((proba-targetCard.getMagicalEsquive())+targetCard.getLife()/10f);
 			}
 		}
 
