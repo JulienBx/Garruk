@@ -18,7 +18,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 1f ;
+    float limitTime = 10f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private bool isInitialized;
@@ -125,8 +125,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedRoom()
     {
-        print("Je join la room random "+ApplicationModel.player.IsFirstPlayer);
-		ApplicationModel.gameRoomId=PhotonNetwork.room.name;
+        ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
 		if(PhotonNetwork.room.playerCount==2)
@@ -137,8 +136,7 @@ public class PhotonController : Photon.MonoBehaviour
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
-        	print("toto");
-			this.addPlayerToListHandler();
+        	this.addPlayerToListHandler();
         	this.displayLoadingScreenButton(true);
         }
         else
@@ -157,7 +155,6 @@ public class PhotonController : Photon.MonoBehaviour
     [PunRPC]
     void AddPlayerToListRPC()
     {
-    	print("j'inscris le joueur :"+ApplicationModel.player.Username);
     	this.nbPlayersInRoom++;
     	if(this.nbPlayersInRoom==2)
     	{
@@ -178,7 +175,6 @@ public class PhotonController : Photon.MonoBehaviour
 	[PunRPC]
     void CheckPlayerStateRPC(bool toLaunchGameIA, bool isFirstPlayer)
     {
-		print("je vérifie que :"+ApplicationModel.player.Username + "ne joue pas contre l'IA" + ApplicationModel.player.ToLaunchGameIA);
 		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
 		{
 			if(!toLaunchGameIA)
@@ -203,7 +199,6 @@ public class PhotonController : Photon.MonoBehaviour
 	[PunRPC]
 	IEnumerator getPlayerDataRPC(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
     {
-    	print("j'envois les infos de :" + ApplicationModel.player.Username);
 		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
 			ApplicationModel.hisPlayerName=playerName;
@@ -214,7 +209,6 @@ public class PhotonController : Photon.MonoBehaviour
         }
         else
         {
-			this.getCurrentGameIdHandler();
 			yield break;
         }
     }
@@ -229,7 +223,6 @@ public class PhotonController : Photon.MonoBehaviour
 	[PunRPC]
 	void getCurrentGameIdRPC(bool isFirstPlayer, int currentGameId)
     {
-		print("je transmets le game Id et je suis le first player :" + ApplicationModel.player.IsFirstPlayer);
 		if(isFirstPlayer)
         {
 			ApplicationModel.currentGameId=currentGameId;
