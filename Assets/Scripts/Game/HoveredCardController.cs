@@ -66,7 +66,12 @@ public class HoveredCardController : MonoBehaviour
 		int nbSkills = 0 ;
 		for(int i = 1 ; i < c.Skills.Count;i++){
 			if(c.Skills[i].IsActivated==1){
-				gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1));
+				if(WordingSkills.getProba(c.Skills [i].Id, c.Skills[i].Power-1)<100){
+					gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1))+". P : "+WordingSkills.getProba(c.Skills [i].Id, c.Skills[i].Power-1);
+				}
+				else{
+					gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1));
+				}
 				gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.Skills[i].Id);
 				gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Level").GetComponent<TextMeshPro>().text = ""+c.Skills[i].Power;
 				if(c.Skills[i].Power<6){
@@ -89,7 +94,12 @@ public class HoveredCardController : MonoBehaviour
 				nbSkills++;
 			}
 		}
-		gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1));
+		if(WordingSkills.getProba(c.Skills [0].Id, c.Skills[0].Power-1)<100){
+			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1))+". P : "+WordingSkills.getProba(c.Skills [0].Id, c.Skills[0].Power-1);
+		}
+		else{
+			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1));
+		}
 		gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Picto").GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(c.Skills[0].Id);
 		gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Level").GetComponent<TextMeshPro>().text = ""+c.Skills[0].Power;
 		if(c.Skills[0].Power<6){
