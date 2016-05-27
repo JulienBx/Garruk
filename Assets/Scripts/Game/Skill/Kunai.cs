@@ -113,7 +113,7 @@ public class Kunai : GameSkill
 			levelMin = currentCard.getNormalDamagesAgainst(targetCard,s.Power)+Mathf.RoundToInt(5-targetCard.getLife()/10f);
 			levelMax = currentCard.getNormalDamagesAgainst(targetCard,5+s.Power*2)+Mathf.RoundToInt(5-targetCard.getLife()/10f);
 
-			score+=(proba-targetCard.getMagicalEsquive()/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
+			score+=((proba-targetCard.getMagicalEsquive())/100f)*((100f*(Mathf.Max(0f,levelMax-targetCard.getLife())))+((((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)+Mathf.Max(0,30-(targetCard.getLife()-((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f))))*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f);
 		}
 		score = score/enemies.Count;
 

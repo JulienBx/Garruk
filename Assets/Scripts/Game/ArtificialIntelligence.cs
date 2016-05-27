@@ -100,34 +100,34 @@ public class ArtificialIntelligence : MonoBehaviour
 				else{
 					if((emplacements[i].y==7 || emplacements[i].y==0)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns+1))){
-							passiveScore-=500;
+							passiveScore-=200;
+						}
+						else{
+							passiveScore-=amount*(GameView.instance.nbTurns+2);
+						}
+					}
+					else if((emplacements[i].y==6 || emplacements[i].y==1)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
+							passiveScore-=200;
 						}
 						else{
 							passiveScore-=amount*(GameView.instance.nbTurns+1);
 						}
 					}
-					else if((emplacements[i].y==6 || emplacements[i].y==1)){
-						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
-							passiveScore-=500;
-						}
-						else{
-							passiveScore-=amount*(GameView.instance.nbTurns);
-						}
-					}
 					else if((emplacements[i].y==5 || emplacements[i].y==2)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-1))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns));
 						}
 					}
 					else if((emplacements[i].y==4 || emplacements[i].y==3)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
 						}
 					}
 
@@ -389,34 +389,34 @@ public class ArtificialIntelligence : MonoBehaviour
 
 					if((emplacements[i].y==7 || emplacements[i].y==0)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns+1))){
-							passiveScore-=500;
+							passiveScore-=200;
+						}
+						else{
+							passiveScore-=amount*(GameView.instance.nbTurns+2);
+						}
+					}
+					else if((emplacements[i].y==6 || emplacements[i].y==1)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
+							passiveScore-=200;
 						}
 						else{
 							passiveScore-=amount*(GameView.instance.nbTurns+1);
 						}
 					}
-					else if((emplacements[i].y==6 || emplacements[i].y==1)){
-						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
-							passiveScore-=500;
-						}
-						else{
-							passiveScore-=amount*(GameView.instance.nbTurns);
-						}
-					}
 					else if((emplacements[i].y==5 || emplacements[i].y==2)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-1))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns));
 						}
 					}
 					else if((emplacements[i].y==4 || emplacements[i].y==3)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
 						}
 					}
 				
@@ -533,34 +533,34 @@ public class ArtificialIntelligence : MonoBehaviour
 
 					if((emplacements[i].y==7 || emplacements[i].y==0)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns+1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns+1))){
-							passiveScore-=500;
+							passiveScore-=200;
+						}
+						else{
+							passiveScore-=amount*(GameView.instance.nbTurns+2);
+						}
+					}
+					else if((emplacements[i].y==6 || emplacements[i].y==1)){
+						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
+							passiveScore-=200;
 						}
 						else{
 							passiveScore-=amount*(GameView.instance.nbTurns+1);
 						}
 					}
-					else if((emplacements[i].y==6 || emplacements[i].y==1)){
-						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns))){
-							passiveScore-=500;
-						}
-						else{
-							passiveScore-=amount*(GameView.instance.nbTurns);
-						}
-					}
 					else if((emplacements[i].y==5 || emplacements[i].y==2)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-1))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-1))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns));
 						}
 					}
 					else if((emplacements[i].y==4 || emplacements[i].y==3)){
 						if((GameView.instance.getCurrentCard().getLife()+lifeBonus<=amount*(GameView.instance.nbTurns-2))||(passiveSkill.Id==69 && GameView.instance.getCurrentCard().getLife()+lifeBonus-10<=amount*(GameView.instance.nbTurns-2))){
-							passiveScore-=500;
+							passiveScore-=200;
 						}
 						else{
-							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-2));
+							passiveScore-=Mathf.Max(0,amount*(GameView.instance.nbTurns-1));
 						}
 					}
 				

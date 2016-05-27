@@ -106,10 +106,10 @@ public class Renfoderme : GameSkill
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
 					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
 					if(targetCard2.isMine){
-						score-=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*(10+4*s.Power-targetCard2.getBouclier()));
+						score-=Mathf.RoundToInt(((proba-targetCard2.getEsquive()/100f))*(10+4*s.Power-targetCard2.getBouclier()));
 					}
 					else{
-						score+=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*(10+4*s.Power-targetCard2.getBouclier()));
+						score+=Mathf.RoundToInt(((proba-targetCard2.getEsquive()/100f))*(10+4*s.Power-targetCard2.getBouclier()));
 					}
 				}
 			}

@@ -791,7 +791,7 @@ public class PhotonController : Photon.MonoBehaviour
 			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==1){
-			return (15+Mathf.RoundToInt(15*(randomTest)/100f));
+			return (10+Mathf.RoundToInt(15*(randomTest)/100f));
         }
         else if(cardType==2){
 			return (20+Mathf.RoundToInt(15*(randomTest)/100f));

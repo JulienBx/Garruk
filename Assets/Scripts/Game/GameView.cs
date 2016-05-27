@@ -2899,7 +2899,7 @@ public class GameView : MonoBehaviour
 
     public int getTotalPV(bool isM){
     	int compteur = 0 ; 
-    	for(int i = 0 ; i < playingCards.Length ; i++){
+    	for(int i = 0 ; i < this.nbCards ; i++){
 			if(this.getCard(i).isMine==isM){
 				compteur+=this.getCard(i).Life;
 			}

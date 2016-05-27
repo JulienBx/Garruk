@@ -42,7 +42,7 @@ public class Justice : GameSkill
 		GameView.instance.displaySkillEffect(targetMax, "-"+malus+" PV", 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(targetMax));
 
-		int bonus = Mathf.Max(GameView.instance.getCard(targetMax).GetTotalLife()-GameView.instance.getCard(targetMax).getLife(),level);
+		int bonus = Mathf.Min(GameView.instance.getCard(targetMax).GetTotalLife()-GameView.instance.getCard(targetMax).getLife(),level);
 		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*bonus,-1,1,"Attaque",bonus+" dégats subis"), false, -1);
 		GameView.instance.displaySkillEffect(targetMin, "+"+bonus+" PV", 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(targetMin));

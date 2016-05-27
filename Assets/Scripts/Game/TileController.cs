@@ -221,7 +221,7 @@ public class TileController : GameObjectController
 				GameView.instance.displaySkillEffect(this.characterID, "Téléporté !", 0);	
 				GameView.instance.addAnim(0,this.tile);
 
-				if(GameView.instance.getCard(this.characterID).isMine){
+				if(GameView.instance.getCard(this.characterID).isMine || (ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCard(this.characterID).isMine)){
 					List<Tile> tiles = GameView.instance.getAllTilesWithin(this.tile, this.trap.getAmount());
 					Tile tile = tiles[UnityEngine.Random.Range(0,tiles.Count)];
 					GameController.instance.clickDestination(tile, this.characterID, true);
