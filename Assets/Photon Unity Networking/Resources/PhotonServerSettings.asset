@@ -89,4 +89,8 @@ MonoBehaviour:
   - getGameId
   - launchGameRPC
   - addAttackPretresseRPC
+  - AddPlayerToListRPC
+  - CheckPlayerStateRPC
+  - getCurrentGameIdRPC
+  - getPlayerDataRPC
   DisableAutoOpenWizard: 0
