@@ -510,11 +510,12 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA){
+			print(ApplicationModel.player.ToLaunchGameIA);
 			int level;
 			int attackValue ;
 			int pvValue ;
 			for(int i = 0 ; i < this.nbCards ; i++){
-				print("i");
+				print(i);
 		
 				if(this.getCard(i).isMine){
 					if(this.getCard(i).isLeader()){
