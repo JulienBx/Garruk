@@ -50,6 +50,7 @@ public class WordingServerError
 		references.Add(new string[]{"Votre ami a refusé votre invitation",""}); //19
 		references.Add(new string[]{"Vous ne pouvez pas augmenter cette caractéristique",""}); //20
 		references.Add(new string[]{"Mail déjà existant",""}); //21
+		references.Add(new string[]{"Le joueur adverse s'est déconnecté au lancement du match, veuillez réessayer",""}); //22
 
 	}
 }
