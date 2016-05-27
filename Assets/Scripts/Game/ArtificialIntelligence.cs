@@ -462,10 +462,8 @@ public class ArtificialIntelligence : MonoBehaviour
 				if(bestSkill.Id == 131 || bestSkill.Id == 103){
 					tempList.Add(new Tile(GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill()),0));
 				}
-				else{
-					tempList.Add(bestTarget);
-				}
-				if(bestSkill.Id == 27){
+				else if(bestSkill.Id == 27){
+					tempList.Add(new Tile(0,0));
 					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
 					Debug.Log("Lance-Flammes "+resultat);
 					if(resultat==0){
@@ -485,6 +483,10 @@ public class ArtificialIntelligence : MonoBehaviour
 						tempList[0].y = bestEmplacement.y;
 					}
 				}
+				else{
+					tempList.Add(bestTarget);
+				}
+
 
 				GameSkills.instance.getSkill(bestSkill.Id).resolve(tempList);
 			}
