@@ -13,5 +13,8 @@ public class PreMatchScreenButtonController : SimpleButtonController
 		SoundController.instance.playSound(9);
 		PhotonController.instance.leaveRandomRoomHandler();
 	}
+	public override void hideToolTip()
+	{
+	}
 }
 

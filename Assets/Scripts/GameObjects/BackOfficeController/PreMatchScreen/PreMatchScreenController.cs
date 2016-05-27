@@ -56,7 +56,16 @@ public class PreMatchScreenController : MonoBehaviour
 		this.preMatchScreenRatio = 0.3f;
 
 		this.angle = 0f;
-		this.toShowLoading=true;
+		this.myCards=new GameObject[ApplicationModel.nbCardsByDeck];
+		this.hisCards=new GameObject[ApplicationModel.nbCardsByDeck];
+		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
+		{
+			this.myCards[i]=this.gameObject.transform.FindChild("myCard"+i).gameObject;
+			this.hisCards[i]=this.gameObject.transform.FindChild("hisCard"+i).gameObject;
+		}
+		this.myName= this.gameObject.transform.FindChild("myName").gameObject;
+		this.hisName=this.gameObject.transform.FindChild("hisName").gameObject;
+		this.vs=this.gameObject.transform.FindChild("VS").gameObject;
 	}
 	void Update()
 	{
@@ -272,11 +281,27 @@ public class PreMatchScreenController : MonoBehaviour
 		this.toAnimatePreMatchLoadingScreen=true;
 		this.toShowLoading=false;
 	}
+	public void reset()
+	{
+		this.isPreMatchScreen=false;
+		this.toAnimatePreMatchLoadingScreen=false;
+		this.toRewindPreMatchLoadingScreen=false;
+		this.toShowLoading=true;
+		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
+		{
+			this.myCards[i].SetActive(false);
+			this.hisCards[i].SetActive(false);
+		}
+		this.myName.SetActive(false);
+		this.hisName.SetActive(false);
+		this.vs.SetActive(false);
+		this.gameObject.transform.FindChild("loadingCircle").gameObject.SetActive(true);
+		this.gameObject.transform.FindChild("button").gameObject.SetActive(true);
+		this.gameObject.transform.FindChild("title").gameObject.SetActive(true);
+	}
 	private void initializePreMatchLoadingScreen()
 	{
 		this.isPreMatchScreen=true;
-		this.myCards=new GameObject[ApplicationModel.nbCardsByDeck];
-		this.hisCards=new GameObject[ApplicationModel.nbCardsByDeck];
 		this.myCardsCurrentPosition=new float[ApplicationModel.nbCardsByDeck];
 		this.hisCardsCurrentPosition=new float[ApplicationModel.nbCardsByDeck];
 		this.myCardsStartPosition=new Vector3[ApplicationModel.nbCardsByDeck];
@@ -287,10 +312,8 @@ public class PreMatchScreenController : MonoBehaviour
 		this.toAnimateHisCards=new bool[ApplicationModel.nbCardsByDeck];
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
-			this.myCards[i]=this.gameObject.transform.FindChild("myCard"+i).gameObject;
 			this.myCards[i].transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=this.preMatchScreenAvatars[ApplicationModel.player.MyDeck.cards[i].Skills[0].Id];
 			this.myCards[i].SetActive(true);
-			this.hisCards[i]=this.gameObject.transform.FindChild("hisCard"+i).gameObject;
 			this.hisCards[i].transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=this.preMatchScreenAvatars[ApplicationModel.opponentDeck.cards[i].Skills[0].Id];
 			this.hisCards[i].SetActive(true);
 			this.myCardsCurrentPosition[i]=0f;
@@ -300,11 +323,8 @@ public class PreMatchScreenController : MonoBehaviour
 		this.toAnimateHisName=true;
 		this.myNameCurrentPosition=0f;
 		this.hisNameCurrentPosition=0f;
-		this.myName= this.gameObject.transform.FindChild("myName").gameObject;
 		this.myName.SetActive(true);
-		this.hisName=this.gameObject.transform.FindChild("hisName").gameObject;
 		this.hisName.SetActive(true);
-		this.vs=this.gameObject.transform.FindChild("VS").gameObject;
 		this.vs.transform.GetComponent<TextMeshPro>().text=WordingLoadingScreen.getReference(1);
 		this.vs.SetActive(false);
 		this.gameObject.transform.FindChild("loadingCircle").gameObject.SetActive(false);

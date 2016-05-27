@@ -24,6 +24,7 @@ public class PhotonController : Photon.MonoBehaviour
 	private bool isInitialized;
 	private string sceneName;
 	private bool isLoadingScreenDisplayed;
+	private bool isQuittingGame;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -33,6 +34,14 @@ public class PhotonController : Photon.MonoBehaviour
         {
             this.addWaitingTime(Time.deltaTime);
         }
+        if(this.isQuittingGame)
+        {
+        	if(async.progress==1)
+        	{
+				this.isQuittingGame=false;
+				this.hideLoadingScreen();
+        	}
+        }
     }
 	public void initialize()
 	{
@@ -40,6 +49,7 @@ public class PhotonController : Photon.MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.isInitialized=true;
+		this.isQuittingGame=false;
 	}
 	public void initializeGame()
 	{
@@ -122,6 +132,7 @@ public class PhotonController : Photon.MonoBehaviour
 		if(PhotonNetwork.room.playerCount==2)
 		{
             PhotonNetwork.room.open = false;
+            this.displayLoadingScreenButton(false);
         }
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
@@ -148,6 +159,7 @@ public class PhotonController : Photon.MonoBehaviour
     	this.nbPlayersInRoom++;
     	if(this.nbPlayersInRoom==2)
     	{
+    		this.displayLoadingScreenButton(false);
 			PhotonNetwork.room.open = false;
 			this.isWaiting=false;
 			this.checkPlayersState();
@@ -228,6 +240,7 @@ public class PhotonController : Photon.MonoBehaviour
 
 	private IEnumerator startIAGame()
     {
+		this.displayLoadingScreenButton(false);
 		PhotonNetwork.room.open = false;
 		this.CreateIADeck();
 		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
@@ -945,7 +958,9 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	public void leaveRandomRoomHandler()
 	{
-		PhotonController.instance.leaveRoom ();
+		this.isWaiting=false;
+		this.displayLoadingScreenButton(false);
+		this.leaveRoom ();
 
 		if(ApplicationModel.player.ChosenGameType>20)
 		{
@@ -953,8 +968,20 @@ public class PhotonController : Photon.MonoBehaviour
 			invitation.Id = ApplicationModel.player.ChosenGameType-20;
 			StartCoroutine(invitation.changeStatus(-1));
 		}
-		SceneManager.LoadScene(this.sceneName);
+		this.loadScene(this.sceneName);
 	}
+	public void loadScene(string sceneName)
+    {
+        StartCoroutine(this.preLoadScene(sceneName));
+    }
+    private IEnumerator preLoadScene(string sceneName) 
+    {
+    	this.isQuittingGame=true;
+		async = Application.LoadLevelAsync(sceneName);
+		async.allowSceneActivation = true;
+        yield return async;
+         
+     }
 	public void displayLoadingScreen()
 	{
 		if(!isLoadingScreenDisplayed)
@@ -962,6 +989,7 @@ public class PhotonController : Photon.MonoBehaviour
 			this.preMatchScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+			this.preMatchScreen.GetComponent<PreMatchScreenController>().reset();
 			this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
 		}
 	}
@@ -999,5 +1027,9 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.preMatchScreen.GetComponent<PreMatchScreenController> ().launchPreMatchLoadingScreen();
 		}
+	}
+	public void resize()
+	{
+		this.preMatchScreen.GetComponent<PreMatchScreenController>().resize();
 	}
 }
