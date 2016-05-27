@@ -194,11 +194,11 @@ public class PhotonController : Photon.MonoBehaviour
 
 	void getPlayerDataHandler()
     {
-		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.ToLaunchGameIA, ApplicationModel.player.IsFirstPlayer);
+		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.FirstName,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId);
     }
 
 	[PunRPC]
-	IEnumerator getPlayerDataRPC(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId, bool isIaGame)
+	IEnumerator getPlayerDataRPC(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
     {
 		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
