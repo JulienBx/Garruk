@@ -25,7 +25,6 @@ public class TutorialController : MonoBehaviour
 	void Start ()
 	{
 		instance = this;
-		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.resize ();
@@ -36,11 +35,6 @@ public class TutorialController : MonoBehaviour
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
 		this.backOfficeController.AddComponent<BackOfficeTutorialController>();
 		this.backOfficeController.GetComponent<BackOfficeTutorialController>().initialize();
-	}
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	public void initializeScene()
 	{

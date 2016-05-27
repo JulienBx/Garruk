@@ -276,7 +276,6 @@ public class newMyGameController : MonoBehaviour
 		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -288,11 +287,6 @@ public class newMyGameController : MonoBehaviour
 		this.help.AddComponent<MyGameHelpController>();
 		this.help.GetComponent<MyGameHelpController>().initialize();
 		BackOfficeController.instance.setIsHelpLoaded(true);
-	}
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeMenu()
 	{

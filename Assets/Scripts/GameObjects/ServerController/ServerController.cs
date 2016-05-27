@@ -35,6 +35,7 @@ public class ServerController : MonoBehaviour
 	public void initialize()
 	{
 		instance=this;
+		DontDestroyOnLoad(this.gameObject);
 	}
 	public void setRequest(string URL, WWWForm form)
 	{

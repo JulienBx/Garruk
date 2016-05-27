@@ -148,6 +148,7 @@ public class BackOfficeController : MonoBehaviour
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
 		this.loadingScreen=this.gameObject.transform.FindChild("loadingScreen").gameObject;
 		this.loadingScreen.transform.FindChild("background2").GetComponent<SpriteRenderer>().sprite=ressources.loadingScreenBackgrounds[this.getLoadingScreenBackground()];
+		PhotonController.instance.setSceneName(SceneManager.GetActiveScene().name);
 		this.resize();
 		this.displayLoadingScreen();
 	}
@@ -546,13 +547,6 @@ public class BackOfficeController : MonoBehaviour
 			this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (value);
 		}
 	}
-	public void launchPreMatchLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			this.loadingScreen.GetComponent<LoadingScreenController> ().launchPreMatchLoadingScreen();
-		}
-	}
 	public void toDisconnect() 
 	{
 		SoundController.instance.stopPlayingMusic();
@@ -595,32 +589,15 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
 			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
-            PhotonController.instance.joinRandomRoom();
-			ApplicationModel.player.IsInviting = true;	
+			ApplicationModel.player.IsInviting = true;
+			this.loadScene("Game");	
 		}
 	}
 
-	public void leaveRandomRoomHandler()
-	{
-		this.hideLoadingScreen ();
-		PhotonController.instance.leaveRoom ();
 
-		if(ApplicationModel.player.ChosenGameType>20)
-		{
-			Invitation invitation = new Invitation ();
-			invitation.Id = ApplicationModel.player.ChosenGameType-20;
-			StartCoroutine(invitation.changeStatus(-1));
-		}
-	}
 	public void joinRandomRoomHandler()
 	{
-		this.displayLoadingScreen ();
-		//ApplicationModel.player.ToLaunchGameTutorial=TutorialObjectController.instance.launchTutorialGame();
-		if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
-		{
-			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
-		}
-		PhotonController.instance.joinRandomRoom ();
+		this.loadScene("Game");
 	}
 	public void joinInvitationRoomFailed()
 	{
@@ -689,10 +666,6 @@ public class BackOfficeController : MonoBehaviour
 	public Sprite returnCaracterAvatar(int id)
 	{
 		return ressources.caractersAvatars[id];
-	}
-	public Sprite returnPreMatchScreenAvatar(int id)
-	{
-		return ressources.preMatchScreenAvatars[id];
 	}
 	public void leaveGame()
 	{
@@ -788,18 +761,9 @@ public class BackOfficeController : MonoBehaviour
     }
     private IEnumerator preLoadScene(string sceneName) 
     {
-		if(PhotonController.instance.async==null)
-    	{
-			async = Application.LoadLevelAsync(sceneName);
-         	async.allowSceneActivation = true;
-         	yield return async;
-    	}
-    	else
-    	{
-    		PhotonController.instance.setIsScenePreloaded(false);
-    		SceneManager.LoadScene(sceneName);
-    		yield break;
-    	}
+		async = Application.LoadLevelAsync(sceneName);
+        async.allowSceneActivation = true;
+        yield return async;
          
      }
 	#region TUTORIAL FUNCTIONS

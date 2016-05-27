@@ -224,7 +224,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.scrollIntersection = 1.2f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -243,11 +242,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
 		BackOfficeController.instance.setIsMenuLoaded(true);
-	}
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{

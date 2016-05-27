@@ -9,98 +9,78 @@ using UnityEngine.SceneManagement;
 
 public class PhotonController : Photon.MonoBehaviour 
 {
+
+	private GameObject preMatchScreen;
+
     public const string roomNamePrefix = "GarrukGame";
 	public static PhotonController instance;
     private int nbDecksLoaded;
+    private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
     float limitTime = 1f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private bool isInitialized;
-	private bool isScenePreloaded;
-	private bool toLoadScene;
+	private string sceneName;
+	private bool isLoadingScreenDisplayed;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
     void Update()
     {
-        if(this.isWaiting){
-            this.addWaitingTime(Time.deltaTime);
-        }
-        if(this.toLoadScene)
+        if(this.isWaiting)
         {
-            if(this.async.progress>=0.9f)
-            {
-                this.toLoadScene=false;
-                this.launchGame();
-            }
+            this.addWaitingTime(Time.deltaTime);
         }
     }
 	public void initialize()
 	{
 		instance = this;
 		DontDestroyOnLoad(this.gameObject);
+		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.isInitialized=true;
 	}
-    public void addWaitingTime(float f){
-        
-        this.waitingTime += f ;
-        if(waitingTime>limitTime){
-            isWaiting = false ;
-			this.waitingTime=0f;
-			if(PhotonNetwork.room.playerCount<2)
-	        {
-				ApplicationModel.player.ToLaunchGameIA  = true ;
-            	StartCoroutine(this.startIAGame());
-	        }
-        }
-    }
-    public void leaveRoom()
+	public void initializeGame()
+	{
+		this.joinRandomRoom();
+	}
+	public void joinRandomRoom()
     {
-        this.isWaiting = false ;
-        this.waitingTime = 0f;
-        print("Je ferme la room LEAVE");
-
-        PhotonNetwork.LeaveRoom ();
-    }
-
-    void OnCreatedRoom()
-    {
-        //photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, PhotonNetwork.player.ID, ApplicationModel.player.Username, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId, ApplicationModel.player.RankingPoints);
-    }
-
-    public void joinRandomRoom()
-    {
+		this.displayLoadingScreen();
+		if(ApplicationModel.player.ChosenGameType>20)
+		{
+			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
+		}
+		else if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
+		{
+			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
+		}
         print("Jessaye de join une room");
+        this.isWaiting=false;
         this.nbPlayersReady=0;
-		this.setToLoadScene(false);
+        this.nbPlayersInRoom=0;
+        this.waitingTime=0f;
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
         PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
     }
-
-    void OnPhotonRandomJoinFailed()
+	void OnPhotonRandomJoinFailed()
     {
         Debug.Log("Can't join random room! - creating a new room");
         this.CreateNewRoom ();
     }
-
-    void OnPhotonJoinRoomFailed()
+	void OnPhotonJoinRoomFailed()
     {
-        print("La room n'existe plus");
-        BackOfficeController.instance.hideLoadingScreen();
-		BackOfficeController.instance.displayErrorPopUp(WordingServerError.getReference("22",true));
+        this.joinRandomRoom();
     }
-
-    public void CreateNewRoom()
+	public void CreateNewRoom()
     {
         print("Je crée une nouvelle Room");
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersReady=0;
-        this.setToLoadScene(false);
         RoomOptions newRoomOptions = new RoomOptions();
         newRoomOptions.isOpen = true;
         newRoomOptions.isVisible = true;
@@ -115,115 +95,144 @@ public class PhotonController : Photon.MonoBehaviour
             this.waitingTime=0f;
         }
     }
-
-    public void startLoadingScene(){
-        StartCoroutine("loadGame");
+    public void addWaitingTime(float f){
+        
+        this.waitingTime += f ;
+        if(waitingTime>limitTime)
+        {
+            isWaiting = false ;
+			this.waitingTime=0f;
+			if(PhotonNetwork.room.playerCount<2)
+	        {
+				ApplicationModel.player.ToLaunchGameIA  = true ;
+            	StartCoroutine(this.startIAGame());
+	        }
+        }
     }
-
-    IEnumerator loadGame(){
-	    if(this.isScenePreloaded)
-	    {
-	    	yield break;
-	    }
-	    else
-	    {
-			this.async=new AsyncOperation();
-        	this.async = SceneManager.LoadSceneAsync("Game");
-       	 	this.async.allowSceneActivation = false ;
-       	 	this.isScenePreloaded=true;
-        	yield return async ;
-	    }
+    public void leaveRoom()
+    {
+        PhotonNetwork.LeaveRoom ();
     }
-
-    void OnJoinedRoom(){
+    void OnJoinedRoom()
+    {
         print("Je join la room random "+ApplicationModel.player.IsFirstPlayer);
-
-		this.startLoadingScene();
 		ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
 		if(PhotonNetwork.room.playerCount==2)
 		{
             PhotonNetwork.room.open = false;
-			this.isWaiting=false;
         }
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
-			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.ToLaunchGameIA);
-        	BackOfficeController.instance.displayLoadingScreenButton(true);
+			this.addPlayerToListHandler();
+        	this.displayLoadingScreenButton(true);
         }
         else
         {
-            this.startTutorialGame();
+			GameView.instance.init();
         }
     }
-    
-    [PunRPC]
-    IEnumerator AddPlayerToList(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId, bool isIaGame)
+
+    // ETAPE 1 -> Attendre 2 joueurs
+
+    void addPlayerToListHandler()
     {
-        if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
+		photonView.RPC("AddPlayerToListRPC", PhotonTargets.AllBuffered);
+    }
+
+    [PunRPC]
+    void AddPlayerToListRPC()
+    {
+    	this.nbPlayersInRoom++;
+    	if(this.nbPlayersInRoom==2)
+    	{
+			PhotonNetwork.room.open = false;
+			this.isWaiting=false;
+			this.checkPlayersState();
+		}
+    }
+
+    // ETAPE 2 -> Vérifier que personne n'a lancé l'IA
+
+    void checkPlayersState()
+    {
+		photonView.RPC("CheckPlayerStateRPC", PhotonTargets.AllBuffered, ApplicationModel.player.ToLaunchGameIA, ApplicationModel.player.IsFirstPlayer);
+    }
+
+	[PunRPC]
+    void CheckPlayerStateRPC(bool toLaunchGameIA, bool isFirstPlayer)
+    {
+		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
+		{
+			if(!toLaunchGameIA)
+			{
+				this.getPlayerDataHandler();
+			}
+			else
+			{
+				this.leaveRoom();
+        		this.joinRandomRoom();
+			}
+		}
+    }
+
+    // ETAPE 3 -> Récupérer les infos de matchs
+
+	void getPlayerDataHandler()
+    {
+		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.ToLaunchGameIA, ApplicationModel.player.IsFirstPlayer);
+    }
+
+	[PunRPC]
+	IEnumerator getPlayerDataRPC(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId, bool isIaGame)
+    {
+		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
-        	if(isIaGame)
-        	{
-        		PhotonNetwork.LeaveRoom();
-				print("La room est déjà occupée");
-				BackOfficeController.instance.hideLoadingScreen();
-				BackOfficeController.instance.displayErrorPopUp(WordingServerError.getReference("22",true));
-        	}
-        	else
-        	{
-				ApplicationModel.hisPlayerName=playerName;
-				ApplicationModel.hisPlayerID=playerId;
-				ApplicationModel.hisRankingPoints=playerRankingPoints;
-				yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,false, playerId,playerRankingPoints,playerSelectedDeckId));
-				this.startGame();
-        	}
+			ApplicationModel.hisPlayerName=playerName;
+			ApplicationModel.hisPlayerID=playerId;
+			ApplicationModel.hisRankingPoints=playerRankingPoints;
+			yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,false, playerId,playerRankingPoints,playerSelectedDeckId));
+			this.getCurrentGameIdHandler();
         }
         else
         {
+			this.getCurrentGameIdHandler();
 			yield break;
         }
     }
+
+	void getCurrentGameIdHandler()
+    {
+		photonView.RPC("getCurrentGameIdRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.currentGameId);
+    }
+
+    // ETAPE 4 -> Transmettre le game ID et lancer le match
+
+	[PunRPC]
+	void getCurrentGameIdRPC(bool isFirstPlayer, int currentGameId)
+    {
+		if(isFirstPlayer)
+        {
+			ApplicationModel.currentGameId=currentGameId;
+        }
+        this.nbPlayersReady++;
+        if(this.nbPlayersReady==2)
+        {
+			this.preMatchScreen.GetComponent<PreMatchScreenController>().launchPreMatchLoadingScreen();
+        }
+    }
+
+
+
 	private IEnumerator startIAGame()
     {
 		PhotonNetwork.room.open = false;
 		this.CreateIADeck();
 		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
-		this.startGame();
+		this.preMatchScreen.GetComponent<PreMatchScreenController>().launchPreMatchLoadingScreen();
     }
-	private void startTutorialGame()
-    {
-       this.setToLoadScene(true);
-    }
-    private void startGame()
-    {
-		BackOfficeController.instance.launchPreMatchLoadingScreen();
-    }
-	public void launchGame()
-    {
-        print("Je RPC launch game");
-        photonView.RPC("launchGameRPC", PhotonTargets.AllBuffered,ApplicationModel.currentGameId);
-        print("J'ai RPC launch game");
-    }
-
-	[PunRPC]
-	IEnumerator launchGameRPC(int currentGameId)
-    {
-    	this.nbPlayersReady++;
-		if(!ApplicationModel.player.IsFirstPlayer)
-        {
-            ApplicationModel.currentGameId=currentGameId;
-        }
-        if(this.nbPlayersReady==2 || ApplicationModel.player.ToLaunchGameIA || ApplicationModel.player.ToLaunchGameTutorial)
-        {
-        	print("READY2");
-        	yield return new WaitForSeconds(2);
-        	this.isScenePreloaded=false;
-			async.allowSceneActivation=true;
-        }
-    }
-
     public void OnDisconnectedFromPhoton()
     {
         if(!ApplicationModel.player.ToDeconnect)
@@ -930,12 +939,65 @@ public class PhotonController : Photon.MonoBehaviour
             ServerController.instance.lostConnection();
         }
     }
-    public void setToLoadScene(bool value)
+    public void setSceneName(string sceneName)
     {
-        this.toLoadScene=value;
+    	this.sceneName=sceneName;
     }
-	public void setIsScenePreloaded(bool value)
-    {
-        this.isScenePreloaded=value;
-    }
+	public void leaveRandomRoomHandler()
+	{
+		PhotonController.instance.leaveRoom ();
+
+		if(ApplicationModel.player.ChosenGameType>20)
+		{
+			Invitation invitation = new Invitation ();
+			invitation.Id = ApplicationModel.player.ChosenGameType-20;
+			StartCoroutine(invitation.changeStatus(-1));
+		}
+		SceneManager.LoadScene(this.sceneName);
+	}
+	public void displayLoadingScreen()
+	{
+		if(!isLoadingScreenDisplayed)
+		{
+			this.preMatchScreen.SetActive(true);
+			this.isLoadingScreenDisplayed=true;
+			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+			this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
+		}
+	}
+	public void hideLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			this.displayLoadingScreenButton (false);
+			this.preMatchScreen.SetActive(false);
+			this.isLoadingScreenDisplayed=false;
+		}
+		if(ApplicationModel.player.IsInviting)
+		{
+			ApplicationModel.player.IsInviting=false;
+		}
+
+	}
+	public void changeLoadingScreenLabel(string label)
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			this.preMatchScreen.GetComponent<PreMatchScreenController> ().changeLoadingScreenLabel (label);
+		}
+	}
+	public void displayLoadingScreenButton(bool value)
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			this.preMatchScreen.GetComponent<PreMatchScreenController> ().displayButton (value);
+		}
+	}
+	public void launchPreMatchLoadingScreen()
+	{
+		if(isLoadingScreenDisplayed)
+		{
+			this.preMatchScreen.GetComponent<PreMatchScreenController> ().launchPreMatchLoadingScreen();
+		}
+	}
 }

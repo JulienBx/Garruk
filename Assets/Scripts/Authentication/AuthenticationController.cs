@@ -15,6 +15,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	public Sprite[] languagesSprites;
 	public GameObject soundControllerObject;
 	public GameObject photonControllerObject;
+	public GameObject serverControllerObject;
 
 	private GameObject backOfficeController;
 	private GameObject soundController;
@@ -126,7 +127,12 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private void initializeServerController()
 	{
 		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
+		if(this.serverController==null)
+		{
+			this.serverController=GameObject.Instantiate(this.serverControllerObject);
+			this.serverController.name="ServerController";
+			this.serverController.GetComponent<ServerController>().initialize();	
+		}
 	}
 	private void initializeBackOffice()
 	{
