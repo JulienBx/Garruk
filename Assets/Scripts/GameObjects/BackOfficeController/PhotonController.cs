@@ -91,7 +91,7 @@ public class PhotonController : Photon.MonoBehaviour
     {
         print("La room n'existe plus");
         BackOfficeController.instance.loadScene("NewHomePage");
-        BackOfficeController.instance.displayErrorPopUp(WordingServerError.getReference(22));
+        BackOfficeController.instance.displayErrorPopUp(WordingServerError.getReference("22",true));
     }
 
     public void CreateNewRoom()
