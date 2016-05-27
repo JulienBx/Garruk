@@ -67,7 +67,7 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
-        print("Jessaye de join une room");
+        print("Jessaye de joindre une room");
         this.hasToJoinRoom=false;
         this.isWaiting=false;
         this.nbPlayersReady=0;
@@ -90,6 +90,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedLobby()
     {
+    	Debug.Log("retour au lobby");
     	if(hasToJoinRoom)
     	{
     		this.joinRandomRoom();
@@ -137,11 +138,13 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedRoom()
     {
+    	print("j'ai rejoint une room");
         ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
 		if(PhotonNetwork.room.playerCount==2)
 		{
+			print("il y a deux joueurs je ferme la room");
             PhotonNetwork.room.open = false;
             this.displayLoadingScreenButton(false);
         }
@@ -170,6 +173,7 @@ public class PhotonController : Photon.MonoBehaviour
     	this.nbPlayersInRoom++;
     	if(this.nbPlayersInRoom==2)
     	{
+    		Debug.Log("il y a deux joueurs je ferme la room");
     		this.displayLoadingScreenButton(false);
 			PhotonNetwork.room.open = false;
 			this.isWaiting=false;
@@ -195,8 +199,9 @@ public class PhotonController : Photon.MonoBehaviour
 			}
 			else
 			{
+				Debug.Log("il y a l'IA, je quitte la room");
 				this.leaveRoom();
-        		this.joinRandomRoom();
+        		this.hasToJoinRoom=true;
 			}
 		}
     }
