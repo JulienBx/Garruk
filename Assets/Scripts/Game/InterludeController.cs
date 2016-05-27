@@ -232,11 +232,14 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
+			print("J'efface");
 			if(!isEndTurn){
 				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();
 				}
 			}
+			print("Je réfléchis");
+
 
 			if (GameView.instance.sequenceID==14){
 				GameView.instance.hitNextTutorial();

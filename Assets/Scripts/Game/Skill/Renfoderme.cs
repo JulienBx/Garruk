@@ -96,7 +96,7 @@ public class Renfoderme : GameSkill
 		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*(10+4*s.Power-targetCard.getBouclier()));
+		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(10+4*s.Power-targetCard.getBouclier()));
 
 		if(currentCard.isVirologue()){
 			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
@@ -106,10 +106,10 @@ public class Renfoderme : GameSkill
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
 					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
 					if(targetCard2.isMine){
-						score-=Mathf.RoundToInt(((proba-targetCard2.getEsquive()/100f))*(10+4*s.Power-targetCard2.getBouclier()));
+						score-=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*(10+4*s.Power-targetCard2.getBouclier()));
 					}
 					else{
-						score+=Mathf.RoundToInt(((proba-targetCard2.getEsquive()/100f))*(10+4*s.Power-targetCard2.getBouclier()));
+						score+=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*(10+4*s.Power-targetCard2.getBouclier()));
 					}
 				}
 			}

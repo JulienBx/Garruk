@@ -505,7 +505,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void loadDeck(Deck deck, bool isFirstP){
-		print("LOADDECK");
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++){
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
@@ -520,16 +519,14 @@ public class GameView : MonoBehaviour
 			int attackValue ;
 			int pvValue ;
 			for(int i = 0 ; i < this.nbCards ; i++){
-				print(i);
-		
 				if(this.getCard(i).isMine){
 					if(this.getCard(i).isLeader()){
 						level = this.getCard(i).getSkills()[0].Power;
 						GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false, -1);
 						for(int j = 0 ; j < this.nbCards ; j++){
 							if(this.getCard(j).isMine && i!=j){
-								attackValue = level+2;
-								pvValue = 2*level+5;
+								attackValue = level;
+								pvValue = level+6;
 								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
 								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
 								this.getPlayingCardController(j).show();
@@ -569,8 +566,8 @@ public class GameView : MonoBehaviour
 	
 						for(int j = 0 ; j < this.nbCards ; j++){
 							if(!this.getCard(j).isMine && i!=j){
-								attackValue = level+2;
-								pvValue = 2*level+5;
+								attackValue = level;
+								pvValue = level+6;
 								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
 								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
 								this.getPlayingCardController(j).show();
@@ -793,6 +790,10 @@ public class GameView : MonoBehaviour
 	}
 
 	public void dropCharacter(int characterID, Tile t, bool isFirstP, bool toDisplayMove){
+		if(characterID==this.currentPlayingCard && this.getCurrentCard().hasPlayed && !this.getCurrentCard().isGolem()){
+			this.passZone.GetComponent<PassController>().show(false);
+		}
+
 		SoundController.instance.playSound(27);
 		Tile origine = this.getPlayingCardController(characterID).getTile();
 		this.removeSE(origine);
@@ -1416,13 +1417,10 @@ public class GameView : MonoBehaviour
 				this.getPlayingCardController(this.currentPlayingCard).nbTurns++;
 				if(this.getPlayingCardController(this.currentPlayingCard).nbTurns==3){
 					int level = this.getCurrentCard().getSkills()[0].Power;
-					this.getPlayingCardController(this.currentPlayingCard).emptyModifiers();
-					this.getCard(this.currentPlayingCard).emptyDamageModifyers();
 					this.getPlayingCardController(this.currentPlayingCard).updateLife(this.getCard(this.currentPlayingCard).getLife());
 					this.getPlayingCardController(this.currentPlayingCard).updateAttack(this.getCard(this.currentPlayingCard).getAttack());
-					this.getCard(this.currentPlayingCard).Attack = 15+level*5;
-
-					this.getCard(this.currentPlayingCard).Life = 45+level*5;
+					this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(10+level*2, -1, 138, base.name, ". Permanent"));
+					this.getPlayingCardController(this.currentPlayingCard).addPVModifyer(new Modifyer(20+level*2, -1, 138, base.name, ". Permanent"));
 					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
 					this.getPlayingCardController(this.currentPlayingCard).show();
 					GameView.instance.displaySkillEffect(this.currentPlayingCard, "Mutant\nse transforme!", 2);
@@ -1639,6 +1637,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public TileController getTileController(int c){
+		print(this.getPlayingCardController(c).getTile().x+","+this.getPlayingCardController(c).getTile().y);
 		return this.tiles[this.getPlayingCardController(c).getTile().x,this.getPlayingCardController(c).getTile().y].GetComponent<TileController>();
 	}
 	
@@ -2320,7 +2319,7 @@ public class GameView : MonoBehaviour
 		List<Tile> cibles = new List<Tile>();
 
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==6 && this.getCard(i).isMine && !this.getCard(i).isDead){
+			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==6 && this.getCard(i).isMine==isM && !this.getCard(i).isDead){
 				List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(this.getPlayingCardTile(i), isM);
 				int playerID;
 				foreach (Tile t in neighbourTiles)
@@ -2827,6 +2826,7 @@ public class GameView : MonoBehaviour
 
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
+		this.getTileController(c).setCharacterID(-1);
 
 		List<Tile> neighbours = this.getTile(c).getImmediateNeighbourTiles();
 		int tempInt; 

@@ -86,7 +86,7 @@ public class Implosion : GameSkill
 		int levelMin;
 		int levelMax;
 
-		score -=100 + 30 - currentCard.getLife();
+		score -= 150 + 30 - currentCard.getLife();
 
 		List<Tile> tempTiles = t.getImmediateNeighbourTiles();
 		for(int i = 0 ; i < tempTiles.Count ; i++){

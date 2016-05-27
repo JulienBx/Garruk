@@ -49,7 +49,7 @@ public class SkillZoneController : MonoBehaviour
 		}
 		else{
 			GameView.instance.passZone.GetComponent<PassController>().setLaunchability("");
-			GameView.instance.passZone.GetComponent<PassController>().show(true);
+			GameView.instance.passZone.GetComponent<PassController>().show(!GameView.instance.getCurrentCard().hasPlayed || !GameView.instance.getCurrentCard().hasMoved);
 			if(g.hasPlayed){
 				this.showSkillButtons(false);
 				this.showCancelButton (false);

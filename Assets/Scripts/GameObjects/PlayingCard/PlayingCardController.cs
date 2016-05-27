@@ -801,7 +801,7 @@ public class PlayingCardController : GameObjectController
 	public void checkPaladin(bool toDisplay){
 		if((card.Skills[0].Id == 73)){
 			int level = card.Skills[0].Power;
-			int bonusAttack = Mathf.RoundToInt((level*10f)*card.getAttack()/100f);
+			int bonusAttack = Mathf.RoundToInt((level*10f)*card.Attack/100f);
 			int bonusMove = -1*Mathf.Min(card.getMove()-1,1);
 
 			this.addAttackModifyer(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), ". Permanent"));

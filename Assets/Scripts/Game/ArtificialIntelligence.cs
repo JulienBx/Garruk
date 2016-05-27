@@ -237,13 +237,11 @@ public class ArtificialIntelligence : MonoBehaviour
 									List<Tile> neighbours = targets[k].getImmediateNeighbourTiles();
 									for(int n = 0 ; n < neighbours.Count ; n++){
 										if(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)==-1){
-											if(GameView.instance.getTileController(neighbours[n].x, neighbours[n].y).isRock()){
-												actionScore+=1;
-											}
+											
 										}
 										else{
 											if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[n].x, neighbours[n].y)).isMine){
-												actionScore+=1;
+												
 											}
 											else{
 												actionScore+=3;
@@ -254,12 +252,12 @@ public class ArtificialIntelligence : MonoBehaviour
 										actionScore+=1;
 									}
 									else if(targets[k].y==2||targets[k].y==5){
-										actionScore+=5;
+										actionScore+=7;
 									}
 									else if(targets[k].y==3||targets[k].y==4){
-										actionScore+=9;
+										actionScore+=15;
 									}
-									actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/2f);
+									actionScore = Mathf.RoundToInt(actionScore*(skills[j].Power)/10f);
 								}
 								else{
 									actionScore = gs.getActionScore(targets[k], skills[j]);
@@ -307,17 +305,19 @@ public class ArtificialIntelligence : MonoBehaviour
 		}
 		Tile origine = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 		if(bestEmplacement.x!=origine.x || bestEmplacement.y!=origine.y){
-
+			yield return new WaitForSeconds(UnityEngine.Random.Range(2,6));
 			GameView.instance.dropCharacter(GameView.instance.getCurrentPlayingCard(), bestEmplacement, false, true);
 			yield return new WaitForSeconds(UnityEngine.Random.Range(2,6));
-
 			Debug.Log("Je joue1 "+bestSkill.Id);
 			List<Tile> tempList = new List<Tile>();
 			tempList.Add(bestTarget);
 			GameController.instance.play(bestSkill.Id);
 
 			if(bestSkill.Id == 131 || bestSkill.Id == 103){
-				tempList[0].x = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill());
+				tempList.Add(new Tile(GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill()),0));
+			}
+			else{
+				tempList.Add(bestTarget);
 			}
 			if(bestSkill.Id == 27){
 				int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
@@ -460,7 +460,10 @@ public class ArtificialIntelligence : MonoBehaviour
 				GameController.instance.play(bestSkill.Id);
 
 				if(bestSkill.Id == 131 || bestSkill.Id == 103){
-					tempList[0].x = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill());
+					tempList.Add(new Tile(GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(new Tile(0,0), new Skill()),0));
+				}
+				else{
+					tempList.Add(bestTarget);
 				}
 				if(bestSkill.Id == 27){
 					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
