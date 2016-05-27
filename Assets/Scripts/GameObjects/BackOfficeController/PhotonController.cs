@@ -150,7 +150,7 @@ public class PhotonController : Photon.MonoBehaviour
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
-			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId);
+			photonView.RPC("AddPlayerToList", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId, ApplicationModel.player.ToLaunchGameIA);
         	BackOfficeController.instance.displayLoadingScreenButton(true);
         }
         else
@@ -160,15 +160,25 @@ public class PhotonController : Photon.MonoBehaviour
     }
     
     [PunRPC]
-    IEnumerator AddPlayerToList(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
+    IEnumerator AddPlayerToList(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId, bool isIaGame)
     {
         if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
-        	ApplicationModel.hisPlayerName=playerName;
-			ApplicationModel.hisPlayerID=playerId;
-			ApplicationModel.hisRankingPoints=playerRankingPoints;
-			yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,false, playerId,playerRankingPoints,playerSelectedDeckId));
-			this.startGame();
+        	if(isIaGame)
+        	{
+        		PhotonNetwork.LeaveRoom();
+				print("La room est déjà occupée");
+				BackOfficeController.instance.hideLoadingScreen();
+				BackOfficeController.instance.displayErrorPopUp(WordingServerError.getReference("22",true));
+        	}
+        	else
+        	{
+				ApplicationModel.hisPlayerName=playerName;
+				ApplicationModel.hisPlayerID=playerId;
+				ApplicationModel.hisRankingPoints=playerRankingPoints;
+				yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,false, playerId,playerRankingPoints,playerSelectedDeckId));
+				this.startGame();
+        	}
         }
         else
         {
