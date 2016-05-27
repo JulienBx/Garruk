@@ -137,6 +137,7 @@ public class PhotonController : Photon.MonoBehaviour
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
+        	print("toto");
 			this.addPlayerToListHandler();
         	this.displayLoadingScreenButton(true);
         }
@@ -156,6 +157,7 @@ public class PhotonController : Photon.MonoBehaviour
     [PunRPC]
     void AddPlayerToListRPC()
     {
+    	print("j'inscris le joueur :"+ApplicationModel.player.Username);
     	this.nbPlayersInRoom++;
     	if(this.nbPlayersInRoom==2)
     	{
@@ -176,6 +178,7 @@ public class PhotonController : Photon.MonoBehaviour
 	[PunRPC]
     void CheckPlayerStateRPC(bool toLaunchGameIA, bool isFirstPlayer)
     {
+		print("je vérifie que :"+ApplicationModel.player.Username + "ne joue pas contre l'IA" + ApplicationModel.player.ToLaunchGameIA);
 		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
 		{
 			if(!toLaunchGameIA)
@@ -194,12 +197,13 @@ public class PhotonController : Photon.MonoBehaviour
 
 	void getPlayerDataHandler()
     {
-		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.FirstName,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId);
+		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId);
     }
 
 	[PunRPC]
 	IEnumerator getPlayerDataRPC(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
     {
+    	print("j'envois les infos de :" + ApplicationModel.player.Username);
 		if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
 			ApplicationModel.hisPlayerName=playerName;
@@ -225,6 +229,7 @@ public class PhotonController : Photon.MonoBehaviour
 	[PunRPC]
 	void getCurrentGameIdRPC(bool isFirstPlayer, int currentGameId)
     {
+		print("je transmets le game Id et je suis le first player :" + ApplicationModel.player.IsFirstPlayer);
 		if(isFirstPlayer)
         {
 			ApplicationModel.currentGameId=currentGameId;
