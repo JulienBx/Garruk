@@ -76,6 +76,7 @@ public class PhotonController : Photon.MonoBehaviour
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
         string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
         ApplicationModel.player.IsFirstPlayer = false;
+        ApplicationModel.player.ToLaunchGameIA=false;
         PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
     }
 	void OnPhotonRandomJoinFailed()
