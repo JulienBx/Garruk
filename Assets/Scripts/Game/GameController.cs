@@ -20,6 +20,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	void AddTileToBoard(int x, int y, int type)
 	{
+		print("Je crée la tile "+x+"-"+y);
 		GameView.instance.createTile(x, y, type);
 	}
 	
