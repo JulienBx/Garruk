@@ -25,6 +25,7 @@ public class PhotonController : Photon.MonoBehaviour
 	private string sceneName;
 	private bool isLoadingScreenDisplayed;
 	private bool isQuittingGame;
+	private bool hasToJoinRoom;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -67,6 +68,7 @@ public class PhotonController : Photon.MonoBehaviour
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
         print("Jessaye de join une room");
+        this.hasToJoinRoom=false;
         this.isWaiting=false;
         this.nbPlayersReady=0;
         this.nbPlayersInRoom=0;
@@ -83,7 +85,15 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	void OnPhotonJoinRoomFailed()
     {
-        this.joinRandomRoom();
+		Debug.Log("Can't join room! - starting again");
+		this.hasToJoinRoom=true;
+    }
+    void OnJoinedLobby()
+    {
+    	if(hasToJoinRoom)
+    	{
+    		this.joinRandomRoom();
+    	}
     }
 	public void CreateNewRoom()
     {
