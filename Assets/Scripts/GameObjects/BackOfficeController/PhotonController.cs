@@ -11,7 +11,6 @@ public class PhotonController : Photon.MonoBehaviour
 {
     public const string roomNamePrefix = "GarrukGame";
 	public static PhotonController instance;
-    private int nbPlayersInRoom;
     private int nbDecksLoaded;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
@@ -49,9 +48,12 @@ public class PhotonController : Photon.MonoBehaviour
         this.waitingTime += f ;
         if(waitingTime>limitTime){
             isWaiting = false ;
-            ApplicationModel.player.ToLaunchGameIA  = true ;
-            StartCoroutine(this.startIAGame());
-            this.waitingTime=0f;
+			this.waitingTime=0f;
+			if(PhotonNetwork.room.playerCount<2)
+	        {
+				ApplicationModel.player.ToLaunchGameIA  = true ;
+            	StartCoroutine(this.startIAGame());
+	        }
         }
     }
     public void leaveRoom()
@@ -71,7 +73,6 @@ public class PhotonController : Photon.MonoBehaviour
     public void joinRandomRoom()
     {
         print("Jessaye de join une room");
-        this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
 		this.setToLoadScene(false);
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
@@ -97,7 +98,6 @@ public class PhotonController : Photon.MonoBehaviour
         print("Je crée une nouvelle Room");
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
-        this.nbPlayersInRoom = 0;
         this.nbPlayersReady=0;
         this.setToLoadScene(false);
         RoomOptions newRoomOptions = new RoomOptions();
@@ -144,6 +144,7 @@ public class PhotonController : Photon.MonoBehaviour
 		if(PhotonNetwork.room.playerCount==2)
 		{
             PhotonNetwork.room.open = false;
+			this.isWaiting=false;
         }
 
        	if(!ApplicationModel.player.ToLaunchGameTutorial)
@@ -160,11 +161,6 @@ public class PhotonController : Photon.MonoBehaviour
     [PunRPC]
     IEnumerator AddPlayerToList(bool isFirstPlayer, string playerName, int playerId, int playerRankingPoints, int playerSelectedDeckId)
     {
-		this.nbPlayersInRoom++;
-        if(this.nbPlayersInRoom==2)
-        {
-			this.isWaiting=false;
-        }
         if(ApplicationModel.player.IsFirstPlayer!=isFirstPlayer)
         {
         	ApplicationModel.hisPlayerName=playerName;
