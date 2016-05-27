@@ -6,11 +6,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 
-public class LoadingScreenButtonController : SimpleButtonController 
+public class PreMatchScreenButtonController : SimpleButtonController 
 {
 	public override void mainInstruction ()
 	{
 		SoundController.instance.playSound(9);
+		PhotonController.instance.leaveRandomRoomHandler();
+	}
+	public override void hideToolTip()
+	{
 	}
 }
 

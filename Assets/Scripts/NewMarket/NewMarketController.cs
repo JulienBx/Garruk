@@ -274,7 +274,6 @@ public class NewMarketController : MonoBehaviour
 		this.scrollIntersection = 1.85f;
 		this.mainContentDisplayed = true;
 		this.initializeScene ();
-		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
@@ -293,11 +292,6 @@ public class NewMarketController : MonoBehaviour
 		this.menu.AddComponent<MenuController>();
 		this.menu.GetComponent<MenuController>().initialize();
 		BackOfficeController.instance.setIsMenuLoaded(true);
-	}
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeBackOffice()
 	{

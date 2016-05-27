@@ -62,7 +62,6 @@ public class NewEndGameController : MonoBehaviour
 		this.toUpdateCredits = false;
 		this.areCreditsUpdated = false;
 		this.idCardsToNextLevel = new List<int> ();
-		this.initializeServerController();
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.initializeHelp();
@@ -113,11 +112,6 @@ public class NewEndGameController : MonoBehaviour
 		this.backOfficeController = GameObject.Find ("BackOfficeController");
 		this.backOfficeController.AddComponent<BackOfficeEndGameController>();
 		this.backOfficeController.GetComponent<BackOfficeEndGameController>().initialize();
-	}
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
 	}
 	private void initializeHelp()
 	{

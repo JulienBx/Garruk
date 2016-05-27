@@ -10,7 +10,6 @@ public class GameView : MonoBehaviour
 	string URLStat = ApplicationModel.host + "updateResult.php";
 	
 	public static GameView instance;
-	public GameObject loadingScreenObject;
 	public GameObject tileModel ;
 	public GameObject verticalBorderModel;
 	public GameObject horizontalBorderModel;
@@ -25,6 +24,7 @@ public class GameView : MonoBehaviour
 	public int nbFreeRowsAtBeginning ;
 
 	bool isLoadingScreenDisplayed = false ;
+	bool isSceneLoaded=false;
 
 	GameObject serverController;
 	GameObject loadingScreen;
@@ -116,23 +116,20 @@ public class GameView : MonoBehaviour
 
 	void Awake()
 	{
-
+		instance = this;
 	}
 
 	void Start()
 	{
-		this.init();
+		PhotonController.instance.initializeGame();
 	}
 
 	public void init(){
-		instance = this;		
 		this.timeStartIA = UnityEngine.Random.Range(2,8);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
-		this.initializeServerController();
-		this.displayLoadingScreen ();
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.playingCards = new GameObject[100];
 		this.verticalBorders = new GameObject[this.boardWidth+1];
@@ -191,25 +188,11 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayerStarting=true;
 		this.indexPlayer = 0 ; 
 		this.IA = GameObject.Find("Main Camera").GetComponent<ArtificialIntelligence>();
+		this.isSceneLoaded=true;
 	}
 
 	public void addCompteurStartTime(float f){
 		this.compteurStart +=f ;
-	}
-
-	private void initializeServerController()
-	{
-		this.serverController = GameObject.Find ("ServerController");
-		this.serverController.GetComponent<ServerController>().initialize();
-	}
-
-	public void displayLoadingScreen()
-	{
-		if(!isLoadingScreenDisplayed)
-		{
-			this.loadingScreen=Instantiate(this.loadingScreenObject) as GameObject;
-			this.isLoadingScreenDisplayed=true;
-		}
 	}
 	
 	public void setMyPlayerName(string s){
@@ -1027,49 +1010,52 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void hoverTile(){
-		if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
-			if(!this.isMobile){
-				if(this.currentPlayingCard!=-1){
-					if(this.getCard(this.currentPlayingCard).isMine){
-						this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+		if(this.isSceneLoaded)
+		{
+			if(!this.interlude.GetComponent<InterludeController>().getIsRunning()){
+				if(!this.isMobile){
+					if(this.currentPlayingCard!=-1){
+						if(this.getCard(this.currentPlayingCard).isMine){
+							this.getMyHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+						}
+						else{
+							this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
+						}
 					}
-					else{
-						this.getHisHoveredCardController().setNextDisplayedCharacter(this.currentPlayingCard, this.getCard(this.currentPlayingCard));
-					}
-				}
 
-				if(this.getMyHoveredCardController().getStatus()==0){
-					if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
-						if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
-							this.getMyHoveredCardController().empty();
-						}
-					}
-					if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
-						if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
-							this.getHisHoveredCardController().empty();
-						}
-					}
-				}
-				else{
-					if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
-							if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+					if(this.getMyHoveredCardController().getStatus()==0){
+						if(this.getMyHoveredCardController().getCurrentCharacter()!=-1){
+							if(this.getMyHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){
 								this.getMyHoveredCardController().empty();
 							}
 						}
-						if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
-							if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+						if(this.getHisHoveredCardController().getCurrentCharacter()!=-1){
+							if(this.getHisHoveredCardController().getCurrentCharacter()!=this.currentPlayingCard){	
 								this.getHisHoveredCardController().empty();
 							}
 						}
 					}
+					else{
+						if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+							if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=-1){
+								if(this.getMyHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){		
+									this.getMyHoveredCardController().empty();
+								}
+							}
+							if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=-1){
+								if(this.getHisHoveredCardController().getNextDisplayedCharacter()!=this.currentPlayingCard){			
+									this.getHisHoveredCardController().empty();
+								}
+							}
+						}
+					}
 				}
-			}
-			if(this.hasFightStarted){
-				this.removeDestinations();
-				if(this.currentPlayingCard!=-1){
-					if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
-						this.displayDestinations(this.currentPlayingCard);
+				if(this.hasFightStarted){
+					this.removeDestinations();
+					if(this.currentPlayingCard!=-1){
+						if(!this.isDisplayedMyDestination && !this.getCard(this.currentPlayingCard).hasMoved){
+							this.displayDestinations(this.currentPlayingCard);
+						}
 					}
 				}
 			}
@@ -1651,110 +1637,113 @@ public class GameView : MonoBehaviour
 	
 	void Update()
 	{
-		if (this.widthScreen!=-1){
-			if (this.widthScreen!=Screen.width){
-				this.resize();
-			}
-		}
-
-		if(this.nbPlayersReadyToFight==0){
-			this.addCompteurStartTime(Time.deltaTime);
-		}
-
-		if(this.timerFront.GetComponent<TimerFrontController>().isShowing){
-			this.timerFront.GetComponent<TimerFrontController>().addTime(Time.deltaTime);
-		}
-
-		if(this.myTimer.isShowing){
-			this.myTimer.addTime(Time.deltaTime);
-		}
-
-		if(this.hisTimer.isShowing){
-			this.hisTimer.addTime(Time.deltaTime);
-		}
-
-		if(this.toLaunchCardCreation && this.isGameskillOK){
-			this.toLaunchCardCreation = false ; 
-			this.loadMyDeck();
-		}
-
-		if(this.draggingSkillButton!=-1){
-			Vector3 mousePos = Input.mousePosition;
-			this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition3(Camera.main.ScreenToWorldPoint(mousePos));
-		}
-
-		if(this.timeDragging>=0){
-			timeDragging+=Time.deltaTime;
-		}
-
-		if(this.draggingCard!=-1){
-			Vector3 mousePos = Input.mousePosition;
-			this.getPlayingCardController(draggingCard).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
-		}
-
-		if(anims.Count>0){
-			for(int i = 0 ; i < anims.Count ; i++){
-				this.getTileController(anims[i].x, anims[i].y).addAnimTime(Time.deltaTime);
-			}
-		}
-
-		if(skillEffects.Count>0){
-			for(int i = 0 ; i < skillEffects.Count ; i++){
-				this.getTileController(skillEffects[i].x, skillEffects[i].y).addSETime(Time.deltaTime);
-			}
-		}
-		
-		if (this.SB.GetComponent<StartButtonController>().getIsPushed()){
-			this.SB.GetComponent<StartButtonController>().addTime(Time.deltaTime);
-		}
-		
-		if (this.getMyHoveredCardController().getStatus()!=0){
-			this.getMyHoveredCardController().addTime(Time.deltaTime);
-		}
-		
-		if(this.getMyHoveredCardController().getIsRunning() && !this.isMobile){
-			this.getMyHoveredCardController().addTimeC(Time.deltaTime);
-		}
-		
-		if (this.getHisHoveredCardController().getStatus()!=0){
-			this.getHisHoveredCardController().addTime(Time.deltaTime);
-		}
-		
-		if(this.getHisHoveredCardController().getIsRunning() && !this.isMobile){
-			this.getHisHoveredCardController().addTimeC(Time.deltaTime);
-		}
-
-		if(this.numberDeckLoaded==2 || (ApplicationModel.player.ToLaunchGameTutorial && this.numberDeckLoaded==1)){
-			for(int i = 0 ; i < this.nbCards ; i++){
-				if(this.getPlayingCardController(i).isUpdatingLife){
-					this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
+		if(this.isSceneLoaded)
+		{
+			if (this.widthScreen!=-1){
+				if (this.widthScreen!=Screen.width){
+					this.resize();
 				}
-				if(this.getPlayingCardController(i).isUpdatingAttack){
-					this.getPlayingCardController(i).addAttackTime(Time.deltaTime);
+			}
+
+			if(this.nbPlayersReadyToFight==0){
+				this.addCompteurStartTime(Time.deltaTime);
+			}
+
+			if(this.timerFront.GetComponent<TimerFrontController>().isShowing){
+				this.timerFront.GetComponent<TimerFrontController>().addTime(Time.deltaTime);
+			}
+
+			if(this.myTimer.isShowing){
+				this.myTimer.addTime(Time.deltaTime);
+			}
+
+			if(this.hisTimer.isShowing){
+				this.hisTimer.addTime(Time.deltaTime);
+			}
+
+			if(this.toLaunchCardCreation && this.isGameskillOK){
+				this.toLaunchCardCreation = false ; 
+				this.loadMyDeck();
+			}
+
+			if(this.draggingSkillButton!=-1){
+				Vector3 mousePos = Input.mousePosition;
+				this.getSkillZoneController().getSkillButtonController(draggingSkillButton).setPosition3(Camera.main.ScreenToWorldPoint(mousePos));
+			}
+
+			if(this.timeDragging>=0){
+				timeDragging+=Time.deltaTime;
+			}
+
+			if(this.draggingCard!=-1){
+				Vector3 mousePos = Input.mousePosition;
+				this.getPlayingCardController(draggingCard).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
+			}
+
+			if(anims.Count>0){
+				for(int i = 0 ; i < anims.Count ; i++){
+					this.getTileController(anims[i].x, anims[i].y).addAnimTime(Time.deltaTime);
 				}
-				if(!this.getCard(i).isDead){
-					if(this.getPlayingCardController(i).getIsRunning()){
-						this.getPlayingCardController(i).addTime(Time.deltaTime);
+			}
+
+			if(skillEffects.Count>0){
+				for(int i = 0 ; i < skillEffects.Count ; i++){
+					this.getTileController(skillEffects[i].x, skillEffects[i].y).addSETime(Time.deltaTime);
+				}
+			}
+			
+			if (this.SB.GetComponent<StartButtonController>().getIsPushed()){
+				this.SB.GetComponent<StartButtonController>().addTime(Time.deltaTime);
+			}
+			
+			if (this.getMyHoveredCardController().getStatus()!=0){
+				this.getMyHoveredCardController().addTime(Time.deltaTime);
+			}
+			
+			if(this.getMyHoveredCardController().getIsRunning() && !this.isMobile){
+				this.getMyHoveredCardController().addTimeC(Time.deltaTime);
+			}
+			
+			if (this.getHisHoveredCardController().getStatus()!=0){
+				this.getHisHoveredCardController().addTime(Time.deltaTime);
+			}
+			
+			if(this.getHisHoveredCardController().getIsRunning() && !this.isMobile){
+				this.getHisHoveredCardController().addTimeC(Time.deltaTime);
+			}
+
+			if(this.numberDeckLoaded==2 || (ApplicationModel.player.ToLaunchGameTutorial && this.numberDeckLoaded==1)){
+				for(int i = 0 ; i < this.nbCards ; i++){
+					if(this.getPlayingCardController(i).isUpdatingLife){
+						this.getPlayingCardController(i).addLifeTime(Time.deltaTime);
 					}
-					if(this.getPlayingCardController(i).getIsMoving()){
-						this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
+					if(this.getPlayingCardController(i).isUpdatingAttack){
+						this.getPlayingCardController(i).addAttackTime(Time.deltaTime);
+					}
+					if(!this.getCard(i).isDead){
+						if(this.getPlayingCardController(i).getIsRunning()){
+							this.getPlayingCardController(i).addTime(Time.deltaTime);
+						}
+						if(this.getPlayingCardController(i).getIsMoving()){
+							this.getPlayingCardController(i).addMoveTime(Time.deltaTime);
+						}
 					}
 				}
 			}
-		}
 
-		if(deads.Count>0){
-			for(int i = 0 ; i < deads.Count ; i++){
-				this.getPlayingCardController(deads[i]).addDeadTime(Time.deltaTime);
+			if(deads.Count>0){
+				for(int i = 0 ; i < deads.Count ; i++){
+					this.getPlayingCardController(deads[i]).addDeadTime(Time.deltaTime);
+				}
 			}
-		}
-		
-		if(this.interlude.GetComponent<InterludeController>().getIsRunning()){
-			this.interlude.GetComponent<InterludeController>().addTime(Time.deltaTime);
-		}
-		
-		for (int i = 0 ; i < this.targets.Count; i++){
-			this.getTileController(this.targets[i].x, this.targets[i].y).addTargetTime(Time.deltaTime);
+			
+			if(this.interlude.GetComponent<InterludeController>().getIsRunning()){
+				this.interlude.GetComponent<InterludeController>().addTime(Time.deltaTime);
+			}
+			
+			for (int i = 0 ; i < this.targets.Count; i++){
+				this.getTileController(this.targets[i].x, this.targets[i].y).addTargetTime(Time.deltaTime);
+			}
 		}
 	}
 	
