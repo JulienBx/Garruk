@@ -500,6 +500,7 @@ public class GameView : MonoBehaviour
 	}
 	
 	public void loadDeck(Deck deck, bool isFirstP){
+		print("LOADDECK");
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++){
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
@@ -513,6 +514,8 @@ public class GameView : MonoBehaviour
 			int attackValue ;
 			int pvValue ;
 			for(int i = 0 ; i < this.nbCards ; i++){
+				print("i");
+		
 				if(this.getCard(i).isMine){
 					if(this.getCard(i).isLeader()){
 						level = this.getCard(i).getSkills()[0].Power;
