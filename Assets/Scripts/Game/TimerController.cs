@@ -35,9 +35,15 @@ public class TimerController : MonoBehaviour
 			}
 
 			isShowing = false ;
-			if(GameView.instance.getCurrentCard().isMine){
-				GameView.instance.hideAllTargets();
-				GameController.instance.findNextPlayer(true);
+			if(GameView.instance.hasFightStarted){
+				if(GameView.instance.getCurrentCard().isMine){
+					GameView.instance.hideAllTargets();
+					GameController.instance.findNextPlayer(true);
+				}
+			}
+			else{
+				GameView.instance.SB.GetComponent<StartButtonController>().show(false);
+				GameController.instance.playerReady(GameView.instance.getIsFirstPlayer());
 			}
 
 		}

@@ -101,7 +101,7 @@ public class PistoSape : GameSkill
 		int levelMin = s.Power;
 		int levelMax = 5+s.Power;
 
-		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive()/100f))*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2)));
+		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2)));
 
 		if(currentCard.isVirologue()){
 			levelMax = Mathf.RoundToInt((5+s.Power*2)*(25f+currentCard.Skills[0].Power*5f)/100f);

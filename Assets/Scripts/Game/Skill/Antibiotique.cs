@@ -80,7 +80,7 @@ public class Antibiotique : GameSkill
 		else if(targetCard.isEffraye()){
 			score+=15;
 		}
-		score = Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*score) ;
+		score = Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*score) ;
 		score+=targetCard.getLife()-40;
 		if(targetCard.isMine){
 			score = -1*score;
@@ -101,7 +101,7 @@ public class Antibiotique : GameSkill
 					else if(targetCard.isEffraye()){
 						tempScore+=15;
 					}
-					tempScore = Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*tempScore) ;
+					tempScore = Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*tempScore) ;
 					tempScore+=targetCard.getLife()-40;
 					if(targetCard.isMine){
 						tempScore = -1*tempScore;

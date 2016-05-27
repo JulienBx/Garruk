@@ -99,10 +99,10 @@ public class Implosion : GameSkill
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
 				}
 				if(targetCard.isMine){
-					score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+					score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
 				}
 				else{
-					score-=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+					score-=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
 				}
 			}
 		}

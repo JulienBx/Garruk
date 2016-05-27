@@ -30,6 +30,7 @@ public class StartButtonController : MonoBehaviour
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente du joueur 2";
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
 			this.isVisible = true ;
+			GameView.instance.removeDestinations();
 			GameController.instance.playerReady(GameView.instance.getIsFirstPlayer());
 		}
 	}

@@ -102,7 +102,7 @@ public class Blesser : GameSkill
 		int levelMin = s.Power;
 		int levelMax = 12+s.Power;
 
-		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2)));
+		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2)));
 
 		score = score * GameView.instance.IA.getAgressiveFactor() ;
 		return score ;

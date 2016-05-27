@@ -95,7 +95,7 @@ public class Poison : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		if(!targetCard.isPoisoned()){
-			score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*2*(5+s.Power));
+			score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*2*(5+s.Power));
 		}
 
 		if(currentCard.isVirologue()){
@@ -107,10 +107,10 @@ public class Poison : GameSkill
 					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
 					if(!targetCard2.isPoisoned()){
 						if(targetCard2.isMine){
-							score+=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*2*(5+s.Power));
+							score+=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*2*(5+s.Power));
 						}
 						else{
-							score-=Mathf.RoundToInt((proba-targetCard2.getEsquive()/100f)*2*(5+s.Power));
+							score-=Mathf.RoundToInt(((proba-targetCard2.getEsquive())/100f)*2*(5+s.Power));
 						}
 					}
 				}

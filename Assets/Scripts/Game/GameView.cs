@@ -438,6 +438,11 @@ public class GameView : MonoBehaviour
 		this.myDeck = ApplicationModel.player.MyDeck;
 		this.setInitialDestinations(this.isFirstPlayer);
 		this.showStartButton();
+				
+		GameView.instance.myTimer.setTime();
+		if(!ApplicationModel.player.ToLaunchGameTutorial){
+			GameView.instance.myTimer.show(true);
+		}
 	}
 	
 	public void createTile(int x, int y, int type)
@@ -645,17 +650,9 @@ public class GameView : MonoBehaviour
 		}
 		else if (nbPlayersReadyToFight == 2 ||ApplicationModel.player.ToLaunchGameTutorial)
 		{
-			this.SB.GetComponent<StartButtonController>().show(false);
-			this.removeDestinations();
-			this.displayOpponentCards();
 			this.updateCristoEater();
-			if(this.isMobile){
-				GameObject tempGO = GameObject.Find("MyPlayerName");
-				tempGO.GetComponent<MeshRenderer>().enabled = false ;
+			GameView.instance.displayOpponentCards();
 
-			    tempGO = GameObject.Find("HisPlayerName");
-				tempGO.transform.GetComponent<MeshRenderer>().enabled = false ;
-			}
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				if(this.sequenceID==5){
 					this.gameTutoController.unslide();

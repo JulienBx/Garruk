@@ -437,10 +437,10 @@ public class TileController : GameObjectController
 				}
 				if(this.characterID==-1){
 					GameView.instance.hoverTile();
-
 				}
 				else{
 					if(!GameView.instance.getPlayingCardController(this.characterID).getIsHidden()){
+						print("Je hoverCharacter "+this.characterID);
 						if(GameView.instance.draggingCard==-1){
 							GameView.instance.hoverCharacter(this.characterID);
 						}
