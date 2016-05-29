@@ -143,14 +143,15 @@ public class ArtificialIntelligence : MonoBehaviour
 							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
 
 							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
-								tempScore -= Mathf.RoundToInt(30f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
+								tempScore -= Mathf.RoundToInt(15f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
 							}
 
 							if(passiveSkill.Id!=76 && passiveSkill.Id!=138){
 								if(distance<=GameView.instance.getCurrentCard().getMove()+1){
 									tempScore += Mathf.RoundToInt(10f*(GameView.instance.getCurrentCard().getAttack()/GameView.instance.getCard(ennemis[j]).getLife()));
 								}
-								tempScore+=Mathf.RoundToInt((6f-distance)*((1+GameView.instance.nbTurns)/2f)*(GameView.instance.getCurrentCard().getAttack()-15f)/10f);
+
+								tempScore+=Mathf.RoundToInt(((12f-distance)/10f)*((1+GameView.instance.nbTurns*2)/2f)*(GameView.instance.getCurrentCard().getAttack()+GameView.instance.getCurrentCard().getLife()-GameView.instance.getCard(ennemis[j]).getAttack())/10f);
 							}
 							passiveScore += tempScore;
 						}
@@ -422,22 +423,23 @@ public class ArtificialIntelligence : MonoBehaviour
 					Tile tmpTile ;
 
 					for(int j = 0 ; j < ennemis.Count ; j++){
-							tempScore = 0 ; 
-							tmpTile = GameView.instance.getTile(ennemis[j]);
-							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
+						tempScore = 0 ; 
+						tmpTile = GameView.instance.getTile(ennemis[j]);
+						distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
 
-							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
-								tempScore -= Mathf.RoundToInt(30f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
-							}
-
-							if(passiveSkill.Id!=76 && passiveSkill.Id!=138 && passiveSkill.Id!=141){
-								if(distance<=GameView.instance.getCurrentCard().getMove()+1){
-									tempScore += Mathf.RoundToInt(5f*(GameView.instance.getCurrentCard().getAttack()/GameView.instance.getCard(ennemis[j]).getLife()));
-								}
-								tempScore+=Mathf.RoundToInt((6f-distance)*((1+GameView.instance.nbTurns)/2f)*(GameView.instance.getCurrentCard().getAttack()-15f)/10f);
-							}
-							passiveScore += tempScore;
+						if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
+							tempScore -= Mathf.RoundToInt(15f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
 						}
+
+						if(passiveSkill.Id!=76 && passiveSkill.Id!=138){
+							if(distance<=GameView.instance.getCurrentCard().getMove()+1){
+								tempScore += Mathf.RoundToInt(10f*(GameView.instance.getCurrentCard().getAttack()/GameView.instance.getCard(ennemis[j]).getLife()));
+							}
+
+							tempScore+=Mathf.RoundToInt(((12f-distance)/10f)*((1+GameView.instance.nbTurns*2)/2f)*(GameView.instance.getCurrentCard().getAttack()+GameView.instance.getCurrentCard().getLife()-GameView.instance.getCard(ennemis[j]).getAttack())/10f);
+						}
+						passiveScore += tempScore;
+					}
 
 					if(passiveScore>bestScore){
 						bestScore = passiveScore ; 
@@ -575,14 +577,15 @@ public class ArtificialIntelligence : MonoBehaviour
 							distance = Mathf.Abs(emplacements[i].x-tmpTile.x)+Mathf.Abs(emplacements[i].y-tmpTile.y);
 
 							if(distance<=GameView.instance.getCard(ennemis[j]).getMove()+1){
-								tempScore -= Mathf.RoundToInt(30f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
+								tempScore -= Mathf.RoundToInt(15f*(GameView.instance.getCard(ennemis[j]).getAttack()/GameView.instance.getCurrentCard().getLife()));
 							}
 
 							if(passiveSkill.Id!=76 && passiveSkill.Id!=138){
 								if(distance<=GameView.instance.getCurrentCard().getMove()+1){
-									tempScore += Mathf.RoundToInt(5f*(GameView.instance.getCurrentCard().getAttack()/GameView.instance.getCard(ennemis[j]).getLife()));
+									tempScore += Mathf.RoundToInt(10f*(GameView.instance.getCurrentCard().getAttack()/GameView.instance.getCard(ennemis[j]).getLife()));
 								}
-								tempScore+=Mathf.RoundToInt((6-distance)*((1+GameView.instance.nbTurns)/2f)*(GameView.instance.getCurrentCard().getAttack()-15f)/10f);
+
+								tempScore+=Mathf.RoundToInt(((12f-distance)/10f)*((2+GameView.instance.nbTurns*2)/2f)*(GameView.instance.getCurrentCard().getAttack()+GameView.instance.getCurrentCard().getLife()-GameView.instance.getCard(ennemis[j]).getAttack())/10f);
 							}
 							passiveScore += tempScore;
 						}
