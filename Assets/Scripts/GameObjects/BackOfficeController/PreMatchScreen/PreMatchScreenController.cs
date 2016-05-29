@@ -272,7 +272,7 @@ public class PreMatchScreenController : MonoBehaviour
 	}
 	public void displayButton(bool value)
 	{
-		this.gameObject.transform.FindChild ("button").gameObject.SetActive (value);
+        this.gameObject.transform.FindChild ("button").gameObject.SetActive (value);
 	}
 	public void launchPreMatchLoadingScreen()
 	{

@@ -60,6 +60,7 @@ public class Player : User
 	public bool ToLaunchGameTutorial;
 	public bool ToLaunchGameIA;
 	public bool ToLaunchEndGameSequence;
+    public bool ToLaunchChallengeGame;
 	public int PackToBuy;
 	public int ChosenGameType;
 	public string MacAdress;
@@ -437,7 +438,14 @@ public class Player : User
 			this.IdProfilePicture=System.Convert.ToInt32(playerData[2]);
 			if(this.IsInviting && data[1]!="")
 			{
-				this.Error=WordingServerError.getReference(data[1],true);
+                if(data[1]=="ok")
+                {
+                    this.ToLaunchChallengeGame=true;
+                }
+                else
+                {
+                    this.Error=WordingServerError.getReference(data[1],true);
+                }
 			}
 			else if(data[2]!="-1")
 			{

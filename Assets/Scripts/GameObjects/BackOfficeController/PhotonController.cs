@@ -18,7 +18,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 1f ;
+    float limitTime = 10f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private bool isInitialized;
@@ -54,14 +54,15 @@ public class PhotonController : Photon.MonoBehaviour
 	}
 	public void initializeGame()
 	{
-		this.joinRandomRoom();
+        this.joinRandomRoom();
 	}
 	public void joinRandomRoom()
     {
 		this.displayLoadingScreen();
 		if(ApplicationModel.player.ChosenGameType>20)
 		{
-			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
+			this.changeLoadingScreenLabel(WordingSocial.getReference(19));
+            this.displayLoadingScreenButton(false);
 		}
 		else if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
 		{
@@ -73,16 +74,32 @@ public class PhotonController : Photon.MonoBehaviour
         this.nbPlayersReady=0;
         this.nbPlayersInRoom=0;
         this.waitingTime=0f;
-        TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
-        string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
-        ApplicationModel.player.IsFirstPlayer = false;
-        ApplicationModel.player.ToLaunchGameIA=false;
-        PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+        if(ApplicationModel.player.ToLaunchChallengeGame || ApplicationModel.player.ToLaunchGameTutorial)
+        {
+            this.displayLoadingScreenButton(false);
+            this.CreateNewRoom();
+        }
+        else
+        {
+            TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
+            string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
+            ApplicationModel.player.IsFirstPlayer = false;
+            ApplicationModel.player.ToLaunchGameIA=false;
+            PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+        }
     }
 	void OnPhotonRandomJoinFailed()
     {
-        Debug.Log("Can't join random room! - creating a new room");
-        this.CreateNewRoom ();
+        if(ApplicationModel.player.ChosenGameType>20)
+        {
+            Debug.Log("Can't join random room! - trying again");
+            this.joinRandomRoom();
+        }
+        else
+        {
+            Debug.Log("Can't join random room! - creating a new room");
+            this.CreateNewRoom ();
+        }
     }
 	void OnPhotonJoinRoomFailed()
     {
@@ -115,6 +132,10 @@ public class PhotonController : Photon.MonoBehaviour
         {
             this.isWaiting = true ;
             this.waitingTime=0f;
+        }
+        if(ApplicationModel.player.ToLaunchChallengeGame=true)
+        {
+            ApplicationModel.player.ToLaunchChallengeGame=false;
         }
     }
     public void addWaitingTime(float f){
@@ -150,14 +171,18 @@ public class PhotonController : Photon.MonoBehaviour
             this.displayLoadingScreenButton(false);
         }
 
-       	if(!ApplicationModel.player.ToLaunchGameTutorial)
+        if(!ApplicationModel.player.ToLaunchGameTutorial)
         {
         	this.addPlayerToListHandler();
-        	this.displayLoadingScreenButton(true);
+            if(ApplicationModel.player.ChosenGameType<=20)
+            {
+        	    this.displayLoadingScreenButton(true);
+            }
         }
         else
         {
-			GameView.instance.init();
+            this.hideLoadingScreen();
+            GameView.instance.init();
         }
     }
 
@@ -1006,7 +1031,6 @@ public class PhotonController : Photon.MonoBehaviour
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
 			this.preMatchScreen.GetComponent<PreMatchScreenController>().reset();
-			this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
 		}
 	}
 	public void hideLoadingScreen()
@@ -1034,7 +1058,8 @@ public class PhotonController : Photon.MonoBehaviour
 	{
 		if(isLoadingScreenDisplayed)
 		{
-			this.preMatchScreen.GetComponent<PreMatchScreenController> ().displayButton (value);
+            this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
+            this.preMatchScreen.GetComponent<PreMatchScreenController> ().displayButton (value);
 		}
 	}
 	public void launchPreMatchLoadingScreen()

@@ -180,16 +180,15 @@ public class InvitationPopUpController : MonoBehaviour
 		SoundController.instance.playSound(8);
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
-		ApplicationModel.player.ChosenGameType = 20 + model.invitation.Id;
-		BackOfficeController.instance.joinRandomRoomHandler ();
-		BackOfficeController.instance.hideInvitationPopUp ();
-		StartCoroutine(model.invitation.changeStatus(2));
+        ApplicationModel.player.IsInvited=false;
+        StartCoroutine(model.invitation.changeStatus(2));
+		
 	}
 	public void declineInvitationHandler()
 	{
 		SoundController.instance.playSound(8);
+        StartCoroutine(model.invitation.changeStatus(-1));
 		BackOfficeController.instance.hideInvitationPopUp ();
-		StartCoroutine(model.invitation.changeStatus(-1));
 	}
 }
 
