@@ -117,20 +117,12 @@ public class GameView : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-	}
-
-	void Start()
-	{
-		PhotonController.instance.initializeGame();
-	}
-
-	public void init(){
+		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.timeStartIA = UnityEngine.Random.Range(2,13);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
 		this.numberDeckLoaded = 0 ;
-		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
 		this.playingCards = new GameObject[100];
 		this.verticalBorders = new GameObject[this.boardWidth+1];
 		this.horizontalBorders = new GameObject[this.boardHeight+1];
@@ -151,9 +143,7 @@ public class GameView : MonoBehaviour
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 		this.gameTutoController = GameObject.Find("HelpController").GetComponent<GameTutoController>();
 		this.SB.GetComponent<StartButtonController>().show(false);
-		this.setMyPlayerName(ApplicationModel.myPlayerName);
-		this.setHisPlayerName(ApplicationModel.hisPlayerName);
-		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
+
 		this.runningSkill=-1;
 		this.isGameskillOK = true ;
 		this.createBackground();
@@ -162,6 +152,19 @@ public class GameView : MonoBehaviour
 		this.anims = new List<Tile>();
 		this.deads = new List<int>();
 		this.orderCards = new List<int>();
+
+	}
+
+	void Start()
+	{
+		PhotonController.instance.initializeGame();
+	}
+
+	public void init(){
+		
+		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
+		this.setMyPlayerName(ApplicationModel.myPlayerName);
+		this.setHisPlayerName(ApplicationModel.hisPlayerName);
 		if (this.isFirstPlayer)
 		{
 			if(ApplicationModel.player.ToLaunchGameTutorial){
@@ -497,7 +500,6 @@ public class GameView : MonoBehaviour
 		}
 		
 		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA){
-			print(ApplicationModel.player.ToLaunchGameIA);
 			int level;
 			int attackValue ;
 			int pvValue ;
@@ -1641,6 +1643,10 @@ public class GameView : MonoBehaviour
 	
 	void Update()
 	{
+		if(this.toLaunchCardCreation && this.isGameskillOK){
+				this.toLaunchCardCreation = false ; 
+				this.loadMyDeck();
+		}
 		if(this.isSceneLoaded)
 		{
 			if (this.widthScreen!=-1){
@@ -1663,11 +1669,6 @@ public class GameView : MonoBehaviour
 
 			if(this.hisTimer.isShowing){
 				this.hisTimer.addTime(Time.deltaTime);
-			}
-
-			if(this.toLaunchCardCreation && this.isGameskillOK){
-				this.toLaunchCardCreation = false ; 
-				this.loadMyDeck();
 			}
 
 			if(this.draggingSkillButton!=-1){
