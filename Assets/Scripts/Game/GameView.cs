@@ -2882,7 +2882,7 @@ public class GameView : MonoBehaviour
 				GameController.instance.quitGameHandler(this.isFirstPlayer);
     		}
     		else{
-				GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)>this.getTotalPV(!this.isFirstPlayer)));
+				GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)));
 			}
     	}
    		else if(b){
