@@ -33,5 +33,6 @@ public class WordingSocial
 		references.Add(new string[]{"n'a pas encore répondu à votre invitation","hasn't answered your request yet"});//16
 		references.Add(new string[]{"Ajouter","Add"});//17
 		references.Add(new string[]{"ne fait pas partie de vos amis","does not belong to your friends"});//18
+        references.Add(new string[]{"défi en cours de préparation...","initialising challenge..."}); //19
 	}
 }

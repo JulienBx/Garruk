@@ -590,23 +590,25 @@ public class BackOfficeController : MonoBehaviour
 			this.changeLoadingScreenLabel(WordingSocial.getReference(6));
 			ApplicationModel.player.ChosenGameType = 20+invitation.Id;
 			ApplicationModel.player.IsInviting = true;
-			this.loadScene("Game");	
 		}
 	}
-
-
+    public void loadingScreenButtonHandler()
+    {
+        
+    }
 	public void joinRandomRoomHandler()
 	{
 		this.loadScene("Game");
 	}
-	public void joinInvitationRoomFailed()
-	{
-		this.hideLoadingScreen ();
-		this.displayErrorPopUp (WordingSocial.getReference(7));
-		Invitation invitation = new Invitation ();
-		invitation.Id = ApplicationModel.player.ChosenGameType-20;
-		StartCoroutine(invitation.changeStatus(-1));
-	}
+//	public void cancelInvitation()
+//	{
+//        ApplicationModel.player.IsInviting=false;
+//        this.hideLoadingScreen ();
+//		this.displayErrorPopUp (WordingSocial.getReference(7));
+//		Invitation invitation = new Invitation ();
+//		invitation.Id = ApplicationModel.player.ChosenGameType-20;
+//		StartCoroutine(invitation.changeStatus(-1));
+//	}
 	public IEnumerator joinTutorialGame()
 	{
 		BackOfficeController.instance.displayLoadingScreen();
@@ -715,19 +717,19 @@ public class BackOfficeController : MonoBehaviour
 				this.hidePlayPopUp();
 			}
 			this.displayInvitationPopUp();
-
-			//Invitation invitation = new Invitation ();
-			//invitation.Id = ApplicationModel.player.ChosenGameType-20;
-			//StartCoroutine(invitation.changeStatus(-1));
 		}
 		if(ApplicationModel.player.IsInviting && ApplicationModel.player.Error!="")
 		{
 			this.hideLoadingScreen ();
-			PhotonController.instance.leaveRoom();
 			ApplicationModel.player.IsInviting=false;
 			this.displayErrorPopUp(ApplicationModel.player.Error);
 			ApplicationModel.player.Error="";
 		}
+        else if(ApplicationModel.player.IsInviting && ApplicationModel.player.ToLaunchChallengeGame)
+        {
+            ApplicationModel.player.IsInviting=false;
+            this.joinRandomRoomHandler();
+        }
 		this.isRefreshing=false;
 	}
 	public bool getIsLoadingScreenDisplayed()

@@ -55,6 +55,23 @@ public class Invitation
 		{
 			Debug.Log (w.error); 										// donne l'erreur eventuelle
 		}
+        if(status==2)
+        {
+            Debug.Log(w.text);
+            if(w.text!="ko")
+            {
+                ApplicationModel.player.ChosenGameType = 20 + this.Id;
+                BackOfficeController.instance.joinRandomRoomHandler ();
+                BackOfficeController.instance.hideInvitationPopUp ();
+            }
+            else
+            {
+                BackOfficeController.instance.hideLoadingScreen();
+                BackOfficeController.instance.displayErrorPopUp(WordingSocial.getReference(7));
+                BackOfficeController.instance.hideInvitationPopUp ();
+            }
+        }
+              
 	}
 }
 
