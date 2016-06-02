@@ -125,7 +125,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void init(){
-		this.timeStartIA = UnityEngine.Random.Range(2,8);
+		this.timeStartIA = UnityEngine.Random.Range(2,13);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
@@ -1280,9 +1280,14 @@ public class GameView : MonoBehaviour
 					}
 				}
 				else{
-					idCards.Add(orderCards[i]);
+					if(!this.getCard(this.orderCards[i]).isDead && !this.deads.Contains(this.orderCards[i])){
+						idCards.Add(orderCards[i]);
+						j--;
+					}
 					i++;
-					j--;
+					if(i==this.nbCards){
+						i=0;
+					}
 				}
 			}
 
@@ -2776,7 +2781,7 @@ public class GameView : MonoBehaviour
 	public void removeLeaderEffect(int target, bool b){
 		if(b){
 			for(int j = 0 ; j < this.nbCards ; j++){
-				if(this.getCard(j).isMine && target!=j){
+				if(this.getCard(j).isMine && target!=j && !this.getCard(j).isDead){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
@@ -2788,7 +2793,7 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			for(int j = 0 ; j < this.nbCards ; j++){
-				if(!this.getCard(j).isMine && target!=j){
+				if(!this.getCard(j).isMine && target!=j && !this.getCard(j).isDead){
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());

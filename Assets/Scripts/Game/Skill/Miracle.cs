@@ -54,8 +54,8 @@ public class Miracle : GameSkill
 		text+="+"+bonusLife+"PV\n";
 		text+="+"+bonusAttack+"ATK";
 
-		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).updateLife(currentCard.getLife());
+		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
+		GameView.instance.getPlayingCardController(target).updateLife(targetCard.getLife());
 		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 107, base.name, ". Permanent"));
 		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, base.name, ". Permanent"));
 		GameView.instance.displaySkillEffect(target, text, 2);

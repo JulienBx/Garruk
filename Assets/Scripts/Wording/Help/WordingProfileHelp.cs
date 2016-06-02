@@ -14,9 +14,9 @@ public class WordingProfileHelp
 	static WordingProfileHelp()
 	{
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Chaque colon dispose d'un profil sur Cristalia. Ce profil est votre carte d'identité Cristalienne accessible de tous sur la Cristalosphère.",""}); //0
+		helpContents.Add(new string[]{"Chaque joueur dispose d'un profil sur Cristalia. Ce profil est votre carte d'identité Cristalienne accessible de tous sur la Cristalosphère.",""}); //0
 		helpContents.Add(new string[]{"Le département du mérite Cristalien aime décerner des trophées, récompensant votre aptitude au combat ou votre niveau de collection des unités. Votre vitrine des trophés affiche les récompenses gagnées depuis votre arrivée sur la planète.",""}); //1
-		helpContents.Add(new string[]{"Recherchez ici un colon en tapant les premières lettres de son pseudo!",""}); //2
+		helpContents.Add(new string[]{"Recherchez ici un joueur en tapant les premières lettres de son pseudo!",""}); //2
 		helpContents.Add(new string[]{"Vous pourrez défier vos amis dans l'arène, et ainsi rompre avec la solitude du combattant, mal fréquent chez les colons fraichement débarqués. Attention, les combats avec les amis ne rapportent pas de cristaux",""}); //3
 
 		helpContents.Add(new string[]{"Vous pouvez accéder ici au profil d'un colon, et le demander en ami. Vous pourrez ensuite le défier dans l'arène",""}); //4
