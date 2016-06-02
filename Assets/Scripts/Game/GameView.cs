@@ -1628,7 +1628,6 @@ public class GameView : MonoBehaviour
 	}
 	
 	public TileController getTileController(int c){
-		print(this.getPlayingCardController(c).getTile().x+","+this.getPlayingCardController(c).getTile().y);
 		return this.tiles[this.getPlayingCardController(c).getTile().x,this.getPlayingCardController(c).getTile().y].GetComponent<TileController>();
 	}
 	
@@ -1872,18 +1871,18 @@ public class GameView : MonoBehaviour
 
 		tempGO = GameObject.Find("MyTime");
 		if(this.isMobile){
-			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.02f, 4.25f, 0f) ;
+			tempGO.transform.localPosition = new Vector3(-realwidth/2f+0.02f, 4*tileScale+0.25f, 0f) ;
 		}
 		else{
-			tempGO.transform.localPosition = new Vector3(-2.98f, 4.25f, 0f) ;
+			tempGO.transform.localPosition = new Vector3(-2.98f, 4*tileScale+0.25f, 0f) ;
 		}
 
 		tempGO = GameObject.Find("HisTime");
 		if(this.isMobile){
-			tempGO.transform.localPosition = new Vector3(realwidth/2f-0.52f, 4.25f, 0f) ;
+			tempGO.transform.localPosition = new Vector3(realwidth/2f-0.52f, 4*tileScale+0.25f, 0f) ;
 		}
 		else{
-			tempGO.transform.localPosition = new Vector3(2.48f, 4.25f, 0f) ;
+			tempGO.transform.localPosition = new Vector3(2.48f, 4*tileScale+0.25f, 0f) ;
 		}
 		tempGO = GameObject.Find("MyPlayerName");
 		if(this.isMobile){
@@ -1953,7 +1952,12 @@ public class GameView : MonoBehaviour
 		position = tempTransform.position ;
 		position.x = Mathf.Min(2.2f, 0.5f*this.realwidth-0.8f);
 		tempTransform.position = position;
-	
+
+		this.getSkillZoneController().getSkillButtonController(0).setPosition4(new Vector3(-1.5f*this.tileScale, 0.1f, 0f));
+		this.getSkillZoneController().getSkillButtonController(1).setPosition4(new Vector3(-0.5f*this.tileScale, 0.1f, 0f));
+		this.getSkillZoneController().getSkillButtonController(2).setPosition4(new Vector3(0.5f*this.tileScale, 0.1f, 0f));
+		this.getSkillZoneController().getSkillButtonController(3).setPosition4(new Vector3(-2.5f*this.tileScale, 0.1f, 0f));
+
 		if(this.isMobile){
 			tempTransform = this.skillZone.transform.FindChild("CancelZone");
 			position = tempTransform.position ;
