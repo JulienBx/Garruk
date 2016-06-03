@@ -118,3 +118,5 @@ garruk.exe
 player_win_x86.pdb
 Assets/Sci-fi Evolution.meta
 Assets/ApplicationSecurity.cs
+
+Assets/Scripts/Application/ApplicationSecurity.cs
