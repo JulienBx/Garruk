@@ -554,21 +554,13 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
+		ApplicationModel.player.ToDeconnect = true;
 		if(PhotonNetwork.connectionState==ConnectionState.Disconnected)
 		{
-			if(SceneManager.GetActiveScene().name!="Authentication")
-			{
-				ApplicationModel.player.ToDeconnect = true;
-				if(!ApplicationModel.player.ToDeconnect)
-				{
-					ApplicationModel.player.HasLostConnection=true;
-				}
-		       	this.loadScene("Authentication");
-			}
+		    this.loadScene("Authentication");
 		}
 		else
 		{
-			ApplicationModel.player.ToDeconnect = true;
 			PhotonNetwork.Disconnect();
 		}
 	}
