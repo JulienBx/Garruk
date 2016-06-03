@@ -1120,9 +1120,11 @@ public class GameView : MonoBehaviour
 	}
 
 	public IEnumerator endTurnEffects(bool toLaunchEndTurn){
+		print("ENDTURNEFFECTS1 ");
+			
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
-
+			print("ENDTURNEFFECTS2 ");
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
@@ -1157,6 +1159,7 @@ public class GameView : MonoBehaviour
 				}
 				if(this.getCard(this.currentPlayingCard).isNurse()){
 					int power = 3+2*this.getCurrentCard().Skills[0].Power;
+					print("ENDTURNEFFECTS "+this.getPlayingCardController(this.currentPlayingCard).getTile().x+","+this.getPlayingCardController(this.currentPlayingCard).getTile().y);
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;

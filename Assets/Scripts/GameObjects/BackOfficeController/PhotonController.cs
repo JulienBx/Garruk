@@ -68,7 +68,7 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
-        //print("Jessaye de joindre une room");
+        print("Jessaye de joindre une room");
         this.hasToJoinRoom=false;
         this.isWaiting=false;
         this.nbPlayersReady=0;
@@ -92,23 +92,23 @@ public class PhotonController : Photon.MonoBehaviour
     {
         if(ApplicationModel.player.ChosenGameType>20)
         {
-            //Debug.Log("Can't join random room! - trying again");
+            Debug.Log("Can't join random room! - trying again");
             this.joinRandomRoom();
         }
         else
         {
-            //Debug.Log("Can't join random room! - creating a new room");
+            Debug.Log("Can't join random room! - creating a new room");
             this.CreateNewRoom ();
         }
     }
 	void OnPhotonJoinRoomFailed()
     {
-		//Debug.Log("Can't join room! - starting again");
+		Debug.Log("Can't join room! - starting again");
 		this.hasToJoinRoom=true;
     }
     void OnJoinedLobby()
     {
-    	//Debug.Log("retour au lobby");
+    	Debug.Log("retour au lobby");
     	if(hasToJoinRoom)
     	{
     		this.joinRandomRoom();
@@ -116,7 +116,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	public void CreateNewRoom()
     {
-        //print("Je crée une nouvelle Room");
+        print("Je crée une nouvelle Room");
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersReady=0;
@@ -160,13 +160,13 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedRoom()
     {
-    	//print("j'ai rejoint une room");
+    	print("j'ai rejoint une room");
         ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
 		if(PhotonNetwork.room.playerCount==2)
 		{
-			//print("il y a deux joueurs je ferme la room");
+			print("il y a deux joueurs je ferme la room");
             PhotonNetwork.room.open = false;
             this.displayLoadingScreenButton(false);
         }
@@ -226,7 +226,7 @@ public class PhotonController : Photon.MonoBehaviour
 			}
 			else
 			{
-				//Debug.Log("il y a l'IA, je quitte la room");
+				Debug.Log("il y a l'IA, je quitte la room");
 				this.leaveRoom();
         		this.hasToJoinRoom=true;
 			}
@@ -415,13 +415,100 @@ public class PhotonController : Photon.MonoBehaviour
 
             passive.Add(idSkill);
 			if(difficultyLevel==1){
-				randomTest = UnityEngine.Random.Range(1,11);
-            }
+				if(randomTest>90){
+					randomTest = 10;
+				}
+				else if(randomTest>80){
+					randomTest = 9;
+				}
+				else if(randomTest>70){
+					randomTest = 8;
+				}
+				else if(randomTest>60){
+					randomTest = 7;
+				}
+				else if(randomTest>50){
+					randomTest = 6;
+				}
+				else if(randomTest>40){
+					randomTest = 5;
+				}
+				else if(randomTest>30){
+					randomTest = 4;
+				}
+				else if(randomTest>20){
+					randomTest = 3;
+				}
+				else if(randomTest>10){
+					randomTest = 2;
+				}
+				else {
+					randomTest = 1;
+				}
+			}
 			else if(difficultyLevel==2){
-				randomTest = Mathf.CeilToInt(Mathf.Sqrt(UnityEngine.Random.Range(0,100)));
+				if(randomTest>85){
+					randomTest = 10;
+				}
+				else if(randomTest>71){
+					randomTest = 9;
+				}
+				else if(randomTest>58){
+					randomTest = 8;
+				}
+				else if(randomTest>46){
+					randomTest = 7;
+				}
+				else if(randomTest>35){
+					randomTest = 6;
+				}
+				else if(randomTest>25){
+					randomTest = 5;
+				}
+				else if(randomTest>16){
+					randomTest = 4;
+				}
+				else if(randomTest>8){
+					randomTest = 3;
+				}
+				else if(randomTest>3){
+					randomTest = 2;
+				}
+				else {
+					randomTest = 1;
+				}
             }
 			else if(difficultyLevel==3){
-				randomTest = Mathf.CeilToInt(Mathf.Sqrt(Mathf.Sqrt(UnityEngine.Random.Range(0,10000))));
+				if(randomTest>75){
+					randomTest = 10;
+				}
+				else if(randomTest>60){
+					randomTest = 9;
+				}
+				else if(randomTest>42){
+					randomTest = 8;
+				}
+				else if(randomTest>32){
+					randomTest = 7;
+				}
+				else if(randomTest>24){
+					randomTest = 6;
+				}
+				else if(randomTest>18){
+					randomTest = 5;
+				}
+				else if(randomTest>13){
+					randomTest = 4;
+				}
+				else if(randomTest>9){
+					randomTest = 3;
+				}
+				else if(randomTest>4){
+					randomTest = 2;
+				}
+				else {
+					randomTest = 1;
+				}
             }
             skills.Add(new Skill(idSkill, randomTest));
 
