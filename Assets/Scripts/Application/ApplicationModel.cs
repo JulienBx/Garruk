@@ -36,10 +36,6 @@ public class ApplicationModel
 
 	static public float timeOutDelay;
 
-    static readonly string PasswordHash = "4sA4rQtdpgLMxCGJ";
-    static readonly string SaltKey = "7MScM011s1C07n77";
-    static readonly string VIKey = "ijA55x1s4mH2X792";
-
     static public float timeAppModel ;
 
 	#if (UNITY_EDITOR)
@@ -57,7 +53,7 @@ public class ApplicationModel
 	{
 		host = "https://www.techticalwars.com/"; // PROD
 		//host = "http://testing.techticalwars.com/";  // RECETTE
-		hash = "J8xy9Uz4";
+		hash = ApplicationSecurity.hash;
 		photonSettings = "0.2";
 		volMaxBackOfficeFx=1f;
 		volMaxMusic=0.3f;
@@ -85,9 +81,9 @@ public class ApplicationModel
     {
         byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
  
-        byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
+        byte[] keyBytes = new Rfc2898DeriveBytes(ApplicationSecurity.PasswordHash, Encoding.ASCII.GetBytes(ApplicationSecurity.SaltKey)).GetBytes(256 / 8);
         var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-        var encryptor = symmetricKey.CreateEncryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
+        var encryptor = symmetricKey.CreateEncryptor(keyBytes, Encoding.ASCII.GetBytes(ApplicationSecurity.VIKey));
  
         byte[] cipherTextBytes;
  
@@ -108,10 +104,10 @@ public class ApplicationModel
     static public string Decrypt(string encryptedText)
     {
         byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
-        byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
+        byte[] keyBytes = new Rfc2898DeriveBytes(ApplicationSecurity.PasswordHash, Encoding.ASCII.GetBytes(ApplicationSecurity.SaltKey)).GetBytes(256 / 8);
         var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
  
-        var decryptor = symmetricKey.CreateDecryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
+        var decryptor = symmetricKey.CreateDecryptor(keyBytes, Encoding.ASCII.GetBytes(ApplicationSecurity.VIKey));
         var memoryStream = new MemoryStream(cipherTextBytes);
         var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
         byte[] plainTextBytes = new byte[cipherTextBytes.Length];
