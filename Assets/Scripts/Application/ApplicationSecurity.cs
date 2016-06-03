@@ -23,6 +23,7 @@ public class ApplicationSecurity
     	SaltKey = "7MScM011s1C07n77";
     	VIKey = "ijA55x1s4mH2X792";
 		hash="J8xy9Uz4";
+
 	}
 
     
