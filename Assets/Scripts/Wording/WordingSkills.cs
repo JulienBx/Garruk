@@ -1297,16 +1297,16 @@ public class WordingSkills
 		//56 - Stéroide
 		idSkills.Add(56);
 		names.Add(new string[]{"Stéroide",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-6 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-7 ATK]. Permanent.",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-8 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-9 ATK]. Permanent.",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-10 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-11 ATK]. Permanent.",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-12 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-13 ATK]. Permanent.",""}); 
+		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-14 ATK]. Permanent.",""}); 
 		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-15 ATK]. Permanent.",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-17 ATK]. Permanent.",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-19 ATK]. Permanent.",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-21 ATK]. Permanent.",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-23 ATK]. Permanent.",""}); 
-		descriptions.Add(new string[]{"L'unité adjacente ciblée gagne [1-25 ATK]. Permanent.",""}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

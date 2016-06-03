@@ -23,7 +23,7 @@ public class Steroide : GameSkill
 		GameController.instance.play(this.id);
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
-		int max = 2 * GameView.instance.getCurrentSkill().Power+5;
+		int max = GameView.instance.getCurrentSkill().Power+5;
 
 		Debug.Log(targets[0].x+","+targets[0].y);
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive()){
@@ -69,7 +69,7 @@ public class Steroide : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		int level = 2*GameView.instance.getCurrentSkill().Power+5;
+		int level = GameView.instance.getCurrentSkill().Power+5;
 
 		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+1)+"-"+(targetCard.getAttack()+level)+"]\nPermanent";
 		
@@ -94,7 +94,7 @@ public class Steroide : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		int levelMin = 1;
-		int levelMax = 5+s.Power*2;
+		int levelMax = 5+s.Power;
 
 		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2)*2);
 
