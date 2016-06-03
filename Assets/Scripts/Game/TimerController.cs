@@ -30,8 +30,7 @@ public class TimerController : MonoBehaviour
 
 		if(this.timerTurn<=0){
 			if(!ApplicationModel.player.ToLaunchGameIA && PhotonNetwork.room.playerCount<2){
-				GameView.instance.sendStat(GameView.instance.getPercentageTotalDamages(false),ApplicationModel.currentGameId,true,!ApplicationModel.player.IsFirstPlayer);
-				GameController.instance.quitGame();
+				StartCoroutine(GameView.instance.quitGame(!GameView.instance.getIsFirstPlayer(),false));
 			}
 
 			isShowing = false ;
