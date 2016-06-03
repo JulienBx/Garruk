@@ -68,7 +68,7 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
-        print("Jessaye de joindre une room");
+        //print("Jessaye de joindre une room");
         this.hasToJoinRoom=false;
         this.isWaiting=false;
         this.nbPlayersReady=0;
@@ -92,23 +92,23 @@ public class PhotonController : Photon.MonoBehaviour
     {
         if(ApplicationModel.player.ChosenGameType>20)
         {
-            Debug.Log("Can't join random room! - trying again");
+            //Debug.Log("Can't join random room! - trying again");
             this.joinRandomRoom();
         }
         else
         {
-            Debug.Log("Can't join random room! - creating a new room");
+            //Debug.Log("Can't join random room! - creating a new room");
             this.CreateNewRoom ();
         }
     }
 	void OnPhotonJoinRoomFailed()
     {
-		Debug.Log("Can't join room! - starting again");
+		//Debug.Log("Can't join room! - starting again");
 		this.hasToJoinRoom=true;
     }
     void OnJoinedLobby()
     {
-    	Debug.Log("retour au lobby");
+    	//Debug.Log("retour au lobby");
     	if(hasToJoinRoom)
     	{
     		this.joinRandomRoom();
@@ -116,7 +116,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	public void CreateNewRoom()
     {
-        print("Je crée une nouvelle Room");
+        //print("Je crée une nouvelle Room");
         ApplicationModel.player.IsFirstPlayer = true;
         ApplicationModel.player.ToLaunchGameIA  = false ;
         this.nbPlayersReady=0;
@@ -160,13 +160,13 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedRoom()
     {
-    	print("j'ai rejoint une room");
+    	//print("j'ai rejoint une room");
         ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
 
 		if(PhotonNetwork.room.playerCount==2)
 		{
-			print("il y a deux joueurs je ferme la room");
+			//print("il y a deux joueurs je ferme la room");
             PhotonNetwork.room.open = false;
             this.displayLoadingScreenButton(false);
         }
@@ -226,7 +226,7 @@ public class PhotonController : Photon.MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("il y a l'IA, je quitte la room");
+				//Debug.Log("il y a l'IA, je quitte la room");
 				this.leaveRoom();
         		this.hasToJoinRoom=true;
 			}
