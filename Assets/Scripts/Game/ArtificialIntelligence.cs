@@ -79,9 +79,13 @@ public class ArtificialIntelligence : MonoBehaviour
 		List<Tile> targets ;
 
 		GameSkill gs ;
+		List<Skill> skills = new List<Skill>() ;
 		if(GameView.instance.getCurrentCard().isEffraye()){
-			List<Skill> skills = GameView.instance.getCurrentCard().Skills;
+			skills = new List<Skill>();
 		} 
+		else{
+			skills = GameView.instance.getCurrentCard().Skills;
+		}
 		for (int i = 0 ; i < emplacements.Count ; i++){
 			tempTile = emplacements[i];
 			passiveScore=0;
