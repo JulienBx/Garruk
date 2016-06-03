@@ -360,10 +360,10 @@ public class PhotonController : Photon.MonoBehaviour
 
         if(ApplicationModel.player.ChosenGameType>0 && ApplicationModel.player.ChosenGameType<11){
             fixedIDType = ApplicationModel.player.ChosenGameType-1;
-           	if(randomTest<6){
+           	if(randomTest<8){
            		difficultyLevel = 1 ; 
            	}
-			else if(randomTest<9){
+			else if(randomTest<10){
            		difficultyLevel = 2 ; 
            	}
            	else{

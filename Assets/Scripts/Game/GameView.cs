@@ -2847,7 +2847,7 @@ public class GameView : MonoBehaviour
 		}
 
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
-			StartCoroutine(GameView.instance.quitGameHandler2(true));
+			StartCoroutine(GameView.instance.quitGameHandler2(true, true));
 		}
 		else{
 			this.updateTimeline();
@@ -2883,10 +2883,12 @@ public class GameView : MonoBehaviour
             ServerController.instance.lostConnection();
         }
 	}
-    public IEnumerator quitGameHandler2(bool b)
+    public IEnumerator quitGameHandler2(bool b, bool c)
     {
     	this.isEndedGame = true ;
-		yield return new WaitForSeconds(2f);
+		if(c){
+			yield return new WaitForSeconds(2f);
+		}
     	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
 			if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
 				GameController.instance.quitGameHandler(this.isFirstPlayer);
