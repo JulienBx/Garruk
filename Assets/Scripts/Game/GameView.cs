@@ -1259,7 +1259,7 @@ public class GameView : MonoBehaviour
 		
 			List<int> idCards = new List<int>();
 			idCards.Add(currentPlayingCard);
-			int i = 0 ; 
+			int i =  this.indexPlayer+1 ; 
 			int j = this.meteoritesCounter ; 
 			int l = this.meteoritesStep ; 
 			while (idCards.Count<9){
@@ -1497,33 +1497,34 @@ public class GameView : MonoBehaviour
 	
 	public IEnumerator launchFury(){
 		
-		if(ApplicationModel.player.ToLaunchGameTutorial){
-			while(!this.blockFury){
-				yield return new WaitForSeconds(1f);
+		if(!this.getCurrentCard().isEffraye()){
+			if(ApplicationModel.player.ToLaunchGameTutorial){
+				while(!this.blockFury){
+					yield return new WaitForSeconds(1f);
+				}
 			}
-		}
-		yield return new WaitForSeconds(2f);
-		
-		int enemy = GameView.instance.attackClosestCharacter();
-		
-		yield return new WaitForSeconds(1.2f);
-		
-		if(enemy!=-1){
-			GameController.instance.play(0);
+			yield return new WaitForSeconds(2f);
 			
-			if (UnityEngine.Random.Range(1,101) <= this.getCard(enemy).getEsquive())
-			{                             
-				GameController.instance.esquive(enemy,1);
-			}
-			else{
-				GameController.instance.applyOn(enemy);
-			}
-			GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
-			yield return new WaitForSeconds(2.5f);
+			int enemy = GameView.instance.attackClosestCharacter();
 			
+			yield return new WaitForSeconds(1.2f);
+			
+			if(enemy!=-1){
+				GameController.instance.play(0);
+				
+				if (UnityEngine.Random.Range(1,101) <= this.getCard(enemy).getEsquive())
+				{                             
+					GameController.instance.esquive(enemy,1);
+				}
+				else{
+					GameController.instance.applyOn(enemy);
+				}
+				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
+				yield return new WaitForSeconds(2.5f);
+				
+			}
+			GameController.instance.findNextPlayer(true);
 		}
-
-		GameController.instance.findNextPlayer(true);
 	}
 
 	public IEnumerator launchTourelle(){

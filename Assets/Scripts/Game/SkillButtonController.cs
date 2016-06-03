@@ -26,7 +26,7 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(s.Id);
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\n\nProbabilité de succès : "+WordingSkills.getProba(s.Id,s.Power)+"%";
+		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\nProbabilité de succès : "+WordingSkills.getProba(s.Id,s.Power)+"%";
 	}
 	
 	public void getLaunchability(){
@@ -35,13 +35,23 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n\n"+this.launchabilityText;
+			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%"+"\n"+this.launchabilityText;
+			}
+			else{
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n"+this.launchabilityText;
+			}
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
+			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%";
+			}
+			else{
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
+			}
 		}
 	}
 
@@ -51,13 +61,23 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n\n"+this.launchabilityText;
+			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%"+"\n"+this.launchabilityText;
+			}
+			else{
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n"+this.launchabilityText;
+			}
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
+			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%";
+			}
+			else{
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
+			}
 		}
 	}
 	
