@@ -185,6 +185,7 @@ public class InterludeController : MonoBehaviour
 					}
 				}
 				GameView.instance.isChangingTurn = false ;
+				GameView.instance.displayDestinations(GameView.instance.getCurrentPlayingCard());
 			}
 			else{
 				GameView.instance.hideEndTurnPopUp();
@@ -232,13 +233,13 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
-			print("J'efface");
+			//print("J'efface");
 			if(!isEndTurn){
 				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();
 				}
 			}
-			print("Je réfléchis");
+			//print("Je réfléchis");
 
 
 			if (GameView.instance.sequenceID==14){

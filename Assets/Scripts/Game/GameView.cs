@@ -993,7 +993,7 @@ public class GameView : MonoBehaviour
 					}
 					if(!this.deads.Contains(this.currentPlayingCard) && !this.getCurrentCard().isFurious()){
 						yield return new WaitForSeconds(1f);
-						GameController.instance.findNextPlayer (true);
+						GameController.instance.findNextPlayer (false);
 					}
 				}
 			}
@@ -1096,14 +1096,16 @@ public class GameView : MonoBehaviour
 				this.hitNextTutorial();
 			}
 			this.hoveringZone=-1 ;
+			print("this.hasFightStarted "+this.hasFightStarted);
 			if(this.hasFightStarted){
 				this.meteoritesCounter--;
 				if(this.meteoritesCounter==0){
 					StartCoroutine(this.endTurnEffects(false));
 				}
 				else{
+					print("this.isEndMeteor"+isEndMeteor);
 					if(!isEndMeteor){
-						StartCoroutine(endTurnEffects(true));
+						StartCoroutine(this.endTurnEffects(true));
 					}
 					else{
 						this.launchEndTurnEffects();
@@ -2165,25 +2167,27 @@ public class GameView : MonoBehaviour
 	
 	public void displayDestinations(int c)
 	{
-		if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
-			int i = -1;
-			if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
-				if(this.getCard(c).isMine){
-					i = 1 ;
+		if(!this.isChangingTurn){
+			if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
+				int i = -1;
+				if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
+					if(this.getCard(c).isMine){
+						i = 1 ;
+					}
+					else{
+						i = 9;
+					}
 				}
 				else{
-					i = 9;
+					i = 10 ;
 				}
-			}
-			else{
-				i = 10 ;
-			}
-			
-			List<Tile> destinations = this.playingCards[c].GetComponent<PlayingCardController>().getDestinations();
-			foreach (Tile t in destinations)
-			{
-				if (this.getTileController(t.x,t.y).canBeDestination()){
-					this.getTileController(t.x,t.y).setDestination(i);
+				
+				List<Tile> destinations = this.playingCards[c].GetComponent<PlayingCardController>().getDestinations();
+				foreach (Tile t in destinations)
+				{
+					if (this.getTileController(t.x,t.y).canBeDestination()){
+						this.getTileController(t.x,t.y).setDestination(i);
+					}
 				}
 			}
 		}
@@ -3410,7 +3414,7 @@ public class GameView : MonoBehaviour
 				yield return new WaitForSeconds(3f);
 				if(!this.deads.Contains(this.currentPlayingCard)){
 					if(!ApplicationModel.player.ToLaunchGameTutorial || this.sequenceID>14){
-						GameController.instance.findNextPlayer (true);
+						GameController.instance.findNextPlayer (false);
 					}
 				}
 			}

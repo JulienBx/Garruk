@@ -298,7 +298,7 @@ public class LanceFlammes : GameSkill
 	}
 
 	public override int getBestChoice(Tile t, Skill s){
-		float bestScore = 0 ;
+		float bestScore = -200 ;
 		float score ;
 		int bestResult =-1;
 		GameCard currentCard = GameView.instance.getCurrentCard();
