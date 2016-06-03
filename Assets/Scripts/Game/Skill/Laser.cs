@@ -31,7 +31,7 @@ public class Laser : GameSkill
 		}
 		else{
 			if (Random.Range(1,101) <= proba){
-				GameController.instance.applyOn2(target, Random.Range(10+level, 20+level));
+				GameController.instance.applyOn2(target, Random.Range(5+level, 15+level));
 			}
 			else{
 				GameController.instance.esquive(target,base.name);
@@ -66,8 +66,8 @@ public class Laser : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
-		int minDamages = 10 + level;
-		int maxDamages = 20 + level;
+		int minDamages = 5 + level;
+		int maxDamages = 15 + level;
 		if(currentCard.isFou()){
 			minDamages = Mathf.RoundToInt(1.25f*minDamages);
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
@@ -103,8 +103,8 @@ public class Laser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int levelMin = Mathf.FloorToInt((10+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
-		int levelMax = Mathf.FloorToInt((20+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
+		int levelMin = Mathf.FloorToInt((5+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
+		int levelMax = Mathf.FloorToInt((15+s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)))+Mathf.RoundToInt(5-targetCard.getLife()/10f);;
 
 		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((200*(Mathf.Max(0f,1+levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*(Mathf.Min(levelMax,targetCard.getLife())-levelMin)))/(levelMax-levelMin+1f));
 
