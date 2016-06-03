@@ -2794,9 +2794,9 @@ public class GameView : MonoBehaviour
 		if(b){
 			for(int j = 0 ; j < this.nbCards ; j++){
 				if(this.getCard(j).isMine && target!=j && !this.getCard(j).isDead){
-					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
+					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
@@ -2806,9 +2806,9 @@ public class GameView : MonoBehaviour
 		else{
 			for(int j = 0 ; j < this.nbCards ; j++){
 				if(!this.getCard(j).isMine && target!=j && !this.getCard(j).isDead){
-					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).updateLife(this.getCard(j).getLife());
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
+					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).show();
 					this.displaySkillEffect(j, "Perd les bonus leader", 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
@@ -4384,6 +4384,8 @@ public class GameView : MonoBehaviour
 				}
 			}
 
+
+
 			while(tilesOccupancy[startingTile.x, startingTile.y]!=0){
 				startingTile = new Tile(UnityEngine.Random.Range(0,6), UnityEngine.Random.Range(0,2));
 			}
@@ -4403,6 +4405,25 @@ public class GameView : MonoBehaviour
 				if(tilesOccupancy[i,j]>9){
 					this.getPlayingCardController(units[tilesOccupancy[i,j]-10]).changeTile(new Tile(i,j+6), this.tiles[i,j+6].GetComponentInChildren<TileController>().getPosition());
 					this.tiles[i,j+6].GetComponentInChildren<TileController>().setCharacterID(units[tilesOccupancy[i,j]-10]);
+				}
+			}
+		}
+
+		for(int i = 0 ; i < this.nbCards ; i++){
+			if(this.getCard(i).isMine){
+				if(this.getCard(i).isProtector()){
+					int level = this.getCard(i).getSkills()[0].Power*2+10;
+					List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
+					int characterID ;
+					for(int j = 0 ; j < tiles.Count ; j++){
+						characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
+						if(characterID!=-1){
+							if(this.getCard(characterID).isMine){
+								this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
+								this.getPlayingCardController(characterID).showIcons();
+							}
+						}
+					}
 				}
 			}
 		}
