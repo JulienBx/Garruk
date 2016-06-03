@@ -2844,7 +2844,7 @@ public class GameView : MonoBehaviour
 		}
 
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
-			GameView.instance.quitGameHandler2(true);
+			StartCoroutine(GameView.instance.quitGameHandler2(true));
 		}
 		else{
 			this.updateTimeline();
@@ -2915,6 +2915,8 @@ public class GameView : MonoBehaviour
 
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
+		this.isEndedGame=true ;
+		yield return new WaitForSeconds(2f);
         ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
         if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
@@ -2945,6 +2947,8 @@ public class GameView : MonoBehaviour
 		}
         GameController.instance.quitGame();
 	}
+
+
 	public List<Tile> getFreeImmediateNeighbours(Tile t){
 		List<Tile> freeNeighbours = new List<Tile>();
 		List<Tile> neighbours = t.getImmediateNeighbourTiles();
