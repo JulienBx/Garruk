@@ -1641,6 +1641,7 @@ public class GameView : MonoBehaviour
 	
 	void Update()
 	{
+
 		if(this.isSceneLoaded)
 		{
 			if (this.widthScreen!=-1){
