@@ -139,13 +139,13 @@ public class PluieBleue : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		if(GameView.instance.getCard(target).CardType.Id==6){
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
 			if(targetCard.getLife()==targetCard.getLife()){
 				GameView.instance.displaySkillEffect(target, "Sans effet", 1);
 			}	
 			else{
 				GameView.instance.displaySkillEffect(target, "+"+Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())+" PV", 1);
 			}
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{

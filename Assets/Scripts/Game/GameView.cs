@@ -3386,7 +3386,7 @@ public class GameView : MonoBehaviour
 
 		this.getPassZoneController().show(false);
 
-		if(this.getCurrentCard().isMine){
+		if(this.getCurrentCard().isMine && !this.getCurrentCard().isFurious()){
 			this.getSkillZoneController().showCancelButton(true);
 		}
 		this.getSkillZoneController().showSkillButtons(false);
