@@ -1260,7 +1260,10 @@ public class GameView : MonoBehaviour
 		
 			List<int> idCards = new List<int>();
 			idCards.Add(currentPlayingCard);
-			int i =  this.indexPlayer+1 ; 
+			int i =  this.indexPlayer+1 ;
+			if(i==this.nbCards){
+				i=0;
+			}
 			int j = this.meteoritesCounter ; 
 			int l = this.meteoritesStep ; 
 			while (idCards.Count<9){
