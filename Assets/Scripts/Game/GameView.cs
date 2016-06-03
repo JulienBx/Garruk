@@ -3541,8 +3541,8 @@ public class GameView : MonoBehaviour
 					amount2 = amount*nbTurns ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
@@ -3557,8 +3557,8 @@ public class GameView : MonoBehaviour
 					amount2 = amount*nbTurns ;
 				}
 				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
@@ -3577,8 +3577,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount*(nbTurns-1) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3593,8 +3593,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount*(nbTurns-1) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3614,8 +3614,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount *(nbTurns-2);
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3630,8 +3630,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount*(nbTurns-2) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3651,8 +3651,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount *(nbTurns-3);
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3667,8 +3667,8 @@ public class GameView : MonoBehaviour
 						amount2 = amount*(nbTurns-3) ;
 					}
 					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
