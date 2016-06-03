@@ -113,6 +113,7 @@ public class GameView : MonoBehaviour
 
 	float compteurStart = 0f; 
 	int timeStartIA ;
+	public bool isEndedGame = false ;
 
 	void Awake()
 	{
@@ -1086,7 +1087,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public void setNextPlayer(bool isEndMeteor){
-		if(!this.isChangingTurn){
+		if(!this.isChangingTurn && !this.isEndedGame){
 			this.isChangingTurn = true;
 			isFreezed = true ;
 			this.hideButtons();
@@ -2879,8 +2880,10 @@ public class GameView : MonoBehaviour
             ServerController.instance.lostConnection();
         }
 	}
-    public void quitGameHandler2(bool b)
+    public IEnumerator quitGameHandler2(bool b)
     {
+    	this.isEndedGame = true ;
+		yield return new WaitForSeconds(2f);
     	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
 			if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
 				GameController.instance.quitGameHandler(this.isFirstPlayer);
