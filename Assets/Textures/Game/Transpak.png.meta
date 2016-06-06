@@ -65,7 +65,12 @@ TextureImporter:
   spritePixelsToUnits: 108
   alphaIsTransparency: 1
   textureType: 5
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: 4
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
   spriteSheet:
     sprites:
     - name: Back1080x216
@@ -86,10 +91,10 @@ TextureImporter:
     - name: Back108x108
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1344
-        width: 1
-        height: 1
+        x: 1845
+        y: 1939
+        width: 108
+        height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -97,8 +102,8 @@ TextureImporter:
     - name: Back2160x1080
       rect:
         serializedVersion: 2
-        x: 495
-        y: 847
+        x: 1955
+        y: 2022
         width: 1
         height: 1
       alignment: 0
@@ -108,8 +113,8 @@ TextureImporter:
     - name: Back216x81
       rect:
         serializedVersion: 2
-        x: 643
-        y: 184
+        x: 1745
+        y: 1399
         width: 260
         height: 98
       alignment: 0
@@ -128,8 +133,8 @@ TextureImporter:
     - name: Back400x200
       rect:
         serializedVersion: 2
-        x: 643
-        y: 427
+        x: 1203
+        y: 1144
         width: 400
         height: 200
       alignment: 0
@@ -154,8 +159,8 @@ TextureImporter:
     - name: Back400x50
       rect:
         serializedVersion: 2
-        x: 643
-        y: 284
+        x: 1605
+        y: 1295
         width: 400
         height: 40
       alignment: 0
@@ -170,8 +175,8 @@ TextureImporter:
     - name: Back405x99
       rect:
         serializedVersion: 2
-        x: 643
-        y: 326
+        x: 1203
+        y: 1346
         width: 405
         height: 99
       alignment: 0
@@ -196,23 +201,25 @@ TextureImporter:
     - name: Back540x108
       rect:
         serializedVersion: 2
-        x: 1
-        y: 29
-        width: 538
-        height: 106
-      alignment: 9
-      pivot: {x: 0.49814814, y: 0.5092593}
+        x: 1203
+        y: 1447
+        width: 540
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -268.0037, y: 52.018517}
-        - {x: -268.0037, y: -53.981483}
-        - {x: 269.9963, y: -53.981483}
-        - {x: 269.9963, y: 52.018517}
+      - - {x: -270, y: 54}
+        - {x: -270, y: -54}
+        - {x: 268, y: -54}
+        - {x: 270, y: -52}
+        - {x: 270, y: 52}
+        - {x: 268, y: 54}
     - name: Back640x490
       rect:
         serializedVersion: 2
-        x: 1
-        y: 137
+        x: 1203
+        y: 1557
         width: 640
         height: 490
       alignment: 0
@@ -226,8 +233,8 @@ TextureImporter:
     - name: Back90x22
       rect:
         serializedVersion: 2
-        x: 111
-        y: 957
+        x: 1955
+        y: 2025
         width: 90
         height: 22
       alignment: 0
@@ -237,8 +244,8 @@ TextureImporter:
     - name: BackBariole
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1939
+        x: 1845
+        y: 1829
         width: 108
         height: 108
       alignment: 0
@@ -260,20 +267,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -600, y: -379}
-        - {x: -600, y: -600}
-        - {x: -379, y: -600}
-        - {x: -379, y: -491}
-        - {x: -394, y: -464}
-        - {x: -486, y: -379}
-      - - {x: -109, y: -598}
-        - {x: -109, y: -600}
-        - {x: -102, y: -600}
-        - {x: -102, y: -598}
-        - {x: -104, y: -596}
-        - {x: -107, y: -596}
-      - - {x: -25, y: -600}
-        - {x: -24, y: -592}
+      - - {x: -24, y: -592}
         - {x: -22, y: -592}
         - {x: -24, y: -596}
         - {x: -23, y: -600}
@@ -305,7 +299,10 @@ TextureImporter:
         - {x: 139, y: -587}
         - {x: 144, y: -586}
         - {x: 152, y: -584}
-        - {x: 173, y: -578}
+        - {x: 166, y: -580}
+        - {x: 174, y: -578}
+        - {x: 180, y: -576}
+        - {x: 197, y: -570}
         - {x: 206, y: -567}
         - {x: 214, y: -564}
         - {x: 234, y: -556}
@@ -424,7 +421,6 @@ TextureImporter:
         - {x: 384, y: 464}
         - {x: 378, y: 469}
         - {x: 374, y: 472}
-        - {x: 373, y: 472}
         - {x: 364, y: 480}
         - {x: 352, y: 489}
         - {x: 350, y: 491}
@@ -468,7 +464,10 @@ TextureImporter:
         - {x: -143, y: 587}
         - {x: -148, y: 586}
         - {x: -156, y: 584}
-        - {x: -177, y: 578}
+        - {x: -170, y: 580}
+        - {x: -178, y: 578}
+        - {x: -184, y: 576}
+        - {x: -192, y: 573}
         - {x: -210, y: 567}
         - {x: -218, y: 563}
         - {x: -223, y: 562}
@@ -504,7 +503,6 @@ TextureImporter:
         - {x: -466, y: 386}
         - {x: -471, y: 380}
         - {x: -474, y: 376}
-        - {x: -474, y: 375}
         - {x: -482, y: 366}
         - {x: -488, y: 359}
         - {x: -503, y: 338}
@@ -526,7 +524,6 @@ TextureImporter:
         - {x: -569, y: 208}
         - {x: -580, y: 175}
         - {x: -581, y: 171}
-        - {x: -582, y: 165}
         - {x: -584, y: 161}
         - {x: -586, y: 154}
         - {x: -588, y: 146}
@@ -547,7 +544,10 @@ TextureImporter:
         - {x: -589, y: -141}
         - {x: -588, y: -146}
         - {x: -586, y: -154}
-        - {x: -580, y: -175}
+        - {x: -582, y: -168}
+        - {x: -580, y: -176}
+        - {x: -578, y: -182}
+        - {x: -572, y: -199}
         - {x: -569, y: -208}
         - {x: -566, y: -216}
         - {x: -558, y: -236}
@@ -618,6 +618,7 @@ TextureImporter:
         - {x: -50, y: -600}
         - {x: -49, y: -599}
         - {x: -49, y: -600}
+        - {x: -25, y: -600}
       - - {x: 24, y: -597}
         - {x: 27, y: -600}
         - {x: 31, y: -600}
@@ -635,16 +636,11 @@ TextureImporter:
         - {x: 436, y: -406}
         - {x: 433, y: -405}
         - {x: 431, y: -407}
-      - - {x: -600, y: 600}
-        - {x: -600, y: 379}
-        - {x: -414, y: 379}
-        - {x: -379, y: 491}
-        - {x: -379, y: 600}
     - name: BlueMoveTile
       rect:
         serializedVersion: 2
-        x: 905
-        y: 174
+        x: 1845
+        y: 1719
         width: 108
         height: 108
       alignment: 0
@@ -658,8 +654,8 @@ TextureImporter:
     - name: Dead
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1829
+        x: 1845
+        y: 1609
         width: 108
         height: 108
       alignment: 0
@@ -673,8 +669,8 @@ TextureImporter:
     - name: Hover
       rect:
         serializedVersion: 2
-        x: 1
-        y: 957
+        x: 1845
+        y: 1499
         width: 108
         height: 108
       alignment: 0
@@ -688,8 +684,8 @@ TextureImporter:
     - name: RedMoveTile
       rect:
         serializedVersion: 2
-        x: 111
-        y: 1939
+        x: 1610
+        y: 1337
         width: 108
         height: 108
       alignment: 0
@@ -703,8 +699,8 @@ TextureImporter:
     - name: Target
       rect:
         serializedVersion: 2
-        x: 111
-        y: 847
+        x: 1605
+        y: 1185
         width: 108
         height: 108
       alignment: 0
@@ -718,8 +714,8 @@ TextureImporter:
     - name: blackTile
       rect:
         serializedVersion: 2
-        x: 1
-        y: 847
+        x: 1715
+        y: 1185
         width: 108
         height: 108
       alignment: 0
