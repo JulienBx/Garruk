@@ -221,7 +221,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -229,8 +229,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -353,7 +353,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -472,7 +472,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -554,7 +554,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -562,8 +562,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -708,7 +708,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -716,8 +716,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -843,7 +843,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -901,7 +901,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300058, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  m_Sprite: {fileID: 21300014, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -972,7 +972,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300006, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300008, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1048,7 +1048,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1138,8 +1138,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1370,7 +1370,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1378,8 +1378,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1557,7 +1557,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300010, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300016, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1818,8 +1818,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -1963,7 +1963,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1971,8 +1971,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2153,7 +2153,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2214,7 +2214,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2275,7 +2275,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2345,7 +2345,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2353,8 +2353,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2687,7 +2687,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2695,8 +2695,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2818,7 +2818,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 62
-  m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300006, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2900,7 +2900,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2908,8 +2908,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3053,7 +3053,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -3061,8 +3061,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3182,7 +3182,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3243,7 +3243,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3304,7 +3304,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3364,7 +3364,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 19
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3438,7 +3438,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300088, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300088, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3648,7 +3648,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -3656,8 +3656,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3780,7 +3780,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3842,7 +3842,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300152, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300110, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4023,10 +4023,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300058, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300060, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300062, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300064, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  - {fileID: 21300010, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300012, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300014, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300016, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4055,19 +4055,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300012, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
-  - {fileID: 21300066, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300068, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300070, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300072, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300074, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300076, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300014, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
-  - {fileID: 21300078, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300080, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  - {fileID: 21300012, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
+  - {fileID: 21300026, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300028, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300030, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300032, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300034, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300036, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300014, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
+  - {fileID: 21300038, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300040, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   - {fileID: 0}
-  - {fileID: 21300082, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300084, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  - {fileID: 21300042, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300044, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4101,10 +4101,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300006, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
-  - {fileID: 21300008, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
-  - {fileID: 21300048, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300010, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
+  - {fileID: 21300006, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
+  - {fileID: 21300008, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
+  - {fileID: 21300000, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300010, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4129,107 +4129,73 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300050, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300052, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300054, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
-  - {fileID: 21300044, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  - {fileID: 21300002, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300004, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
+  - {fileID: 21300006, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300056, guid: d995aea2da99b1a4797865257e9e80b5, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300008, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   factionSprites:
-  - {fileID: 21300240, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300222, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300258, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300272, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300242, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300230, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300226, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300256, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300260, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300264, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300316, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300222, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300334, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300408, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300318, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300290, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300266, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300332, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300376, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300380, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   skillSprites:
-  - {fileID: 21300000, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300088, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300110, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300134, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300142, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300152, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300180, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300206, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300208, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300220, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300022, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300042, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300048, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300064, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300076, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300078, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300080, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300082, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300084, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300086, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300090, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300092, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300094, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300096, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300098, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300100, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300102, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300104, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300106, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300108, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300112, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300114, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300116, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300120, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300124, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300128, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300000, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300088, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300110, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300134, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300142, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300152, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300180, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300206, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300208, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300220, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300022, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300042, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300048, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300064, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300076, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300078, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300080, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300082, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300084, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300086, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300090, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300092, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300094, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300096, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300098, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300100, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300102, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300104, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300106, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300108, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300112, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300114, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300116, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300120, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300124, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300128, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300132, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300136, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300138, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300140, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300144, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300146, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300148, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300150, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300154, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300156, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300160, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300164, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300168, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300172, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300176, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300182, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300186, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300190, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300194, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 21300198, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300202, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300132, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300136, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300138, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300140, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4243,36 +4209,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300210, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300212, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300214, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300216, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300218, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300144, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300146, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300148, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300150, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 21300154, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300156, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300160, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300164, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300168, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300172, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300176, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300182, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300186, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300190, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300194, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
-  - {fileID: 21300002, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300004, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300006, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300008, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300010, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300012, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300014, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300016, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300018, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300020, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300024, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300030, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300032, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300036, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300040, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 21300198, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300202, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4281,30 +4238,66 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 21300044, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300046, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300040, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300050, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300052, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300054, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300056, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300060, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300066, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300070, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 21300074, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  skillTypeSprites:
   - {fileID: 0}
+  - {fileID: 21300210, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300212, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300214, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300216, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300218, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300002, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300004, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300006, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300008, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300010, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300012, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300014, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300016, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300018, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300020, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300024, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300030, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300032, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300036, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300040, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300044, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300046, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300050, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300052, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300054, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300056, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300060, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300066, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300070, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300074, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -4345,6 +4338,7 @@ MonoBehaviour:
   hisTimer: {fileID: 0}
   IA: {fileID: 0}
   isChangingTurn: 0
+  isEndedGame: 0
 --- !u!82 &481987444
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4760,7 +4754,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300004, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300004, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4894,7 +4888,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -4902,8 +4896,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5084,7 +5078,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 21
-  m_Sprite: {fileID: 21300276, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300432, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5228,7 +5222,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1945406385
   m_SortingOrder: 101
-  m_Sprite: {fileID: 21300016, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
+  m_Sprite: {fileID: 21300016, guid: 8d3f4afc2b9243243a5a76b519b3be01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5310,7 +5304,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -5318,8 +5312,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5439,7 +5433,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 81
-  m_Sprite: {fileID: 21300004, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300004, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5497,7 +5491,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300006, guid: a4d1ffd52ba03204bacbbaad1f37c28d, type: 3}
+  m_Sprite: {fileID: 21300014, guid: edea2a8630f8f5f4dadd45e465fe6715, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5558,7 +5552,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5619,7 +5613,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300030, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300012, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5724,7 +5718,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -5732,8 +5726,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5913,7 +5907,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5995,7 +5989,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6003,8 +5997,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6200,7 +6194,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6208,8 +6202,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6470,7 +6464,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6478,8 +6472,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6797,7 +6791,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6805,8 +6799,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6928,7 +6922,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 25
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7142,7 +7136,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7200,7 +7194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 24
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7340,7 +7334,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -7348,8 +7342,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7471,7 +7465,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 62
-  m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300006, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7554,7 +7548,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -7562,8 +7556,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7685,7 +7679,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 28
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7767,7 +7761,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -7775,8 +7769,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7900,7 +7894,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300002, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300134, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8352,7 +8346,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8493,7 +8487,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8501,8 +8495,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8646,7 +8640,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8654,8 +8648,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8799,7 +8793,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8807,8 +8801,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9375,7 +9369,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9383,8 +9377,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9623,7 +9617,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9684,7 +9678,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9745,7 +9739,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9805,7 +9799,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 62
-  m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300006, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9945,7 +9939,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9953,8 +9947,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10098,7 +10092,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10106,8 +10100,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10251,7 +10245,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10259,8 +10253,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10383,7 +10377,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10444,7 +10438,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10612,7 +10606,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10620,8 +10614,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10744,7 +10738,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11111,7 +11105,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11119,8 +11113,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11264,7 +11258,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11272,8 +11266,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11396,7 +11390,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11635,7 +11629,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11643,8 +11637,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11846,7 +11840,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11854,8 +11848,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11978,7 +11972,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12060,7 +12054,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -12068,8 +12062,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12213,7 +12207,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -12221,8 +12215,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12420,7 +12414,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 120
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12504,7 +12498,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 120
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12911,7 +12905,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -12919,8 +12913,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13122,7 +13116,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13130,8 +13124,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13333,7 +13327,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13341,8 +13335,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13544,7 +13538,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13552,8 +13546,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13673,7 +13667,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300004, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300004, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14324,7 +14318,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14332,8 +14326,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -14477,7 +14471,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14485,8 +14479,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -14688,7 +14682,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14696,8 +14690,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -14819,7 +14813,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 22
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14880,7 +14874,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14962,7 +14956,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -14970,8 +14964,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -15096,7 +15090,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300234, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300310, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
@@ -15212,7 +15206,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 21
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15273,7 +15267,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15335,7 +15329,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300000, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15444,7 +15438,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -15452,8 +15446,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -15575,7 +15569,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 16
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15715,7 +15709,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -15723,8 +15717,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -15926,7 +15920,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -15934,8 +15928,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -16079,7 +16073,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -16087,8 +16081,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -16210,7 +16204,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 62
-  m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300006, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16421,7 +16415,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300078, guid: 075994fcb3c9ef54e9ee86a9f415b94e, type: 3}
+  m_Sprite: {fileID: 21300068, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16479,7 +16473,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 18
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16540,7 +16534,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -16622,7 +16616,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -16630,8 +16624,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -16763,7 +16757,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -16771,8 +16765,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -17120,7 +17114,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -17128,8 +17122,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -17526,7 +17520,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17679,7 +17673,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -17687,8 +17681,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -17811,7 +17805,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17906,15 +17900,15 @@ MonoBehaviour:
   time: 0
   isRunning: 1
   sprites:
-  - {fileID: 21300086, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300088, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300090, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300098, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300100, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300102, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300092, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300094, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
-  - {fileID: 21300096, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
+  - {fileID: 21300008, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300010, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300012, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300020, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300022, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300024, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300014, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300016, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300018, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
 --- !u!65 &1733651964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18001,7 +17995,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -18236,7 +18230,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -18244,8 +18238,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -18389,7 +18383,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -18397,8 +18391,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -18708,7 +18702,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -18716,8 +18710,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -18861,7 +18855,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -18869,8 +18863,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -19201,7 +19195,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19283,7 +19277,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -19291,8 +19285,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -19436,7 +19430,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -19444,8 +19438,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -19589,7 +19583,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -19597,8 +19591,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -19718,7 +19712,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19987,7 +19981,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300266, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300382, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20180,7 +20174,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 62
-  m_Sprite: {fileID: 21300032, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300006, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20301,7 +20295,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300252, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300328, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
@@ -20362,7 +20356,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300028, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300010, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20445,7 +20439,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -20453,8 +20447,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -20598,7 +20592,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -20606,8 +20600,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -20730,7 +20724,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300030, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300012, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -21026,7 +21020,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300384, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.2784314, g: 0.5882353, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -21109,7 +21103,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -21117,8 +21111,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -21319,7 +21313,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300214, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300142, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -21581,7 +21575,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -21589,8 +21583,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -21903,7 +21897,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 27
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -22461,11 +22455,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background:
-  - {fileID: 21300270, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300244, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300246, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300248, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
-  - {fileID: 21300250, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2093055092
 GameObject:
   m_ObjectHideFlags: 0
@@ -22697,7 +22691,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -22705,8 +22699,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -22829,7 +22823,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 120
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -22936,7 +22930,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 120
-  m_Sprite: {fileID: 21300268, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 0.90588236, g: 0, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23018,7 +23012,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -23026,8 +23020,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -23171,7 +23165,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -23179,8 +23173,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -23456,7 +23450,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 61
-  m_Sprite: {fileID: 21300262, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300378, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23514,7 +23508,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300002, guid: 4ea8c37f2bf7480428f13a8d5f57b8eb, type: 3}
+  m_Sprite: {fileID: 21300386, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23597,7 +23591,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 1
+  checkPaddingRequired: 0
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -23605,8 +23599,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 1
-  m_havePropertiesChanged: 1
+  isInputParsingRequired: 0
+  m_havePropertiesChanged: 0
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1

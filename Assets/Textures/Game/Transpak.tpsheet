@@ -1,0 +1,30 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:d13009e0777d4bad57090cfa2aaaa386:db611363261766cf70ca41d1182edebf:39d8cc66b1582025e0e28234cf296944$
+#
+:format=40000
+:texture=Transpak.png
+:size=2048x2048
+
+Back1080x216;1;629;1080;216;0.5;0.5
+Back108x108;1845;1939;108;108;0.5;0.5
+Back2160x1080;1955;2022;1;1;0.5;0.5
+Back216x81;1745;1399;260;98;0.5;0.5
+Back400x200;1203;1144;400;200;0.5;0.5
+Back400x50;1605;1295;400;40;0.5;0.5
+Back405x99;1203;1346;405;99;0.5;0.5
+Back540x108;1203;1447;540;108;0.5;0.5
+Back640x490;1203;1557;640;490;0.5;0.5
+Back90x22;1955;2025;90;22;0.5;0.5
+BackBariole;1845;1829;108;108;0.5;0.5
+BackgroundTuto;1;847;1200;1200;0.5;0.5
+BlueMoveTile;1845;1719;108;108;0.5;0.5
+Dead;1845;1609;108;108;0.5;0.5
+Hover;1845;1499;108;108;0.5;0.5
+RedMoveTile;1610;1337;108;108;0.5;0.5
+Target;1605;1185;108;108;0.5;0.5
+blackTile;1715;1185;108;108;0.5;0.5

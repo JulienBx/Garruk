@@ -17,7 +17,6 @@ public class GameView : MonoBehaviour
 	public Sprite[] sprites;
 	public Sprite[] factionSprites;
 	public Sprite[] skillSprites;
-	public Sprite[] skillTypeSprites;
 	public int boardWidth ;
 	public int boardHeight ;
 	int nbCardsPerPlayer ;
@@ -1122,11 +1121,8 @@ public class GameView : MonoBehaviour
 	}
 
 	public IEnumerator endTurnEffects(bool toLaunchEndTurn){
-		print("ENDTURNEFFECTS1 ");
-			
 		if(this.hasFightStarted){
 			bool isSuccess = false ;
-			print("ENDTURNEFFECTS2 ");
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
@@ -1161,7 +1157,6 @@ public class GameView : MonoBehaviour
 				}
 				if(this.getCard(this.currentPlayingCard).isNurse()){
 					int power = 3+2*this.getCurrentCard().Skills[0].Power;
-					print("ENDTURNEFFECTS "+this.getPlayingCardController(this.currentPlayingCard).getTile().x+","+this.getPlayingCardController(this.currentPlayingCard).getTile().y);
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;
@@ -2840,6 +2835,7 @@ public class GameView : MonoBehaviour
 		this.getPlayingCardController(c).displayDead(true);
 		this.deads.Add(c);
 		this.getTileController(c).setCharacterID(-1);
+		this.getTileController(c).showDestination(false);
 
 		List<Tile> neighbours = this.getTile(c).getImmediateNeighbourTiles();
 		int tempInt; 
@@ -3369,10 +3365,6 @@ public class GameView : MonoBehaviour
 	
 	public Sprite getSkillSprite(int i){
 		return this.skillSprites[i];
-	}
-
-	public Sprite getSkillTypeSprite(int i){
-		return this.skillTypeSprites[i];
 	}
 	
 	public Sprite getCharacterSprite(int i){

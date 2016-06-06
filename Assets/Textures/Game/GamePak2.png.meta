@@ -1,0 +1,687 @@
+fileFormatVersion: 2
+guid: 8cb990f12e1930e4a86310d69d8dcfb8
+timeCreated: 1465168360
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 01
+    21300002: Caserne
+    21300004: ElecTrap
+    21300006: Fontaine
+    21300008: InterludeBlue1
+    21300010: InterludeBlue2
+    21300012: InterludeBlue3
+    21300014: InterludeGrey1
+    21300016: InterludeGrey2
+    21300018: InterludeGrey3
+    21300020: InterludeRed1
+    21300022: InterludeRed2
+    21300024: InterludeRed3
+    21300026: PoisonTrap
+    21300028: TeleTrap
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 108
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1167
+        width: 216
+        height: 213
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49295774}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 106, y: 24}
+        - {x: 93, y: 49}
+        - {x: 73, y: 69}
+        - {x: 42, y: 77}
+        - {x: 29, y: 98}
+        - {x: -25, y: 106}
+        - {x: -59, y: 106}
+        - {x: -108, y: 23}
+        - {x: -108, y: -35}
+        - {x: -80, y: -98}
+        - {x: -41, y: -105}
+        - {x: 28, y: -105}
+        - {x: 82, y: -84}
+        - {x: 108, y: -35}
+        - {x: 108, y: 17}
+    - name: Caserne
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1070
+        width: 185
+        height: 47
+      alignment: 9
+      pivot: {x: 0.5135135, y: 0.34042552}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11, y: -5}
+        - {x: 1, y: -5}
+        - {x: 13, y: -5}
+        - {x: 13, y: 12}
+        - {x: 12, y: 20}
+        - {x: -48, y: 27}
+        - {x: -87, y: 27}
+        - {x: -95, y: 22}
+        - {x: -95, y: -7}
+        - {x: -91, y: -16}
+        - {x: 11, y: -16}
+        - {x: 13, y: -14}
+        - {x: 13, y: -7}
+      - - {x: 61, y: 17}
+        - {x: 13, y: 17}
+        - {x: 13, y: -16}
+        - {x: 61, y: -16}
+      - - {x: 87, y: -5}
+        - {x: 90, y: -2}
+        - {x: 90, y: 9}
+        - {x: 89, y: 12}
+        - {x: 85, y: 17}
+        - {x: 63, y: 17}
+        - {x: 61, y: 10}
+        - {x: 61, y: -15}
+        - {x: 63, y: -16}
+        - {x: 90, y: -16}
+        - {x: 90, y: -9}
+        - {x: 89, y: -7}
+        - {x: 87, y: -5}
+        - {x: 78, y: -5}
+    - name: ElecTrap
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 1165
+        width: 201
+        height: 215
+      alignment: 9
+      pivot: {x: 0.50248754, y: 0.4976744}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50, y: 62}
+        - {x: 41, y: 61}
+        - {x: 51, y: 68}
+        - {x: 57, y: 74}
+        - {x: 47, y: 108}
+        - {x: -90, y: 108}
+        - {x: -94, y: 107}
+        - {x: -94, y: -63}
+        - {x: -81, y: -77}
+        - {x: -37, y: -107}
+        - {x: 48, y: -107}
+        - {x: 96, y: -91}
+        - {x: 96, y: -13}
+        - {x: 88, y: 12}
+      - - {x: -101, y: 14}
+        - {x: -101, y: -24}
+        - {x: -95, y: -24}
+        - {x: -94, y: -18}
+        - {x: -94, y: 9}
+        - {x: -98, y: 14}
+    - name: Fontaine
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1120
+        width: 202
+        height: 50
+      alignment: 9
+      pivot: {x: 0.47524753, y: 0.28}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 31, y: 17}
+        - {x: 30, y: 26}
+        - {x: -12, y: 28}
+        - {x: -64, y: 19}
+        - {x: -71, y: 13}
+        - {x: -68, y: 20}
+        - {x: -70, y: 29}
+        - {x: -96, y: 29}
+        - {x: -96, y: -12}
+        - {x: -94, y: -14}
+        - {x: 31, y: -14}
+      - - {x: 41, y: 29}
+        - {x: 33, y: 29}
+        - {x: 31, y: 28}
+        - {x: 31, y: -14}
+        - {x: 45, y: -14}
+        - {x: 45, y: 27}
+      - - {x: 67, y: 19}
+        - {x: 47, y: 19}
+        - {x: 45, y: 17}
+        - {x: 45, y: -14}
+        - {x: 72, y: -14}
+        - {x: 73, y: -13}
+        - {x: 73, y: 13}
+      - - {x: 99, y: 19}
+        - {x: 75, y: 19}
+        - {x: 73, y: 17}
+        - {x: 73, y: -7}
+        - {x: 75, y: -14}
+        - {x: 100, y: -14}
+        - {x: 103, y: -12}
+        - {x: 103, y: 18}
+      - - {x: 6, y: 32}
+        - {x: 22, y: 32}
+        - {x: 24, y: 33}
+        - {x: 24, y: 36}
+        - {x: 3, y: 36}
+        - {x: 4, y: 33}
+      - - {x: -28, y: 36}
+        - {x: -27, y: 33}
+        - {x: -4, y: 33}
+        - {x: -2, y: 35}
+        - {x: -2, y: 36}
+    - name: InterludeBlue1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1975
+        width: 1919
+        height: 72
+      alignment: 9
+      pivot: {x: 0.47785306, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 972, y: -21}
+        - {x: 976, y: -15}
+        - {x: 976, y: -11}
+        - {x: 980, y: -5}
+        - {x: 980, y: -3}
+        - {x: 982, y: -1}
+        - {x: 982, y: 3}
+        - {x: 987, y: 11}
+        - {x: 987, y: 15}
+        - {x: 993, y: 25}
+        - {x: 993, y: 29}
+        - {x: 995, y: 31}
+        - {x: 995, y: 36}
+        - {x: -910, y: 36}
+        - {x: -910, y: 31}
+        - {x: -908, y: 29}
+        - {x: -908, y: 27}
+        - {x: -905, y: 23}
+        - {x: -905, y: 19}
+        - {x: -900, y: 11}
+        - {x: -900, y: 7}
+        - {x: -895, y: -1}
+        - {x: -895, y: -5}
+        - {x: -893, y: -7}
+        - {x: -893, y: -9}
+        - {x: -889, y: -15}
+        - {x: -889, y: -19}
+        - {x: -887, y: -22}
+        - {x: -884, y: -27}
+        - {x: -884, y: -31}
+        - {x: -881, y: -36}
+        - {x: 966, y: -36}
+        - {x: 968, y: -32}
+        - {x: 970, y: -30}
+        - {x: 972, y: -25}
+    - name: InterludeBlue2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1605
+        width: 1879
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5337946, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 875, y: -25}
+        - {x: 869, y: -14}
+        - {x: 869, y: -11}
+        - {x: 864, y: -2}
+        - {x: 864, y: 1}
+        - {x: 862, y: 3}
+        - {x: 862, y: 5}
+        - {x: 858, y: 12}
+        - {x: 858, y: 15}
+        - {x: 854, y: 22}
+        - {x: 854, y: 25}
+        - {x: 848, y: 36}
+        - {x: -968, y: 36}
+        - {x: -970, y: 31}
+        - {x: -970, y: 28}
+        - {x: -975, y: 19}
+        - {x: -975, y: 16}
+        - {x: -979, y: 9}
+        - {x: -981, y: 5}
+        - {x: -981, y: 2}
+        - {x: -986, y: -7}
+        - {x: -986, y: -10}
+        - {x: -992, y: -21}
+        - {x: -992, y: -24}
+        - {x: -996, y: -31}
+        - {x: -996, y: -36}
+        - {x: 876, y: -36}
+        - {x: 876, y: -29}
+        - {x: 875, y: -28}
+    - name: InterludeBlue3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1531
+        width: 1876
+        height: 72
+      alignment: 9
+      pivot: {x: 0.47014925, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 972, y: -25}
+        - {x: 972, y: -23}
+        - {x: 976, y: -17}
+        - {x: 976, y: -13}
+        - {x: 980, y: -7}
+        - {x: 980, y: -3}
+        - {x: 982, y: -1}
+        - {x: 982, y: 1}
+        - {x: 986, y: 7}
+        - {x: 987, y: 13}
+        - {x: 991, y: 19}
+        - {x: 991, y: 22}
+        - {x: 993, y: 25}
+        - {x: 993, y: 27}
+        - {x: 994, y: 28}
+        - {x: 994, y: 36}
+        - {x: -879, y: 36}
+        - {x: -879, y: 29}
+        - {x: -877, y: 27}
+        - {x: -877, y: 25}
+        - {x: -874, y: 21}
+        - {x: -873, y: 15}
+        - {x: -869, y: 9}
+        - {x: -869, y: 7}
+        - {x: -868, y: 3}
+        - {x: -864, y: -3}
+        - {x: -864, y: -5}
+        - {x: -862, y: -7}
+        - {x: -862, y: -11}
+        - {x: -858, y: -17}
+        - {x: -858, y: -21}
+        - {x: -856, y: -24}
+        - {x: -853, y: -29}
+        - {x: -852, y: -35}
+        - {x: -851, y: -36}
+        - {x: 967, y: -36}
+        - {x: 968, y: -34}
+        - {x: 970, y: -31}
+        - {x: 970, y: -28}
+    - name: InterludeGrey1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1901
+        width: 1888
+        height: 72
+      alignment: 9
+      pivot: {x: 0.46927965, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 972, y: -21}
+        - {x: 976, y: -15}
+        - {x: 976, y: -11}
+        - {x: 980, y: -5}
+        - {x: 980, y: -3}
+        - {x: 982, y: -1}
+        - {x: 982, y: 3}
+        - {x: 987, y: 11}
+        - {x: 987, y: 15}
+        - {x: 993, y: 25}
+        - {x: 993, y: 29}
+        - {x: 995, y: 31}
+        - {x: 995, y: 36}
+        - {x: -879, y: 36}
+        - {x: -879, y: 31}
+        - {x: -877, y: 29}
+        - {x: -877, y: 27}
+        - {x: -874, y: 23}
+        - {x: -874, y: 19}
+        - {x: -869, y: 11}
+        - {x: -869, y: 7}
+        - {x: -864, y: -1}
+        - {x: -864, y: -5}
+        - {x: -862, y: -7}
+        - {x: -862, y: -9}
+        - {x: -858, y: -15}
+        - {x: -858, y: -19}
+        - {x: -856, y: -22}
+        - {x: -853, y: -27}
+        - {x: -853, y: -31}
+        - {x: -850, y: -36}
+        - {x: 966, y: -36}
+        - {x: 968, y: -32}
+        - {x: 970, y: -30}
+        - {x: 972, y: -25}
+    - name: InterludeGrey2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1753
+        width: 1879
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5337946, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 875, y: -25}
+        - {x: 869, y: -14}
+        - {x: 869, y: -11}
+        - {x: 864, y: -2}
+        - {x: 864, y: 1}
+        - {x: 862, y: 3}
+        - {x: 862, y: 5}
+        - {x: 858, y: 12}
+        - {x: 858, y: 15}
+        - {x: 854, y: 22}
+        - {x: 854, y: 25}
+        - {x: 848, y: 36}
+        - {x: -968, y: 36}
+        - {x: -970, y: 31}
+        - {x: -970, y: 28}
+        - {x: -975, y: 19}
+        - {x: -975, y: 16}
+        - {x: -979, y: 9}
+        - {x: -981, y: 5}
+        - {x: -981, y: 2}
+        - {x: -986, y: -7}
+        - {x: -986, y: -10}
+        - {x: -992, y: -21}
+        - {x: -992, y: -24}
+        - {x: -996, y: -31}
+        - {x: -996, y: -36}
+        - {x: 876, y: -36}
+        - {x: 876, y: -29}
+        - {x: 875, y: -28}
+    - name: InterludeGrey3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1457
+        width: 1873
+        height: 72
+      alignment: 9
+      pivot: {x: 0.4693006, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 972, y: -25}
+        - {x: 972, y: -23}
+        - {x: 976, y: -17}
+        - {x: 976, y: -13}
+        - {x: 980, y: -7}
+        - {x: 980, y: -3}
+        - {x: 982, y: -1}
+        - {x: 982, y: 1}
+        - {x: 986, y: 7}
+        - {x: 987, y: 13}
+        - {x: 991, y: 19}
+        - {x: 991, y: 22}
+        - {x: 993, y: 25}
+        - {x: 993, y: 27}
+        - {x: 994, y: 28}
+        - {x: 994, y: 36}
+        - {x: -876, y: 36}
+        - {x: -876, y: 29}
+        - {x: -874, y: 27}
+        - {x: -874, y: 25}
+        - {x: -871, y: 21}
+        - {x: -870, y: 15}
+        - {x: -866, y: 9}
+        - {x: -866, y: 7}
+        - {x: -865, y: 3}
+        - {x: -861, y: -3}
+        - {x: -861, y: -5}
+        - {x: -859, y: -7}
+        - {x: -859, y: -11}
+        - {x: -855, y: -17}
+        - {x: -855, y: -21}
+        - {x: -853, y: -24}
+        - {x: -850, y: -29}
+        - {x: -849, y: -35}
+        - {x: -848, y: -36}
+        - {x: 967, y: -36}
+        - {x: 968, y: -34}
+        - {x: 970, y: -31}
+        - {x: 970, y: -28}
+    - name: InterludeRed1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1383
+        width: 1864
+        height: 72
+      alignment: 9
+      pivot: {x: 0.46298283, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 975, y: -15}
+        - {x: 975, y: -12}
+        - {x: 979, y: -5}
+        - {x: 979, y: -2}
+        - {x: 985, y: 9}
+        - {x: 985, y: 12}
+        - {x: 990, y: 21}
+        - {x: 990, y: 24}
+        - {x: 994, y: 31}
+        - {x: 994, y: 36}
+        - {x: -863, y: 36}
+        - {x: -863, y: 29}
+        - {x: -862, y: 27}
+        - {x: -858, y: 20}
+        - {x: -858, y: 17}
+        - {x: -853, y: 8}
+        - {x: -853, y: 5}
+        - {x: -847, y: -6}
+        - {x: -847, y: -9}
+        - {x: -843, y: -16}
+        - {x: -843, y: -19}
+        - {x: -837, y: -30}
+        - {x: -837, y: -33}
+        - {x: -835, y: -36}
+        - {x: 966, y: -36}
+        - {x: 969, y: -29}
+        - {x: 969, y: -26}
+    - name: InterludeRed2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1827
+        width: 1882
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5308183, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 870, y: -19}
+        - {x: 870, y: -17}
+        - {x: 867, y: -12}
+        - {x: 867, y: -10}
+        - {x: 865, y: -7}
+        - {x: 865, y: -5}
+        - {x: 861, y: 2}
+        - {x: 861, y: 4}
+        - {x: 859, y: 7}
+        - {x: 859, y: 9}
+        - {x: 857, y: 12}
+        - {x: 857, y: 14}
+        - {x: 855, y: 17}
+        - {x: 855, y: 19}
+        - {x: 851, y: 26}
+        - {x: 851, y: 28}
+        - {x: 847, y: 36}
+        - {x: -966, y: 36}
+        - {x: -968, y: 32}
+        - {x: -968, y: 30}
+        - {x: -972, y: 23}
+        - {x: -974, y: 18}
+        - {x: -974, y: 16}
+        - {x: -976, y: 13}
+        - {x: -976, y: 11}
+        - {x: -978, y: 8}
+        - {x: -978, y: 6}
+        - {x: -982, y: -1}
+        - {x: -982, y: -3}
+        - {x: -984, y: -6}
+        - {x: -984, y: -8}
+        - {x: -987, y: -13}
+        - {x: -987, y: -15}
+        - {x: -989, y: -18}
+        - {x: -989, y: -20}
+        - {x: -993, y: -27}
+        - {x: -993, y: -30}
+        - {x: -995, y: -32}
+        - {x: -995, y: -36}
+        - {x: 876, y: -36}
+        - {x: 876, y: -31}
+        - {x: 872, y: -24}
+        - {x: 872, y: -22}
+    - name: InterludeRed3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1679
+        width: 1879
+        height: 72
+      alignment: 9
+      pivot: {x: 0.46993083, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 973, y: -18}
+        - {x: 973, y: -16}
+        - {x: 975, y: -14}
+        - {x: 975, y: -11}
+        - {x: 978, y: -6}
+        - {x: 979, y: -1}
+        - {x: 985, y: 10}
+        - {x: 985, y: 13}
+        - {x: 989, y: 20}
+        - {x: 990, y: 25}
+        - {x: 994, y: 32}
+        - {x: 994, y: 36}
+        - {x: -877, y: 36}
+        - {x: -877, y: 32}
+        - {x: -875, y: 30}
+        - {x: -875, y: 28}
+        - {x: -871, y: 21}
+        - {x: -871, y: 19}
+        - {x: -869, y: 16}
+        - {x: -869, y: 14}
+        - {x: -866, y: 9}
+        - {x: -866, y: 6}
+        - {x: -864, y: 4}
+        - {x: -864, y: 2}
+        - {x: -860, y: -5}
+        - {x: -860, y: -7}
+        - {x: -858, y: -10}
+        - {x: -858, y: -12}
+        - {x: -856, y: -15}
+        - {x: -856, y: -17}
+        - {x: -854, y: -20}
+        - {x: -854, y: -22}
+        - {x: -850, y: -29}
+        - {x: -850, y: -31}
+        - {x: -848, y: -34}
+        - {x: -848, y: -36}
+        - {x: 965, y: -36}
+        - {x: 969, y: -28}
+        - {x: 969, y: -25}
+    - name: PoisonTrap
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1166
+        width: 196
+        height: 215
+      alignment: 9
+      pivot: {x: 0.49489796, y: 0.4976744}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 20, y: 108}
+        - {x: -22, y: 108}
+        - {x: -49, y: 39}
+        - {x: -92, y: 14}
+        - {x: -94, y: -1}
+        - {x: -94, y: -78}
+        - {x: -41, y: -107}
+        - {x: 37, y: -107}
+        - {x: 96, y: -85}
+        - {x: 96, y: 12}
+        - {x: 37, y: 96}
+    - name: TeleTrap
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 1167
+        width: 196
+        height: 214
+      alignment: 9
+      pivot: {x: 0.49489796, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 107}
+        - {x: -6, y: 99}
+        - {x: -23, y: 94}
+        - {x: -32, y: 90}
+        - {x: -71, y: 59}
+        - {x: -71, y: 44}
+        - {x: -67, y: 42}
+        - {x: -59, y: 39}
+        - {x: -94, y: 10}
+        - {x: -94, y: -74}
+        - {x: -63, y: -107}
+        - {x: 82, y: -107}
+        - {x: 96, y: -82}
+        - {x: 96, y: 52}
+        - {x: 32, y: 107}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

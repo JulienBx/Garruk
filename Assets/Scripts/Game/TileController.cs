@@ -264,6 +264,7 @@ public class TileController : GameObjectController
 	
 	public void showDestination(bool b)
 	{
+		
 		if (this.isDestination>=0){
 			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().sprite = this.destinationSprites[isDestination];
 			gameObject.transform.FindChild("DestinationLayer").GetComponent<SpriteRenderer>().enabled = true;

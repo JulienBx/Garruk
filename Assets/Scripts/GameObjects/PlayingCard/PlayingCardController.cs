@@ -293,14 +293,11 @@ public class PlayingCardController : GameObjectController
 					GameView.instance.addAnim(4,GameView.instance.getTile(soutien));
 				}
 			}
-			if (this.card.getLife()-m.amount<=0){
-				this.kill(endTurn);
-			}
-			else{
-	
-			}
 		}
 		this.card.damagesModifyers.Add(m);
+		if (this.card.getLife()<=0){
+			this.kill(endTurn);
+		}
 	}
 
 	public void addAttackModifyer(Modifyer m){

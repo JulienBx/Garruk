@@ -137,7 +137,7 @@ public class SkillButtonController : MonoBehaviour
 				GameView.instance.clickSkillButton(this.id);
 				GameView.instance.runningSkill = this.skill.Id ;
 
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1)));
+				this.setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1)));
 				this.showDescription(true);
 			}
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
