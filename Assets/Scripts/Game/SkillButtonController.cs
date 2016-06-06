@@ -207,6 +207,7 @@ public class SkillButtonController : MonoBehaviour
 					}
 				}
 				else if(GameSkills.instance.getCurrentGameSkill().auto){
+					print("Je solve");
 					if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
 						GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					}

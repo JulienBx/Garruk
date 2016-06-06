@@ -197,7 +197,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 123124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.166597, y: -15.493757, z: -4.3264875}
+  m_LocalPosition: {x: -17.420551, y: -11.126176, z: -4.3264875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462020}
@@ -794,7 +794,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 21
-  m_Sprite: {fileID: 21300224, guid: 482cda77ab5dd934995f0cde32f8bd31, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -914,7 +914,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
   m_SortingOrder: 28
-  m_Sprite: {fileID: 21300020, guid: 5518c1990afcd93448c894f332997e19, type: 3}
+  m_Sprite: {fileID: 21300026, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1265,6 +1265,11 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: backgroundSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300264, guid: 0c4a2f13b8934be49807338300435261,
         type: 3}

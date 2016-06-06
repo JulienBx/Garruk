@@ -7,7 +7,7 @@ public class Sermon : GameSkill
 	{
 		this.numberOfExpectedTargets = 0 ;
 		base.name = "Sermon";
-		base.ciblage = 12 ;
+		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 102 ;
 	}
@@ -55,6 +55,7 @@ public class Sermon : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
+		Debug.Log("J'apply on "+target);
 		int level = GameView.instance.getCurrentSkill().Power+5;
 		GameCard targetCard = GameView.instance.getCard(target);
 

@@ -6,7 +6,9 @@ using TMPro;
 public class ExternalColliderController : MonoBehaviour
 {	
 	public void OnMouseEnter(){
-		GameView.instance.hitExternalCollider();
+		if(GameView.instance.hasFightStarted){
+			GameView.instance.hitExternalCollider();
+		}
 	}
 
 	public void OnMouseDown(){

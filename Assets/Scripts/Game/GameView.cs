@@ -1095,14 +1095,12 @@ public class GameView : MonoBehaviour
 				this.hitNextTutorial();
 			}
 			this.hoveringZone=-1 ;
-			print("this.hasFightStarted "+this.hasFightStarted);
 			if(this.hasFightStarted){
 				this.meteoritesCounter--;
 				if(this.meteoritesCounter==0){
 					StartCoroutine(this.endTurnEffects(false));
 				}
 				else{
-					print("this.isEndMeteor"+isEndMeteor);
 					if(!isEndMeteor){
 						StartCoroutine(this.endTurnEffects(true));
 					}

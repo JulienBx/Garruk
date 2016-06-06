@@ -742,8 +742,8 @@ MonoBehaviour:
   - {fileID: 21300024, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300028, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   targetSprites:
+  - {fileID: 0}
   - {fileID: 21300032, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
-  - {fileID: 21300034, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300034, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300020, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   skillEffectColor:
@@ -1139,12 +1139,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: targetSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300032, guid: c3e9c8df3ba8b0643939cabfc6128d92,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: targetSprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300034, guid: c3e9c8df3ba8b0643939cabfc6128d92,
+      objectReference: {fileID: 21300032, guid: c3e9c8df3ba8b0643939cabfc6128d92,
         type: 3}
     - target: {fileID: 0}
       propertyPath: animSprites.Array.data[9]
