@@ -20,6 +20,7 @@ public class SkillZoneController : MonoBehaviour
 	}
 	
 	public void showSkillButtons(bool b){
+		print("SHOW "+b);
 		gameObject.transform.FindChild("AttackButton").GetComponent<SkillButtonController>().show(b);
 		gameObject.transform.FindChild("SkillButton0").GetComponent<SkillButtonController>().show(b);
 		gameObject.transform.FindChild("SkillButton1").GetComponent<SkillButtonController>().show(b);
@@ -45,6 +46,10 @@ public class SkillZoneController : MonoBehaviour
 				this.showSkillButtons(false);
 				GameView.instance.passZone.GetComponent<PassController>().show(false);
 				this.showCancelButton (true);
+			}
+			if(g.hasPlayed){
+				this.showSkillButtons(false);
+				this.showCancelButton (false);
 			}
 		}
 		else{

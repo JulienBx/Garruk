@@ -198,11 +198,11 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.bonusModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+" % dégats"+c.bonusModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+" % dégats"+c.bonusModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].title;

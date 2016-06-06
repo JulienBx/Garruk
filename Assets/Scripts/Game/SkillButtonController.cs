@@ -81,7 +81,10 @@ public class SkillButtonController : MonoBehaviour
 		}
 	}
 	
-	public void show(bool b){
+	public void show(bool b){		
+		if(this.id==0){
+			print("SHOW "+b);
+		}
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.GetComponent<BoxCollider>().enabled = b;
@@ -207,8 +210,9 @@ public class SkillButtonController : MonoBehaviour
 					}
 				}
 				else if(GameSkills.instance.getCurrentGameSkill().auto){
-					print("Je solve");
 					if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
+						GameView.instance.getCurrentCard().hasPlayed=true;
+						GameView.instance.updateActionStatus();
 						GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					}
 					else{

@@ -581,9 +581,7 @@ public class PlayingCardController : GameObjectController
 				GameView.instance.recalculateDestinations();
 			}
 			StartCoroutine(GameView.instance.checkDestination(this.id));
-			if(GameView.instance.hasFightStarted){
-				GameView.instance.updateActionStatus();
-			}
+
 			if(GameView.instance.hasFightStarted){
 				if(this.id!=GameView.instance.getCurrentPlayingCard()){
 					this.moveBackward();

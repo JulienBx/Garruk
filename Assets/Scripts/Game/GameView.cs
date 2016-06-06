@@ -414,12 +414,15 @@ public class GameView : MonoBehaviour
 			this.setInitialDestinations(this.isFirstPlayer);
 			this.placeIACards();
 			this.showStartButton();
+			GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
+			GameObject.Find("Forfeit").GetComponent<BoxCollider>().enabled = true ;
 		}
 		else{
 			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 			this.loadDeck(ApplicationModel.opponentDeck, !this.isFirstPlayer);
+			GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
+			GameObject.Find("Forfeit").GetComponent<BoxCollider>().enabled = true ;
 		}
-		GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
 		this.nbCards=8;
 		this.myDeck = ApplicationModel.player.MyDeck;
 		this.setInitialDestinations(this.isFirstPlayer);
