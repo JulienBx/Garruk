@@ -243,6 +243,8 @@ public class HoveredCardController : MonoBehaviour
 		for(int i = 0 ; i < c.magicalEsquiveModifyers.Count ; i++){
 			if(c.magicalEsquiveModifyers[i].amount==0){
 
+
+
 			}
 			else{
 				if(c.magicalEsquiveModifyers[i].amount>=0){
