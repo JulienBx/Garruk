@@ -30,6 +30,9 @@ public class HelpBackgroundGameController : MonoBehaviour
 
 	public virtual void resize(Rect rect, float clickableSectionXRatio, float clickableSectionYRatio)
 	{
+		rect.width = rect.width * 1.025f;
+		rect.height = rect.height * 1.025f;
+
 		int backgroundSizeX = 5000;
 		int backgroundSizeY = 5000;
 		int circleBackgroundSizeX = 200;
