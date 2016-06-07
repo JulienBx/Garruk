@@ -59,6 +59,8 @@ public class ArtificialIntelligence : MonoBehaviour
 
 	public IEnumerator getActionScore(){
 		print("AU TOUR DE "+GameView.instance.getCurrentPlayingCard());
+		yield return new WaitForSeconds(1);
+
 		Tile tempTile ;
 		int actionScore = -100 ;
 
@@ -76,6 +78,7 @@ public class ArtificialIntelligence : MonoBehaviour
 		amount = Mathf.RoundToInt(amount * bonusM / 100f);
 		int lifeBonus ;
 		List<Tile> targets ;
+		bool isDead = false ;
 
 		GameSkill gs ;
 		List<Skill> skills = new List<Skill>() ;
@@ -349,9 +352,20 @@ public class ArtificialIntelligence : MonoBehaviour
 				}
 
 				GameSkills.instance.getSkill(bestSkill.Id).resolve(tempList);
+				if(passiveSkill.Id==33){
+					if((11-passiveSkill.Power)>GameView.instance.getCurrentCard().getLife()){
+						isDead = true ;
+					}
+				}
+				if(bestSkill.Id==33){
+					if((11-passiveSkill.Power)>GameView.instance.getCurrentCard().getLife()){
+						isDead = true ;
+					}
+				}
+
 				yield return new WaitForSeconds(2f);
 
-				if(passiveSkill.Id==141 ||bestSkill.Id==15){
+				if((passiveSkill.Id==141 ||bestSkill.Id==15)&&isDead){
 					bestScore = -100 ;
 					bestEmplacement = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard());
 
@@ -466,7 +480,6 @@ public class ArtificialIntelligence : MonoBehaviour
 
 				Debug.Log("Je joue2 "+bestSkill.Id);
 				List<Tile> tempList = new List<Tile>();
-				tempList.Add(bestTarget);
 				GameController.instance.play(bestSkill.Id);
 
 				if(bestSkill.Id == 131 || bestSkill.Id == 103){
@@ -475,7 +488,7 @@ public class ArtificialIntelligence : MonoBehaviour
 				else if(bestSkill.Id == 27){
 					tempList.Add(new Tile(0,0));
 					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
-					Debug.Log("Lance-Flammes "+resultat);
+					Debug.Log("Lance-Flammes2 "+resultat);
 					if(resultat==0){
 						tempList[0].x = bestEmplacement.x;
 						tempList[0].y = bestEmplacement.y-1;

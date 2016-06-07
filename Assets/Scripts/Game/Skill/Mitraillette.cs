@@ -123,14 +123,13 @@ public class Mitraillette : GameSkill
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		List<int> potentialTargets = GameView.instance.getEveryone();
-		List<int> targets = new List<int>();
-		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
+		List<int> targets = new List<int>(); 
 		Tile targetTile ; 
 		int levelMin ; 
 		int levelMax;
 		for(int i = 0 ; i < potentialTargets.Count ; i++){
 			targetTile = GameView.instance.getTile(potentialTargets[i]); 
-			if(currentTile.y>targetTile.y){
+			if(t.y>targetTile.y){
 				targets.Add(potentialTargets[i]);
 			}
 		}
@@ -147,12 +146,15 @@ public class Mitraillette : GameSkill
 
 				if(targetCard.isMine){
 					score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+					Debug.Log("MINE");
 				}
 				else{
 					score-=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
+					Debug.Log("HIS");
 				}
 			}
 
+			Debug.Log("tempScore "+score);
 			score = Mathf.RoundToInt(score/targets.Count);
 		}
 

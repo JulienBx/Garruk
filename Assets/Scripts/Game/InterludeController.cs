@@ -100,6 +100,11 @@ public class InterludeController : MonoBehaviour
 		bool hasAutoPlayed = false ;
 		
 		if(this.time>4f*this.animationTime){
+			gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 			if(!isEndTurn){
 				if(GameView.instance.hasFightStarted){
 					GameView.instance.changePlayer(-1);
@@ -228,19 +233,12 @@ public class InterludeController : MonoBehaviour
 			GameView.instance.isFreezed = false ;
 			this.isRunning = false ;
 			GameView.instance.hideSkillEffects();
-			gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
-			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
-			//print("J'efface");
+
 			if(!isEndTurn){
 				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();
 				}
 			}
-			//print("Je réfléchis");
-
 
 			if (GameView.instance.sequenceID==14){
 				GameView.instance.hitNextTutorial();

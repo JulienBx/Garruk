@@ -50,19 +50,19 @@ public class PerfoTir : GameSkill
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = 5+GameView.instance.getCurrentSkill().Power;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,  5+GameView.instance.getCurrentSkill().Power);
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
-		int level = Mathf.Min(currentCard.getLife(),damages);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level, -1, 31, base.name, level+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getCard(target).emptyShieldModifyers();
-		GameView.instance.getPlayingCardController(target).showIcons();
-		string text = "-"+level+"PV";
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 31, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		string text = "-"+damages+"PV";
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
 		}
+		GameView.instance.getCard(target).emptyShieldModifyers();
+		GameView.instance.getPlayingCardController(target).showIcons();
+
 		GameView.instance.displaySkillEffect(target, text, 0);	
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
@@ -70,13 +70,11 @@ public class PerfoTir : GameSkill
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int damages = 5+GameView.instance.getCurrentSkill().Power;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard,  5+GameView.instance.getCurrentSkill().Power);
 		if(currentCard.isFou()){
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
-		int level = currentCard.getNormalDamagesAgainst(targetCard,damages);
-
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-level);
+		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
 		}
@@ -112,7 +110,7 @@ public class PerfoTir : GameSkill
 		}
 
 		if(damages>=targetCard.getLife()){
-			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(200)+targetCard.getLife()/10f);
+			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(200f)+targetCard.getLife()/10f);
 		}
 		else{
 			score+=Mathf.RoundToInt(((100-targetCard.getMagicalEsquive())/100f)*(damages)+5-targetCard.getLife()/10f);

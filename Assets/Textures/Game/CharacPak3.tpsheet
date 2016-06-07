@@ -1,0 +1,17 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:5b32058bdd1e022e90982b9eddba3f4c:024c4d79df9e7f4c75ff54b3fd3ea16a:9e2ac146e354d27c238bdeb7a207f0bb$
+#
+:format=40000
+:texture=CharacPak3.png
+:size=2048x2048
+
+67NinjaBig;604;1105;389;942;1.1696658097686374;0.5159235668789809
+68FantassinBig;995;225;858;890;0.6293706293706294;0.5460674157303371
+70CuirasseBig;995;1117;888;930;0.5990990990990991;0.5225806451612903
+72VirologueBig;1;144;838;944;0.6420047732696897;0.5148305084745763
+73PaladinBig;1;1090;601;957;0.8469217970049917;0.5078369905956113

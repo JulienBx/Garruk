@@ -77,6 +77,11 @@ TextureImporter:
     textureFormat: 33
     compressionQuality: 50
     allowsAlphaSplitting: 0
+  - buildTarget: Android
+    maxTextureSize: 4096
+    textureFormat: 47
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
   spriteSheet:
     sprites:
     - name: adorateur

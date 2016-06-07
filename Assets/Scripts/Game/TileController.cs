@@ -19,7 +19,7 @@ public class TileController : GameObjectController
 	
 	public bool isDisplayingTarget;
 	float timerTarget;
-	float targetTime = 0.5f;
+	float targetTime = 0.8f;
 	bool isTargetDisplayed;
 	
 	string skillEffectDescription ;

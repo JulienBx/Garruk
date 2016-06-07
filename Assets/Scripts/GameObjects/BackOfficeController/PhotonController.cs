@@ -638,8 +638,8 @@ public class PhotonController : Photon.MonoBehaviour
                 }
 
                 skills.Add(new Skill(idSkill, randomTest));
-
-                 compteurSkills++;
+                print("J'add idSkill "+idSkill+" au joueur "+i);
+                compteurSkills++;
             }
 			ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
         }

@@ -1,0 +1,15 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:a6d855b0cb5bfa23cbcab9e513c20a6b:ea40281b1b735b4347df525f2eb8b36b:27374fc0e0a030925cf080e79c7f78a6$
+#
+:format=40000
+:texture=CharacPak5.png
+:size=2048x2048
+
+141Golem;694;184;612;900;0.8366013071895425;0.5111111111111111
+144DieuBig;1;173;691;911;0.7814761215629522;0.504939626783754
+69FrenetiqueBig;1;1086;857;961;0.5997666277712952;0.5057232049947971

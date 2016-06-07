@@ -26,7 +26,6 @@ public class GameView : MonoBehaviour
 	bool isSceneLoaded=false;
 
 	GameObject serverController;
-	GameObject loadingScreen;
 	GameObject[,] tiles ;
 	GameObject myHoveredRPC ;
 	GameObject hisHoveredRPC ;
@@ -118,7 +117,7 @@ public class GameView : MonoBehaviour
 	{
 		instance = this;
 		this.tiles = new GameObject[this.boardWidth, this.boardHeight];
-		this.timeStartIA = UnityEngine.Random.Range(2,13);
+		this.timeStartIA = UnityEngine.Random.Range(2,11);
 		SoundController.instance.playMusic(new int[]{4,5,6});
         this.isChangingTurn = false;
 		areTilesLoaded = false ;
@@ -498,9 +497,6 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
 		this.numberDeckLoaded++;
-		if(this.numberDeckLoaded==2){
-			GameView.instance.hideLoadingScreen ();
-		}
 		
 		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA){
 			int level;
@@ -1257,8 +1253,6 @@ public class GameView : MonoBehaviour
 			this.launchEndTurnEffects();
 		}
 		else{
-			print("Je lance météorites");
-		
 			List<int> idCards = new List<int>();
 			idCards.Add(currentPlayingCard);
 			int i =  this.indexPlayer+1 ;
@@ -3200,6 +3194,9 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
+		if(areMyPlayersDead){
+			GameObject.Find("Hov").GetComponent<SpriteRenderer>().enabled = true ;
+		}
 		return areMyPlayersDead ;
 	}
 
@@ -3234,6 +3231,9 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
+		}
+		if(areMyPlayersDead){
+			GameObject.Find("Hov").GetComponent<SpriteRenderer>().enabled = true ;
 		}
 		return areMyPlayersDead ;
 	}
@@ -3353,15 +3353,6 @@ public class GameView : MonoBehaviour
 			GameController.instance.clickDestination(chosenTile, this.currentPlayingCard, true);
 		}
 		return character ;
-	}
-	
-	public void hideLoadingScreen()
-	{
-		if(isLoadingScreenDisplayed)
-		{
-			Destroy (this.loadingScreen);
-			this.isLoadingScreenDisplayed=false;
-		}
 	}
 	
 	public Sprite getSkillSprite(int i){
@@ -4169,6 +4160,12 @@ public class GameView : MonoBehaviour
 	public void convert(int target){
 		this.getCard(target).isMine = !this.getCard(target).isMine ;
 		this.getPlayingCardController(target).show();
+		if(this.getCard(target).isMine){
+			this.getTileController(target).setDestination(5);
+		}
+		else{
+			this.getTileController(target).setDestination(6);
+		}
 	}
 
 	public int countTraps(){
@@ -4386,14 +4383,10 @@ public class GameView : MonoBehaviour
 				}
 			}
 
-
-
 			while(tilesOccupancy[startingTile.x, startingTile.y]!=0){
 				startingTile = new Tile(UnityEngine.Random.Range(0,6), UnityEngine.Random.Range(0,2));
 			}
 			tilesOccupancy[startingTile.x, startingTile.y]=10+i;
-
-
 		}
 
 		for(int i = 0 ; i < this.boardWidth ; i++){
@@ -4412,18 +4405,16 @@ public class GameView : MonoBehaviour
 		}
 
 		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).isMine){
-				if(this.getCard(i).isProtector()){
-					int level = this.getCard(i).getSkills()[0].Power*2+10;
-					List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
-					int characterID ;
-					for(int j = 0 ; j < tiles.Count ; j++){
-						characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
-						if(characterID!=-1){
-							if(this.getCard(characterID).isMine){
-								this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
-								this.getPlayingCardController(characterID).showIcons();
-							}
+			if(this.getCard(i).isProtector()){
+				int level = this.getCard(i).getSkills()[0].Power*2+10;
+				List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
+				int characterID ;
+				for(int j = 0 ; j < tiles.Count ; j++){
+					characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
+					if(characterID!=-1){
+						if(this.getCard(characterID).isMine==this.getCard(i).isMine){
+							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
+							this.getPlayingCardController(characterID).showIcons();
 						}
 					}
 				}
