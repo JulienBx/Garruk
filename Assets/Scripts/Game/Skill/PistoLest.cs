@@ -57,7 +57,7 @@ public class PistoLest : GameSkill
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, move+"MOV. Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
@@ -72,7 +72,7 @@ public class PistoLest : GameSkill
 		int move = -1*Mathf.Min(targetCard.getMove()-1, Mathf.RoundToInt(1*amount2/100f));
 
 		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, move+". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
