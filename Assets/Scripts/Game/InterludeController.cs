@@ -80,25 +80,26 @@ public class InterludeController : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
 		}
-		if(type==1){
-			SoundController.instance.playSound(39);
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[0];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[1];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[2];
+		else{
+			if(type==1){
+				SoundController.instance.playSound(39);
+				gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[0];
+				gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[1];
+				gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[2];
+			}
+			else if(type==2){
+				SoundController.instance.playSound(40);
+				gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[3];
+				gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
+				gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
+			}
+			else if(type==3){
+				SoundController.instance.playSound(38);
+				gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
+				gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
+				gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
+			}
 		}
-		else if(type==2){
-			SoundController.instance.playSound(40);
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[3];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[4];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[5];
-		}
-		else if(type==3){
-			SoundController.instance.playSound(38);
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
-		}
-
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
 		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
