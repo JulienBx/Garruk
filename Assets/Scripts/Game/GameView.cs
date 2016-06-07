@@ -1005,7 +1005,9 @@ public class GameView : MonoBehaviour
 			}
 		}
 		else{
-			this.setInitialDestinations(this.isFirstPlayer);
+			if(this.getCard(c).isMine){
+				this.setInitialDestinations(this.isFirstPlayer);
+			}
 		}
 	}
 
