@@ -986,7 +986,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		if(isCardFocusedDisplayed)
 		{
+			if(HelpController.instance.canAccess(-1)){
 			this.focusedCard.GetComponent<NewFocusedCardController>().escapePressed();
+			}
 		}
 	}
 	public void returnPressed()
