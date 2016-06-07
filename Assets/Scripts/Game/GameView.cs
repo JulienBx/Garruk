@@ -410,11 +410,13 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(1), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(2), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(3), false);
+			this.placeIACards();
 			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
+
+
 
 			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
-			this.placeIACards();
 			this.showStartButton();
 			GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
 			GameObject.Find("Forfeit").GetComponent<BoxCollider>().enabled = true ;
@@ -499,6 +501,7 @@ public class GameView : MonoBehaviour
 		for (int i = 0; i < ApplicationModel.nbCardsByDeck; i++){
 			this.createPlayingCard(deck.getGameCard(i), isFirstP);
 		}
+
 		this.numberDeckLoaded++;
 		
 		if(this.numberDeckLoaded==2 || ApplicationModel.player.ToLaunchGameTutorial || ApplicationModel.player.ToLaunchGameIA){
@@ -535,7 +538,7 @@ public class GameView : MonoBehaviour
 							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
 							if(characterID!=-1){
 								if(this.getCard(characterID).isMine){
-									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ". Permanent"));
 									this.getPlayingCardController(characterID).showIcons();
 								}
 							}
@@ -571,7 +574,7 @@ public class GameView : MonoBehaviour
 							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
 							if(characterID!=-1){
 								if(!this.getCard(characterID).isMine){
-									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, base.name, "Bouclier "+level+"%"));
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, base.name, ". Permanent"));
 									this.getPlayingCardController(characterID).showIcons();
 								}
 							}
@@ -2889,24 +2892,20 @@ public class GameView : MonoBehaviour
     	if(!this.hasLaunchedQGH){
 	    	this.hasLaunchedQGH = true;
 	    	print("QUITGAMEHANDLER");
-			this.interlude.GetComponent<InterludeController>().endGame();
-			int type = 1;
 			if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
 				if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
 					GameController.instance.quitGameHandler(this.isFirstPlayer);
-					type=2;
+
 	    		}
 	    		else{
 					GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)));
-					if(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)){
-						type = 2;
-					}
+
 				}
 	    	}
 	   		else if(b){
 				GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
 				if(this.areAllMyPlayersDead2()==this.isFirstPlayer){
-					type = 2;
+					
 				}
 				if(ApplicationModel.player.ToLaunchGameTutorial){
 					ApplicationModel.player.HasWonLastGame = !this.areAllMyPlayersDead2();
@@ -2914,9 +2913,9 @@ public class GameView : MonoBehaviour
 	        }
 	        else{
 				GameController.instance.quitGameHandler(this.isFirstPlayer);
-				type=2;
+
 	        }
-			this.interlude.GetComponent<InterludeController>().set("",type);
+			
     	}
     }
 
@@ -2933,6 +2932,13 @@ public class GameView : MonoBehaviour
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
 		this.isEndedGame=true ;
+		int type = 1;
+		if(hasFirstPlayerLost==this.isFirstPlayer){
+			type = 2 ;
+		}
+		this.interlude.GetComponent<InterludeController>().endGame();
+		this.interlude.GetComponent<InterludeController>().set("",type);
+
 		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
         if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
@@ -4231,7 +4237,13 @@ public class GameView : MonoBehaviour
 		int strategy = UnityEngine.Random.Range(1,11);
 		Tile startingTile = new Tile(-1,-1) ;
 		int tempInt ;
-		List<int> units = this.getOpponents(true);
+		List<int> units = new List<int>();
+		units.Add(4);
+		units.Add(5);
+		units.Add(6);
+		units.Add(7);
+
+
 		int[,] tilesOccupancy = new int[6,2];
 		for(int i = 0 ; i < this.boardWidth ; i++){
 			for(int j = 6 ; j < this.boardHeight ; j++){
@@ -4417,22 +4429,24 @@ public class GameView : MonoBehaviour
 			}
 		}
 
-		for(int i = 0 ; i < this.nbCards ; i++){
-			if(this.getCard(i).isProtector()){
-				int level = this.getCard(i).getSkills()[0].Power*2+10;
-				List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
-				int characterID ;
-				for(int j = 0 ; j < tiles.Count ; j++){
-					characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
-					if(characterID!=-1){
-						if(this.getCard(characterID).isMine==this.getCard(i).isMine){
-							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ""));
-							this.getPlayingCardController(characterID).showIcons();
-						}
-					}
-				}
-			}
-		}
+//		for(int i = 0 ; i < this.nbCards ; i++){
+//			if(this.getCard(i).isProtector()){
+//				print("Protecteur FOUND "+i);
+//				int level = this.getCard(i).getSkills()[0].Power*2+10;
+//				List<Tile> tiles = this.getTile(i).getImmediateNeighbourTiles();
+//				int characterID ;
+//				for(int j = 0 ; j < tiles.Count ; j++){
+//					characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
+//					if(characterID!=-1){
+//						print("Protégé FOUND "+characterID);
+//						if(this.getCard(characterID).isMine==this.getCard(i).isMine){
+//							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ". Permanent."));
+//							this.getPlayingCardController(characterID).showIcons();
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 
 	public int getMaxAttack(bool isM){
