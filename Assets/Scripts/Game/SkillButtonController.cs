@@ -216,6 +216,7 @@ public class SkillButtonController : MonoBehaviour
 					if(GameSkills.instance.getCurrentGameSkill().ciblage!=12){
 						GameView.instance.getCurrentCard().hasPlayed=true;
 						GameView.instance.updateActionStatus();
+						GameController.instance.play(GameSkills.instance.getCurrentGameSkill().id);
 						GameSkills.instance.getCurrentGameSkill().resolve(new List<Tile>());
 					}
 					else{

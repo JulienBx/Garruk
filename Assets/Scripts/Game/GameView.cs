@@ -784,7 +784,9 @@ public class GameView : MonoBehaviour
 			this.passZone.GetComponent<PassController>().show(false);
 		}
 
-		SoundController.instance.playSound(27);
+		if(toDisplayMove){
+			SoundController.instance.playSound(27);
+		}
 		Tile origine = this.getPlayingCardController(characterID).getTile();
 		this.removeSE(origine);
 		if(this.hasFightStarted){
@@ -3399,6 +3401,7 @@ public class GameView : MonoBehaviour
 	
 	public void play(int r)
 	{	
+		print("play "+r);
 		this.setLaunchability("Compétence en cours");
 		this.runningSkill = r ;
 
