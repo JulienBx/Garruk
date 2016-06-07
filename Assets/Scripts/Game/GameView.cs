@@ -43,7 +43,9 @@ public class GameView : MonoBehaviour
 	public GameObject interlude;
 	public GameObject passZone;
 	public GameObject skillZone;
-	
+
+	public bool hasLaunchedQGH ;
+
 	int heightScreen = -1;
 	int widthScreen = -1;
 	
@@ -151,6 +153,7 @@ public class GameView : MonoBehaviour
 		this.anims = new List<Tile>();
 		this.deads = new List<int>();
 		this.orderCards = new List<int>();
+		this.hasLaunchedQGH = false ;
 
 	}
 
@@ -2881,29 +2884,40 @@ public class GameView : MonoBehaviour
             ServerController.instance.lostConnection();
         }
 	}
-    public IEnumerator quitGameHandler2(bool b, bool c)
+    public void quitGameHandler(bool b)
     {
-    	this.isEndedGame = true ;
-		if(c){
-			yield return new WaitForSeconds(2f);
-		}
-    	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
-			if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
+    	if(!this.hasLaunchedQGH){
+	    	this.hasLaunchedQGH = true;
+	    	print("QUITGAMEHANDLER");
+			this.interlude.GetComponent<InterludeController>().endGame();
+			int type = 1;
+			if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
+				if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
+					GameController.instance.quitGameHandler(this.isFirstPlayer);
+					type=2;
+	    		}
+	    		else{
+					GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)));
+					if(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)){
+						type = 2;
+					}
+				}
+	    	}
+	   		else if(b){
+				GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
+				if(this.areAllMyPlayersDead2()==this.isFirstPlayer){
+					type = 2;
+				}
+				if(ApplicationModel.player.ToLaunchGameTutorial){
+					ApplicationModel.player.HasWonLastGame = !this.areAllMyPlayersDead2();
+				}
+	        }
+	        else{
 				GameController.instance.quitGameHandler(this.isFirstPlayer);
-    		}
-    		else{
-				GameController.instance.quitGameHandler(this.isFirstPlayer==(this.getTotalPV(this.isFirstPlayer)<=this.getTotalPV(!this.isFirstPlayer)));
-			}
+				type=2;
+	        }
+			this.interlude.GetComponent<InterludeController>().set("",type);
     	}
-   		else if(b){
-			GameController.instance.quitGameHandler(this.areAllMyPlayersDead2()==this.isFirstPlayer);
-			if(ApplicationModel.player.ToLaunchGameTutorial){
-				ApplicationModel.player.HasWonLastGame = !this.areAllMyPlayersDead2();
-			}
-        }
-        else{
-			GameController.instance.quitGameHandler(this.isFirstPlayer);
-        }
     }
 
     public int getTotalPV(bool isM){
@@ -2919,8 +2933,7 @@ public class GameView : MonoBehaviour
 	public IEnumerator quitGame(bool hasFirstPlayerLost, bool isConnectionLost)
 	{		
 		this.isEndedGame=true ;
-		yield return new WaitForSeconds(2f);
-        ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
+		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
         if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
             if(hasFirstPlayerLost==this.isFirstPlayer)
@@ -2948,7 +2961,7 @@ public class GameView : MonoBehaviour
             }
             yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
 		}
-        GameController.instance.quitGame();
+        this.interlude.GetComponent<InterludeController>().quitGame();
 	}
 
 
@@ -3194,9 +3207,6 @@ public class GameView : MonoBehaviour
 				}
 			}
 		}
-		if(areMyPlayersDead){
-			GameObject.Find("Hov").GetComponent<SpriteRenderer>().enabled = true ;
-		}
 		return areMyPlayersDead ;
 	}
 
@@ -3231,9 +3241,6 @@ public class GameView : MonoBehaviour
 					}
 				}
 			}
-		}
-		if(areMyPlayersDead){
-			GameObject.Find("Hov").GetComponent<SpriteRenderer>().enabled = true ;
 		}
 		return areMyPlayersDead ;
 	}
@@ -3476,7 +3483,7 @@ public class GameView : MonoBehaviour
 	public void removeDead(int c){
 		
 		if(this.isEndedGame){
-			StartCoroutine(GameView.instance.quitGameHandler2(true, true));
+			GameView.instance.quitGameHandler(true);
 		}
 		else{
 			for(int i = deads.Count-1 ; i >= 0 ; i--){

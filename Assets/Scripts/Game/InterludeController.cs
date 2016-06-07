@@ -12,6 +12,7 @@ public class InterludeController : MonoBehaviour
 	public Sprite[] sprites ;
 	bool isEndTurn ;
 	bool isEndGame ;
+	bool toQuit;
 	
 	bool isPaused ;
 		
@@ -23,6 +24,7 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		this.isPaused = false ;
+		this.toQuit = false;
 		this.isEndGame = false;
 	}
 	
@@ -33,7 +35,11 @@ public class InterludeController : MonoBehaviour
 	public void endGame(){
 		this.isEndGame = true ;
 	}
-	
+
+	public void quitGame(){
+		this.toQuit = true ;
+	}
+
 	public void OnMouseDown(){
 		if(this.isPaused){
 			this.unPause();
@@ -125,7 +131,11 @@ public class InterludeController : MonoBehaviour
 	public void addTime(float f){
 		if(!isPaused){
 			if(isEndGame){
-				this.time = Mathf.Min(2*this.animationTime,this.time+f) ;
+				this.time = Mathf.Min(3*this.animationTime,this.time+f) ;
+
+				if(this.time>=3*this.animationTime && toQuit){
+					GameController.instance.quitGame();
+				}
 			}
 			else{
 				this.time += f ;
