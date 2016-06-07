@@ -50,13 +50,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.initializeScene ();
-		if(PlayerPrefs.HasKey("sfxVol"))
-		{
-			ApplicationModel.volBackOfficeFx=PlayerPrefs.GetFloat("sfxVol",0.5f)*ApplicationModel.volMaxBackOfficeFx;
+		if (PlayerPrefs.HasKey ("sfxVol")) {
+			ApplicationModel.volBackOfficeFx = PlayerPrefs.GetFloat ("sfxVol", 0.5f) * ApplicationModel.volMaxBackOfficeFx;
+		} else {
+			ApplicationModel.volBackOfficeFx = 0.5f;
 		}
-		if(PlayerPrefs.HasKey("musicVol"))
-		{
-			ApplicationModel.volMusic=PlayerPrefs.GetFloat("musicVol",0.5f)*ApplicationModel.volMaxMusic;
+		if (PlayerPrefs.HasKey ("musicVol")) {
+			ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
+		} else {
+			ApplicationModel.volMusic = 0.5f;
 		}
 	}
 	void Start()
