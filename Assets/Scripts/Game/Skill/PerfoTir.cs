@@ -72,7 +72,7 @@ public class PerfoTir : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,  5+GameView.instance.getCurrentSkill().Power);
 		if(currentCard.isFou()){
-			damages = Mathf.RoundToInt(1.25f*damages);
+			damages = currentCard.getNormalDamagesAgainst(targetCard,  Mathf.RoundToInt((5+GameView.instance.getCurrentSkill().Power)*1.25f));
 		}
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
 		if(targetCard.getBouclier()>0){

@@ -11,6 +11,7 @@ public class InterludeController : MonoBehaviour
 	public bool isRunning;
 	public Sprite[] sprites ;
 	bool isEndTurn ;
+	bool isEndGame ;
 	
 	bool isPaused ;
 		
@@ -22,10 +23,15 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = false ;
 		this.isPaused = false ;
+		this.isEndGame = false;
 	}
 	
 	public void resize(float realwidth){
 		this.realwidth = realwidth ;
+	}
+
+	public void endGame(){
+		this.isEndGame = true ;
 	}
 	
 	public void OnMouseDown(){
@@ -63,6 +69,17 @@ public class InterludeController : MonoBehaviour
 		position = gameObject.transform.FindChild("Bar3").localPosition ;
 		position.x = realwidth/2f+10f;
 		gameObject.transform.FindChild("Bar3").localPosition = position;
+		if(this.isEndGame){
+			if(type==1){
+				SoundController.instance.playSound(41);
+			}
+			else if(type==2){
+				SoundController.instance.playSound(42);
+			}
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[6];
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.sprites[7];
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.sprites[8];
+		}
 		if(type==1){
 			SoundController.instance.playSound(39);
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.sprites[0];
@@ -85,9 +102,20 @@ public class InterludeController : MonoBehaviour
 		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = true;
 		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = true;
 		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = true ;
-		
-		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
-		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+
+		if(this.isEndGame){
+			if(type==1){
+				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Victoire" ;
+			}
+			else{
+				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Défaite" ;
+			}
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		}
+		else{
+			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
+			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
+		}
 			
 		this.time=0f;
 		this.isRunning = true ;
@@ -95,7 +123,12 @@ public class InterludeController : MonoBehaviour
 	
 	public void addTime(float f){
 		if(!isPaused){
-			this.time += f ;
+			if(isEndGame){
+				this.time = Mathf.Min(2*this.animationTime,this.time+f) ;
+			}
+			else{
+				this.time += f ;
+			}
 		}
 		bool hasAutoPlayed = false ;
 		

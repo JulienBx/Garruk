@@ -7,7 +7,7 @@ public class Miracle : GameSkill
 	{
 		this.numberOfExpectedTargets = 1 ;
 		base.name = "Miracle";
-		base.ciblage = 0 ;
+		base.ciblage = 4 ;
 		base.auto = true;
 		base.id = 107 ;
 	}

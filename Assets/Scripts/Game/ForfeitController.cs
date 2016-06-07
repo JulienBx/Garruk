@@ -21,7 +21,8 @@ public class ForfeitController : MonoBehaviour
 	}
 	
 	public void OnMouseDown(){
-		GameObject.Find("Hov").GetComponent<SpriteRenderer>().enabled = true ;
+		GameView.instance.interlude.GetComponent<InterludeController>().endGame();
+		GameView.instance.interlude.GetComponent<InterludeController>().set("", 2);
 		StartCoroutine(GameView.instance.quitGameHandler2(false, false));
 		gameObject.GetComponent<BoxCollider>().enabled = false ;
 	}

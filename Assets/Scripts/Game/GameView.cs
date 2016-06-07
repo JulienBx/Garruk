@@ -40,7 +40,7 @@ public class GameView : MonoBehaviour
 
 	GameObject tutorial;
 	public GameObject SB;
-	GameObject interlude;
+	public GameObject interlude;
 	public GameObject passZone;
 	public GameObject skillZone;
 	
@@ -2844,8 +2844,10 @@ public class GameView : MonoBehaviour
 			}
 		}
 
+		this.isEndedGame = true ;
+
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
-			StartCoroutine(GameView.instance.quitGameHandler2(true, true));
+			this.isEndedGame = true ;
 		}
 		else{
 			this.updateTimeline();
@@ -3474,14 +3476,20 @@ public class GameView : MonoBehaviour
 	}
 
 	public void removeDead(int c){
-		for(int i = deads.Count-1 ; i >= 0 ; i--){
-			if(deads[i]==c){
-				deads.RemoveAt(i);
-			}
+		
+		if(this.isEndedGame){
+			StartCoroutine(GameView.instance.quitGameHandler2(true, true));
 		}
-		if(toPassDead){
-			toPassDead = false ;
-			this.setNextPlayer(false);
+		else{
+			for(int i = deads.Count-1 ; i >= 0 ; i--){
+				if(deads[i]==c){
+					deads.RemoveAt(i);
+				}
+			}
+			if(toPassDead){
+				toPassDead = false ;
+				this.setNextPlayer(false);
+			}
 		}
 	}
 	
