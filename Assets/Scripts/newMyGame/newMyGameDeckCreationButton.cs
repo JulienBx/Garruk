@@ -5,7 +5,9 @@ public class newMyGameDeckCreatioButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{
-		newMyGameController.instance.displayNewDeckPopUp();
+		if(HelpController.instance.canAccess(3001)){
+			newMyGameController.instance.displayNewDeckPopUp();
+		}
 	}
 	public override void showToolTip ()
 	{

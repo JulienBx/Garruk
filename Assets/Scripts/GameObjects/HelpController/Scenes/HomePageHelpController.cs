@@ -40,7 +40,7 @@ public class HomePageHelpController : HelpController
 		case 3:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (3), false, false, false, 0f);
 			this.setArrow ("up", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y-0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 3, 1), 1f, 1f);
+			//this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 3, 1), 1f, 1f);
 			break;
 		case 4:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (4), true, false, true, 0f);
@@ -49,7 +49,7 @@ public class HomePageHelpController : HelpController
 		case 5:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (5), false, false, false, 0f);
 			this.setArrow ("down", new Vector3(NewHomePageController.instance.getOfficialGameButton().x,NewHomePageController.instance.getOfficialGameButton().y+0.5f,NewHomePageController.instance.getOfficialGameButton().z));
-			this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y, 3, 1), 1f, 1f);
+			//this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y, 3, 1), 1f, 1f);
 			break;
 		}
 	}
@@ -72,7 +72,7 @@ public class HomePageHelpController : HelpController
 		case 3:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (3), false, false, false, 4f);
 			this.setArrow ("down", new Vector3(MenuController.instance.getButtonPosition (2).x,MenuController.instance.getButtonPosition (2).y+0.5f,MenuController.instance.getButtonPosition (1).z));
-			this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 1, 1), 0.8f, 0.8f);
+			//this.setBackground (false,new Rect (MenuController.instance.getButtonPosition (2).x, MenuController.instance.getButtonPosition (2).y, 1, 1), 0.8f, 0.8f);
 			break;
 		case 4:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (4), true, false, true, 0f);
@@ -81,7 +81,7 @@ public class HomePageHelpController : HelpController
 		case 5:
 			this.setCompanion (WordingHomePageHelp.getTutorialContent (5), false, false, false, 0f);
 			this.setArrow ("up", new Vector3(NewHomePageController.instance.getOfficialGameButton().x,NewHomePageController.instance.getOfficialGameButton().y-0.5f-ApplicationDesignRules.downMargin,NewHomePageController.instance.getOfficialGameButton().x));
-			this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y-ApplicationDesignRules.downMargin, 3f, 1.5f), 0.8f, 0.8f);
+			//this.setBackground (false,new Rect (NewHomePageController.instance.getOfficialGameButton().x, NewHomePageController.instance.getOfficialGameButton().y-ApplicationDesignRules.downMargin, 3f, 1.5f), 0.8f, 0.8f);
 			break;
 		}
 	}

@@ -21,7 +21,7 @@ public class WordingHelp
 		references=new List<string[]>();
 		references.Add(new string[]{"Quitter le tutoriel",""}); //0
 		references.Add(new string[]{"Quitter l'aide",""}); //1
-		references.Add(new string[]{"Disputez votre premier combat \navant de pouvoir accéder à ce menu !",""}); //2
+		references.Add(new string[]{"Terminez le tutoriel \navant de pouvoir accéder à cette action !",""}); //2
 		references.Add(new string[]{"Continuer",""}); //3
 
 		helpContents=new List<string[]>();

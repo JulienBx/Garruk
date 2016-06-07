@@ -13,7 +13,7 @@ public class NewFocusedFeaturesController : SpriteButtonController
 	}
 	public override void mainInstruction ()
 	{
-		if(base.getId()==4 || HelpController.instance.canAccess())
+		if((base.getId()==4 && HelpController.instance.canAccess(3010)) || HelpController.instance.canAccess(-1))
 		{
 			this.gameObject.transform.parent.GetComponent<NewFocusedCardController>().focusFeaturesHandler(base.getId());
 		}

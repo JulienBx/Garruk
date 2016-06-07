@@ -304,53 +304,70 @@ public class MenuController : MonoBehaviour
 	}
 	public void logOutLink() 
 	{
-		BackOfficeController.instance.toDisconnect();
+		BackOfficeController.instance.toDisconnect ();
 	}
 	public void notificationsLink()
 	{
-		SoundController.instance.playSound(10);
-		ApplicationModel.player.GoToNotifications = true;
-		if(SceneManager.GetActiveScene().name=="NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage()>0)
-		{
-			NewHomePageController.instance.displayNotifications();
-		}
-		else
-		{
-			this.homePageLink ();
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (10);
+			ApplicationModel.player.GoToNotifications = true;
+			if (SceneManager.GetActiveScene ().name == "NewHomePage" && NewHomePageController.instance.getNonReadNotificationsOnCurrentPage () > 0) {
+				NewHomePageController.instance.displayNotifications ();
+			} else {
+				this.homePageLink ();
+			}
 		}
 	}
 	public void homePageLink()
 	{
-        BackOfficeController.instance.loadScene("NewHomePage");
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.loadScene ("NewHomePage");
+		}
 	}
 	public void profileLink() 
 	{
-		SoundController.instance.playSound(10);
-        BackOfficeController.instance.loadScene("NewProfile");
+		if (HelpController.instance.canAccess (-1)) 
+		{
+			SoundController.instance.playSound (10);
+			BackOfficeController.instance.loadScene ("NewProfile");
+		}
 	}
 	public void myGameLink() 
 	{
-        BackOfficeController.instance.loadScene("newMyGame");
+		if (HelpController.instance.canAccess (2012)) {
+			BackOfficeController.instance.loadScene ("newMyGame");
+		}
 	}
 	public void marketLink() 
 	{
-        BackOfficeController.instance.loadScene("newMarket");
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.loadScene ("newMarket");
+		}
 	}
 	public void skillBookLink() 
 	{
-        BackOfficeController.instance.loadScene("NewSkillBook");
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.loadScene ("NewSkillBook");
+		}
 	}
 	public void storeLink() 
 	{
-        BackOfficeController.instance.loadScene("newStore");
+		if (HelpController.instance.canAccess (1003)) 
+		{
+			BackOfficeController.instance.loadScene ("newStore");
+		}
 	}
 	public void playLink() 
 	{
-		BackOfficeController.instance.displayPlayPopUp();
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.displayPlayPopUp ();
+		}
 	}
 	public void adminBoardLink() 
 	{
-        BackOfficeController.instance.loadScene("AdminBoard");
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.loadScene ("AdminBoard");
+		}
 	}
 	public void changeThumbPicture()
 	{
@@ -361,8 +378,10 @@ public class MenuController : MonoBehaviour
 
 	public void helpHandler()
 	{
-		SoundController.instance.playSound(10);
-		HelpController.instance.helpHandler();
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (10);
+			HelpController.instance.helpHandler ();
+		}
 	}
 	public Vector3 returnButtonPosition(int id)
 	{

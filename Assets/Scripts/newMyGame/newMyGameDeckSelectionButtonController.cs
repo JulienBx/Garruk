@@ -5,7 +5,9 @@ public class newMyGameDeckSelectionButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{
-		newMyGameController.instance.displayDeckList();	
+		if (HelpController.instance.canAccess (-1)) {
+			newMyGameController.instance.displayDeckList ();	
+		}
 	}
 	public override void OnMouseOver()
 	{

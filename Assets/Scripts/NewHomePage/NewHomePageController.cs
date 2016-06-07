@@ -974,14 +974,13 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void deckSelectionButtonHandler()
 	{
-		SoundController.instance.playSound(9);
-		if(this.deckDisplayed!=-1)
-		{
-			this.displayDeckList();
-		}
-		else
-		{
-            BackOfficeController.instance.loadScene("newMyGame");
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			if (this.deckDisplayed != -1) {
+				this.displayDeckList ();
+			} else {
+				BackOfficeController.instance.loadScene ("newMyGame");
+			}
 		}
 	}
 	public void displayDeckList()
@@ -1093,21 +1092,22 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id)
 	{
-		this.idCardClicked = id;
-		this.isLeftClicked = true;
-		this.clickInterval = 0f;
+		if (HelpController.instance.canAccess (-1)) {
+			this.idCardClicked = id;
+			this.isLeftClicked = true;
+			this.clickInterval = 0f;
+		}
 	}
 	public void leftClickReleaseHandler()
 	{
-		this.isLeftClicked = false;
-		if(isDragging)
-		{
-			this.endDragging();
-		}
-		else if(!BackOfficeController.instance.getIsSwiping())
-		{
-			SoundController.instance.playSound(4);
-			this.showCardFocused ();
+		if (HelpController.instance.canAccess (-1)) {
+			this.isLeftClicked = false;
+			if (isDragging) {
+				this.endDragging ();
+			} else if (!BackOfficeController.instance.getIsSwiping ()) {
+				SoundController.instance.playSound (4);
+				this.showCardFocused ();
+			}
 		}
 	}
 	public void isHoveringCard()
@@ -1423,9 +1423,11 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void buyPackHandler()
 	{
-		SoundController.instance.playSound(9);
-		ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
-        BackOfficeController.instance.loadScene("NewStore");
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			ApplicationModel.player.PackToBuy = model.packs [this.displayedPack].Id;
+			BackOfficeController.instance.loadScene ("NewStore");
+		}
 	}
 	private void manageNonReadsNotifications()
 	{
@@ -1604,8 +1606,11 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else if(id==0)
 		{
-			ApplicationModel.player.ChosenGameType = 0;
-			StartCoroutine (this.joinGame ());
+			if (HelpController.instance.canAccess (-1)) 
+			{
+				ApplicationModel.player.ChosenGameType = 0;
+				StartCoroutine (this.joinGame ());
+			}
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{
@@ -1718,18 +1723,15 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void sendInvitationHandler(int challengeButtonId)
 	{
-		SoundController.instance.playSound(9);
-		if(this.deckDisplayed==-1)
-		{
-			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
-		}
-		else if(model.users [this.friendsToBeDisplayed[this.friendsDisplayed[challengeButtonId]]].OnlineStatus!=1)
-		{
-			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(6));
-		}
-		else
-		{
-			StartCoroutine (this.sendInvitation (challengeButtonId));
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			if (this.deckDisplayed == -1) {
+				BackOfficeController.instance.displayErrorPopUp (WordingGameModes.getReference (5));
+			} else if (model.users [this.friendsToBeDisplayed [this.friendsDisplayed [challengeButtonId]]].OnlineStatus != 1) {
+				BackOfficeController.instance.displayErrorPopUp (WordingGameModes.getReference (6));
+			} else {
+				StartCoroutine (this.sendInvitation (challengeButtonId));
+			}
 		}
 	}
 	public IEnumerator sendInvitation(int challengeButtonId)
@@ -1750,19 +1752,25 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void clickOnContentProfile(int id)
 	{
-		SoundController.instance.playSound(9);
-		ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-        BackOfficeController.instance.loadScene("NewProfile");
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+			BackOfficeController.instance.loadScene ("NewProfile");
+		}
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{
-		SoundController.instance.playSound(9);
-		StartCoroutine (this.confirmFriendRequest (id));
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			StartCoroutine (this.confirmFriendRequest (id));
+		}
 	}
 	public void declineFriendsRequestHandler(int id)
 	{
-		SoundController.instance.playSound(9);
-		StartCoroutine (this.removeFriendRequest (id));
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			StartCoroutine (this.removeFriendRequest (id));
+		}
 	}
 	public IEnumerator confirmFriendRequest(int id)
 	{
@@ -1806,17 +1814,21 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void slideRight()
 	{
-		SoundController.instance.playSound(16);
-		this.toSlideRight=true;
-		this.toSlideLeft=false;
-		this.newsfeedDisplayed=false;
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			this.toSlideRight = true;
+			this.toSlideLeft = false;
+			this.newsfeedDisplayed = false;
+		}
 	}
 	public void slideLeft()
 	{
-		SoundController.instance.playSound(16);
-		this.toSlideLeft=true;
-		this.toSlideRight=false;
-		this.mainContentDisplayed=false;
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			this.toSlideLeft = true;
+			this.toSlideRight = false;
+			this.mainContentDisplayed = false;
+		}
 	}
 	public void hideActiveTab()
 	{

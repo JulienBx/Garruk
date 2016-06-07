@@ -5,8 +5,10 @@ public class newMyGamePaginationController : PaginationController
 {	
 	public override void paginationHandler(int id)
 	{
-		base.paginationHandler (id);
-		newMyGameController.instance.paginationHandler ();
+		if (HelpController.instance.canAccess (-1)) {
+			base.paginationHandler (id);
+			newMyGameController.instance.paginationHandler ();
+		}
 	}
 }
 
