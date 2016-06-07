@@ -5,14 +5,13 @@ public class NewStoreBuyCreditsButtonController : SimpleButtonController
 {	
 	public override void mainInstruction()
 	{
-		SoundController.instance.playSound(9);
-		if(ApplicationDesignRules.isMobileScreen)
-		{
-			NewStoreController.instance.InitializeMobilePurchasing();
-		}
-		else
-		{
-			NewStoreController.instance.desktopPurchasingHandler();
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (9);
+			if (ApplicationDesignRules.isMobileScreen) {
+				NewStoreController.instance.InitializeMobilePurchasing ();
+			} else {
+				NewStoreController.instance.desktopPurchasingHandler ();
+			}
 		}
 	}
 	public override void setIsActive(bool value)

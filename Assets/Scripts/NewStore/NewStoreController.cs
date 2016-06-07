@@ -748,9 +748,11 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void backToPacksHandler()
 	{
-		this.displayBackUI (true);
-		SoundController.instance.stopPlayingSound();
-		SoundController.instance.playSound(9);
+		if (HelpController.instance.canAccess (-1)) {
+			this.displayBackUI (true);
+			SoundController.instance.stopPlayingSound ();
+			SoundController.instance.playSound (9);
+		}
 	}
 	public void displayBackUI(bool value)
 	{
@@ -819,41 +821,38 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void buyPackHandler(int id, bool fromHome, bool trainingPack)
 	{
-		if(fromHome)
-		{
-			for(int i=0;i<model.packList.Count;i++)
-			{
-				if(model.packList[i].Id==id)
-				{
-					this.selectedPackIndex=i;
-					break;
-				}
+		int canAccess = -1;
+		if (id == 1) {
+			canAccess = 2001;
+		}
+		if (HelpController.instance.canAccess (canAccess)) {
+
+			if (fromHome) {
+				for (int i = 0; i < model.packList.Count; i++) {
+					if (model.packList [i].Id == id) {
+						this.selectedPackIndex = i;
+						break;
+					}
 				
+				}
+				this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
 			}
-			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
-		}
-		if(!trainingPack)
-		{
-			if(!fromHome)
-			{
-				this.selectedPackIndex = this.packsDisplayed [id];
+			if (!trainingPack) {
+				if (!fromHome) {
+					this.selectedPackIndex = this.packsDisplayed [id];
+				}
+				this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
+				this.nbCards = model.packList [this.selectedPackIndex].NbCards;
 			}
-			this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
-			this.nbCards=model.packList [this.selectedPackIndex].NbCards;
-		}
-		if(trainingPack)
-		{
-			this.selectedCardType=ApplicationModel.player.TrainingAllowedCardType;
-			this.nbCards=ApplicationModel.nbCardsByDeck;
-			StartCoroutine (this.buyPack ());
-		}
-		else if(this.selectedCardType==-2)
-		{
-			this.displaySelectCardTypePopUp();
-		}
-		else
-		{
-			StartCoroutine (this.buyPack ());
+			if (trainingPack) {
+				this.selectedCardType = ApplicationModel.player.TrainingAllowedCardType;
+				this.nbCards = ApplicationModel.nbCardsByDeck;
+				StartCoroutine (this.buyPack ());
+			} else if (this.selectedCardType == -2) {
+				this.displaySelectCardTypePopUp ();
+			} else {
+				StartCoroutine (this.buyPack ());
+			}
 		}
 	}
 	public void buyPackWidthCardTypeHandler(int id)
@@ -929,15 +928,18 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void leftClickedHandler(int id)
 	{
-		this.clickedCardId = id;
-		this.focusedCard.SetActive (true);
-		this.isCardFocusedDisplayed = true;
-		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().displayFocusFeatures (true);
-		this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
-		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
-		this.displayCardFocused ();
-		SoundController.instance.stopPlayingSound();
-		SoundController.instance.playSound(4);
+		if (HelpController.instance.canAccess (2009)) 
+		{
+			this.clickedCardId = id;
+			this.focusedCard.SetActive (true);
+			this.isCardFocusedDisplayed = true;
+			this.focusedCard.GetComponent<NewFocusedCardStoreController> ().displayFocusFeatures (true);
+			this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
+			this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
+			this.displayCardFocused ();
+			SoundController.instance.stopPlayingSound ();
+			SoundController.instance.playSound (4);
+		}
 	}
 	public void displayCardFocused()
 	{
@@ -1130,22 +1132,25 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public void slideLeft()
 	{
-		SoundController.instance.playSound(16);
-		if(this.mainContentDisplayed)
-		{
-			this.mediumScrollCamera.GetComponent<ScrollingController>().reset();
-			this.lowerScrollCamera.transform.position=this.lowerScrollCameraStorePosition;
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			if (this.mainContentDisplayed) {
+				this.mediumScrollCamera.GetComponent<ScrollingController> ().reset ();
+				this.lowerScrollCamera.transform.position = this.lowerScrollCameraStorePosition;
+			}
+			this.toSlideLeft = true;
+			this.toSlideRight = false;
+			this.mainContentDisplayed = false;
 		}
-		this.toSlideLeft=true;
-		this.toSlideRight=false;
-		this.mainContentDisplayed=false;
 	}
 	public void slideRight()
 	{
-		SoundController.instance.playSound(16);
-		this.toSlideRight=true;
-		this.toSlideLeft=false;
-		this.storeDisplayed=false;
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			this.toSlideRight = true;
+			this.toSlideLeft = false;
+			this.storeDisplayed = false;
+		}
 	}
 	public Camera returnCurrentCamera()
 	{

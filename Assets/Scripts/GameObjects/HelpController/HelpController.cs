@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class HelpController : MonoBehaviour 
 {
@@ -514,12 +515,40 @@ public class HelpController : MonoBehaviour
 	{
 		return this.isTutorial;
 	}
-	public bool canAccess()
+	public bool canAccess(int accessId)
 	{
+		int index=0;
+		switch (SceneManager.GetActiveScene ().name) 
+		{
+		case "NewHomePage":
+			index = 1000;
+			break;
+		case "newMyGame":
+			index = 3000;
+			break;
+		case "NewMyGame":
+			index = 3000;
+			break;
+		case "NewStore":
+			index = 2000;
+			break;
+		case "newStore":
+			index = 2000;
+			break;
+		}
+		index = index + this.sequenceId;
+
 		if(this.isTutorial)
 		{
-			this.displayCantAccessPopUp();
-			return false;
+			if (accessId == index) 
+			{
+				return true;
+			} 
+			else 
+			{
+				this.displayCantAccessPopUp();
+				return false;
+			}
 		}
 		else
 		{

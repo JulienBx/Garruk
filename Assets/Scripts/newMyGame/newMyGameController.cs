@@ -348,14 +348,13 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void paginationHandler()
 	{
-		SoundController.instance.playSound(9);
+		SoundController.instance.playSound (9);
 		this.drawPaginationNumber ();
 		this.drawCards ();
-		if(ApplicationDesignRules.isMobileScreen && toScrollCards)
-		{
+		if (ApplicationDesignRules.isMobileScreen && toScrollCards) {
 			Vector3 lowerScrollCameraPosition = this.lowerScrollCamera.transform.position;
-			lowerScrollCameraPosition.y=this.lowerScrollCameraIntermediatePosition;
-			this.lowerScrollCamera.transform.position=lowerScrollCameraPosition;
+			lowerScrollCameraPosition.y = this.lowerScrollCameraIntermediatePosition;
+			this.lowerScrollCamera.transform.position = lowerScrollCameraPosition;
 		}
 	}
 	public void initializeScene()
@@ -1611,7 +1610,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void createNewDeckHandler()
 	{
-		SoundController.instance.playSound(8);
+		SoundController.instance.playSound (8);
 		StartCoroutine (this.createNewDeck ());
 	}
 	private IEnumerator createNewDeck()
@@ -1762,7 +1761,7 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void leftClickedHandler(int id, bool isDeckCard)
 	{
-		if(!BackOfficeController.instance.getIsScrolling())
+		if(!BackOfficeController.instance.getIsScrolling() && HelpController.instance.canAccess(3004))
 		{
 			this.idCardClicked = id;
 			this.isDeckCardClicked = isDeckCard;
@@ -1772,14 +1771,13 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void leftClickReleaseHandler()
 	{
-		if(isLeftClicked)
-		{
-			this.isLeftClicked=false;
-			this.showCardFocused ();
-		}
-		else if(isDragging)
-		{
-			this.endDragging();
+		if (HelpController.instance.canAccess (3004)) {
+			if (isLeftClicked) {
+				this.isLeftClicked = false;
+				this.showCardFocused ();
+			} else if (isDragging) {
+				this.endDragging ();
+			}
 		}
 	}
 	public void startDragging()
@@ -2176,24 +2174,27 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void slideRight()
 	{
-		SoundController.instance.playSound(16);
-		if(this.mainContentDisplayed)
-		{
-			this.upperScrollCamera.GetComponent<ScrollingController>().reset();
-			this.lowerScrollCamera.GetComponent<ScrollingController>().reset();
-			this.toScrollCards=false;
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			if (this.mainContentDisplayed) {
+				this.upperScrollCamera.GetComponent<ScrollingController> ().reset ();
+				this.lowerScrollCamera.GetComponent<ScrollingController> ().reset ();
+				this.toScrollCards = false;
+			}
+			this.toSlideRight = true;
+			this.toSlideLeft = false;
+			this.mainContentDisplayed = false;
 		}
-		this.toSlideRight=true;
-		this.toSlideLeft=false;
-		this.mainContentDisplayed=false;
 	}
 	public void slideLeft()
 	{
-		SoundController.instance.playSound(16);
-		this.toSlideLeft=true;
-		this.toSlideRight=false;
-		this.filtersDisplayed=false;
-		HelpController.instance.tutorialTrackPoint();
+		if (HelpController.instance.canAccess (-1)) {
+			SoundController.instance.playSound (16);
+			this.toSlideLeft = true;
+			this.toSlideRight = false;
+			this.filtersDisplayed = false;
+			HelpController.instance.tutorialTrackPoint ();
+		}
 	}
 	public Camera returnCurrentCamera(bool isDeckCard)
 	{

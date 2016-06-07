@@ -5,7 +5,7 @@ public class newMyGameSortButtonController : SpriteButtonController
 {	
 	public override void mainInstruction ()
 	{
-		if(!HelpController.instance.getIsTutorialLaunched())
+		if(HelpController.instance.canAccess(-1))
 		{
 			newMyGameController.instance.sortButtonHandler (base.getId());
 		}

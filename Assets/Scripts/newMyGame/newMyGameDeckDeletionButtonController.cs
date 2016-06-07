@@ -5,7 +5,9 @@ public class newMyGameDeckDeletionButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{
-		newMyGameController.instance.displayDeleteDeckPopUp ();
+		if (HelpController.instance.canAccess (-1)) {
+			newMyGameController.instance.displayDeleteDeckPopUp ();
+		}
 	}
 	public override void showToolTip ()
 	{

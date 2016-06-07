@@ -5,7 +5,9 @@ public class newMyGameDeckRenameButtonController : SpriteButtonController
 {	
 	public override void mainInstruction()
 	{
-		newMyGameController.instance.displayEditDeckPopUp ();
+		if (HelpController.instance.canAccess (-1)) {
+			newMyGameController.instance.displayEditDeckPopUp ();
+		}
 	}
 	public override void showToolTip ()
 	{
