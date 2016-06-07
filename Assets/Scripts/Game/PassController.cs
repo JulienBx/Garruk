@@ -15,6 +15,7 @@ public class PassController : MonoBehaviour
 	}
 
 	public void show(bool b){
+		print("SHOWPASS "+b);
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.GetComponent<BoxCollider>().enabled = b;

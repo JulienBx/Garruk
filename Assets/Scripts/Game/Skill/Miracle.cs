@@ -72,13 +72,15 @@ public class Miracle : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int score = 0 ;
 
-		for(int i = 0 ; i < ennemis.Count ; i++){
-			GameCard targetCard = GameView.instance.getCard(ennemis[UnityEngine.Random.Range(0,ennemis.Count)]);
-			score+=Mathf.RoundToInt(2*targetCard.getAttack()*(5+2*s.Power)/100f);
-			score+=Mathf.RoundToInt(targetCard.getLife()*(5+2*s.Power)/100f);
-		}
+		if(ennemis.Count>0){
+			for(int i = 0 ; i < ennemis.Count ; i++){
+				GameCard targetCard = GameView.instance.getCard(ennemis[UnityEngine.Random.Range(0,ennemis.Count)]);
+				score+=Mathf.RoundToInt(2*targetCard.getAttack()*(5+2*s.Power)/100f);
+				score+=Mathf.RoundToInt(targetCard.getLife()*(5+2*s.Power)/100f);
+			}
 
-		score = (score/ennemis.Count) * GameView.instance.IA.getAgressiveFactor() ;
+			score = (score/ennemis.Count) * GameView.instance.IA.getAgressiveFactor() ;
+		}
 		return score ;
 	}
 }

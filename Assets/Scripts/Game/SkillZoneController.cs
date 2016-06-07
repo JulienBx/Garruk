@@ -57,7 +57,9 @@ public class SkillZoneController : MonoBehaviour
 			}
 			else{
 				GameView.instance.passZone.GetComponent<PassController>().setLaunchability("");
-				GameView.instance.passZone.GetComponent<PassController>().show(!GameView.instance.getCurrentCard().hasPlayed || !GameView.instance.getCurrentCard().hasMoved);
+				if(!ApplicationModel.player.ToLaunchGameTutorial || GameView.instance.sequenceID>18){
+					GameView.instance.passZone.GetComponent<PassController>().show(!GameView.instance.getCurrentCard().hasPlayed || !GameView.instance.getCurrentCard().hasMoved);
+				}
 			}
 			if(g.hasPlayed){
 				this.showSkillButtons(false);

@@ -3905,7 +3905,7 @@ public class GameView : MonoBehaviour
 				GameController.instance.findNextPlayer (true);
 			}
 			else if(this.sequenceID==14){
-				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
+				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Il va certainement chercher à attaquer votre unité.", true, true, true, 1);
 				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}

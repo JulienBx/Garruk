@@ -30,7 +30,13 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void getLaunchability(){
-		this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), true) ;
+		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<10){
+			this.launchabilityText = "Vous ne pouvez pas utiliser cette compétence";
+		}
+		else{
+			this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), true) ;
+		}
+
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
@@ -82,9 +88,6 @@ public class SkillButtonController : MonoBehaviour
 	}
 	
 	public void show(bool b){		
-		if(this.id==0){
-			print("SHOW "+b);
-		}
 		gameObject.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.GetComponent<BoxCollider>().enabled = b;
