@@ -1688,16 +1688,16 @@ public class WordingSkills
 		//73 - Paladin
 		idSkills.Add(73);
 		names.Add(new string[]{"Paladin","Paladin"}); 
-		descriptions.Add(new string[]{"Gagne 010%BTK ATK et perd 1 MOV. Permanent","Gains 010%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 020%BTK ATK et perd 1 MOV. Permanent","Gains 020%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 030%BTK ATK et perd 1 MOV. Permanent","Gains 030%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 025%BTK ATK et perd 1 MOV. Permanent","Gains 010%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 030%BTK ATK et perd 1 MOV. Permanent","Gains 020%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 035%BTK ATK et perd 1 MOV. Permanent","Gains 030%ATK ATK and loses 1 MOV"}); 
 		descriptions.Add(new string[]{"Gagne 040%BTK ATK et perd 1 MOV. Permanent","Gains 040%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 050%BTK ATK et perd 1 MOV. Permanent","Gains 050%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 060%BTK ATK et perd 1 MOV. Permanent","Gains 060%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 070%BTK ATK et perd 1 MOV. Permanent","Gains 070%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 080%BTK ATK et perd 1 MOV. Permanent","Gains 080%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 090%BTK ATK et perd 1 MOV. Permanent","Gains 090%ATK ATK and loses 1 MOV"}); 
-		descriptions.Add(new string[]{"Gagne 100%BTK ATK et perd 1 MOV. Permanent","Gains 100%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 045%BTK ATK et perd 1 MOV. Permanent","Gains 050%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 050%BTK ATK et perd 1 MOV. Permanent","Gains 060%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 055%BTK ATK et perd 1 MOV. Permanent","Gains 070%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 060%BTK ATK et perd 1 MOV. Permanent","Gains 080%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 065%BTK ATK et perd 1 MOV. Permanent","Gains 090%ATK ATK and loses 1 MOV"}); 
+		descriptions.Add(new string[]{"Gagne 070%BTK ATK et perd 1 MOV. Permanent","Gains 100%ATK ATK and loses 1 MOV"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

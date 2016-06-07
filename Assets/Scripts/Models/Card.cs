@@ -303,6 +303,13 @@ public class Card
 		int index ;
 		int percentage ;
 		string tempstring ;
+		if (s.Contains("%BTK")){
+			index = s.IndexOf("%BTK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.Attack/100f));
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
+		}
 		if (s.Contains("%ATK")){
 			index = s.IndexOf("%ATK");
 			
