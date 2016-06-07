@@ -1891,7 +1891,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
 --- !u!114 &546677167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11a3240e41434061839eae4ee0e8214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSandbox: 1
+  isSandbox: 0
   payment: {fileID: 0}
 --- !u!1001 &555000198
 Prefab:
