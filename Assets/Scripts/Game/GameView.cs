@@ -2844,8 +2844,6 @@ public class GameView : MonoBehaviour
 			}
 		}
 
-		this.isEndedGame = true ;
-
 		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
 			this.isEndedGame = true ;
 		}
