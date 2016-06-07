@@ -239,8 +239,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 56a2cf8df8272ae4b912ca62e5c3e42f, type: 3}
   - {fileID: 8300000, guid: 38eb0802435605d46992266eb2dabb06, type: 3}
   - {fileID: 8300000, guid: 38eb0802435605d46992266eb2dabb06, type: 3}
-  - {fileID: 8300000, guid: 52796a2221d9143658318e9c6d69e956, type: 3}
-  - {fileID: 8300000, guid: 52796a2221d9143658318e9c6d69e956, type: 3}
+  - {fileID: 8300000, guid: b116e46d5ae894c26813ab033a20e1bb, type: 3}
+  - {fileID: 8300000, guid: be6d895261c554b8fa89d05746722f73, type: 3}
   - {fileID: 8300000, guid: 52796a2221d9143658318e9c6d69e956, type: 3}
   - {fileID: 8300000, guid: 52796a2221d9143658318e9c6d69e956, type: 3}
   - {fileID: 8300000, guid: 52796a2221d9143658318e9c6d69e956, type: 3}
@@ -367,6 +367,14 @@ Prefab:
       propertyPath: musics.Array.data[6]
       value: 
       objectReference: {fileID: 8300000, guid: 84bad5dc2b9fc014cbcb2bae73b020d1, type: 3}
+    - target: {fileID: 0}
+      propertyPath: backOfficeSfx.Array.data[41]
+      value: 
+      objectReference: {fileID: 8300000, guid: b116e46d5ae894c26813ab033a20e1bb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: backOfficeSfx.Array.data[42]
+      value: 
+      objectReference: {fileID: 8300000, guid: be6d895261c554b8fa89d05746722f73, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 188870}
