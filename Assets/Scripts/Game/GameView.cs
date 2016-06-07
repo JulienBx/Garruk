@@ -1221,9 +1221,30 @@ public class GameView : MonoBehaviour
 						playerID = this.getTileController(t.x, t.y).getCharacterID();
 						if (playerID != -1)
 						{
-							if (UnityEngine.Random.Range(1,101)<=proba){
-								GameController.instance.convert(playerID);
-								isSuccess = true ;
+							if(!this.getCard(playerID).isMine){
+								if (UnityEngine.Random.Range(1,101)<=proba){
+									GameController.instance.convert(playerID);
+									isSuccess = true ;
+								}
+							}
+						}
+					}
+				}
+				else if(ApplicationModel.player.ToLaunchGameIA && this.getCard(this.currentPlayingCard).isMissionary() && !this.getCurrentCard().isMine){
+					int proba = 5+2*this.getCurrentCard().Skills[0].Power;
+					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
+					this.targets = new List<Tile>();
+					int playerID;
+					foreach (Tile t in neighbourTiles)
+					{
+						playerID = this.getTileController(t.x, t.y).getCharacterID();
+						if (playerID != -1)
+						{
+							if(this.getCard(playerID).isMine){
+								if (UnityEngine.Random.Range(1,101)<=proba){
+									GameController.instance.convert(playerID);
+									isSuccess = true ;
+								}
 							}
 						}
 					}
