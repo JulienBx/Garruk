@@ -18,6 +18,6 @@ public class WordingProducts
 		references.Add(new string[]{"Choisissez votre bonus :",""}); //1
         references.Add(new string[]{" cristals"," crystals"}); //2
         references.Add(new string[]{"Acheter","Buy"}); //3
-        references.Add(new string[]{"La boutique n'est pas disponible, revenez plus tard !",""}); //4
+		references.Add(new string[]{"La boutique n'est pas disponible, revenez plus tard !\nCode erreur : ",""}); //4
 	}
 }
