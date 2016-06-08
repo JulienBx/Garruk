@@ -1023,6 +1023,7 @@ public class PhotonController : Photon.MonoBehaviour
 	{
 		this.isWaiting=false;
 		this.displayLoadingScreenButton(false);
+        ApplicationModel.player.ShouldQuitGame=false;
 		this.leaveRoom ();
 
 		if(ApplicationModel.player.ChosenGameType>20)
@@ -1039,7 +1040,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
     private IEnumerator preLoadScene(string sceneName) 
     {
-    	this.isQuittingGame=true;
+        this.isQuittingGame=true;
 		async = Application.LoadLevelAsync(sceneName);
 		async.allowSceneActivation = true;
         yield return async;
