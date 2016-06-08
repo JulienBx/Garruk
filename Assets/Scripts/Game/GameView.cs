@@ -2024,7 +2024,8 @@ public class GameView : MonoBehaviour
 			if(GameView.instance.draggingSkillButton!=-1){
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 			}
 		}

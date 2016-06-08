@@ -142,8 +142,10 @@ public class SkillButtonController : MonoBehaviour
 				gameObject.GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 				GameView.instance.clickSkillButton(this.id);
 				GameView.instance.runningSkill = this.skill.Id ;
-
+				print(this.id);
+				print(this.skill.Id);
 				this.setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1)));
+				print(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1)));
 				this.showDescription(true);
 			}
 			GameView.instance.getSkillZoneController().isRunningSkill = true ;
@@ -174,6 +176,8 @@ public class SkillButtonController : MonoBehaviour
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hideTuto();
 		}
+		print(gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text);
+				
 	}
 
 	public void OnMouseUp(){

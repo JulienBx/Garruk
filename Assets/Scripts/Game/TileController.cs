@@ -375,7 +375,16 @@ public class TileController : GameObjectController
 						else{
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
 						}
-						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power)));
+						if(this.tile.x==0){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
+						}
+						else if(this.tile.x==GameView.instance.boardWidth-1){
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+						}
+						else{
+							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+						}
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
 					}
 				}
