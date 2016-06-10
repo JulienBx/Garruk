@@ -2387,8 +2387,8 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300142, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300146, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
-  - {fileID: 21300154, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300158, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
+  - {fileID: 21300154, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300148, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300150, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
   - {fileID: 21300144, guid: 09bb67ca251904ea6991d90c7d4bd40f, type: 3}
@@ -7301,6 +7301,16 @@ Prefab:
       propertyPath: caractersAvatars.Array.data[143]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: skillsPictos.Array.data[108]
+      value: 
+      objectReference: {fileID: 21300158, guid: 09bb67ca251904ea6991d90c7d4bd40f,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: skillsPictos.Array.data[109]
+      value: 
+      objectReference: {fileID: 21300154, guid: 09bb67ca251904ea6991d90c7d4bd40f,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108250}
