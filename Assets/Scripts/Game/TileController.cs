@@ -126,6 +126,7 @@ public class TileController : GameObjectController
 	
 	public void setDestination(int i){
 		this.isDestination = i ;
+		print("DESTI "+i);
 		this.showDestination (true);
 	}
 	
@@ -356,14 +357,27 @@ public class TileController : GameObjectController
 						else{
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
 						}
-						if(this.tile.x==0){
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
-						}
-						else if(this.tile.x==GameView.instance.boardWidth-1){
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+						if(GameView.instance.getIsFirstPlayer()){
+							if(this.tile.x==0){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight2();
+							}
+							else if(this.tile.x==GameView.instance.boardWidth-1){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft2();
+							}
+							else{
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter2();
+							}
 						}
 						else{
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+							if(this.tile.x==GameView.instance.boardWidth-1){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight2();
+							}
+							else if(this.tile.x==0){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft2();
+							}
+							else{
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter2();
+							}
 						}
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setBlue();
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);
@@ -375,14 +389,27 @@ public class TileController : GameObjectController
 						else{
 							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
 						}
-						if(this.tile.x==0){
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight();
-						}
-						else if(this.tile.x==GameView.instance.boardWidth-1){
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft();
+						if(GameView.instance.getIsFirstPlayer()){
+							if(this.tile.x==0){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight2();
+							}
+							else if(this.tile.x==GameView.instance.boardWidth-1){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft2();
+							}
+							else{
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter2();
+							}
 						}
 						else{
-							GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+							if(this.tile.x==GameView.instance.boardWidth-1){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftRight2();
+							}
+							else if(this.tile.x==0){
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftLeft2();
+							}
+							else{
+								GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter2();
+							}
 						}
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).showDescription(true);

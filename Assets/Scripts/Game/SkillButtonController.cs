@@ -273,7 +273,7 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
 	}
 
-	public void shiftRight(){
+	public void shiftRight2(){
 		Vector3 q;
 		q.x = 1f;
 		q.y = 0.9f;
@@ -281,7 +281,7 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
 	}
 
-	public void shiftLeft(){
+	public void shiftLeft2(){
 		Vector3 q;
 		q.x = -1f;
 		q.y = 0.9f;
@@ -289,7 +289,7 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").localPosition = q;
 	}
 
-	public void shiftCenter(){
+	public void shiftCenter2(){
 		Vector3 q;
 		q.x = 0f;
 		q.y = 0.9f;

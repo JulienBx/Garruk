@@ -2022,7 +2022,7 @@ public class GameView : MonoBehaviour
 
 		if(GameView.instance.isMobile){
 			if(GameView.instance.draggingSkillButton!=-1){
-				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter();
+				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).shiftCenter2();
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setRed();
 				GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 
@@ -2189,26 +2189,28 @@ public class GameView : MonoBehaviour
 	
 	public void displayDestinations(int c)
 	{
-		if(!this.isChangingTurn){
-			if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
-				int i = -1;
-				if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
-					if(this.getCard(c).isMine){
-						i = 1 ;
+		if(this.sequenceID!=6 & this.sequenceID!=5){
+			if(!this.isChangingTurn){
+				if(!this.getPlayingCardController(this.currentPlayingCard).getIsMoving() && this.sequenceID!=16 && this.sequenceID!=17 && this.sequenceID!=18 ){
+					int i = -1;
+					if(this.currentPlayingCard==c && !this.getCard(c).hasMoved){
+						if(this.getCard(c).isMine){
+							i = 1 ;
+						}
+						else{
+							i = 9;
+						}
 					}
 					else{
-						i = 9;
+						i = 10 ;
 					}
-				}
-				else{
-					i = 10 ;
-				}
-				
-				List<Tile> destinations = this.playingCards[c].GetComponent<PlayingCardController>().getDestinations();
-				foreach (Tile t in destinations)
-				{
-					if (this.getTileController(t.x,t.y).canBeDestination()){
-						this.getTileController(t.x,t.y).setDestination(i);
+					
+					List<Tile> destinations = this.playingCards[c].GetComponent<PlayingCardController>().getDestinations();
+					foreach (Tile t in destinations)
+					{
+						if (this.getTileController(t.x,t.y).canBeDestination()){
+							this.getTileController(t.x,t.y).setDestination(i);
+						}
 					}
 				}
 			}
@@ -3931,7 +3933,7 @@ public class GameView : MonoBehaviour
 				string text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
 				this.gameTutoController.setCompanion(text, false, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-				this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.4f,0f));
+				this.gameTutoController.setArrow("left",new Vector3(-2.5f,-4.4f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==11){
@@ -3973,7 +3975,7 @@ public class GameView : MonoBehaviour
 			else if(this.sequenceID==18){
 				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
-				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.2f,0f));
+				this.gameTutoController.setArrow("right",new Vector3(2.2f,-4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==19){

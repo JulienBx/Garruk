@@ -360,15 +360,7 @@ public class PhotonController : Photon.MonoBehaviour
 
         if(ApplicationModel.player.ChosenGameType>0 && ApplicationModel.player.ChosenGameType<11){
             fixedIDType = ApplicationModel.player.ChosenGameType-1;
-           	if(randomTest<8){
-           		difficultyLevel = 1 ; 
-           	}
-			else if(randomTest<10){
-           		difficultyLevel = 2 ; 
-           	}
-           	else{
-				difficultyLevel = 3 ; 
-           	}
+			difficultyLevel = -1 ; 
         }
 		else if(ApplicationModel.player.ChosenGameType==0){
 			if(randomTest<6){
@@ -510,6 +502,9 @@ public class PhotonController : Photon.MonoBehaviour
 					randomTest = 1;
 				}
             }
+			else if(difficultyLevel==-1){
+				randomTest = 1;
+            }
             skills.Add(new Skill(idSkill, randomTest));
 
             nbSkills = 0 ;
@@ -521,6 +516,9 @@ public class PhotonController : Photon.MonoBehaviour
             }
 			else if(difficultyLevel==3){
             	nbSkills = 3;
+            }
+			else if(difficultyLevel==-1){
+				nbSkills = 1;
             }
 
             compteurSkills=0 ; 
@@ -636,9 +634,11 @@ public class PhotonController : Photon.MonoBehaviour
 						randomTest = 1;
 					}
                 }
+				else if(difficultyLevel==-1){
+					randomTest = 1;
+                }
 
                 skills.Add(new Skill(idSkill, randomTest));
-                print("J'add idSkill "+idSkill+" au joueur "+i);
                 compteurSkills++;
             }
 			ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
@@ -742,6 +742,38 @@ public class PhotonController : Photon.MonoBehaviour
 			}
 			else {
 				randomTest = 1;
+			}
+        }
+		else if(difficultyLevel==-1){
+			if(randomTest>75){
+				randomTest = -2;
+			}
+			else if(randomTest>60){
+				randomTest = -2;
+			}
+			else if(randomTest>42){
+				randomTest = -3;
+			}
+			else if(randomTest>32){
+				randomTest = -3;
+			}
+			else if(randomTest>24){
+				randomTest = -4;
+			}
+			else if(randomTest>18){
+				randomTest = -4;
+			}
+			else if(randomTest>13){
+				randomTest = -5;
+			}
+			else if(randomTest>9){
+				randomTest = -5;
+			}
+			else if(randomTest>4){
+				randomTest = -6;
+			}
+			else {
+				randomTest = -6;
 			}
         }
         randomTest = randomTest*10;
@@ -875,6 +907,38 @@ public class PhotonController : Photon.MonoBehaviour
 			}
 			else {
 				randomTest = 1;
+			}
+        }
+		else if(difficultyLevel==-1){
+			if(randomTest>75){
+				randomTest = -2;
+			}
+			else if(randomTest>60){
+				randomTest = -2;
+			}
+			else if(randomTest>42){
+				randomTest = -2;
+			}
+			else if(randomTest>32){
+				randomTest = -2;
+			}
+			else if(randomTest>24){
+				randomTest = -2;
+			}
+			else if(randomTest>18){
+				randomTest = -1;
+			}
+			else if(randomTest>13){
+				randomTest = -1;
+			}
+			else if(randomTest>9){
+				randomTest = -1;
+			}
+			else if(randomTest>4){
+				randomTest = -1;
+			}
+			else {
+				randomTest = -1;
 			}
         }
         randomTest = randomTest*10f;
