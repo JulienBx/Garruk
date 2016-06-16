@@ -110,7 +110,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		if (Input.touchCount == 1 && this.isSceneLoaded  && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
-			if(Input.touches[0].deltaPosition.x<-15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			if(Input.touches[0].deltaPosition.x<-ApplicationDesignRules.swipeCoefficient && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				if(this.storeDisplayed || this.toSlideLeft)
 				{
@@ -118,7 +118,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
+			else if(Input.touches[0].deltaPosition.x>ApplicationDesignRules.swipeCoefficient && Mathf.Abs(Input.touches[0].deltaPosition.y)<Mathf.Abs(Input.touches[0].deltaPosition.x))
 			{
 				if(this.mainContentDisplayed || this.toSlideRight)
 				{

@@ -142,7 +142,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f && !this.isCardFocusedDisplayed && !this.isDragging)
+			else if(Input.touches[0].deltaPosition.x<-ApplicationDesignRules.swipeCoefficient	 && !this.isCardFocusedDisplayed && !this.isDragging)
 			{
 				this.isLeftClicked=false;
 				if(this.newsfeedDisplayed || this.toSlideLeft)
@@ -151,7 +151,7 @@ public class NewHomePageController : MonoBehaviour
 					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f && !this.isCardFocusedDisplayed && !this.isDragging)
+			else if(Input.touches[0].deltaPosition.x>ApplicationDesignRules.swipeCoefficient && !this.isCardFocusedDisplayed && !this.isDragging)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.toSlideRight)
