@@ -14,7 +14,7 @@ public class WordingHasLeftRooomPopUp
     static WordingHasLeftRooomPopUp()
     {
         references=new List<string[]>();
-        references.Add(new string[]{"Vous avez quitté votre dernier match avant son terme, le combat est donc perdu!",""}); //0
+        references.Add(new string[]{"Vous avez quitté votre dernier match avant son terme, le combat est donc perdu!","You have been disconnected from the arena, hence you lost your last fight!"}); //0
         references.Add(new string[]{"OK!","OK!"}); //2
     }
 }

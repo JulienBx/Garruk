@@ -14,7 +14,7 @@ public class WordingMarketHelp
 	static WordingMarketHelp()
 	{
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Les colons peuvent acheter des unités aux enchères, moyennant une compensation décidée par le vendeur ! Certains colons s'enrichissent sur Cristalia grâce au commerce d'unités",""}); //1
-		helpContents.Add(new string[]{"Ces filtres vous permettront de mettre la main sur l'unité idéale pour vos équipes!",""}); //3
+		helpContents.Add(new string[]{"Les joueurs peuvent acheter des unités aux enchères, ou tenter de vendre leur unité au prix souhaité ! Certains joueurs parviennent à s'enrichir grâce au marché","Players can buy units from other players in the market. Here you can also sell your less interesting units!"}); //1
+		helpContents.Add(new string[]{"Ces filtres vous permettront de trouver l'unité idéale pour vos équipes!","Find the best fit for your teams using these filters"}); //3
 	}
 }

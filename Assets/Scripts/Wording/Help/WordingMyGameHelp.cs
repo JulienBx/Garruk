@@ -19,17 +19,17 @@ public class WordingMyGameHelp
 	static WordingMyGameHelp()
 	{
 		tutorialContents=new List<string[]>();
-		tutorialContents.Add(new string[]{"Vous pouvez consulter ici vos unités et les organiser en équipes (seule une équipe complète peut combattre sur Cristalia). Commencez par créer une équipe!",""}); //0
-		tutorialContents.Add(new string[]{"Maintenant choisissez les membres de votre équipe et déplacez-les vers celle-ci.",""}); //1
-		tutorialContents.Add(new string[]{"Bravo, votre équipe est complète. Vous êtes maintenant prêt à affronter les dangers de Cristalia.",""}); //2
-		tutorialContents.Add(new string[]{"Pour combattre et gagner de nouveaux cristaux, il vous suffira d'accéder à l'arène",""}); //3
-		tutorialContents.Add(new string[]{"Vos connaissances sur Cristalia seront rassemblées dans la Cristalopedia",""}); //4
-		tutorialContents.Add(new string[]{"Enfin pour tenter de vendre vos unités ou d'en acquérir de nouvelles, faites un tour aux enchères",""}); //5
-		tutorialContents.Add(new string[]{"Il est temps pour moi de vous quitter, mais je ne serai pas loin. Utilisez le bouton d'aide pour me convoquer!",""}); //6
+		tutorialContents.Add(new string[]{"Accédez à vos unités et préparez les combats. Formez votre première équipe de 4 Cristaliens!","Access to your units and prepare for the fights. Create your first 4-Cristalian team!"}); //0
+		tutorialContents.Add(new string[]{"Déplacer maintenant vos meilleures unités vers votre équipe","Now move your best units on to the team slots"}); //1
+		tutorialContents.Add(new string[]{"Bravo, votre équipe est maintenant complète!","Congratulations, your team is now ready to fight"}); //2
+		tutorialContents.Add(new string[]{"L'arène vous permet de disputer des combats et de gagner des cristaux","Arena is the place where you will fight and collect cristal rewards"}); //3
+		tutorialContents.Add(new string[]{"Vos connaissances sur Cristalia sont rassemblées dans la Cristalopedia","Cristalopedia gathers all the knowledge you own on Cristalia"}); //4
+		tutorialContents.Add(new string[]{"Au marché vous pourrez vendre vos unités à d'autres joueurs ou leur en acheter","Market is the best place to sell your units or to acquire new ones"}); //5
+		tutorialContents.Add(new string[]{"Il est temps pour moi de vous quitter, mais je ne serai pas loin. Utilisez le bouton d'aide pour me convoquer!","It is time for me to go welcoming other players. To ask me for help, please click on the help button whenever you need!"}); //6
 
 		helpContents=new List<string[]>();
-		helpContents.Add(new string[]{"Organisez vos unités en équipes de 4 pour entrer dans l'arène. L'ordre des unités dans les équipes détermine leur ordre d'action en combat",""}); //1
-		helpContents.Add(new string[]{"Toutes vos unités disponibles (sauf celles mises aux enchères) sont accessibles ici. Touchez une unité pour accéder à sa carte détaillée",""}); //3
-		helpContents.Add(new string[]{"Les filtres vous permettront de trouver rapidement des unités répondant à vos besoins. Torak, colon de la première vague, disposant d'une armée de plus de 1200 unités, ne peut plus s'en passer!",""}); //5
+		helpContents.Add(new string[]{"Organisez vos unités en équipes de 4 pour entrer dans l'arène. L'ordre des unités dans les équipes détermine leur ordre d'action en combat","You will need 4-units team to enter the arena. Units order in your team determines units the play order during fights"}); //1
+		helpContents.Add(new string[]{"Toutes vos unités disponibles (sauf celles en vente sur le marché) sont accessibles ici. Touchez une unité pour voir le détail de ses compétences","Every unit you own is displayed here (except the one you are selling in the market). Touch a unit to access to its details"}); //3
+		helpContents.Add(new string[]{"Les filtres vous permettent de trouver facilement les unités adaptées à vos besoins","Filters will help you finding the unit fitting your needs the most"}); //5
 	}
 }

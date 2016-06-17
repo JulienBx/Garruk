@@ -53,15 +53,15 @@ public class WordingProfile
 		references.Add(new string[]{"Le nom recherché doit comporter au moins 2 caractères","The name you are searching is too short (less than 2 characters)"}); //36
 		references.Add(new string[]{"Les prénoms et noms doivent comporter moins de 20 caractères","First name and surname are too long (more than 20 characters)"}); //37
 		references.Add(new string[]{"L'adresse mail est trop longue (plus de 40 caractères)","Email address is too long (more than 40 characters)"}); //38
-		references.Add(new string[]{"Modifier le mot de passe",""}); //39
-		references.Add(new string[]{"Vous pouvez changer votre mot de passe à tout moment",""}); //40
-		references.Add(new string[]{"Changer vos informations",""}); //41
-		references.Add(new string[]{"Vous pouvez modifier vos informations personnelles à tout moment",""}); //42
-		references.Add(new string[]{"Changer de langue",""}); //43
-		references.Add(new string[]{"Choisissez votre langue préférée!",""}); //44
-		references.Add(new string[]{"Déconnecter",""}); //45
-		references.Add(new string[]{"Vous pouvez quitter le jeu en vous déconnectant ici.",""}); //46
-		references.Add(new string[]{"Réglages du son",""}); //47
-		references.Add(new string[]{"Les réglages vous permettront d'ajuster le volume de la musique et des effets sonores",""}); //48
+		references.Add(new string[]{"Modifier le mot de passe","Modify your password"}); //39
+		references.Add(new string[]{"Vous pouvez changer votre mot de passe à tout moment","You can change your password anytime"}); //40
+		references.Add(new string[]{"Changer vos informations","Modify your information"}); //41
+		references.Add(new string[]{"Vous pouvez modifier vos informations personnelles à tout moment","You can modify your personal information anytime"}); //42
+		references.Add(new string[]{"Changer de langue","Switch language"}); //43
+		references.Add(new string[]{"Choisissez votre langue préférée!","Choose your favorite language"}); //44
+		references.Add(new string[]{"Déconnecter","Disconnect"}); //45
+		references.Add(new string[]{"Vous pouvez quitter le jeu en vous déconnectant ici.","You can quit Cristalia by clicking here"}); //46
+		references.Add(new string[]{"Réglages du son","Sound settings"}); //47
+		references.Add(new string[]{"Les réglages vous permettront d'ajuster le volume de la musique et des effets sonores","You can change music volume and sound effects volume"}); //48
 	}
 }

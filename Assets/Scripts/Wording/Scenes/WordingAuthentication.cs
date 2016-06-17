@@ -28,6 +28,6 @@ public class WordingAuthentication
 		references.Add(new string[]{"Inscription avec Facebook","Register with your facebook account"});//11
 		references.Add(new string[]{"Le pseudo ne doit pas comporter plus de 12 caractères","Player name can not exceed 12 characters"}); //12
 		references.Add(new string[]{"Le jeu n'est pas accessible actuellement, veuillez réessayer plus tard","Techtical Wars is down and will be back soon, please retry in a few minuts"}); //13
-		references.Add(new string[]{"Connexion expirée, veuillez vous reconnecter",""}); //14
+		references.Add(new string[]{"Connexion expirée, veuillez vous reconnecter","Your session has just expired, please reconnect"}); //14
 	}
 }

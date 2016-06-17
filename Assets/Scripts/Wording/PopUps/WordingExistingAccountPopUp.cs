@@ -14,7 +14,7 @@ public class WordingExistingAccountPopUp
 	static WordingExistingAccountPopUp()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Saisissez vos identifiants habituels","Please fill your credentials"}); //0
+		references.Add(new string[]{"Saisissez vos identifiants habituels","Please fill in your credentials"}); //0
 		references.Add(new string[]{"Pseudo","Player name"}); //1
 		references.Add(new string[]{"Mot de passe","Password"}); //3
 		references.Add(new string[]{"Valider","Confirm"}); //4
