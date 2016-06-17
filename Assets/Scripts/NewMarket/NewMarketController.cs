@@ -134,7 +134,7 @@ public class NewMarketController : MonoBehaviour
 			{
 				this.isLeftClicked=false;
 			}
-			else if(Input.touches[0].deltaPosition.x<-15f)
+			else if(Input.touches[0].deltaPosition.x<-ApplicationDesignRules.swipeCoefficient)
 			{
 				this.isLeftClicked=false;
 				if(this.marketContentDisplayed || this.mainContentDisplayed || this.toSlideLeft)
@@ -143,7 +143,7 @@ public class NewMarketController : MonoBehaviour
 					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
-			else if(Input.touches[0].deltaPosition.x>15f)
+			else if(Input.touches[0].deltaPosition.x>ApplicationDesignRules.swipeCoefficient)
 			{
 				this.isLeftClicked=false;
 				if(this.mainContentDisplayed || this.filtersDisplayed || this.toSlideRight)
@@ -1034,7 +1034,7 @@ public class NewMarketController : MonoBehaviour
 		if(ApplicationDesignRules.isMobileScreen)
 		{
 			int nbLinesToDisplay = Mathf.CeilToInt ((float)this.cardsDisplayed.Count / (float)this.cardsPerLine);
-			float contentHeight = 1.7f+(nbLinesToDisplay-1f)*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
+			float contentHeight = 2.5f+(nbLinesToDisplay-1f)*(ApplicationDesignRules.cardWorldSize.y+ApplicationDesignRules.gapBetweenMarketCardsLine);
 			this.lowerScrollCamera.GetComponent<ScrollingController> ().setContentHeight(contentHeight);
 			this.lowerScrollCamera.GetComponent<ScrollingController>().setEndPositionY();
 		}

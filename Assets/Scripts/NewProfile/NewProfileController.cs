@@ -140,7 +140,7 @@ public class NewProfileController : MonoBehaviour
 		
 		if (Input.touchCount == 1 && this.isSceneLoaded  && HelpController.instance.getCanSwipe() && BackOfficeController.instance.getCanSwipeAndScroll()) 
 		{
-			if(Input.touches[0].deltaPosition.x<-15f)
+			if(Input.touches[0].deltaPosition.x<-ApplicationDesignRules.swipeCoefficient)
 			{
 				if(this.friendsSliderDisplayed || this.mainContentDisplayed || this.toSlideLeft)
 				{
@@ -148,7 +148,7 @@ public class NewProfileController : MonoBehaviour
 					BackOfficeController.instance.setIsSwiping(true);
 				}
 			}
-			if(Input.touches[0].deltaPosition.x>15f)
+			if(Input.touches[0].deltaPosition.x>ApplicationDesignRules.swipeCoefficient)
 			{
 				if(this.mainContentDisplayed || this.resultsSliderDisplayed || this.toSlideRight)
 				{
