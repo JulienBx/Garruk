@@ -9,8 +9,12 @@ using System.Linq;
 public class InscriptionFacebookPopUpController : MonoBehaviour 
 {
 
+	public Sprite[] touButtonSprites;
+	private bool touAcepted;
+
 	public void reset(string mail)
 	{
+		this.touAcepted=false;
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Title1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Information1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
@@ -28,6 +32,7 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Button").GetComponent<InscriptionFacebookPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild("CloseButton").GetComponent<InscriptionFacebookPopUpCloseButtonController>().reset();
 		gameObject.transform.FindChild("existingAccountButton").GetComponent<InscriptionFacebookPopUpExistingAccountButtonController>().reset();
+		this.applyTouSprites();
 	}
 	public void computeLabels()
 	{
@@ -41,6 +46,7 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 		gameObject.transform.FindChild("Information4").GetComponent<TextMeshPro> ().text = WordingInscriptionFacebookPopUp.getReference(7);
 		gameObject.transform.FindChild("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingInscriptionFacebookPopUp.getReference(8);
 		gameObject.transform.FindChild("existingAccountButton").GetComponent<TextMeshPro>().text=WordingInscriptionFacebookPopUp.getReference(9);
+		gameObject.transform.FindChild("Information5").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(9);
 	}
 	public void resize()
 	{
@@ -58,6 +64,12 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		AuthenticationController.instance.inscriptionFacebookHandler();
+	}
+	public void touHandler()
+	{
+		SoundController.instance.playSound(8);
+		this.touAcepted=!this.touAcepted;
+		this.applyTouSprites();
 	}
 	public void existingAccountHandler()
 	{
@@ -81,11 +93,33 @@ public class InscriptionFacebookPopUpController : MonoBehaviour
 	{
 		return gameObject.transform.FindChild ("Input4").GetComponent<InputTextGuiController> ().getText ();
 	}
+	public bool getTouAccepted()
+	{
+		return this.touAcepted;
+	}
 	public void exitPopUp()
 	{
 		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideInscriptionFacebookPopUp();
 	}
+	public void applyTouSprites()
+	{
+		if(this.touAcepted)
+		{
+			gameObject.transform.FindChild("TouButton").GetComponent<SpriteRenderer>().sprite=this.touButtonSprites[0];
+		}
+		else
+		{
+			gameObject.transform.FindChild("TouButton").GetComponent<SpriteRenderer>().sprite=this.touButtonSprites[1];
+		}
+	}
+	public void touLinkHandler()
+    {
+		if(TMP_TextUtilities.FindIntersectingLink(gameObject.transform.FindChild ("Information5").GetComponent<TextMeshPro> (),Input.mousePosition,Camera.main)!=-1)
+        {
+			Application.OpenURL(WordingInscriptionPopUp.getReference(10));
+        }
+    }
 }
 

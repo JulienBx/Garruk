@@ -297,6 +297,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		string password1 = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().getFirstPassword();
 		string password2 = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController> ().getSecondPassword();
 		string email = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController>().getEmail();
+		bool tooAccepted = this.inscriptionPopUp.transform.GetComponent<InscriptionPopUpController>().getTouAccepted();
 		string error = this.checkUsername(login);
 		if(error=="")
 		{
@@ -309,11 +310,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 					error=this.checkEmail(email);
 					if(error=="")
 					{
-						ApplicationModel.player.Username=login;
-						ApplicationModel.player.Password=password1;
-						ApplicationModel.player.Mail=email;
-						ApplicationModel.player.IsAccountActivated=false;
-						StartCoroutine(this.createNewAccount());
+						error=this.checkTouAccepted(tooAccepted);
+						if(error=="")
+						{
+							ApplicationModel.player.Username=login;
+							ApplicationModel.player.Password=password1;
+							ApplicationModel.player.Mail=email;
+							ApplicationModel.player.IsAccountActivated=false;
+							StartCoroutine(this.createNewAccount());
+						}
 					}
 				}
 			}
@@ -347,6 +352,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		string password1 = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().getFirstPassword();
 		string password2 = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController> ().getSecondPassword();
 		string email = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController>().getEmail();
+		bool touAccepted = this.inscriptionFacebookPopUp.transform.GetComponent<InscriptionFacebookPopUpController>().getTouAccepted();
 		string error = this.checkUsername(login);
 		if(error=="")
 		{
@@ -359,18 +365,22 @@ public class AuthenticationController : Photon.MonoBehaviour
 					error=this.checkEmail(email);
 					if(error=="")
 					{
-						ApplicationModel.player.Username=login;
-						ApplicationModel.player.Password=password1;
-						if(email!=ApplicationModel.player.Mail)
+						error=this.checkTouAccepted(touAccepted);
+						if(error=="")
 						{
-							ApplicationModel.player.IsAccountActivated=false;
+							ApplicationModel.player.Username=login;
+							ApplicationModel.player.Password=password1;
+							if(email!=ApplicationModel.player.Mail)
+							{
+								ApplicationModel.player.IsAccountActivated=false;
+							}
+							else
+							{
+								ApplicationModel.player.IsAccountActivated=true;
+							}
+							ApplicationModel.player.Mail=email;
+							StartCoroutine(this.createNewFacebookAccount());
 						}
-						else
-						{
-							ApplicationModel.player.IsAccountActivated=true;
-						}
-						ApplicationModel.player.Mail=email;
-						StartCoroutine(this.createNewFacebookAccount());
 					}
 				}
 			}
@@ -825,6 +835,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 		if(login=="")
 		{
 			return WordingAuthentication.getReference(1);
+		} 
+		return "";
+	}
+	public string checkTouAccepted(bool touAccepted)
+	{
+		if(!touAccepted)
+		{
+			return WordingAuthentication.getReference(15);
 		} 
 		return "";
 	}
