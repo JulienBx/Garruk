@@ -6,7 +6,6 @@ public class Chasseur : GameSkill
 	public Chasseur()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Chasseur";
 		base.ciblage = 12 ;
 		base.auto = true;
 		base.id = 131 ;
@@ -35,9 +34,9 @@ public class Chasseur : GameSkill
 		int bonus = 10+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, base.name," VS "+WordingCardTypes.getName(i),i));
+		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, this.getText(0)," VS "+WordingCardTypes.getName(i),i));
 		GameView.instance.getPlayingCardController(target).showIcons();
-		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"% VS "+WordingCardTypes.getName(i), 1);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\nDégats +"+bonus+"% VS "+WordingCardTypes.getName(i), 1);
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 		Debug.Log("Tile "+GameView.instance.getTile(target).x+","+GameView.instance.getTile(target).y);
 	}

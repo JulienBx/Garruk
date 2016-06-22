@@ -5,8 +5,10 @@ public class Berserk : GameSkill
 {
 	public Berserk(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Berserk";
-		base.ciblage = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Berserk","Berserk"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
 		base.auto = false;
 		base.id = 16 ;
 	}
@@ -32,7 +34,7 @@ public class Berserk : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -46,9 +48,9 @@ public class Berserk : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
-		string text = base.name+"\n-"+damages+"PV";				
+		string text = this.getText(1, new List<int>{damages});				
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,16,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -57,13 +59,13 @@ public class Berserk : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*1.25f));
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
+		string text = this.getText(2, new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});				
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
@@ -72,8 +74,8 @@ public class Berserk : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int autoDamages = currentCard.getNormalDamagesAgainst(currentCard, 25-level*2);
-		string autotext = base.name+"\n-"+autoDamages+" PV";				
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,base.name,autoDamages+" dégats subis"), true, -1);
+		string autotext = this.getText(0)+"\n-"+this.getText(1,new List<int>{autoDamages});				
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(autoDamages,-1,16,this.getText(0),""), true, -1);
 		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), autotext, 0);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

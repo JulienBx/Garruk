@@ -5,7 +5,6 @@ public class Chocbleu : GameSkill
 {
 	public Chocbleu(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Choc bleu";
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 132 ;
@@ -32,7 +31,7 @@ public class Chocbleu : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -92,7 +91,7 @@ public class Chocbleu : GameSkill
 
 		string text = "-"+damages+"PV";				
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -103,7 +102,7 @@ public class Chocbleu : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*GameView.instance.getCurrentSkill().Power)));
 		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
 
-		string text = base.name+"\n-"+damages+"PV";
+		string text = this.getText(0)+"\n-"+damages+"PV";
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
@@ -163,9 +162,9 @@ public class Chocbleu : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int malus = Mathf.RoundToInt(currentCard.getAttack()*malusBonus);
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addAttackModifyer(new Modifyer(-1*malus, -1, 11, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addAttackModifyer(new Modifyer(-1*malus, -1, 11, this.getText(0), ". Permanent"));
 
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n-"+malus+" ATK", 0);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n-"+malus+" ATK", 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

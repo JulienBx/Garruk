@@ -6,7 +6,6 @@ public class Furie : GameSkill
 	public Furie()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Furie";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 93 ;
@@ -14,7 +13,7 @@ public class Furie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
+		GameView.instance.launchValidationButton(this.getText(0), WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1));
 		GameController.instance.play(this.id);
 	}
 	
@@ -38,11 +37,11 @@ public class Furie : GameSkill
 		}
 
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 93, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 93, this.getText(0), ". Permanent"));
 		GameView.instance.getPlayingCardController(target).updateLife(currentCard.getLife());
-		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 93, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 93, this.getText(0), ". Permanent"));
 
-		GameView.instance.getCard(target).setFurious(new Modifyer(0, -1, 93, base.name, "Incontrolable!"));
+		GameView.instance.getCard(target).setFurious(new Modifyer(0, -1, 93, this.getText(0), "Incontrolable!"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);

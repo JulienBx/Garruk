@@ -5,7 +5,6 @@ public class Electropiege : GameSkill
 {
 	public Electropiege(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Electropiège";
 		base.ciblage = 6 ;
 		base.auto = false;
 		base.id = 13 ;
@@ -33,7 +32,7 @@ public class Electropiege : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 }

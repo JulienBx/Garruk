@@ -295,7 +295,7 @@ public class ArtificialIntelligence : MonoBehaviour
 									}
 								}
 
-								Debug.Log("Je teste "+GameSkills.instance.getSkill(skills[j].Id).name+" : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
+								Debug.Log("Je teste "+GameSkills.instance.getSkill(skills[j].Id).getText(0)+" : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
 									
 								if(actionScore>0){
 									if(actionScore+passiveScore>bestScore){

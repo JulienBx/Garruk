@@ -6,7 +6,6 @@ public class Faveur : GameSkill
 	public Faveur()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Faveur";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 104 ;
@@ -33,7 +32,7 @@ public class Faveur : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.applyOnMe(-1);
@@ -62,7 +61,7 @@ public class Faveur : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

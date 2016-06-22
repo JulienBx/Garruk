@@ -5,7 +5,10 @@ public class Bombardier : GameSkill
 {
 	public Bombardier(){
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Bombardier";
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Bombardier","Bomber"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Fou","Crazy"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 24 ;
@@ -13,7 +16,7 @@ public class Bombardier : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -37,7 +40,7 @@ public class Bombardier : GameSkill
 					GameController.instance.applyOn2(targets[i], Random.Range(mindamages,maxdamages+1));
 				}
 				else{
-					GameController.instance.esquive(targets[i],base.name);
+					GameController.instance.esquive(targets[i],this.getText(0));
 				}
 			}
 		}
@@ -56,19 +59,19 @@ public class Bombardier : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, amount);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 24, this.getText(0), ""),  (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{damages}), 0);	
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), ""), true,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2)+"\n"+this.getText(1, new List<int>{(11-myLevel)}), 0);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

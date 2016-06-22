@@ -6,7 +6,6 @@ public class Sacrifice : GameSkill
 	public Sacrifice()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Sacrifice";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 108 ;
@@ -33,7 +32,7 @@ public class Sacrifice : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.applyOnMe(-1);
@@ -46,14 +45,14 @@ public class Sacrifice : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 108, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 108, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		List<Tile> voisins = GameView.instance.getPlayingCardController(target).getTile().getImmediateNeighbourTiles();
 
 		int amount = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*(50f+level*10f)/100f));
 		for (int i = 0 ; i < voisins.Count ; i++){
 			if(GameView.instance.getTileController(voisins[i]).getCharacterID()!=-1){
 				if(!GameView.instance.getCard(GameView.instance.getTileController(voisins[i]).getCharacterID()).isDead){
-					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, base.name, damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()),-1);
+					GameView.instance.getPlayingCardController(GameView.instance.getTileController(voisins[i]).getCharacterID()).addDamagesModifyer(new Modifyer(amount, -1, 108, this.getText(0), damages+" dégats subis"), (GameView.instance.getTileController(voisins[i]).getCharacterID()==GameView.instance.getCurrentPlayingCard()),-1);
 					GameView.instance.displaySkillEffect(GameView.instance.getTileController(voisins[i]).getCharacterID(), "-"+amount+"PV", 0);
 					GameView.instance.addAnim(5,GameView.instance.getTile(GameView.instance.getTileController(voisins[i]).getCharacterID()));
 				}
@@ -81,7 +80,7 @@ public class Sacrifice : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

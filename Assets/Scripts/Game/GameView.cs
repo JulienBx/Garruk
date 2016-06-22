@@ -3598,7 +3598,7 @@ public class GameView : MonoBehaviour
 			for (int a = 0; a < this.boardWidth; a++){
 				for (int b = 0; b < this.boardHeight; b++){
 					if(this.getTileController(a,b).getCharacterID()!=-1){
-						this.getTileController(a,b).setTargetText(GameSkills.instance.getSkill(this.runningSkill).name, GameSkills.instance.getCurrentGameSkill().getTargetText(this.getTileController(a,b).getCharacterID()));
+						this.getTileController(a,b).setTargetText(GameSkills.instance.getSkill(this.runningSkill).getText(0), GameSkills.instance.getCurrentGameSkill().getTargetText(this.getTileController(a,b).getCharacterID()));
 					}
 				}
 			}

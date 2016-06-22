@@ -6,7 +6,6 @@ public class Reparation : GameSkill
 	public Reparation()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Réparation";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 36 ;
@@ -14,7 +13,7 @@ public class Reparation : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -33,8 +32,8 @@ public class Reparation : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*i,-1,36,base.name,i+" dégats soignés"), false,-1);
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+i+"PV", 2);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*i,-1,36,this.getText(0),i+" dégats soignés"), false,-1);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+i+"PV", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

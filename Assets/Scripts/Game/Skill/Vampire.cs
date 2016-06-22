@@ -5,7 +5,6 @@ public class Vampire : GameSkill
 {
 	public Vampire(){
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Vampire";
 		base.ciblage = 16 ;
 		base.auto = true;
 		base.id = 40 ;
@@ -13,7 +12,7 @@ public class Vampire : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 	}
 	
 	public override void resolve(List<Tile> targetsP)
@@ -31,7 +30,7 @@ public class Vampire : GameSkill
 					GameController.instance.applyOn(targets[i]);
 				}
 				else{
-					GameController.instance.esquive(targets[i],base.name);
+					GameController.instance.esquive(targets[i],this.getText(0));
 				}
 			}
 		}
@@ -46,7 +45,7 @@ public class Vampire : GameSkill
 		int level = 2+GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, level);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, base.name, damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()),-1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, this.getText(0), damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()),-1);
 		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
@@ -55,8 +54,8 @@ public class Vampire : GameSkill
 		int level = 2+GameView.instance.getCurrentSkill().Power;
 		int damages = value*level;
 
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(-1*damages, -1, 40, base.name, damages+" dégats subis"), false,-1);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n+"+damages+"PV", 2);	
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(-1*damages, -1, 40, this.getText(0), damages+" dégats subis"), false,-1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n+"+damages+"PV", 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -8,9 +8,8 @@ public class GameSkill
 	public List<int> results;
 	public List<int> values;
 	public List<Tile> tileTargets;
-	
-	public string name ;
-	
+	public IList<string[]> texts ;
+
 	public int ciblage ;
 	public bool auto ;
 	public int id ;
@@ -21,7 +20,20 @@ public class GameSkill
 		this.values = new List<int>();
 		this.tileTargets = new List<Tile>();
 	}
-	
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+i, ""+args[i]);
+		}
+
+		return text ;
+	}
+
 	public virtual void launch()
 	{
 		Debug.Log("Skill non implémenté");
@@ -196,7 +208,7 @@ public class GameSkill
 			Tile t2 = targets[i];
 			GameView.instance.targets.Add(t2);
 			GameView.instance.getTileController(t2.x,t2.y).displayTarget(true);
-			GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(this.id).name, GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileCharacterID(targets[i].x,targets[i].y)));	
+			GameView.instance.getTileController(t2).setTargetText(GameSkills.instance.getSkill(this.id).getText(0), GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileCharacterID(targets[i].x,targets[i].y)));	
 		}		
 	}
 

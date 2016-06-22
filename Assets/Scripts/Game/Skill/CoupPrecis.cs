@@ -5,7 +5,6 @@ public class CoupPrecis : GameSkill
 {
 	public CoupPrecis(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Coup précis";
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 59 ;
@@ -40,7 +39,7 @@ public class CoupPrecis : GameSkill
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
 			text = "-"+damages+"PV\n(lâche)";
 		}
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -53,7 +52,7 @@ public class CoupPrecis : GameSkill
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = base.name+"\n-"+damages+"PV\n(lâche)";
+			text = this.getText(0)+"\n-"+damages+"PV\n(lâche)";
 		}
 		
 		text += "\n\nHIT% : 100";
@@ -62,7 +61,7 @@ public class CoupPrecis : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -6,7 +6,6 @@ public class Manipulation : GameSkill
 	public Manipulation()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Manipulation";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 52 ;
@@ -33,7 +32,7 @@ public class Manipulation : GameSkill
 				GameController.instance.applyOn2(target, Random.Range(1, 3+2*level+1));
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(28);
@@ -42,7 +41,7 @@ public class Manipulation : GameSkill
 	}
 	
 	public override void applyOn(int target, int level){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.changePlayer(target);
@@ -65,7 +64,7 @@ public class Manipulation : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -6,7 +6,6 @@ public class Senilite : GameSkill
 	public Senilite()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Sénilité";
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 57 ;
@@ -42,7 +41,7 @@ public class Senilite : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.applyOnMe(-1);
@@ -55,7 +54,7 @@ public class Senilite : GameSkill
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), ". Permanent"));
 		GameView.instance.displaySkillEffect(target, value+" ATK", 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
@@ -65,7 +64,7 @@ public class Senilite : GameSkill
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "Virus\n"+value+" ATK", 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
@@ -91,7 +90,7 @@ public class Senilite : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

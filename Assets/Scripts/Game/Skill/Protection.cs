@@ -5,7 +5,6 @@ public class Protection : GameSkill
 {
 	public Protection(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Protection";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 29 ;
@@ -13,7 +12,7 @@ public class Protection : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -37,14 +36,14 @@ public class Protection : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 29, base.name, ". Permanent."));
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 29, this.getText(0), ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 
 		if(currentCard.isFou()){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), false,-1);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), false,-1);
 		}
 	}
 

@@ -6,7 +6,6 @@ public class Criderage : GameSkill
 	public Criderage()
 	{
 		this.numberOfExpectedTargets = 0 ;
-		base.name = "Cri de rage";
 		base.ciblage = 2 ;
 		base.auto = true;
 		base.id = 19 ;
@@ -14,7 +13,7 @@ public class Criderage : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -45,7 +44,7 @@ public class Criderage : GameSkill
 							GameController.instance.applyOn(tempInt);
 						}
 						else{
-							GameController.instance.esquive(tempInt,base.name);
+							GameController.instance.esquive(tempInt,this.getText(0));
 						}
 					}
 				}
@@ -62,13 +61,13 @@ public class Criderage : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, this.getText(0), ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

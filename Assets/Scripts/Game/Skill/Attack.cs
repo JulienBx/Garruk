@@ -5,7 +5,11 @@ public class Attack : GameSkill
 {
 	public Attack(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Attaque";
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Attaque","Attack"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nlâche","HP : ARG1 -> ARG2\ncoward"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 0 ;
@@ -13,7 +17,6 @@ public class Attack : GameSkill
 	
 	public override void launch()
 	{
-		Debug.Log("Launch");
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
 		this.displayTargets();
 	}
@@ -42,10 +45,10 @@ public class Attack : GameSkill
 		if(currentCard.isHumaHunter() && (targetCard.CardType.Id==5 ||targetCard.CardType.Id==6)){
 			damages=0;
 		}
-		string text = "-"+damages+"PV";
+		string text = this.getText(1,new List<int>{damages});
 						
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<14){
@@ -58,19 +61,19 @@ public class Attack : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
 
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
+		string text = this.getText(2,new List<int>{targetCard.getLife(),targetCard.getLife()-damages});
 						
 		if (currentCard.isLache()){
 			if(GameView.instance.getIsFirstPlayer() == currentCard.isMine){
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y-1==GameView.instance.getPlayingCardController(target).getTile().y){
 					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
+					text=this.getText(3,new List<int>{targetCard.getLife(),targetCard.getLife()-damages});
 				}
 			}
 			else{
 				if (GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile().y==GameView.instance.getPlayingCardController(target).getTile().y-1){
 					damages = Mathf.Min(targetCard.getLife(), 5+currentCard.getSkills()[0].Power+damages);
-					text="PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lache)";
+					text=this.getText(3,new List<int>{targetCard.getLife(),targetCard.getLife()-damages});
 				}
 			}
 		}
@@ -78,13 +81,13 @@ public class Attack : GameSkill
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

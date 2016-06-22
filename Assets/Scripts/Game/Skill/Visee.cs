@@ -6,7 +6,6 @@ public class Visee : GameSkill
 	public Visee()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Visee";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 25 ;
@@ -14,7 +13,7 @@ public class Visee : GameSkill
 
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 	}
 
 	public override void resolve(List<Tile> targets)
@@ -31,8 +30,8 @@ public class Visee : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, base.name, "dégats +"+bonus+"%. Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, base.name+"\nDégats +"+bonus+"%", 2);
+		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, this.getText(0), "dégats +"+bonus+"%. Actif 1 tour"));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\nDégats +"+bonus+"%", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

@@ -6,7 +6,6 @@ public class Tourelle : GameSkill
 	public Tourelle()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Tourelle";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 38 ;
@@ -14,7 +13,7 @@ public class Tourelle : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -31,7 +30,7 @@ public class Tourelle : GameSkill
 		target = GameView.instance.getCurrentPlayingCard();
 		string text = "Tourelle\nNiv.+"+level;
 		 
-		GameView.instance.getCard(target).setTourelle(new Modifyer(5+level, -1, 38, base.name, "Tourelle!"));
+		GameView.instance.getCard(target).setTourelle(new Modifyer(5+level, -1, 38, this.getText(0), "Tourelle!"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);

@@ -6,7 +6,6 @@ public class Justice : GameSkill
 	public Justice()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Justice";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 95 ;
@@ -14,7 +13,7 @@ public class Justice : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -50,7 +49,7 @@ public class Justice : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

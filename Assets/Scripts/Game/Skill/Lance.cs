@@ -5,7 +5,6 @@ public class Lance : GameSkill
 {
 	public Lance(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Lance";
 		base.ciblage = 8 ;
 		base.auto = false;
 		base.id = 91 ;
@@ -32,7 +31,7 @@ public class Lance : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -42,7 +41,7 @@ public class Lance : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
@@ -69,7 +68,7 @@ public class Lance : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

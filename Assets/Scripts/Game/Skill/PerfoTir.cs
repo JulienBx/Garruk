@@ -6,7 +6,6 @@ public class PerfoTir : GameSkill
 	public PerfoTir()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "PerfoTir";
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 31 ;
@@ -33,7 +32,7 @@ public class PerfoTir : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(35);
@@ -55,7 +54,7 @@ public class PerfoTir : GameSkill
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 31, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 31, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		string text = "-"+damages+"PV";
 		if(targetCard.getBouclier()>0){
 			text+="\nBouclier détruit";
@@ -90,11 +89,11 @@ public class PerfoTir : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), true,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

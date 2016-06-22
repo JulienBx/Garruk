@@ -5,7 +5,14 @@ public class Cannibale : GameSkill
 {
 	public Cannibale(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Cannibale" ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Cannibale","Cannibalism"});
+		texts.Add(new string[]{"Dévoré!","Eaten!"});
+		texts.Add(new string[]{"Absorbe ARG1 ATK et ARG2 PV","Absorbs ARG1 ATK and ARG2 HP"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 21 ;
@@ -31,7 +38,7 @@ public class Cannibale : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 
@@ -45,13 +52,13 @@ public class Cannibale : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "Dévoré!", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 21, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1), 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 
 	public override string getTargetText(int target){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
@@ -59,12 +66,12 @@ public class Cannibale : GameSkill
 		int bonusLife = Mathf.RoundToInt(damages*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
 
-		text += "\nAbsorbe "+bonusAttack+" ATK et "+bonusLife+" PV";
+		text += "\n"+this.getText(2,new List<int>{bonusAttack,bonusLife});
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
@@ -79,15 +86,15 @@ public class Cannibale : GameSkill
 
 		string text = "";
 		if(bonusLife>0){
-			text+="+"+bonusLife+"PV\n";
+			text+=this.getText(3, new List<int>{bonusLife})+"\n";
 		}
-		text+="+"+bonusAttack+"ATK";
+		text+=this.getText(4, new List<int>{bonusAttack});
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 
 		GameView.instance.getPlayingCardController(targetMe).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(targetMe).updateLife(currentCard.getLife());
-		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, base.name, ". Permanent"));
-		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(targetMe).addAttackModifyer(new Modifyer(bonusAttack, -1, 21, this.getText(0), this.getText(5)));
+		GameView.instance.getPlayingCardController(targetMe).addPVModifyer(new Modifyer(bonusLife, -1, 21, this.getText(0), this.getText(5)));
 		GameView.instance.displaySkillEffect(targetMe, text, 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(targetMe));
 

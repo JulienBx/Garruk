@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Alchemy : GameSkill
 {
 	public Alchemy()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Alchemy";
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Alchimie","Alchemy"});
+		texts.Add(new string[]{"ARG1 cristaux créés","Creation of ARG1 cristals"});
+		texts.Add(new string[]{"1 cristal créé","Creation of 1 cristal"});
+		texts.Add(new string[]{"échec","fail"});
+
 		base.ciblage = 6 ;
 		base.auto = true;
 		base.id = 42 ;
@@ -14,7 +20,7 @@ public class Alchemy : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(base.id);
 	}
 	
@@ -48,13 +54,13 @@ public class Alchemy : GameSkill
 
 	public override void applyOnMe(int value){
 		if(value>1){
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+"cristaux créés", 2);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(1, new List<int>{value}), 2);
 		}
 		else if(value==1){
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+"cristal créé", 2);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2), 2);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npas de cristal créé", 0);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(3), 0);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

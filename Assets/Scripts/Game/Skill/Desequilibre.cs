@@ -7,7 +7,6 @@ public class Desequilibre : GameSkill
 	public Desequilibre()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Déséquilibre";
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 92 ;
@@ -34,7 +33,7 @@ public class Desequilibre : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -47,7 +46,7 @@ public class Desequilibre : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
-		string text = base.name+"\n-"+damages+"PV";
+		string text = this.getText(0)+"\n-"+damages+"PV";
 
 		Tile targetTile = GameView.instance.getPlayingCardController(target).getTile();
 		Tile currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
@@ -89,7 +88,7 @@ public class Desequilibre : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -5,7 +5,6 @@ public class Copieur : GameSkill
 {
 	public Copieur(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Copieur";
 		base.ciblage = 9 ;
 		base.auto = false;
 		base.id = 105 ;

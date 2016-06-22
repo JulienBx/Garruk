@@ -5,7 +5,6 @@ public class Terreur : GameSkill
 {
 	public Terreur(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Terreur";
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 20 ;
@@ -39,7 +38,7 @@ public class Terreur : GameSkill
 				GameController.instance.applyOn2(target,result);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.applyOnMe(-1);
@@ -57,11 +56,11 @@ public class Terreur : GameSkill
 		string text = "-"+damages+"PV";				
 		if(result==1){
 			text+="\nEffrayé";
-			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, base.name, "Inactif au prochain tour"));
+			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, this.getText(0), "Inactif au prochain tour"));
 			GameView.instance.getPlayingCardController(target).showIcons();
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
@@ -85,7 +84,7 @@ public class Terreur : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

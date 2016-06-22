@@ -6,7 +6,6 @@ public class Malediction : GameSkill
 	public Malediction()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Malédiction";
 		base.ciblage = 12 ;
 		base.auto = true;
 		base.id = 106 ;
@@ -43,7 +42,7 @@ public class Malediction : GameSkill
 		int malus = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*level/100f));
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 106, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 106, this.getText(0), ". Actif 1 tour"));
 		GameView.instance.displaySkillEffect(target, "-"+malus+"ATK", 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}

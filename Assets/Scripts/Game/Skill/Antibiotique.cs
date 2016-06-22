@@ -6,7 +6,9 @@ public class Antibiotique : GameSkill
 	public Antibiotique()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Antibiotique";
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Antibiotique","Antibiotics"});
+		texts.Add(new string[]{"Succès\nEffets dissipés","Success\nRemoved all effects"});
 		base.ciblage = 9 ;
 		base.auto = false;
 		base.id = 7;
@@ -32,7 +34,7 @@ public class Antibiotique : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(31);
@@ -43,7 +45,7 @@ public class Antibiotique : GameSkill
 	public override void applyOn(int target){
 		GameView.instance.getPlayingCardController(target).emptyModifiers();
 		GameView.instance.getPlayingCardController(target).show();
-		GameView.instance.displaySkillEffect(target, "Succès\nEffets dissipés", 2);
+		GameView.instance.displaySkillEffect(target, this.getText(1), 2);
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
 	}	
 	
@@ -55,22 +57,20 @@ public class Antibiotique : GameSkill
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
 	public override int getActionScore(Tile t, Skill s){
 		int score = 0 ;
-		int tempScore ;
 		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		GameCard targetCard2;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
 		score+=2*(targetCard.Attack-targetCard.getAttack())+1*(targetCard.Life-targetCard.GetTotalLife())+5*(targetCard.Move-targetCard.getMove());

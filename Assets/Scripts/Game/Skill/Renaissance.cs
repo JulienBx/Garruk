@@ -6,7 +6,6 @@ public class Renaissance : GameSkill
 	public Renaissance()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Renaissance";
 		base.ciblage = 17 ;
 		base.auto = true;
 		base.id = 100 ;

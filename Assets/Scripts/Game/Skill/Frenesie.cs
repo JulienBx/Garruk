@@ -6,7 +6,6 @@ public class Frenesie : GameSkill
 	public Frenesie()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Frénésie";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 18 ;
@@ -14,7 +13,7 @@ public class Frenesie : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -34,10 +33,10 @@ public class Frenesie : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,base.name,damages+" dégats subis"), true,-1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,this.getText(0),damages+" dégats subis"), true,-1);
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, base.name, ". Permanent"));
-		GameView.instance.displaySkillEffect(target, base.name+"\n+5ATK\n-"+damages+"PV", 1);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, this.getText(0), ". Permanent"));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+5ATK\n-"+damages+"PV", 1);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

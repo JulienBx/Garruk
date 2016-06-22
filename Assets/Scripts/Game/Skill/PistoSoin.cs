@@ -6,7 +6,6 @@ public class PistoSoin : GameSkill
 	public PistoSoin()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Soin";
 		base.ciblage = 14 ;
 		base.auto = false;
 		base.id = 2;
@@ -42,7 +41,7 @@ public class PistoSoin : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(37);
@@ -94,7 +93,7 @@ public class PistoSoin : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

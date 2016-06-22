@@ -5,8 +5,9 @@ public class Assassinat : GameSkill
 {
 	public Assassinat(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Assassinat";
-		base.ciblage = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Assassinat","Slaying"});
+		texts.Add(new string[]{"Cible détruite!","Target destroyed!"});
 		base.auto = false;
 		base.id = 10 ;
 	}
@@ -32,7 +33,7 @@ public class Assassinat : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -45,25 +46,25 @@ public class Assassinat : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 10, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1), 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int id){	
 		GameCard targetCard = GameView.instance.getCard(id);
-		string text = "Détruit l'unité!";
+		string text = this.getText(1);
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		return text ;
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

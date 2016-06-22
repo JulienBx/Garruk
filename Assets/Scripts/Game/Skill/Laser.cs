@@ -6,7 +6,6 @@ public class Laser : GameSkill
 	public Laser()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Laser";
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 22 ;
@@ -34,7 +33,7 @@ public class Laser : GameSkill
 				GameController.instance.applyOn2(target, Random.Range(5+level, 15+level));
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(35);
@@ -56,8 +55,8 @@ public class Laser : GameSkill
 			value = Mathf.RoundToInt(1.25f*value);
 		}
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
-		string text = base.name+"\n-"+damages+"PV";
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		string text = this.getText(0)+"\n-"+damages+"PV";
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 22, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);	
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
@@ -88,11 +87,11 @@ public class Laser : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, base.name, (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), true,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

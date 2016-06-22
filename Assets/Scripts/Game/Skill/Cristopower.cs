@@ -6,7 +6,6 @@ public class Cristopower : GameSkill
 	public Cristopower()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "CristoPower";
 		base.ciblage = 11 ;
 		base.auto = false;
 		base.id = 128 ;
@@ -30,7 +29,7 @@ public class Cristopower : GameSkill
 			GameController.instance.removeRock(target);
 		}
 		else{
-			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),base.name);
+			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),this.getText(0));
 		}
 		GameController.instance.playSound(37);
 
@@ -41,8 +40,8 @@ public class Cristopower : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, base.name, ". Permanent"));
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" ATK", 2);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, this.getText(0), ". Permanent"));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+value+" ATK", 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 	

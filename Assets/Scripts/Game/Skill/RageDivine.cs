@@ -6,7 +6,6 @@ public class RageDivine : GameSkill
 	public RageDivine()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Rage Divine";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 109 ;
@@ -14,7 +13,7 @@ public class RageDivine : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),  GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 
@@ -34,7 +33,7 @@ public class RageDivine : GameSkill
 				SoundController.instance.playSound(34);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(30);
@@ -46,13 +45,13 @@ public class RageDivine : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 109, base.name, damages+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 109, this.getText(0), damages+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
 		GameView.instance.displaySkillEffect(target, "Rage divine", 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

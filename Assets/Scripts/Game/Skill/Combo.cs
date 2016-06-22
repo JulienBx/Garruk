@@ -5,7 +5,6 @@ public class Combo : GameSkill
 {
 	public Combo(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Combo";
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 12 ;
@@ -33,7 +32,7 @@ public class Combo : GameSkill
 				GameController.instance.applyOn2(target, Random.Range(1,max+1));
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -53,7 +52,7 @@ public class Combo : GameSkill
 		}
 
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,12,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,12,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 	
@@ -80,7 +79,7 @@ public class Combo : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 		SoundController.instance.playSound(25);
 	}

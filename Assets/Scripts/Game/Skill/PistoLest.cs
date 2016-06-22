@@ -6,7 +6,6 @@ public class PistoLest : GameSkill
 	public PistoLest()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "PistoLest";
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 5 ;
@@ -42,7 +41,7 @@ public class PistoLest : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(34);
@@ -56,8 +55,8 @@ public class PistoLest : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, amount);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
@@ -71,8 +70,8 @@ public class PistoLest : GameSkill
 		int damages = Mathf.RoundToInt(currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(amount*amount2/100f)));
 		int move = -1*Mathf.Min(targetCard.getMove()-1, Mathf.RoundToInt(1*amount2/100f));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, base.name, damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
@@ -98,7 +97,7 @@ public class PistoLest : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

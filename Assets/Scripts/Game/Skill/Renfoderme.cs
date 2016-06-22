@@ -6,7 +6,6 @@ public class Renfoderme : GameSkill
 	public Renfoderme()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Renfoderme";
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 39 ;
@@ -41,7 +40,7 @@ public class Renfoderme : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(28);
@@ -53,7 +52,7 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+level*2;
 		
-		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, ". Permanent."));
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, this.getText(0), ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
@@ -63,7 +62,7 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = Mathf.RoundToInt((10+level*4)*value/100f);
 		
-		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, base.name, ". Permanent."));
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, this.getText(0), ". Permanent."));
 		GameView.instance.displaySkillEffect(target, "Virus\nBouclier "+bonusShield+"%", 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
@@ -85,7 +84,7 @@ public class Renfoderme : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

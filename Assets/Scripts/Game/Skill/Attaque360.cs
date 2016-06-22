@@ -6,7 +6,10 @@ public class Attaque360 : GameSkill
 	public Attaque360()
 	{
 		this.numberOfExpectedTargets = 0 ;
-		base.name = "Attaque 360";
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Attaque 360","Attack 360"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = 1 ;
 		base.auto = true;
 		base.id = 17 ;
@@ -14,7 +17,7 @@ public class Attaque360 : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -45,7 +48,7 @@ public class Attaque360 : GameSkill
 							GameController.instance.applyOn(tempInt);
 						}
 						else{
-							GameController.instance.esquive(tempInt,base.name);
+							GameController.instance.esquive(tempInt,this.getText(0));
 						}
 					}
 				}
@@ -64,13 +67,13 @@ public class Attaque360 : GameSkill
 		int percentage = Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f);
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, percentage);
 		
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,17,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1,new List<int>{damages}), 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,17,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

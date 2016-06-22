@@ -5,7 +5,6 @@ public class Guerilla : GameSkill
 {
 	public Guerilla(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Guerilla";
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 15 ;
@@ -32,7 +31,7 @@ public class Guerilla : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(25);
@@ -52,7 +51,7 @@ public class Guerilla : GameSkill
 			text = "-"+damages+"PV\n(lâche)";
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,15,base.name,damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,15,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -78,7 +77,7 @@ public class Guerilla : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\npeut se déplacer", 2);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\npeut se déplacer", 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

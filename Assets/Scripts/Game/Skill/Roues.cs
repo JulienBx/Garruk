@@ -6,7 +6,6 @@ public class Roues : GameSkill
 	public Roues()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Roues";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 50 ;
@@ -14,7 +13,7 @@ public class Roues : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name,GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0),GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -32,11 +31,11 @@ public class Roues : GameSkill
 		int malusAttack = Mathf.RoundToInt((0.5f-level*0.05f)*currentCard.getAttack());
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(2,-1,50,base.name,". Permanent"));
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(2,-1,50,this.getText(0),". Permanent"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malusAttack, -1, 50, base.name, ". Permanent"));
-		GameView.instance.displaySkillEffect(target, base.name+"\n+2MOV\n-"+malusAttack+"ATK", 1);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malusAttack, -1, 50, this.getText(0), ". Permanent"));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+2MOV\n-"+malusAttack+"ATK", 1);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

@@ -6,7 +6,6 @@ public class Poison : GameSkill
 	public Poison()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Poison";
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 94 ;
@@ -40,7 +39,7 @@ public class Poison : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(30);
@@ -51,7 +50,7 @@ public class Poison : GameSkill
 	public override void applyOn(int target){
 		int level = 5+GameView.instance.getCurrentSkill().Power;
 
-		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "-"+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), "-"+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Perd "+level+"PV par tour", 0);	
@@ -61,7 +60,7 @@ public class Poison : GameSkill
 	public override void applyOnViro(int target, int value){
 		int level = Mathf.RoundToInt((5+GameView.instance.getCurrentSkill().Power)*value/100f);
 
-		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, base.name, "-"+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), "-"+level+"PV en fin de tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "(Virus)\nPerd "+level+"PV par tour", 0);	
@@ -83,7 +82,7 @@ public class Poison : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

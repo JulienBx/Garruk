@@ -6,15 +6,17 @@ public class ArmureTech : GameSkill
 	public ArmureTech()
 	{
 		this.numberOfExpectedTargets = 0 ; 
-		base.name = "Armure Tech";
 		base.ciblage = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Armure Tech","Tech Armor"});
+		texts.Add(new string[]{"Armure ARG1%","ARG1% Armor"});
 		base.auto = true;
 		base.id = 45 ;
 	}
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -29,9 +31,9 @@ public class ArmureTech : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		target = GameView.instance.getCurrentPlayingCard();
-		string text = "Armure Tech\nNiv.+"+level;
+		string text = this.getText(0)+"\n"+this.getText(1,new List<int>{10+4*level});
 		 
-		GameView.instance.getCard(target).setArmureTech(new Modifyer(10+4*level, -1, 45, base.name, "Renvoie "+(10+4*level)+"% des dégats subis"));
+		GameView.instance.getCard(target).setArmureTech(new Modifyer(10+4*level, -1, 45, this.getText(0), ""));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);

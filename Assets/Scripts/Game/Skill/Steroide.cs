@@ -6,7 +6,6 @@ public class Steroide : GameSkill
 	public Steroide()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Stéroides";
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 56 ;
@@ -43,7 +42,7 @@ public class Steroide : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(37);
@@ -54,7 +53,7 @@ public class Steroide : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56,this.getText(0), ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
@@ -62,7 +61,7 @@ public class Steroide : GameSkill
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, this.getText(0), ". Permanent"));
 		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
@@ -82,7 +81,7 @@ public class Steroide : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

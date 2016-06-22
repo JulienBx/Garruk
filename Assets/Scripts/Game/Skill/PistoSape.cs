@@ -6,7 +6,6 @@ public class PistoSape : GameSkill
 	public PistoSape()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "PistoSape";
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 4 ;
@@ -41,7 +40,7 @@ public class PistoSape : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(34);
@@ -50,7 +49,7 @@ public class PistoSape : GameSkill
 	}
 
 	public override void applyOn(int target, int value){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
@@ -61,7 +60,7 @@ public class PistoSape : GameSkill
 	}
 
 	public override void applyOnViro2(int target, int value, int amount){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
@@ -87,7 +86,7 @@ public class PistoSape : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

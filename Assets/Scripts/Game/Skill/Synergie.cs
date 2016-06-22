@@ -5,7 +5,6 @@ public class Synergie : GameSkill
 {
 	public Synergie(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Synergie";
 		base.ciblage = 15 ;
 		base.auto = false;
 		base.id = 133 ;
@@ -32,7 +31,7 @@ public class Synergie : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.applyOnMe(-1);
@@ -41,7 +40,7 @@ public class Synergie : GameSkill
 	}
 	
 	public override void applyOn(int target){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
@@ -68,7 +67,7 @@ public class Synergie : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -6,7 +6,6 @@ public class Furtivite : GameSkill
 	public Furtivite()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Furtivité";
 		base.ciblage = 10 ;
 		base.auto = true;
 		base.id = 9 ;
@@ -14,7 +13,7 @@ public class Furtivite : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 	
@@ -32,12 +31,12 @@ public class Furtivite : GameSkill
 		int attack = GameView.instance.getCurrentSkill().Power+5;
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(attack, 2, 9, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(attack, 2, 9, this.getText(0), ". Actif 1 tour"));
 
-		GameView.instance.getPlayingCardController(target).addMagicalEsquiveModifyer(new Modifyer(100, 2, 9, base.name, ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addMagicalEsquiveModifyer(new Modifyer(100, 2, 9, this.getText(0), ". Actif 1 tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+attack+" ATK", 2);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+attack+" ATK", 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

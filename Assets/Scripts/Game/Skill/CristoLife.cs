@@ -6,7 +6,6 @@ public class Cristolife : GameSkill
 	public Cristolife()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "CristoLife";
 		base.ciblage = 11 ;
 		base.auto = false;
 		base.id = 129 ;
@@ -30,7 +29,7 @@ public class Cristolife : GameSkill
 			GameController.instance.removeRock(target);
 		}
 		else{
-			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),base.name);
+			GameController.instance.esquive(GameView.instance.getCurrentPlayingCard(),this.getText(0));
 		}
 		GameController.instance.playSound(37);
 
@@ -39,9 +38,9 @@ public class Cristolife : GameSkill
 
 	public override void applyOnMe(int value){
 		int target = GameView.instance.getCurrentPlayingCard();
-		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, base.name, ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, this.getText(0), ". Permanent"));
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
-		GameView.instance.displaySkillEffect(target, base.name+"\n+"+value+" PV", 2);	
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+value+" PV", 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 	

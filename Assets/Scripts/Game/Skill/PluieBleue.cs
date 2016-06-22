@@ -6,7 +6,6 @@ public class PluieBleue : GameSkill
 	public PluieBleue()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Pluie Bleue";
 		base.ciblage = -2 ;
 		base.auto = false;
 		base.id = 130 ;
@@ -46,7 +45,7 @@ public class PluieBleue : GameSkill
 				GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 			}
 			else{
-				GameController.instance.esquive(playerID,base.name);
+				GameController.instance.esquive(playerID,this.getText(0));
 			}
 		}
 		if(targetsTile[0].x<GameView.instance.boardWidth-1){
@@ -65,7 +64,7 @@ public class PluieBleue : GameSkill
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
-					GameController.instance.esquive(playerID,base.name);
+					GameController.instance.esquive(playerID,this.getText(0));
 				}
 			}
 		}
@@ -85,7 +84,7 @@ public class PluieBleue : GameSkill
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
-					GameController.instance.esquive(playerID,base.name);
+					GameController.instance.esquive(playerID,this.getText(0));
 				}
 			}
 		}
@@ -105,7 +104,7 @@ public class PluieBleue : GameSkill
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
-					GameController.instance.esquive(playerID,base.name);
+					GameController.instance.esquive(playerID,this.getText(0));
 				}
 			}
 		}
@@ -125,7 +124,7 @@ public class PluieBleue : GameSkill
 					GameController.instance.applyOn2(playerID, Random.Range(minDamages,maxDamages+1));
 				}
 				else{
-					GameController.instance.esquive(playerID,base.name);
+					GameController.instance.esquive(playerID,this.getText(0));
 				}
 			}
 		}
@@ -145,18 +144,18 @@ public class PluieBleue : GameSkill
 			else{
 				GameView.instance.displaySkillEffect(target, "+"+Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())+" PV", 1);
 			}
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, this.getText(0), value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 130, base.name, value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 130, this.getText(0), value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
 			GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
 			GameView.instance.addAnim(5,GameView.instance.getTile(target));
 		}
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 	

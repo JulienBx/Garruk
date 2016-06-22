@@ -41,7 +41,7 @@ public class SkillZoneController : MonoBehaviour
 		if(this.isRunningSkill){
 			if(!GameView.instance.isMobile){
 				gameObject.transform.FindChild("CancelZone").FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-				gameObject.transform.FindChild("CancelZone").FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours\n-"+GameSkills.instance.getCurrentGameSkill().name+"-";
+				gameObject.transform.FindChild("CancelZone").FindChild("Text").GetComponent<TextMeshPro>().text = "Annuler la compétence en cours\n-"+GameSkills.instance.getCurrentGameSkill().getText(0)+"-";
 				this.showSkillButtons(false);
 				GameView.instance.passZone.GetComponent<PassController>().show(false);
 				this.showCancelButton (true);

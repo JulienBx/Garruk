@@ -6,7 +6,6 @@ public class PistoBoost : GameSkill
 	public PistoBoost()
 	{
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "PistoBoost";
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 3 ;
@@ -41,7 +40,7 @@ public class PistoBoost : GameSkill
 				}
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(37);
@@ -51,7 +50,7 @@ public class PistoBoost : GameSkill
 	}
 	
 	public override void applyOn(int target, int level){
-		string text = base.name;
+		string text = this.getText(0);
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
@@ -61,7 +60,7 @@ public class PistoBoost : GameSkill
 	}	
 
 	public override void applyOnViro2(int target, int value, int level){
-		string text = base.name;
+		string text = this.getText(0);
 		int bonus = Mathf.RoundToInt(level*value/100f);
 		GameCard targetCard = GameView.instance.getCard(target);
 
@@ -86,7 +85,7 @@ public class PistoBoost : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

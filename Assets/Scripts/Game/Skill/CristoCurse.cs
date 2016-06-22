@@ -5,7 +5,6 @@ public class CristoCurse : GameSkill
 {
 	public CristoCurse(){
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "CristoCurse";
 		base.ciblage = 9 ;
 		base.auto = false;
 		base.id = 41 ;
@@ -73,7 +72,7 @@ public class CristoCurse : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(),this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 		SoundController.instance.playSound(36);
 	}

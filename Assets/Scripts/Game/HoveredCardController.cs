@@ -294,7 +294,7 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.bouclierModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % bouclier"+c.bouclierModifyers[i].description;
+					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % Bouclier"+c.bouclierModifyers[i].description;
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{

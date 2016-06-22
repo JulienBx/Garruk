@@ -6,7 +6,6 @@ public class Pisteur : GameSkill
 	public Pisteur()
 	{
 		this.numberOfExpectedTargets = 0 ;
-		base.name = "Pisteur";
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 14 ;
@@ -14,7 +13,7 @@ public class Pisteur : GameSkill
 	
 	public override void launch()
 	{
-		GameView.instance.launchValidationButton(base.name, GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
+		GameView.instance.launchValidationButton(this.getText(0), GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, GameView.instance.getCurrentSkill().Power-1)));
 		GameController.instance.play(this.id);
 	}
 
@@ -47,10 +46,10 @@ public class Pisteur : GameSkill
 
 	public override void applyOnMe(int value){
 		if(value>0){
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\n"+value+" pièges découverts", 2);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+value+" pièges découverts", 2);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name+"\naucun piège découvert", 2);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\naucun piège découvert", 2);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

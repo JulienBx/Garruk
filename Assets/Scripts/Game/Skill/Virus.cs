@@ -5,7 +5,6 @@ public class Virus : GameSkill
 {
 	public Virus(){
 		this.numberOfExpectedTargets = 1 ;
-		base.name = "Virus";
 		base.ciblage = 18 ;
 		base.auto = false;
 		base.id = 37 ;
@@ -32,7 +31,7 @@ public class Virus : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(30);
@@ -44,7 +43,7 @@ public class Virus : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, base.name, damages+" dégats subis"), false,-1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, this.getText(0), damages+" dégats subis"), false,-1);
 		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
@@ -62,7 +61,7 @@ public class Virus : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

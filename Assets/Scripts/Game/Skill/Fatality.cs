@@ -6,7 +6,6 @@ public class Fatality : GameSkill
 	public Fatality()
 	{
 		this.numberOfExpectedTargets = 1 ; 
-		base.name = "Fatalité";
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 101 ;
@@ -33,7 +32,7 @@ public class Fatality : GameSkill
 				GameController.instance.applyOn(target);
 			}
 			else{
-				GameController.instance.esquive(target,base.name);
+				GameController.instance.esquive(target,this.getText(0));
 			}
 		}
 		GameController.instance.playSound(30);
@@ -45,7 +44,7 @@ public class Fatality : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setFatality(new Modifyer(0, 1, 101, base.name, "Meurt au prochain tour"));
+		GameView.instance.getCard(target).setFatality(new Modifyer(0, 1, 101, this.getText(0), "Meurt au prochain tour"));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, "Meurt au prochain tour", 0);	
@@ -67,7 +66,7 @@ public class Fatality : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), base.name, 1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
