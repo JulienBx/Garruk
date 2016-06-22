@@ -12,6 +12,7 @@ public class NewFocusedCardController : MonoBehaviour
 	public GameObject[] skills;
 	public GameObject experience;
 	public GameObject cardUpgrade;
+	public GameObject levelUp;
 	public GameObject panelSold;
 	public GameObject nextLevelPopUp;
 	public GameObject attack;
@@ -158,6 +159,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.getRessources ();
 		this.setUpdateSpeed ();
 		this.cardUpgrade = this.gameObject.transform.FindChild ("CardUpgrade").gameObject;
+		this.levelUp=this.gameObject.transform.FindChild("LevelUp").gameObject;
 		this.panelSold = this.gameObject.transform.FindChild ("PanelSold").gameObject;
 		this.panelSold.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingCard.getReference(2);
 		this.buyPopUp = this.gameObject.transform.FindChild ("BuyPopUp").gameObject;
@@ -265,6 +267,7 @@ public class NewFocusedCardController : MonoBehaviour
 	{
 		if(hasChangedLevel)
 		{
+			this.levelUp.SetActive(false);
 			this.show ();
 			if(this.collectionPointsEarned>0)
 			{
@@ -910,6 +913,7 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.experience.GetComponent<NewFocusedCardExperienceController>().setToUpdateXp(false);
 			this.setIsXpBeingUpdated(false);
+			this.levelUp.SetActive(false);
 		}
 		if(this.isNextLevelPopUpDisplayed)
 		{
@@ -1247,6 +1251,10 @@ public class NewFocusedCardController : MonoBehaviour
             description +=WordingCard.getReference(0)+WordingSkills.getProba(idSkill,level)+WordingCard.getReference(1);
         }
         return description;	
+	}
+	public GameObject returnLevelUpObject()
+	{
+		return this.levelUp;
 	}
 
 	#region help functions

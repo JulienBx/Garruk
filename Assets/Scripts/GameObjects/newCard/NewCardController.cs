@@ -135,6 +135,10 @@ public class NewCardController : NewFocusedCardController
 		{
 			base.setHighlightedSkills();
 		}
+		if(hasChangedLevel)
+		{
+			this.levelUp.SetActive(false);
+		}
 	}
 	public override void endUpdatingCardToNextLevel()
 	{

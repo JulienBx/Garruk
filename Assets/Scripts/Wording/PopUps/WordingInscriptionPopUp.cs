@@ -23,5 +23,7 @@ public class WordingInscriptionPopUp
 		references.Add(new string[]{"Adresse email","Email address"});//6
 		references.Add(new string[]{"C'est parti","Let's start!"});//7
 		references.Add(new string[]{"Ou","Or"});//8
+		references.Add(new string[]{"En vous inscrivant, vous acceptez les conditions d'utilisation de Techtical Wars disponibles sur <link=\"cgu\"><u>https://fr.techticalwars.com/cgu/</u></link>","By signing up, you accept the terms of uses available on <link=\"tou\"><u>https://www.techticalwars.com/tou/</u></link>"});//9
+		references.Add(new string[]{"https://fr.techticalwars.com/cgu/","https://www.techticalwars.com/tou/"});
 	}
 }

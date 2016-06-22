@@ -32,8 +32,11 @@ public class NewCardPanelMarketController : SimpleButtonController
 	}
 	public override void mainInstruction ()
 	{
-		SoundController.instance.playSound(8);
-		this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
+        if(!BackOfficeController.instance.getIsScrolling() && !BackOfficeController.instance.getIsSwiping())
+        {
+            SoundController.instance.playSound(8);
+		    this.gameObject.transform.parent.GetComponent<NewCardMarketController>().panelMarketHandler();
+        }
 	}
 	public override void showToolTip ()
 	{

@@ -33,5 +33,9 @@ public class NewCardExperienceController : NewFocusedCardExperienceController
 	{
 		gameObject.transform.parent.GetComponent<NewFocusedCardController>().endUpdatingXp (hasLevelChanged);
 	}
+	public override void getLevelUpObject()
+	{
+		this.levelUp=gameObject.transform.parent.GetComponent<NewFocusedCardController>().returnLevelUpObject();
+	}
 }
 

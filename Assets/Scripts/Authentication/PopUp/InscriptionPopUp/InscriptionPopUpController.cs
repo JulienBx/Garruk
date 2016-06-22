@@ -8,8 +8,13 @@ using System.Linq;
 
 public class InscriptionPopUpController : MonoBehaviour 
 {
+
+	public Sprite[] touButtonSprites;
+	private bool touAcepted;
+
 	public void reset()
 	{
+		this.touAcepted=false;
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Title1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.whiteTextColor;
 		gameObject.transform.FindChild("Information1").GetComponent<TextMeshPro>().color=ApplicationDesignRules.greyTextColor;
@@ -25,6 +30,7 @@ public class InscriptionPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Input4").GetComponent<InputTextGuiController> ().setText ("");
 		gameObject.transform.FindChild ("Button").GetComponent<InscriptionPopUpConfirmButtonController> ().reset ();
 		gameObject.transform.FindChild("CloseButton").GetComponent<InscriptionPopUpCloseButtonController>().reset();
+		this.applyTouSprites();
 	}
 	public void computeLabels()
 	{
@@ -43,6 +49,7 @@ public class InscriptionPopUpController : MonoBehaviour
 		gameObject.transform.FindChild ("Title3").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(5);
 		gameObject.transform.FindChild ("Title4").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(6);
 		gameObject.transform.FindChild ("Button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(7);
+		gameObject.transform.FindChild ("Information3").GetComponent<TextMeshPro> ().text = WordingInscriptionPopUp.getReference(9);
 	}
 	public void resize()
 	{
@@ -55,6 +62,12 @@ public class InscriptionPopUpController : MonoBehaviour
 	public void setError(string error)
 	{
 		gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = error;
+	}
+	public void touHandler()
+	{
+		SoundController.instance.playSound(8);
+		this.touAcepted=!this.touAcepted;
+		this.applyTouSprites();
 	}
 	public void inscriptionHandler()
 	{
@@ -77,11 +90,33 @@ public class InscriptionPopUpController : MonoBehaviour
 	{
 		return gameObject.transform.FindChild ("Input4").GetComponent<InputTextGuiController> ().getText ();
 	}
+	public bool getTouAccepted()
+	{
+		return this.touAcepted;
+	}
 	public void exitPopUp()
 	{
 		SoundController.instance.playSound(8);
 		AuthenticationController.instance.displayLoginPopUp();
 		AuthenticationController.instance.hideInscriptionPopUp();
 	}
+	public void applyTouSprites()
+	{
+		if(this.touAcepted)
+		{
+			gameObject.transform.FindChild("TouButton").GetComponent<SpriteRenderer>().sprite=this.touButtonSprites[0];
+		}
+		else
+		{
+			gameObject.transform.FindChild("TouButton").GetComponent<SpriteRenderer>().sprite=this.touButtonSprites[1];
+		}
+	}
+	public void touLinkHandler()
+    {
+		if(TMP_TextUtilities.FindIntersectingLink(gameObject.transform.FindChild ("Information3").GetComponent<TextMeshPro> (),Input.mousePosition,Camera.main)!=-1)
+        {
+			Application.OpenURL(WordingInscriptionPopUp.getReference(10));
+        }
+    }
 }
 

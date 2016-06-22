@@ -19,6 +19,11 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	private bool hasLevelChanged;
 	private float scaleSpeed;
 	private float nbIteration;
+	public GameObject levelUp;
+
+	private float levelUpAngle;
+	private float levelUpSpeed;
+	private Quaternion levelUpTarget;
 	
 	public virtual void Update ()
 	{
@@ -59,6 +64,12 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 				this.setToUpdateXp(false);
 				this.endUpdatingXp(this.hasLevelChanged);
 			}
+			if(this.hasLevelChanged)
+			{
+				this.levelUpAngle = this.levelUpAngle + this.levelUpSpeed * Time.deltaTime;
+				this.levelUpTarget = Quaternion.Euler (0f,0f, this.levelUpAngle);
+				this.levelUp.transform.FindChild("Picto").transform.rotation = levelUpTarget;
+			}
 		}
 	}
 	public virtual void endUpdatingXp(bool hasLevelChanged)
@@ -79,6 +90,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 	public virtual void startUpdatingXp(int endLevel, int endPercentage)
 	{
 		SoundController.instance.playSound(6);
+		this.getLevelUpObject();
 		this.hasLevelChanged = false;
 		this.startLevel = this.currentLevel;
 		this.startPercentage = this.currentPercentage;
@@ -88,6 +100,10 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 		if(this.endLevel!=this.startLevel)
 		{
 			this.hasLevelChanged=true;
+			this.levelUpAngle=0f;
+			this.levelUpSpeed=100f;
+			this.levelUp.SetActive(true);
+			this.levelUp.GetComponent<TextMeshPro>().text="Level up!";
 		}
 		if(this.endLevel!=10)
 		{
@@ -97,8 +113,12 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 		{
 			this.nbIteration=10f-(float)this.startLevel-this.startPercentage;
 		}
-		this.scaleSpeed = 1f*nbIteration;
+		this.scaleSpeed = 0.75f*nbIteration;
 		this.setToUpdateXp(true);
+	}
+	public virtual void getLevelUpObject()
+	{
+		this.levelUp=gameObject.transform.parent.transform.parent.GetComponent<NewFocusedCardController>().returnLevelUpObject();
 	}
 	public virtual void updateGauge(float currentPercentage)
 	{
