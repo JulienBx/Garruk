@@ -524,8 +524,7 @@ public class NewProfileController : MonoBehaviour
 		this.profileChooseLanguageButton = GameObject.Find("ProfileChooseLanguageButton");
 		this.profileChooseLanguageButton.AddComponent<NewProfileChooseLanguageButtonController>();
 		this.profileChooseLanguageButton.GetComponent<SpriteRenderer>().sprite=this.languageSprites[ApplicationModel.player.IdLanguage];
-		//this.profileChooseLanguageButton.SetActive(this.isMyProfile);
-		this.profileChooseLanguageButton.SetActive(false);
+		this.profileChooseLanguageButton.SetActive(this.isMyProfile);
 		this.profileStats = new GameObject[4];
 		for(int i=0;i<this.profileStats.Length;i++)
 		{
@@ -978,7 +977,7 @@ public class NewProfileController : MonoBehaviour
 			this.profileEditInformationsButton.transform.position = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 1.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileEditPasswordButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 2.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileSoundSettingsButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 3.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
-			this.profileExitApplicationButton.SetActive(true);
+			this.profileExitApplicationButton.SetActive(this.isMyProfile);
 			this.profileExitApplicationButton.transform.position  = new Vector3 (profileBlockUpperLeftPosition.x +ApplicationDesignRules.blockHorizontalSpacing + 4.5f*ApplicationDesignRules.roundButtonWorldSize.x, profileBlockUpperLeftPosition.y - 2.5f, 0f);
 			this.profileLine.transform.position = new Vector3 (profileBlockLowerLeftPosition.x+profileBlockSize.x/2f, profileBlockUpperLeftPosition.y - 3f, 0f);
 
