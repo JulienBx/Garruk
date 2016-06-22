@@ -31,9 +31,9 @@ public class WordingSkillBook
 		references.Add(new string[]{"Non découverte","Undiscovered"}); //14
 		references.Add(new string[]{"Découverte (niveau ","Discovered (level "}); //15
 		references.Add(new string[]{")",")"}); //16
-		references.Add(new string[]{"Compétence",""}); //17
-		references.Add(new string[]{"Accédez au détail des compétences pour voir la liste de leurs effets selon le niveau atteint",""}); //18
-		references.Add(new string[]{"Niveau",""}); //19
-		references.Add(new string[]{"Plus le niveau d'une compétence est élevée, plus son impact est grand sur le champ de bataille. Au fil des combats, vos unités progressent et le niveau de leurs compétences augmente.",""}); //20
+		references.Add(new string[]{"Compétence","Skill"}); //17
+		references.Add(new string[]{"Accédez au détail des compétences pour voir la liste de leurs effets selon le niveau atteint","Check skill details to ream more about skill effects depending on their level"}); //18
+		references.Add(new string[]{"Niveau","Level"}); //19
+		references.Add(new string[]{"Plus le niveau d'une compétence est élevée, plus son impact est grand sur le champ de bataille. Au fil des combats, vos unités progressent et le niveau de leurs compétences augmente.","Skills effects increases as they improve. Your units earns experience points while fighting, then you can use it to improve your skills"}); //20
 	}
 }

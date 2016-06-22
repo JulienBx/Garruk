@@ -26,7 +26,7 @@ public class WordingPacks
 
 		references=new List<string[]>();
 		references.Add(new string[]{"Payer ","Buy "});
-		references.Add(new string[]{"Achat d'un pack",""});
-		references.Add(new string[]{"achat d'un pack ...",""});
+		references.Add(new string[]{"Achat d'un pack","Buy a pack"});
+		references.Add(new string[]{"achat d'un pack ...","Buy a pack..."});
 	}
 }

@@ -29,15 +29,15 @@ public class WordingGameModes
 		references.Add(new string[]{"En attente d'un joueur","Waiting for a colonist"}); //7
 		references.Add(new string[]{"Bataille classée","Ranked fight"}); //8
 		references.Add(new string[]{"Bataille d'entrainement","Practice fight"}); //9
-		references.Add(new string[]{"Entrainement","Training"}); //10
+		references.Add(new string[]{"Entrainement","Practice"}); //10
 		references.Add(new string[]{"J'y vais","Let's go"}); //11
-		references.Add(new string[]{"Votre équipe doit comporter uniquement des unités de la faction ",""}); //12
-		references.Add(new string[]{"Amical",""}); //13
-		references.Add(new string[]{"Rencontrez un adversaire aléatoire",""}); //14
-		references.Add(new string[]{"Entrainement",""}); //15
-		references.Add(new string[]{"Débloquez de nouvelles cartes",""}); //16
-		references.Add(new string[]{"Conquête",""}); //15
-		references.Add(new string[]{"Rencontrez des adversaires de votre division",""}); //16
+		references.Add(new string[]{"Votre équipe doit comporter uniquement des unités de la faction ","Your must select a team with 4 units of the faction : "}); //12
+		references.Add(new string[]{"Duel","Skirmish"}); //13
+		references.Add(new string[]{"Rencontrez un adversaire aléatoire","Fight a random opponent"}); //14
+		references.Add(new string[]{"Entrainement","Practice"}); //15
+		references.Add(new string[]{"Débloquez de nouvelles factions","Unlock new factions!"}); //16
+		references.Add(new string[]{"Conquête","Conquest"}); //15
+		references.Add(new string[]{"Combattez des adversaires de plus en plus puissants","Fight tougher and tougher opponents"}); //16
 
 		names=new List<string[]>();
 		names.Add(new string[]{"Alderaan #1","Alderaan #1"}); //0

@@ -37,7 +37,7 @@ public class Steroide : GameSkill
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), Mathf.Max(1,Mathf.RoundToInt(amount*(0.25f+GameView.instance.getCurrentCard().Skills[0].Power*0.05f))));
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), Mathf.Max(1,Mathf.RoundToInt(amount*(0.10f+GameView.instance.getCurrentCard().Skills[0].Power*0.05f))));
 						}
 					}
 				}
@@ -99,7 +99,7 @@ public class Steroide : GameSkill
 		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f)*((levelMin+levelMax)/2)*2);
 
 		if(currentCard.isVirologue()){
-			levelMax = Mathf.RoundToInt((5+s.Power*2)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			levelMax = Mathf.RoundToInt((5+s.Power*2)*(10f+currentCard.Skills[0].Power*5f)/100f);
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for(int i = 0; i < neighbours.Count; i++){
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){

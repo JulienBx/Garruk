@@ -792,7 +792,7 @@ public class PlayingCardController : GameObjectController
 	public void checkPaladin(bool toDisplay){
 		if((card.Skills[0].Id == 73)){
 			int level = card.Skills[0].Power;
-			int bonusAttack = Mathf.RoundToInt((level*5f+20f)*card.Attack/100f);
+			int bonusAttack = Mathf.RoundToInt((level*5f+10f)*card.Attack/100f);
 			int bonusMove = -1*Mathf.Min(card.getMove()-1,1);
 
 			this.addAttackModifyer(new Modifyer(bonusAttack, -1, 73, WordingSkills.getName(card.Skills[0].Id), ". Permanent"));
@@ -808,7 +808,7 @@ public class PlayingCardController : GameObjectController
 
 	public void checkAgile(bool toDisplay){
 		if((card.Skills[0].Id == 66)){
-			int level = 20+card.Skills[0].Power*4;
+			int level = 10+card.Skills[0].Power*4;
 						
 			this.addEsquiveModifyer(new Modifyer(level, -1, 66, "Agile", ". Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
@@ -822,7 +822,7 @@ public class PlayingCardController : GameObjectController
 
 	public void checkFantassin(bool toDisplay){
 		if((card.Skills[0].Id == 68)){
-			int level = 20+card.Skills[0].Power*4;
+			int level = 10+card.Skills[0].Power*4;
 						
 			this.addMagicalEsquiveModifyer(new Modifyer(level, -1, 68, "Fantassin", ". Permanent"));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
@@ -872,15 +872,17 @@ public class PlayingCardController : GameObjectController
 
 	public void checkRapide(bool toDisplay){
 		if((card.Skills[0].Id == 71)){
-			int level = 11-card.Skills[0].Power;
+			int level = 10-card.Skills[0].Power;
 		
 			GameView.instance.getPlayingCardController(this.id).addMoveModifyer(new Modifyer(1, -1, 71, "Rapide", ". Permanent."));
 			GameView.instance.getPlayingCardController(this.id).showIcons();
 
-			GameView.instance.getPlayingCardController(this.id).addAttackModifyer(new Modifyer(-1*level, -1, 71, "Rapide", ". Permanent."));
-			if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
-				GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
-				GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
+			if(level!=0){
+				GameView.instance.getPlayingCardController(this.id).addAttackModifyer(new Modifyer(-1*level, -1, 71, "Rapide", ". Permanent."));
+				if(toDisplay && !ApplicationModel.player.ToLaunchGameTutorial){
+					GameView.instance.displaySkillEffect(this.id, "Rapide\n+1MOV\n-"+level+"ATK", 1);	
+					GameView.instance.addAnim(7,GameView.instance.getTile(this.id));
+				}
 			}
 		}
 	}

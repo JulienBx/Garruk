@@ -23,7 +23,7 @@ public class Blesser : GameSkill
 		int target = GameView.instance.getTileCharacterID(targets[0].x, targets[0].y);
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int minMalus = GameView.instance.getCurrentSkill().Power ;
-		int maxMalus = GameView.instance.getCurrentSkill().Power+12;
+		int maxMalus = GameView.instance.getCurrentSkill().Power+5;
 
 		if (Random.Range(1,101) <= GameView.instance.getCard(target).getEsquive())
 		{                             
@@ -64,7 +64,7 @@ public class Blesser : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f));
 		int minMalus = GameView.instance.getCurrentSkill().Power ;
-		int maxMalus = GameView.instance.getCurrentSkill().Power+12;
+		int maxMalus = GameView.instance.getCurrentSkill().Power+5;
 		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nATK : "+targetCard.getAttack()+" -> ["+Mathf.Max(1, targetCard.getAttack()-minMalus)+"-"+Mathf.Max(1, targetCard.getAttack()-maxMalus)+"]\nActif 1 tour";				
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
@@ -100,7 +100,7 @@ public class Blesser : GameSkill
 		}
 
 		int levelMin = s.Power;
-		int levelMax = 12+s.Power;
+		int levelMax = 5+s.Power;
 
 		score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(targetCard.getLife()/50f)*Mathf.Min(targetCard.getAttack(),((levelMin+levelMax)/2)));
 

@@ -20,7 +20,7 @@ public class WordingMenu
 		references.Add(new string[]{"Accueil","Home"}); //0
 		references.Add(new string[]{"Mes unités","My units"}); //1
 		references.Add(new string[]{"Recrutement","Enlist"}); //2
-		references.Add(new string[]{"Marché","Trade market"}); //3
+		references.Add(new string[]{"Marché","Market"}); //3
 		references.Add(new string[]{"Cristalopedia","Cristalopedia"}); //4
 		references.Add(new string[]{"Arene","Fight"}); //5
 

@@ -43,7 +43,52 @@ public class Chocbleu : GameSkill
 	public override void applyOn(int target){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		GameCard targetCard = GameView.instance.getCard(target);
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*GameView.instance.getCurrentSkill().Power)));
+		int level = GameView.instance.getCurrentSkill().Power;
+		float attackBonus = 0 ; 
+		float malusBonus = 0 ;
+
+		if(level==1){
+			attackBonus = 1.2f;
+			malusBonus = 0.6f;
+		}
+		else if(level==2){
+			attackBonus = 1.2f;
+			malusBonus = 0.5f;
+		}
+		else if(level==3){
+			attackBonus = 1.3f;
+			malusBonus = 0.5f;
+		}
+		else if(level==4){
+			attackBonus = 1.3f;
+			malusBonus = 0.4f;
+		}
+		else if(level==5){
+			attackBonus = 1.4f;
+			malusBonus = 0.4f;
+		}
+		else if(level==6){
+			attackBonus = 1.4f;
+			malusBonus = 0.3f;
+		}
+		else if(level==7){
+			attackBonus = 1.5f;
+			malusBonus = 0.3f;
+		}
+		else if(level==8){
+			attackBonus = 1.5f;
+			malusBonus = 0.2f;
+		}
+		else if(level==9){
+			attackBonus = 1.6f;
+			malusBonus = 0.2f;
+		}
+		else if(level==10){
+			attackBonus = 1.6f;
+			malusBonus = 0.1f;
+		}
+
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(attackBonus)));
 
 		string text = "-"+damages+"PV";				
 
@@ -70,8 +115,53 @@ public class Chocbleu : GameSkill
 	}
 
 	public override void applyOnMe(int value){
+		int level = GameView.instance.getCurrentSkill().Power;
+		float attackBonus = 0 ; 
+		float malusBonus = 0 ;
+
+		if(level==1){
+			attackBonus = 1.2f;
+			malusBonus = 0.6f;
+		}
+		else if(level==2){
+			attackBonus = 1.2f;
+			malusBonus = 0.5f;
+		}
+		else if(level==3){
+			attackBonus = 1.3f;
+			malusBonus = 0.5f;
+		}
+		else if(level==4){
+			attackBonus = 1.3f;
+			malusBonus = 0.4f;
+		}
+		else if(level==5){
+			attackBonus = 1.4f;
+			malusBonus = 0.4f;
+		}
+		else if(level==6){
+			attackBonus = 1.4f;
+			malusBonus = 0.3f;
+		}
+		else if(level==7){
+			attackBonus = 1.5f;
+			malusBonus = 0.3f;
+		}
+		else if(level==8){
+			attackBonus = 1.5f;
+			malusBonus = 0.2f;
+		}
+		else if(level==9){
+			attackBonus = 1.6f;
+			malusBonus = 0.2f;
+		}
+		else if(level==10){
+			attackBonus = 1.6f;
+			malusBonus = 0.1f;
+		}
+
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int malus = Mathf.RoundToInt(currentCard.getAttack()*0.5f);
+		int malus = Mathf.RoundToInt(currentCard.getAttack()*malusBonus);
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).updateAttack(currentCard.getAttack());
 		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addAttackModifyer(new Modifyer(-1*malus, -1, 11, base.name, ". Permanent"));
 
@@ -82,9 +172,54 @@ public class Chocbleu : GameSkill
 	public override int getActionScore(Tile t, Skill s){
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
+		int level = s.Power;
+		float attackBonus = 0 ; 
+		float malusBonus = 0 ;
+
+		if(level==1){
+			attackBonus = 1.2f;
+			malusBonus = 0.6f;
+		}
+		else if(level==2){
+			attackBonus = 1.2f;
+			malusBonus = 0.5f;
+		}
+		else if(level==3){
+			attackBonus = 1.3f;
+			malusBonus = 0.5f;
+		}
+		else if(level==4){
+			attackBonus = 1.3f;
+			malusBonus = 0.4f;
+		}
+		else if(level==5){
+			attackBonus = 1.4f;
+			malusBonus = 0.4f;
+		}
+		else if(level==6){
+			attackBonus = 1.4f;
+			malusBonus = 0.3f;
+		}
+		else if(level==7){
+			attackBonus = 1.5f;
+			malusBonus = 0.3f;
+		}
+		else if(level==8){
+			attackBonus = 1.5f;
+			malusBonus = 0.2f;
+		}
+		else if(level==9){
+			attackBonus = 1.6f;
+			malusBonus = 0.2f;
+		}
+		else if(level==10){
+			attackBonus = 1.6f;
+			malusBonus = 0.1f;
+		}
+
 		int proba = WordingSkills.getProba(s.Id,s.Power);
-		float malusAttack = currentCard.getAttack()/2f; ;
-		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(1.2f+0.04f*s.Power)));
+		float malusAttack = currentCard.getAttack()*malusBonus; ;
+		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(attackBonus)));
 		int score ;
 		if(damages>=targetCard.getLife()){
 			score=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*(200)+targetCard.getLife()/10f);

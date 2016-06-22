@@ -34,7 +34,7 @@ public class Vitamines : GameSkill
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), 25+GameView.instance.getCurrentCard().Skills[0].Power*5);
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), 10+GameView.instance.getCurrentCard().Skills[0].Power*5);
 						}
 					}
 				}
@@ -51,7 +51,7 @@ public class Vitamines : GameSkill
 	public override void applyOn(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 
-		int level = GameView.instance.getCurrentSkill().Power*2+5;
+		int level = GameView.instance.getCurrentSkill().Power*2+2;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		if(soin==0){
@@ -73,7 +73,7 @@ public class Vitamines : GameSkill
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 
-		int level = Mathf.RoundToInt((GameView.instance.getCurrentSkill().Power*2f+5f)*value/100f);
+		int level = Mathf.RoundToInt((GameView.instance.getCurrentSkill().Power*2f+2f)*value/100f);
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 		int move = Mathf.RoundToInt(1f*value/100f);
 
@@ -95,7 +95,7 @@ public class Vitamines : GameSkill
 	
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
-		int level = GameView.instance.getCurrentSkill().Power*2+5;
+		int level = GameView.instance.getCurrentSkill().Power*2+2;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+1MOV, Actif 1 tour";
@@ -122,12 +122,12 @@ public class Vitamines : GameSkill
 
 		int missingLife = targetCard.GetTotalLife()-targetCard.getLife();
 
-		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*Mathf.Min(missingLife,5+2*s.Power));
+		score+=Mathf.RoundToInt((proba-targetCard.getEsquive()/100f)*Mathf.Min(missingLife,2+2*s.Power));
 		score+=10;
 
 		if(currentCard.isVirologue()){
-			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
-			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMin2 = Mathf.RoundToInt(s.Power*(10f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((2+s.Power*2)*(10f+currentCard.Skills[0].Power*5f)/100f);
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for(int i = 0; i < neighbours.Count; i++){
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){

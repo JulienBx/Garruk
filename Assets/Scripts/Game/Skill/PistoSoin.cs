@@ -36,7 +36,7 @@ public class PistoSoin : GameSkill
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), amount, GameView.instance.getCurrentCard().Skills[0].Power*5+25);
+							GameController.instance.applyOnViro2(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), amount, GameView.instance.getCurrentCard().Skills[0].Power*5+10);
 						}
 					}
 				}
@@ -112,8 +112,8 @@ public class PistoSoin : GameSkill
 		score+=Mathf.RoundToInt(((proba-targetCard.getMagicalEsquive())/100f)*((missingLife*(Mathf.Max(0f,levelMax-missingLife)))+(((levelMin+Mathf.Min(levelMax,missingLife))/2f)*Mathf.Min(levelMax,missingLife)))/(levelMax-levelMin+1f));
 
 		if(currentCard.isVirologue()){
-			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
-			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMin2 = Mathf.RoundToInt((4+s.Power)*(10f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((14+s.Power)*(10f+currentCard.Skills[0].Power*5f)/100f);
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for(int i = 0; i < neighbours.Count; i++){
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){

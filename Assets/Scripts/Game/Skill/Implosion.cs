@@ -46,8 +46,8 @@ public class Implosion : GameSkill
 					else{
 						if (Random.Range(1,101) <= proba){
 							targetCard = GameView.instance.getCard(tempInt);
-							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 10+2*GameView.instance.getCurrentSkill().Power);
-							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 30+2*GameView.instance.getCurrentSkill().Power);
+							minDamages = currentCard.getNormalDamagesAgainst(targetCard, 5+2*GameView.instance.getCurrentSkill().Power);
+							maxDamages = currentCard.getNormalDamagesAgainst(targetCard, 20+2*GameView.instance.getCurrentSkill().Power);
 							GameController.instance.applyOn2(tempInt, Random.Range(minDamages, maxDamages+1));
 						}
 						else{
@@ -93,8 +93,8 @@ public class Implosion : GameSkill
 			target = GameView.instance.getTileController(tempTiles[i]).getCharacterID();
 			if(target!=-1){
 				targetCard = GameView.instance.getCard(target);
-				levelMin = Mathf.FloorToInt((10+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
-				levelMax = Mathf.FloorToInt((30+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+				levelMin = Mathf.FloorToInt((5+s.Power*2)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+				levelMax = Mathf.FloorToInt((20+2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 				if(currentCard.isFou()){
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);
 				}

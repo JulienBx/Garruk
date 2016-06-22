@@ -28,7 +28,7 @@ public class Mitraillette : GameSkill
 		Tile currentTile = GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()); 
 		Tile targetTile ; 
 		int proba = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
-		int maxDamages = GameView.instance.getCurrentSkill().Power*2;
+		int maxDamages = 3+GameView.instance.getCurrentSkill().Power*2;
 		if(currentCard.isFou()){
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
@@ -138,7 +138,7 @@ public class Mitraillette : GameSkill
 			for(int i = 0 ; i < targets.Count ; i++){
 				targetCard = GameView.instance.getCard(targets[i]);
 				levelMin = 1;
-				levelMax = Mathf.FloorToInt((2*s.Power)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
+				levelMax = Mathf.FloorToInt((2*s.Power+3)*(1f+currentCard.getBonus(targetCard)/100f)*(1f-(targetCard.getBouclier()/100f)));
 
 				if(currentCard.isFou()){
 					levelMax = Mathf.RoundToInt(1.25f*levelMax);

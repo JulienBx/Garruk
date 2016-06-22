@@ -39,7 +39,7 @@ public class WordingCardName
 		 
 		//65 - Lâche
 		idSkills.Add(65);
-		names.Add(new string[]{"Rolik","Rolik"}); 
+		names.Add(new string[]{"Ranak","Ranak"}); 
 
 		//66 - Agile
 		idSkills.Add(66);

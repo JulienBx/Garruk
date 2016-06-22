@@ -23,9 +23,9 @@ public class WordingStore
 		references.Add(new string[]{"Boutique","Shop"}); //6
 		references.Add(new string[]{"Merci de bien vouloir saisir une valeur","Please type a number"}); //7
 		references.Add(new string[]{"Vendre","Sell"}); //8
-		references.Add(new string[]{"Acheter des cristaux",""}); //9
-		references.Add(new string[]{"La boutique vous permet d'acheter des cristaux supplémentaires et d'accélérer votre progression dans le jeu",""}); //10
-		references.Add(new string[]{"Retour",""}); //11
-		references.Add(new string[]{"Revenir au centre de recrutement",""}); //12
+		references.Add(new string[]{"Acheter des cristaux","Buy cristals"}); //9
+		references.Add(new string[]{"La boutique vous permet d'acheter des cristaux supplémentaires et d'accélérer votre progression dans le jeu","In the shop you can buy some cristals with your terran money. Cristals help you to get better units and to train them before fighting"}); //10
+		references.Add(new string[]{"Retour","Back"}); //11
+		references.Add(new string[]{"Revenir au centre de recrutement","Back to the store"}); //12
 	}
 }

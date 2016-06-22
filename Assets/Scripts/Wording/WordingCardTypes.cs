@@ -36,10 +36,10 @@ public class WordingCardTypes
 		descriptions.Add(new string[]{"Les PREDATEURS sont les unités les plus puissantes de Cristalia mais ne sont efficaces qu'au corps à corps","Predators are the strongest units, but they are slow and need to come closer to their ennemies to attack"});
 		descriptions.Add(new string[]{"Les TROOPERS préfèrent attaquer à distance et sont très peu résistants. Protégez-les au maximum!","The trooper can use his long range weapons to attack ennemies. Troopers are difficult to protect as they do not have much HP"});
 		descriptions.Add(new string[]{"Les MENTALISTES disposent de compétences unques pour perturber les stratégies et unités ennemies.","Mentalist master illusions and can get to their ennemies mind to confuse or use them"});
-		descriptions.Add(new string[]{"Les ROBOTS sont des unités très résistantes mais peu puissantes, à moins qu'un SCIENTIFIQUE ne les aide","Robots a"});
-		descriptions.Add(new string[]{"Les CRISTOIDES sont les habitants originels de Cristalia, et se renforcent mutuellement sur le champ de bataille.",""});
-		descriptions.Add(new string[]{"Les MYSTIQUES disposent de compétences puissantes mais qui peuvent également pénaliser vos unités.",""});
-		descriptions.Add(new string[]{"Les ARTISANS peuvent aider leurs alliés en façonnant des armures ou des batiments de soutien",""});
-		descriptions.Add(new string[]{"Les TERRAFORMEURS sont les maitres du champ de bataille, et peuvent utiliser celui-ci pour triompher!",""});
+		descriptions.Add(new string[]{"Les ROBOTS sont des unités très résistantes mais peu puissantes, à moins qu'un SCIENTIFIQUE ne les aide","ROBOTS are strenghtful, powerful, but slow... unless SCIENTISTS help them"});
+		descriptions.Add(new string[]{"Les CRISTOIDES peuvent se servir des cristaux, et se renforcent mutuellement sur le champ de bataille.","CRISTOIDS can use cristals on the battlefield, and help each other during fights"});
+		descriptions.Add(new string[]{"Les MYSTIQUES disposent de compétences puissantes mais qui peuvent également pénaliser vos unités.","MYSTICS use powerful skills but these can also affect your own units"});
+		descriptions.Add(new string[]{"Les SCIENTIFIQUES peuvent aider leurs alliés en façonnant des armures ou des batiments de soutien","SCIENTISTS can use their skills to create weapons or build facilities for their team."});
+		descriptions.Add(new string[]{"Les TERRAFORMEURS sont les maitres du champ de bataille, et peuvent utiliser celui-ci pour triompher!","TERRAFORMERS can use the battlefield in many ways to turn the tide of the fight"});
 	}
 }

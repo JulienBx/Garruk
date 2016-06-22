@@ -26,7 +26,7 @@ public class Cristolife : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 
 		if (Random.Range(1,101) <= proba){
-			GameController.instance.applyOnMe(Random.Range(2*level, 7+2*level));
+			GameController.instance.applyOnMe(Random.Range(5+level, 10+level));
 			GameController.instance.removeRock(target);
 		}
 		else{
@@ -60,7 +60,7 @@ public class Cristolife : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int proba = WordingSkills.getProba(s.Id,s.Power);
 
-		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getAttack()/20f)*(2.5f*s.Power)) ;
+		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getAttack()/20f)*(7.5f+s.Power)) ;
 		score = score * GameView.instance.IA.getSoutienFactor() ;
 
 		return score ;

@@ -32,7 +32,7 @@ public class Chasseur : GameSkill
 	public override void applyOnMe(int i){
 		Debug.Log("Chasseur "+i);
 		int level = GameView.instance.getCurrentSkill().Power;
-		int bonus = 20+4*level;
+		int bonus = 10+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();
 
 		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, base.name," VS "+WordingCardTypes.getName(i),i));
@@ -64,7 +64,7 @@ public class Chasseur : GameSkill
 					bestScore = cardTypes[targetCard.CardType.Id];
 				}
 			}
-			score = Mathf.RoundToInt(bestScore*40f*(20f+4f*s.Power)/100f) ;
+			score = Mathf.RoundToInt(bestScore*40f*(10f+4f*s.Power)/100f) ;
 			score = score * GameView.instance.IA.getSoutienFactor() ;
 		}
 		return score ;

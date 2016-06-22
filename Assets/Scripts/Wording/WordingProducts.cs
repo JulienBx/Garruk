@@ -14,10 +14,10 @@ public class WordingProducts
 	static WordingProducts()
 	{
 		references=new List<string[]>();
-		references.Add(new string[]{"Non dispo",""}); //0
-		references.Add(new string[]{"Choisissez votre bonus :",""}); //1
-        references.Add(new string[]{" cristals"," crystals"}); //2
+		references.Add(new string[]{"Non dispo","Unavailable"}); //0
+		references.Add(new string[]{"Choisissez votre offre :","Choose an offer :"}); //1
+        references.Add(new string[]{" cristals"," cristals"}); //2
         references.Add(new string[]{"Acheter","Buy"}); //3
-		references.Add(new string[]{"La boutique n'est pas disponible, revenez plus tard !\nCode erreur : ",""}); //4
+		references.Add(new string[]{"La boutique n'est pas disponible, revenez plus tard !\nCode erreur : ","Shop is closed, please come back later.\nError code :"}); //4
 	}
 }

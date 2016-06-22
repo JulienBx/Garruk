@@ -43,7 +43,7 @@ public class Furtivite : GameSkill
 
 	public override string getTargetText(int target){
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		int attack = GameView.instance.getCurrentSkill().Power+5;
+		int attack = GameView.instance.getCurrentSkill().Power+2;
 
 		string text = "ATK : "+currentCard.getAttack()+" -> "+(currentCard.getAttack()+attack);
 
@@ -56,7 +56,7 @@ public class Furtivite : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		GameCard targetCard ;
 		int proba = WordingSkills.getProba(s.Id,s.Power);
-		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getLife()/50f)*(5f+s.Power));
+		int score = Mathf.RoundToInt((proba/100f)*(currentCard.getLife()/50f)*(2f+s.Power));
 		List<int> enemies = GameView.instance.getOpponents(false);
 		for(int i = 0 ; i < enemies.Count ; i++){
 			targetCard = GameView.instance.getCard(enemies[i]);

@@ -19,7 +19,7 @@ public class WordingPagination
 		references.Add(new string[]{" sur "," on "}); //2
 		references.Add(new string[]{"aucune unité à afficher","No unit to display"}); //3
 		references.Add(new string[]{"compétence ","skill "}); //4
-		references.Add(new string[]{"aucune compétence à afficher",""}); //5
+		references.Add(new string[]{"aucune compétence à afficher","No skill to display"}); //5
 		references.Add(new string[]{"pack ","pack "}); //6
 		references.Add(new string[]{"aucun pack à afficher","no pack to display"}); //7
 	}

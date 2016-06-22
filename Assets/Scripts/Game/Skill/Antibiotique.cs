@@ -86,31 +86,6 @@ public class Antibiotique : GameSkill
 			score = -1*score;
 		}
 
-		if(currentCard.isVirologue()){
-			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
-			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
-			List<Tile> neighbours = t.getImmediateNeighbourTiles();
-			for(int i = 0; i < neighbours.Count; i++){
-				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){
-					targetCard2 = GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y));
-					tempScore = 0 ;
-					tempScore+=2*(targetCard.Attack-targetCard.getAttack())+1*(targetCard.Life-targetCard.GetTotalLife())+5*(targetCard.Move-targetCard.getMove());
-					if(targetCard.isPoisoned()){
-						tempScore+=20;
-					}
-					else if(targetCard.isEffraye()){
-						tempScore+=15;
-					}
-					tempScore = Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*tempScore) ;
-					tempScore+=targetCard.getLife()-40;
-					if(targetCard.isMine){
-						tempScore = -1*tempScore;
-					}
-					score+=tempScore;
-				}
-			}
-		}
-
 		score = score * GameView.instance.IA.getSoutienFactor() ;
 		return score ;
 	}

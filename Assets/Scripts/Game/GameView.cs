@@ -487,7 +487,7 @@ public class GameView : MonoBehaviour
 		if(gc.isPiegeur() && this.isFirstPlayer){
 			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
 			for (int i = 0 ; i < tiles2.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles2[i], 5+2*gc.getPassiveSkillLevel(), gc.isMine);
+				GameController.instance.addPiegeurTrap(tiles2[i], 10+gc.getPassiveSkillLevel(), gc.isMine);
 			}
 		}
 	}
@@ -1163,7 +1163,7 @@ public class GameView : MonoBehaviour
 					}
 				}
 				if(this.getCard(this.currentPlayingCard).isNurse()){
-					int power = 3+2*this.getCurrentCard().Skills[0].Power;
+					int power = 5+this.getCurrentCard().Skills[0].Power;
 					List<Tile> neighbourTiles = this.getNeighbours(this.getPlayingCardController(this.currentPlayingCard).getTile());
 					this.targets = new List<Tile>();
 					int playerID;
@@ -1254,13 +1254,55 @@ public class GameView : MonoBehaviour
 					}
 				}
 				else if(this.getCard(this.currentPlayingCard).isFrenetique()){
-					int level = GameView.instance.getCurrentCard().Skills[0].Power+2;
-					int target = GameView.instance.getCurrentPlayingCard();
+					int level = GameView.instance.getCurrentCard().Skills[0].Power;
+					int bonusAttack = 0 ;
+					int malusLife = 0 ;
+					if(level==1){
+						bonusAttack = 3;
+						malusLife = 10 ;
+					}
+					else if(level==2){
+						bonusAttack = 3;
+						malusLife = 9 ;
+					}
+					else if(level==3){
+						bonusAttack = 4;
+						malusLife = 9 ;
+					}
+					else if(level==4){
+						bonusAttack = 4;
+						malusLife = 8 ;
+					}
+					else if(level==5){
+						bonusAttack = 5;
+						malusLife = 8 ;
+					}
+					else if(level==6){
+						bonusAttack = 5;
+						malusLife = 7 ;
+					}
+					else if(level==7){
+						bonusAttack = 6;
+						malusLife = 7 ;
+					}
+					else if(level==8){
+						bonusAttack = 6;
+						malusLife = 6 ;
+					}
+					else if(level==9){
+						bonusAttack = 7;
+						malusLife = 6 ;
+					}
+					else if(level==9){
+						bonusAttack = 7;
+						malusLife = 5 ;
+					}
 
-					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(10,-1,69,"Frenetique","10 dégats subis"), false, -1);
+					int target = GameView.instance.getCurrentPlayingCard();
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(malusLife,-1,69,"Frenetique","10 dégats subis"), false, -1);
 					GameView.instance.getPlayingCardController(target).updateAttack(this.getCard(target).getAttack());
-					GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, -1, 18, "Frenetique", ". Permanent."));
-					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+level+" ATK\n-10PV", 1);
+					GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 18, "Frenetique", ". Permanent."));
+					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+bonusAttack+" ATK\n-"+malusLife+"PV", 1);
 					GameView.instance.addAnim(0,GameView.instance.getTile(target));
 					SoundController.instance.playSound(28);
 					isSuccess = true ;
@@ -4213,6 +4255,13 @@ public class GameView : MonoBehaviour
 		}
 		else{
 			this.getTileController(target).setDestination(6);
+		}
+		if(this.areAllMyPlayersDead2() || (this.areAllHisPlayersDead2() && (ApplicationModel.player.ToLaunchGameIA||ApplicationModel.player.ToLaunchGameTutorial))){
+			this.isEndedGame = true ;
+			GameView.instance.quitGameHandler(true);
+		}
+		else{
+			this.updateTimeline();
 		}
 	}
 

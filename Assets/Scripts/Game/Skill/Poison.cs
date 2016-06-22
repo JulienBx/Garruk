@@ -34,7 +34,7 @@ public class Poison : GameSkill
 					List<Tile> adjacents = GameView.instance.getPlayingCardTile(target).getImmediateNeighbourTiles();
 					for(int i = 0 ; i < adjacents.Count ; i++){
 						if(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=-1 && GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y)!=GameView.instance.getCurrentPlayingCard()){
-							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), 25+GameView.instance.getCurrentCard().Skills[0].Power*5);
+							GameController.instance.applyOnViro(GameView.instance.getTileCharacterID(adjacents[i].x, adjacents[i].y), 10+GameView.instance.getCurrentCard().Skills[0].Power*5);
 						}
 					}
 				}
@@ -99,8 +99,8 @@ public class Poison : GameSkill
 		}
 
 		if(currentCard.isVirologue()){
-			int levelMin2 = Mathf.RoundToInt(s.Power*(25f+currentCard.Skills[0].Power*5f)/100f);
-			int levelMax2 = Mathf.RoundToInt((12+s.Power*3)*(25f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMin2 = Mathf.RoundToInt(s.Power*(10f+currentCard.Skills[0].Power*5f)/100f);
+			int levelMax2 = Mathf.RoundToInt((5+s.Power)*(10f+currentCard.Skills[0].Power*5f)/100f);
 			List<Tile> neighbours = t.getImmediateNeighbourTiles();
 			for(int i = 0; i < neighbours.Count; i++){
 				if(GameView.instance.getTileCharacterID(neighbours[i].x, neighbours[i].y)!=-1){

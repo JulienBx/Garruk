@@ -33,7 +33,7 @@ public class WordingLobby
 		references.Add(new string[]{"Bravo, vous avez atteint le rang de CHAMPION! En accord avec le code de guerre Cristalien, article 4d, vous êtes désormais autorisé à accéder au satellite suivant et combattre des joueurs plus redoutables.","Congratulations, you have been awarded the title of Champion by the satellite inhabitants. Now it's time to move on to the next satellite and to fight stronger challengers"}); //16
 		references.Add(new string[]{"Bravo, vous avez atteint le rang de CHAMPION sur le satellite le plus difficile de Cristalia! Prêt à remettre votre titre en jeu?","Congratulations, you been awarded the title of champion. How long will you able to keep this title ?"}); //17
 		references.Add(new string[]{"Bravo, vous avez atteint le rang d'EXPERT. Ce rang vous permettra, selon le code de guerre Cristalien article 4d, d'accéder au satellite suivant ou des joueurs plus forts vous attendent","Congratulations. You have been granted an authorization to explore the next Cristalian satellite"}); //18
-		references.Add(new string[]{"Bravo, vous avez atteint le rang d'EXPERT. Ce rang vous permet, selon le code de guerre Cristalien article 4d, d'accéder au satellite suivant ou des joueurs plus forts vous attendent",""}); //19
+		references.Add(new string[]{"Bravo, vous avez atteint le rang d'EXPERT. Ce rang vous permet, selon le code de guerre Cristalien article 4d, d'accéder au satellite suivant ou des joueurs plus forts vous attendent","Congratulations. You have been granted an authorization to explore the next Cristalian satellite"}); //19
 		references.Add(new string[]{"Bravo, vous avez atteint le rang d'EXPERT. Ce rang vous permettra, selon le code de guerre Cristalien article 4d, d'accéder au satellite suivant ou des joueurs plus forts vous attendent","Congratulations. You have been granted an authorization to explore the next Cristalian satellite"}); //20
 		references.Add(new string[]{"Bravo, vous avez atteint le rang de DISCIPLE. Ce rang vous permettra, selon le code de guerre Cristalien article 4d, de lancer une nouvelle campagne sur ce satellite.","Thanks to your fighting record, Cristalian War Council agree to let you stay on this satellite"}); //21
 		references.Add(new string[]{"Bravo, vous avez atteint le rang de DISCIPLE. Ce rang vous permet, selon le code de guerre Cristalien article 4d, de lancer une nouvelle campagne sur ce satellite.","Thanks to your fighting record, Cristalian War Council agree to let you stay on this satellite"}); //22
@@ -54,6 +54,6 @@ public class WordingLobby
 		references.Add(new string[]{"Votre rang vous permet de rester sur le satellite pour votre prochaine campagne\n","You have secured the access to the satellite for the next period\n"}); //37
 		references.Add(new string[]{"Essaye d'atteindre le rang de DISCIPLE pour pouvoir rester sur ce satellite\n","Trying to secure the access for the next period\n"}); //38
 		references.Add(new string[]{"Combattre","Fight"}); //39
-		references.Add(new string[]{"Continuez votre compagne en affrontant un joueur présent sur ce satellite et progresser vers le rang suivant",""}); //40
+		references.Add(new string[]{"Continuez votre compagne en affrontant un joueur présent sur ce satellite et progresser vers le rang suivant","Fight yout next opponent to strenghten your position on the satellite"}); //40
 	}
 }
