@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class test : MonoBehaviour {
+public class GameBackgroundController : MonoBehaviour {
 
     private GameObject mountains;
     private GameObject clouds;
@@ -25,7 +25,7 @@ public class test : MonoBehaviour {
     private float meteorColorRatio;
 
     // Use this for initialization
-	void Awake () {
+    void Awake () {
 
     this.mountains=gameObject.transform.FindChild("mountains").gameObject;
     this.clouds=gameObject.transform.FindChild("clouds").gameObject;
@@ -45,31 +45,26 @@ public class test : MonoBehaviour {
 
     this.meteorStartColor=new Color(255f/255f,184f/255f,184f/255f);
     this.meteorEndColor=new Color(255f/255f,81f/255f,81f/255f);
-    this.meteorSpeed=4f;
-	
-	}
-
-    void Start()
-    {
-        this.AsteroidLight();
+    
     }
-	
-	// Update is called once per frame
-	void Update () 
+
+   
+    // Update is called once per frame
+    void Update () 
     {
-//	    this.mountainsPosition=this.mountainsPosition+Time.deltaTime*mountainsSpeed;
-//        if(this.mountainsPosition>=this.mountainsEndPosition)
-//        {
-//            this.mountainsPosition=this.mountainsStartPosition;
-//        }
+        this.mountainsPosition=this.mountainsPosition+Time.deltaTime*mountainsSpeed;
+        if(this.mountainsPosition>=this.mountainsEndPosition)
+        {
+            this.mountainsPosition=this.mountainsStartPosition;
+        }
         this.cloudsPosition=this.cloudsPosition+Time.deltaTime*cloudsSpeed;
         if(this.cloudsPosition>=this.cloudsEndPosition)
         {
             this.cloudsPosition=this.cloudsStartPosition;
         }
-//        Vector3 mountainsPosition = this.mountains.transform.position;
-//        mountainsPosition.x=this.mountainsPosition;
-//        this.mountains.transform.position=mountainsPosition;
+        Vector3 mountainsPosition = this.mountains.transform.position;
+        mountainsPosition.x=this.mountainsPosition;
+        this.mountains.transform.position=mountainsPosition;
 
         Vector3 cloudsPosition = this.clouds.transform.position;
         cloudsPosition.x=this.cloudsPosition;
@@ -83,6 +78,7 @@ public class test : MonoBehaviour {
                 this.colorationNumber++;
                 this.meteorColorRatio=0f;
             }
+            print(this.meteorColorRatio);
             if(this.colorationNumber%2==0)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().color=new Color(this.meteorStartColor.r+this.meteorColorRatio*(this.meteorEndColor.r-this.meteorStartColor.r),this.meteorStartColor.g+this.meteorColorRatio*(this.meteorEndColor.g-this.meteorStartColor.g),this.meteorStartColor.b+this.meteorColorRatio*(this.meteorEndColor.b-this.meteorStartColor.b));
@@ -91,16 +87,17 @@ public class test : MonoBehaviour {
             {
                 this.gameObject.GetComponent<SpriteRenderer>().color=new Color(this.meteorEndColor.r-this.meteorColorRatio*(this.meteorEndColor.r-this.meteorStartColor.r),this.meteorEndColor.g-this.meteorColorRatio*(this.meteorEndColor.g-this.meteorStartColor.g),this.meteorEndColor.g-this.meteorColorRatio*(this.meteorEndColor.b-this.meteorStartColor.b));
             }
-            if(this.colorationNumber>10)
+            if(this.colorationNumber>6)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().color=new Color(1f,1f,1f);
                 this.meteorAnimation=false;
             }
         }
-	}
-    public void AsteroidLight()
+    }
+    public void MeteorsBackground()
     {
         this.colorationNumber=0;
+        this.meteorSpeed=4f;
         this.meteorAnimation=true;
     }
 }
