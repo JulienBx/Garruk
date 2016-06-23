@@ -5,6 +5,11 @@ public class Protection : GameSkill
 {
 	public Protection(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Protection","Barrier"});
+		texts.Add(new string[]{"Equipe 1 bouclier ARG1%","Wears a ARG1% shield"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"Bouclier ARG1%","ARG1% shield"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 29 ;
@@ -26,7 +31,7 @@ public class Protection : GameSkill
 	public override string getTargetText(int i){
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+level*4;
-		string s = "Equipe un bouclier "+bonusShield+"%";
+		string s = this.getText(1, new List<int>{bonusShield});
 		return s ;
 	}
 
@@ -36,14 +41,14 @@ public class Protection : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 29, this.getText(0), ". Permanent."));
-		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 29, this.getText(0), this.getText(2)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{bonusShield}), 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 
 		if(currentCard.isFou()){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), false,-1);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), ""), false,-1);
 		}
 	}
 

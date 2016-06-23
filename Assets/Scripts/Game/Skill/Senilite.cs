@@ -6,6 +6,14 @@ public class Senilite : GameSkill
 	public Senilite()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Sénilité","Deficiency"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"+ARG1 ATK\nVirus","+ARG1 ATK\nVirus"});
+		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]\nPermanent","ATK : ARG1 -> [ARG2-ARG3]\nPermanent"});
+		texts.Add(new string[]{"ATK : ARG1 -> 1\nPermanent","ATK : ARG1 -> 1\nPermanent"});
+
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 57 ;
@@ -54,8 +62,8 @@ public class Senilite : GameSkill
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, value+" ATK", 0);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{value}), 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
@@ -64,8 +72,8 @@ public class Senilite : GameSkill
 		value = -1*Mathf.Min(value, targetCard.getAttack()-1);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, "Virus\n"+value+" ATK", 0);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 57, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{value}), 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 	
@@ -75,16 +83,16 @@ public class Senilite : GameSkill
 		string text = "";
 
 		if(targetCard.getAttack()>2){
-			text = "ATK : "+targetCard.getAttack()+" -> ["+Mathf.Max(1,targetCard.getAttack()-1)+"-"+Mathf.Max(1,(targetCard.getAttack()-level))+"]\nPermanent";
+			text = this.getText(4, new List<int>{targetCard.getAttack(),Mathf.Max(1,targetCard.getAttack()-1),Mathf.Max(1,(targetCard.getAttack()-level))});
 		}
 		else{
-			text = "ATK : "+targetCard.getAttack()+" -> 1\nPermanent";
+			text = this.getText(5, new List<int>{targetCard.getAttack()});
 		}
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

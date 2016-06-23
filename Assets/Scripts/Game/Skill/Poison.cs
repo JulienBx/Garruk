@@ -6,6 +6,11 @@ public class Poison : GameSkill
 	public Poison()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Poison","Poison"});
+		texts.Add(new string[]{"-ARG1 PV en fin de tour","-ARG1 HP at the end of the turn"});
+		texts.Add(new string[]{"Perd ARG1 PV par tour","Loses ARG1 HP per turn"});
+		texts.Add(new string[]{"Perd ARG1 PV par tour\nVirus","Loses ARG1 HP per turn\nVirus"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 94 ;
@@ -50,20 +55,20 @@ public class Poison : GameSkill
 	public override void applyOn(int target){
 		int level = 5+GameView.instance.getCurrentSkill().Power;
 
-		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), "-"+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), this.getText(1, new List<int>{level})));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Perd "+level+"PV par tour", 0);	
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{level}), 0);	
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}	
 
 	public override void applyOnViro(int target, int value){
 		int level = Mathf.RoundToInt((5+GameView.instance.getCurrentSkill().Power)*value/100f);
 
-		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), "-"+level+"PV en fin de tour"));
+		GameView.instance.getCard(target).setPoison(new Modifyer(level, -1, 94, this.getText(0), this.getText(1, new List<int>{level})));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "(Virus)\nPerd "+level+"PV par tour", 0);	
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{level}), 0);	
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
@@ -71,12 +76,12 @@ public class Poison : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = GameView.instance.getCurrentSkill().Power+5;
 
-		string text = "Poison\nPerd "+level+"PV en fin de tour";
+		string text = this.getText(0)+"\n"+ this.getText(1, new List<int>{level});
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

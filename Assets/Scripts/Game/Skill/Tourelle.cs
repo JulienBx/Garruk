@@ -5,7 +5,11 @@ public class Tourelle : GameSkill
 {
 	public Tourelle()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Tourelle","Turret"});
+		texts.Add(new string[]{"Niveau ARG1","Level ARG1"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 38 ;
@@ -28,9 +32,9 @@ public class Tourelle : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		target = GameView.instance.getCurrentPlayingCard();
-		string text = "Tourelle\nNiv.+"+level;
+		string text = this.getText(0)+"\n"+this.getText(1, new List<int>{level});
 		 
-		GameView.instance.getCard(target).setTourelle(new Modifyer(5+level, -1, 38, this.getText(0), "Tourelle!"));
+		GameView.instance.getCard(target).setTourelle(new Modifyer(5+level, -1, 38, this.getText(0), this.getText(0)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
 		GameView.instance.displaySkillEffect(target, text, 1);
@@ -44,8 +48,8 @@ public class Tourelle : GameSkill
 		int level = GameView.instance.getCurrentCard().getTourelleDamages();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, level);
 		 
-		GameView.instance.displaySkillEffect(target, "Tourelle\n-"+damages+"PV", 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, -1);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{damages}), 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"",""), false, -1);
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}
 

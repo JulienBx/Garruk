@@ -5,6 +5,13 @@ public class Terreur : GameSkill
 {
 	public Terreur(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Terreur","Terror"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Effrayé!","Scared!"});
+		texts.Add(new string[]{"Inactif au prochain tour","Can not use skills during next turn"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\n25% de chances de paralyser","HP : ARG1 -> ARG2\n25% chances of paralyzing"});
+
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 20 ;
@@ -53,14 +60,14 @@ public class Terreur : GameSkill
 
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*level)));
 
-		string text = "-"+damages+"PV";				
+		string text = this.getText(1, new List<int>{damages});				
 		if(result==1){
-			text+="\nEffrayé";
-			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, this.getText(0), "Inactif au prochain tour"));
+			text+="\n"+this.getText(2);
+			GameView.instance.getCard(target).setTerreur(new Modifyer(0, 1, 20, this.getText(0), this.getText(3)));
 			GameView.instance.getPlayingCardController(target).showIcons();
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
@@ -72,13 +79,13 @@ public class Terreur : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.5f+0.05f*level)));
 
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n25% de chances de paralyser";				
+		string text = this.getText(4, new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});				
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power); 
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

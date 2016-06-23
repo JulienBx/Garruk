@@ -6,6 +6,8 @@ public class RageDivine : GameSkill
 	public RageDivine()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Rage Divine","God Wrath"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 109 ;
@@ -45,8 +47,8 @@ public class RageDivine : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 109, this.getText(0), damages+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
-		GameView.instance.displaySkillEffect(target, "Rage divine", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 109, this.getText(0), ""), (target==GameView.instance.getCurrentPlayingCard()),-1);
+		GameView.instance.displaySkillEffect(target, this.getText(0), 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 

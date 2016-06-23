@@ -9,8 +9,10 @@ public class PluieBleue : GameSkill
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Pluie Bleue","Blue Rain"});
 		texts.Add(new string[]{"Sans effect","No effects"});
-		texts.Add(new string[]{"1 cristal créé","Creation of 1 cristal"});
-		texts.Add(new string[]{"échec","fail"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
 		base.ciblage = -2 ;
 		base.auto = false;
 		base.id = 130 ;
@@ -147,14 +149,14 @@ public class PluieBleue : GameSkill
 				GameView.instance.displaySkillEffect(target, this.getText(1), 1);
 			}	
 			else{
-				GameView.instance.displaySkillEffect(target, "+"+Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())+" PV", 1);
+				GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())}), 1);
 			}
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, this.getText(0), value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*value, -1, 130, this.getText(0), ""), (target==GameView.instance.getCurrentPlayingCard()),-1);
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 130, this.getText(0), value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
-			GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 130, this.getText(0), ""), (target==GameView.instance.getCurrentPlayingCard()), GameView.instance.getCurrentPlayingCard());
+			GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{value}), 0);	
 			GameView.instance.addAnim(5,GameView.instance.getTile(target));
 		}
 	}
@@ -175,16 +177,16 @@ public class PluieBleue : GameSkill
 		string text ;
 
 		if(GameView.instance.getCard(target).CardType.Id!=6){
-			text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
+			text = this.getText(4, new List<int>{targetCard.getLife(),(targetCard.getLife()-minDamages),(targetCard.getLife()-maxDamages)});
 		}
 		else{
-			text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+minDamages)+"-"+Mathf.Min(targetCard.GetTotalLife(),(targetCard.getLife()+maxDamages))+"]";
+			text = this.getText(5, new List<int>{targetCard.getLife(),Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+minDamages),Mathf.Min(targetCard.GetTotalLife(),(targetCard.getLife()+maxDamages))});
 		}
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

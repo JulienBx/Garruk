@@ -6,6 +6,11 @@ public class Vitamines : GameSkill
 	public Vitamines()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Vitamines","Vitamins"});
+		texts.Add(new string[]{"+1MOV. Actif 1 tour","+1MOV. For 1 turn"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nlâche","HP : ARG1 -> ARG2\ncoward"});
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 6 ;
@@ -54,16 +59,16 @@ public class Vitamines : GameSkill
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
 		if(soin==0){
-			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, this.getText(0), "+1MOV. Actif 1 tour"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "+1MOV\n1 tour", 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(1), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
-			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, this.getText(0), "+"+soin+" PV"), false,-1);
-			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(1, 1, 6, this.getText(0), "+1MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, this.getText(0), ""), false,-1);
+			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(1, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "+"+soin+"PV\n+1MOV\n1 tour", 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{soin})+"\n"+this.getText(1), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		GameView.instance.recalculateDestinations();

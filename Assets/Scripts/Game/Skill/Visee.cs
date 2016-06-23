@@ -5,7 +5,11 @@ public class Visee : GameSkill
 {
 	public Visee()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Visée","Focus"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 25 ;
@@ -30,8 +34,8 @@ public class Visee : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, this.getText(0), "dégats +"+bonus+"%. Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\nDégats +"+bonus+"%", 2);
+		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, 2, 25, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{bonus}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

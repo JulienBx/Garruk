@@ -5,6 +5,10 @@ public class Virus : GameSkill
 {
 	public Virus(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Virus","Virus"});
+		texts.Add(new string[]{"Succès\nCible détruite","Success\nTarget destroyed"});
+		texts.Add(new string[]{"Détruit la cible","Destroys the target"});
 		base.ciblage = 18 ;
 		base.auto = false;
 		base.id = 37 ;
@@ -43,20 +47,20 @@ public class Virus : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int damages = targetCard.getLife();
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, this.getText(0), damages+" dégats subis"), false,-1);
-		GameView.instance.displaySkillEffect(target, "Succès\nCible détruite", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 37, this.getText(0), ""), false,-1);
+		GameView.instance.displaySkillEffect(target, this.getText(1), 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
 	public override string getTargetText(int id){	
 		GameCard targetCard = GameView.instance.getCard(id);
-		string text = "Détruit l'unité!";
+		string text = this.getText(2);
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		return text ;
 	}
 

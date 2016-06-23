@@ -6,6 +6,10 @@ public class Sermon : GameSkill
 	public Sermon()
 	{
 		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Sermon","Lecture"});
+		texts.Add(new string[]{".Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 102 ;
@@ -54,13 +58,12 @@ public class Sermon : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		Debug.Log("J'apply on "+target);
 		int level = GameView.instance.getCurrentSkill().Power+5;
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, 1, 102, this.getText(0), ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "+"+value+"ATK", 2);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, 1, 102, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{value}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

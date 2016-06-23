@@ -4,7 +4,10 @@ using System.Collections.Generic;
 public class Telepiege : GameSkill
 {
 	public Telepiege(){
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Telepiège","TeleporTrap"});
+		texts.Add(new string[]{"Pose un piège qui téléportera l'unité touchée dans un rayon de ARG1 case(s)","Sets a trap which will teleport the wounded unit ARG1 tile(s) away"});
 		base.ciblage = 6 ;
 		base.auto = false;
 		base.id = 58 ;
@@ -27,7 +30,7 @@ public class Telepiege : GameSkill
 	
 	public override string getTargetText(int i){
 		int amount = GameView.instance.getCurrentSkill().Power;
-		string s = "Pose un piège qui téléportera l'unité touchée dans un rayon de "+amount+" cases";
+		string s = this.getText(1, new List<int>{amount});
 		return s ;
 	}
 

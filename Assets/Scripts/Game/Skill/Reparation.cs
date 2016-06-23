@@ -5,7 +5,9 @@ public class Reparation : GameSkill
 {
 	public Reparation()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		texts.Add(new string[]{"Reparation","Repairing"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 36 ;
@@ -32,8 +34,8 @@ public class Reparation : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*i,-1,36,this.getText(0),i+" dégats soignés"), false,-1);
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+i+"PV", 2);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*i,-1,36,this.getText(0),""), false,-1);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(1, new List<int>{i}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

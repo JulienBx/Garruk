@@ -6,6 +6,10 @@ public class Renfoderme : GameSkill
 	public Renfoderme()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		texts.Add(new string[]{"Renfoderme","Shield"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"Bouclier ARG1%","ARG1% shield"});
+		texts.Add(new string[]{"Bouclier ARG1%\nVirus","ARG1% shield\nVirus"});
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 39 ;
@@ -52,8 +56,8 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+level*2;
 		
-		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, this.getText(0), ". Permanent."));
-		GameView.instance.displaySkillEffect(target, "Bouclier "+bonusShield+"%", 2);
+		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{bonusShield}), 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
 	}	
@@ -63,7 +67,7 @@ public class Renfoderme : GameSkill
 		int bonusShield = Mathf.RoundToInt((10+level*4)*value/100f);
 		
 		GameView.instance.getPlayingCardController(target).addShieldModifyer(new Modifyer(bonusShield, -1, 39, this.getText(0), ". Permanent."));
-		GameView.instance.displaySkillEffect(target, "Virus\nBouclier "+bonusShield+"%", 2);
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{bonusShield}), 2);
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.addAnim(1,GameView.instance.getTile(target));
 	}
@@ -74,11 +78,11 @@ public class Renfoderme : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonusShield = 10+2*level;
 		
-		string text = "Bouclier "+bonusShield+"%";
+		string text = this.getText(2, new List<int>{bonusShield});
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

@@ -4,7 +4,11 @@ using System.Collections.Generic;
 public class Vampire : GameSkill
 {
 	public Vampire(){
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Vampire","Vampire"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
 		base.ciblage = 16 ;
 		base.auto = true;
 		base.id = 40 ;
@@ -45,8 +49,8 @@ public class Vampire : GameSkill
 		int level = 2+GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, level);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, this.getText(0), damages+" dégats subis"),  (target==GameView.instance.getCurrentPlayingCard()),-1);
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 40, this.getText(0), ""),  (target==GameView.instance.getCurrentPlayingCard()),-1);
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{damages}), 0);	
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
@@ -54,8 +58,8 @@ public class Vampire : GameSkill
 		int level = 2+GameView.instance.getCurrentSkill().Power;
 		int damages = value*level;
 
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(-1*damages, -1, 40, this.getText(0), damages+" dégats subis"), false,-1);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n+"+damages+"PV", 2);	
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(-1*damages, -1, 40, this.getText(0), ""), false,-1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2, new List<int>{damages}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

@@ -5,7 +5,13 @@ public class Steroide : GameSkill
 {
 	public Steroide()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Stéroides","Steroids"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"+ARG1 ATK\nVirus","+ARG1 ATK\nVirus"});
+		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]\nPermanent","ATK : ARG1 -> [ARG2-ARG3]\nPermanent"});
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 56 ;
@@ -53,16 +59,16 @@ public class Steroide : GameSkill
 	public override void applyOn(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56,this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56,this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{value}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnViro(int target, int value){
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, "+"+value+" ATK", 2);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 56, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{value}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
@@ -70,12 +76,12 @@ public class Steroide : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = GameView.instance.getCurrentSkill().Power+5;
 
-		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+1)+"-"+(targetCard.getAttack()+level)+"]\nPermanent";
+		string text = this.getText(4, new List<int>{targetCard.getAttack(),(targetCard.getAttack()+1),(targetCard.getAttack()+level)});
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

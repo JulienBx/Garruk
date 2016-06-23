@@ -5,7 +5,12 @@ public class Roues : GameSkill
 {
 	public Roues()
 	{
-		this.numberOfExpectedTargets = 0 ; 
+		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Roues","Wheels"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"+2MOV\n-ARG1 ATK","+2MOV\n-ARG1 ATK"});
+
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 50 ;
@@ -31,11 +36,11 @@ public class Roues : GameSkill
 		int malusAttack = Mathf.RoundToInt((0.5f-level*0.05f)*currentCard.getAttack());
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(2,-1,50,this.getText(0),". Permanent"));
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(2,-1,50,this.getText(0),this.getText(1)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malusAttack, -1, 50, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+2MOV\n-"+malusAttack+"ATK", 1);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malusAttack, -1, 50, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{malusAttack}), 1);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
