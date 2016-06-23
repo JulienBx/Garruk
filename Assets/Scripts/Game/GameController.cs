@@ -3,14 +3,37 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-
+	
 public class GameController : Photon.MonoBehaviour
 {	
 	public static GameController instance;
+	public IList<string[]> texts ;
 	
 	void Awake()
 	{
 		instance = this;
+		texts = new List<string[]>();
+		texts.Add(new string[]{"Empoisonne!\nARG1 dégat(s) / tour","Poisons the targets!\nARG1 dégat(s) / tour"});
+		texts.Add(new string[]{"Piège Poison","Poison Trap"});
+		texts.Add(new string[]{"Inflige ARG1 dégats à l'unité piégée","Inflicts ARG1 damages to the trapped unit"});
+		texts.Add(new string[]{"Electropiège","ElekTrap"});
+		texts.Add(new string[]{"Soigne de ARG1 PV les unités stationnées","Heals ARG1 PV to each visiting unit"});
+		texts.Add(new string[]{"Fontaine","Fountain"});
+		texts.Add(new string[]{"+ARG1 ATK aux unités stationnées","Adds ARG1 ATK to each visiting unit"});
+		texts.Add(new string[]{"Fontaine","Fountain"});
+	}
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
 	}
 	
 	public void createTile(int x, int y, int type){
@@ -29,8 +52,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level){
-		string description = "Empoisonne!\n"+level+" dégats / tour" ;
-		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), "Poisonpiège", description);
+		string description = this.getText(0, new List<int>{level}) ;
+		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), this.getText(1), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	
@@ -40,8 +63,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addElectropiegeRPC(int amount, int x, int y){
-		string description = "Inflige "+amount+" dégats à l'unité piégée" ;
-		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, "Electropiège", description);
+		string description = this.getText(2, new List<int>{amount}) ;
+		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, this.getText(3), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -51,8 +74,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addFontaineRPC(int amount, int x, int y){
-		string description = "Soigne "+amount+" PV aux unités stationnées" ;
-		Trap trap = new Trap(amount, 4, true, "Fontaine", description);
+		string description = this.getText(4, new List<int>{amount}) ;
+		Trap trap = new Trap(amount, 4, true, this.getText(5), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -62,8 +85,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addCaserneRPC(int amount, int x, int y){
-		string description = "+"+amount+" ATK aux unités stationnées" ;
-		Trap trap = new Trap(amount, 5, true, "Caserne", description);
+		string description = this.getText(6, new List<int>{amount}) ;
+		Trap trap = new Trap(amount, 5, true, this.getText(7), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -92,8 +115,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addPoisonpiegeRPC(int amount, int x, int y){
-		string description = "Empoisonné. Inflige "+amount+" dégats en fin de tour" ;
-		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, "Poisonpiège", description);
+		string description = this.getText(0, new List<int>{amount}) ;
+		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, this.getText(1), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 

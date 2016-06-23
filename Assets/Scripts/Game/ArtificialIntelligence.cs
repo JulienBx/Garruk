@@ -478,7 +478,6 @@ public class ArtificialIntelligence : MonoBehaviour
 			if(bestScore>5){
 				yield return new WaitForSeconds(2f);
 
-				Debug.Log("Je joue2 "+bestSkill.Id);
 				List<Tile> tempList = new List<Tile>();
 				GameController.instance.play(bestSkill.Id);
 
@@ -488,7 +487,6 @@ public class ArtificialIntelligence : MonoBehaviour
 				else if(bestSkill.Id == 27){
 					tempList.Add(new Tile(0,0));
 					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
-					Debug.Log("Lance-Flammes2 "+resultat);
 					if(resultat==0){
 						tempList[0].x = bestEmplacement.x;
 						tempList[0].y = bestEmplacement.y-1;
@@ -631,8 +629,5 @@ public class ArtificialIntelligence : MonoBehaviour
 		GameView.instance.setNextPlayer(false);
 		yield break;
 	}
-
-
-
 }
 

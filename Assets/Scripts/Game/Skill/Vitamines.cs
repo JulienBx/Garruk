@@ -8,9 +8,11 @@ public class Vitamines : GameSkill
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Vitamines","Vitamins"});
-		texts.Add(new string[]{"+1MOV. Actif 1 tour","+1MOV. For 1 turn"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
 		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
-		texts.Add(new string[]{"PV : ARG1 -> ARG2\nlâche","HP : ARG1 -> ARG2\ncoward"});
+		texts.Add(new string[]{"+ARG1 MOV\nPour 1 tour", "+ARG1 MOV\nFor 1 turn"});
+		texts.Add(new string[]{"+ARG1 MOV\nPour 1 tour\nVirus", "+ARG1 MOV\nFor 1 turn\nVirus"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\n+1MOV pour 1 tour", "HP : ARG1 -> ARG2\n+1MOV for 1 turn"});
 		base.ciblage = 2 ;
 		base.auto = false;
 		base.id = 6 ;
@@ -61,14 +63,14 @@ public class Vitamines : GameSkill
 		if(soin==0){
 			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(1, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, this.getText(1), 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{1}), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, this.getText(0), ""), false,-1);
 			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(1, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{soin})+"\n"+this.getText(1), 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{soin})+"\n"+this.getText(1), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		GameView.instance.recalculateDestinations();
@@ -82,16 +84,16 @@ public class Vitamines : GameSkill
 		int move = Mathf.RoundToInt(1f*value/100f);
 
 		if(soin==0){
-			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 6, this.getText(0), "+"+move+"MOV. Actif 1 tour"));
+			GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "(Virus)\n+"+move+"MOV\n1 tour", 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(4, new List<int>{soin}), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		else{
 			GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 6, this.getText(0), "+"+soin+" PV"), false,-1);
-			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, this.getText(0), "+"+move+"MOV. Actif 1 tour"));
+			GameView.instance.getCard(target).moveModifyers.Add(new Modifyer(move, 1, 6, this.getText(0), this.getText(1)));
 			GameView.instance.getPlayingCardController(target).showIcons();
-			GameView.instance.displaySkillEffect(target, "(Virus)\n+"+soin+"PV\n+"+move+"MOV\n1 tour", 2);	
+			GameView.instance.displaySkillEffect(target, this.getText(4, new List<int>{soin})+"\n"+this.getText(1), 2);	
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 		GameView.instance.recalculateDestinations();
@@ -102,12 +104,12 @@ public class Vitamines : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power*2+2;
 		int soin = Mathf.Min(level,targetCard.GetTotalLife()-targetCard.getLife());
 
-		string text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)+"\n+1MOV, Actif 1 tour";
+		string text = this.getText(5, new List<int>{targetCard.getLife(),Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soin)});
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

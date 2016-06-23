@@ -11,8 +11,6 @@ public class GameSkill
 	public IList<string[]> texts ;
 	public IList<string[]> texts2 ;
 
-
-
 	public int ciblage ;
 	public bool auto ;
 	public int id ;
