@@ -5,6 +5,7 @@ public class Poison : GameSkill
 {
 	public Poison()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Poison","Poison"});

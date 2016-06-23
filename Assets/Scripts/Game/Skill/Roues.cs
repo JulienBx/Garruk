@@ -5,6 +5,7 @@ public class Roues : GameSkill
 {
 	public Roues()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Roues","Wheels"});

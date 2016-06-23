@@ -5,6 +5,7 @@ public class Chasseur : GameSkill
 {
 	public Chasseur()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Chasseur","Hunter"});

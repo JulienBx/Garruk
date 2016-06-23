@@ -5,6 +5,7 @@ public class Steroide : GameSkill
 {
 	public Steroide()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Stéroides","Steroids"});

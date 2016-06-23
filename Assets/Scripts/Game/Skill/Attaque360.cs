@@ -5,6 +5,7 @@ public class Attaque360 : GameSkill
 {
 	public Attaque360()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Attaque 360","Attack 360"});

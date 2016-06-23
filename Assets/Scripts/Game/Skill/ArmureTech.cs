@@ -5,6 +5,7 @@ public class ArmureTech : GameSkill
 {
 	public ArmureTech()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ; 
 		base.ciblage = 0 ;
 		base.texts = new List<string[]>();

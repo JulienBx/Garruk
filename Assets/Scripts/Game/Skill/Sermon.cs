@@ -5,6 +5,7 @@ public class Sermon : GameSkill
 {
 	public Sermon()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Sermon","Lecture"});

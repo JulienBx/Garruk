@@ -5,6 +5,7 @@ public class Fatality : GameSkill
 {
 	public Fatality()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ; 
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Fatalité","Fatality"});

@@ -5,6 +5,7 @@ public class PistoSoin : GameSkill
 {
 	public PistoSoin()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.ciblage = 14 ;
 		base.auto = false;

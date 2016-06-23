@@ -5,6 +5,7 @@ public class Tourelle : GameSkill
 {
 	public Tourelle()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Tourelle","Turret"});

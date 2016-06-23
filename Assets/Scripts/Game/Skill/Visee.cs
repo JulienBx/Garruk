@@ -5,6 +5,7 @@ public class Visee : GameSkill
 {
 	public Visee()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Visée","Focus"});

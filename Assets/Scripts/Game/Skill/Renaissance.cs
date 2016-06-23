@@ -5,6 +5,7 @@ public class Renaissance : GameSkill
 {
 	public Renaissance()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Renaissance","Rebirth"});

@@ -5,6 +5,7 @@ public class PerfoTir : GameSkill
 {
 	public PerfoTir()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ; 
 		base.ciblage = 3 ;
 		base.auto = false;

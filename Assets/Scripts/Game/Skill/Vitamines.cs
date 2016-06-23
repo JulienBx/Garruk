@@ -5,6 +5,7 @@ public class Vitamines : GameSkill
 {
 	public Vitamines()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Vitamines","Vitamins"});

@@ -5,6 +5,7 @@ public class Pisteur : GameSkill
 {
 	public Pisteur()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Pisteur","Pathfinder"});

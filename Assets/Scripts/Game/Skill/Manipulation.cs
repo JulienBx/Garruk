@@ -5,6 +5,7 @@ public class Manipulation : GameSkill
 {
 	public Manipulation()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Manipulation","Manipulation"});

@@ -5,6 +5,7 @@ public class Implosion : GameSkill
 {
 	public Implosion()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Implosion","Implosion"});

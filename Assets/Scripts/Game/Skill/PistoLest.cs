@@ -5,6 +5,7 @@ public class PistoLest : GameSkill
 {
 	public PistoLest()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"PistoLest","PistoLest"});

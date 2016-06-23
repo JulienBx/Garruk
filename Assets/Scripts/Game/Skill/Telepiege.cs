@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Telepiege : GameSkill
 {
 	public Telepiege(){
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Telepiège","TeleporTrap"});

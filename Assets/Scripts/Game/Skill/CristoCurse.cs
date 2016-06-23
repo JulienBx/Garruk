@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class CristoCurse : GameSkill
 {
 	public CristoCurse(){
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Cristo Curse","Cristo Curse"});

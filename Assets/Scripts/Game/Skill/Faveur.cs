@@ -5,6 +5,7 @@ public class Faveur : GameSkill
 {
 	public Faveur()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Faveur","Favor"});

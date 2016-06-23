@@ -5,6 +5,7 @@ public class Cristolife : GameSkill
 {
 	public Cristolife()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Cristo Life","Cristo Life"});

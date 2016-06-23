@@ -5,6 +5,7 @@ public class Furie : GameSkill
 {
 	public Furie()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ; 
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Furie","Fury"});

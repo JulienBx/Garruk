@@ -5,6 +5,7 @@ public class Massue : GameSkill
 {
 	public Massue()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Massue","Hammer"});

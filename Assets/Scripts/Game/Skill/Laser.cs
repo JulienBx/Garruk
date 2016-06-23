@@ -5,6 +5,7 @@ public class Laser : GameSkill
 {
 	public Laser()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Laser","Laser Beam"});

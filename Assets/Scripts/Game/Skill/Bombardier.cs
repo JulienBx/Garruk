@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Bombardier : GameSkill
 {
 	public Bombardier(){
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ; 
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Bombardier","Bomber"});

@@ -23,6 +23,11 @@ public class GameController : Photon.MonoBehaviour
 		texts.Add(new string[]{"Caserne","Barracks"});
 		texts.Add(new string[]{"Téléportera dans un rayon de ARG1 cases l'unité touchée","Will teleport the trapped unit ARG1 tile(s) away"});
 		texts.Add(new string[]{"TelePiège","TeleporTrap"});
+		texts.Add(new string[]{"Shuriken\nHIT XARG1\n-ARG2 PV","Shuriken\nHIT XARG1\n-ARG2 HP"});
+		texts.Add(new string[]{"Shuriken\nEsquive!","Dodging shurikens!"});
+		texts.Add(new string[]{"Prêtresse","Priestress"});
+		texts.Add(new string[]{". Actif 1 tour.",". For 1 turn."});
+		texts.Add(new string[]{"+ARG1 ATK\nPour un tour","+ARG1 ATK\nFor 1 turn"});
 	}
 
 	public virtual string getText(int id){
@@ -151,9 +156,9 @@ public class GameController : Photon.MonoBehaviour
 	public void sendShurikenRPC(int target, int nb, int currentCard)
 	{	
 		int damages = (2+GameView.instance.getCard(currentCard).Skills[0].Power)*nb;
-		string text = "Shuriken\nHIT X"+nb+"\n-"+damages+"PV";
+		string text = this.getText(10, new List<int>{nb,damages});
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"Ninja",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,67,"",""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
@@ -164,7 +169,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	public void sendEsquiveShurikenRPC(int target, int currentCard)
 	{	
-		string text = "Shuriken\nEsquive!";
+		string text = this.getText(11);
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 	}
@@ -550,8 +555,8 @@ public class GameController : Photon.MonoBehaviour
 	public void addAttackPretresseRPC(int id, int value)
 	{
 		GameView.instance.getPlayingCardController(id).updateAttack(GameView.instance.getCard(id).getAttack());
-		GameView.instance.getPlayingCardController(id).addAttackModifyer(new Modifyer(value, 1, 112, "Prêtresse", ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(id, "Prêtresse\n+"+value+" ATK", 2);
+		GameView.instance.getPlayingCardController(id).addAttackModifyer(new Modifyer(value, 1, 112, this.getText(12), this.getText(13)));
+		GameView.instance.displaySkillEffect(id, this.getText(12)+"\n"+this.getText(14, new List<int>{value}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(id));
 	}
 }

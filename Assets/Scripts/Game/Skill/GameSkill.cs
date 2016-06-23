@@ -20,7 +20,9 @@ public class GameSkill
 		this.results = new List<int>();
 		this.values = new List<int>();
 		this.tileTargets = new List<Tile>();
+	}
 
+	public void initTexts(){
 		texts2 = new List<string[]>();
 		texts2.Add(new string[]{"Compétence déjà utilisée","Skill has been used"});
 		texts2.Add(new string[]{"Compétence déjà utilisée","You have already used a skill"});

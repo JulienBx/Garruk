@@ -5,6 +5,7 @@ public class Renfoderme : GameSkill
 {
 	public Renfoderme()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Renfoderme","Shield"});

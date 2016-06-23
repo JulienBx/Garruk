@@ -5,6 +5,7 @@ public class Furtivite : GameSkill
 {
 	public Furtivite()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 1 ; 
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Furtivité","Stealth"});

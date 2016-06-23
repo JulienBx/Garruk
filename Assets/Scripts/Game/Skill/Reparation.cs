@@ -5,6 +5,7 @@ public class Reparation : GameSkill
 {
 	public Reparation()
 	{
+		this.initTexts();
 		this.numberOfExpectedTargets = 0 ;
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Reparation","Repairing"});
