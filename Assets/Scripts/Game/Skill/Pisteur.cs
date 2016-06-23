@@ -6,6 +6,13 @@ public class Pisteur : GameSkill
 	public Pisteur()
 	{
 		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Pisteur","Pathfinder"});
+		texts.Add(new string[]{"Découverte!","Unconvered!"});
+		texts.Add(new string[]{"1 piège découvert","1 uncovered trap"});
+		texts.Add(new string[]{"ARG1 pièges découverts","ARG1 uncovered traps"});
+		texts.Add(new string[]{"Aucun piège découvert","No uncovered traps"});
+
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 14 ;
@@ -28,7 +35,7 @@ public class Pisteur : GameSkill
 				GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
 				GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
 
-				GameView.instance.displaySkillEffect(trappedTiles[i], "Piège découvert !", 1);
+				GameView.instance.displaySkillEffect(trappedTiles[i], this.getText(1), 1);
 				GameView.instance.addAnim(0,trappedTiles[i]);
 				compteur++;
 			}
@@ -45,11 +52,14 @@ public class Pisteur : GameSkill
 	}
 
 	public override void applyOnMe(int value){
-		if(value>0){
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+value+" pièges découverts", 2);
+		if(value==1){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2), 2);
+		}
+		else if(value>0){
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(3, new List<int>{value}), 2);
 		}
 		else{
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\naucun piège découvert", 2);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(4), 2);
 		}
 		GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}

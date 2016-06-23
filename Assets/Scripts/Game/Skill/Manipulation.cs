@@ -6,6 +6,11 @@ public class Manipulation : GameSkill
 	public Manipulation()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Manipulation","Manipulation"});
+		texts.Add(new string[]{"Contrôlé","Controlled"});
+		texts.Add(new string[]{"Prend le contrôle de cette unité","Get control of this unit"});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 52 ;
@@ -46,19 +51,19 @@ public class Manipulation : GameSkill
 
 		GameView.instance.changePlayer(target);
 
-		GameView.instance.displaySkillEffect(target, "Contrôlé", 1);	
+		GameView.instance.displaySkillEffect(target, this.getText(1), 1);	
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}	
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 
-		string text = "Prend le contrôle de l'unité à ce tour";
+		string text = this.getText(2);
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

@@ -9,6 +9,12 @@ public class PerfoTir : GameSkill
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 31 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Alchimie","Alchemy"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Bouclier détruit!","Shield destroyed!"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		texts.Add(new string[]{"Fou","Crazy"});
 	}
 	
 	public override void launch()
@@ -54,10 +60,10 @@ public class PerfoTir : GameSkill
 			damages = Mathf.RoundToInt(1.25f*damages);
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 31, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		string text = "-"+damages+"PV";
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 31, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		string text = this.getText(1, new List<int>{damages});
 		if(targetCard.getBouclier()>0){
-			text+="\nBouclier détruit";
+			text+="\n"+this.getText(2);
 		}
 		GameView.instance.getCard(target).emptyShieldModifyers();
 		GameView.instance.getPlayingCardController(target).showIcons();
@@ -73,15 +79,15 @@ public class PerfoTir : GameSkill
 		if(currentCard.isFou()){
 			damages = currentCard.getNormalDamagesAgainst(targetCard,  Mathf.RoundToInt((5+GameView.instance.getCurrentSkill().Power)*1.25f));
 		}
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);
+		string text = this.getText(3, new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});
 		if(targetCard.getBouclier()>0){
-			text+="\nBouclier détruit";
+			text+="\n"+this.getText(2);
 		}
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
@@ -90,7 +96,7 @@ public class PerfoTir : GameSkill
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
 			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(4)+"\n"+this.getText(1, new List<int>{11-myLevel}), 0);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);

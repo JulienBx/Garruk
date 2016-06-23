@@ -6,6 +6,10 @@ public class Mitraillette : GameSkill
 	public Mitraillette()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Mitraillette","Machine Gun"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Fou","Crazy"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 30 ;
@@ -97,17 +101,17 @@ public class Mitraillette : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
 
-		string text ="-"+damages+"PV";
+		string text =this.getText(1, new List<int>{damages});
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,30,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), false,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), ""), false,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2)+"\n"+this.getText(1, new List<int>{11-myLevel}), 0);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);
@@ -145,15 +149,12 @@ public class Mitraillette : GameSkill
 
 				if(targetCard.isMine){
 					score+=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
-					Debug.Log("MINE");
 				}
 				else{
 					score-=Mathf.RoundToInt(((proba-targetCard.getEsquive())/100f)*((200*(Mathf.Max(0f,levelMax-targetCard.getLife())))+(((levelMin+Mathf.Min(levelMax,targetCard.getLife()))/2f)*Mathf.Min(levelMax,targetCard.getLife())))/(levelMax-levelMin+1f));
-					Debug.Log("HIS");
 				}
 			}
 
-			Debug.Log("tempScore "+score);
 			score = Mathf.RoundToInt(score/targets.Count);
 		}
 

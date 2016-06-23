@@ -3,12 +3,19 @@ using System.Collections.Generic;
 
 public class Piegeur : GameSkill
 {
+	public Piegeur(){
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Piégeur","Trapper"});
+		texts.Add(new string[]{"Poison Piège","Poison Trap"});
+	}
+
 	public Trap getTrap(int level, bool isFirstP){	
 		Trap t ;
 		bool isVisible = (isFirstP==GameView.instance.getIsFirstPlayer());
 		int amount = 0 ;
 		int type = 1;
-		string title = "Electropiège" ;
+
+		string title = this.getText(1) ;
 		
 		if(level==1){
 			amount = 8;
@@ -41,7 +48,7 @@ public class Piegeur : GameSkill
 			amount = 14;
 		}
 		
-		string description = "<i>Créé par la compétence piégeur</i>\nInflige "+amount+" dégats à l'unité piégée" ;
+		string description = "" ;
 		t = new Trap(amount, type, isVisible, title, description);
 		
 		return t;

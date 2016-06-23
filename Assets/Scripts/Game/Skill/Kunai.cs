@@ -6,6 +6,10 @@ public class Kunai : GameSkill
 	public Kunai()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		texts.Add(new string[]{"Kunaï","Kunaï"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"-ARG1 PV\nLâche","-ARG1 HP\nCoward"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nlâche","HP : ARG1 -> ARG2\ncoward"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 8 ;
@@ -80,15 +84,15 @@ public class Kunai : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
-		string text = "-"+damages+"PV";
+		string text = this.getText(1, new List<int>{damages});
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = "-"+damages+"PV\n(lâche)";
+			text = this.getText(2, new List<int>{damages});
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,8,"Pistolero",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+damages+" PV", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,8,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{damages}), 0);
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 

@@ -6,6 +6,12 @@ public class PistoBoost : GameSkill
 	public PistoBoost()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"PistoBoost","PistoBoost"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK\nPour 1 tour","+ARG1 ATK\nFor 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK\nPour 1 tour\nVirus","+ARG1 ATK\nFor 1 turn\nVirus"});
+		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]", "ATK : ARG1 -> [ARG2-ARG3]"});
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 3 ;
@@ -54,8 +60,8 @@ public class PistoBoost : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 3, text, ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "+"+level+"ATK\n1 tour", 2);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 3, text, this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{level}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}	
 
@@ -65,8 +71,8 @@ public class PistoBoost : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonus, 1, 3, text, ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "(Virus)\n+"+level+"ATK pour 1 tour", 2);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonus, 1, 3, text, this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{level}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
@@ -74,12 +80,12 @@ public class PistoBoost : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int level = 5+GameView.instance.getCurrentSkill().Power;
 
-		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()+GameView.instance.getCurrentSkill().Power)+"-"+(targetCard.getAttack()+level)+"]\nActif 1 tour";
+		string text = this.getText(4, new List<int>{targetCard.getAttack(),(targetCard.getAttack()+GameView.instance.getCurrentSkill().Power),(targetCard.getAttack()+level)});
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

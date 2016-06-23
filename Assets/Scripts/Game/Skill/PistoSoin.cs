@@ -9,6 +9,12 @@ public class PistoSoin : GameSkill
 		base.ciblage = 14 ;
 		base.auto = false;
 		base.id = 2;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"PistoSoin","PistoSoin"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{"+ARG1 PV\nVirus","+ARG1 HP\nVirus"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
 	}
 	
 	public override void launch()
@@ -53,8 +59,8 @@ public class PistoSoin : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int soin = Mathf.Min(amount,targetCard.GetTotalLife()-targetCard.getLife());
 		
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"), false,-1);
-		GameView.instance.displaySkillEffect(target, "+"+soin+"PV", 2);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "", ""), false,-1);
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{soin}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			GameView.instance.hitNextTutorial();
@@ -65,8 +71,8 @@ public class PistoSoin : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		int soin = Mathf.Min(Mathf.RoundToInt(amount*amount2/100f),targetCard.GetTotalLife()-targetCard.getLife());
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "PistoSoin", "Gagne "+soin+"PV"),false,-1);
-		GameView.instance.displaySkillEffect(target, "Virus\n+"+soin+"PV", 2);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(-1*soin, -1, 2, "", ""),false,-1);
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{soin}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}	
 	
@@ -78,16 +84,16 @@ public class PistoSoin : GameSkill
 		string text = "";
 
 		if(Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)==Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)){
-			text = "PV : "+targetCard.getLife()+" -> "+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin);
+			text = this.getText(3, new List<int>{targetCard.getLife(),Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)});
 		}
 		else{
-			text = "PV : "+targetCard.getLife()+" -> ["+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin)+"-"+Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)+"]";
+			text = this.getText(4, new List<int>{targetCard.getLife(), Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMin),Mathf.Min(targetCard.GetTotalLife(),targetCard.getLife()+soinMax)});
 		}
 
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

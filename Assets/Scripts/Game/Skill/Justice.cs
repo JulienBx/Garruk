@@ -6,6 +6,10 @@ public class Justice : GameSkill
 	public Justice()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Justice","Justice"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 95 ;
@@ -37,13 +41,13 @@ public class Justice : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power*2+5;
 
 		int malus = Mathf.Min(GameView.instance.getCard(targetMax).getLife(),level);
-		GameView.instance.getPlayingCardController(targetMax).addDamagesModifyer(new Modifyer(malus,-1,1,"Attaque",malus+" dégats subis"), (targetMax==GameView.instance.getCurrentPlayingCard()), -1);
-		GameView.instance.displaySkillEffect(targetMax, "-"+malus+" PV", 0);
+		GameView.instance.getPlayingCardController(targetMax).addDamagesModifyer(new Modifyer(malus,-1,1,this.getText(0),""), (targetMax==GameView.instance.getCurrentPlayingCard()), -1);
+		GameView.instance.displaySkillEffect(targetMax, this.getText(1, new List<int>{malus}), 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(targetMax));
 
 		int bonus = Mathf.Min(GameView.instance.getCard(targetMax).GetTotalLife()-GameView.instance.getCard(targetMax).getLife(),level);
-		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*bonus,-1,1,"Attaque",bonus+" dégats subis"), false, -1);
-		GameView.instance.displaySkillEffect(targetMin, "+"+bonus+" PV", 2);
+		GameView.instance.getPlayingCardController(targetMin).addDamagesModifyer(new Modifyer(-1*bonus,-1,1,this.getText(0),""), false, -1);
+		GameView.instance.displaySkillEffect(targetMin, this.getText(2, new List<int>{malus}), 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(targetMin));
 
 	}

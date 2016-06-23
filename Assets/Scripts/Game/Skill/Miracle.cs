@@ -6,6 +6,11 @@ public class Miracle : GameSkill
 	public Miracle()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Miracle","Miracle"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
 		base.ciblage = 4 ;
 		base.auto = true;
 		base.id = 107 ;
@@ -50,13 +55,13 @@ public class Miracle : GameSkill
 		int bonusAttack = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*percentage/100f));
 
 		string text = "";
-		text+="+"+bonusLife+"PV\n";
-		text+="+"+bonusAttack+"ATK";
+		text+=this.getText(1, new List<int>{bonusLife})+"\n";
+		text+=this.getText(2, new List<int>{bonusAttack});
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
 		GameView.instance.getPlayingCardController(target).updateLife(targetCard.getLife());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 107, this.getText(0), ". Permanent"));
-		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, this.getText(0), ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 107, this.getText(0), this.getText(3)));
+		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(bonusLife, -1, 107, this.getText(0), this.getText(3)));
 		GameView.instance.displaySkillEffect(target, text, 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}

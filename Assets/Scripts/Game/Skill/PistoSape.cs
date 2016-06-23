@@ -5,7 +5,13 @@ public class PistoSape : GameSkill
 {
 	public PistoSape()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"PistoSape","PistoSape"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK\nPour 1 tour","+ARG1 ATK\nFor 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK\nPour 1 tour\nVirus","+ARG1 ATK\nFor 1 turn\nVirus"});
+		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]\nActif 1 tour","ATK : ARG1 -> [ARG2-ARG3]\nFor 1 turn"});
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 4 ;
@@ -54,8 +60,8 @@ public class PistoSape : GameSkill
 		int level = Mathf.Min(targetCard.getAttack()-1, value);
 		
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, (-1*level)+"ATK\n1 tour", 0);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2, new List<int>{-1*level}), 0);	
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
@@ -65,8 +71,8 @@ public class PistoSape : GameSkill
 		int level = Mathf.Min(targetCard.getAttack()-1,Mathf.RoundToInt(amount*value/100f));
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "Virus\n"+level+"ATK\n1 tour", 0);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*level, 1, 4, text, this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{-1*level}), 0);	
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
@@ -75,12 +81,12 @@ public class PistoSape : GameSkill
 		int minLevel = Mathf.Min(GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 		int maxLevel = Mathf.Min(5+GameView.instance.getCurrentSkill().Power, targetCard.getAttack()-1);
 
-		string text = "ATK : "+targetCard.getAttack()+" -> ["+(targetCard.getAttack()-minLevel)+"-"+(targetCard.getAttack()-maxLevel)+"]\nActif 1 tour";
+		string text = this.getText(4, new List<int>{targetCard.getAttack(),(targetCard.getAttack()-minLevel),(targetCard.getAttack()-maxLevel)});
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

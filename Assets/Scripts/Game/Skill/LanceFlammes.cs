@@ -5,7 +5,12 @@ public class LanceFlammes : GameSkill
 {
 	public LanceFlammes()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Lanceflammes","Flamethrower"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
+		texts.Add(new string[]{"Fou","Crazy"});
 		base.ciblage = -2 ;
 		base.auto = false;
 		base.id = 27 ;
@@ -14,7 +19,7 @@ public class LanceFlammes : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.setHoveringZone(2, "LanceFlammes", "");
+		GameView.instance.setHoveringZone(2, this.getText(0), "");
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
@@ -139,8 +144,8 @@ public class LanceFlammes : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, this.getText(0), value+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value, -1, 27, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1,new List<int>{value}), 0);	
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 	
@@ -160,12 +165,12 @@ public class LanceFlammes : GameSkill
 		}
 		int maxDamages = currentCard.getNormalDamagesAgainst(targetCard, damages);
 
-		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-minDamages)+"-"+(targetCard.getLife()-maxDamages)+"]";
+		string text = this.getText(2, new List<int>{targetCard.getLife(),(targetCard.getLife()-minDamages),(targetCard.getLife()-maxDamages)});
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
@@ -173,8 +178,8 @@ public class LanceFlammes : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), ""), true,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(3)+"\n"+this.getText(1, new List<int>{11-myLevel}), 0);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);

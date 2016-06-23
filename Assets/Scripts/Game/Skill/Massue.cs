@@ -5,7 +5,11 @@ public class Massue : GameSkill
 {
 	public Massue()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Massue","Hammer"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 63 ;
@@ -46,8 +50,8 @@ public class Massue : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, value);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,63,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{damages}), 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 
@@ -56,12 +60,12 @@ public class Massue : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*0.5f)); ;
 		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(120f+10f*GameView.instance.getCurrentCard().Skills[0].Power)/100f));
-		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-damagesMin)+"-"+(targetCard.getLife()-damagesMax)+"]";
+		string text = this.getText(2, new List<int>{targetCard.getLife(),(targetCard.getLife()-damagesMin),(targetCard.getLife()-damagesMax)});
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

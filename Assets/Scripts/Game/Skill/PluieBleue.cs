@@ -6,6 +6,11 @@ public class PluieBleue : GameSkill
 	public PluieBleue()
 	{
 		this.numberOfExpectedTargets = 1 ; 
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Pluie Bleue","Blue Rain"});
+		texts.Add(new string[]{"Sans effect","No effects"});
+		texts.Add(new string[]{"1 cristal créé","Creation of 1 cristal"});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = -2 ;
 		base.auto = false;
 		base.id = 130 ;
@@ -14,7 +19,7 @@ public class PluieBleue : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.setHoveringZone(1, "Pluie Bleue", "");
+		GameView.instance.setHoveringZone(1, this.getText(0), "");
 	}
 	
 	public override void resolve(List<Tile> targetsTile)
@@ -139,7 +144,7 @@ public class PluieBleue : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		if(GameView.instance.getCard(target).CardType.Id==6){
 			if(targetCard.getLife()==targetCard.getLife()){
-				GameView.instance.displaySkillEffect(target, "Sans effet", 1);
+				GameView.instance.displaySkillEffect(target, this.getText(1), 1);
 			}	
 			else{
 				GameView.instance.displaySkillEffect(target, "+"+Mathf.Min(targetCard.GetTotalLife()-targetCard.getLife())+" PV", 1);

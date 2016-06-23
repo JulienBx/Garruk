@@ -5,7 +5,13 @@ public class PistoLest : GameSkill
 {
 	public PistoLest()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"PistoLest","PistoLest"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"-ARG1 PV\n+ARG2 MOV\npour 1 tour","-ARG1 HP\n+ARG2 MOV\nfor 1 turn"});
+		texts.Add(new string[]{"-ARG1 PV\n+ARG2 MOV\npour 1 tour\nVirus","-ARG1 HP\n+ARG2 MOV\nfor 1 turn\nVirus"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]\n+ARG4 MOV\nActif 1 tour"});
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 5 ;
@@ -55,12 +61,12 @@ public class PistoLest : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, amount);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), this.getText(1)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
-		GameView.instance.displaySkillEffect(target,"-"+damages+"PV\n"+move+"MOV\n1 tour", 0);	
+		GameView.instance.displaySkillEffect(target,this.getText(2, new List<int>{damages,move}), 0);	
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}	
 
@@ -70,12 +76,12 @@ public class PistoLest : GameSkill
 		int damages = Mathf.RoundToInt(currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(amount*amount2/100f)));
 		int move = -1*Mathf.Min(targetCard.getMove()-1, Mathf.RoundToInt(1*amount2/100f));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 5, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addMoveModifyer(new Modifyer(move, 1, 5, this.getText(0), this.getText(1)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 		GameView.instance.recalculateDestinations();
 
-		GameView.instance.displaySkillEffect(target, "Virus\n-"+damages+"PV\n-"+move+"MOV\n1 tour", 0);	
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{damages,move}), 0);	
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}	
 
@@ -86,12 +92,12 @@ public class PistoLest : GameSkill
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, 2*level+2);
 		int move = -1*Mathf.Min(targetCard.getMove()-1,1);
 
-		string text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-1)+"-"+(targetCard.getLife()-damages)+"]\n"+move+"MOV\nActif 1 tour";
+		string text = this.getText(4, new List<int>{targetCard.getLife(),(targetCard.getLife()-1),(targetCard.getLife()-damages),move});
 		
 		int amount =WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

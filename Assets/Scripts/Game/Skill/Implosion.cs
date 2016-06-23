@@ -10,7 +10,6 @@ public class Implosion : GameSkill
 		texts.Add(new string[]{"Implosion","Implosion"});
 		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
 		texts.Add(new string[]{"Implose!","Dies!"});
-		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = -1 ;
 		base.auto = true;
 		base.id = 28 ;

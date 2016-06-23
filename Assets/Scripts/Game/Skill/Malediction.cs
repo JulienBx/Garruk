@@ -6,6 +6,11 @@ public class Malediction : GameSkill
 	public Malediction()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Malédiction","Curse"});
+		texts.Add(new string[]{"Choisis une faction. Les unités de cette faction recevront un malus d'attaque","Chooses a faction. Units from this faction get an ATK malus"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"-ARG1 ATK","-ARG1 ATK"});
 		base.ciblage = 12 ;
 		base.auto = true;
 		base.id = 106 ;
@@ -14,7 +19,7 @@ public class Malediction : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Malédiction", "Choisis une faction. Les unités de cette faction recevront un malus d'attaque");
+		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts(this.getText(0), this.getText(1));
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(this.id);
@@ -42,8 +47,8 @@ public class Malediction : GameSkill
 		int malus = Mathf.Max(1,Mathf.RoundToInt(targetCard.getAttack()*level/100f));
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 106, this.getText(0), ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "-"+malus+"ATK", 0);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(-1*malus, 1, 106, this.getText(0), this.getText(2)));
+		GameView.instance.displaySkillEffect(target, this.getText(3, new List<int>{malus}), 0);
 		GameView.instance.addAnim(2,GameView.instance.getTile(target));
 	}
 
