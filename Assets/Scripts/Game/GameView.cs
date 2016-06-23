@@ -32,6 +32,7 @@ public class GameView : MonoBehaviour
 	GameObject[] verticalBorders ;
 	GameObject[] horizontalBorders ;
 	GameObject[] playingCards ;
+    GameObject background;
 	public GameObject timerFront;
 	public GameObject choicePopUp;
 	GameObject validationSkill;
@@ -144,6 +145,7 @@ public class GameView : MonoBehaviour
 		this.validationSkill.GetComponent<SkillValidationController>().show(false);
 		this.gameTutoController = GameObject.Find("HelpController").GetComponent<GameTutoController>();
 		this.SB.GetComponent<StartButtonController>().show(false);
+        this.background=GameObject.Find("GameBackground");
 
 		this.runningSkill=-1;
 		this.isGameskillOK = true ;
@@ -3617,6 +3619,7 @@ public class GameView : MonoBehaviour
 
 	public void hideEndTurnPopUp(){
 		this.isFreezed = false ;
+        this.background.transform.GetComponent<GameBackgroundController>().MeteorsBackground();
 		Tile t ;
 		int amount = 5 ;
 		int amount2 ; 
