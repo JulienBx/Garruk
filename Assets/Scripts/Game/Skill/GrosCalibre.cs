@@ -6,6 +6,10 @@ public class GrosCalibre : GameSkill
 	public GrosCalibre()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Gros Calibre","Shotgun"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Fou","Crazy"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 26 ;
@@ -58,8 +62,8 @@ public class GrosCalibre : GameSkill
 		}
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, this.getText(0), damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
-		GameView.instance.displaySkillEffect(target, "-"+damages+"PV", 0);	
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 26, this.getText(0), ""), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{damages}), 0);	
 		GameView.instance.addAnim(6,GameView.instance.getTile(target));
 	}
 	
@@ -72,13 +76,13 @@ public class GrosCalibre : GameSkill
 			maxDamages = Mathf.RoundToInt(1.25f*maxDamages);
 		}
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(maxDamages));
-		string text = "-"+damages+"PV";		
+		string text = this.getText(1, new List<int>{damages});	
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
@@ -86,8 +90,8 @@ public class GrosCalibre : GameSkill
 	public override void applyOnMe(int value){
 		if(value==1){
 			int myLevel = GameView.instance.getCurrentCard().Skills[0].Power;
-			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), (10-myLevel)+" dégats subis"), true,-1);
-			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nFou\n-"+(11-myLevel)+"PV", 0);
+			GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer((11-myLevel), -1, 24, this.getText(0), ""), true,-1);
+			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2)+"\n"+this.getText(1, new List<int>{11-myLevel}), 0);
 		}
 		else{
 			GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0), 1);

@@ -5,6 +5,12 @@ public class Combo : GameSkill
 {
 	public Combo(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Combo","Combo"});
+		texts.Add(new string[]{"HIT XARG1\n-ARG2PV","HIT XARG1\n-ARG2HP"});
+		texts.Add(new string[]{"HIT XARG1\n-ARG2PV\nlâche","HIT XARG1\n-ARG2HP\ncoward"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]\nlâche","HP : ARG1 -> [ARG2-ARG3]\ncoward"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 12 ;
@@ -44,15 +50,15 @@ public class Combo : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,value*Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
-		string text = "HIT X"+value+"\n-"+damages+"PV";
+		string text = this.getText(1, new List<int>{value,damages});
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = "HIT X"+value+"\n-"+damages+"PV\n(lâche)";			
+			text = this.getText(2, new List<int>{value,damages});
 		}
 
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,12,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,12,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
 	
@@ -61,19 +67,19 @@ public class Combo : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damagesMin = currentCard.getNormalDamagesAgainst(targetCard,Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
 		int damagesMax = currentCard.getNormalDamagesAgainst(targetCard,(5+GameView.instance.getCurrentSkill().Power)*Mathf.Max(1,Mathf.RoundToInt(20*currentCard.getAttack()/100f)));
-		string text = "PV : "+currentCard.getLife()+" -> ["+(currentCard.getLife()-damagesMax)+"-"+(currentCard.getLife()-damagesMin)+"]";
+		string text = this.getText(3,new List<int>{currentCard.getLife(),(currentCard.getLife()-damagesMax),(currentCard.getLife()-damagesMin)});
 
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damagesMin = currentCard.getNormalDamagesAgainst(targetCard,damagesMin+5+currentCard.getSkills()[0].Power);
 			damagesMax = currentCard.getNormalDamagesAgainst(targetCard,damagesMax+5+currentCard.getSkills()[0].Power);
 		
-			text = "PV : "+targetCard.getLife()+" -> ["+(targetCard.getLife()-damagesMax)+"-"+(targetCard.getLife()-damagesMin)+"]";	
+			text = this.getText(4,new List<int>{currentCard.getLife(),(currentCard.getLife()-damagesMax),(currentCard.getLife()-damagesMin)});	
 		}
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

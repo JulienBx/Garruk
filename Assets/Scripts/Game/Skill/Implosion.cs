@@ -6,6 +6,11 @@ public class Implosion : GameSkill
 	public Implosion()
 	{
 		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Implosion","Implosion"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Implose!","Dies!"});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = -1 ;
 		base.auto = true;
 		base.id = 28 ;
@@ -64,15 +69,15 @@ public class Implosion : GameSkill
 	}
 	
 	public override void applyOn(int target, int value){
-		GameView.instance.displaySkillEffect(target, "-"+value+"PV", 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value,-1,28,this.getText(0),value+" dégats subis"), (target==GameView.instance.getCurrentPlayingCard()),-1);
+		GameView.instance.displaySkillEffect(target, this.getText(1, new List<int>{value}), 0);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(value,-1,28,this.getText(0),""), (target==GameView.instance.getCurrentPlayingCard()),-1);
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
 	public override void applyOnMe(int value){
 		GameCard currentCard = GameView.instance.getCurrentCard();
-		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(currentCard.getLife(),-1,28,this.getText(0),value+" dégats subis"), true,-1);
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\nSe détruit", 0);
+		GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(currentCard.getLife(),-1,28,this.getText(0),""), true,-1);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(2), 0);
 		GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

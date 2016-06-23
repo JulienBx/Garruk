@@ -6,6 +6,11 @@ public class Fatality : GameSkill
 	public Fatality()
 	{
 		this.numberOfExpectedTargets = 1 ; 
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Fatalité","Fatality"});
+		texts.Add(new string[]{"Meurt au prochain tour","Will die at the end of next turn"});
+		texts.Add(new string[]{"1 cristal créé","Creation of 1 cristal"});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = 3 ;
 		base.auto = false;
 		base.id = 101 ;
@@ -44,10 +49,10 @@ public class Fatality : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		GameView.instance.getCard(target).setFatality(new Modifyer(0, 1, 101, this.getText(0), "Meurt au prochain tour"));
+		GameView.instance.getCard(target).setFatality(new Modifyer(0, 1, 101, this.getText(0), this.getText(1)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, "Meurt au prochain tour", 0);	
+		GameView.instance.displaySkillEffect(target, this.getText(1), 0);	
 		GameView.instance.addAnim(4,GameView.instance.getTile(target));
 	}
 	
@@ -55,12 +60,12 @@ public class Fatality : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		string text = "Meurt à la fin de son prochain tour";
+		string text = this.getText(1);
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

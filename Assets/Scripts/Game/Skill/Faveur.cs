@@ -6,6 +6,9 @@ public class Faveur : GameSkill
 	public Faveur()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Faveur","Favor"});
+		texts.Add(new string[]{"Prochaine unité à jouer","Next unit to play"});
 		base.ciblage = 4 ;
 		base.auto = false;
 		base.id = 104 ;
@@ -43,19 +46,19 @@ public class Faveur : GameSkill
 	
 	public override void applyOn(int target){
 		GameView.instance.advanceTurn(target);
-		GameView.instance.displaySkillEffect(target, "Prochaine unité à jouer", 2);	
+		GameView.instance.displaySkillEffect(target, this.getText(1), 2);	
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
 	}	
 
 	public override string getTargetText(int target){
 		GameCard targetCard = GameView.instance.getCard(target);
 
-		string text = "Sera la prochaine unité à jouer";
+		string text = this.getText(1);
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getMagicalEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

@@ -5,6 +5,9 @@ public class Electropiege : GameSkill
 {
 	public Electropiege(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Electropiège","Elektrap"});
+		texts.Add(new string[]{"Pose un piège. Infligera ARG1 dégats à l'unité touchée","Sets a trap. It will inflict ARG1 damages to the wounded unit"});
 		base.ciblage = 6 ;
 		base.auto = false;
 		base.id = 13 ;
@@ -27,7 +30,7 @@ public class Electropiege : GameSkill
 
 	public override string getTargetText(int i){
 		int amount = 10+2*GameView.instance.getCurrentSkill().Power;
-		string s = "Pose un piège. Infligera "+amount+" dégats à l'unité touchée";
+		string s = this.getText(1,new List<int>{amount});
 		return s ;
 	}
 

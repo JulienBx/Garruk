@@ -5,6 +5,11 @@ public class Copieur : GameSkill
 {
 	public Copieur(){
 		this.numberOfExpectedTargets = 1 ; 
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Copieur","Copycat"});
+		texts.Add(new string[]{"Apprend ","Learns"});
+		texts.Add(new string[]{"Copiera la compétence ","Will learn the skill "});
+		texts.Add(new string[]{"échec","fail"});
 		base.ciblage = 9 ;
 		base.auto = false;
 		base.id = 105 ;
@@ -41,7 +46,7 @@ public class Copieur : GameSkill
 		GameView.instance.getMyHoveredCardController().updateCharacter();
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Apprend "+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(1)+WordingSkills.getName(targetCard.getSkills()[1].Id), 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 
@@ -49,12 +54,12 @@ public class Copieur : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		string text = "Copiera la compétence : "+WordingSkills.getName(targetCard.getSkills()[1].Id);
+		string text = this.getText(2)+WordingSkills.getName(targetCard.getSkills()[1].Id);
 
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

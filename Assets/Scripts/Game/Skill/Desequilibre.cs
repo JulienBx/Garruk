@@ -6,7 +6,12 @@ public class Desequilibre : GameSkill
 {
 	public Desequilibre()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Déséquilibre","Unbalance"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Repoussé","Pushed back"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nrepousse l'unité","HP : ARG1 -> ARG2\nPushes the enemy back"});
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 92 ;
@@ -46,7 +51,7 @@ public class Desequilibre : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
-		string text = this.getText(0)+"\n-"+damages+"PV";
+		string text = this.getText(0)+"\n"+this.getText(1,new List<int>{damages});
 
 		Tile targetTile = GameView.instance.getPlayingCardController(target).getTile();
 		Tile currentTile = GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).getTile();
@@ -62,11 +67,11 @@ public class Desequilibre : GameSkill
 			if(!GameView.instance.getTileController(nextTile).isRock() && GameView.instance.getTileController(nextTile).getCharacterID()==-1){
 				GameView.instance.dropCharacter(target, nextTile, true, true);
 				GameView.instance.recalculateDestinations();
-				text+="\nRepoussé!";
+				text+="\n"+this.getText(2);
 			}
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 92, text, "-"+damages+" PV"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages, -1, 92, "", ""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -77,12 +82,12 @@ public class Desequilibre : GameSkill
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard,Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f)));
 
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nrepousse l'unité";
+		string text = this.getText(3, new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});
 		
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

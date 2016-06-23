@@ -4,7 +4,14 @@ using System.Collections.Generic;
 public class Guerilla : GameSkill
 {
 	public Guerilla(){
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Guérilla","Guerrilla"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"-ARG1 PV\nLâche","-ARG1 HP\nCoward"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nLâche","HP : ARG1 -> ARG2\nCoward"});
+		texts.Add(new string[]{"Peut se déplacer","Can move!"});
 		base.ciblage = 1 ; 
 		base.auto = false;
 		base.id = 15 ;
@@ -45,13 +52,13 @@ public class Guerilla : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.2f+level/20f)));
-		string text = "-"+damages+"PV";				
+		string text = this.getText(1, new List<int>{damages});				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = "-"+damages+"PV\n(lâche)";
+			text = this.getText(2, new List<int>{damages});
 		}
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,15,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,15,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -61,23 +68,23 @@ public class Guerilla : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(0.2f+level/20f)));
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
+		string text = this.getText(3,new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\n(lâche)";
+			text = this.getText(4,new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});
 		}
 		
 		int amount = WordingSkills.getProba(GameView.instance.getCurrentSkill().Id,GameView.instance.getCurrentSkill().Power);
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,amount*(100-probaEsquive)/100) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}
 
 	public override void applyOnMe(int value){
-		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\npeut se déplacer", 2);
+		GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(0)+"\n"+this.getText(5), 2);
 		GameView.instance.addAnim(0,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 	}
 

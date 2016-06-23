@@ -6,6 +6,11 @@ public class Chasseur : GameSkill
 	public Chasseur()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Chasseur","Hunter"});
+		texts.Add(new string[]{"Choisis une faction. L'unité active recevra un bonus contre les unités de cette faction","Chooses a faction and gets a damage bonus against unit from the chosen faction"});
+		texts.Add(new string[]{" VS "," VS "});
+		texts.Add(new string[]{"Dégats +ARG1% VS ","+ARG1% damages VS "});
 		base.ciblage = 12 ;
 		base.auto = true;
 		base.id = 131 ;
@@ -14,7 +19,7 @@ public class Chasseur : GameSkill
 	public override void launch()
 	{
 		GameView.instance.initTileTargetHandler(numberOfExpectedTargets);
-		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts("Chasseur", "Choisis une faction. L'unité active recevra un bonus contre les unités de cette faction");
+		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().setTexts(this.getText(0), this.getText(1));
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().displayAllEnemyTypes();
 		GameView.instance.choicePopUp.GetComponent<PopUpChoiceController>().show(true);
 		GameController.instance.play(this.id);
@@ -29,16 +34,14 @@ public class Chasseur : GameSkill
 	}
 
 	public override void applyOnMe(int i){
-		Debug.Log("Chasseur "+i);
 		int level = GameView.instance.getCurrentSkill().Power;
 		int bonus = 10+4*level;
 		int target = GameView.instance.getCurrentPlayingCard();
 
-		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, this.getText(0)," VS "+WordingCardTypes.getName(i),i));
+		GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus,-1, 131, this.getText(0),this.getText(2)+WordingCardTypes.getName(i),i));
 		GameView.instance.getPlayingCardController(target).showIcons();
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\nDégats +"+bonus+"% VS "+WordingCardTypes.getName(i), 1);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(3,new List<int>{bonus})+WordingCardTypes.getName(i), 1);
 		GameView.instance.addAnim(0,GameView.instance.getTile(target));
-		Debug.Log("Tile "+GameView.instance.getTile(target).x+","+GameView.instance.getTile(target).y);
 	}
 
 	public override int getActionScore(Tile t, Skill s){

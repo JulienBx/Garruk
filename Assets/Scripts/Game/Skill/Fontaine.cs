@@ -5,6 +5,9 @@ public class Fontaine : GameSkill
 {
 	public Fontaine(){
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Fontaine","Fountain"});
+		texts.Add(new string[]{"Construit une fontaine. Soigne ARG1 PV aux unités stationnées","Builds a fountain. Heals ARG1 HP to every unit visiting"});
 		base.ciblage = 6 ;
 		base.auto = false;
 		base.id = 44 ;
@@ -27,7 +30,7 @@ public class Fontaine : GameSkill
 
 	public override string getTargetText(int i){
 		int amount = 10+2*GameView.instance.getCurrentSkill().Power;
-		string s = "Construit une fontaine. Soigne "+amount+" PV aux unités stationnées";
+		string s = this.getText(1, new List<int>{amount});
 		return s ;
 	}
 

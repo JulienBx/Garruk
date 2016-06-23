@@ -81,13 +81,12 @@ public class Cannibale : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = targetCard.getLife();
 		int percentage = 20+GameView.instance.getCurrentSkill().Power*5;
-		int bonusLife = Mathf.Min(Mathf.RoundToInt(damages*percentage/100f));
+		int bonusLife = Mathf.RoundToInt(damages*percentage/100f);
 		int bonusAttack = Mathf.RoundToInt(targetCard.getAttack()*percentage/100f);
 
 		string text = "";
-		if(bonusLife>0){
-			text+=this.getText(3, new List<int>{bonusLife})+"\n";
-		}
+
+		text+=this.getText(3, new List<int>{bonusLife})+"\n";
 		text+=this.getText(4, new List<int>{bonusAttack});
 		int targetMe = GameView.instance.getCurrentPlayingCard();
 

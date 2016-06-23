@@ -6,6 +6,10 @@ public class Criderage : GameSkill
 	public Criderage()
 	{
 		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Cri de Rage","Rage Scream"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
 		base.ciblage = 2 ;
 		base.auto = true;
 		base.id = 19 ;
@@ -61,8 +65,8 @@ public class Criderage : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, this.getText(0), ". Actif 1 tour"));
-		GameView.instance.displaySkillEffect(target, "+"+level+"ATK", 2);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(level, 1, 19, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(2,new List<int>{level}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 

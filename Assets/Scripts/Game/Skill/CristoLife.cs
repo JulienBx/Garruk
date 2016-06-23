@@ -5,7 +5,12 @@ public class Cristolife : GameSkill
 {
 	public Cristolife()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Cristo Life","Cristo Life"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Mange le cristal et gagne [ARG1-ARG2] PV","Eats the cristal et earns [ARG1-ARG2] HP"}); 
 		base.ciblage = 11 ;
 		base.auto = false;
 		base.id = 129 ;
@@ -38,9 +43,9 @@ public class Cristolife : GameSkill
 
 	public override void applyOnMe(int value){
 		int target = GameView.instance.getCurrentPlayingCard();
-		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, this.getText(0), ". Permanent"));
+		GameView.instance.getPlayingCardController(target).addPVModifyer(new Modifyer(value, -1, 129, this.getText(0), this.getText(1)));
 		GameView.instance.getPlayingCardController(target).updateLife(GameView.instance.getCurrentCard().getLife());
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+value+" PV", 2);	
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2,new List<int>{value}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 	
@@ -49,8 +54,8 @@ public class Cristolife : GameSkill
 		int minBonus = 2*level;
 		int maxBonus = 2*level+6;
 
-		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] PV";
-		text += "\n\nHIT% : 100";
+		string text = this.getText(2,new List<int>{minBonus, maxBonus});
+		text += "\nHIT% : 100";
 		
 		return text ;
 	}

@@ -6,6 +6,11 @@ public class Furtivite : GameSkill
 	public Furtivite()
 	{
 		this.numberOfExpectedTargets = 1 ; 
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Furtivité","Stealth"});
+		texts.Add(new string[]{". Actif 1 tour",". For 1 turn"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"ATK : ARG1 -> ARG2","ATK : ARG1 -> ARG2"});
 		base.ciblage = 10 ;
 		base.auto = true;
 		base.id = 9 ;
@@ -31,12 +36,12 @@ public class Furtivite : GameSkill
 		int attack = GameView.instance.getCurrentSkill().Power+5;
 
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(attack, 2, 9, this.getText(0), ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(attack, 2, 9, this.getText(0), this.getText(1)));
 
-		GameView.instance.getPlayingCardController(target).addMagicalEsquiveModifyer(new Modifyer(100, 2, 9, this.getText(0), ". Actif 1 tour"));
+		GameView.instance.getPlayingCardController(target).addMagicalEsquiveModifyer(new Modifyer(100, 2, 9, this.getText(0), this.getText(1)));
 		GameView.instance.getPlayingCardController(target).showIcons();
 
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+attack+" ATK", 2);
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{attack}), 2);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
@@ -44,9 +49,9 @@ public class Furtivite : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int attack = GameView.instance.getCurrentSkill().Power+2;
 
-		string text = "ATK : "+currentCard.getAttack()+" -> "+(currentCard.getAttack()+attack);
+		string text = this.getText(3,new List<int>{currentCard.getAttack(),(currentCard.getAttack()+attack)});
 
-		text += "\n\nHIT% : 100";
+		text += "\nHIT% : 100";
 		
 		return text ;
 	}

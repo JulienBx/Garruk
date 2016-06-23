@@ -5,7 +5,12 @@ public class Cristopower : GameSkill
 {
 	public Cristopower()
 	{
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Cristo Power","Cristo Power"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"Mange le cristal et gagne [ARG1-ARG2] ATK","Eats the cristal et earns [ARG1-ARG2] ATK"});
 		base.ciblage = 11 ;
 		base.auto = false;
 		base.id = 128 ;
@@ -40,8 +45,8 @@ public class Cristopower : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameView.instance.getPlayingCardController(target).updateAttack(targetCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+"+value+" ATK", 2);	
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(value, -1, 128, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{value}), 2);	
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 	
@@ -50,8 +55,8 @@ public class Cristopower : GameSkill
 		int minBonus = level;
 		int maxBonus = level + 4 ;
 
-		string text = "Mange le cristal et gagne : ["+minBonus+" - "+maxBonus+"] ATK";
-		text += "\n\nHIT% : 100";
+		string text = this.getText(2, new List<int>{minBonus, maxBonus});
+		text += "\nHIT% : 100";
 		
 		return text ;
 	}

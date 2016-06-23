@@ -4,7 +4,11 @@ using System.Collections.Generic;
 public class CristoCurse : GameSkill
 {
 	public CristoCurse(){
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Cristo Curse","Cristo Curse"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nInflige ARG3 dégats à toutes les unités de cette faction","HP : ARG1 -> ARG2\nInflicts ARG3 damages to every unit of this faction"});
 		base.ciblage = 9 ;
 		base.auto = false;
 		base.id = 41 ;
@@ -50,10 +54,10 @@ public class CristoCurse : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f));
 
-		string text = "-"+damages+"PV";
+		string text = this.getText(1,new List<int>{damages});
 						
 		GameView.instance.displaySkillEffect(target, text, 0);
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,"Attaque",damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,1,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.addAnim(5,GameView.instance.getTile(target));
 	}
 
@@ -62,11 +66,11 @@ public class CristoCurse : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int damages = currentCard.getNormalDamagesAgainst(targetCard, Mathf.RoundToInt(currentCard.getAttack()*(GameView.instance.getCurrentSkill().Power*5f+50f)/100f));
 
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages)+"\nInflige "+damages+" dégats à toutes les unités de cette faction";
+		string text = this.getText(2, new List<int>{targetCard.getLife(),(targetCard.getLife()-damages),damages});
 		int probaEsquive = targetCard.getEsquive();
 		int probaHit = Mathf.Max(0,100-probaEsquive) ;
 		
-		text += "\n\nHIT% : "+probaHit;
+		text += "\nHIT% : "+probaHit;
 		
 		return text ;
 	}

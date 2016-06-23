@@ -4,7 +4,13 @@ using System.Collections.Generic;
 public class CoupPrecis : GameSkill
 {
 	public CoupPrecis(){
-		this.numberOfExpectedTargets = 1 ; 
+		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Alchimie","Alchemy"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"-ARG1 PV\nLâche","-ARG1 HP\nCoward"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"}); 
+		texts.Add(new string[]{"PV : ARG1 -> ARG2\nLâche","HP : ARG1 -> ARG2\nCoward"}); 
 		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 59 ;
@@ -34,12 +40,12 @@ public class CoupPrecis : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f));
-		string text = "-"+damages+"PV";				
+		string text = this.getText(1, new List<int>{damages});			
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = "-"+damages+"PV\n(lâche)";
+			text = this.getText(2, new List<int>{damages});
 		}
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),damages+" dégats subis"), false, GameView.instance.getCurrentPlayingCard());
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,11,this.getText(0),""), false, GameView.instance.getCurrentPlayingCard());
 		GameView.instance.displaySkillEffect(target, text, 0);
 		GameView.instance.addAnim(3,GameView.instance.getTile(target));
 	}
@@ -49,13 +55,13 @@ public class CoupPrecis : GameSkill
 		GameCard currentCard = GameView.instance.getCurrentCard();
 		int level = GameView.instance.getCurrentSkill().Power;
 		int damages = Mathf.RoundToInt(currentCard.getAttack()*(0.5f+level/20f));
-		string text = "PV : "+targetCard.getLife()+" -> "+(targetCard.getLife()-damages);				
+		string text = this.getText(3,new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});				
 		if (currentCard.isLache() && !currentCard.hasMoved){
 			damages = currentCard.getNormalDamagesAgainst(targetCard, damages+5+currentCard.getSkills()[0].Power);
-			text = this.getText(0)+"\n-"+damages+"PV\n(lâche)";
+			text = this.getText(4,new List<int>{targetCard.getLife(),(targetCard.getLife()-damages)});
 		}
 		
-		text += "\n\nHIT% : 100";
+		text += "\nHIT% : 100";
 		
 		return text ;
 	}

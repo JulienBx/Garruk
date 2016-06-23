@@ -9,6 +9,9 @@ public class GameSkill
 	public List<int> values;
 	public List<Tile> tileTargets;
 	public IList<string[]> texts ;
+	public IList<string[]> texts2 ;
+
+
 
 	public int ciblage ;
 	public bool auto ;
@@ -19,16 +22,37 @@ public class GameSkill
 		this.results = new List<int>();
 		this.values = new List<int>();
 		this.tileTargets = new List<Tile>();
+
+		texts2 = new List<string[]>();
+		texts2.Add(new string[]{"Compétence déjà utilisée","Skill has been used"});
+		texts2.Add(new string[]{"Compétence déjà utilisée","You have already used a skill"});
+		texts2.Add(new string[]{"Unité incontrolable","Your unit is furious"});
+		texts2.Add(new string[]{"Unité paralysée","Paralyzed unit"});
+		texts2.Add(new string[]{"Echec ","Fails "});
+		texts2.Add(new string[]{"Esquive ","Dodge "});
 	}
 
 	public virtual string getText(int id){
 		return this.texts[id][ApplicationModel.player.IdLanguage];
 	}
 
+	public virtual string getText2(int id){
+		return this.texts2[id][ApplicationModel.player.IdLanguage];
+	}
+
 	public virtual string getText(int id, List<int> args){
 		string text = this.texts[id][ApplicationModel.player.IdLanguage];
 		for(int i = 0 ; i < args.Count ; i++){
-			text = text.Replace("ARG"+i, ""+args[i]);
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
+	}
+
+	public virtual string getText2(int id, List<int> args){
+		string text = this.texts2[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
 		}
 
 		return text ;
@@ -130,16 +154,16 @@ public class GameSkill
 		Skill s = GameView.instance.getCurrentSkill();
 		string launchability = "" ;
 		if (s.hasBeenPlayed){
-			launchability = "Compétence déjà utilisée!";
+			launchability = this.getText2(0);
 		}
 		if(gc.hasPlayed){
-			launchability = "Le personnage a déjà joué";
+			launchability = this.getText2(1);
 		}
 		else if(gc.isFurious()){
-			launchability = "Furie : les compétences sont indisponibles";
+			launchability = this.getText2(2);
 		}
 		else if(gc.isEffraye()){
-			launchability = "Paralysé : Ne peut utiliser ses compétences";
+			launchability = this.getText2(3);
 		}
 		else{
 			if(this.ciblage==1){
@@ -278,7 +302,7 @@ public class GameSkill
 
 	public virtual void esquive(int target, string s)
 	{ 
-		string text = "Echec "+s;
+		string text = this.getText(4)+s;
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		SoundController.instance.playSound(27);
@@ -286,11 +310,10 @@ public class GameSkill
 
 	public virtual void esquive(int target, int result)
 	{ 
-		Debug.Log("Echec2");
 		string text = "";
 		int type = 1 ; 
 		if(result==1){
-			text = "Esquive";
+			text = this.getText(5);
 		}
 
 		GameView.instance.displaySkillEffect(target, text, type);

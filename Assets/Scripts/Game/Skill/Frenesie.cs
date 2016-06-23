@@ -6,6 +6,10 @@ public class Frenesie : GameSkill
 	public Frenesie()
 	{
 		this.numberOfExpectedTargets = 0 ; 
+		base.texts = new List<string[]>();
+		texts.Add(new string[]{"Frénésie","Bloodlust"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"+5ATK\n-ARG1 PV","+5ATK\n-ARG1 HP"});
 		base.ciblage = 0 ;
 		base.auto = true;
 		base.id = 18 ;
@@ -33,10 +37,10 @@ public class Frenesie : GameSkill
 		int target = GameView.instance.getCurrentPlayingCard();
 		int damages = currentCard.getNormalDamagesAgainst(currentCard, life);
 
-		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,this.getText(0),damages+" dégats subis"), true,-1);
+		GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(damages,-1,18,this.getText(0),""), true,-1);
 		GameView.instance.getPlayingCardController(target).updateAttack(currentCard.getAttack());
-		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, this.getText(0), ". Permanent"));
-		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n+5ATK\n-"+damages+"PV", 1);
+		GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(5, -1, 18, this.getText(0), this.getText(1)));
+		GameView.instance.displaySkillEffect(target, this.getText(0)+"\n"+this.getText(2, new List<int>{damages}), 1);
 		GameView.instance.addAnim(7,GameView.instance.getTile(target));
 	}
 
