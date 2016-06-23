@@ -3619,7 +3619,7 @@ public class GameView : MonoBehaviour
 
 	public void hideEndTurnPopUp(){
 		this.isFreezed = false ;
-        this.background.transform.GetComponent<GameBackgroundController>().MeteorsBackground();
+        //this.background.transform.GetComponent<GameBackgroundController>().MeteorsBackground();
 		Tile t ;
 		int amount = 5 ;
 		int amount2 ; 
