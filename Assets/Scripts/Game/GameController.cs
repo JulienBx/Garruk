@@ -20,7 +20,9 @@ public class GameController : Photon.MonoBehaviour
 		texts.Add(new string[]{"Soigne de ARG1 PV les unités stationnées","Heals ARG1 PV to each visiting unit"});
 		texts.Add(new string[]{"Fontaine","Fountain"});
 		texts.Add(new string[]{"+ARG1 ATK aux unités stationnées","Adds ARG1 ATK to each visiting unit"});
-		texts.Add(new string[]{"Fontaine","Fountain"});
+		texts.Add(new string[]{"Caserne","Barracks"});
+		texts.Add(new string[]{"Téléportera dans un rayon de ARG1 cases l'unité touchée","Will teleport the trapped unit ARG1 tile(s) away"});
+		texts.Add(new string[]{"TelePiège","TeleporTrap"});
 	}
 
 	public virtual string getText(int id){
@@ -126,8 +128,8 @@ public class GameController : Photon.MonoBehaviour
 	
 	[PunRPC]
 	public void addTelepiegeRPC(int amount, int x, int y){
-		string description = "Téléportera dans un rayon de "+amount+" cases l'unité touchée" ;
-		Trap trap = new Trap(amount, 3, GameView.instance.getCurrentCard().isMine, "Télépiège", description);
+		string description = this.getText(8, new List<int>{amount}) ;
+		Trap trap = new Trap(amount, 3, GameView.instance.getCurrentCard().isMine, this.getText(9), description);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	

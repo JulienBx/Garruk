@@ -300,7 +300,7 @@ public class GameSkill
 
 	public virtual void esquive(int target, string s)
 	{ 
-		string text = this.getText(4)+s;
+		string text = this.getText2(4)+s;
 		GameView.instance.displaySkillEffect(target, text, 1);
 		GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		SoundController.instance.playSound(27);
@@ -311,7 +311,7 @@ public class GameSkill
 		string text = "";
 		int type = 1 ; 
 		if(result==1){
-			text = this.getText(5);
+			text = this.getText2(5);
 		}
 
 		GameView.instance.displaySkillEffect(target, text, type);
