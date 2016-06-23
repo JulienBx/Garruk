@@ -6,6 +6,7 @@ public class Renfoderme : GameSkill
 	public Renfoderme()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Renfoderme","Shield"});
 		texts.Add(new string[]{". Permanent",". Permanent"});
 		texts.Add(new string[]{"Bouclier ARG1%","ARG1% shield"});

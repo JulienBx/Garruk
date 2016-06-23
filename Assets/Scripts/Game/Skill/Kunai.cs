@@ -6,6 +6,7 @@ public class Kunai : GameSkill
 	public Kunai()
 	{
 		this.numberOfExpectedTargets = 1 ;
+		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Kunaï","Kunaï"});
 		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
 		texts.Add(new string[]{"-ARG1 PV\nLâche","-ARG1 HP\nCoward"});

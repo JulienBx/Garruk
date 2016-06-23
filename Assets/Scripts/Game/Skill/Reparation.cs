@@ -6,6 +6,7 @@ public class Reparation : GameSkill
 	public Reparation()
 	{
 		this.numberOfExpectedTargets = 0 ;
+		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Reparation","Repairing"});
 		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
 		base.ciblage = 0 ;
