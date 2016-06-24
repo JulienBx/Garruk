@@ -67,7 +67,7 @@ public class HoveredCardController : MonoBehaviour
 		for(int i = 1 ; i < c.Skills.Count;i++){
 			if(c.Skills[i].IsActivated==1){
 				if(WordingSkills.getProba(c.Skills [i].Id, c.Skills[i].Power-1)<100){
-					gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1))+". P : "+WordingSkills.getProba(c.Skills [i].Id, c.Skills[i].Power-1)+"%";
+					gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1))+". HIT% : "+WordingSkills.getProba(c.Skills [i].Id, c.Skills[i].Power-1)+"%";
 				}
 				else{
 					gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [i].Id, c.Skills[i].Power-1));
@@ -95,7 +95,7 @@ public class HoveredCardController : MonoBehaviour
 			}
 		}
 		if(WordingSkills.getProba(c.Skills [0].Id, c.Skills[0].Power-1)<100){
-			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1))+". P : "+WordingSkills.getProba(c.Skills [0].Id, c.Skills[0].Power-1)+"%";
+			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1))+". HIT% : "+WordingSkills.getProba(c.Skills [0].Id, c.Skills[0].Power-1)+"%";
 		}
 		else{
 			gameObject.transform.FindChild("Skill"+nbSkills).FindChild("Text").GetComponent<TextMeshPro>().text = c.getSkillText(WordingSkills.getDescription(c.Skills [0].Id, c.Skills[0].Power-1));
@@ -174,11 +174,21 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.pvModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.pvModifyers[i].amount+" HP"+c.pvModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.pvModifyers[i].amount+" PV"+c.pvModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.pvModifyers[i].amount+" HP"+c.pvModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.pvModifyers[i].title;
@@ -198,11 +208,21 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.bonusModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bonusModifyers[i].amount+"% damages"+c.bonusModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+"% dégats"+c.bonusModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].amount+"% damages"+c.bonusModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.bonusModifyers[i].title;
@@ -222,11 +242,21 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.esquiveModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.esquiveModifyers[i].amount+" % ESQ"+c.esquiveModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.esquiveModifyers[i].amount+" %ESQ"+c.esquiveModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.esquiveModifyers[i].amount+" %DOD"+c.esquiveModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].amount+" % ESQ"+c.esquiveModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].amount+" %ESQ"+c.esquiveModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].amount+" %DOD"+c.esquiveModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.esquiveModifyers[i].title;
@@ -248,11 +278,21 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.magicalEsquiveModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.magicalEsquiveModifyers[i].amount+" % ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.magicalEsquiveModifyers[i].amount+" %ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.magicalEsquiveModifyers[i].amount+" %DOD dis. skills"+c.magicalEsquiveModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].amount+" % ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].amount+" %ESQ à distance"+c.magicalEsquiveModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].amount+" %DOD dis. skills"+c.magicalEsquiveModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.magicalEsquiveModifyers[i].title;
@@ -294,11 +334,21 @@ public class HoveredCardController : MonoBehaviour
 			}
 			else{
 				if(c.bouclierModifyers[i].amount>=0){
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % Bouclier"+c.bouclierModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % Bouclier"+c.bouclierModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = "+"+c.bouclierModifyers[i].amount+" % Shield"+c.bouclierModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
 				}
 				else{
-					gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].amount+" % bouclier"+c.bouclierModifyers[i].description;
+					if(ApplicationModel.player.IdLanguage==0){
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].amount+" % Bouclier"+c.bouclierModifyers[i].description;
+					}
+					else{
+						gameObject.transform.FindChild("Effect"+compteur).FindChild("Text").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].amount+" % Shield"+c.bouclierModifyers[i].description;
+					}
 					gameObject.transform.FindChild("Effect"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				gameObject.transform.FindChild("Effect"+compteur).FindChild("Title").GetComponent<TextMeshPro>().text = c.bouclierModifyers[i].title;
