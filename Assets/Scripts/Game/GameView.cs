@@ -22,10 +22,8 @@ public class GameView : MonoBehaviour
 	int nbCardsPerPlayer ;
 	public int nbFreeRowsAtBeginning ;
 
-	bool isLoadingScreenDisplayed = false ;
 	bool isSceneLoaded=false;
 
-	GameObject serverController;
 	GameObject[,] tiles ;
 	GameObject myHoveredRPC ;
 	GameObject hisHoveredRPC ;
@@ -116,6 +114,8 @@ public class GameView : MonoBehaviour
 	int timeStartIA ;
 	public bool isEndedGame = false ;
 
+	public IList<string[]> texts ;
+
 	void Awake()
 	{
 		instance = this;
@@ -157,11 +157,92 @@ public class GameView : MonoBehaviour
 		this.orderCards = new List<int>();
 		this.hasLaunchedQGH = false ;
 
+		texts = new List<string[]>();
+		texts.Add(new string[]{"Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.","Welcome to Alpha Fight Simulator AB49! My name is Mudo and I will guide you throught this first cristalian battle"});
+		texts.Add(new string[]{"Leader","Leader"});
+		texts.Add(new string[]{". Permanent",". Permanent"});
+		texts.Add(new string[]{"Renforce les alliés","Strengthens your allies"});
+		texts.Add(new string[]{"Protecteur","Protector"});
+		texts.Add(new string[]{"Protège les alliés adjacents","Protects adjacent allies"});
+		texts.Add(new string[]{"Déplacement en cours","A unit is currently moving"});
+		texts.Add(new string[]{"Golem","Golem"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Poison","Poison"});
+		texts.Add(new string[]{"Soin sans effet","Healing\nNo effects"});
+		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
+		texts.Add(new string[]{"Caserne","Barracks"});
+		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
+		texts.Add(new string[]{"Infirmière","Nurse"});
+		texts.Add(new string[]{"Frénétique","BloodThirsty"});
+		texts.Add(new string[]{"Fatalité","Fatality"});
+		texts.Add(new string[]{"Météorites!","Meteors!"});
+		texts.Add(new string[]{"A vous de jouer!","Your turn begins!"});
+		texts.Add(new string[]{"Tour de l'ennemi!","Your enemy plays!"});
+		texts.Add(new string[]{"Purifié","Purified!"});
+		texts.Add(new string[]{"Echec purification","Purify failed!"});
+		texts.Add(new string[]{"Mutant","Mutant"});
+		texts.Add(new string[]{"Se transforme!","Transforms"});
+		texts.Add(new string[]{"Attaque","Attack"});
+		texts.Add(new string[]{"Aucun ennemi à portée de lance","You can not attack any unit with the spear"});
+		texts.Add(new string[]{"Aucun ennemi à proximité","There is no unit next to you"});
+		texts.Add(new string[]{"Aucun ennemi à proximité de cristoides alliés","There is no unit next to your cristoids"});
+		texts.Add(new string[]{"Aucun ennemi à proximité de droides alliés","There is no unit next to your droids"});
+		texts.Add(new string[]{"Aucun cristal à proximité","There is no cristal next to your unit"});
+		texts.Add(new string[]{"Aucun terrain adjacent ne peut être ciblé","There is no free tile next to your unit"});
+		texts.Add(new string[]{"Aucun allié à proximité","There is no ally next to your unit"});
+		texts.Add(new string[]{"Aucun ennemi ne peut être ciblé","No enemy can be targeted"});
+		texts.Add(new string[]{"Aucune unité ne peut être ciblée","No unit can be targeted"});
+		texts.Add(new string[]{"Aucun allié ne peut être ciblé","No ally can be targeted"});
+		texts.Add(new string[]{"Aucune allié n'est blessé","No allys are wounded"});
+		texts.Add(new string[]{"Aucun allié n'est mort","No allys are dead"});
+		texts.Add(new string[]{"Perd les bonus leaders","Loses leader bonus"});
+		texts.Add(new string[]{"Sanguinaire","BloodThirsty"});
+		texts.Add(new string[]{"Dégats à distance +ARG1%","+ARG1% to distant damages"});
+		texts.Add(new string[]{"Pas d'ennemis à proximité de cristaux","No enemies next to cristals"});
+		texts.Add(new string[]{"Compétence en cours","A skill is running"});
+		texts.Add(new string[]{"Lancer","Launch"});
+		texts.Add(new string[]{"Météorites\n-ARG1 PV","Meteors\n-ARG1 HP"});
+		texts.Add(new string[]{"Cristomaitre","Cristomaster"});
+
+		texts.Add(new string[]{"Le terrain est constitué de cases sur lesquelles les unités s'affrontent!","The battlefield is made of tiles. Units can move on these tiles to hit their opponents "});
+		texts.Add(new string[]{"Certaines cases sont spéciales, par exemple les cristaux. Cliquez sur un cristal pour en apprendre plus","There are some special tiles such as cristals. Click on a cristal to learn more about it"});
+		texts.Add(new string[]{"Voici vos 4 unités!. A droite les points de vie (PV) déterminent leur résistance. Une unité n'ayant plus de PV quitte le combat!","Here are your 4 units. To the right, health points (HP) determines the unit's strength. When HP reach 0, the unit quits the fight"});
+		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
+		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield"});
+		texts.Add(new string[]{"Votre ennemi a positionné ses unités, la bataille peut démarrer. Vous êtes le premier joueur à avoir placé ses troupes, vous êtes donc le premier à jouer!","Your enemy has also moved his units. You have been the first to click on the START button, therefore you will be the first one to play!"});
+		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage","The enemy owns a LEADER type unit. let's touch the character to verify the unit's identity"});
+		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici","Indeed the unit is a LEADER. You can read more about his skills!"});
+		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Commencez par la déplacer près de l'ennemi","Your unit is flashing. This means that it's her turn to play. Move her next to your enemy"});
+		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Attaquez le LEADER en déplacant le bouton d'attaque sur lui","Units can attack adjacent enemies (diagonal attack is not allowed). Move the attack button on the LEADER to hit him"});
+		texts.Add(new string[]{"Les effets de la compétence s'affichent sur le terrain. Anéantir le LEADER a permis d'affaiblir les unités adverses!","Skill effects are displayed on the battlefield. Destroying the leader has weakened the enemy units"});
+		texts.Add(new string[]{"A chaque tour une unité se déplace et utilise une compétence. Les unités jouent chacune à leur tour, selon l'ordre établi dans la timeline","Unit can move once and use one skill per turn. Units play after each other, play order is displayed in the timeline"});
+		texts.Add(new string[]{"C'est maintenant le tour de votre ennemi! A gauche sur la carte les points d'attaque (ATK) déterminent le nombre de points enlevés à chaque attaque", "Now begins your enemy's turn. to the left of the card, attack power (ATK) determines how many health points are removed to the target when it's attacked"});
+		texts.Add(new string[]{"Apprenons maintenant à utiliser les compétences de vos unités. Votre unité active, un MEDIC, peut soigner les unités blessées", "Let's learn how to use your unit's skills. Your active unit, a MEDIC, can use a skill to heal wounded allys"});
+		texts.Add(new string[]{"Choisissez la compétence PISTOSOIN et soignez votre unité blessée!. Chaque unité peut utiliser une compétence par tour ou attaquer", "Choose HEALSHOT skill and heal your wounded unit. Each unit can use 1 skill or attack during its turn"});
+		texts.Add(new string[]{"Félicitations, Votre unité est soignée ! Vous pouvez déplacer votre unité ou terminer directement votre tour en cliquant sur le bouton TERMINER", "Congratulations, you have healed your unit. You can still move your unit or end your turn by clicking on END OF TURN"});
+		texts.Add(new string[]{"Pour éviter que les combats ne durent trop longtemps, des météorites s'abattent fréquemment sur les côtés du champ de bataille", "To avoid long fights, meteors often fall on the sides of the battlefield"});
+		texts.Add(new string[]{"La timeline affiche les météorites, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du terrain", "The timeline displays meteor events. The number above the picture determines how many lines will be hit at each side of the battlefield by the meteors"});
+		texts.Add(new string[]{"Vous possédez maintenant toutes les armes pour terminer ce combat. Bonne chance et à bientôt!", "Now you hold the keys to win this fight. Good luck and see you later!"});
+
+
 	}
 
 	void Start()
 	{
 		PhotonController.instance.initializeGame();
+	}
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
 	}
 
 	public void init(){
@@ -174,10 +255,10 @@ public class GameView : MonoBehaviour
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.gameTutoController.initialize();
 				if(GameView.instance.isMobile){
-					this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 3);
+					this.gameTutoController.setCompanion(this.getText(0), true, false, true, 3);
 				}
 				else{
-					this.gameTutoController.setCompanion("Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.", true, false, true, 0);
+					this.gameTutoController.setCompanion(this.getText(0), true, false, true, 0);
 				}
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 20f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
@@ -283,10 +364,10 @@ public class GameView : MonoBehaviour
 	{
 		if(ApplicationModel.player.ToLaunchGameTutorial){
 			List<Skill> skills = new List<Skill>();
-			skills.Add (new Skill("Lâche", 65, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Vitamines", 6, 1, 2, 6, 0, "", 0, 100));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 65, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 6, 1, 2, 6, 0, "", 0, 100));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			Card c1 = new Card(-1, "Flash", 35, 2, 0, 7, 16, skills);
 			c1.deckOrder=0;
 			GameCard g1 = new GameCard(c1);
@@ -299,10 +380,10 @@ public class GameView : MonoBehaviour
 			this.getPlayingCardController(0).updateAttack(0);
 
 			skills = new List<Skill>();
-			skills.Add (new Skill("Paladin", 73, 1, 1, 3, 0, "", 0, 0));
-			skills.Add (new Skill("PistoSoin", 2, 1, 1, 6, 0, "", 0, 100));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 73, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("", 2, 1, 1, 6, 0, "", 0, 100));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Arthur", 51, 1, 0, 3, 14, skills);
 			c1.deckOrder=1;
 			g1 = new GameCard(c1);
@@ -315,10 +396,10 @@ public class GameView : MonoBehaviour
 
 			
 			skills = new List<Skill>();
-			skills.Add (new Skill("Cuirassé", 70, 1, 1, 4, 0, "", 0, 0));
-			skills.Add (new Skill("Attaque 360", 17, 1, 1, 8, 0, "", 0, 100));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 70, 1, 1, 4, 0, "", 0, 0));
+			skills.Add (new Skill("", 17, 1, 1, 8, 0, "", 0, 100));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Psycho", 52, 2, 0, 3, 28, skills);
 			c1.deckOrder=2;
 			g1 = new GameCard(c1);
@@ -331,10 +412,10 @@ public class GameView : MonoBehaviour
 
 
 			skills = new List<Skill>();
-			skills.Add (new Skill("Agile", 66, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Assassinat", 10, 1, 2, 10, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 66, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 10, 1, 2, 10, 0, "", 0, 80));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Slayer", 35, 2, 0, 3, 16, skills);
 			c1.deckOrder=3;
 			g1 = new GameCard(c1);
@@ -346,11 +427,11 @@ public class GameView : MonoBehaviour
 			this.getPlayingCardController(3).updateAttack(0);
 
 			skills = new List<Skill>();
-			skills.Add (new Skill("Tank", 70, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Brute", 26, 2, 0, 2, 17, skills);
+			skills.Add (new Skill("", 70, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 17, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Beast", 26, 2, 0, 2, 17, skills);
 			c1.deckOrder=0;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -362,11 +443,11 @@ public class GameView : MonoBehaviour
 			this.tiles[1,6].GetComponentInChildren<TileController>().setCharacterID(4);
 
 			skills = new List<Skill>();
-			skills.Add (new Skill("Leader", 76, 1, 1, 3, 0, "", 0, 0));
-			skills.Add (new Skill("PistoSoin", 2, 1, 1, 1, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			c1 = new Card(-1, "Flash", 14, 1, 0, 6, 11, skills);
+			skills.Add (new Skill("", 76, 1, 1, 3, 0, "", 0, 0));
+			skills.Add (new Skill("", 2, 1, 1, 1, 0, "", 0, 80));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			c1 = new Card(-1, "Leader", 14, 1, 0, 6, 11, skills);
 			c1.deckOrder=1;
 			g1 = new GameCard(c1);
 			g1.LifeLevel=2;
@@ -378,10 +459,10 @@ public class GameView : MonoBehaviour
 			this.tiles[3,6].GetComponentInChildren<TileController>().setCharacterID(5);
 
 			skills = new List<Skill>();
-			skills.Add (new Skill("Rapide", 71, 1, 1, 4, 0, "", 0, 0));
-			skills.Add (new Skill("Massue", 63, 1, 1, 1, 0, "", 0, 100));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 71, 1, 1, 4, 0, "", 0, 0));
+			skills.Add (new Skill("", 63, 1, 1, 1, 0, "", 0, 100));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Alien", 19, 2, 0, 3, 21, skills);
 			c1.deckOrder=2;
 			g1 = new GameCard(c1);
@@ -391,10 +472,10 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(g1, false);
 			
 			skills = new List<Skill>();
-			skills.Add (new Skill("Fantassin", 68, 1, 1, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Attaque 360", 17, 1, 2, 6, 0, "", 0, 80));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
-			skills.Add (new Skill("Aguerri", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 1, 1, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 17, 1, 2, 6, 0, "", 0, 80));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
+			skills.Add (new Skill("", 68, 0, 0, 2, 0, "", 0, 0));
 			c1 = new Card(-1, "Tank", 24, 2, 0, 2, 17, skills);
 			c1.deckOrder=3;
 			g1 = new GameCard(c1);
@@ -414,8 +495,6 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(3), false);
 			this.placeIACards();
 			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
-
-
 
 			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
@@ -514,13 +593,13 @@ public class GameView : MonoBehaviour
 				if(this.getCard(i).isMine){
 					if(this.getCard(i).isLeader()){
 						level = this.getCard(i).getSkills()[0].Power;
-						GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, 5+" dégats subis"), false, -1);
+						GameView.instance.getPlayingCardController(i).addDamagesModifyer(new Modifyer(Mathf.RoundToInt(this.getCard(i).GetTotalLife()/2f), -1, 23, base.name, ""), false, -1);
 						for(int j = 0 ; j < this.nbCards ; j++){
 							if(this.getCard(j).isMine && i!=j){
 								attackValue = level;
 								pvValue = level+6;
-								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
-								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, this.getText(1), this.getText(2)));
+								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, this.getText(1), this.getText(2)));
 								this.getPlayingCardController(j).show();
 								this.getPlayingCardController(j).updateLife(0);
 								this.getPlayingCardController(j).updateAttack(0);
@@ -528,7 +607,7 @@ public class GameView : MonoBehaviour
 							}
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
-							GameView.instance.displaySkillEffect(i, "Leader\nrenforce les alliés", 1);	
+							GameView.instance.displaySkillEffect(i, this.getText(1)+"\n"+this.getText(3), 1);	
 							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
@@ -540,13 +619,13 @@ public class GameView : MonoBehaviour
 							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
 							if(characterID!=-1){
 								if(this.getCard(characterID).isMine){
-									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, "Protecteur", ". Permanent"));
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, this.getText(4), this.getText(2)));
 									this.getPlayingCardController(characterID).showIcons();
 								}
 							}
 						}
 						if(!ApplicationModel.player.ToLaunchGameTutorial){
-							GameView.instance.displaySkillEffect(i, "Protecteur\nProtège les alliés adjacents", 1);	
+							GameView.instance.displaySkillEffect(i, this.getText(4)+"\n"+this.getText(5), 1);	
 							GameView.instance.addAnim(0,GameView.instance.getTile(i));
 						}
 					}
@@ -560,8 +639,8 @@ public class GameView : MonoBehaviour
 							if(!this.getCard(j).isMine && i!=j){
 								attackValue = level;
 								pvValue = level+6;
-								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, "Leader", ". Permanent"));
-								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, "Leader", ". Permanent"));
+								this.getPlayingCardController(j).addAttackModifyer(new Modifyer(attackValue, -1, 76, this.getText(1), this.getText(2)));
+								this.getPlayingCardController(j).addPVModifyer(new Modifyer(pvValue, -1, 76, this.getText(1), this.getText(2)));
 								this.getPlayingCardController(j).show();
 								this.getPlayingCardController(j).updateLife(0);
 								this.getPlayingCardController(j).updateAttack(0);
@@ -576,7 +655,7 @@ public class GameView : MonoBehaviour
 							characterID = this.getTileCharacterID(tiles[j].x,tiles[j].y);
 							if(characterID!=-1){
 								if(!this.getCard(characterID).isMine){
-									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, base.name, ". Permanent"));
+									this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(level, -1, 111, this.getText(4), this.getText(2)));
 									this.getPlayingCardController(characterID).showIcons();
 								}
 							}
@@ -764,7 +843,7 @@ public class GameView : MonoBehaviour
 			this.tiles[origine.x, origine.y].GetComponentInChildren<TileController>().setDestination(1);
 		}
 		else{
-			this.setLaunchability("Déplacement en cours !");
+			this.setLaunchability(this.getText(6));
 			if(ApplicationModel.player.ToLaunchGameTutorial){
 				this.hideTuto();
 			}
@@ -803,7 +882,7 @@ public class GameView : MonoBehaviour
 
 		if(isFirstP!=this.isFirstPlayer){
 			if(GameView.instance.hasFightStarted){
-				this.setLaunchability("Déplacement en cours !");
+				this.setLaunchability(this.getText(6));
 			}
 			this.getPlayingCardController(characterID).moveForward();
 			this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
@@ -811,7 +890,7 @@ public class GameView : MonoBehaviour
 		else{
 			if(toDisplayMove){
 				if(GameView.instance.hasFightStarted){
-					this.setLaunchability("Déplacement en cours !");
+					this.setLaunchability(this.getText(6));
 				}
 				this.getPlayingCardController(characterID).moveForward();
 				this.getPlayingCardController(characterID).changeTile(new Tile(t.x,t.y), this.tiles[t.x,t.y].GetComponentInChildren<TileController>().getPosition());
@@ -848,8 +927,8 @@ public class GameView : MonoBehaviour
 			}
 			else{
 				int pv = 11-this.getCard(characterID).getSkills()[0].Power;
-				GameView.instance.displaySkillEffect(characterID, "Golem\n-"+pv+"PV", 0);
-				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(pv,-1,1,"Attaque","10 dégats subis"), true, -1);
+				GameView.instance.displaySkillEffect(characterID, this.getText(7)+"\n"+this.getText(8, new List<int>{pv}), 0);
+				GameView.instance.getPlayingCardController(characterID).addDamagesModifyer(new Modifyer(pv,-1,1,"",""), true, -1);
 				GameView.instance.addAnim(4,GameView.instance.getTile(characterID));
 				SoundController.instance.playSound(34);
 			}
@@ -888,7 +967,7 @@ public class GameView : MonoBehaviour
 					if(this.getCard(tempInt).isMine==isM){
 						this.getCard(tempInt).isProtected(true);
 						bonus = this.getCard(tempInt).getSkills()[0].Power*2+10;
-						this.getPlayingCardController(tempInt).addShieldModifyer(new Modifyer(bonus, -1, 111, "Protecteur", ""));
+						this.getPlayingCardController(tempInt).addShieldModifyer(new Modifyer(bonus, -1, 111, this.getText(4), ""));
 						this.getPlayingCardController(tempInt).showIcons();
 					}
 				}
@@ -907,7 +986,7 @@ public class GameView : MonoBehaviour
 						if(this.getCard(tempInt).isMine==isM){
 							bonus = this.getCard(tempInt).getSkills()[0].Power*2+10;
 
-							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(bonus, -1, 111, "Protecteur", ""));
+							this.getPlayingCardController(characterID).addShieldModifyer(new Modifyer(bonus, -1, 111, this.getText(4), ""));
 							this.getPlayingCardController(characterID).showIcons();
 						}
 					}
@@ -1135,8 +1214,8 @@ public class GameView : MonoBehaviour
 			if(!GameView.instance.getCurrentCard().isDead){
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isPoisoned()){
 					int value = Mathf.Min(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getPoisonAmount(), GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).getLife());
-					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Poison\nPerd "+value+"PV", 0);
-					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"Poison",value+" dégats subis"), false, -1);
+					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(9)+"\n"+this.getText(8, new List<int>{value}), 0);
+					GameView.instance.getPlayingCardController(GameView.instance.getCurrentPlayingCard()).addDamagesModifyer(new Modifyer(value,-1,94,"",""), false, -1);
 					GameView.instance.addAnim(4,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 					SoundController.instance.playSound(34);
 					isSuccess = true ;
@@ -1145,20 +1224,20 @@ public class GameView : MonoBehaviour
 					if(this.getCurrentTileController().trap.getType()==4){
 						int soin = Mathf.Min(this.getCurrentCard().GetTotalLife()-this.getCurrentCard().getLife(), this.getCurrentTileController().trap.getAmount());
 						if(soin==0){
-							GameView.instance.displaySkillEffect(this.currentPlayingCard, "Soin sans effet", 1);	
+							GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(10), 1);	
 							GameView.instance.addAnim(8,GameView.instance.getTile(this.currentPlayingCard));
 						}
 						else{
-							this.getPlayingCardController(this.currentPlayingCard).addDamagesModifyer(new Modifyer(-1*soin, -1, 44, "Fontaine", "+"+(soin)+"PV"), false, -1);
-							GameView.instance.displaySkillEffect(this.currentPlayingCard, "+"+soin+"PV", 2);	
+							this.getPlayingCardController(this.currentPlayingCard).addDamagesModifyer(new Modifyer(-1*soin, -1, 44, "", ""), false, -1);
+							GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(11, new List<int>{soin}), 2);	
 							GameView.instance.addAnim(1,GameView.instance.getTile(this.currentPlayingCard));
 							SoundController.instance.playSound(37);
 						}
 						isSuccess = true ;
 					}
 					else if(this.getCurrentTileController().trap.getType()==4){
-						this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(this.getCurrentTileController().trap.getAmount(), -1, 46, "Caserne", "+"+(this.getCurrentTileController().trap.getAmount())+"ATK"));
-						GameView.instance.displaySkillEffect(this.currentPlayingCard, "+"+this.getCurrentTileController().trap.getAmount()+"ATK", 2);	
+						this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(this.getCurrentTileController().trap.getAmount(), -1, 46, this.getText(12), this.getText(2)));
+						GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(13, new List<int>{this.getCurrentTileController().trap.getAmount()}), 2);	
 						GameView.instance.addAnim(7,GameView.instance.getTile(this.currentPlayingCard));
 						SoundController.instance.playSound(37);
 						isSuccess = true ;
@@ -1179,12 +1258,12 @@ public class GameView : MonoBehaviour
 								soin = Mathf.Min(this.getCard(playerID).GetTotalLife()-this.getCard(playerID).getLife(), power);
 								isSuccess = true ;
 								if(soin==0){
-									GameView.instance.displaySkillEffect(playerID, "Soin sans effet", 1);	
+									GameView.instance.displaySkillEffect(playerID, this.getText(10), 1);	
 									GameView.instance.addAnim(8,GameView.instance.getTile(playerID));
 								}
 								else{
-									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "Infirmier", "+"+(soin)+"PV"), false, -1);
-									GameView.instance.displaySkillEffect(playerID, "+"+soin+"PV", 2);	
+									this.getPlayingCardController(playerID).addDamagesModifyer(new Modifyer(-1*soin, -1, 75, "", ""), false, -1);
+									GameView.instance.displaySkillEffect(playerID, this.getText(11, new List<int>{soin}), 2);	
 									GameView.instance.addAnim(1,GameView.instance.getTile(playerID));
 									SoundController.instance.playSound(37);
 								}
@@ -1192,7 +1271,7 @@ public class GameView : MonoBehaviour
 						}
 					}
 					if(isSuccess){
-						GameView.instance.displaySkillEffect(this.currentPlayingCard, "Infirmier", 1);	
+						GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(14), 1);	
 						GameView.instance.addAnim(8,GameView.instance.getTile(this.currentPlayingCard));
 					}
 				}
@@ -1301,10 +1380,10 @@ public class GameView : MonoBehaviour
 					}
 
 					int target = GameView.instance.getCurrentPlayingCard();
-					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(malusLife,-1,69,"Frenetique","10 dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(malusLife,-1,69,"",""), false, -1);
 					GameView.instance.getPlayingCardController(target).updateAttack(this.getCard(target).getAttack());
-					GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 18, "Frenetique", ". Permanent."));
-					GameView.instance.displaySkillEffect(target, "Frénétique\n+"+bonusAttack+" ATK\n-"+malusLife+"PV", 1);
+					GameView.instance.getPlayingCardController(target).addAttackModifyer(new Modifyer(bonusAttack, -1, 18, this.getText(15), this.getText(2)));
+					GameView.instance.displaySkillEffect(target, this.getText(15)+"\n"+this.getText(13, new List<int>{bonusAttack})+"\n"+this.getText(8, new List<int>{malusLife}), 1);
 					GameView.instance.addAnim(0,GameView.instance.getTile(target));
 					SoundController.instance.playSound(28);
 					isSuccess = true ;
@@ -1312,8 +1391,8 @@ public class GameView : MonoBehaviour
 				if(this.getCard(this.currentPlayingCard).hasFatality()){
 					int target = GameView.instance.getCurrentPlayingCard();
 					int level = this.getCard(this.currentPlayingCard).getLife();
-					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level,-1,69,"Fatalité","10 dégats subis"), false, -1);
-					GameView.instance.displaySkillEffect(target, "Fatalité!", 0);
+					GameView.instance.getPlayingCardController(target).addDamagesModifyer(new Modifyer(level,-1,69,"",""), false, -1);
+					GameView.instance.displaySkillEffect(target, this.getText(16), 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(target));
 					SoundController.instance.playSound(34);
 					isSuccess = true ;
@@ -1370,7 +1449,7 @@ public class GameView : MonoBehaviour
 			this.timeline.changeFaces(idCards);
 
 			this.isFreezed = true ;
-			this.interlude.GetComponent<InterludeController>().set("Fin du tour - Météorites !", 3);
+			this.interlude.GetComponent<InterludeController>().set(this.getText(17), 3);
 			
 			nbTurns++;
 			if(meteoritesStep==1){
@@ -1397,10 +1476,10 @@ public class GameView : MonoBehaviour
 			this.changePlayer(-1);
 		
 			if (this.getCurrentCard().isMine){
-				this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+				this.interlude.GetComponent<InterludeController>().set(this.getText(18), 1);
 			}
 			else{
-				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
+				this.interlude.GetComponent<InterludeController>().set(this.getText(19), 2);
 			}
 		}
 		else{
@@ -1417,10 +1496,10 @@ public class GameView : MonoBehaviour
 			}
 
 			if (this.getCard(this.orderCards[i]).isMine){
-				this.interlude.GetComponent<InterludeController>().set("A votre tour de jouer !", 1);
+				this.interlude.GetComponent<InterludeController>().set(this.getText(18), 1);
 			}
 			else{
-				this.interlude.GetComponent<InterludeController>().set("Tour de l'adversaire !", 2);
+				this.interlude.GetComponent<InterludeController>().set(this.getText(19), 2);
 			}
 		}
 	}
@@ -1428,11 +1507,11 @@ public class GameView : MonoBehaviour
 	public void purify(int target, bool b){
 		if(b){
 			this.getPlayingCardController(target).emptyModifiers();
-			GameView.instance.displaySkillEffect(target, "Purifié!", 1);	
+			GameView.instance.displaySkillEffect(target, this.getText(20), 1);	
 			GameView.instance.addAnim(0,GameView.instance.getTile(target));
 		}
 		else{
-			GameView.instance.displaySkillEffect(target, "Echec purification", 0);	
+			GameView.instance.displaySkillEffect(target, this.getText(21), 0);	
 			GameView.instance.addAnim(8,GameView.instance.getTile(target));
 		}
 	}
@@ -1486,11 +1565,11 @@ public class GameView : MonoBehaviour
 					int level = this.getCurrentCard().getSkills()[0].Power;
 					this.getPlayingCardController(this.currentPlayingCard).updateLife(this.getCard(this.currentPlayingCard).getLife());
 					this.getPlayingCardController(this.currentPlayingCard).updateAttack(this.getCard(this.currentPlayingCard).getAttack());
-					this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(10+level*2, -1, 138, base.name, ". Permanent"));
-					this.getPlayingCardController(this.currentPlayingCard).addPVModifyer(new Modifyer(20+level*2, -1, 138, base.name, ". Permanent"));
+					this.getPlayingCardController(this.currentPlayingCard).addAttackModifyer(new Modifyer(10+level*2, -1, 138, this.getText(22), this.getText(2)));
+					this.getPlayingCardController(this.currentPlayingCard).addPVModifyer(new Modifyer(20+level*2, -1, 138, this.getText(22), this.getText(2)));
 					this.getCard(this.currentPlayingCard).getSkills()[0].Id = 144;
 					this.getPlayingCardController(this.currentPlayingCard).show();
-					GameView.instance.displaySkillEffect(this.currentPlayingCard, "Mutant\nse transforme!", 2);
+					GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(22)+"\n"+this.getText(23), 2);
 					GameView.instance.addAnim(4,GameView.instance.getTile(this.currentPlayingCard));
 					SoundController.instance.playSound(31);
 				}
@@ -1593,7 +1672,7 @@ public class GameView : MonoBehaviour
 				else{
 					GameController.instance.applyOn(enemy);
 				}
-				GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
+				GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(24), 0);
 				yield return new WaitForSeconds(2.5f);
 				
 			}
@@ -1649,7 +1728,7 @@ public class GameView : MonoBehaviour
 			else{
 				GameController.instance.applyOn(enemy);
 			}
-			GameView.instance.displaySkillEffect(this.currentPlayingCard, "Attaque", 0);
+			GameView.instance.displaySkillEffect(this.currentPlayingCard, this.getText(24), 0);
 			yield return new WaitForSeconds(2.5f);
 			
 		}
@@ -2514,7 +2593,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunch1TileAwayOpponents(Tile tile, bool isM)
 	{
-		string isLaunchable = "Aucun ennemi à portée de lance";
+		string isLaunchable = this.getText(25);
 		int playerID;
 		this.targets = new List<Tile>();
 		
@@ -2589,7 +2668,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAdjacentOpponents(Tile tile, bool isM)
 	{
-		string isLaunchable = "Aucun ennemi à proximité";
+		string isLaunchable = this.getText(26);
 		
 		List<Tile> neighbourTiles = this.getOpponentImmediateNeighbours(tile, isM);
 		int playerID;
@@ -2609,7 +2688,7 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchAdjacentCristoidOpponents(Tile tile, bool isM)
 	{
-		string isLaunchable = "Aucun ennemi à proximité de cristoides alliés";
+		string isLaunchable = this.getText(27);
 		
 		for(int i = 0 ; i < this.nbCards ; i++){
 			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==6 && this.getCard(i).isMine){
@@ -2633,7 +2712,7 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchAdjacentDroidOpponents(Tile tile, bool isM)
 	{
-		string isLaunchable = "Aucun ennemi à proximité de cristoides alliés";
+		string isLaunchable = this.getText(28);
 		
 		for(int i = 0 ; i < this.nbCards ; i++){
 			if(i!=this.currentPlayingCard && this.getCard(i).CardType.Id==5 && this.getCard(i).isMine){
@@ -2657,7 +2736,7 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchAdjacentUnits(Tile tile)
 	{
-		string isLaunchable = "Aucune unité à proximité";
+		string isLaunchable = this.getText(26);
 		
 		List<Tile> neighbourTiles = this.getCharacterImmediateNeighbours(tile);
 		int playerID;
@@ -2677,7 +2756,7 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchAdjacentRock(Tile tile)
 	{
-		string isLaunchable = "Aucun cristal à proximité";
+		string isLaunchable = this.getText(29);
 		
 		List<Tile> neighbourTiles = tile.getImmediateNeighbourTiles();
 		foreach (Tile t in neighbourTiles)
@@ -2713,7 +2792,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAdjacentTileTargets(Tile tile)
 	{
-		string isLaunchable = "Aucun terrain ne peut etre ciblé";
+		string isLaunchable = this.getText(30);
 		
 		List<Tile> neighbourTiles = this.getFreeImmediateNeighbours(tile);
 		this.targets = new List<Tile>();
@@ -2726,7 +2805,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAdjacentAllys(Tile tile, bool isM)
 	{
-		string isLaunchable = "Aucun allié à proximité";
+		string isLaunchable = this.getText(31);
 		
 		List<Tile> neighbourTiles = this.getAllyImmediateNeighbours(tile, isM);
 		int playerID;
@@ -2746,7 +2825,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchOpponentsTargets(bool isM)
 	{
-		string isLaunchable = "Aucun ennemi ne peut etre atteint";
+		string isLaunchable = this.getText(32);
 		
 		PlayingCardController pcc;
 		
@@ -2763,7 +2842,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAllButMeTargets()
 	{
-		string isLaunchable = "Aucune unité ne peut etre atteint";
+		string isLaunchable = this.getText(33);
 		
 		PlayingCardController pcc;
 		
@@ -2780,7 +2859,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAllysButMeTargets(bool isM)
 	{
-		string isLaunchable = "Aucun allié ne peut etre atteint";
+		string isLaunchable = this.getText(34);
 		
 		PlayingCardController pcc;
 		
@@ -2797,8 +2876,8 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchWoundedAllysButMeTargets(bool isM)
 	{
-		string isLaunchable = "Aucun allié n'est blessé";
-		
+		string isLaunchable = this.getText(35);
+
 		PlayingCardController pcc;
 		
 		for (int i = 0; i < this.nbCards; i++)
@@ -2816,8 +2895,8 @@ public class GameView : MonoBehaviour
 
 	public string canLaunchDead()
 	{
-		string isLaunchable = "Aucun allié n'est blessé n'est mort";
-		
+		string isLaunchable = this.getText(36);
+
 		PlayingCardController pcc;
 		
 		for (int i = 0; i < this.nbCards; i++)
@@ -2833,7 +2912,7 @@ public class GameView : MonoBehaviour
 	
 	public string canLaunchAnyone()
 	{
-		string isLaunchable = "Aucun ennemi ne peut etre atteint";
+		string isLaunchable = this.getText(33);
 		
 //		PlayingCardController pcc;
 //		
@@ -2873,7 +2952,7 @@ public class GameView : MonoBehaviour
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Perd les bonus leader", 0);
+					this.displaySkillEffect(j, this.getText(37), 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
 				}
 			}
@@ -2885,7 +2964,7 @@ public class GameView : MonoBehaviour
 					this.getPlayingCardController(j).updateAttack(this.getCard(j).getLife());
 					this.getCard(j).removeLeaderEffect();
 					this.getPlayingCardController(j).show();
-					this.displaySkillEffect(j, "Perd les bonus leader", 0);
+					this.displaySkillEffect(j, this.getText(37), 0);
 					GameView.instance.addAnim(4,GameView.instance.getTile(j));
 				}
 			}
@@ -2900,8 +2979,8 @@ public class GameView : MonoBehaviour
 			int target = GameView.instance.getCurrentPlayingCard();
 			int bonus = GameView.instance.getCurrentCard().Skills[0].Power*4;
 
-			GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, -1, 34, "Sanguinaire", ". Permanent."));
-			GameView.instance.displaySkillEffect(target, "Dégats à distance +"+bonus+"%", 2);
+			GameView.instance.getPlayingCardController(target).addBonusModifyer(new Modifyer(bonus, -1, 34, this.getText(38), this.getText(2)));
+			GameView.instance.displaySkillEffect(target, this.getText(39, new List<int>{bonus}), 2);
 			GameView.instance.addAnim(7,GameView.instance.getTile(target));
 		}
 
@@ -2963,8 +3042,7 @@ public class GameView : MonoBehaviour
     {
     	if(!this.hasLaunchedQGH){
 	    	this.hasLaunchedQGH = true;
-	    	print("QUITGAMEHANDLER");
-			if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
+	    	if(this.areAllHisPlayersDead2()&&this.areAllMyPlayersDead2()){
 				if(this.getTotalPV(this.isFirstPlayer)==this.getTotalPV(!this.isFirstPlayer)){
 					GameController.instance.quitGameHandler(this.isFirstPlayer);
 
@@ -3228,7 +3306,7 @@ public class GameView : MonoBehaviour
 	}
 
 	public string canLaunchNextCristal(){
-		string s = "Pas d'ennemis à proximité de cristaux";
+		string s = this.getText(40);
 		List<Tile> neighbours = new List<Tile>();
 		for(int i = 0 ; i < this.nbCards;i++){
 			if(!this.getCard(i).isDead && i!=this.currentPlayingCard){
@@ -3450,8 +3528,7 @@ public class GameView : MonoBehaviour
 	
 	public void play(int r)
 	{	
-		print("play "+r);
-		this.setLaunchability("Compétence en cours");
+		this.setLaunchability(this.getText(41));
 		this.runningSkill = r ;
 
 		this.getPassZoneController().show(false);
@@ -3583,7 +3660,7 @@ public class GameView : MonoBehaviour
 
 	public void launchValidationButton(string s, string d){
 		if(!GameView.instance.isMobile){
-			this.validationSkill.GetComponent<SkillValidationController>().setTexts(s,d,"Lancer");
+			this.validationSkill.GetComponent<SkillValidationController>().setTexts(s,d,this.getText(42));
 			this.validationSkill.GetComponent<SkillValidationController>().show(true);
 			this.isDisplayedPopUp = true ;
 		}
@@ -3637,9 +3714,9 @@ public class GameView : MonoBehaviour
 				else{
 					amount2 = amount*nbTurns ;
 				}
-				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
@@ -3653,9 +3730,9 @@ public class GameView : MonoBehaviour
 				else{
 					amount2 = amount*nbTurns ;
 				}
-				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+				GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 				GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+				GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 			}
 			else{
 				GameView.instance.displaySkillEffect(t, "", 0);
@@ -3673,9 +3750,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount*(nbTurns-1) ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3689,9 +3766,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount*(nbTurns-1) ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3710,9 +3787,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount *(nbTurns-2);
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3726,9 +3803,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount*(nbTurns-2) ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3747,9 +3824,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount *(nbTurns-3);
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3763,9 +3840,9 @@ public class GameView : MonoBehaviour
 					else{
 						amount2 = amount*(nbTurns-3) ;
 					}
-					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), "Météorite\n-"+amount2+"PV", 0);
+					GameView.instance.displaySkillEffect(this.getTileController(t).getCharacterID(), this.getText(43, new List<int>{amount2}), 0);
 					GameView.instance.addAnim(3,GameView.instance.getTile(this.getTileController(t).getCharacterID()));
-					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"Attaque",amount2+" dégats subis"), false, -1);
+					GameView.instance.getPlayingCardController(this.getTileController(t).getCharacterID()).addDamagesModifyer(new Modifyer(amount2,-1,1,"",""), false, -1);
 				}
 				else{
 					GameView.instance.displaySkillEffect(t, "", 0);
@@ -3898,8 +3975,8 @@ public class GameView : MonoBehaviour
 			if(this.getCard(i).isCristoMaster() && !this.getCard(i).isDead){
 				amount = Mathf.Max(1,Mathf.RoundToInt(nbCristals*this.getCard(i).Skills[0].Power*this.getCard(i).Attack/100f));
 				GameView.instance.getPlayingCardController(i).updateAttack(GameView.instance.getCard(i).getAttack());
-				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,"Cristomaster", ". Permanent."));
-				GameView.instance.displaySkillEffect(i, "Cristomaitre\n+"+amount+" ATK", 2);
+				this.getCard(i).replaceCristoMasterModifyer(new Modifyer(amount,-1,139,this.getText(44), this.getText(2)));
+				GameView.instance.displaySkillEffect(i, this.getText(44)+"\n"+this.getText(13, new List<int>{amount}), 2);
 				GameView.instance.addAnim(0,GameView.instance.getTile(i));
 			}
 		}
@@ -3909,86 +3986,83 @@ public class GameView : MonoBehaviour
 		if(!GameView.instance.isMobile){
 			if(this.sequenceID==0){
 				this.initGrid();
-				this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(45), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==1){
-				this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Cliquez sur un cristal pour découvrir sa fonction!", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(46), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(-0.5f, -1.5f, 1f, 1f), 1f, 1f);
 				this.gameTutoController.setArrow("down",new Vector3(-0.5f,-0.8f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==2){
 				this.loadMyDeck();
-				this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(47), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 4f, 1f), 0f, 0f);
 				this.gameTutoController.setArrow("down",new Vector3(-1.5f,-3.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==3){
-				this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(48), false, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, -3f, 6f, 2f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==4){
-				this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(49), false, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f, 6f, 3f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==5){
-				this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 1);
+				this.gameTutoController.setCompanion(this.getText(50), true, true, true, 1);
 				this.gameTutoController.setBackground(true, new Rect(0f, 3f, 6f, 2f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==6){
-				string text = "";
-				if(this.isMobile){
-					text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
-				}
-				else{
-					text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en survolant l'unité.";
-				}
+				string text = this.getText(51);
+
 				this.gameTutoController.setCompanion(text, false, true, false, 1);
 				this.gameTutoController.setBackground(true, new Rect(0.5f, 2.5f, 1f, 1f), 1f, 1f);
 				this.gameTutoController.setArrow("up",new Vector3(0.5f,2.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==7){
-				this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, false, 1);
+				this.gameTutoController.setCompanion(this.getText(52), true, true, false, 1);
 				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
 				this.gameTutoController.setArrow("right",new Vector3(3.8f,-2.9f,0f));
 				this.gameTutoController.showSequence(true, true, true);
-			}
-			else if(this.sequenceID==8){
-				this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 1);
-				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f+1.53f, 0f, this.realwidth/2f-3f, 10f), 0f, 0f);
-				this.gameTutoController.setArrow("right",new Vector3(3.8f,-3.5f,0f));
-				this.gameTutoController.showSequence(true, true, true);
+				sequenceID++;
+
 			}
 			else if(this.sequenceID==9){
 				this.gameTutoController.showArrow(false);
-				this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 1);
+				this.gameTutoController.setCompanion(this.getText(53), false, true, false, 1);
 				this.hoverTile();
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 8f), 1f, 1f);
 				this.gameTutoController.setArrow("up",new Vector3(0.5f,1.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==10){
-				string text = "Cliquez sur la compétence ATTAQUE puis sur l'unité ennemie. Une unité ne peut attaquer en diagonale!";
+				string text;
+				if(this.isMobile){
+					text = this.getText(54);
+				}
+				else{
+					text = this.getText(55);
+				}
 				this.gameTutoController.setCompanion(text, false, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("left",new Vector3(-2.5f,-4.4f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==11){
-				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(56), true, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==12){
 				this.hideSkillEffects();
-				this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(57), true, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(0f, 4.51f, 6f, 1f), 0f, 0f);
 				this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
@@ -3998,7 +4072,7 @@ public class GameView : MonoBehaviour
 				GameController.instance.findNextPlayer (true);
 			}
 			else if(this.sequenceID==14){
-				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Il va certainement chercher à attaquer votre unité.", true, true, true, 1);
+				this.gameTutoController.setCompanion(this.getText(58), true, true, true, 1);
 				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
@@ -4007,18 +4081,18 @@ public class GameView : MonoBehaviour
 				StartCoroutine(launchIABourrin2());
 			}
 			else if(this.sequenceID==16){
-				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
+				this.gameTutoController.setCompanion(this.getText(59), true, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==17){
-				this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(60), false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==18){
-				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(61), false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("right",new Vector3(2.2f,-4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
@@ -4027,18 +4101,18 @@ public class GameView : MonoBehaviour
 				this.gameTutoController.showSequence(false, false, false);
 			}
 			else if(this.sequenceID==20){
-				this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(62), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==21){
 				this.hideSkillEffects();
-				this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(63), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==22){
-				this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(64), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
@@ -4050,60 +4124,55 @@ public class GameView : MonoBehaviour
 		else{
 			if(this.sequenceID==0){
 				this.initGrid();
-				this.gameTutoController.setCompanion("Les champs de bataille cristaliens sont constitués de cases sur lesquelles les combattants se déplacent.", true, false, false, 3);
+				this.gameTutoController.setCompanion(this.getText(45), true, false, false, 3);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f,  8*this.tileScale), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==1){
-				this.gameTutoController.setCompanion("Certaines cases spéciales comme les cristaux possèdent des propriétés particulières. Touchez un cristal pour découvrir sa fonction!", true, false, false, 3);
+				this.gameTutoController.setCompanion(this.getText(46), true, false, false, 3);
 				this.gameTutoController.setBackground(true, new Rect(-0.5f*this.tileScale, -1.5f*this.tileScale, this.tileScale, this.tileScale), 1f, 1f);
 				this.gameTutoController.setArrow("up",new Vector3(-0.5f*this.tileScale,-1.8f*this.tileScale,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==2){
 				this.loadMyDeck();
-				this.gameTutoController.setCompanion("Voici vos unités! Les combats cristaliens opposent des équipes de 4 combattants. Chacun possède des points d'attaque (à gauche) et des points de vie (à droite).", true, false, false, 3);
+				this.gameTutoController.setCompanion(this.getText(47), true, false, false, 3);
 				this.gameTutoController.setBackground(true, new Rect(0f, -3.5f*this.tileScale, 4f*this.tileScale, 1f*this.tileScale), 0f, 0f);
 				this.gameTutoController.setArrow("down",new Vector3(-1.5f*this.tileScale,-3.2f*this.tileScale,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==3){
-				this.gameTutoController.setCompanion("Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!", false, false, false, 3);
+				this.gameTutoController.setCompanion(this.getText(48), false, false, false, 3);
 				this.gameTutoController.setBackground(true, new Rect(0f, -3f*this.tileScale, 6f*this.tileScale, 2f*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==4){
-				this.gameTutoController.setCompanion("Bravo ! Positionnez maintenant le reste de vos troupes avant de démarrer le combat. N'oubliez pas de protéger vos unités possédant le moins de points de vie.", false, false, false, 3);
+				this.gameTutoController.setCompanion(this.getText(49), false, false, false, 3);
 				this.gameTutoController.setBackground(true, new Rect(0f, -2.5f-this.tileScale, 6f*this.tileScale, 5-2*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==5){
-				this.gameTutoController.setCompanion("Votre adversaire a positionné ses unités, la bataille peut démarrer! Le premier joueur à avoir placé ses troupes commence le combat (Code de guerre Cristalien, article 2).", true, true, true, 0);
+				this.gameTutoController.setCompanion(this.getText(50), true, true, true, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 3f*this.tileScale, 6f*this.tileScale, 2f*this.tileScale), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==6){
-				string text = "Il semblerait que votre adversaire dispose d'un LEADER, unité dangereuse car elle renforce toute son équipe. Vérifions en touchant l'unité.";
+				string text = this.getText(51);
 				this.gameTutoController.setCompanion(text, false, true, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0.5f*this.tileScale, 2.5f*this.tileScale, 1f*this.tileScale, 1f*this.tileScale), 1f*this.tileScale, 1f*this.tileScale);
 				this.gameTutoController.setArrow("up",new Vector3(0.5f*this.tileScale,2.2f*this.tileScale,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==7){
-				this.gameTutoController.setCompanion("Chaque unité dispose de compétences ACTIVES et PASSIVES. Les compétences actives, sur fond gris, sont utilisables par le joueur pendant le tour de l'unité", true, true, true, 6);
+				this.gameTutoController.setCompanion(this.getText(52), true, true, true, 6);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 0f, 0f), 0f, 0f);
 				this.gameTutoController.setArrow("down",new Vector3(2f,-2.6f,0f));
 				this.gameTutoController.showSequence(true, true, true);
-			}
-			else if(this.sequenceID==8){
-				this.gameTutoController.setCompanion("Les compétences PASSIVES s'affichent sur un fond noir. Elles sont propres à chaque type d'unité et confèrent des bonus permanents pendant le combat.", true, true, false, 6);
-				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 0f, 0f), 0f, 0f);
-				this.gameTutoController.setArrow("down",new Vector3(2f,-3.2f,0f));
-				this.gameTutoController.showSequence(true, true, true);
+				sequenceID++;
 			}
 			else if(this.sequenceID==9){
 				this.gameTutoController.showArrow(false);
-				this.gameTutoController.setCompanion("Une unité peut à chaque tour SE DEPLACER et DECLENCHER UNE COMPETENCE, dans n'importe quel ordre. Commencez par déplacer votre unité près de l'ennemi!", false, true, false, 6);
+				this.gameTutoController.setCompanion(this.getText(53), false, true, false, 6);
 				if(this.isMobile){
 					this.hisHoveredRPC.GetComponent<HisHoveredCardController>().empty();
 				}
@@ -4115,21 +4184,26 @@ public class GameView : MonoBehaviour
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==10){
-				string text = "Choisissez la compétence ATTAQUE dans le menu d'action et déplacez la sur la cible ennemie. Une unité ne peut attaquer en diagonale!";
-				
+				string text;
+				if(this.isMobile){
+					text = this.getText(54);
+				}
+				else{
+					text = this.getText(55);
+				}
 				this.gameTutoController.setCompanion(text, false, true, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, this.realwidth, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("down",new Vector3(-2.5f*this.tileScale,-4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==11){
-				this.gameTutoController.setCompanion("Une fois la compétence utilisée, les effets sur les unités sont affichés. La destruction du leader a permis d'affaiblir les unités ennemies!", true, false, true, 2);
+				this.gameTutoController.setCompanion(this.getText(56), true, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==12){
 				this.hideSkillEffects();
-				this.gameTutoController.setCompanion("Vous avez utilisé une compétence après vous être déplacé, votre tour est donc terminé! La timeline vous permet de consulter l'ordre des tours et de savoir quelles seront les prochaines unités à jouer", true, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(57), true, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(0f, 2.5f+2*this.tileScale, 6f*this.tileScale, 5-4*this.tileScale), 0f, 0f);
 				this.gameTutoController.setArrow("up",new Vector3(0f,4.2f,0f));
 				this.gameTutoController.showSequence(true, true, true);
@@ -4139,7 +4213,7 @@ public class GameView : MonoBehaviour
 				this.setNextPlayer(true);
 			}
 			else if(this.sequenceID==14){
-				this.gameTutoController.setCompanion("C'est maintenant le tour de votre adversaire! Profitez de son tour pour consulter ses unités ou planifier votre stratégie", true, true, true, 1);
+				this.gameTutoController.setCompanion(this.getText(58), true, true, true, 1);
 				this.gameTutoController.setBackground(true, new Rect(this.realwidth/4f-1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
@@ -4148,19 +4222,19 @@ public class GameView : MonoBehaviour
 				StartCoroutine(launchIABourrin2());
 			}
 			else if(this.sequenceID==16){
-				this.gameTutoController.setCompanion("C'est maintenant le tour de votre paladin. Appartenant à la faction des MEDIC, cette unité peut soigner vos alliés grâce à sa compétence PISTOSOIN", true, false, true, 2);
+				this.gameTutoController.setCompanion(this.getText(59), true, false, true, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==17){
-				this.gameTutoController.setCompanion("Utilisez votre compétence PISTOSOIN pour rendre des points de vie (PV) à votre unité avancée", false, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(60), false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("right",new Vector3(-1.4f,-4.4f,0f));
 				this.gameTutoController.showSequence(true, true, true);
 			}
 			else if(this.sequenceID==18){
 				this.displayDestinations(this.currentPlayingCard);
-				this.gameTutoController.setCompanion("Félicitations. Votre unité est soignée ! Vous pouvez terminer votre tour en déplaçant votre personnage ou en cliquant sur le bouton de fin de tour.", false, false, false, 2);
+				this.gameTutoController.setCompanion(this.getText(61), false, false, false, 2);
 				this.gameTutoController.setBackground(true, new Rect(-this.realwidth/4f+1.53f, 0f, this.realwidth/2f+3f, 10f), 1f, 1f);
 				this.gameTutoController.setArrow("left",new Vector3(2.2f,-4.45f,0f));
 				this.gameTutoController.showSequence(true, true, true);
@@ -4169,18 +4243,18 @@ public class GameView : MonoBehaviour
 				this.gameTutoController.showSequence(false, false, false);
 			}
 			else if(this.sequenceID==20){
-				this.gameTutoController.setCompanion("Au fil du combat, des météorites s'abattent sur le champ de bataille, infligeant des dégats aux unités sur les bords du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(62), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==21){
 				this.hideSkillEffects();
-				this.gameTutoController.setCompanion("Les météorites sont indiquées sur la timeline, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du champ de bataille", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(63), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 4.5f, 6f, 1f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
 			else if(this.sequenceID==22){
-				this.gameTutoController.setCompanion("Il ne vous reste plus à présent qu'à terminer ce combat d'entrainement avant d'arriver sur Cristalia. Bon courage à vous, terrien!", true, false, false, 0);
+				this.gameTutoController.setCompanion(this.getText(64), true, false, false, 0);
 				this.gameTutoController.setBackground(true, new Rect(0f, 0f, 6f, 10f), 0f, 0f);
 				this.gameTutoController.showSequence(true, true, false);
 			}
