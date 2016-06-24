@@ -141,6 +141,7 @@ public class TileController : GameObjectController
 		this.trap = t ;
 		isTrapped = true ;
 		this.showTrap (this.trap.getIsVisible());
+		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 		SoundController.instance.playSound(41);
 	}
 	
@@ -170,6 +171,7 @@ public class TileController : GameObjectController
 
 	public void addRock(int type){
 		this.type=1;
+		gameObject.transform.FindChild("TrapLayer").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 		this.showRock();
 
 		if(type==140){

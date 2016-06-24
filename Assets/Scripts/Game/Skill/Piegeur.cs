@@ -9,7 +9,7 @@ public class Piegeur : GameSkill
 		texts.Add(new string[]{"Poison Piège","Poison Trap"});
 	}
 
-	public Trap getTrap(int level, bool isFirstP){	
+	public Trap getTrap(int level, bool isFirstP, bool isIAPlaying){	
 		Trap t ;
 		bool isVisible = (isFirstP==GameView.instance.getIsFirstPlayer());
 		int amount = 0 ;
@@ -49,7 +49,7 @@ public class Piegeur : GameSkill
 		}
 		
 		string description = "" ;
-		t = new Trap(amount, type, isVisible, title, description);
+		t = new Trap(amount, type, isVisible, title, description, isIAPlaying);
 		
 		return t;
 	}

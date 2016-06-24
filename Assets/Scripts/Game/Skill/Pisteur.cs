@@ -33,8 +33,10 @@ public class Pisteur : GameSkill
 		int compteur = 0 ;
 		for(int i = 0 ; i < trappedTiles.Count ; i++){
 			if(Random.Range(1,101)<=(50+5*level)){
-				GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
-				GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
+				if(GameView.instance.getCurrentCard().isMine){
+					GameView.instance.getTileController(trappedTiles[i]).trap.isVisible = true;
+					GameView.instance.getTileController(trappedTiles[i]).showTrap(true);
+				}
 
 				GameView.instance.displaySkillEffect(trappedTiles[i], this.getText(1), 1);
 				GameView.instance.addAnim(0,trappedTiles[i]);

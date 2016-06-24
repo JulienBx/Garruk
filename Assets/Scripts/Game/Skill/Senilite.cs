@@ -10,8 +10,8 @@ public class Senilite : GameSkill
 		base.texts = new List<string[]>();
 		texts.Add(new string[]{"Sénilité","Deficiency"});
 		texts.Add(new string[]{". Permanent",". Permanent"});
-		texts.Add(new string[]{"+ARG1 ATK","+ARG1 ATK"});
-		texts.Add(new string[]{"+ARG1 ATK\nVirus","+ARG1 ATK\nVirus"});
+		texts.Add(new string[]{"ARG1 ATK","ARG1 ATK"});
+		texts.Add(new string[]{"ARG1 ATK\nVirus","ARG1 ATK\nVirus"});
 		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]\nPermanent","ATK : ARG1 -> [ARG2-ARG3]\nPermanent"});
 		texts.Add(new string[]{"ATK : ARG1 -> 1\nPermanent","ATK : ARG1 -> 1\nPermanent"});
 

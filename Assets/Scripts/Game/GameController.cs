@@ -53,25 +53,25 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.createTile(x, y, type);
 	}
 	
-	public void addPiegeurTrap(Tile t, int level, bool isFirstP){
-		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level);
+	public void addPiegeurTrap(Tile t, int level, bool isFirstP, bool isIAPlaying){
+		photonView.RPC("addPiegeurTrapRPC", PhotonTargets.AllBuffered, t.x, t.y, isFirstP, level, isIAPlaying);
 	}
 	
 	[PunRPC]
-	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level){
+	public void addPiegeurTrapRPC(int x, int y, bool isFirstP, int level, bool isIAPlaying){
 		string description = this.getText(0, new List<int>{level}) ;
-		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), this.getText(1), description);
+		Trap trap = new Trap(level, 2, (isFirstP==GameView.instance.getIsFirstPlayer()), this.getText(1), description, isIAPlaying);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	
-	public void addElectropiege(int amount, Tile t){
-		photonView.RPC("addElectropiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	public void addElectropiege(int amount, Tile t, bool isIAPlaying){
+		photonView.RPC("addElectropiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y, isIAPlaying);
 	}
 	
 	[PunRPC]
-	public void addElectropiegeRPC(int amount, int x, int y){
+	public void addElectropiegeRPC(int amount, int x, int y, bool isIAPlaying){
 		string description = this.getText(2, new List<int>{amount}) ;
-		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, this.getText(3), description);
+		Trap trap = new Trap(amount, 1, GameView.instance.getCurrentCard().isMine, this.getText(3), description, isIAPlaying);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -82,7 +82,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	public void addFontaineRPC(int amount, int x, int y){
 		string description = this.getText(4, new List<int>{amount}) ;
-		Trap trap = new Trap(amount, 4, true, this.getText(5), description);
+		Trap trap = new Trap(amount, 4, true, this.getText(5), description, true);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -93,7 +93,7 @@ public class GameController : Photon.MonoBehaviour
 	[PunRPC]
 	public void addCaserneRPC(int amount, int x, int y){
 		string description = this.getText(6, new List<int>{amount}) ;
-		Trap trap = new Trap(amount, 5, true, this.getText(7), description);
+		Trap trap = new Trap(amount, 5, true, this.getText(7), description, true);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
@@ -116,25 +116,25 @@ public class GameController : Photon.MonoBehaviour
 		GameView.instance.getTileController(x,y).addRock(type);
 	}
 	
-	public void addPoisonPiege(int amount, Tile t){
-		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	public void addPoisonPiege(int amount, Tile t, bool isIAPlaying){
+		photonView.RPC("addPoisonpiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y, isIAPlaying);
 	}
 	
 	[PunRPC]
-	public void addPoisonpiegeRPC(int amount, int x, int y){
+	public void addPoisonpiegeRPC(int amount, int x, int y, bool isIAPlaying){
 		string description = this.getText(0, new List<int>{amount}) ;
-		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, this.getText(1), description);
+		Trap trap = new Trap(amount, 2, GameView.instance.getCurrentCard().isMine, this.getText(1), description, isIAPlaying);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 
-	public void addTelepiege(int amount, Tile t){
-		photonView.RPC("addTelepiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y);
+	public void addTelepiege(int amount, Tile t, bool isIAPlaying){
+		photonView.RPC("addTelepiegeRPC", PhotonTargets.AllBuffered, amount, t.x, t.y, isIAPlaying);
 	}
 	
 	[PunRPC]
-	public void addTelepiegeRPC(int amount, int x, int y){
+	public void addTelepiegeRPC(int amount, int x, int y, bool isIAPlaying){
 		string description = this.getText(8, new List<int>{amount}) ;
-		Trap trap = new Trap(amount, 3, GameView.instance.getCurrentCard().isMine, this.getText(9), description);
+		Trap trap = new Trap(amount, 3, GameView.instance.getCurrentCard().isMine, this.getText(9), description, isIAPlaying);
 		GameView.instance.getTileController(x,y).setTrap(trap);
 	}
 	

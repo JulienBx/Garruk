@@ -26,7 +26,7 @@ public class WordingGameModes
 		references.Add(new string[]{"Commencer","Start"}); //4
 		references.Add(new string[]{"Vous ne pouvez lancer de match sans avoir au préalable créé un deck","You can not start a fight unless you own a full team"}); //5
 		references.Add(new string[]{"Votre adversaire n'est plus disponible","Your opponent is not available anymore"}); //6
-		references.Add(new string[]{"En attente d'un joueur","Waiting for a colonist"}); //7
+		references.Add(new string[]{"En attente d'un joueur","Waiting for a player"}); //7
 		references.Add(new string[]{"Bataille classée","Ranked fight"}); //8
 		references.Add(new string[]{"Bataille d'entrainement","Practice fight"}); //9
 		references.Add(new string[]{"Entrainement","Practice"}); //10

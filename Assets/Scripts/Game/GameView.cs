@@ -158,7 +158,7 @@ public class GameView : MonoBehaviour
 		this.hasLaunchedQGH = false ;
 
 		texts = new List<string[]>();
-		texts.Add(new string[]{"Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.","Welcome to Alpha Fight Simulator AB49! My name is Mudo and I will guide you throught this first cristalian battle"});
+		texts.Add(new string[]{"Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.","Welcome to Alpha Fight Simulator AB49! My name is Mudo and I will guide you throught this first cristalian battle."});
 		texts.Add(new string[]{"Leader","Leader"});
 		texts.Add(new string[]{". Permanent",". Permanent"});
 		texts.Add(new string[]{"Renforce les alliés","Strengthens your allies"});
@@ -204,24 +204,24 @@ public class GameView : MonoBehaviour
 		texts.Add(new string[]{"Météorites\n-ARG1 PV","Meteors\n-ARG1 HP"});
 		texts.Add(new string[]{"Cristomaitre","Cristomaster"});
 
-		texts.Add(new string[]{"Le terrain est constitué de cases sur lesquelles les unités s'affrontent!","The battlefield is made of tiles. Units can move on these tiles to hit their opponents "});
-		texts.Add(new string[]{"Certaines cases sont spéciales, par exemple les cristaux. Cliquez sur un cristal pour en apprendre plus","There are some special tiles such as cristals. Click on a cristal to learn more about it"});
-		texts.Add(new string[]{"Voici vos 4 unités!. A droite les points de vie (PV) déterminent leur résistance. Une unité n'ayant plus de PV quitte le combat!","Here are your 4 units. To the right, health points (HP) determines the unit's strength. When HP reach 0, the unit quits the fight"});
-		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
-		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield"});
+		texts.Add(new string[]{"Le terrain est constitué de cases sur lesquelles les unités s'affrontent!","The battlefield is made of tiles. Units can move on these tiles to hit their opponents."});
+		texts.Add(new string[]{"Certaines cases sont spéciales, par exemple les cristaux. Cliquez sur un cristal pour en apprendre plus.","There are some special tiles such as cristals. Click on a cristal to learn more about it."});
+		texts.Add(new string[]{"Voici vos 4 unités!. A droite les points de vie (PV) déterminent leur résistance. Une unité n'ayant plus de PV quitte le combat!","Here are your 4 units. To the right, health points (HP) determines the unit's strength. When HP reach 0, the unit quits the fight."});
+		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","Before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
+		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain.","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield."});
 		texts.Add(new string[]{"Votre ennemi a positionné ses unités, la bataille peut démarrer. Vous êtes le premier joueur à avoir placé ses troupes, vous êtes donc le premier à jouer!","Your enemy has also moved his units. You have been the first to click on the START button, therefore you will be the first one to play!"});
-		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage","The enemy owns a LEADER type unit. let's touch the character to verify the unit's identity"});
-		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici","Indeed the unit is a LEADER. You can read more about his skills!"});
-		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Commencez par la déplacer près de l'ennemi","Your unit is flashing. This means that it's her turn to play. Move her next to your enemy"});
-		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Attaquez le LEADER en déplacant le bouton d'attaque sur lui","Units can attack adjacent enemies (diagonal attack is not allowed). Move the attack button on the LEADER to hit him"});
-		texts.Add(new string[]{"Les effets de la compétence s'affichent sur le terrain. Anéantir le LEADER a permis d'affaiblir les unités adverses!","Skill effects are displayed on the battlefield. Destroying the leader has weakened the enemy units"});
-		texts.Add(new string[]{"A chaque tour une unité se déplace et utilise une compétence. Les unités jouent chacune à leur tour, selon l'ordre établi dans la timeline","Unit can move once and use one skill per turn. Units play after each other, play order is displayed in the timeline"});
-		texts.Add(new string[]{"C'est maintenant le tour de votre ennemi! A gauche sur la carte les points d'attaque (ATK) déterminent le nombre de points enlevés à chaque attaque", "Now begins your enemy's turn. to the left of the card, attack power (ATK) determines how many health points are removed to the target when it's attacked"});
-		texts.Add(new string[]{"Apprenons maintenant à utiliser les compétences de vos unités. Votre unité active, un MEDIC, peut soigner les unités blessées", "Let's learn how to use your unit's skills. Your active unit, a MEDIC, can use a skill to heal wounded allys"});
-		texts.Add(new string[]{"Choisissez la compétence PISTOSOIN et soignez votre unité blessée!. Chaque unité peut utiliser une compétence par tour ou attaquer", "Choose HEALSHOT skill and heal your wounded unit. Each unit can use 1 skill or attack during its turn"});
-		texts.Add(new string[]{"Félicitations, Votre unité est soignée ! Vous pouvez déplacer votre unité ou terminer directement votre tour en cliquant sur le bouton TERMINER", "Congratulations, you have healed your unit. You can still move your unit or end your turn by clicking on END OF TURN"});
-		texts.Add(new string[]{"Pour éviter que les combats ne durent trop longtemps, des météorites s'abattent fréquemment sur les côtés du champ de bataille", "To avoid long fights, meteors often fall on the sides of the battlefield"});
-		texts.Add(new string[]{"La timeline affiche les météorites, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du terrain", "The timeline displays meteor events. The number above the picture determines how many lines will be hit at each side of the battlefield by the meteors"});
+		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage.","The enemy owns a LEADER type unit. let's touch the character to verify the unit's identity."});
+		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici.","Indeed the unit is a LEADER. You can read more about his skills!"});
+		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Commencez par la déplacer près de l'ennemi.","Your unit is flashing. This means that it's her turn to play. Move her next to your enemy."});
+		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Attaquez le LEADER en déplacant le bouton d'attaque sur lui.","Units can attack adjacent enemies (diagonal attack is not allowed). Move the attack button on the LEADER to hit him."});
+		texts.Add(new string[]{"Les effets de la compétence s'affichent sur le terrain. Anéantir le LEADER a permis d'affaiblir les unités adverses!","Skill effects are displayed on the battlefield. Destroying the leader has weakened the enemy units."});
+		texts.Add(new string[]{"A chaque tour une unité se déplace et utilise une compétence. Les unités jouent chacune à leur tour, selon l'ordre établi dans la timeline.","Unit can move once and use one skill per turn. Units play after each other, play order is displayed in the timeline."});
+		texts.Add(new string[]{"C'est maintenant le tour de votre ennemi! A gauche sur la carte les points d'attaque (ATK) déterminent le nombre de points enlevés à chaque attaque.", "Now begins your enemy's turn. to the left of the card, attack power (ATK) determines how many health points are removed to the target when it's attacked."});
+		texts.Add(new string[]{"Apprenons maintenant à utiliser les compétences de vos unités. Votre unité active, un MEDIC, peut soigner les unités blessées.", "Let's learn how to use your unit's skills. Your active unit, a MEDIC, can use a skill to heal wounded allys."});
+		texts.Add(new string[]{"Choisissez la compétence PISTOSOIN et soignez votre unité blessée!. Chaque unité peut utiliser une compétence par tour ou attaquer.", "Choose HEALSHOT skill and heal your wounded unit. Each unit can use 1 skill or attack during its turn."});
+		texts.Add(new string[]{"Félicitations, Votre unité est soignée ! Vous pouvez déplacer votre unité ou terminer directement votre tour en cliquant sur le bouton TERMINER.", "Congratulations, you have healed your unit. You can still move your unit or end your turn by clicking on END OF TURN."});
+		texts.Add(new string[]{"Pour éviter que les combats ne durent trop longtemps, des météorites s'abattent fréquemment sur les côtés du champ de bataille.", "To avoid long fights, meteors often fall on the sides of the battlefield."});
+		texts.Add(new string[]{"La timeline affiche les météorites, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du terrain.", "The timeline displays meteor events. The number above the picture determines how many lines will be hit at each side of the battlefield by the meteors."});
 		texts.Add(new string[]{"Vous possédez maintenant toutes les armes pour terminer ce combat. Bonne chance et à bientôt!", "Now you hold the keys to win this fight. Good luck and see you later!"});
 
 
@@ -568,7 +568,7 @@ public class GameView : MonoBehaviour
 		if(gc.isPiegeur() && this.isFirstPlayer){
 			List<Tile> tiles2 = ((Piegeur)GameSkills.instance.getSkill(64)).getTiles(gc.getPassiveSkillLevel(), this.boardWidth, this.boardHeight, this.nbFreeRowsAtBeginning);
 			for (int i = 0 ; i < tiles2.Count ; i++){
-				GameController.instance.addPiegeurTrap(tiles2[i], 10+gc.getPassiveSkillLevel(), gc.isMine);
+				GameController.instance.addPiegeurTrap(tiles2[i], 10+gc.getPassiveSkillLevel(), gc.isMine, ApplicationModel.player.ToLaunchGameIA&&!gc.isMine);
 			}
 		}
 	}
@@ -3939,17 +3939,48 @@ public class GameView : MonoBehaviour
 	public List<Tile> getTrappedTiles(){
 		List<Tile> tiles = new List<Tile>();
 		Tile tempTile ;
-		for (int i = 0 ; i < boardWidth ; i++){
-			for (int j = 0 ; j < boardHeight ; j++){
-				tempTile = new Tile(i,j);
-				if(this.getTileController(tempTile).getIsTrapped()){
-					if(!this.getTileController(tempTile).trap.getIsVisible()){
-						tiles.Add(tempTile);
+		if(ApplicationModel.player.ToLaunchGameIA&&!GameView.instance.getCurrentCard().isMine){
+			for (int i = 0 ; i < boardWidth ; i++){
+				for (int j = 0 ; j < boardHeight ; j++){
+					tempTile = new Tile(i,j);
+					if(this.getTileController(tempTile).getIsTrapped()){
+						if(!this.getTileController(tempTile).trap.getIsIAVisible()){
+							tiles.Add(tempTile);
+						}
 					}
 				}
 			}
 		}
+		else{
+			for (int i = 0 ; i < boardWidth ; i++){
+				for (int j = 0 ; j < boardHeight ; j++){
+					tempTile = new Tile(i,j);
+					if(this.getTileController(tempTile).getIsTrapped()){
+						if(!this.getTileController(tempTile).trap.getIsVisible()){
+							tiles.Add(tempTile);
+						}
+					}
+				}
+			}
+		}
+
 		return tiles ;
+	}
+
+	public int getNbTrapsIA(){
+		int compteur = 0 ;
+		Tile tempTile ;
+		for (int i = 0 ; i < boardWidth ; i++){
+			for (int j = 0 ; j < boardHeight ; j++){
+				tempTile = new Tile(i,j);
+				if(this.getTileController(tempTile).getIsTrapped()){
+					if(!this.getTileController(tempTile).trap.getIsIAVisible()){
+						compteur++;
+					}
+				}
+			}
+		}
+		return compteur;
 	}
 
 	public int getDistanceBetweenTiles(Tile t1, Tile t2){

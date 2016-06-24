@@ -42,8 +42,8 @@ public class Copieur : GameSkill
 		GameCard targetCard = GameView.instance.getCard(target);
 		GameCard currentCard = GameView.instance.getCurrentCard();
 
-		currentCard.Skills[1].Id = targetCard.Skills[1].Id ;
 		currentCard.Skills[1].Power = GameView.instance.getCurrentSkill().Power ;
+		currentCard.Skills[1].Id = targetCard.Skills[1].Id ;
 		GameView.instance.getMyHoveredCardController().updateCharacter();
 		GameView.instance.getHisHoveredCardController().updateCharacter();
 

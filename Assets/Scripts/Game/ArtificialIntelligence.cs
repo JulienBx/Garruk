@@ -58,7 +58,6 @@ public class ArtificialIntelligence : MonoBehaviour
 	}
 
 	public IEnumerator getActionScore(){
-		print("AU TOUR DE "+GameView.instance.getCurrentPlayingCard());
 		yield return new WaitForSeconds(1);
 
 		Tile tempTile ;
@@ -71,7 +70,7 @@ public class ArtificialIntelligence : MonoBehaviour
 		Skill bestSkill = new Skill();
 		Skill passiveSkill = GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).Skills[0];
 		GameCard targetCard ;
-		int minDistanceOpponent = -1 ;
+		int nbTraps = GameView.instance.getNbTrapsIA();
 
 		int amount = 5 ;
 		int bonusM = GameView.instance.getBonusMeteorites();
@@ -199,6 +198,17 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 					}
 				}
+
+				if(nbTraps>0 && i!=emplacements.Count-1){
+					List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+					for(int s = 0 ; s < neighbours.Count ; s++){
+						if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+							if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)).isMine){
+								passiveScore-=30-10*GameView.instance.nbTurns;
+							}
+						}
+					}
+				}
 				
 				for(int j = 0 ; j < skills.Count ; j++){
 					if(j==0){
@@ -207,14 +217,14 @@ public class ArtificialIntelligence : MonoBehaviour
 						for (int k = 0 ; k < targets.Count ;k++){
 							actionScore = gs.getActionScore(targets[k], skills[j]);
 							if(actionScore>0){
-								Debug.Log("je teste Attaque : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
+								//Debug.Log("je teste Attaque : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
 							}
 							if(actionScore+passiveScore>bestScore){
 								bestScore = actionScore+passiveScore;
 								bestEmplacement = emplacements[i];
 								bestTarget = targets[k];
 								bestSkill.Id = 0;
-								Debug.Log("Meilleur score trouvé");
+								//Debug.Log("Meilleur score trouvé");
 							}
 						}
 					}
@@ -295,7 +305,7 @@ public class ArtificialIntelligence : MonoBehaviour
 									}
 								}
 
-								Debug.Log("Je teste "+GameSkills.instance.getSkill(skills[j].Id).getText(0)+" : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
+								//Debug.Log("Je teste "+GameSkills.instance.getSkill(skills[j].Id).getText(0)+" : ("+passiveScore+"+"+actionScore+") - Empla : ("+emplacements[i].x+","+emplacements[i].y+") - Target : ("+targets[k].x+","+targets[k].y+") minD :"+minDistanceOpponent);
 									
 								if(actionScore>0){
 									if(actionScore+passiveScore>bestScore){
@@ -303,7 +313,7 @@ public class ArtificialIntelligence : MonoBehaviour
 										bestEmplacement = emplacements[i];
 										bestTarget = targets[k];
 										bestSkill = skills[j];
-										Debug.Log("Meilleur score trouvé !");
+										//Debug.Log("Meilleur score trouvé !");
 									}
 								}
 							}
@@ -332,7 +342,6 @@ public class ArtificialIntelligence : MonoBehaviour
 				}
 				if(bestSkill.Id == 27){
 					int resultat = GameSkills.instance.getSkill(bestSkill.Id).getBestChoice(bestEmplacement, bestSkill);
-					Debug.Log("Lance-Flammes "+resultat);
 					if(resultat==0){
 						tempList[0].x = bestEmplacement.x;
 						tempList[0].y = bestEmplacement.y-1;
@@ -460,6 +469,17 @@ public class ArtificialIntelligence : MonoBehaviour
 								tempScore+=Mathf.RoundToInt(((12f-distance)/10f)*((1+GameView.instance.nbTurns*2)/2f)*(GameView.instance.getCurrentCard().getAttack()+GameView.instance.getCurrentCard().getLife()-GameView.instance.getCard(ennemis[j]).getAttack())/10f);
 							}
 							passiveScore += tempScore;
+						}
+
+						if(nbTraps>0 && i!=emplacements.Count-1){
+							List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+							for(int s = 0 ; s < neighbours.Count ; s++){
+								if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+									if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)).isMine){
+										passiveScore-=30-10*GameView.instance.nbTurns;
+									}
+								}
+							}
 						}
 
 						if(passiveScore>bestScore){
@@ -610,8 +630,18 @@ public class ArtificialIntelligence : MonoBehaviour
 						}
 					}
 
-					Debug.Log("Score déplacement2 : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
-						
+					//Debug.Log("Score déplacement2 : "+passiveScore+" - ("+emplacements[i].x+","+emplacements[i].y+")");
+					if(nbTraps>0 && i!=emplacements.Count-1){
+						List<Tile> neighbours = emplacements[i].getImmediateNeighbourTiles();
+						for(int s = 0 ; s < neighbours.Count ; s++){
+							if(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)!=-1){
+								if(GameView.instance.getCard(GameView.instance.getTileCharacterID(neighbours[s].x, neighbours[s].y)).isMine){
+									passiveScore-=30-10*GameView.instance.nbTurns;
+								}
+							}
+						}
+					}
+
 					if(passiveScore>bestScore){
 						Debug.Log("Meilleur score");
 						bestScore = passiveScore ; 

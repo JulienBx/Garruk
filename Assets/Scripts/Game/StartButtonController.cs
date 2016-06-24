@@ -9,7 +9,16 @@ public class StartButtonController : MonoBehaviour
 	float time ;
 	float timeToSwitch = 0.5f;
 	bool isVisible ; 
-	
+
+	void Awake(){
+		if(ApplicationModel.player.IdLanguage==0){
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Démarrer le combat une fois vos unités en place. Le premier à être prêt sera le premier à jouer!";
+		}
+		else{
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Démarrer le combat une fois vos unités en place. Le premier à être prêt sera le premier à jouer!";
+		}
+	} 
+
 	public void OnMouseEnter(){
 		if (!isPushed){
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(71f/255f,150f/255f,189f/255f, 1f);
@@ -31,7 +40,7 @@ public class StartButtonController : MonoBehaviour
 				gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente de l'ennemi...";
 			}
 			else{
-				gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Wainting for the enemy...";
+				gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Waiting for the enemy...";
 			}
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
 			this.isVisible = true ;

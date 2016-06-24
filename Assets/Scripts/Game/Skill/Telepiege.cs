@@ -24,7 +24,7 @@ public class Telepiege : GameSkill
 	{	
 		GameController.instance.play(this.id);
 		int amount = GameView.instance.getCurrentSkill().Power;
-		GameController.instance.addTelepiege(amount, targetsTile[0]);
+		GameController.instance.addTelepiege(amount, targetsTile[0], ApplicationModel.player.ToLaunchGameIA&&!GameView.instance.getCurrentCard().isMine);
 		GameController.instance.applyOnMe(-1);
 		GameController.instance.endPlay();
 	}
