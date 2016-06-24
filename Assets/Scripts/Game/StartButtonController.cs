@@ -27,7 +27,12 @@ public class StartButtonController : MonoBehaviour
 			SoundController.instance.playSound(30);
 			this.isPushed = true ;
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente du joueur 2";
+			if(ApplicationModel.player.IdLanguage==0){
+				gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="En attente de l'ennemi...";
+			}
+			else{
+				gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Wainting for the enemy...";
+			}
 			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().color=new Color(1f, 1f, 1f, 1f);
 			this.isVisible = true ;
 			GameView.instance.removeDestinations();

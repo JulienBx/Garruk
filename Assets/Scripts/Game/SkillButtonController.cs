@@ -26,12 +26,17 @@ public class SkillButtonController : MonoBehaviour
 		gameObject.GetComponent<SpriteRenderer>().sprite = GameView.instance.getSkillSprite(s.Id);
 		gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\nProbabilité de succès : "+WordingSkills.getProba(s.Id,s.Power)+"%";
+		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(s.Id, s.Power-1))+"\nHIT% : "+WordingSkills.getProba(s.Id,s.Power);
 	}
 	
 	public void getLaunchability(){
 		if(ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<10){
-			this.launchabilityText = "Vous ne pouvez pas utiliser cette compétence";
+			if(ApplicationModel.player.IdLanguage==0){
+				this.launchabilityText = "Vous ne pouvez pas utiliser cette compétence";
+			}
+			else{
+				this.launchabilityText = "You can not use this skill";
+			}
 		}
 		else{
 			this.launchabilityText = GameSkills.instance.getSkill(this.skill.Id).isLaunchable(GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()), true) ;
@@ -39,10 +44,10 @@ public class SkillButtonController : MonoBehaviour
 
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
-			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(0f, 0f, 0f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
-				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%"+"\n"+this.launchabilityText;
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". HIT% : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"\n"+this.launchabilityText;
 			}
 			else{
 				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n"+this.launchabilityText;
@@ -53,7 +58,7 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
-				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%";
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". HIT% : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1);
 			}
 			else{
 				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
@@ -65,10 +70,10 @@ public class SkillButtonController : MonoBehaviour
 		this.launchabilityText = s ;
 		if(this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
-			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
+			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(0f, 0f, 0f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
-				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%"+"\n"+this.launchabilityText;
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". HIT% : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"\n"+this.launchabilityText;
 			}
 			else{
 				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+"\n"+this.launchabilityText;
@@ -79,7 +84,7 @@ public class SkillButtonController : MonoBehaviour
 			gameObject.transform.FindChild("SkillTextZone").FindChild("Description").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 			if(WordingSkills.getProba(this.skill.Id, this.skill.Power-1)<100){
-				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". P : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1)+"%";
+				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1))+". HIT% : "+WordingSkills.getProba(this.skill.Id, this.skill.Power-1);
 			}
 			else{
 				gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text =GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(this.skill.Id, this.skill.Power-1));
@@ -210,7 +215,6 @@ public class SkillButtonController : MonoBehaviour
 								GameView.instance.hoveringZone=-1;
 								GameView.instance.dropSkillButton(this.id);
 								GameView.instance.draggingSkillButton=-1;
-								print("Je drop");
 								this.showDescription(false);
 							}
 						}
@@ -253,7 +257,6 @@ public class SkillButtonController : MonoBehaviour
 			else{
 				GameView.instance.dropSkillButton(this.id);
 				SoundController.instance.playSound(22);
-				print("DROP5");
 				GameView.instance.getSkillZoneController().getSkillButtonController(this.id).showCollider(true);
 			}
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;

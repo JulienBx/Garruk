@@ -6,12 +6,20 @@ using TMPro;
 public class PassController : MonoBehaviour
 {
 	public string launchabilityText ;
+	public IList<string[]> texts ;
+
 
 	void Awake(){
 		this.show(false);
 		this.showDescription(false);
-		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Passer";
-		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Terminer son tour et donner la main à l'adversaire";
+
+		texts = new List<string[]>();
+		texts.Add(new string[]{"Terminer","End my turn"});
+		texts.Add(new string[]{"Achever le tour de l'unité et donner la main à l'unité suivante dans la timeline","End my unit's turn. Next unit in the timeline plays"});
+		texts.Add(new string[]{"L'unité est furieuse : ne peut plus être controllée","Unit is furious and can not be controlled anymore"});
+
+		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.getText(0);
+		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(1);
 	}
 
 	public void show(bool b){
@@ -22,11 +30,24 @@ public class PassController : MonoBehaviour
 			this.showDescription(false);
 		}
 	}
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
+	}
 	
 	public void updateButtonStatus(GameCard g){
 		gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f) ;
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
-		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Terminer le tour";
+		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.getText(0);
 		if(GameView.instance.sequenceID<18 && ApplicationModel.player.ToLaunchGameTutorial){
 			this.show(false);
 		}
@@ -42,18 +63,18 @@ public class PassController : MonoBehaviour
 	public void getLaunchability(){
 		this.launchabilityText = "" ;
 		if(GameView.instance.getCurrentCard().isFurious()){
-			this.launchabilityText = "Le personnage est furieux et ne plus être controlé" ;
+			this.launchabilityText = this.getText(2) ;
 		}
 		if((ApplicationModel.player.ToLaunchGameTutorial && GameView.instance.sequenceID<18)||this.launchabilityText.Length>1){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active"+"\n\n"+this.launchabilityText;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(1)+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active";
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(1);
 		}
 	}
 
@@ -63,13 +84,13 @@ public class PassController : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active"+"\n\n"+this.launchabilityText;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(1)+"\n\n"+this.launchabilityText;
 		}
 		else{
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f) ;
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Passer le tour de l'unité active";
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(1);
 		}
 	}
 	

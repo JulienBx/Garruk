@@ -36,6 +36,7 @@ public class TileController : GameObjectController
 	public bool isFinishedTransi = false ; 
 	bool isGrowing = false ;
 
+	public IList<string[]> texts ;
 	bool isDisplayingDescription ;
 
 	void Awake()
@@ -49,8 +50,31 @@ public class TileController : GameObjectController
 		this.showEffect(false);
 		this.displayAnim(false);
 		this.isDisplayingDescription = false ;
+
+		texts = new List<string[]>();
+		texts.Add(new string[]{"Créateur\nCrée un cristal","Creator\nMade a cristal"});
+		texts.Add(new string[]{"Cristal créé!","Cristal created!"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"Poison","Poison"});
+		texts.Add(new string[]{"-ARG1 PV en fin de tour","-ARG1 HP per turn"});
+		texts.Add(new string[]{"Téléporté!","Teleported!"});
+		texts.Add(new string[]{"Cristal","Cristal"});
+		texts.Add(new string[]{"Cette case ne peut être franchie","You can not move on this tile"});
 	}
-	
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
+	}
+
 	public void displayTarget(bool b){
 		this.isDisplayingTarget = b ;
 		this.isTargetDisplayed = b ;
@@ -126,7 +150,6 @@ public class TileController : GameObjectController
 	
 	public void setDestination(int i){
 		this.isDestination = i ;
-		print("DESTI "+i);
 		this.showDestination (true);
 	}
 	
@@ -150,12 +173,12 @@ public class TileController : GameObjectController
 		this.showRock();
 
 		if(type==140){
-			GameView.instance.displaySkillEffect(this.tile, "Createur\nFaçonne un cristal", 2);
+			GameView.instance.displaySkillEffect(this.tile, this.getText(0), 2);
 			GameView.instance.addAnim(0,this.tile);
 			SoundController.instance.playSound(28);
 		}
 		else if(type==42){
-			GameView.instance.displaySkillEffect(this.tile, "Cristal créé", 2);
+			GameView.instance.displaySkillEffect(this.tile, this.getText(1), 2);
 			GameView.instance.addAnim(0,this.tile);
 			SoundController.instance.playSound(28);
 		}
@@ -208,18 +231,18 @@ public class TileController : GameObjectController
 		bool isSuccess = false ;
 		if(this.isTrapped){
 			if(this.trap.getType()==1){
-				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "Electropiège", this.trap.getAmount()+" dégats subis"), true,-1);
-				GameView.instance.displaySkillEffect(this.characterID, "Piège!\n-"+this.trap.getAmount()+"PV", 0);
+				GameView.instance.getPlayingCardController(this.characterID).addDamagesModifyer(new Modifyer(this.trap.getAmount(), -1, 0, "", ""), true,-1);
+				GameView.instance.displaySkillEffect(this.characterID, "Trap!\n"+this.getText(2, new List<int>{this.trap.getAmount()}), 0);
 				GameView.instance.addAnim(5,GameView.instance.getTile(this.characterID));
 			}
 			else if(this.trap.getType()==2){	
-				GameView.instance.getCard(this.characterID).setPoison(new Modifyer(this.trap.getAmount(), -1, 58, "Poison", "-"+this.trap.getAmount()+"PV par tour"));
+				GameView.instance.getCard(this.characterID).setPoison(new Modifyer(this.trap.getAmount(), -1, 58, this.getText(3), this.getText(4, new List<int>{this.trap.getAmount()})));
 				GameView.instance.getPlayingCardController(this.characterID).showIcons();
-				GameView.instance.displaySkillEffect(this.characterID, "Poison\nPerd "+this.trap.getAmount()+"PV par tour", 0);	
+				GameView.instance.displaySkillEffect(this.characterID, this.getText(3)+"\n"+this.getText(4, new List<int>{this.trap.getAmount()}), 0);	
 				GameView.instance.addAnim(4,GameView.instance.getTile(this.characterID));
 			}
 			else if(this.trap.getType()==3){	
-				GameView.instance.displaySkillEffect(this.characterID, "Téléporté !", 0);	
+				GameView.instance.displaySkillEffect(this.characterID, this.getText(5), 0);	
 				GameView.instance.addAnim(0,this.tile);
 
 				if(GameView.instance.getCard(this.characterID).isMine || (ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCard(this.characterID).isMine)){
@@ -559,15 +582,8 @@ public class TileController : GameObjectController
 									}
 								}
 								else if(this.type==1){
-									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "Cristal";
-									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Case infranchissable. Certaines unités peuvent se servir des cristaux.";
-									gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
-									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
-									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;
-								}
-								else if(this.type==2){
-									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = "No man's land";
-									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = "Ces terres abandonnées ne font plus partie du champ de bataille";
+									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<TextMeshPro>().text = this.getText(6);
+									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.getText(7);
 									gameObject.transform.FindChild("DescriptionBox").GetComponent<SpriteRenderer>().enabled = true;
 									gameObject.transform.FindChild("DescriptionBox").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled=true;
 									gameObject.transform.FindChild("DescriptionBox").FindChild("TitleText").GetComponent<MeshRenderer>().enabled=true;

@@ -13,6 +13,8 @@ public class InterludeController : MonoBehaviour
 	bool isEndTurn ;
 	bool isEndGame ;
 	bool toQuit;
+
+	public IList<string[]> texts ;
 	
 	bool isPaused ;
 		
@@ -26,6 +28,25 @@ public class InterludeController : MonoBehaviour
 		this.isPaused = false ;
 		this.toQuit = false;
 		this.isEndGame = false;
+
+		texts = new List<string[]>();
+		texts.Add(new string[]{"Victoire!","You win!"});
+		texts.Add(new string[]{"Défaite","You lose!"});
+		texts.Add(new string[]{"En attente du joueur adverse", "Waiting for the enemy"});
+		texts.Add(new string[]{"Ninja!","Ninja!"});
+	}
+
+	public virtual string getText(int id){
+		return this.texts[id][ApplicationModel.player.IdLanguage];
+	}
+
+	public virtual string getText(int id, List<int> args){
+		string text = this.texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
 	}
 	
 	public void resize(float realwidth){
@@ -112,10 +133,10 @@ public class InterludeController : MonoBehaviour
 
 		if(this.isEndGame){
 			if(type==1){
-				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Victoire" ;
+				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.getText(0) ;
 			}
 			else{
-				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = "Défaite" ;
+				gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = this.getText(1) ;
 			}
 			gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = true ;
 		}
@@ -202,12 +223,12 @@ public class InterludeController : MonoBehaviour
 					GameView.instance.skillZone.GetComponent<SkillZoneController>().showCancelButton(false);
 					GameView.instance.skillZone.GetComponent<SkillZoneController>().showSkillButtons(false);
 					GameView.instance.getPassZoneController().show(false);
-					GameView.instance.SB.GetComponent<StartButtonController>().setText("En attente du joueur adverse");
+					GameView.instance.SB.GetComponent<StartButtonController>().setText(this.getText(2));
 					GameView.instance.SB.GetComponent<StartButtonController>().showText(true);
 				}
 
 				if(GameView.instance.getCard(GameView.instance.getCurrentPlayingCard()).isNinja()){
-					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), "Ninja!", 1);
+					GameView.instance.displaySkillEffect(GameView.instance.getCurrentPlayingCard(), this.getText(3), 1);
 					SoundController.instance.playSound(36);
 					GameView.instance.addAnim(8,GameView.instance.getTile(GameView.instance.getCurrentPlayingCard()));
 					if(GameView.instance.getCurrentCard().isMine || ApplicationModel.player.ToLaunchGameIA){
