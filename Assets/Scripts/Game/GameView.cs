@@ -3703,6 +3703,8 @@ public class GameView : MonoBehaviour
 		int amount2 ; 
 		int bonus = this.getBonusMeteorites();
 
+		this.background.GetComponent<GameBackgroundController>().launchMeteors();
+
 		amount = Mathf.RoundToInt(amount * bonus / 100f);
 		SoundController.instance.playSound(25);
 
