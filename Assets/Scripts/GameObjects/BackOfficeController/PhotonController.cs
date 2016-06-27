@@ -18,7 +18,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 1f ;
+    float limitTime = 8f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private bool isInitialized;
@@ -1085,7 +1085,8 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	public void leaveRandomRoomHandler()
 	{
-		this.isWaiting=false;
+        SoundController.instance.playMusic(new int[]{0,1,2});
+        this.isWaiting=false;
 		this.displayLoadingScreenButton(false);
         ApplicationModel.player.ShouldQuitGame=false;
 		this.leaveRoom ();
