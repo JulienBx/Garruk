@@ -210,10 +210,11 @@ public class GameView : MonoBehaviour
 		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","Before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
 		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain.","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield."});
 		texts.Add(new string[]{"Votre ennemi a positionné ses unités, la bataille peut démarrer. Vous êtes le premier joueur à avoir placé ses troupes, vous êtes donc le premier à jouer!","Your enemy has also moved his units. You have been the first to click on the START button, therefore you will be the first one to play!"});
-		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage.","The enemy owns a LEADER type unit. let's touch the character to verify the unit's identity."});
+		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage.","The enemy owns a LEADER type unit. Let's touch the character to verify the unit's identity."});
 		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici.","Indeed the unit is a LEADER. You can read more about his skills!"});
-		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Commencez par la déplacer près de l'ennemi.","Your unit is flashing. This means that it's her turn to play. Move her next to your enemy."});
+		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Les cases bleues représentent sa zone de mouvement. Commencez par la déplacer près de l'ennemi. ","Your unit is flashing. This means that it's her turn to play. Blue tiles determines your unit's movement range. Move it next to your enemy."});
 		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Attaquez le LEADER en déplacant le bouton d'attaque sur lui.","Units can attack adjacent enemies (diagonal attack is not allowed). Move the attack button on the LEADER to hit him."});
+		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Cliquez sur le bouton ATTAQUE puis ciblez le LEADER ennemi","Units can attack adjacent enemies (diagonal attack is not allowed). Click on the ATTACK button then target the enemy LEADER"});
 		texts.Add(new string[]{"Les effets de la compétence s'affichent sur le terrain. Anéantir le LEADER a permis d'affaiblir les unités adverses!","Skill effects are displayed on the battlefield. Destroying the leader has weakened the enemy units."});
 		texts.Add(new string[]{"A chaque tour une unité se déplace et utilise une compétence. Les unités jouent chacune à leur tour, selon l'ordre établi dans la timeline.","Unit can move once and use one skill per turn. Units play after each other, play order is displayed in the timeline."});
 		texts.Add(new string[]{"C'est maintenant le tour de votre ennemi! A gauche sur la carte les points d'attaque (ATK) déterminent le nombre de points enlevés à chaque attaque.", "Now begins your enemy's turn. to the left of the card, attack power (ATK) determines how many health points are removed to the target when it's attacked."});
@@ -3909,7 +3910,7 @@ public class GameView : MonoBehaviour
 			GameView.instance.passZone.GetComponent<PassController>().show(true);
 		}
 		if(this.sequenceID==11){
-			this.gameTutoController.setArrow("right",new Vector3(-2.9f,-4.4f,0f));
+			this.gameTutoController.setArrow("left",new Vector3(-2.5f,-4.4f,0f));
 			this.gameTutoController.showArrow(true);
 		}
 		if(GameView.instance.sequenceID==18){

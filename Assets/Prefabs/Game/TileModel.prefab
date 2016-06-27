@@ -192,7 +192,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.784361, y: 0.05103576, z: -1}
+  m_LocalPosition: {x: -13.472868, y: -8.121237, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -731,8 +731,8 @@ MonoBehaviour:
   GOSize: {x: 0, y: 0}
   trapSprites:
   - {fileID: 21300000, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
-  - {fileID: 21300026, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
   - {fileID: 21300004, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300026, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
   - {fileID: 21300028, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
   - {fileID: 21300006, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
   - {fileID: 21300002, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
@@ -909,7 +909,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 4
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300146, guid: 7e0e8e306a94a954ea8c735ba5deb1ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

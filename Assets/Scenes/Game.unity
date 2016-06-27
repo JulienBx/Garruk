@@ -18442,7 +18442,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4278190080
   m_fontSize: 2.15
-  m_fontSizeMin: 2
+  m_fontSizeMin: 1
   m_fontSizeMax: 8
   m_fontSizeBase: 8
   m_charSpacingMax: 0
@@ -18529,9 +18529,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 4
+    width: 3.8000548
     height: 0.8
-  m_margins: {x: 0, y: 0, z: 0, w: 0}
+  m_margins: {x: 0.19042397, y: 0, z: 0, w: 0}
 --- !u!4 &1736148099
 Transform:
   m_ObjectHideFlags: 0
@@ -18539,7 +18539,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1736148094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.099972606, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []

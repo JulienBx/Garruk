@@ -12,10 +12,10 @@ public class StartButtonController : MonoBehaviour
 
 	void Awake(){
 		if(ApplicationModel.player.IdLanguage==0){
-			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Démarrer le combat une fois vos unités en place. Le premier à être prêt sera le premier à jouer!";
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Démarrer le combat!\nLe premier à être prêt sera le premier à jouer!";
 		}
 		else{
-			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Démarrer le combat une fois vos unités en place. Le premier à être prêt sera le premier à jouer!";
+			gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text="Start the fight!\nFirst player to push the button will be first to play";
 		}
 	} 
 
