@@ -10,7 +10,10 @@ public class NewPackHomePageController : NewPackController
 {
 	public override void buyPackHandler ()
 	{
-		NewHomePageController.instance.buyPackHandler();
+        if(!BackOfficeController.instance.getIsScrolling() && !BackOfficeController.instance.getIsSwiping())
+        {
+            NewHomePageController.instance.buyPackHandler();
+        }
 	}
 	public override void buttonHovered(bool value)
 	{

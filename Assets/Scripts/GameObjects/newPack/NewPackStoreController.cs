@@ -10,7 +10,10 @@ public class NewPackStoreController : NewPackController
 {
 	public override void buyPackHandler ()
 	{
-		NewStoreController.instance.buyPackHandler (base.getId(),false,false);
+        if(!BackOfficeController.instance.getIsScrolling() && !BackOfficeController.instance.getIsSwiping())
+        {
+            NewStoreController.instance.buyPackHandler (base.getId(),false,false);
+        }
 	}
 
 }
