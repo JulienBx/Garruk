@@ -1,0 +1,14 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:b2a0eb5fcc091d92e15154c85e608761:c6d15938b42885d2d73f919a6d3b974a:f96a1b6dd28fe644645a5b5b76724cda$
+#
+:format=40000
+:texture=GameBackground2.png
+:size=2048x2048
+
+3 - nuage;1;967;1920;1080;0.5;0.5
+meteor;1;841;353;124;0.5;0.5

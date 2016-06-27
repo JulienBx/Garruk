@@ -135,10 +135,10 @@ public class GameBackgroundController : MonoBehaviour {
     // Update is called once per frame
     void Update () 
     {
-		if(toMovePlane)
-        {
-            this.movePlane();
-        }
+//		if(toMovePlane)
+//        {
+//            this.movePlane();
+//        }
         if(toMoveMeteors)
         {
         	this.moveMeteors();
