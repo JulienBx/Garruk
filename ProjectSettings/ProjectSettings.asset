@@ -5,12 +5,12 @@ PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
   AndroidProfiler: 0
-  defaultScreenOrientation: 0
+  defaultScreenOrientation: 4
   targetDevice: 1
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: oojump
-  productName: TechticalWars
+  productName: Techtical Wars
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -20,34 +20,34 @@ PlayerSettings:
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_RenderingPath: 1
-  m_MobileRenderingPath: 1
+  m_MobileRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
   m_MobileMTRendering: 0
   m_Stereoscopic3D: 0
   iosShowActivityIndicatorOnLoading: -1
-  androidShowActivityIndicatorOnLoading: -1
+  androidShowActivityIndicatorOnLoading: 0
   iosAppInBackgroundBehavior: 0
   displayResolutionDialog: 1
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
-  allowedAutorotateToLandscapeRight: 1
-  allowedAutorotateToLandscapeLeft: 1
+  allowedAutorotateToLandscapeRight: 0
+  allowedAutorotateToLandscapeLeft: 0
   useOSAutorotation: 1
   use32BitDisplayBuffer: 1
   disableDepthAndStencilBuffers: 0
   defaultIsFullScreen: 1
-  defaultIsNativeResolution: 1
+  defaultIsNativeResolution: 0
   runInBackground: 1
   captureSingleScreen: 0
   Override IPod Music: 0
   Prepare IOS For Recording: 0
   submitAnalytics: 1
-  usePlayerLog: 1
+  usePlayerLog: 0
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
-  resizableWindow: 0
+  resizableWindow: 1
   useMacAppStoreValidation: 0
   gpuSkinning: 0
   xboxPIXTextureCapture: 0
@@ -56,7 +56,7 @@ PlayerSettings:
   xboxEnableKinectAutoTracking: 0
   xboxEnableFitness: 0
   visibleInBackground: 0
-  allowFullscreenSwitch: 1
+  allowFullscreenSwitch: 0
   macFullscreenMode: 2
   d3d9FullscreenMode: 1
   d3d11FullscreenMode: 1
@@ -86,19 +86,19 @@ PlayerSettings:
   m_SupportedAspectRatios:
     4:3: 0
     5:4: 0
-    16:10: 0
+    16:10: 1
     16:9: 1
-    Others: 0
+    Others: 1
   bundleIdentifier: com.oojump.TechticalWars
-  bundleVersion: 1.1
+  bundleVersion: 3
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
   productGUID: dc257d2be1ec80848888d2370ac1d133
-  AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 15
+  AndroidBundleVersionCode: 3
+  AndroidMinSdkVersion: 16
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   apiCompatibilityLevel: 1
@@ -117,6 +117,8 @@ PlayerSettings:
     m_Bits: 238
   iPhoneSdkVersion: 988
   iPhoneTargetOSVersion: 40
+  tvOSSdkVersion: 0
+  tvOSTargetOSVersion: 900
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
@@ -158,8 +160,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: C:/Users/user/Documents/Garruk/user.keystore
+  AndroidKeyaliasName: alias
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   androidEnableBanner: 1
@@ -173,7 +175,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: e366ce279da458f41a48d0c9d358a8e9, type: 3}
+      m_Icon: {fileID: 2800000, guid: fb549f2da36824e358e418537238bc58, type: 3}
       m_Width: 128
       m_Height: 128
   - m_BuildTarget: iPhone
@@ -210,7 +212,40 @@ PlayerSettings:
       m_Icon: {fileID: 2800000, guid: fb549f2da36824e358e418537238bc58, type: 3}
       m_Width: 57
       m_Height: 57
-  m_BuildTargetBatching: []
+  - m_BuildTarget: Standalone
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: cbfec5c757d8c114195842799a585e52, type: 3}
+      m_Width: 1024
+      m_Height: 1024
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 8adb942d46928b645adeab5cf2199bff, type: 3}
+      m_Width: 512
+      m_Height: 512
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: a9cee7a358b531b4ea3bc3571141792a, type: 3}
+      m_Width: 256
+      m_Height: 256
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 921c13b093f1a514697d9976a935302d, type: 3}
+      m_Width: 128
+      m_Height: 128
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 2a59c9218d9b6ad4e88ee5d49d0691ce, type: 3}
+      m_Width: 48
+      m_Height: 48
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 135a07ec77f29a2419332ea4813fcf9a, type: 3}
+      m_Width: 32
+      m_Height: 32
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 16830bf7e19ac0d45a71a78855faf2a2, type: 3}
+      m_Width: 16
+      m_Height: 16
+  m_BuildTargetBatching:
+  - m_BuildTarget: Android
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: AndroidPlayer
     m_APIs: 08000000
@@ -233,6 +268,7 @@ PlayerSettings:
   wiiUSystemHeapSize: 128
   wiiUTVStartupScreen: {fileID: 0}
   wiiUGamePadStartupScreen: {fileID: 0}
+  wiiUDrcBufferDisabled: 0
   wiiUProfilerLibPath: 
   actionOnDotNetUnhandledException: 1
   enableInternalProfiler: 0
@@ -300,6 +336,7 @@ PlayerSettings:
   ps4DownloadDataSize: 0
   ps4GarlicHeapSize: 2048
   ps4Passcode: eaoEiIgxIX4a2dREbbSqWy6yhKIDCdJO
+  ps4UseDebugIl2cppLibs: 0
   ps4pnSessions: 1
   ps4pnPresence: 1
   ps4pnFriends: 1
@@ -365,12 +402,13 @@ PlayerSettings:
   psp2UseLibLocation: 0
   psp2InfoBarOnStartup: 0
   psp2InfoBarColor: 0
+  psp2UseDebugIl2cppLibs: 0
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols:
     1: 
     2: 
-    4: Input4
+    4: 
   metroPackageName: Garruk
   metroPackageVersion: 
   metroCertificatePath: 
@@ -490,7 +528,7 @@ PlayerSettings:
   - WebGL::emscriptenArgs
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
-  Build_ServiceEnabled::Build_ServiceEnabled: True
+  Build_ServiceEnabled::Build_ServiceEnabled: False
   UNet_ServiceEnabled::UNet_ServiceEnabled: True
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default

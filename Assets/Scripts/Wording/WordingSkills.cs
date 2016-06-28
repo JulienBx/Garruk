@@ -16,7 +16,7 @@ public class WordingSkills
 	}
 	public static string getDescription(int idSkill, int idDescription)
 	{
-		return descriptions[10*idSkills.IndexOf(idSkill)+idDescription][ApplicationModel.player.IdLanguage];
+		return descriptions[10*idSkills.IndexOf(idSkill)+Mathf.Max(0,idDescription)][ApplicationModel.player.IdLanguage];
 	}
 	public static int getProba(int idSkill, int idProba)
 	{
@@ -813,7 +813,7 @@ public class WordingSkills
 		probas.Add(100); 
 		//35 - Sniper
 		idSkills.Add(35);
-		names.Add(new string[]{"Sniper",""}); 
+		names.Add(new string[]{"Sniper","Sniper"}); 
 		descriptions.Add(new string[]{"Ne peut pas se déplacer mais résistance 55% aux météorites","Can not move but 55% resistance to meteors"}); 
 		descriptions.Add(new string[]{"Ne peut pas se déplacer mais résistance 60% aux météorites","Can not move but 60% resistance to meteors"}); 
 		descriptions.Add(new string[]{"Ne peut pas se déplacer mais résistance 65% aux météorites","Can not move but 65% resistance to meteors"}); 

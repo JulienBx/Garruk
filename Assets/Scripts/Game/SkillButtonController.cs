@@ -10,11 +10,13 @@ public class SkillButtonController : MonoBehaviour
 	public bool isLaunchable = false ;
 	public string launchabilityText ;
 	public int id ; 
+	public Tile currentTile ;
 	
 	void Awake(){
 		this.showDescription(false);
 		this.skill = new Skill();
 		this.skill.Power = 1;
+		this.currentTile = new Tile(-1,-1);
 	}
 
 	public void setDescription(string s){
@@ -187,7 +189,8 @@ public class SkillButtonController : MonoBehaviour
 
 	public void OnMouseUp(){
 		if(GameView.instance.draggingSkillButton==this.id){
-			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 vec = this.getPosition();
+			vec.y-=4.5f;
 			int x=-1, y=-1 ;
 			x = Mathf.FloorToInt(vec.x/GameView.instance.tileScale)+3;
 			y = Mathf.FloorToInt(vec.y/GameView.instance.tileScale)+4;
@@ -268,12 +271,101 @@ public class SkillButtonController : MonoBehaviour
 		p.x -= GameView.instance.stepButton;
 		p.y+=5f;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+
+		p.y-=4.5f;
+		int x=-1, y=-1 ;
+		x = Mathf.FloorToInt(p.x/GameView.instance.tileScale)+3;
+		y = Mathf.FloorToInt(p.y/GameView.instance.tileScale)+4;
+
+		if(x>=0 && x<GameView.instance.boardWidth && y>=0 && y<GameView.instance.boardHeight){
+			if(!GameView.instance.getIsFirstPlayer()){
+				x = (GameView.instance.boardWidth-1-x);
+				y = (GameView.instance.boardHeight-1-y);
+			}
+			if(this.currentTile.x!=x || this.currentTile.y!=y){
+				SoundController.instance.playSound(32);
+				this.currentTile.x = x;
+				this.currentTile.y = y;
+
+				if(GameView.instance.getTileController(x,y).isDisplayingTarget){
+
+					if(GameView.instance.getTileController(x,y).getCharacterID()!=-1){
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileController(x,y).getCharacterID()));
+					}
+					else{
+						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
+					}
+
+					if(GameView.instance.getIsFirstPlayer()){
+						if(this.currentTile.x==0){
+							this.shiftRight2();
+						}
+						else if(this.currentTile.x==GameView.instance.boardWidth-1){
+							this.shiftLeft2();
+						}
+						else{
+							this.shiftCenter2();
+						}
+					}
+					else{
+						if(this.currentTile.x==GameView.instance.boardWidth-1){
+							this.shiftRight2();
+						}
+						else if(this.currentTile.x==0){
+							this.shiftLeft2();
+						}
+						else{
+							this.shiftCenter2();
+						}
+					}
+
+					this.setBlue();
+					this.showDescription(true);
+				}
+				else if(GameView.instance.runningSkill!=-1){
+					if(GameSkills.instance.getCurrentGameSkill().auto){
+						this.setBlue();
+					}
+					else{
+						this.setRed();
+					}
+					if(GameView.instance.getIsFirstPlayer()){
+						if(this.currentTile.x==0){
+							this.shiftRight2();
+						}
+						else if(this.currentTile.x==GameView.instance.boardWidth-1){
+							this.shiftLeft2();
+						}
+						else{
+							this.shiftCenter2();
+						}
+					}
+					else{
+						if(this.currentTile.x==GameView.instance.boardWidth-1){
+							this.shiftRight2();
+						}
+						else if(this.currentTile.x==0){
+							this.shiftLeft2();
+						}
+						else{
+							this.shiftCenter2();
+						}
+					}
+					this.setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, Mathf.Max(0,GameView.instance.getCurrentSkill().Power-1))));
+					this.showDescription(true);
+				}
+			}
+		}
 	}
 
 	public void setPosition4(Vector3 p){
 		p.z = -0.5f;
 		p.x -= GameView.instance.stepButton;
 		gameObject.transform.localPosition = new Vector3(p.x, p.y, p.z);
+	}
+
+	public Vector3 getPosition(){
+		return gameObject.transform.localPosition;
 	}
 
 	public void shiftRight2(){

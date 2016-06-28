@@ -18,10 +18,9 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 1f ;
+    float limitTime = 5f ;
     bool isWaiting ;
     public AsyncOperation async ;
-	private bool isInitialized;
 	private string sceneName;
 	private bool isLoadingScreenDisplayed;
 	private bool isQuittingGame;
@@ -49,7 +48,6 @@ public class PhotonController : Photon.MonoBehaviour
 		instance = this;
 		DontDestroyOnLoad(this.gameObject);
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
-		this.isInitialized=true;
 		this.isQuittingGame=false;
 	}
 	public void initializeGame()
@@ -133,7 +131,7 @@ public class PhotonController : Photon.MonoBehaviour
             this.isWaiting = true ;
             this.waitingTime=0f;
         }
-        if(ApplicationModel.player.ToLaunchChallengeGame=true)
+        if(ApplicationModel.player.ToLaunchChallengeGame==true)
         {
             ApplicationModel.player.ToLaunchChallengeGame=false;
         }

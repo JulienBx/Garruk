@@ -251,6 +251,7 @@ public class GameView : MonoBehaviour
 		this.isFirstPlayer = ApplicationModel.player.IsFirstPlayer;
 		this.setMyPlayerName(ApplicationModel.myPlayerName);
 		this.setHisPlayerName(ApplicationModel.hisPlayerName);
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		if (this.isFirstPlayer)
 		{
 			if(ApplicationModel.player.ToLaunchGameTutorial){

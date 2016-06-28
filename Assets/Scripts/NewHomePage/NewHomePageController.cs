@@ -115,10 +115,8 @@ public class NewHomePageController : MonoBehaviour
 	private GameObject endGamePopUp;
 	private bool isEndGamePopUpDisplayed;
 	private GameObject trainingPopUp;
-	private bool isTrainingPopUpDisplayed;
 	private GameObject wonPackPopUp;
-	private bool isWonPackPopUpDisplayed;
-    private GameObject hasLeftRoomPopUp;
+	private GameObject hasLeftRoomPopUp;
     private bool isHasLeftRoomPopUpDisplayed;
 
 	private bool toSlideRight;
@@ -258,6 +256,7 @@ public class NewHomePageController : MonoBehaviour
 		this.initializeMenu();
 		this.initializeHelp();
 		StartCoroutine (this.initialization ());
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
 	private void initializeHelp()
 	{
@@ -1508,7 +1507,6 @@ public class NewHomePageController : MonoBehaviour
 		SoundController.instance.playSound(3);
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.wonPackPopUp.transform.GetComponent<WonPackPopUpController> ().reset ();
-		this.isWonPackPopUpDisplayed = true;
 		this.wonPackPopUp.SetActive (true);
 		this.wonPackPopUpResize();
 	}
@@ -1524,7 +1522,6 @@ public class NewHomePageController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayTransparentBackground ();
 		this.trainingPopUp.transform.GetComponent<TrainingPopUpController> ().reset (ApplicationModel.player.HasWonLastGame);
-		this.isTrainingPopUpDisplayed = true;
 		this.trainingPopUp.SetActive (true);
 		this.trainingPopUpResize();
 	}
@@ -1580,14 +1577,12 @@ public class NewHomePageController : MonoBehaviour
 	{
 		this.wonPackPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
-		this.isWonPackPopUpDisplayed = false;
 		BackOfficeController.instance.loadScene("NewStore");
 	}
 	public void hideTrainingPopUp()
 	{
 		this.trainingPopUp.SetActive (false);
 		BackOfficeController.instance.hideTransparentBackground();
-		this.isTrainingPopUpDisplayed = false;
 		if(ApplicationModel.player.HasToBuyTrainingPack)
 		{
 			BackOfficeController.instance.loadScene("NewStore");
