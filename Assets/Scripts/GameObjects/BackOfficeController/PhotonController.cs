@@ -18,7 +18,7 @@ public class PhotonController : Photon.MonoBehaviour
     private int nbPlayersInRoom;
     private int nbPlayersReady;
     float waitingTime = 0f ; 
-    float limitTime = 5f ;
+    float limitTime = 8f ;
     bool isWaiting ;
     public AsyncOperation async ;
 	private string sceneName;
@@ -143,7 +143,7 @@ public class PhotonController : Photon.MonoBehaviour
         {
             isWaiting = false ;
 			this.waitingTime=0f;
-			if(PhotonNetwork.room.playerCount<2)
+			if(PhotonNetwork.room.playerCount!=null && PhotonNetwork.room.playerCount<2)
 	        {
 				ApplicationModel.player.ToLaunchGameIA  = true ;
             	StartCoroutine(this.startIAGame());

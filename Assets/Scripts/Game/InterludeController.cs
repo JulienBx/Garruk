@@ -299,6 +299,17 @@ public class InterludeController : MonoBehaviour
 			this.isRunning = false ;
 			GameView.instance.hideSkillEffects();
 
+
+			//GameView.instance.killHandle(0, true);
+			//GameView.instance.killHandle(1, true);
+			//GameView.instance.killHandle(2, true);
+			//GameView.instance.killHandle(3, true);
+
+			//GameView.instance.getPlayingCardController(0).kill(true);
+			//GameView.instance.getPlayingCardController(1).kill(true);
+			//GameView.instance.getPlayingCardController(2).kill(true);
+			//GameView.instance.getPlayingCardController(3).kill(true);
+
 			if(!isEndTurn){
 				if(ApplicationModel.player.ToLaunchGameIA && !GameView.instance.getCurrentCard().isMine && !hasAutoPlayed){
 					GameView.instance.IA.play();

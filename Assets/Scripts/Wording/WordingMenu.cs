@@ -30,7 +30,7 @@ public class WordingMenu
 		references.Add(new string[]{"Units","Units"}); //7
 		references.Add(new string[]{"Enlist","Enlist"}); //8
 		references.Add(new string[]{"Market","Market"}); //9
-		references.Add(new string[]{"Wiki","Wiki"}); //10
+		references.Add(new string[]{"Book","Book"}); //10
 		references.Add(new string[]{"Fight","Fight"}); //11
 	}
 }

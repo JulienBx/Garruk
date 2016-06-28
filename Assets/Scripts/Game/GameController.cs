@@ -370,6 +370,7 @@ public class GameController : Photon.MonoBehaviour
 			if(ApplicationModel.player.ToLaunchGameTutorial)
 			{
                 SoundController.instance.playMusic(new int[]{0,1,2});
+				Screen.sleepTimeout = SleepTimeout.SystemSetting;
                 ApplicationModel.player.ToLaunchGameTutorial=false;
 				SceneManager.LoadScene("NewHomePage");
 			}
