@@ -369,7 +369,8 @@ public class GameController : Photon.MonoBehaviour
 			ApplicationModel.player.ShouldQuitGame=false;
 			if(ApplicationModel.player.ToLaunchGameTutorial)
 			{
-				ApplicationModel.player.ToLaunchGameTutorial=false;
+                SoundController.instance.playMusic(new int[]{0,1,2});
+                ApplicationModel.player.ToLaunchGameTutorial=false;
 				SceneManager.LoadScene("NewHomePage");
 			}
 			else

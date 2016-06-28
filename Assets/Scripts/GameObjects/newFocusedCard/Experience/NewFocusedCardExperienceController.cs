@@ -103,7 +103,7 @@ public class NewFocusedCardExperienceController : MonoBehaviour
 			this.levelUpAngle=0f;
 			this.levelUpSpeed=100f;
 			this.levelUp.SetActive(true);
-			this.levelUp.GetComponent<TextMeshPro>().text="Level up!";
+			this.levelUp.GetComponent<TextMeshPro>().text=WordingCard.getReference(3);
 		}
 		if(this.endLevel!=10)
 		{
