@@ -287,36 +287,40 @@ public class SkillButtonController : MonoBehaviour
 				this.currentTile.x = x;
 				this.currentTile.y = y;
 
-				if(GameView.instance.getTileController(x,y).isDisplayingTarget){
+				if(GameView.instance.getIsFirstPlayer()){
+					if(this.currentTile.x==0){
+						this.shiftRight2();
+					}
+					else if(this.currentTile.x==GameView.instance.boardWidth-1){
+						this.shiftLeft2();
+					}
+					else{
+						this.shiftCenter2();
+					}
+				}
+				else{
+					if(this.currentTile.x==GameView.instance.boardWidth-1){
+						this.shiftRight2();
+					}
+					else if(this.currentTile.x==0){
+						this.shiftLeft2();
+					}
+					else{
+						this.shiftCenter2();
+					}
+				}
+
+				if(GameView.instance.hoveringZone!=-1){
+					this.setBlue();
+					this.showDescription(true);
+				}
+				else if(GameView.instance.getTileController(x,y).isDisplayingTarget){
 
 					if(GameView.instance.getTileController(x,y).getCharacterID()!=-1){
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(GameView.instance.getTileController(x,y).getCharacterID()));
 					}
 					else{
 						GameView.instance.getSkillZoneController().getSkillButtonController(GameView.instance.draggingSkillButton).setDescription(GameSkills.instance.getCurrentGameSkill().getTargetText(-1));
-					}
-
-					if(GameView.instance.getIsFirstPlayer()){
-						if(this.currentTile.x==0){
-							this.shiftRight2();
-						}
-						else if(this.currentTile.x==GameView.instance.boardWidth-1){
-							this.shiftLeft2();
-						}
-						else{
-							this.shiftCenter2();
-						}
-					}
-					else{
-						if(this.currentTile.x==GameView.instance.boardWidth-1){
-							this.shiftRight2();
-						}
-						else if(this.currentTile.x==0){
-							this.shiftLeft2();
-						}
-						else{
-							this.shiftCenter2();
-						}
 					}
 
 					this.setBlue();
@@ -329,28 +333,7 @@ public class SkillButtonController : MonoBehaviour
 					else{
 						this.setRed();
 					}
-					if(GameView.instance.getIsFirstPlayer()){
-						if(this.currentTile.x==0){
-							this.shiftRight2();
-						}
-						else if(this.currentTile.x==GameView.instance.boardWidth-1){
-							this.shiftLeft2();
-						}
-						else{
-							this.shiftCenter2();
-						}
-					}
-					else{
-						if(this.currentTile.x==GameView.instance.boardWidth-1){
-							this.shiftRight2();
-						}
-						else if(this.currentTile.x==0){
-							this.shiftLeft2();
-						}
-						else{
-							this.shiftCenter2();
-						}
-					}
+				
 					this.setDescription(GameView.instance.getCurrentCard().getSkillText(WordingSkills.getDescription(GameView.instance.getCurrentSkill().Id, Mathf.Max(0,GameView.instance.getCurrentSkill().Power-1))));
 					this.showDescription(true);
 				}
