@@ -145,7 +145,7 @@ public class PhotonController : Photon.MonoBehaviour
         {
             isWaiting = false ;
 			this.waitingTime=0f;
-			if(PhotonNetwork.room.playerCount<2)
+			if(PhotonNetwork.room!=null && PhotonNetwork.room.playerCount<2)
 	        {
 				ApplicationModel.player.ToLaunchGameIA  = true ;
             	StartCoroutine(this.startIAGame());
