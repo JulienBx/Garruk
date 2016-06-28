@@ -10,6 +10,7 @@ public class Berserk : GameSkill
 		texts.Add(new string[]{"Berserk","Berserk"});
 		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
 		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		base.ciblage = 1 ;
 		base.auto = false;
 		base.id = 16 ;
 	}
