@@ -66,6 +66,10 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
 		}
+		else
+		{
+			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+		}
         print("Jessaye de joindre une room");
         this.hasToJoinRoom=false;
         this.isWaiting=false;
@@ -290,11 +294,23 @@ public class PhotonController : Photon.MonoBehaviour
     {
         if(!ApplicationModel.player.ToDeconnect)
         {
-            ApplicationModel.player.HasLostConnection=true;
-            ApplicationModel.player.ToDeconnect=true;
+            this.displayLoadingScreen();
+            this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(2));
+            this.connectToPhoton();
         }
-        SceneManager.LoadScene("Authentication");
+        else
+        {
+			SceneManager.LoadScene("Authentication");
+        }
     }
+	private void connectToPhoton()
+	{
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+	}
+	void OnJoinedLobby()
+	{
+		this.hideLoadingScreen();
+	}
     private void CreateIADeck()
     {
     	print("Je crée le deck de l'IA");
@@ -1114,7 +1130,6 @@ public class PhotonController : Photon.MonoBehaviour
 		{
 			this.preMatchScreen.SetActive(true);
 			this.isLoadingScreenDisplayed=true;
-			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
 			this.preMatchScreen.GetComponent<PreMatchScreenController>().reset();
 		}
 	}
