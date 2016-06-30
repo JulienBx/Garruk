@@ -93,4 +93,5 @@ MonoBehaviour:
   - CheckPlayerStateRPC
   - getCurrentGameIdRPC
   - getPlayerDataRPC
+  - createBackgroundRPC
   DisableAutoOpenWizard: 0

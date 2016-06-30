@@ -16,6 +16,24 @@ public class Board
 		this.horizontalBorders = new GameObject[this.boardHeight+1];
 	}
 
+	public void addHorizontalBorder(int i, GameObject horizontalBorder){
+		this.horizontalBorders [i] = horizontalBorder;
+	}
+
+	public void sizeHorizontalBorder(int i, Vector3 position, Vector3 scale){
+		this.horizontalBorders [i].transform.localPosition = position;
+		this.horizontalBorders [i].transform.localScale = scale;
+	}
+
+	public void sizeVerticalBorder(int i, Vector3 position, Vector3 scale){
+		this.verticalBorders [i].transform.localPosition = position;
+		this.verticalBorders [i].transform.localScale = scale;
+	}
+
+	public void addVerticalBorder(int i, GameObject verticalBorder){
+		this.verticalBorders [i] = verticalBorder;
+	}
+
 	public int getBoardWidth(){
 		return this.boardWidth;
 	}

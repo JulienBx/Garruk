@@ -13,6 +13,8 @@ public class LeftSlider : Slider
 		position.x = -0.50f*f-5f;
 		gameObject.transform.localPosition = position;	
 	}
+
+
 }
 
 

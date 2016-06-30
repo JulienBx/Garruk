@@ -7,6 +7,10 @@ public class Slider : MonoBehaviour
 	{
 
 	}
+
+	public virtual void activateCollider(bool b){
+		gameObject.transform.GetComponent<BoxCollider>().enabled = b;
+	}
 }
 
 

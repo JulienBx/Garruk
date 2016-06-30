@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class RightSlider : Slider
 {
-	public RightSlider ()
+	void Awake()
 	{
-
+		
 	}
 
 	public void putToStartPosition(float f){

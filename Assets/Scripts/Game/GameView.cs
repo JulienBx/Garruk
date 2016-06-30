@@ -224,8 +224,6 @@ public class GameView : MonoBehaviour
 		texts.Add(new string[]{"Pour éviter que les combats ne durent trop longtemps, des météorites s'abattent fréquemment sur les côtés du champ de bataille.", "To avoid long fights, meteors often fall on the sides of the battlefield."});
 		texts.Add(new string[]{"La timeline affiche les météorites, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du terrain.", "The timeline displays meteor events. The number above the picture determines how many lines will be hit at each side of the battlefield by the meteors."});
 		texts.Add(new string[]{"Vous possédez maintenant toutes les armes pour terminer ce combat. Bonne chance et à bientôt!", "Now you hold the keys to win this fight. Good luck and see you later!"});
-
-
 	}
 
 	void Start()

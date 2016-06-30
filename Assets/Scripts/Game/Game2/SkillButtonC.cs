@@ -1,13 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using TMPro;
 
-public class PassButtonC : MonoBehaviour
+public class SkillButtonC : MonoBehaviour
 {
 	void Awake()
 	{
 		this.show(false);
-		this.setText(WordingGame.getText(65));
 	}
 
 	public void show(bool b){
@@ -21,10 +19,6 @@ public class PassButtonC : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b ;
-	}
-
-	public void setText(string s){
-		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = s ;
 	}
 
 	public void size(Vector3 position){
