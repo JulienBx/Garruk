@@ -50,16 +50,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.initializeScene ();
-		if (PlayerPrefs.HasKey ("sfxVol")) {
-			ApplicationModel.volBackOfficeFx = PlayerPrefs.GetFloat ("sfxVol", 0.5f) * ApplicationModel.volMaxBackOfficeFx;
-		} else {
-			ApplicationModel.volBackOfficeFx = 0.5f;
-		}
-		if (PlayerPrefs.HasKey ("musicVol")) {
-			ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
-		} else {
-			ApplicationModel.volMusic = 0.5f;
-		}
+		ApplicationModel.volBackOfficeFx = PlayerPrefs.GetFloat ("sfxVol", 0.5f) * ApplicationModel.volMaxBackOfficeFx;
+		ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
+		ApplicationModel.player.AutomaticConnection=System.Convert.ToBoolean(PlayerPrefs.GetInt("automaticConnection",0));
+		ApplicationModel.player.Username=ApplicationModel.Decrypt(PlayerPrefs.GetString("username",""));
 	}
 	void Start()
 	{
@@ -94,7 +88,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 			ApplicationModel.player.FacebookId=aToken.UserId;
 			StartCoroutine(this.login(true, true));
 		}
-		else
+		else if(ApplicationModel.player.AutomaticConnection)
 		{
 			StartCoroutine (this.checkPermanentConnection ());
 		}
@@ -165,7 +159,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private IEnumerator checkPermanentConnection()
 	{
 		yield return StartCoroutine(ApplicationModel.player.permanentConnexion ());
-		if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1)
+		if(!ApplicationModel.player.IsOnline)
+		{
+			this.retrievePlayerData();
+		}
+		else if(ApplicationModel.player.Error=="" && ApplicationModel.player.Id!=-1)
 		{
 			this.connectToPhoton();
 		}
@@ -1000,6 +998,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void OnJoinedLobby()
 	{
 		this.loadLevels();
+	}
+	private void retrievePlayerData()
+	{
+		
 	}
 
 	#region Facebook

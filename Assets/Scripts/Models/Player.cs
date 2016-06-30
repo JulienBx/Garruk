@@ -82,6 +82,10 @@ public class Player : User
 	public bool HasLostConnection;
     public bool HasLostConnectionDuringGame;
     public bool ShouldQuitGame;
+    public bool AutomaticConnection;
+    public bool IsOnline;
+    public Cards MyCards;
+	public Decks MyDecks;
   
 	public Player()
 	{
@@ -124,6 +128,7 @@ public class Player : User
 		this.Error="";
 		this.Connections=new List<Connection>();
 		this.CurrentDivision=new Division();
+		this.IsOnline=true;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -470,54 +475,57 @@ public class Player : User
 
 		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-		
-		if(this.Error=="")
+		if(ApplicationModel.player.IsOnline)
 		{
-            PlayerPrefs.DeleteKey("Product");
-            PlayerPrefs.DeleteKey("ProductOwner");
-            PlayerPrefs.Save();
-            string result = ServerController.instance.getResult();
-			if(result.Contains("#SUCESS#"))
+			this.Error=ServerController.instance.getError();
+		
+			if(this.Error=="")
 			{
-				string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
-				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-				this.Username = profileData [0];
-				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
-				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
-				this.Money = System.Convert.ToInt32(profileData [3]);
-				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
-				this.Id=System.Convert.ToInt32(profileData[6]);
-				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
-				this.Mail=profileData[8];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
-                if(System.Convert.ToInt32(profileData[10])!=-1)
-                {
-                    this.HasLostConnectionDuringGame=true;
-                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[10]));
-                    this.ChosenGameType=System.Convert.ToInt32(profileData[11]);
-                    ApplicationModel.player.MyDeck=new Deck();
-                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-                    {
-                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-                    }
-                }
+	            PlayerPrefs.DeleteKey("Product");
+	            PlayerPrefs.DeleteKey("ProductOwner");
+	            PlayerPrefs.Save();
+	            string result = ServerController.instance.getResult();
+				if(result.Contains("#SUCESS#"))
+				{
+					string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
+					string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+					this.Username = profileData [0];
+					this.TutorialStep = System.Convert.ToInt32(profileData [1]);
+					this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
+					this.Money = System.Convert.ToInt32(profileData [3]);
+					this.IdLanguage=System.Convert.ToInt32(profileData[4]);
+					this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
+					this.Id=System.Convert.ToInt32(profileData[6]);
+					this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
+					this.Mail=profileData[8];
+					this.CurrentDivision=new Division();
+					this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+	                if(System.Convert.ToInt32(profileData[10])!=-1)
+	                {
+	                    this.HasLostConnectionDuringGame=true;
+	                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[10]));
+	                    this.ChosenGameType=System.Convert.ToInt32(profileData[11]);
+	                    ApplicationModel.player.MyDeck=new Deck();
+	                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+	                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+	                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+	                    {
+	                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+	                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+	                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+	                    }
+	                }
+				}
+				else
+				{
+					this.Id=-1;
+				}		
 			}
 			else
 			{
+				Debug.Log(this.Error);
 				this.Id=-1;
-			}		
-		}
-		else
-		{
-			Debug.Log(this.Error);
-			this.Id=-1;
+			}
 		}
 	}
 	public IEnumerator Login()
@@ -553,27 +561,35 @@ public class Player : User
             string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
 			{
-				string[] data =result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
-				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-				this.Username = profileData [0];
-				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
-				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
-				this.Money = System.Convert.ToInt32(profileData [3]);
-				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
-				this.Id=System.Convert.ToInt32(profileData[6]);
-				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[7]));
-				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
-				this.Mail=profileData[9];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[10]);
-                if(System.Convert.ToInt32(profileData[11])!=-1)
+
+				this.IsAccountActivated=true;
+				this.IsAccountCreated=true;
+				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
+				string[] gameData =data[2].Split(new string[] { "END" }, System.StringSplitOptions.None);
+				this.parsePlayerInformations(gameData[0]);
+				if(gameData[1]!="")
+				{
+					this.MyCards.parseCards(data[2]);
+				}
+				if(gameData[2]!="")
+				{
+					this.MyDecks.parseDecks(data[3]);
+				}
+
+
+
+
+
+
+
+				if(System.Convert.ToInt32(data[1])!=-1)
                 {
+					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
                     this.HasLostConnectionDuringGame=true;
-                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[11]));
-                    this.ChosenGameType=System.Convert.ToInt32(profileData[12]);
+					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
                     ApplicationModel.player.MyDeck=new Deck();
-                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
                     string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
                     for(int i = 0 ; i < myDeckCards.Length ; i++)
                     {
@@ -582,9 +598,6 @@ public class Player : User
                         ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
                     }
                 }
-
-				this.IsAccountActivated=true;
-				this.IsAccountCreated=true;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
@@ -793,6 +806,71 @@ public class Player : User
 			}
 		}
 		return true;
+	}
+	private void parsePlayerInformations(string[] array)
+	{
+		this.Id= System.Convert.ToInt32(array[0]);
+		this.Mail= array[1];
+		this.FirstName	= array[2];
+		this.Surname= array[3];
+		this.IdProfilePicture= System.Convert.ToInt32(array[4]);
+		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[5]));
+		this.SelectedDeckId= System.Convert.ToInt32(array[6]);
+		this.RankingPoints = System.Convert.ToInt32 (array [7]);
+		this.Ranking = System.Convert.ToInt32 (array [8]);
+		this.CollectionPoints = System.Convert.ToInt32 (array [9]);
+		this.CollectionRanking = System.Convert.ToInt32 (array [10]);
+		this.TotalNbWins = System.Convert.ToInt32 (array [11]);
+		this.TotalNbLooses = System.Convert.ToInt32 (array [12]);
+		this.Readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[13]));
+		this.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[14]));
+		this.TutorialStep = System.Convert.ToInt32 (array [15]);
+		this.MarketTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [16]));
+		this.ProfileTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [17]));
+		this.LobbyHelp = System.Convert.ToBoolean(System.Convert.ToInt32 (array [18]));
+		this.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [19]));
+		this.NextLevelTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [20]));
+		this.IdLanguage	 = System.Convert.ToInt32 (array [21]);
+		this.CurrentDivision	 = new Division();
+		this.CurrentDivision.Id=System.Convert.ToInt32 (array [22]);
+		this.TrainingStatus=System.Convert.ToInt32 (array [23]);
+		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [24]));
+		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
+		this.getTrainingAllowedCardType();
+	}
+	public List<Deck> parseDecks(string[] decksIds)
+	{
+		string[] deckData = null;
+		string[] deckInfo = null;
+		
+		List<Deck> decks = new List<Deck> (); 
+		
+		for (int i = 0; i < decksIds.Length - 1; i++) 		// On boucle sur les attributs d'un deck
+		{
+			deckData = decksIds[i].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
+			for(int j=0 ; j<deckData.Length-1;j++)
+			{
+				
+				deckInfo=deckData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
+				if(j==0)
+				{
+					
+					decks.Add(new Deck());
+					decks[i].Id=System.Convert.ToInt32(deckInfo [0]);
+					decks[i].Name=deckInfo [1];
+					decks[i].NbCards=System.Convert.ToInt32(deckInfo [2]);
+					
+					decks[i].cards = new List<Card>();
+				}
+				else
+				{
+					decks[i].cards.Add(new Card ());
+					decks[i].cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
+					decks[i].cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
+				}
+			}	                     
+		}
+		return decks;
 	}
 }
 

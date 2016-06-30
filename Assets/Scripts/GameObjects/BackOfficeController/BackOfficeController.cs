@@ -519,7 +519,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		if(isLoadingScreenDisplayed)
 		{
-			this.displayLoadingScreenButton (false);
+			this.displayOfflineModeButton (false);
 			this.loadingScreen.SetActive(false);
 			this.isLoadingScreenDisplayed=false;
 			if(this.isHelpLoaded)
@@ -540,7 +540,7 @@ public class BackOfficeController : MonoBehaviour
 			this.loadingScreen.GetComponent<LoadingScreenController> ().changeLoadingScreenLabel (label);
 		}
 	}
-	public void displayLoadingScreenButton(bool value)
+	public void displayOfflineModeButton(bool value)
 	{
 		if(isLoadingScreenDisplayed)
 		{
