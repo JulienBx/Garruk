@@ -166,6 +166,7 @@ public class Game : MonoBehaviour
 		this.getSkillButton(2).size(new Vector3(-0.5f*this.tileScale, -2.4f-2*tileScale, 0f));
 		this.getSkillButton(3).size(new Vector3(0.5f*this.tileScale, -2.4f-2*tileScale, 0f));
 
+		/*
 		this.getCancelButton().size
 		if(this.isMobile){
 			tempTransform = this.skillZone.transform.FindChild("CancelZone");
@@ -175,7 +176,7 @@ public class Game : MonoBehaviour
 
 			tempTransform = this.skillZone.transform.FindChild("CancelZone").FindChild("Text");
 			tempTransform.GetComponent<TextContainer>().width = 3.5f*(realwidth/6f) ;
-		}
+		
 
 		this.interlude.GetComponent<InterludeController>().resize(realwidth);
 
@@ -189,6 +190,6 @@ public class Game : MonoBehaviour
 				this.getPlayingCardController(i).resize();
 			}
 		}
-
+		*/
 	}
 }
