@@ -292,25 +292,21 @@ public class PhotonController : Photon.MonoBehaviour
     }
     public void OnDisconnectedFromPhoton()
     {
-        if(!ApplicationModel.player.ToDeconnect)
+		if(!ApplicationModel.player.ToDeconnect)
         {
-            this.displayLoadingScreen();
-            this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(2));
-            this.connectToPhoton();
+            ApplicationModel.player.HasLostConnection=true;
+            ApplicationModel.player.ToDeconnect=true;
         }
-        else
-        {
-			SceneManager.LoadScene("Authentication");
-        }
+		SceneManager.LoadScene("Authentication");
     }
-	private void connectToPhoton()
-	{
-		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
-	}
-	void OnJoinedLobby()
-	{
-		this.hideLoadingScreen();
-	}
+//	private void connectToPhoton()
+//	{
+//		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+//	}
+//	void OnJoinedLobby()
+//	{
+//		this.hideLoadingScreen();
+//	}
     private void CreateIADeck()
     {
     	print("Je crée le deck de l'IA");
