@@ -8,7 +8,7 @@ public class Trophy
 {
 	public User User;
 	public int Id;
-	public Competition competition;
+	public Division division;
 	public DateTime Date;
 	
 	public Trophy()

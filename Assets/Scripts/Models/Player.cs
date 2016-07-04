@@ -86,6 +86,14 @@ public class Player : User
     public bool IsOnline;
     public Cards MyCards;
 	public Decks MyDecks;
+	public Users Users;
+	public Notifications MyNotifications;
+	public NewsList MyNews;
+	public List<int> MyFriends;
+	public Connections MyConnections;
+	public Trophies MyTrophies;
+	public ChallengesRecords MyChallengesRecords;
+	public Division MyDivision;
   
 	public Player()
 	{
@@ -561,27 +569,75 @@ public class Player : User
             string result = ServerController.instance.getResult();
 			if(result.Contains("#SUCESS#"))
 			{
-
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
 				string[] gameData =data[2].Split(new string[] { "END" }, System.StringSplitOptions.None);
+
+				this.MyCards=new Cards();
+				this.MyDecks=new Decks();
+				this.MyNotifications=new Notifications();
+				this.MyConnections=new Connections();
+				this.MyNews=new NewsList();
+				this.MyTrophies=new Trophies();
+				this.MyChallengesRecords=new ChallengesRecords();
+				this.MyDivision=new Division();
+				this.Users=new Users();
+				ApplicationModel.packs=new Packs();
+				ApplicationModel.products=new DisplayedProducts();
+
 				this.parsePlayerInformations(gameData[0]);
 				if(gameData[1]!="")
 				{
-					this.MyCards.parseCards(data[2]);
+					this.MyCards.parseCards(gameData[2]);
 				}
 				if(gameData[2]!="")
 				{
-					this.MyDecks.parseDecks(data[3]);
+					this.MyDecks.parseDecks(gameData[2]);
+					this.retrieveCardsDeck();
 				}
-
-
-
-
-
-
-
+				if(gameData[3]!="")
+				{
+					this.MyNotifications.parseNotifications(gameData[3]);
+					this.MyNotifications.lookForNonReadNotification();
+				}
+				if(gameData[4]!="")
+				{
+					this.MyFriends=this.parseFriends(gameData[4]);
+				}
+				if(gameData[5]!="")
+				{
+					this.MyConnections.parseConnections(gameData[5]);
+				}
+				if(gameData[6]!="")
+				{
+					this.MyNews.parseNews(gameData[6]);
+					this.MyNews.filterNews(this.Id);
+				}
+				if(gameData[7]!="")
+				{
+					this.MyTrophies.parseTrophies(gameData[7]);
+				}
+				if(gameData[8]!="")
+				{
+					this.MyChallengesRecords.parseChallengesRecords(gameData[8]);
+				}
+				if(gameData[9]!="")
+				{
+					this.MyDivision=this.parseDivision(gameData[9]);
+				}
+				if(gameData[10]!="")
+				{
+					this.Users.parseUsers(gameData[10]);
+				}
+				if(gameData[11]!="")
+				{
+					ApplicationModel.products.parseProducts(gameData[11]);
+				}
+				if(gameData[12]!="")
+				{
+					ApplicationModel.packs.parsePacks(gameData[12]);
+				}
 				if(System.Convert.ToInt32(data[1])!=-1)
                 {
 					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
@@ -838,39 +894,60 @@ public class Player : User
 		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
 		this.getTrainingAllowedCardType();
 	}
-	public List<Deck> parseDecks(string[] decksIds)
+
+	private List<int> parseFriends(string s)
 	{
-		string[] deckData = null;
-		string[] deckInfo = null;
-		
-		List<Deck> decks = new List<Deck> (); 
-		
-		for (int i = 0; i < decksIds.Length - 1; i++) 		// On boucle sur les attributs d'un deck
+		string[] friendsData=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+		List<int> friends = new List<int> ();
+		for(int i=0;i<friendsData.Length-1;i++)
 		{
-			deckData = decksIds[i].Split(new string[] { "#C#" }, System.StringSplitOptions.None);
-			for(int j=0 ; j<deckData.Length-1;j++)
-			{
-				
-				deckInfo=deckData[j].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-				if(j==0)
-				{
-					
-					decks.Add(new Deck());
-					decks[i].Id=System.Convert.ToInt32(deckInfo [0]);
-					decks[i].Name=deckInfo [1];
-					decks[i].NbCards=System.Convert.ToInt32(deckInfo [2]);
-					
-					decks[i].cards = new List<Card>();
-				}
-				else
-				{
-					decks[i].cards.Add(new Card ());
-					decks[i].cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
-					decks[i].cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
-				}
-			}	                     
+			friends.Add (this.Users.returnUsersIndex(System.Convert.ToInt32(friendsData[i])));
 		}
-		return decks;
+		return friends;
+	}
+
+	private Division parseDivision(string[] array)
+	{
+		Division division = new Division ();
+		division.GamesPlayed= System.Convert.ToInt32(array [0]);
+		division.NbWins= System.Convert.ToInt32(array [1]);
+		division.NbLooses= System.Convert.ToInt32(array [2]);
+		division.Status= System.Convert.ToInt32(array [3]);
+		division.Id=System.Convert.ToInt32(array[4]);
+		//division.IdPicture= System.Convert.ToInt32(array[5]);
+		division.TitlePrize = System.Convert.ToInt32(array [6]);
+		division.PromotionPrize = System.Convert.ToInt32(array [7]);
+		division.NbWinsForRelegation = System.Convert.ToInt32(array [8]);
+		division.NbWinsForPromotion = System.Convert.ToInt32(array [9]);
+		division.NbWinsForTitle = System.Convert.ToInt32(array [10]);
+		division.NbGames = System.Convert.ToInt32(array [11]);
+		return division;
+	}
+	private void retrieveCardsDeck()
+	{
+		for(int i=0;i<this.MyCards.getCount();i++)
+		{
+			this.MyCards.getCard(i).Decks=new List<int>();
+		}
+		for (int i=0;i<this.MyDecks.Count;i++)
+		{
+			for(int j=0;j<this.MyDecks.getDeck(i).cards.Count;j++)
+			{
+				for(int k=0;k<this.MyCards.getCount();k++)
+				{
+					if(this.MyCards.getCard(k).Id==MyDecks.getDeck(i).cards[j].Id)
+					{
+						this.MyCards.getCard(k).Decks.Add (MyDecks.getDeck(i).Id);
+					}
+				}
+			}
+		}
+	}
+	public void moveToFriend(int id)
+	{
+		this.MyFriends.Add (this.MyNotifications.getNotification(id).SendingUser);
+		this.MyNotifications.remove(id);
 	}
 }
 

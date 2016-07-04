@@ -21,6 +21,11 @@ public class Cards{
 	{
 		return new GameCard(this.cards [index]);
 	}
+
+	public void add()
+	{
+		this.cards.Add(new Card());
+	}
 	
 	public int getCount()
 	{

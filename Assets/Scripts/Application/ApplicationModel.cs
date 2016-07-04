@@ -38,6 +38,11 @@ public class ApplicationModel
 
     static public float timeAppModel ;
 
+
+    static public Packs packs;
+    static public DisplayedProducts products;
+
+
 	#if (UNITY_EDITOR)
     static public int[] onlineStatus;
 	static public string[] onlineCheck;
@@ -117,4 +122,13 @@ public class ApplicationModel
         cryptoStream.Close();
         return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
     }
+	static public string ReplaceFirst(string text, string search, string replace)
+	{
+		int pos = text.IndexOf(search);
+		if (pos < 0)
+		{
+			return text;
+		}
+		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+	}
 }
