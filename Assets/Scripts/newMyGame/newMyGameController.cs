@@ -10,7 +10,7 @@ using System.Globalization;
 public class newMyGameController : MonoBehaviour
 {
 	public static newMyGameController instance;
-	private NewMyGameModel model;
+	//private NewMyGameModel model;
 
 	public GameObject blockObject;
 	public GameObject cardObject;
@@ -271,7 +271,7 @@ public class newMyGameController : MonoBehaviour
 	void Awake()
 	{
 		instance = this;
-		this.model = new NewMyGameModel ();
+		//this.model = new NewMyGameModel ();
 		this.sortingOrder = -1;
 		this.scrollIntersection = 3.8f;
 		this.mainContentDisplayed = true;
@@ -279,7 +279,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
-		StartCoroutine (this.initialization ());
+		this.initialization ();
 	}
 	private void initializeHelp()
 	{
@@ -301,10 +301,9 @@ public class newMyGameController : MonoBehaviour
 		this.backOfficeController.AddComponent<BackOfficeMyGameController>();
 		this.backOfficeController.GetComponent<BackOfficeMyGameController>().initialize();
 	}
-	public IEnumerator initialization()
+	public void initialization()
 	{
 		this.resize ();
-		yield return StartCoroutine (model.initializeMyGame ());
 		this.retrieveDefaultDeck ();
 		this.initializeDecks ();
 		this.initializeCards ();
@@ -542,12 +541,12 @@ public class newMyGameController : MonoBehaviour
 	private void retrieveDefaultDeck()
 	{
 		this.decksDisplayed=new List<int>();
-		if(model.decks.Count>0)
+		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
 			this.deckDisplayed = 0;
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
+				if(ApplicationModel.player.MyDecks.getDeck(i).Id==ApplicationModel.player.SelectedDeckId)
 				{
 					this.deckDisplayed=i;
 					break;
@@ -565,13 +564,13 @@ public class newMyGameController : MonoBehaviour
 		this.decksDisplayed=new List<int>();
 		if(this.deckDisplayed!=-1)
 		{
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
 				if(i!=this.deckDisplayed)
 				{
 					this.decksDisplayed.Add (i);
 				}
-				if(model.decks[i].cards.Count==ApplicationModel.nbCardsByDeck)
+				if(ApplicationModel.player.MyDecks.getDeck(i).cards.Count==ApplicationModel.nbCardsByDeck)
 				{
 					isADeckCompleted=true;
 				}
@@ -973,7 +972,7 @@ public class newMyGameController : MonoBehaviour
 				if(this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i<this.cardsToBeDisplayed.Count)
 				{
 					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
-					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
+					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().show();
 					this.cards[j*(cardsPerLine)+i].SetActive(true);
 				}
@@ -1007,23 +1006,23 @@ public class newMyGameController : MonoBehaviour
 		this.deckCardsDisplayed = new int[]{-1,-1,-1,-1};
 		if(this.deckDisplayed!=-1)
 		{	
-			for(int i=0;i<model.decks[this.deckDisplayed].cards.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards.Count;i++)
 			{
-				int deckOrder = model.decks[this.deckDisplayed].cards[i].deckOrder;
-				int cardId=model.decks[this.deckDisplayed].cards[i].Id;
-				for(int j=0;j<model.cards.getCount();j++)
+				int deckOrder = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards[i].deckOrder;
+				int cardId=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards[i].Id;
+				for(int j=0;j<ApplicationModel.player.MyCards.getCount();j++)
 				{
-					if(model.cards.getCard(j).Id==cardId)
+					if(ApplicationModel.player.MyCards.getCard(j).Id==cardId)
 					{
 						this.deckCardsDisplayed[deckOrder]=j;
 						break;
 					}
 				}
 			}
-			this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name.ToUpper();
+			this.deckTitle.GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name.ToUpper();
 			this.deckDeletionButton.gameObject.SetActive(true);
 			this.deckRenameButton.gameObject.SetActive(true);
-			if(model.decks.Count>1)
+			if(ApplicationModel.player.MyDecks.getCount()>1)
 			{
 				this.deckSelectionButton.SetActive(true);
 			}
@@ -1043,7 +1042,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
-				this.deckCards[i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[i]);
+				this.deckCards[i].transform.GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed[i]);
 				this.deckCards[i].transform.GetComponent<NewCardController>().show();
 				this.deckCards[i].SetActive(true);
 			}
@@ -1070,7 +1069,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			this.focusedCardIndex=this.cardsDisplayed[this.idCardClicked];
 		}
-		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.focusedCardIndex);
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=ApplicationModel.player.MyCards.getCard(this.focusedCardIndex);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 		HelpController.instance.tutorialTrackPoint();
 	}
@@ -1146,7 +1145,7 @@ public class newMyGameController : MonoBehaviour
 			{
 				this.deckChoices[i].SetActive(true);
 				this.deckChoices[i].transform.GetComponent<newMyGameDeckChoiceController>().reset();
-				this.deckChoices[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=model.decks[this.decksDisplayed[i]].Name;
+				this.deckChoices[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyDecks.getDeck(this.decksDisplayed[i]).Name;
 			}
 			else
 			{
@@ -1374,11 +1373,11 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.cardsToBeDisplayed=new List<int>();
 		int nbFilters = this.filtersCardType.Count;
-		int max = model.cards.getCount();
+		int max = ApplicationModel.player.MyCards.getCount();
 
 		for(int i=0;i<max;i++)
 		{
-			if(this.isSkillChosen && !model.cards.getCard(i).hasSkill(this.valueSkill.ToLower()))
+			if(this.isSkillChosen && !ApplicationModel.player.MyCards.getCard(i).hasSkill(this.valueSkill.ToLower()))
 			{
 				continue;
 			}
@@ -1387,7 +1386,7 @@ public class newMyGameController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbFilters;j++)
 				{
-					if (model.cards.getCard(i).CardType.Id == this.filtersCardType [j])
+					if (ApplicationModel.player.MyCards.getCard(i).CardType.Id == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
@@ -1410,10 +1409,10 @@ public class newMyGameController : MonoBehaviour
 			{
 				continue;
 			}
-			if(model.cards.getCard(i).PowerLevel-1>=this.powerVal&&
-			   model.cards.getCard(i).AttackLevel-1>=this.attackVal&&
-			   model.cards.getCard(i).LifeLevel-1>=this.lifeVal&&
-			   model.cards.getCard(i).SpeedLevel-1>=this.quicknessVal)
+			if(ApplicationModel.player.MyCards.getCard(i).PowerLevel-1>=this.powerVal&&
+				ApplicationModel.player.MyCards.getCard(i).AttackLevel-1>=this.attackVal&&
+				ApplicationModel.player.MyCards.getCard(i).LifeLevel-1>=this.lifeVal&&
+				ApplicationModel.player.MyCards.getCard(i).SpeedLevel-1>=this.quicknessVal)
 			{
 				this.cardsToBeDisplayed.Add(i);
 			}
@@ -1431,28 +1430,28 @@ public class newMyGameController : MonoBehaviour
 					switch (this.sortingOrder)
 					{
 					case 0:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 1:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 2:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 3:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 4:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 					case 5:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
+						tempB = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempA = ApplicationModel.player.MyCards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 //					case 6:
 //						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
@@ -1483,14 +1482,14 @@ public class newMyGameController : MonoBehaviour
 		this.skillSearchBar.GetComponent<newMyGameSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
-			for (int i = 0; i < model.skillsList.Count; i++) 
+			for (int i = 0; i < WordingSkills.idSkills.Count; i++) 
 			{  
-				if(this.removeDiacritics(WordingSkills.getName(model.skillsList [i].Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
+				if(this.removeDiacritics(WordingSkills.getName(WordingSkills.idSkills[i]).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
 				{
 				    this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<newMyGameSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(model.skillsList [i].Id);
+					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(WordingSkills.idSkills[i]);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
@@ -1536,7 +1535,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
-		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
+		this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().reset (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name);
 		this.editDeckPopUpDisplayed = true;
 		this.editDeckPopUp.SetActive (true);
 		this.editDeckPopUpResize ();
@@ -1545,7 +1544,7 @@ public class newMyGameController : MonoBehaviour
 	{
 		SoundController.instance.playSound(9);
 		BackOfficeController.instance.displayTransparentBackground ();
-		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (model.decks[this.deckDisplayed].Name);
+		this.deleteDeckPopUp.transform.GetComponent<DeleteDeckPopUpController> ().reset (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name);
 		this.deleteDeckPopUpDisplayed = true;
 		this.deleteDeckPopUp.SetActive (true);
 		this.deleteDeckPopUpResize ();
@@ -1620,11 +1619,11 @@ public class newMyGameController : MonoBehaviour
 		if(error=="")
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			model.decks.Add(new Deck());
-			yield return StartCoroutine(model.decks[model.decks.Count-1].create(name));
-			if(model.decks[model.decks.Count-1].Error=="")
+			ApplicationModel.player.MyDecks.add();
+			yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).create(name));
+			if(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error=="")
 			{
-				this.deckDisplayed=model.decks.Count-1;
+				this.deckDisplayed=ApplicationModel.player.MyDecks.getCount()-1;
 				this.initializeDecks();
 				this.initializeCards();
 				this.hideNewDeckPopUp();
@@ -1636,8 +1635,8 @@ public class newMyGameController : MonoBehaviour
 			}
 			else
 			{
-				BackOfficeController.instance.displayErrorPopUp(model.decks[model.decks.Count-1].Error);
-				model.decks[model.decks.Count-1].Error="";
+				BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error);
+				ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error="";
 			}
 			BackOfficeController.instance.hideLoadingScreen();
 		}
@@ -1650,7 +1649,7 @@ public class newMyGameController : MonoBehaviour
 	public IEnumerator editDeck()
 	{
 		string newName = this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController> ().getInputText ();
-		if(model.decks[this.deckDisplayed].Name!=newName)
+		if(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name!=newName)
 		{
 			string error=this.checkDeckName(newName, false);
 			this.editDeckPopUp.transform.GetComponent<EditDeckPopUpController>().setError(error);
@@ -1658,15 +1657,15 @@ public class newMyGameController : MonoBehaviour
 			{
 				BackOfficeController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
-				yield return StartCoroutine(model.decks[this.deckDisplayed].edit(newName));
-				if(model.decks[this.deckDisplayed].Error=="")
+				yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).edit(newName));
+				if(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error=="")
 				{
-					this.deckTitle.GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+					this.deckTitle.GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name;
 				}
 				else
 				{
-					BackOfficeController.instance.displayErrorPopUp(model.decks[this.deckDisplayed].Error);
-					model.decks[this.deckDisplayed].Error="";
+					BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error);
+					ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error="";
 				}
 				BackOfficeController.instance.hideLoadingScreen();
 			}
@@ -1684,19 +1683,19 @@ public class newMyGameController : MonoBehaviour
 	{
 		this.hideDeleteDeckPopUp();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.decks[this.deckDisplayed].delete());
-		if(model.decks[this.deckDisplayed].Error=="")
+		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).delete());
+		if(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error=="")
 		{
-			this.removeDeckFromAllCards (model.decks[this.deckDisplayed].Id);
-			model.decks.RemoveAt (this.deckDisplayed);
+			this.removeDeckFromAllCards (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id);
+			ApplicationModel.player.MyDecks.remove (this.deckDisplayed);
 			this.retrieveDefaultDeck ();
 			this.initializeDecks ();
 			this.initializeCards ();
 		}
 		else
 		{
-			BackOfficeController.instance.displayErrorPopUp(model.decks[this.deckDisplayed].Error);
-			model.decks[this.deckDisplayed].Error="";
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error);
+			ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error="";
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 		HelpController.instance.tutorialTrackPoint ();
@@ -1709,13 +1708,13 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void removeDeckFromAllCards(int id)
 	{
-		for(int i=0;i<model.cards.getCount();i++)
+		for(int i=0;i<ApplicationModel.player.MyCards.getCount();i++)
 		{
-			for(int j=0;j<model.cards.getCard(i).Decks.Count;j++)
+			for(int j=0;j<ApplicationModel.player.MyCards.getCard(i).Decks.Count;j++)
 			{
-				if(model.cards.getCard(i).Decks[j]==id)
+				if(ApplicationModel.player.MyCards.getCard(i).Decks[j]==id)
 				{
-					model.cards.getCard(i).Decks.RemoveAt(j);
+					ApplicationModel.player.MyCards.getCard(i).Decks.RemoveAt(j);
 					break;
 				}
 			}
@@ -1723,14 +1722,14 @@ public class newMyGameController : MonoBehaviour
 	}
 	public void removeCardFromAllDecks(int id)
 	{
-		for(int i=0;i<model.decks.Count;i++)
+		for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 		{
-			for(int j=0;j<model.decks[i].cards.Count;j++)
+			for(int j=0;j<ApplicationModel.player.MyDecks.getDeck(i).cards.Count;j++)
 			{
-				if(model.decks[i].cards[j].Id==id)
+				if(ApplicationModel.player.MyDecks.getDeck(i).cards[j].Id==id)
 				{
-					model.decks[i].NbCards--;
-					model.decks[i].cards.RemoveAt(j);
+					ApplicationModel.player.MyDecks.getDeck(i).NbCards--;
+					ApplicationModel.player.MyDecks.getDeck(i).cards.RemoveAt(j);
 					break;
 				}
 			}
@@ -1746,9 +1745,9 @@ public class newMyGameController : MonoBehaviour
 		{
 			return WordingDeck.getReference(8);
 		}
-		for(int i=0;i<model.decks.Count;i++)
+		for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 		{
-			if(model.decks[i].Name==name && (isNewDeck || i!=this.deckDisplayed))
+			if(ApplicationModel.player.MyDecks.getDeck(i).Name==name && (isNewDeck || i!=this.deckDisplayed))
 			{
 				return WordingDeck.getReference(9);
 			}
@@ -1894,9 +1893,9 @@ public class newMyGameController : MonoBehaviour
 		if(ApplicationModel.player.HasDeck)
 		{
 			bool isADeckCompleted = false;
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(model.decks[i].cards.Count==ApplicationModel.nbCardsByDeck && i!=this.deckDisplayed)
+				if(ApplicationModel.player.MyDecks.getDeck(i).cards.Count==ApplicationModel.nbCardsByDeck && i!=this.deckDisplayed)
 				{
 					isADeckCompleted=true;
 					break;
@@ -1916,7 +1915,7 @@ public class newMyGameController : MonoBehaviour
 				StartCoroutine(removeCardFromDeck(position));
 			}
 			this.deckCards[position].SetActive(true);
-			this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]);
+			this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.cardsDisplayed[this.idCardClicked]);
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			this.deckCardsDisplayed[position]=this.cardsDisplayed[this.idCardClicked];
 			this.applyFilters();
@@ -1938,25 +1937,25 @@ public class newMyGameController : MonoBehaviour
 				ApplicationModel.player.HasDeck = isDeckCompleted;
 				if(isDeckCompleted)
 				{
-					StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+					StartCoroutine(ApplicationModel.player.SetSelectedDeck(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
 				}
 				HelpController.instance.tutorialTrackPoint();
 			}
 		}
 		else
 		{
-			int idCard1=model.cards.getCard(deckCardsDisplayed[this.idCardClicked]).Id;
+			int idCard1=ApplicationModel.player.MyCards.getCard(deckCardsDisplayed[this.idCardClicked]).Id;
 			this.deckCards[position].SetActive(true);
-			this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
+			this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
 			this.deckCards[position].GetComponent<NewCardController>().show();
 			if(this.deckCardsDisplayed[position]!=-1)
 			{
 				int indexCard2=this.deckCardsDisplayed[position];
-				int idCard2=model.cards.getCard(indexCard2).Id;
-				this.deckCards[position].GetComponent<NewCardController>().c=model.cards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
+				int idCard2=ApplicationModel.player.MyCards.getCard(indexCard2).Id;
+				this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed[this.idCardClicked]);
 				this.deckCards[position].GetComponent<NewCardController>().show ();
 				this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
-				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=model.cards.getCard(indexCard2);
+				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(indexCard2);
 				this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show ();
 				this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
 				StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));
@@ -1973,18 +1972,18 @@ public class newMyGameController : MonoBehaviour
 	public IEnumerator removeCardFromDeck(int cardPosition)
 	{
 		int cardIndex = deckCardsDisplayed[cardPosition];
-		model.cards.getCard(cardIndex).Decks.Remove(model.decks[this.deckDisplayed].Id);
-		yield return StartCoroutine(model.decks[this.deckDisplayed].removeCard(model.cards.getCard(cardIndex).Id));
+		ApplicationModel.player.MyCards.getCard(cardIndex).Decks.Remove(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id);
+		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).removeCard(ApplicationModel.player.MyCards.getCard(cardIndex).Id));
 	}
 	public IEnumerator addCardToDeck(int cardPosition, int deckOrder)
 	{
 		int cardIndex = this.cardsDisplayed [cardPosition];
-		model.cards.getCard(cardIndex).Decks.Add(model.decks[this.deckDisplayed].Id);
-		yield return StartCoroutine(model.decks[this.deckDisplayed].addCard(model.cards.getCard(cardIndex).Id,deckOrder));
+		ApplicationModel.player.MyCards.getCard(cardIndex).Decks.Add(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id);
+		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).addCard(ApplicationModel.player.MyCards.getCard(cardIndex).Id,deckOrder));
 	}
 	public IEnumerator changeDeckCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
 	{
-		yield return StartCoroutine(model.decks[this.deckDisplayed].changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
+		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).changeCardsOrder(idCard1,deckOrder1,idCard2,deckOrder2));
 	}
 	public void endDragging()
 	{
@@ -2063,8 +2062,8 @@ public class newMyGameController : MonoBehaviour
 	{
 		StartCoroutine(BackOfficeController.instance.getUserData ());
 		this.hideCardFocused ();
-		this.removeCardFromAllDecks(model.cards.getCard(this.focusedCardIndex).Id);
-		model.cards.cards.RemoveAt(this.focusedCardIndex);
+		this.removeCardFromAllDecks(ApplicationModel.player.MyCards.getCard(this.focusedCardIndex).Id);
+		ApplicationModel.player.MyCards.remove(this.focusedCardIndex);
 		this.drawDeckCards ();
 		this.initializeCards ();
 	}
@@ -2225,7 +2224,7 @@ public class newMyGameController : MonoBehaviour
 		{
 			if(this.deckCardsDisplayed[i]!=-1)
 			{
-				if(model.cards.getCard(this.cardsDisplayed[idCardClicked]).Skills[0].Id==model.cards.getCard(this.deckCardsDisplayed[i]).Skills[0].Id)
+				if(ApplicationModel.player.MyCards.getCard(this.cardsDisplayed[idCardClicked]).Skills[0].Id==ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed[i]).Skills[0].Id)
 				{
 					position =i;
 					break;

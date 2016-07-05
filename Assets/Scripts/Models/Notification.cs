@@ -28,20 +28,19 @@ public class Notification
 
 	public Notification()
 	{
-		this.Users = new Users ();
+		this.Users = new List<int>();
 		this.Cards = new Cards ();
 		this.Values = new List<string> ();
 		this.Results = new Results ();
 		this.Trophies = new Trophies ();
-		this.SendingUser = new User();
 		this.Communications=new List<string>();
 	}
-	public IEnumerator add(int sendingUserId)
+	public IEnumerator add()
 	{
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 	
 		form.AddField("myform_iduser",this.IdUser.ToString());
-		form.AddField("myform_idsendinguser",sendingUserId.ToString());
+		form.AddField("myform_idsendinguser",this.SendingUser.ToString());
 		form.AddField("myform_isread",System.Convert.ToInt32(this.IsRead).ToString());
 		form.AddField("myform_idnotificationtype", this.IdNotificationType.ToString ());
 		form.AddField("myform_hiddenparam", this.HiddenParam); 	

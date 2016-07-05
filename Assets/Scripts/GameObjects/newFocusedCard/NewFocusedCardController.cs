@@ -692,7 +692,15 @@ public class NewFocusedCardController : MonoBehaviour
 			}
 			int newIdOwner = System.Convert.ToInt32(data[2]);
 			this.newCollectionRanking= System.Convert.ToInt32(data[3]);
-			Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");
+			Notification tempNotification = new Notification();
+			tempNotification.SendingUser=newIdOwner;
+			tempNotification.IdUser=c.IdOWner;
+			tempNotification.IsRead=false;
+			tempNotification.IdNotificationType=2;
+			tempNotification.HiddenParam="";
+			tempNotification.Param1=c.Id.ToString();
+			tempNotification.Param2=c.Price.ToString();
+			tempNotification.Param3="";
 			StartCoroutine(tempNotification.add ());
 			this.c.IdOWner=newIdOwner;
 

@@ -60,9 +60,9 @@ public class Notifications{
 					notifications[i].Users.Add (ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(notificationObjectData[1])));
 					break;
 				case "card":
-					notifications[i].Cards.add (new Card ());
+					notifications[i].Cards.add ();
 					notifications[i].Cards.getCard(notifications[i].Cards.getCount()-1).Title=notificationObjectData[1];
-					notifications[i].Cards.getCard(notifications[i].Cards.getCount()-1).CardType.Id=notificationObjectData[2];
+					notifications[i].Cards.getCard(notifications[i].Cards.getCount()-1).CardType.Id=System.Convert.ToInt32(notificationObjectData[2]);
 					break;
 				case "communication":
 					notifications[i].Communications.Add (notificationObjectData[i]);

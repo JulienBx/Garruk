@@ -11,7 +11,7 @@ public class ChallengesRecords{
 	{
 		this.challengesRecords = new List<ChallengesRecord>();
 	}
-	public User getChallengesRecord(int index)
+	public ChallengesRecord getChallengesRecord(int index)
 	{
 		return this.challengesRecords [index];
 	}

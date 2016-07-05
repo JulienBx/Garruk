@@ -26,7 +26,11 @@ public class Cards{
 	{
 		this.cards.Add(new Card());
 	}
-	
+	public void remove(int index)
+	{
+		this.cards.RemoveAt(index);
+	}
+
 	public int getCount()
 	{
 		return this.cards.Count;

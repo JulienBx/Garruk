@@ -385,7 +385,7 @@ public class NewHomePageController : MonoBehaviour
 	private void initializeNews()
 	{
 		this.newsfeedPagination.chosenPage = 0;
-		this.newsfeedPagination.totalElements= ApplicationModel.player.MyNews.Count;
+		this.newsfeedPagination.totalElements= ApplicationModel.player.MyNews.getCount();
 		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().p = this.newsfeedPagination;
 		this.newsfeedPaginationButtons.GetComponent<NewHomePagePaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
@@ -416,7 +416,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	private void initializePacks()
 	{
-		this.nbPacks = ApplicationModel.packs.Count;
+		this.nbPacks = ApplicationModel.packs.getCount();
 		this.displayedPack = 0;
 		this.drawPack ();
 	}
@@ -1228,18 +1228,18 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void moveToDeckCards(int position)
 	{
-		int idCard1 = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards [this.deckCardsDisplayed [this.idCardClicked]].Id;
+		int idCard1 = ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed [this.idCardClicked]).Id;
 		this.deckCards[position].SetActive(true);
-		this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards [this.deckCardsDisplayed [this.idCardClicked]];
+		this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed [this.idCardClicked]);
 		this.deckCards[position].GetComponent<NewCardController>().show();
 		if(this.deckCardsDisplayed[position]!=-1)
 		{
 			int indexCard2=this.deckCardsDisplayed[position];
-			int idCard2=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards [indexCard2].Id;
-			this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards [this.deckCardsDisplayed [this.idCardClicked]];
+			int idCard2=ApplicationModel.player.MyCards.getCard(indexCard2).Id;
+			this.deckCards[position].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(this.deckCardsDisplayed [this.idCardClicked]);
 			this.deckCards[position].GetComponent<NewCardController>().show ();
 			this.deckCardsDisplayed[position]=this.deckCardsDisplayed[this.idCardClicked];
-			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).cards [indexCard2];
+			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().c=ApplicationModel.player.MyCards.getCard(indexCard2);
 			this.deckCards[this.idCardClicked].GetComponent<NewCardController>().show ();
 			this.deckCardsDisplayed[this.idCardClicked]=indexCard2;
 			StartCoroutine(this.changeDeckCardsOrder(idCard1,position,idCard2,this.idCardClicked));
@@ -1265,7 +1265,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.notificationsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.drawContentUser(i,ApplicationModel.player.Users[ApplicationModel.player.MyNotifications.getNotification(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).SendingUser]);
+				this.drawContentUser(i,ApplicationModel.player.Users.getUser(ApplicationModel.player.MyNotifications.getNotification(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).SendingUser));
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyNotifications.getNotification(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).Content;
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyNotifications.getNotification(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).Date.ToString(WordingDates.getDateFormat());
 				if(!ApplicationModel.player.MyNotifications.getNotification(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).IsRead)
@@ -1306,7 +1306,7 @@ public class NewHomePageController : MonoBehaviour
 			{
 				this.newsDisplayed.Add (this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
-				this.drawContentUser(i,ApplicationModel.player.Users[ApplicationModel.player.MyNews.getNews(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).User]);
+				this.drawContentUser(i,ApplicationModel.player.Users.getUser(ApplicationModel.player.MyNews.getNews(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).User));
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyNews.getNews(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).Content;
 				this.contents[i].transform.FindChild("date").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyNews.getNews(this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i).Date.ToString("dd/MM/yyyy");
 			}
@@ -1327,7 +1327,7 @@ public class NewHomePageController : MonoBehaviour
 				this.contents[i].SetActive(true);
 				string connectionState="";
 				Color connectionStateColor=new Color();
-				switch(ApplicationModel.player.Users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]].OnlineStatus)
+				switch(ApplicationModel.player.Users.getUser(this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]).OnlineStatus)
 				{
 				case 0:
 					connectionState = WordingSocial.getReference(3);
@@ -1347,7 +1347,7 @@ public class NewHomePageController : MonoBehaviour
 				}
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=connectionState;
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().color=connectionStateColor;
-				this.drawContentUser(i,ApplicationModel.player.Users[this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]]);
+				this.drawContentUser(i,ApplicationModel.player.Users.getUser(this.friendsToBeDisplayed[this.newsfeedPagination.chosenPage*this.newsfeedPagination.nbElementsPerPage+i]));
 			}
 			else
 			{
@@ -1646,7 +1646,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		for(int i=0;i<PhotonNetwork.Friends.Count;i++)
 		{
-			for(int j=0;j<ApplicationModel.player.Users.Count;j++)
+			for(int j=0;j<ApplicationModel.player.Users.getCount();j++)
 			{
 				if(ApplicationModel.player.Users.getUser(j).Username==PhotonNetwork.Friends[i].Name)
 				{

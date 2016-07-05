@@ -124,7 +124,7 @@ public class Player : User
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
 		this.URLChooseLanguage = ApplicationModel.host + "choose_language.php";
-		this.URLCheckAuthentification = ApplicationModel.host + "check_authentication.php";
+		this.URLCheckAuthentification = ApplicationModel.host + "authentication_check.php";
 		this.URLCheckPermanentConnexion = ApplicationModel.host + "check_permanent_connexion.php";
 		this.URLCreateAccount = ApplicationModel.host + "create_account.php";
 		this.URLRefreshUserData = ApplicationModel.host+"refresh_user_data.php";
@@ -473,69 +473,6 @@ public class Player : User
 
 	#region AUTHENTICATION
 
-	public IEnumerator permanentConnexion()
-	{
-		WWWForm form = new WWWForm(); 
-		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_macadress", this.MacAdress);
-        form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
-        form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
-
-		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		if(ApplicationModel.player.IsOnline)
-		{
-			this.Error=ServerController.instance.getError();
-		
-			if(this.Error=="")
-			{
-	            PlayerPrefs.DeleteKey("Product");
-	            PlayerPrefs.DeleteKey("ProductOwner");
-	            PlayerPrefs.Save();
-	            string result = ServerController.instance.getResult();
-				if(result.Contains("#SUCESS#"))
-				{
-					string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
-					string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-					this.Username = profileData [0];
-					this.TutorialStep = System.Convert.ToInt32(profileData [1]);
-					this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
-					this.Money = System.Convert.ToInt32(profileData [3]);
-					this.IdLanguage=System.Convert.ToInt32(profileData[4]);
-					this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
-					this.Id=System.Convert.ToInt32(profileData[6]);
-					this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
-					this.Mail=profileData[8];
-					this.CurrentDivision=new Division();
-					this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
-	                if(System.Convert.ToInt32(profileData[10])!=-1)
-	                {
-	                    this.HasLostConnectionDuringGame=true;
-	                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[10]));
-	                    this.ChosenGameType=System.Convert.ToInt32(profileData[11]);
-	                    ApplicationModel.player.MyDeck=new Deck();
-	                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-	                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-	                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-	                    {
-	                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-	                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-	                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-	                    }
-	                }
-				}
-				else
-				{
-					this.Id=-1;
-				}		
-			}
-			else
-			{
-				Debug.Log(this.Error);
-				this.Id=-1;
-			}
-		}
-	}
 	public IEnumerator Login()
 	{	
 		string toMemorizeString;
@@ -545,6 +482,15 @@ public class Player : User
 		} else
 		{
 			toMemorizeString = "0";
+		}
+		string autoConnectString;
+		if(this.AutomaticConnection)
+		{
+			autoConnectString="1";
+		}
+		else
+		{
+			autoConnectString="0";
 		}
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
@@ -556,6 +502,7 @@ public class Player : User
 		form.AddField("myform_mail", this.Mail);
         form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
         form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
+		form.AddField("myform_autoconnect", autoConnectString);
 
 		ServerController.instance.setRequest(URLCheckAuthentification, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -567,12 +514,19 @@ public class Player : User
             PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
             string result = ServerController.instance.getResult();
+
+			if(result.Contains("#PROVISIONNINGOK#"))
+			{
+				PlayerPrefs.DeleteKey("Product");
+            	PlayerPrefs.DeleteKey("ProductOwner");
+            	PlayerPrefs.Save();
+			}
 			if(result.Contains("#SUCESS#"))
 			{
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
 				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
-				string[] gameData =data[2].Split(new string[] { "END" }, System.StringSplitOptions.None);
+				string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
 
 				this.MyCards=new Cards();
 				this.MyDecks=new Decks();
@@ -587,9 +541,14 @@ public class Player : User
 				ApplicationModel.products=new DisplayedProducts();
 
 				this.parsePlayerInformations(gameData[0]);
+				if(gameData[10]!="")
+				{
+			
+					this.Users.parseUsers(gameData[10]);
+				}
 				if(gameData[1]!="")
 				{
-					this.MyCards.parseCards(gameData[2]);
+					this.MyCards.parseCards(gameData[1]);
 				}
 				if(gameData[2]!="")
 				{
@@ -626,19 +585,15 @@ public class Player : User
 				{
 					this.MyDivision=this.parseDivision(gameData[9]);
 				}
-				if(gameData[10]!="")
-				{
-					this.Users.parseUsers(gameData[10]);
-				}
 				if(gameData[11]!="")
 				{
-					ApplicationModel.products.parseProducts(gameData[11]);
+					ApplicationModel.packs.parsePacks(gameData[11]);
 				}
 				if(gameData[12]!="")
 				{
-					ApplicationModel.packs.parsePacks(gameData[12]);
+					ApplicationModel.products.parseProducts(gameData[12]);
 				}
-				if(System.Convert.ToInt32(data[1])!=-1)
+				if(System.Convert.ToInt32(data[2])!=-1)
                 {
 					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
                     this.HasLostConnectionDuringGame=true;
@@ -863,35 +818,38 @@ public class Player : User
 		}
 		return true;
 	}
-	private void parsePlayerInformations(string[] array)
+	private void parsePlayerInformations(string s)
 	{
+		string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
 		this.Id= System.Convert.ToInt32(array[0]);
 		this.Mail= array[1];
-		this.FirstName	= array[2];
-		this.Surname= array[3];
-		this.IdProfilePicture= System.Convert.ToInt32(array[4]);
-		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[5]));
-		this.SelectedDeckId= System.Convert.ToInt32(array[6]);
-		this.RankingPoints = System.Convert.ToInt32 (array [7]);
-		this.Ranking = System.Convert.ToInt32 (array [8]);
-		this.CollectionPoints = System.Convert.ToInt32 (array [9]);
-		this.CollectionRanking = System.Convert.ToInt32 (array [10]);
-		this.TotalNbWins = System.Convert.ToInt32 (array [11]);
-		this.TotalNbLooses = System.Convert.ToInt32 (array [12]);
-		this.Readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[13]));
-		this.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[14]));
-		this.TutorialStep = System.Convert.ToInt32 (array [15]);
-		this.MarketTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [16]));
-		this.ProfileTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [17]));
-		this.LobbyHelp = System.Convert.ToBoolean(System.Convert.ToInt32 (array [18]));
-		this.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [19]));
-		this.NextLevelTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [20]));
-		this.IdLanguage	 = System.Convert.ToInt32 (array [21]);
+		this.Money= System.Convert.ToInt32(array[2]);
+		this.FirstName	= array[3];
+		this.Surname= array[4];
+		this.IdProfilePicture= System.Convert.ToInt32(array[5]);
+		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[6]));
+		this.SelectedDeckId= System.Convert.ToInt32(array[7]);
+		this.RankingPoints = System.Convert.ToInt32 (array [8]);
+		this.Ranking = System.Convert.ToInt32 (array [9]);
+		this.CollectionPoints = System.Convert.ToInt32 (array [10]);
+		this.CollectionRanking = System.Convert.ToInt32 (array [11]);
+		this.TotalNbWins = System.Convert.ToInt32 (array [12]);
+		this.TotalNbLooses = System.Convert.ToInt32 (array [13]);
+		this.Readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[14]));
+		this.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[15]));
+		this.TutorialStep = System.Convert.ToInt32 (array [16]);
+		this.MarketTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [17]));
+		this.ProfileTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [18]));
+		this.LobbyHelp = System.Convert.ToBoolean(System.Convert.ToInt32 (array [19]));
+		this.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [20]));
+		this.NextLevelTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [21]));
+		this.IdLanguage	 = System.Convert.ToInt32 (array [22]);
 		this.CurrentDivision	 = new Division();
-		this.CurrentDivision.Id=System.Convert.ToInt32 (array [22]);
-		this.TrainingStatus=System.Convert.ToInt32 (array [23]);
-		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [24]));
-		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
+		this.CurrentDivision.Id=System.Convert.ToInt32 (array [23]);
+		this.TrainingStatus=System.Convert.ToInt32 (array [24]);
+		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
+		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [26]));
 		this.getTrainingAllowedCardType();
 	}
 
@@ -907,8 +865,11 @@ public class Player : User
 		return friends;
 	}
 
-	private Division parseDivision(string[] array)
+	private Division parseDivision(string s)
 	{
+
+		string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
 		Division division = new Division ();
 		division.GamesPlayed= System.Convert.ToInt32(array [0]);
 		division.NbWins= System.Convert.ToInt32(array [1]);
@@ -930,7 +891,7 @@ public class Player : User
 		{
 			this.MyCards.getCard(i).Decks=new List<int>();
 		}
-		for (int i=0;i<this.MyDecks.Count;i++)
+		for (int i=0;i<this.MyDecks.getCount();i++)
 		{
 			for(int j=0;j<this.MyDecks.getDeck(i).cards.Count;j++)
 			{

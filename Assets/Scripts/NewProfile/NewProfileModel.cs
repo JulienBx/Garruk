@@ -8,7 +8,7 @@ public class NewProfileModel
 	public IList<ChallengesRecord> challengesRecords;
 	public IList<User> users;
 	public IList<int> friends;
-	public IList<FriendsRequest> friendsRequests;
+	public Connections friendsRequests;
 	public IList<Trophy> trophies;
 	public IList<Result> confrontations;
 	public string[] usernameList;
@@ -21,7 +21,7 @@ public class NewProfileModel
 	}
 	public IEnumerator getData(bool isMyProfile, string profileChosen){
 
-		this.friendsRequests = new List<FriendsRequest> ();
+		this.friendsRequests = new Connections();
 		this.trophies = new List<Trophy> ();
 		this.displayedUser = new User();
 		this.users = new List<User> ();
@@ -155,19 +155,17 @@ public class NewProfileModel
 		}
 		return friends;
 	}
-	private List<FriendsRequest> parseFriendsRequests(string[] friendsRequestsData)
+	private Connections parseFriendsRequests(string[] friendsRequestsData)
 	{
-		List<FriendsRequest> friendsRequests = new List<FriendsRequest> ();
+		Connections friendsRequests = new Connections();
 
 		for (int i=0; i<friendsRequestsData.Length-1;i++)
 		{
 			string[] friendsRequestData =friendsRequestsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			friendsRequests.Add (new FriendsRequest());
-			friendsRequests[i].Connection = new Connection();
-			friendsRequests[i].User= this.users[returnUsersIndex(System.Convert.ToInt32(friendsRequestData[0]))];
-			friendsRequests[i].IsInvitingPlayer=System.Convert.ToBoolean(System.Convert.ToInt32(friendsRequestData[1]));
-			friendsRequests[i].Connection=new Connection();
-			friendsRequests[i].Connection.Id=System.Convert.ToInt32(friendsRequestData[2]);
+			friendsRequests.add ();
+			friendsRequests.getConnection(i).User= returnUsersIndex(System.Convert.ToInt32(friendsRequestData[0]));
+			friendsRequests.getConnection(i).IsInviting=System.Convert.ToBoolean(System.Convert.ToInt32(friendsRequestData[1]));
+			friendsRequests.getConnection(i).Id=System.Convert.ToInt32(friendsRequestData[2]);
 		}
 		return friendsRequests;
 	}
@@ -175,8 +173,8 @@ public class NewProfileModel
 	{
 		Connection connection = new Connection ();
 		connection.Id = System.Convert.ToInt32 (connectionData [0]);
-		connection.IdUser1 = System.Convert.ToInt32 (connectionData [1]);
-		connection.IdUser2 = System.Convert.ToInt32 (connectionData [2]);
+		//connection.IdUser1 = System.Convert.ToInt32 (connectionData [1]);
+		//connection.IdUser2 = System.Convert.ToInt32 (connectionData [2]);
 		connection.IsAccepted = System.Convert.ToBoolean(System.Convert.ToInt32 (connectionData [3]));
 		return connection;
 	}
@@ -188,10 +186,10 @@ public class NewProfileModel
 		{
 			string[] trophyData = trophiesData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			trophies.Add (new Trophy());
-			trophies[i].competition=new Competition();
+			//trophies[i].competition=new Competition();
 			trophies[i].Date=DateTime.ParseExact(trophyData[0], "yyyy-MM-dd HH:mm:ss", null);
-			trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[2]));
-			trophies[i].competition.GameType=System.Convert.ToInt32(trophyData[1]);
+			//trophies[i].competition.Name=WordingGameModes.getName(System.Convert.ToInt32(trophyData[2]));
+			//trophies[i].competition.GameType=System.Convert.ToInt32(trophyData[1]);
 		}
 		return trophies;
 	}
@@ -203,7 +201,7 @@ public class NewProfileModel
 		{
 			string[] challengesRecordData = challengesRecordsData[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			challengesRecords.Add (new ChallengesRecord());
-			challengesRecords[i].Friend= this.users[returnUsersIndex(System.Convert.ToInt32(challengesRecordData[0]))];
+			//challengesRecords[i].Friend= this.users[returnUsersIndex(System.Convert.ToInt32(challengesRecordData[0]))];
 			challengesRecords[i].NbWins=System.Convert.ToInt32(challengesRecordData[1]);
 			challengesRecords[i].NbLooses=System.Convert.ToInt32(challengesRecordData[2]);
 		}
@@ -238,8 +236,8 @@ public class NewProfileModel
 	}
 	public void moveToFriend(int id)
 	{
-		this.friends.Add (this.returnUsersIndex(this.friendsRequests[id].User.Id));
-		this.friendsRequests.RemoveAt(id);
+		//this.friends.Add (this.returnUsersIndex(this.friendsRequests[id].User.Id));
+		//this.friendsRequests.RemoveAt(id);
 	}
 	public void removeActivePlayerFromFriends()
 	{

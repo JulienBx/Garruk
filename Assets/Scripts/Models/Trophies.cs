@@ -12,7 +12,7 @@ public class Trophies{
 		this.trophies = new List<Trophy>();
 	}
 
-	public User getTrophy(int index)
+	public Trophy getTrophy(int index)
 	{
 		return this.trophies [index];
 	}
@@ -35,7 +35,7 @@ public class Trophies{
 			trophies.Add (new Trophy());
 			trophies[i].division=new Division();
 			trophies[i].Date=DateTime.ParseExact(trophyData[0], "yyyy-MM-dd HH:mm:ss", null);
-			trophies[i].division.Id=WordingGameModes.getName(System.Convert.ToInt32(trophyData[2]));
+			trophies[i].division.Id=System.Convert.ToInt32(trophyData[2]);
 			trophies[i].division.GameType=System.Convert.ToInt32(trophyData[1]);
 		}
 	}

@@ -21,7 +21,14 @@ public class Decks{
 	{
 		return this.decks.Count;
 	}
-
+	public void add()
+	{
+		this.decks.Add(new Deck());
+	}
+	public void remove(int index)
+	{
+		this.decks.RemoveAt(index);
+	}
 	public void parseDecks(string s)
 	{
 		string[] decksIds;

@@ -35,8 +35,7 @@ public class NewsList{
 			newsList.Add(new News());
 			newsList[i].IdNewsType=System.Convert.ToInt32(newsData[0]);
 			newsList[i].Date=DateTime.ParseExact(newsData[1], "yyyy-MM-dd HH:mm:ss", null);
-			newsList[i].User=ApplicationModel.player.Users[ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(newsData[2]))];
-			string tempContent=WordingNews.getContent(newsList[i].IdNewsType-1);
+			newsList[i].User=ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(newsData[2]));
 			for(int j=3;j<newsData.Length-1;j++)
 			{
 				string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
@@ -46,9 +45,9 @@ public class NewsList{
 					newsList[i].Users.Add(ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(newsObjectData[1])));
 					break;
 				case "card":
-					newsList[i].Cards.add (new Card ());
+					newsList[i].Cards.add ();
 					newsList[i].Cards.getCard(newsList[i].Cards.getCount()-1).Title=newsObjectData[1];
-					newsList[i].Cards.getCard(newsList[i].Cards.getCount()-1).CardType.Id=newsObjectData[2];
+					newsList[i].Cards.getCard(newsList[i].Cards.getCount()-1).CardType.Id=System.Convert.ToInt32(newsObjectData[2]);
 					break;
 				case "value":
 					newsList[i].Values.Add (newsObjectData[1]);
@@ -113,14 +112,14 @@ public class NewsList{
 		{
 			if(newsList[i].IdNewsType==1)
 			{
-				if(ApplicationModel.player.Users[newsList[i].Users[0]].Id!=playerId)
+				if(ApplicationModel.player.Users.getUser(newsList[i].Users[0]).Id!=playerId)
 				{
 					toAdd=true;
 					for(int j=0;j<filterednews.getCount();j++)
 					{
 						if (filterednews.getNews(j).IdNewsType==1 &&
-						    ApplicationModel.player.Users[filterednews.getNews(j).Users[0]]==ApplicationModel.player.Users[newsList[i].User] &&
-						    ApplicationModel.player.Users[filterednews.getNews(j).Users[0]]==ApplicationModel.player.Users[newsList[i].Users[0]])
+						    ApplicationModel.player.Users.getUser(filterednews.getNews(j).Users[0]).Id==ApplicationModel.player.Users.getUser(newsList[i].User).Id &&
+						    ApplicationModel.player.Users.getUser(filterednews.getNews(j).Users[0]).Id==ApplicationModel.player.Users.getUser(newsList[i].Users[0]).Id)
 						{
 							toAdd=false;
 							break;
@@ -129,16 +128,16 @@ public class NewsList{
 					if(toAdd)
 					{
 						filterednews.add ();
-						filterednews.getNews(filterednews.getCount()-1)=newsList[i];
+						filterednews.newsList[filterednews.getCount()-1]=newsList[i];
 					}
 				}
 			}
 			else if(newsList[i].IdNewsType!=1)
 			{
 				filterednews.add ();
-				filterednews.getNews(filterednews.getCount()-1)=newsList[i];
+				filterednews.newsList[filterednews.getCount()-1]=newsList[i];
 			}
 		}
-		this.newsList=filterednews;
+		this.newsList=filterednews.newsList;
 	}
 }

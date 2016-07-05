@@ -23,6 +23,10 @@ public class Connections{
 	{
 		this.connections.Add(new Connection());
 	}
+	public void remove(int index)
+	{
+		this.connections.RemoveAt(index);
+	}
 	public void parseConnections(string s)
 	{
 		string[] array = s.Split(new string[] {"#CN#"}, System.StringSplitOptions.None);

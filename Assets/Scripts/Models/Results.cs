@@ -12,7 +12,7 @@ public class Results{
 		this.results = new List<Result>();
 	}
 
-	public User getResult(int index)
+	public Result getResult(int index)
 	{
 		return this.results [index];
 	}

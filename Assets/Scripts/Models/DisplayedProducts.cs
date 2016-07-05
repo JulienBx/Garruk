@@ -11,7 +11,7 @@ public class DisplayedProducts{
 	{
 		this.products = new List<DisplayedProduct>();
 	}
-	public Pack getPack(int index)
+	public DisplayedProduct getPack(int index)
 	{
 		return this.products [index];
 	}
