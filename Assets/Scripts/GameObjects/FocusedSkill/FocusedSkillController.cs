@@ -11,11 +11,11 @@ public class FocusedSkillController : MonoBehaviour
 	{
 		gameObject.transform.FindChild("closebutton").GetComponent<FocusedSkillExitButtonController> ().reset ();
 		gameObject.transform.FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkills.getName(s.Id);
-		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto (s.CardType.getPictureId());
+		gameObject.transform.FindChild("CardType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto (ApplicationModel.cardTypes.getCardType(s.IdCardType).getPictureId());
 		gameObject.transform.FindChild("SkillType").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillTypePicture (s.IdSkillType);
 		gameObject.transform.FindChild("SkillType").FindChild("Title").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getLetter(s.IdSkillType);
-		gameObject.transform.FindChild("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(s.CardType.Id);
-		gameObject.transform.FindChild("CardTypeTitle").GetComponent<FocusedSkillCardTypeController>().setCardType(s.CardType.Id);
+        gameObject.transform.FindChild("CardTypeTitle").GetComponent<TextMeshPro> ().text =WordingCardTypes.getName(ApplicationModel.cardTypes.getCardType(s.IdCardType).Id);
+        gameObject.transform.FindChild("CardTypeTitle").GetComponent<FocusedSkillCardTypeController>().setCardType(ApplicationModel.cardTypes.getCardType(s.IdCardType).Id);
 		gameObject.transform.FindChild("SkillTypeTitle").GetComponent<TextMeshPro> ().text = WordingSkillTypes.getName(s.IdSkillType);
 		gameObject.transform.FindChild("SkillTypeTitle").GetComponent<FocusedSkillSkillTypeController>().setSkillType(s.IdSkillType);
 		gameObject.transform.FindChild("Picto").GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(s.getPictureId());

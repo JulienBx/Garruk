@@ -42,6 +42,10 @@ public class ApplicationModel
     static public Packs packs;
     static public DisplayedProducts products;
 
+    static public CardTypes cardTypes;
+    static public SkillTypes skillTypes;
+    static public Skills skills;
+
 
 	#if (UNITY_EDITOR)
     static public int[] onlineStatus;
@@ -68,7 +72,7 @@ public class ApplicationModel
 		timeOutDelay=10f;
         currentGameId=-1;
 		player=new Player();
-
+        
 		#if (UNITY_EDITOR)
 		onlineCheck=new string[3];
 		onlineCheck[0]="guillaume";

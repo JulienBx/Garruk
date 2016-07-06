@@ -94,6 +94,7 @@ public class Player : User
 	public Trophies MyTrophies;
 	public ChallengesRecords MyChallengesRecords;
 	public Division MyDivision;
+    public Skills MySkills;
   
 	public Player()
 	{
@@ -537,13 +538,16 @@ public class Player : User
 				this.MyChallengesRecords=new ChallengesRecords();
 				this.MyDivision=new Division();
 				this.Users=new Users();
+                this.MySkills=new Skills();
 				ApplicationModel.packs=new Packs();
 				ApplicationModel.products=new DisplayedProducts();
+                ApplicationModel.cardTypes=new CardTypes();
+                ApplicationModel.skillTypes=new SkillTypes();
+                ApplicationModel.skills=new Skills();
 
 				this.parsePlayerInformations(gameData[0]);
 				if(gameData[10]!="")
 				{
-			
 					this.Users.parseUsers(gameData[10]);
 				}
 				if(gameData[1]!="")
@@ -593,6 +597,19 @@ public class Player : User
 				{
 					ApplicationModel.products.parseProducts(gameData[12]);
 				}
+                if(gameData[13]!="")
+                {
+                    ApplicationModel.skillTypes.parseSkillTypes(gameData[13]);
+                }
+                if(gameData[14]!="")
+                {
+                    ApplicationModel.cardTypes.parseCardTypes(gameData[14]);
+                }
+                if(gameData[15]!="")
+                {
+                    ApplicationModel.skills.parseSkills(gameData[15]);
+                    this.retrieveMySkills();
+                }
 				if(System.Convert.ToInt32(data[2])!=-1)
                 {
 					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
@@ -910,6 +927,46 @@ public class Player : User
 		this.MyFriends.Add (this.MyNotifications.getNotification(id).SendingUser);
 		this.MyNotifications.remove(id);
 	}
+    public bool hasSkills(int id)
+    {
+        for(int i=0;i<this.MySkills.getCount();i++)
+        {
+            if(this.MySkills.getSkill(i).Id==id && this.MySkills.getSkill(i).Power>0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void retrieveMySkills()
+    {
+        for(int i=0;i<ApplicationModel.skills.getCount();i++)
+        {
+            this.MySkills.add();
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Id=ApplicationModel.skills.getSkill(i).Id;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).IdCardType=ApplicationModel.skills.getSkill(i).IdCardType;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).IdSkillType=ApplicationModel.skills.getSkill(i).IdSkillType;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Power=0;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Level=0;
+        }
+        for(int i=0;i<this.MyCards.getCount();i++)
+        {
+            for(int j=0;j<this.MyCards.getCard(i).Skills.Count();j++)
+            {
+                if(this.MyCards.getCard(i).Skills[j].IsActivated==1)
+                {
+                    for(int k=0;k<this.MySkills.getCount();k++)
+                    {
+                        if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                        {
+                            this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
+                            this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 

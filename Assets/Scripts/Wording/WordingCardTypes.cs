@@ -7,7 +7,7 @@ public class WordingCardTypes
 {
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
-	private static IList<int> idCardTypes;
+	public static IList<int> idCardTypes;
 
 	public static string getName(int idCardType)
 	{
