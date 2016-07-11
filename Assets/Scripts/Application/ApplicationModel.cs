@@ -72,6 +72,11 @@ public class ApplicationModel
 		timeOutDelay=10f;
         currentGameId=-1;
 		player=new Player();
+		packs=new Packs();
+		products=new DisplayedProducts();
+        cardTypes=new CardTypes();
+        skillTypes=new SkillTypes();
+        skills=new Skills();
         
 		#if (UNITY_EDITOR)
 		onlineCheck=new string[3];

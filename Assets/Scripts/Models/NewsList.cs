@@ -26,7 +26,7 @@ public class NewsList{
 		this.newsList.Add(new News());
 	}
 
-	public void parseNews(string s)
+	public void parseNews(string s, Player p)
 	{
 		string[] array = s.Split(new string[] { "#N#" }, System.StringSplitOptions.None);
 		for (int i=0;i<array.Length-1;i++)
@@ -35,14 +35,14 @@ public class NewsList{
 			newsList.Add(new News());
 			newsList[i].IdNewsType=System.Convert.ToInt32(newsData[0]);
 			newsList[i].Date=DateTime.ParseExact(newsData[1], "yyyy-MM-dd HH:mm:ss", null);
-			newsList[i].User=ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(newsData[2]));
+			newsList[i].User=p.Users.returnUsersIndex(System.Convert.ToInt32(newsData[2]));
 			for(int j=3;j<newsData.Length-1;j++)
 			{
 				string[] newsObjectData = newsData[j].Split (new char[] {':'},System.StringSplitOptions.None);
 				switch (newsObjectData[0])
 				{
 				case "user":
-					newsList[i].Users.Add(ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(newsObjectData[1])));
+					newsList[i].Users.Add(p.Users.returnUsersIndex(System.Convert.ToInt32(newsObjectData[1])));
 					break;
 				case "card":
 					newsList[i].Cards.add ();

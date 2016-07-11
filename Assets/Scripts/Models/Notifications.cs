@@ -31,7 +31,7 @@ public class Notifications{
 	{
 		this.notifications.RemoveAt(index);
 	}
-	public void parseNotifications(string s)
+	public void parseNotifications(string s, Player p)
 	{
 		string[] array = s.Split(new string[] { "#N#" }, System.StringSplitOptions.None);
 		for (int i=0;i<array.Length-1;i++)
@@ -44,7 +44,7 @@ public class Notifications{
 			notifications[i].IsRead=System.Convert.ToBoolean(System.Convert.ToInt32(notificationData[2]));
 			notifications[i].IdNotificationType=System.Convert.ToInt32(notificationData[3]);
 			notifications[i].HiddenParam= notificationData[4];
-			notifications[i].SendingUser=ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(notificationData[5]));
+			notifications[i].SendingUser=p.Users.returnUsersIndex(System.Convert.ToInt32(notificationData[5]));
 
 			if(ApplicationModel.player.Readnotificationsystem && notifications[i].IdNotificationType==1)
 			{
@@ -57,7 +57,7 @@ public class Notifications{
 				switch (notificationObjectData[0])
 				{
 				case "user":
-					notifications[i].Users.Add (ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(notificationObjectData[1])));
+					notifications[i].Users.Add (p.Users.returnUsersIndex(System.Convert.ToInt32(notificationObjectData[1])));
 					break;
 				case "card":
 					notifications[i].Cards.add ();

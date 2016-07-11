@@ -49,7 +49,6 @@ public class Player : User
 	public bool LobbyHelp;
 	public int ConnectionBonus;
 	public int NbNotificationsNonRead;
-	public Division CurrentDivision;
 	public string ProfileChosen;
 	public int IdLanguage;
 	public bool ToDeconnect;
@@ -87,6 +86,7 @@ public class Player : User
     public int CollectionPointsEarned;
     public List<int> NewSkills;
     public Cards MyCards;
+    public Cards MyCardsOnMarket;
 	public Decks MyDecks;
 	public Users Users;
 	public Notifications MyNotifications;
@@ -97,6 +97,7 @@ public class Player : User
 	public ChallengesRecords MyChallengesRecords;
 	public Division MyDivision;
     public Skills MySkills;
+    public Results MyResults;
   
 	public Player()
 	{
@@ -138,8 +139,20 @@ public class Player : User
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
-		this.CurrentDivision=new Division();
 		this.IsOnline=true;
+		this.MyCards=new Cards();
+		this.MyDecks=new Decks();
+		this.MyNotifications=new Notifications();
+		this.MyConnections=new Connections();
+		this.MyNews=new NewsList();
+		this.MyTrophies=new Trophies();
+		this.MyChallengesRecords=new ChallengesRecords();
+		this.MyDivision=new Division();
+		this.Users=new Users();
+        this.MySkills=new Skills();
+        this.CardTypesAllowed=new List<int>();
+        this.MyResults=new Results();
+        this.MyCardsOnMarket=new Cards();
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -531,27 +544,10 @@ public class Player : User
 				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
 				string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
 
-				this.MyCards=new Cards();
-				this.MyDecks=new Decks();
-				this.MyNotifications=new Notifications();
-				this.MyConnections=new Connections();
-				this.MyNews=new NewsList();
-				this.MyTrophies=new Trophies();
-				this.MyChallengesRecords=new ChallengesRecords();
-				this.MyDivision=new Division();
-				this.Users=new Users();
-                this.MySkills=new Skills();
-                this.CardTypesAllowed=new List<int>();
-				ApplicationModel.packs=new Packs();
-				ApplicationModel.products=new DisplayedProducts();
-                ApplicationModel.cardTypes=new CardTypes();
-                ApplicationModel.skillTypes=new SkillTypes();
-                ApplicationModel.skills=new Skills();
-
 				this.parsePlayerInformations(gameData[0]);
-				if(gameData[11]!="")
+				if(gameData[12]!="")
 				{
-					this.Users.parseUsers(gameData[11]);
+					this.Users.parseUsers(gameData[12]);
 				}
 				if(gameData[1]!="")
 				{
@@ -564,7 +560,7 @@ public class Player : User
 				}
 				if(gameData[3]!="")
 				{
-					this.MyNotifications.parseNotifications(gameData[3]);
+					this.MyNotifications.parseNotifications(gameData[3],this);
 					this.MyNotifications.lookForNonReadNotification();
 				}
 				if(gameData[4]!="")
@@ -573,11 +569,11 @@ public class Player : User
 				}
 				if(gameData[5]!="")
 				{
-					this.MyConnections.parseConnections(gameData[5]);
+					this.MyConnections.parseConnections(gameData[5],this);
 				}
 				if(gameData[6]!="")
 				{
-					this.MyNews.parseNews(gameData[6]);
+					this.MyNews.parseNews(gameData[6],this);
 					this.MyNews.filterNews(this.Id);
 				}
 				if(gameData[7]!="")
@@ -586,7 +582,7 @@ public class Player : User
 				}
 				if(gameData[8]!="")
 				{
-					this.MyChallengesRecords.parseChallengesRecords(gameData[8]);
+					this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
 				}
 				if(gameData[9]!="")
 				{
@@ -596,25 +592,29 @@ public class Player : User
                 {
                    this.parseCardTypesAllowed(gameData[10]);
                 }
-				if(gameData[12]!="")
-				{
-					ApplicationModel.packs.parsePacks(gameData[12]);
-				}
+                if(gameData[11]!="")
+                {
+					this.MyCardsOnMarket.parseCards(gameData[11]);
+                }
 				if(gameData[13]!="")
 				{
-					ApplicationModel.products.parseProducts(gameData[13]);
+					ApplicationModel.packs.parsePacks(gameData[13]);
 				}
-                if(gameData[14]!="")
-                {
-                    ApplicationModel.skillTypes.parseSkillTypes(gameData[14]);
-                }
+				if(gameData[14]!="")
+				{
+					ApplicationModel.products.parseProducts(gameData[14]);
+				}
                 if(gameData[15]!="")
                 {
-                    ApplicationModel.cardTypes.parseCardTypes(gameData[15]);
+                    ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
                 }
                 if(gameData[16]!="")
                 {
-                    ApplicationModel.skills.parseSkills(gameData[16]);
+                    ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
+                }
+                if(gameData[17]!="")
+                {
+                    ApplicationModel.skills.parseSkills(gameData[17]);
                     this.retrieveMySkills();
                 }
 				if(System.Convert.ToInt32(data[2])!=-1)
@@ -698,8 +698,7 @@ public class Player : User
 				this.Id=System.Convert.ToInt32(profileData[6]);
 				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
 				this.Mail=profileData[8];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+				this.Division=System.Convert.ToInt32(profileData[9]);
                 
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
@@ -869,15 +868,13 @@ public class Player : User
 		this.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [20]));
 		this.NextLevelTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [21]));
 		this.IdLanguage	 = System.Convert.ToInt32 (array [22]);
-		this.CurrentDivision	 = new Division();
-		this.CurrentDivision.Id=System.Convert.ToInt32 (array [23]);
+		this.Division=System.Convert.ToInt32 (array [23]);
 		this.TrainingStatus=System.Convert.ToInt32 (array [24]);
 		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
 		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [26]));
 		this.getTrainingAllowedCardType();
 	}
-
-	private List<int> parseFriends(string s)
+	public List<int> parseFriends(string s)
 	{
 		string[] friendsData=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
 
@@ -888,12 +885,9 @@ public class Player : User
 		}
 		return friends;
 	}
-
 	private Division parseDivision(string s)
 	{
-
 		string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
-
 		Division division = new Division ();
 		division.GamesPlayed= System.Convert.ToInt32(array [0]);
 		division.NbWins= System.Convert.ToInt32(array [1]);
@@ -933,6 +927,17 @@ public class Player : User
 	{
 		this.MyFriends.Add (this.MyNotifications.getNotification(id).SendingUser);
 		this.MyNotifications.remove(id);
+	}
+	public void removeFromFriends(int id)
+	{
+		for(int i=0;i<this.MyFriends.Count;i++)
+		{
+			if(this.Users.getUser(this.MyFriends[i]).Id==id)
+			{
+				this.MyFriends.RemoveAt(i);
+				break;
+			}
+		}
 	}
     public bool hasSkills(int id)
     {
@@ -1033,6 +1038,43 @@ public class Player : User
         {
             this.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
         }
+    }
+    public void moveToMyCardsOnMarket(int index)
+    {
+    	Card tempCard = this.MyCards.getCard(index);
+    	this.MyCards.remove(index);
+    	bool hasMoved=false;
+		for(int i=0;i<this.MyCardsOnMarket.getCount();i++)
+    	{
+    		if(tempCard.Id<this.MyCardsOnMarket.getCard(i).Id)
+    		{
+    			this.MyCardsOnMarket.cards.Insert(i,tempCard);
+    			break;
+    		}
+    	}
+    	if(!hasMoved)
+    	{
+			this.MyCardsOnMarket.cards.Insert(0,tempCard);
+    	}
+    }
+    public void removeFromMyCardsOnMarket(int index)
+    {
+		Card tempCard = this.MyCardsOnMarket.getCard(index);
+    	this.MyCardsOnMarket.remove(index);
+    	bool hasMoved=false;
+		for(int i=0;i<this.MyCards.getCount();i++)
+    	{
+    		if(tempCard.Id<this.MyCards.getCard(i).Id)
+    		{
+    			this.MyCards.cards.Insert(i,tempCard);
+    			hasMoved=true;
+    			break;
+    		}
+    	}
+    	if(!hasMoved)
+    	{
+			this.MyCards.cards.Insert(0,tempCard);
+    	}
     }
 }
 

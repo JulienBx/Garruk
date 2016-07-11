@@ -12,7 +12,7 @@ public class PlayPopUpController : MonoBehaviour
 	public GameObject deckListObject;
 
 	public static PlayPopUpController instance;
-	private PlayPopUpModel model;
+	//private PlayPopUpModel model;
 	
 	private IList<int> decksDisplayed;
 	private int deckDisplayed;
@@ -40,15 +40,13 @@ public class PlayPopUpController : MonoBehaviour
 	void Start () 
 	{	
 		instance = this;
-		this.model = new PlayPopUpModel ();
 		this.initializePopUp ();
-		StartCoroutine (this.initialization());
+		this.initialization();
 	}
-	public IEnumerator initialization()
+	public void initialization()
 	{
-		yield return StartCoroutine (model.loadUserData ());
 		BackOfficeController.instance.hideLoadingScreen ();
-		if(model.decks.Count>0)
+		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
 			this.retrieveDefaultDeck ();
 			this.retrieveDecksList ();
@@ -91,7 +89,7 @@ public class PlayPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("DivisionGamePicture").gameObject.SetActive(true);
 			this.gameObject.transform.FindChild("OfficialGameTitle").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
 			string divisionState;
-			if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
+			if(ApplicationModel.player.MyDivision.GamesPlayed>0)
 			{
 				divisionState=WordingGameModes.getReference(3);
 			}
@@ -102,7 +100,7 @@ public class PlayPopUpController : MonoBehaviour
 			this.gameObject.transform.FindChild("Button1").FindChild ("Title").GetComponent<TextMeshPro> ().text  = divisionState;
 		}
 
-		if(model.decks.Count<2)
+		if(ApplicationModel.player.MyDecks.getCount()<2)
 		{
 			this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(false);
 			Vector3 deckNamePosition = this.gameObject.transform.FindChild ("deckList").FindChild("currentDeck").FindChild("deckName").localPosition;
@@ -123,9 +121,9 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		if(deckDisplayed!=-1)
 		{
-			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = model.decks[this.deckDisplayed].Name;
+			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name;
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
-			ApplicationModel.player.MyDeck=model.decks[this.deckDisplayed];
+			ApplicationModel.player.MyDeck=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed);
 		}
 		else
 		{
@@ -136,12 +134,12 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	private void retrieveDefaultDeck()
 	{
-		if(model.decks.Count>0)
+		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
 			this.deckDisplayed = 0;
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
+				if(ApplicationModel.player.MyDecks.getDeck(i).Id==ApplicationModel.player.SelectedDeckId)
 				{
 					this.deckDisplayed=i;
 					break;
@@ -158,7 +156,7 @@ public class PlayPopUpController : MonoBehaviour
 		this.decksDisplayed=new List<int>();
 		if(this.deckDisplayed!=-1)
 		{
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
 				if(i!=this.deckDisplayed)
 				{
@@ -196,7 +194,7 @@ public class PlayPopUpController : MonoBehaviour
 			this.deckList.Add (Instantiate(this.deckListObject) as GameObject);
 			this.deckList[this.deckList.Count-1].transform.parent=gameObject.transform;
 			this.deckList[this.deckList.Count-1].transform.localPosition=new Vector3(0f, 2.52f+(this.deckList.Count-1)*(-0.62f),-1f);
-			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = model.decks [this.decksDisplayed[i]].Name;
+			this.deckList[this.deckList.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = ApplicationModel.player.MyDecks.getDeck(this.decksDisplayed[i]).Name;
 			this.deckList[this.deckList.Count-1].GetComponent<DeckBoardDeckListPlayPopUpController>().setId(i);
 		}
 	}
@@ -216,7 +214,7 @@ public class PlayPopUpController : MonoBehaviour
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{
 			
-			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.CurrentDivision.Id;
+			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.MyDivision.Id;
 			StartCoroutine (this.joinGame ());
 		}
 		else if(!ApplicationModel.player.canAccessTrainingMode())
@@ -234,7 +232,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (model.decks [this.deckDisplayed].Id));
+		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
             BackOfficeController.instance.loadScene("NewLobby");

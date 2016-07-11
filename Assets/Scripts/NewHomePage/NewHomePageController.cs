@@ -1405,7 +1405,7 @@ public class NewHomePageController : MonoBehaviour
 			this.trainingGamePicture.SetActive(false);
 			this.officialGameTitle.GetComponent<TextMeshPro> ().text = WordingGameModes.getReference(1).ToUpper ();
 			string divisionState;
-			if(ApplicationModel.player.CurrentDivision.GamesPlayed>0)
+			if(ApplicationModel.player.MyDivision.GamesPlayed>0)
 			{
 				divisionState=WordingGameModes.getReference(3);
 			}
@@ -1467,7 +1467,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public int getNbGamesDivision()
 	{
-		return ApplicationModel.player.CurrentDivision.GamesPlayed;
+		return ApplicationModel.player.MyDivision.GamesPlayed;
 	}
 	private void showEndGameSequence()
 	{
@@ -1605,7 +1605,7 @@ public class NewHomePageController : MonoBehaviour
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{
-			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.CurrentDivision.Id;
+			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.MyDivision.Id;
 			StartCoroutine (this.joinGame ());
 		}
 		else if(!ApplicationModel.player.canAccessTrainingMode())

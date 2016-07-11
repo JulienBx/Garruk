@@ -27,7 +27,7 @@ public class Connections{
 	{
 		this.connections.RemoveAt(index);
 	}
-	public void parseConnections(string s)
+	public void parseConnections(string s, Player p)
 	{
 		string[] array = s.Split(new string[] {"#CN#"}, System.StringSplitOptions.None);
 
@@ -35,7 +35,7 @@ public class Connections{
 		{
 			string[] connectionData =array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			connections.Add (new Connection());
-			connections[i].User= ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(connectionData[0]));
+			connections[i].User= p.Users.returnUsersIndex(System.Convert.ToInt32(connectionData[0]));
 			connections[i].IsInviting=System.Convert.ToBoolean(System.Convert.ToInt32(connectionData[1]));
 			connections[i].Id=System.Convert.ToInt32(connectionData[2]);
 		}

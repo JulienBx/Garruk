@@ -8,12 +8,11 @@ using System.Linq;
 
 public class NewMarketModel
 {
-	public string[] cardTypeList;
-	public IList<Skill> skillsList;
 	public IList<int> cardsSold;
-	public Cards cards;
+	public Cards cardsOnSale;
 	public Cards newCards;
-	private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
+	private string URLGetCardsOnSale = ApplicationModel.host + "market_getCardsOnSale.php";
+	//private string URLGetMarketData = ApplicationModel.host + "get_market_data.php";
 	private string URLRefreshMarket = ApplicationModel.host + "refresh_market.php";
 	private string URLRefreshMyGame = ApplicationModel.host + "refresh_mygame.php";
 	private DateTime newCardsTimeLimit;
@@ -23,65 +22,28 @@ public class NewMarketModel
 	{
 		this.newCardsTimeLimit = new DateTime (1900,1,1,1,1,1);
 		this.oldCardsTimeLimit = new DateTime (1900,1,1,1,1,1);
+		this.newCards=new Cards();
 	}
-	public IEnumerator initializeMarket (int totalNbResultLimit, int activeTab, bool firstLoad) 
+	public IEnumerator initializeMarket (int totalNbResultLimit) 
 	{
-		string firstLoadString="0";
-		if(firstLoad)
-		{
-			firstLoadString="1";
-		}
-		else
-
-		this.skillsList = new List<Skill> ();
-		this.cards = new Cards();
-		this.newCards = new Cards ();
+		this.cardsOnSale=new Cards();
 		
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_nick", ApplicationModel.player.Username);
 		form.AddField ("myform_totalnbresultlimit", totalNbResultLimit.ToString());
-		form.AddField ("myform_activetab", activeTab.ToString ());
-		form.AddField ("myform_firstload", firstLoadString);
 
-		ServerController.instance.setRequest(URLGetMarketData, form);
+		ServerController.instance.setRequest(URLGetCardsOnSale, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 
 		if(ServerController.instance.getError()=="")
 		{
 			string result = ServerController.instance.getResult();
-			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			this.cardTypeList = data[0].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-			this.skillsList=parseSkills(data[1].Split(new string[] { "#SK#" }, System.StringSplitOptions.None));
-			if(data[2]!="")
+			if(result!="")
 			{
-				this.cards.parseCards(data[2]);
-				if(activeTab==2)
-				{
-					if(data[3]!="")
-					{
-						string[] cardsInDecksID=data[3].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-						for(int i=0;i<cardsInDecksID.Length-1;i++)
-						{
-							for(int j=0;j<this.cards.getCount();j++)
-							{
-								if(System.Convert.ToInt32(cardsInDecksID[i])==this.cards.getCard(j).Id)
-								{
-									this.cards.cards.RemoveAt(j);
-								}
-							}
-						}
-					}
-				}
-			}
-			if(firstLoad)
-			{
-				this.parsePlayer(data[3].Split(new string[] { "\\" }, System.StringSplitOptions.None));
-			}
-			if(activeTab==0 && cards.getCount()>0)
-			{
-				this.newCardsTimeLimit = cards.getCard(0).OnSaleDate;
-				this.oldCardsTimeLimit = cards.getCard(cards.getCount()-1).OnSaleDate;
+				this.cardsOnSale.parseCards(result);
+				this.newCardsTimeLimit = cardsOnSale.getCard(0).OnSaleDate;
+				this.oldCardsTimeLimit = cardsOnSale.getCard(cardsOnSale.getCount()-1).OnSaleDate;
 			}
 		}
 		else
@@ -89,13 +51,6 @@ public class NewMarketModel
 			Debug.Log(ServerController.instance.getError());
 			ServerController.instance.lostConnection();
 		}
-	}
-	public void parsePlayer(string[] array)
-	{
-		ApplicationModel.player.Id = System.Convert.ToInt32 (array [0]);
-		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [1]);
-		ApplicationModel.player.NextLevelTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [2]));
-		ApplicationModel.player.MarketTutorial = System.Convert.ToBoolean (System.Convert.ToInt32 (array [3]));
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)
 	{	
@@ -132,26 +87,26 @@ public class NewMarketModel
 			}
 			
 			cardsSold=new List<int>();
-			for(int i=0;i<this.cards.getCount();i++)
+			for(int i=0;i<this.cardsOnSale.getCount();i++)
 			{
-				if(!cardsIds.Contains(this.cards.getCard(i).Id)&&this.cards.getCard(i).IdOWner!=-1)
+				if(!cardsIds.Contains(this.cardsOnSale.getCard(i).Id)&&this.cardsOnSale.getCard(i).IdOWner!=-1)
 				{
-					cardsSold.Add (this.cards.getCard(i).Id);
-					this.cards.getCard(i).onSale=0;
-					this.cards.getCard(i).IdOWner=-1;
+					cardsSold.Add (this.cardsOnSale.getCard(i).Id);
+					this.cardsOnSale.getCard(i).onSale=0;
+					this.cardsOnSale.getCard(i).IdOWner=-1;
 				}
-				else if(cardsIds.Contains(this.cards.getCard(i).Id))
+				else if(cardsIds.Contains(this.cardsOnSale.getCard(i).Id))
 				{
-					int idx = cardsIds.IndexOf(this.cards.getCard(i).Id);
-					this.cards.getCard(i).Price=cardsPrices[idx];
+					int idx = cardsIds.IndexOf(this.cardsOnSale.getCard(i).Id);
+					this.cardsOnSale.getCard(i).Price=cardsPrices[idx];
 				}
 			}
 			for(int i=0;i<newCards.getCount();i++)
 			{
 				bool existing=false;
-				for(int j=0;j<this.cards.getCount();j++)
+				for(int j=0;j<this.cardsOnSale.getCount();j++)
 				{
-					if(this.cards.getCard(j).Id==newCards.getCard(i).Id)
+					if(this.cardsOnSale.getCard(j).Id==newCards.getCard(i).Id)
 					{
 						existing=true;
 						break;
@@ -187,9 +142,9 @@ public class NewMarketModel
 			int id;
 			bool stillExists;
 			string[] data=w.text.Split(new string[] { "#ID#" }, System.StringSplitOptions.None);
-			for(int i=0;i<this.cards.getCount();i++)
+			for(int i=0;i<ApplicationModel.player.MyCardsOnMarket.getCount();i++)
 			{
-				id = this.cards.getCard(i).Id;
+				id = ApplicationModel.player.MyCardsOnMarket.getCard(i).Id;
 				stillExists=false;
 				for(int j =0;j<data.Length-1;j++)
 				{
@@ -202,21 +157,9 @@ public class NewMarketModel
 				if(!stillExists)
 				{
 					this.cardsSold.Add (id);
-					this.cards.getCard(i).IdOWner=-1;
-					this.cards.getCard(i).onSale=0;
+					ApplicationModel.player.MyCardsOnMarket.remove(i);
 				}
 			}
 		}
-	}
-	private List<Skill> parseSkills(string[] skillsIds)
-	{
-		List<Skill> skillsList = new List<Skill>();
-		for(int i = 0 ; i < skillsIds.Length-1 ; i++)
-		{
-			string [] tempString = skillsIds[i].Split(new string[] { "\\" }, System.StringSplitOptions.None); 
-			skillsList.Add(new Skill());
-			skillsList[i].Id=System.Convert.ToInt32(tempString[0]);
-		}
-		return skillsList;
 	}
 }

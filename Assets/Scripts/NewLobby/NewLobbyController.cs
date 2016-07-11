@@ -594,14 +594,14 @@ public class NewLobbyController : MonoBehaviour
 	}
 	public void drawCompetition()
 	{
-		this.mainBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(ApplicationModel.player.CurrentDivision.Id);
-		string description=WordingLobby.getReference(12)+ApplicationModel.player.CurrentDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
-		if(ApplicationModel.player.CurrentDivision.NbWinsForPromotion!=-1)
+		this.mainBlockTitle.GetComponent<TextMeshPro>().text=WordingGameModes.getName(ApplicationModel.player.MyDivision.Id);
+		string description=WordingLobby.getReference(12)+ApplicationModel.player.MyDivision.TitlePrize.ToString()+WordingLobby.getReference(14);
+		if(ApplicationModel.player.MyDivision.NbWinsForPromotion!=-1)
 		{
-			description=description+WordingLobby.getReference(13)+ApplicationModel.player.CurrentDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
+			description=description+WordingLobby.getReference(13)+ApplicationModel.player.MyDivision.PromotionPrize.ToString()+WordingLobby.getReference(14);
 		}
 		this.competitionDescription.GetComponent<TextMeshPro>().text=description;
-		this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.CurrentDivision.getPictureId());
+		this.competitionPicture.GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeCompetitionPicture(ApplicationModel.player.MyDivision.getPictureId());
 	}
 	private void displayPopUp()
 	{
@@ -634,74 +634,74 @@ public class NewLobbyController : MonoBehaviour
 		{
 			if(hasWonLastGame)
 			{
-				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.CurrentDivision,true);
+				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.MyDivision,true);
 				this.divisionProgression.GetComponent<DivisionProgressionController>().animateGauge();
 			}
 			else
 			{
-				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.CurrentDivision,false);
+				this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.MyDivision,false);
 			}
 		}
 		else
 		{
-			this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.CurrentDivision,false);
+			this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.MyDivision,false);
 		}
 	}
 	public void endGaugeAnimation()
 	{
-		this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.CurrentDivision,false);
+		this.divisionProgression.GetComponent<DivisionProgressionController> ().drawGauge (ApplicationModel.player.MyDivision,false);
 	}
 	public void initializePopUp()
 	{
 		bool displayPopUp = false;
 		string content = "";
-		if(ApplicationModel.player.CurrentDivision.Status==3) // Fin de saison + Promotion + Titre
+		if(ApplicationModel.player.MyDivision.Status==3) // Fin de saison + Promotion + Titre
 		{
 			content =WordingLobby.getReference(16);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==30) // Fin de saison + Titre
+		else if(ApplicationModel.player.MyDivision.Status==30) // Fin de saison + Titre
 		{
 			content =WordingLobby.getReference(17);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
+		else if(ApplicationModel.player.MyDivision.Status==20) // Promotion obtenue au cours du match + Fin de saison
 		{
 			content=WordingLobby.getReference(18);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==2) // Promotion + Fin de saison
+		else if(ApplicationModel.player.MyDivision.Status==2) // Promotion + Fin de saison
 		{
 			content=WordingLobby.getReference(19);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==21) // Promotion obtenue au cours du match
+		else if(ApplicationModel.player.MyDivision.Status==21) // Promotion obtenue au cours du match
 		{
 			content=WordingLobby.getReference(20);
 			displayPopUp=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
+		else if(ApplicationModel.player.MyDivision.Status==10) // Maintien obtenu au cours du match + Fin de saison
 		{
 			content=WordingLobby.getReference(21);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==1) // Maintien + Fin de saison
+		else if(ApplicationModel.player.MyDivision.Status==1) // Maintien + Fin de saison
 		{
 			content=WordingLobby.getReference(22);
 			displayPopUp=true;
 			this.isEndCompetition=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==11) // Maintien obtenu au cours du match
+		else if(ApplicationModel.player.MyDivision.Status==11) // Maintien obtenu au cours du match
 		{
 			content=WordingLobby.getReference(23);
 			displayPopUp=true;
 		}
-		else if(ApplicationModel.player.CurrentDivision.Status==-1) // Relégation
+		else if(ApplicationModel.player.MyDivision.Status==-1) // Relégation
 		{
 			content=WordingLobby.getReference(24);
 			displayPopUp=true;

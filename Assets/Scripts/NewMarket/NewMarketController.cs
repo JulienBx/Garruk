@@ -124,6 +124,8 @@ public class NewMarketController : MonoBehaviour
 	private float marketContentPositionX;
 	private float targetContentPositionX;
 
+	private Cards marketCards;
+
 	void Update()
 	{	
 		this.timer += Time.deltaTime;
@@ -302,7 +304,11 @@ public class NewMarketController : MonoBehaviour
 	public void initialization()
 	{
 		this.resize ();
-		StartCoroutine(this.selectATab (true));
+		StartCoroutine(this.selectATab ());
+		if(!ApplicationModel.player.MarketTutorial)
+		{
+			HelpController.instance.startHelp();
+		}
 	}
 	public void initializeCards()
 	{
@@ -371,73 +377,32 @@ public class NewMarketController : MonoBehaviour
 		}
 		BackOfficeController.instance.displayLoadingScreen ();
 		this.isSceneLoaded = false;
-		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
-		this.initializeCards ();
-		this.isSceneLoaded = true;
-		BackOfficeController.instance.hideLoadingScreen ();
-		if(firstLoad)
-		{
-			if(!ApplicationModel.player.MarketTutorial)
-			{
-				HelpController.instance.startHelp();
-			}
-		}
 		switch(this.activeTab)
 		{
-		case 0: case 1:
+		case 0: 
+			yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
+			this.marketCards=model.cardsOnSale;
+			this.priceFilterTitle.SetActive(true);
+			this.priceFilter.SetActive(true);
+			this.refreshMarketButton.SetActive(false);
+			break;
+		case 1:
+			this.marketCards=ApplicationModel.player.MyCardsOnMarket;
 			this.priceFilterTitle.SetActive(true);
 			this.priceFilter.SetActive(true);
 			this.refreshMarketButton.SetActive(false);
 			break;
 		case 2:
+			this.marketCards=ApplicationModel.player.MyCards;
 			this.priceFilterTitle.SetActive(false);
 			this.priceFilter.SetActive(false);
 			this.refreshMarketButton.SetActive(false);
 			break;
 		}
-	}
-	private IEnumerator selectATab(bool firstLoad)
-	{
-		for(int i=0;i<this.tabs.Length;i++)
-		{
-			if(i==this.activeTab)
-			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(1);
-				this.tabs[i].GetComponent<NewMarketTabController>().setIsSelected(true);
-				this.tabs[i].transform.FindChild("Title").GetComponent<TextMeshPro>().color=ApplicationDesignRules.blueColor;
-			}
-			else
-			{
-				this.tabs[i].GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnTabPicture(0);
-				this.tabs[i].GetComponent<NewMarketTabController>().reset();
-			}
-		}
-		BackOfficeController.instance.displayLoadingScreen ();
-		this.isSceneLoaded = false;
-		yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit,this.activeTab,firstLoad));
 		this.initializeCards ();
 		this.isSceneLoaded = true;
 		BackOfficeController.instance.hideLoadingScreen ();
-		if(firstLoad)
-		{
-			if(!ApplicationModel.player.MarketTutorial)
-			{
-				HelpController.instance.startHelp();
-			}
-		}
-		switch(this.activeTab)
-		{
-		case 0: case 1:
-			this.priceFilterTitle.SetActive(true);
-			this.priceFilter.SetActive(true);
-			this.refreshMarketButton.SetActive(false);
-			break;
-		case 2:
-			this.priceFilterTitle.SetActive(false);
-			this.priceFilter.SetActive(false);
-			this.refreshMarketButton.SetActive(false);
-			break;
-		}
+		yield break;
 	}
 	public void initializeScene()
 	{
@@ -577,20 +542,20 @@ public class NewMarketController : MonoBehaviour
 	}
 	private void resetFiltersValue()
 	{
-		if(model.cards.getCount()>0)
+		if(marketCards.getCount()>0)
 		{
-			this.maxPriceLimit=model.cards.getCard(0).Price;
-			this.minPriceLimit=model.cards.getCard(0).Price;
+			this.maxPriceLimit=marketCards.getCard(0).Price;
+			this.minPriceLimit=marketCards.getCard(0).Price;
 		}
-		for(int i=0;i<model.cards.getCount();i++)
+		for(int i=0;i<marketCards.getCount();i++)
 		{
-			if(model.cards.getCard(i).Price>maxPriceLimit)
+			if(marketCards.getCard(i).Price>maxPriceLimit)
 			{
-				this.maxPriceLimit=model.cards.getCard(i).Price;
+				this.maxPriceLimit=marketCards.getCard(i).Price;
 			}
-			if(model.cards.getCard(i).Price<minPriceLimit)
+			if(marketCards.getCard(i).Price<minPriceLimit)
 			{
-				this.minPriceLimit=model.cards.getCard(i).Price;
+				this.minPriceLimit=marketCards.getCard(i).Price;
 			}
 		}
 		this.minPriceVal = this.minPriceLimit;
@@ -1020,7 +985,7 @@ public class NewMarketController : MonoBehaviour
 				if(this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i<this.cardsToBeDisplayed.Count)
 				{
 					this.cardsDisplayed.Add (this.cardsToBeDisplayed[this.cardsPagination.chosenPage*(this.nbLines*this.cardsPerLine)+j*(cardsPerLine)+i]);
-					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=model.cards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
+					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().c=marketCards.getCard(this.cardsDisplayed[j*(cardsPerLine)+i]);
 					this.cards[j*(cardsPerLine)+i].transform.GetComponent<NewCardController>().show();
 					this.cards[j*(cardsPerLine)+i].SetActive(true);
 				}
@@ -1054,7 +1019,7 @@ public class NewMarketController : MonoBehaviour
 		this.displayBackUI (false);
 		this.focusedCard.SetActive (true);
 		Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
-		this.focusedCard.GetComponent<NewFocusedCardController>().c=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]);
+		this.focusedCard.GetComponent<NewFocusedCardController>().c=marketCards.getCard(this.cardsDisplayed[this.idCardClicked]);
 		this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 	}
 	public void hideCardFocused()
@@ -1395,12 +1360,12 @@ public class NewMarketController : MonoBehaviour
 	{
 		this.cardsToBeDisplayed=new List<int>();
 		int nbFilters = this.filtersCardType.Count;
-		int max = model.cards.getCount();
+		int max = marketCards.getCount();
 		
 		for(int i=0;i<max;i++)
 		{
 
-			if(this.isSkillChosen && !model.cards.getCard (i).hasSkill(this.valueSkill.ToLower()))
+			if(this.isSkillChosen && !marketCards.getCard (i).hasSkill(this.valueSkill.ToLower()))
 			{
 				continue;
 			}
@@ -1409,7 +1374,7 @@ public class NewMarketController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbFilters;j++)
 				{
-					if (model.cards.getCard (i).CardType.Id == this.filtersCardType [j])
+					if (marketCards.getCard (i).CardType.Id == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
@@ -1420,12 +1385,12 @@ public class NewMarketController : MonoBehaviour
 					continue;
 				}
 			}
-			if(model.cards.getCard(i).PowerLevel-1>=this.powerVal&&
-			   model.cards.getCard(i).AttackLevel-1>=this.attackVal&&
-			   model.cards.getCard(i).LifeLevel-1>=this.lifeVal&&
-			   model.cards.getCard(i).SpeedLevel-1>=this.quicknessVal&&
-			   model.cards.getCard(i).Price>=this.minPriceVal&&
-			   model.cards.getCard(i).Price<=this.maxPriceVal)
+			if(marketCards.getCard(i).PowerLevel-1>=this.powerVal&&
+				marketCards.getCard(i).AttackLevel-1>=this.attackVal&&
+				marketCards.getCard(i).LifeLevel-1>=this.lifeVal&&
+				marketCards.getCard(i).SpeedLevel-1>=this.quicknessVal&&
+				marketCards.getCard(i).Price>=this.minPriceVal&&
+				marketCards.getCard(i).Price<=this.maxPriceVal)
 			{
 				this.cardsToBeDisplayed.Add(i);
 			}
@@ -1443,36 +1408,36 @@ public class NewMarketController : MonoBehaviour
 					switch (this.sortingOrder)
 					{
 					case 0:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Price;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Price;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[i]).Price;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[j]).Price;
 						break;
 					case 1:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Price;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Price;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[i]).Price;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[j]).Price;
 						break;
 					case 2:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 3:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[i]).PowerLevel;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[j]).PowerLevel;
 						break;
 					case 4:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 5:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Attack;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Attack;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[i]).Attack;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[j]).Attack;
 						break;
 					case 6:
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 					case 7:
-						tempB = model.cards.getCard(this.cardsToBeDisplayed[i]).Life;
-						tempA = model.cards.getCard(this.cardsToBeDisplayed[j]).Life;
+						tempB = marketCards.getCard(this.cardsToBeDisplayed[i]).Life;
+						tempA = marketCards.getCard(this.cardsToBeDisplayed[j]).Life;
 						break;
 //					case 8:
 //						tempA = model.cards.getCard(this.cardsToBeDisplayed[i]).Speed;
@@ -1505,14 +1470,14 @@ public class NewMarketController : MonoBehaviour
 		this.skillSearchBar.GetComponent<NewMarketSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
-			for (int i = 0; i < model.skillsList.Count; i++) 
+			for (int i = 0; i < ApplicationModel.skills.getCount(); i++) 
 			{  
-				if(this.removeDiacritics(WordingSkills.getName(model.skillsList [i].Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
+				if(this.removeDiacritics(WordingSkills.getName(ApplicationModel.skills.getSkill(i).Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<NewMarketSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(model.skillsList [i].Id);
+					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text = WordingSkills.getName(ApplicationModel.skills.getSkill(i).Id);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
@@ -1554,8 +1519,8 @@ public class NewMarketController : MonoBehaviour
 		if(isLeftClicked)
 		{
 			this.isLeftClicked=false;
-			bool isMine = model.cards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
-			int idOwner=model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
+			bool isMine = marketCards.getCard (this.cardsDisplayed[this.idCardClicked]).isMine;
+			int idOwner=marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner;
 			if(idOwner!=-1 || isMine)
 			{
 				this.showCardFocused ();
@@ -1633,17 +1598,18 @@ public class NewMarketController : MonoBehaviour
 		{
 			this.hideCardFocused ();
 		}
-		model.cards.cards.RemoveAt(this.cardsDisplayed[this.idCardClicked]);
 		this.initializeCards ();
 	}
 	public void updateScene()
 	{
-		if(this.activeTab==1 && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==0)
+		if(this.activeTab==1 && marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==0)
 		{
+			ApplicationModel.player.removeFromMyCardsOnMarket(this.cardsDisplayed[this.idCardClicked]);
 			this.deleteCard();
 		}
-		else if(this.activeTab==2 && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==1)
+		else if(this.activeTab==2 && marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).onSale==1)
 		{
+			ApplicationModel.player.moveToMyCardsOnMarket(this.cardsDisplayed[this.idCardClicked]);
 			this.deleteCard();
 		}
 		else
@@ -1663,7 +1629,7 @@ public class NewMarketController : MonoBehaviour
 		{
 			if(isCardFocusedDisplayed)
 			{
-				if(model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1 && !model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).isMine)
+				if(marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1 && !marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).isMine)
 				{
 					this.focusedCard.GetComponent<NewFocusedCardMarketController>().setCardSold();
 				}
@@ -1690,7 +1656,7 @@ public class NewMarketController : MonoBehaviour
 		yield return StartCoroutine(model.refreshMyGame());
 		if(this.activeTab!=0)
 		{
-			if(isCardFocusedDisplayed && model.cards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1)
+			if(isCardFocusedDisplayed && marketCards.getCard(this.cardsDisplayed[this.idCardClicked]).IdOWner==-1)
 			{
 				this.focusedCard.GetComponent<NewFocusedCardController>().setCardSold();
 			}
@@ -1707,14 +1673,14 @@ public class NewMarketController : MonoBehaviour
 		this.refreshMarketButton.SetActive (false);
 		for(int i=0;i<model.newCards.getCount();i++)
 		{
-			model.cards.cards.Insert(i,model.newCards.getCard(i));
+			marketCards.cards.Insert(i,model.newCards.getCard(i));
 		}
 		model.newCards = new Cards ();
-		for(int i =0;i<model.cards.getCount();i++)
+		for(int i =0;i<marketCards.getCount();i++)
 		{
-			if(model.cards.getCard(model.cards.getCount()-i-1).onSale==0)
+			if(marketCards.getCard(marketCards.getCount()-i-1).onSale==0)
 			{
-				model.cards.cards.RemoveAt(model.cards.getCount()-i-1);
+				marketCards.cards.RemoveAt(marketCards.getCount()-i-1);
 			}
 		}
 		this.initializeCards ();

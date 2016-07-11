@@ -23,7 +23,7 @@ public class ChallengesRecords{
 	{
 		this.challengesRecords.Add(new ChallengesRecord());
 	}
-	public void parseChallengesRecords(string s)
+	public void parseChallengesRecords(string s, Player p)
 	{
 		string[] array = s.Split(new string[] {"#CR#"},System.StringSplitOptions.None);
 		
@@ -31,7 +31,7 @@ public class ChallengesRecords{
 		{
 			string[] challengesRecordData = array[i].Split(new string[] { "//" }, System.StringSplitOptions.None);
 			challengesRecords.Add (new ChallengesRecord());
-			challengesRecords[i].Friend= ApplicationModel.player.Users.returnUsersIndex(System.Convert.ToInt32(challengesRecordData[0]));
+			challengesRecords[i].Friend= p.Users.returnUsersIndex(System.Convert.ToInt32(challengesRecordData[0]));
 			challengesRecords[i].NbWins=System.Convert.ToInt32(challengesRecordData[1]);
 			challengesRecords[i].NbLooses=System.Convert.ToInt32(challengesRecordData[2]);
 		}

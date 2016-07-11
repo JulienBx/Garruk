@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class NewLobbyModel 
 {
 	
-	private string URLGetLobbyData = ApplicationModel.host+"get_lobby_data.php";
+	private string URLGetLobbyData = ApplicationModel.host+"lobby_getUserData.php";
 
 	public IList<PlayerResult> lastResults;
 	
@@ -36,7 +36,7 @@ public class NewLobbyModel
 			string result = ServerController.instance.getResult();
 			string[] data=result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			this.parseUser(data[0].Split(new string[] { "//" }, System.StringSplitOptions.None));
-			ApplicationModel.player.CurrentDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
+			ApplicationModel.player.MyDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
 		else
@@ -70,9 +70,7 @@ public class NewLobbyModel
 		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [3]);
 		ApplicationModel.player.TotalNbWins = System.Convert.ToInt32 (array [4]);
 		ApplicationModel.player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
-		ApplicationModel.player.TutorialStep = System.Convert.ToInt32 (array [6]);
-		ApplicationModel.player.LobbyHelp=System.Convert.ToBoolean(System.Convert.ToInt32(array[7]));
-		ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32 (array [8]);
+		ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32 (array [6]);
 	}
 	public IList<PlayerResult> parseResults(string[] array)
 	{
@@ -90,7 +88,7 @@ public class NewLobbyModel
 			results[i].Opponent.CollectionRanking=System.Convert.ToInt32(resultData[5]);
 			results[i].Opponent.TotalNbWins=System.Convert.ToInt32(resultData[6]);
 			results[i].Opponent.TotalNbLooses=System.Convert.ToInt32(resultData[7]);
-			results[i].Opponent.Division=ApplicationModel.player.CurrentDivision.Id;
+			results[i].Opponent.Division=ApplicationModel.player.MyDivision.Id;
 			results[i].Opponent.TrainingStatus=System.Convert.ToInt32(resultData[9]);
 			results[i].Opponent.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32(resultData[10]));
 		}
