@@ -84,6 +84,8 @@ public class Player : User
     public bool ShouldQuitGame;
     public bool AutomaticConnection;
     public bool IsOnline;
+    public int CollectionPointsEarned;
+    public List<int> NewSkills;
     public Cards MyCards;
 	public Decks MyDecks;
 	public Users Users;
@@ -539,6 +541,7 @@ public class Player : User
 				this.MyDivision=new Division();
 				this.Users=new Users();
                 this.MySkills=new Skills();
+                this.CardTypesAllowed=new List<int>();
 				ApplicationModel.packs=new Packs();
 				ApplicationModel.products=new DisplayedProducts();
                 ApplicationModel.cardTypes=new CardTypes();
@@ -546,9 +549,9 @@ public class Player : User
                 ApplicationModel.skills=new Skills();
 
 				this.parsePlayerInformations(gameData[0]);
-				if(gameData[10]!="")
+				if(gameData[11]!="")
 				{
-					this.Users.parseUsers(gameData[10]);
+					this.Users.parseUsers(gameData[11]);
 				}
 				if(gameData[1]!="")
 				{
@@ -589,25 +592,29 @@ public class Player : User
 				{
 					this.MyDivision=this.parseDivision(gameData[9]);
 				}
-				if(gameData[11]!="")
-				{
-					ApplicationModel.packs.parsePacks(gameData[11]);
-				}
+                if(gameData[10]!="")
+                {
+                   this.parseCardTypesAllowed(gameData[10]);
+                }
 				if(gameData[12]!="")
 				{
-					ApplicationModel.products.parseProducts(gameData[12]);
+					ApplicationModel.packs.parsePacks(gameData[12]);
 				}
-                if(gameData[13]!="")
-                {
-                    ApplicationModel.skillTypes.parseSkillTypes(gameData[13]);
-                }
+				if(gameData[13]!="")
+				{
+					ApplicationModel.products.parseProducts(gameData[13]);
+				}
                 if(gameData[14]!="")
                 {
-                    ApplicationModel.cardTypes.parseCardTypes(gameData[14]);
+                    ApplicationModel.skillTypes.parseSkillTypes(gameData[14]);
                 }
                 if(gameData[15]!="")
                 {
-                    ApplicationModel.skills.parseSkills(gameData[15]);
+                    ApplicationModel.cardTypes.parseCardTypes(gameData[15]);
+                }
+                if(gameData[16]!="")
+                {
+                    ApplicationModel.skills.parseSkills(gameData[16]);
                     this.retrieveMySkills();
                 }
 				if(System.Convert.ToInt32(data[2])!=-1)
@@ -938,6 +945,54 @@ public class Player : User
         }
         return false;
     }
+    public void updateMyCollection(Cards cards)
+    {
+        int oldCollectionPoints = this.getCollectionPoints();
+        this.NewSkills=new List<int>();
+        this.CollectionPointsEarned=0;
+        for(int i=0;i<cards.getCount();i++)
+        {
+            if(cards.getCard(i).onSale==0)
+            {
+                for(int j=0;j<cards.getCard(i).Skills.Count;j++)
+                {
+                    if(cards.getCard(i).Skills[j].IsActivated==1)
+                    {
+                        for(int k=0;k<this.MySkills.getCount();k++)
+                        {
+                            if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                            {
+                                if(this.MySkills.getSkill(k).Power==0)
+                                {
+                                    this.NewSkills.Add(this.MySkills.getSkill(k).Id);
+                                }
+                                this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
+                                this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.CollectionPointsEarned=this.getCollectionPoints()-oldCollectionPoints;
+        if(this.CollectionPointsEarned>0)
+        {
+            BackOfficeController.instance.displayCollectionPointsPopUp(this.CollectionPointsEarned,this.CollectionRanking);
+        }
+        if(this.NewSkills.Count>0)
+        {
+            BackOfficeController.instance.displayNewSkillsPopUps(this.NewSkills);
+        }
+    }
+    public int getCollectionPoints()
+    {
+        int sum=0;
+        for(int i=0;i<this.MySkills.getCount();i++)
+        {
+            sum = this.MySkills.getSkill(i).Power + sum;
+        }
+        return sum;
+    }
     public void retrieveMySkills()
     {
         for(int i=0;i<ApplicationModel.skills.getCount();i++)
@@ -951,20 +1006,32 @@ public class Player : User
         }
         for(int i=0;i<this.MyCards.getCount();i++)
         {
-            for(int j=0;j<this.MyCards.getCard(i).Skills.Count();j++)
+            if(this.MyCards.getCard(i).onSale==0)
             {
-                if(this.MyCards.getCard(i).Skills[j].IsActivated==1)
+                for(int j=0;j<this.MyCards.getCard(i).Skills.Count();j++)
                 {
-                    for(int k=0;k<this.MySkills.getCount();k++)
+                    if(this.MyCards.getCard(i).Skills[j].IsActivated==1)
                     {
-                        if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                        for(int k=0;k<this.MySkills.getCount();k++)
                         {
-                            this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
-                            this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                            if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                            {
+                                this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
+                                this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+    public void parseCardTypesAllowed(string s)
+    {
+        string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+        for(int i = 0 ; i < array.Length-1 ; i++)
+        {
+            this.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
         }
     }
 }

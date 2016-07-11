@@ -1377,7 +1377,11 @@ public class newMyGameController : MonoBehaviour
 
 		for(int i=0;i<max;i++)
 		{
-			if(this.isSkillChosen && !ApplicationModel.player.MyCards.getCard(i).hasSkill(this.valueSkill.ToLower()))
+            if(ApplicationModel.player.MyCards.getCard(i).onSale==1)
+            {
+                continue;
+            }
+            if(this.isSkillChosen && !ApplicationModel.player.MyCards.getCard(i).hasSkill(this.valueSkill.ToLower()))
 			{
 				continue;
 			}

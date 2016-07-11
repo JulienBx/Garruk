@@ -26,6 +26,13 @@ public class Cards{
 	{
 		this.cards.Add(new Card());
 	}
+    public void addCards(Cards cards)
+    {
+        for(int i=0; i<cards.getCount();i++)
+        {
+            this.cards.Insert(0,cards.cards[cards.getCount()-i-1]);
+        }
+    }
 	public void remove(int index)
 	{
 		this.cards.RemoveAt(index);

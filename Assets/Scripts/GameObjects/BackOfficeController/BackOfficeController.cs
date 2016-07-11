@@ -183,31 +183,37 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void displayCollectionPointsPopUp(int collectionPoints, int collectionPointsRanking)
 	{
-		if(this.isCollectionPointsPopUpDisplayed)
-		{
-			this.hideCollectionPointsPopUp();
-		}
-		this.collectionPointsPopUp.SetActive (true);
-		this.isCollectionPointsPopUpDisplayed = true;
-		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingCollectionPointsPopUp.getReference(0) + collectionPoints.ToString () + WordingCollectionPointsPopUp.getReference(1) + collectionPointsRanking.ToString ();
-		this.timer = 0f;
-		this.collectionPointsPopUpResize ();
+        if(!HelpController.instance.getIsTutorialLaunched())
+        {
+            if(this.isCollectionPointsPopUpDisplayed)
+    		{
+    			this.hideCollectionPointsPopUp();
+    		}
+    		this.collectionPointsPopUp.SetActive (true);
+    		this.isCollectionPointsPopUpDisplayed = true;
+    		this.collectionPointsPopUp.transform.FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingCollectionPointsPopUp.getReference(0) + collectionPoints.ToString () + WordingCollectionPointsPopUp.getReference(1) + collectionPointsRanking.ToString ();
+    		this.timer = 0f;
+    		this.collectionPointsPopUpResize ();
+       }
 	}
-	public void displayNewSkillsPopUps(IList<Skill> newSkills)
+	public void displayNewSkillsPopUps(IList<int> newSkills)
 	{
-		if(this.areNewSkillsPopUpsDisplayed)
-		{
-			this.hideNewSkillsPopUps();
-		}
-		this.areNewSkillsPopUpsDisplayed = true;
-		this.newSkillsPopUps=new GameObject[newSkills.Count];
-		for(int i=0;i<newSkills.Count;i++)
-		{
-			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
-			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkills.getName(newSkills[i].Id);
-			this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicto(newSkills[i].getPictureId());
-		}
-		this.newSkillsPopUpsResize ();
+        if(!HelpController.instance.getIsTutorialLaunched())
+        {
+            if(this.areNewSkillsPopUpsDisplayed)
+    		{
+    			this.hideNewSkillsPopUps();
+    		}
+    		this.areNewSkillsPopUpsDisplayed = true;
+    		this.newSkillsPopUps=new GameObject[newSkills.Count];
+    		for(int i=0;i<newSkills.Count;i++)
+    		{
+    			this.newSkillsPopUps[i]=Instantiate(this.ressources.newSkillPopUpObject) as GameObject;
+    			this.newSkillsPopUps[i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkills.getName(newSkills[i]);
+                this.newSkillsPopUps[i].transform.FindChild("Picto").GetComponent<SpriteRenderer>().sprite=returnSkillPicto(newSkills[i]);
+    		}
+    		this.newSkillsPopUpsResize ();
+        }
 	}
 	public void displayTransparentBackground()
 	{
