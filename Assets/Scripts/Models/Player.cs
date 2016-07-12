@@ -1072,11 +1072,23 @@ public class Player : User
     }
     public void retrieveMyDeck()
     {
+    	this.MyDeck=new Deck();
     	for(int i=0;i<this.MyDecks.getCount();i++)
     	{
     		if(this.MyDecks.getDeck(i).Id==this.SelectedDeckId)
     		{
     			this.MyDeck=this.MyDecks.decks[i];
+    			for(int j=0;j<this.MyDeck.cards.Count();j++)
+    			{
+    				for(int k=0;k<this.MyCards.getCount();k++)
+    				{
+    					if(this.MyCards.getCard(k).Id==this.MyDeck.cards[j].Id)
+    					{
+    						this.MyDeck.cards[j]=this.MyCards.cards[k];
+    						break;
+    					}
+    				}
+    			}
     			break;
     		}
     	}
