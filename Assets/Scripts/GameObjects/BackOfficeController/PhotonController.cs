@@ -25,6 +25,7 @@ public class PhotonController : Photon.MonoBehaviour
 	private bool isLoadingScreenDisplayed;
 	private bool isQuittingGame;
 	private bool hasToJoinRoom;
+	public bool isOk;
 
     private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
 
@@ -56,39 +57,41 @@ public class PhotonController : Photon.MonoBehaviour
 	}
 	public void joinRandomRoom()
     {
-		this.displayLoadingScreen();
-		if(ApplicationModel.player.ChosenGameType>20)
-		{
-			this.changeLoadingScreenLabel(WordingSocial.getReference(19));
-            this.displayLoadingScreenButton(false);
-		}
-		else if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
-		{
-			this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
-		}
-		else
-		{
-			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
-		}
-        print("Jessaye de joindre une room");
-        this.hasToJoinRoom=false;
-        this.isWaiting=false;
-        this.nbPlayersReady=0;
-        this.nbPlayersInRoom=0;
-        this.waitingTime=0f;
-        if(ApplicationModel.player.ToLaunchChallengeGame || ApplicationModel.player.ToLaunchGameTutorial)
-        {
-            this.displayLoadingScreenButton(false);
-            this.CreateNewRoom();
-        }
-        else
-        {
-            TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
-            string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
-            ApplicationModel.player.IsFirstPlayer = false;
-            ApplicationModel.player.ToLaunchGameIA=false;
-            PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
-        }
+    	if(this.isOk){
+			this.displayLoadingScreen();
+			if(ApplicationModel.player.ChosenGameType>20)
+			{
+				this.changeLoadingScreenLabel(WordingSocial.getReference(19));
+	            this.displayLoadingScreenButton(false);
+			}
+			else if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
+			{
+				this.changeLoadingScreenLabel (WordingGameModes.getReference(7));
+			}
+			else
+			{
+				this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
+			}
+	        print("Jessaye de joindre une room");
+	        this.hasToJoinRoom=false;
+	        this.isWaiting=false;
+	        this.nbPlayersReady=0;
+	        this.nbPlayersInRoom=0;
+	        this.waitingTime=0f;
+	        if(ApplicationModel.player.ToLaunchChallengeGame || ApplicationModel.player.ToLaunchGameTutorial)
+	        {
+	            this.displayLoadingScreenButton(false);
+	            this.CreateNewRoom();
+	        }
+	        else
+	        {
+	            TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);    
+	            string sqlLobbyFilter = "C0 = " + ApplicationModel.player.ChosenGameType;
+	            ApplicationModel.player.IsFirstPlayer = false;
+	            ApplicationModel.player.ToLaunchGameIA=false;
+	            PhotonNetwork.JoinRandomRoom(null, 0, ExitGames.Client.Photon.MatchmakingMode.FillRoom, sqlLobby, sqlLobbyFilter);
+	        }
+	    }
     }
 	void OnPhotonRandomJoinFailed()
     {
@@ -292,12 +295,14 @@ public class PhotonController : Photon.MonoBehaviour
     }
     public void OnDisconnectedFromPhoton()
     {
-		if(!ApplicationModel.player.ToDeconnect)
-        {
-            ApplicationModel.player.HasLostConnection=true;
-            ApplicationModel.player.ToDeconnect=true;
-        }
-		SceneManager.LoadScene("Authentication");
+    	if(this.isOk){
+			if(!ApplicationModel.player.ToDeconnect)
+	        {
+	            ApplicationModel.player.HasLostConnection=true;
+	            ApplicationModel.player.ToDeconnect=true;
+	        }
+			SceneManager.LoadScene("Authentication");
+		}
     }
 //	private void connectToPhoton()
 //	{

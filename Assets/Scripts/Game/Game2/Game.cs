@@ -53,7 +53,7 @@ public class Game : MonoBehaviour
 		this.skills = new SkillsM();
 		this.firstPlayer = false ;
 		this.ia = false ;
-		GameObject.Find("PhotonController").GetComponent<PhotonController>().isOK = false ;
+		GameObject.Find("PhotonController").GetComponent<PhotonController>().isOk = false ;
 		PhotonC.instance.findRoom();
 
 		this.board = new Board();
@@ -576,9 +576,11 @@ public class Game : MonoBehaviour
 
 	public void pushStartButton(){
 		if(this.ia || this.isTutorial()){
-			this.startGame(){
-				
-			}
+			this.startGame();
 		}
+	}
+
+	public void startGame(){
+
 	}
 }

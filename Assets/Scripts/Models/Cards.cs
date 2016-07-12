@@ -16,6 +16,11 @@ public class Cards{
 	{
 		return this.cards [index];
 	}
+
+	public virtual CardM getCardM(int index)
+	{
+		return new CardM(this.cards [index]);
+	}
 	
 	public virtual GameCard getGameCard(int index)
 	{
