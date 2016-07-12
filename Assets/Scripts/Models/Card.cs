@@ -50,6 +50,9 @@ public class Card
 	public bool isMine ;
 	public int LifeNbUpgrades;
 	public int AttackNbUpgrades;
+	public string String;
+	public bool ToSync;
+	private string urlSyncCard = ApplicationModel.host + "card_sync.php"; 
 	
 	public Card()
 	{
@@ -554,9 +557,11 @@ public class Card
 				break;
 			case 0:
 				caracteristicincrease=newPower-this.Attack;
+				this.AttackNbUpgrades=this.AttackNbUpgrades+1;
 				break;
 			case 1:
 				caracteristicincrease=newPower-this.Life;
+				this.LifeNbUpgrades=this.LifeNbUpgrades+1;
 				break;
 			case 2:
 				break;
@@ -622,6 +627,7 @@ public class Card
 			this.PowerLevel=1;
 			this.Power=20;
 		}
+		this.destructionPrice=this.Power;
 	}
 	public void defineUpgradedCard()
 	{
@@ -662,6 +668,74 @@ public class Card
 		else
 		{
 			this.UpgradedAttack=1;
+		}
+	}
+	public void setString()
+	{
+		this.String="";
+		this.String=this.Id.ToString()+"\\";
+		this.String+=this.Title+"\\";
+		this.String+=this.Life.ToString()+"\\";
+		this.String+=this.Attack.ToString()+"\\";
+		this.String+=this.Speed.ToString()+"\\";
+		this.String+=this.Move.ToString()+"\\";
+		this.String+=this.IdOWner.ToString()+"\\";
+		this.String+=this.CardType.Id.ToString()+"\\";
+		this.String+=this.PowerLevel.ToString()+"\\";
+		this.String+=this.LifeLevel.ToString()+"\\";
+		this.String+=this.AttackLevel.ToString()+"\\";
+		this.String+=this.MoveLevel.ToString()+"\\";
+		this.String+=this.SpeedLevel.ToString()+"\\";
+		this.String+=this.ExperienceLevel.ToString()+"\\";
+		this.String+=this.PercentageToNextLevel.ToString()+"\\";
+		this.String+=this.NextLevelPrice.ToString()+"\\";
+		this.String+=this.onSale.ToString()+"\\";
+		this.String+=this.Price.ToString()+"\\";
+		this.String+=this.OnSaleDate.ToString("yyyy-MM-dd HH:mm:ss")+"\\";
+		this.String+=this.nbWin.ToString()+"\\";
+		this.String+=this.nbLoose.ToString()+"\\";
+		this.String+=this.destructionPrice.ToString()+"\\";
+		this.String+=this.Power.ToString()+"\\";
+		this.String+=this.LifeNbUpgrades.ToString()+"\\";
+		this.String+=this.AttackNbUpgrades.ToString()+"\\";
+		this.String+=this.UpgradedLife.ToString()+"\\";
+		this.String+=this.UpgradedAttack.ToString()+"\\";
+		this.String+=this.UpgradedSpeed.ToString()+"\\";
+		this.String+=this.UpgradedLifeLevel.ToString()+"\\";
+		this.String+=this.UpgradedAttackLevel.ToString()+"\\";
+		this.String+=this.UpgradedSpeedLevel.ToString()+"\\";
+
+		for(int i=0;i<this.Skills.Count;i++)
+		{
+			this.String	+="#SKILL#";
+			this.String+=this.Skills[i].Id.ToString()+"\\";
+			this.String+=this.Skills[i].IdSkillType.ToString()+"\\";
+			this.String+=this.Skills[i].IsActivated.ToString()+"\\";
+			this.String+=this.Skills[i].Level.ToString()+"\\";
+			this.String+=this.Skills[i].Power.ToString()+"\\";
+			this.String+=this.Skills[i].Upgrades.ToString()+"\\";
+			this.String+=this.Skills[i].nextDescription+"\\";
+			this.String+=this.Skills[i].nextProba.ToString()+"\\";
+			this.String+=this.Skills[i].nextLevel.ToString();
+		}
+	}
+	public IEnumerator syncCard()
+	{
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_cardData", this.String);
+
+		ServerController.instance.setRequest(urlSyncCard, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+		
+		if (error != "")
+		{
+			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
+		} 
+		else
+		{
+			
 		}
 	}
 }
