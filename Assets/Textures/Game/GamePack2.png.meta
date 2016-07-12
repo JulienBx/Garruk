@@ -1,0 +1,2247 @@
+fileFormatVersion: 2
+guid: a59fd2d69c25e6648b06b190af51de80
+timeCreated: 1468330401
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 01
+    21300002: BSlash1
+    21300004: BSlash10
+    21300006: BSlash2
+    21300008: BSlash3
+    21300010: BSlash4
+    21300012: BSlash5
+    21300014: BSlash6
+    21300016: BSlash7
+    21300018: BSlash8
+    21300020: BSlash9
+    21300022: BSplash1
+    21300024: BSplash7
+    21300026: BSplash10
+    21300028: BSplash2
+    21300030: BSplash6
+    21300032: BSplash8
+    21300034: BSplash3
+    21300036: BSplash5
+    21300038: BSplash9
+    21300040: BSplash4
+    21300042: Caserne
+    21300044: Down1
+    21300046: Down10
+    21300048: Tir1
+    21300050: Tir10
+    21300052: Up1
+    21300054: Down2
+    21300056: Down3
+    21300058: Down4
+    21300060: Down5
+    21300062: Down6
+    21300064: Down7
+    21300066: Down8
+    21300068: Down9
+    21300070: ElecTrap
+    21300072: Fontaine
+    21300074: Griffe1
+    21300076: Griffe2
+    21300078: Griffe3
+    21300080: Griffe4
+    21300082: Griffe5
+    21300084: Griffe6
+    21300086: Griffe7
+    21300088: Griffe8
+    21300090: Griffe9
+    21300092: InterludeBlue1
+    21300094: InterludeBlue2
+    21300096: InterludeBlue3
+    21300098: PoisonTrap
+    21300100: RSlash1
+    21300102: RSlash10
+    21300104: RSlash2
+    21300106: RSlash3
+    21300108: RSlash4
+    21300110: RSlash5
+    21300112: RSlash6
+    21300114: RSlash7
+    21300116: RSlash8
+    21300118: RSlash9
+    21300120: RSplash1
+    21300122: RSplash7
+    21300124: RSplash10
+    21300126: RSplash2
+    21300128: RSplash6
+    21300130: RSplash8
+    21300132: RSplash3
+    21300134: RSplash5
+    21300136: RSplash9
+    21300138: RSplash4
+    21300140: TeleTrap
+    21300142: Tir2
+    21300144: Tir3
+    21300146: Tir4
+    21300148: Tir5
+    21300150: Tir6
+    21300152: Tir7
+    21300154: Tir8
+    21300156: Tir9
+    21300158: Up10
+    21300160: Up2
+    21300162: Up3
+    21300164: Up4
+    21300166: Up5
+    21300168: Up6
+    21300170: Up7
+    21300172: Up8
+    21300174: Up9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1831
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 108, y: 29}
+        - {x: 75, y: 74}
+        - {x: 29, y: 98}
+        - {x: -25, y: 106}
+        - {x: -59, y: 106}
+        - {x: -108, y: 23}
+        - {x: -108, y: -35}
+        - {x: -76, y: -94}
+        - {x: -38, y: -105}
+        - {x: -20, y: -106}
+        - {x: 10, y: -106}
+        - {x: 58, y: -99}
+        - {x: 105, y: -62}
+        - {x: 108, y: -45}
+    - name: BSlash1
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 52}
+        - {x: -48, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 41}
+        - {x: -48, y: 36}
+        - {x: -22, y: 21}
+        - {x: -13, y: 21}
+        - {x: -11, y: 25}
+        - {x: -11, y: 36}
+        - {x: -16, y: 43}
+    - name: BSlash10
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 48, y: -21}
+        - {x: 42, y: -18}
+        - {x: 32, y: -18}
+        - {x: 31, y: -21}
+        - {x: 31, y: -26}
+        - {x: 32, y: -30}
+        - {x: 34, y: -48}
+        - {x: 40, y: -50}
+        - {x: 51, y: -50}
+        - {x: 52, y: -46}
+        - {x: 52, y: -35}
+    - name: BSlash2
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 25}
+        - {x: 13, y: -13}
+        - {x: 33, y: -13}
+        - {x: 33, y: 6}
+        - {x: -19, y: 52}
+    - name: BSlash3
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 52}
+        - {x: -50, y: 11}
+        - {x: 26, y: -45}
+        - {x: 51, y: -45}
+        - {x: 51, y: -10}
+        - {x: -3, y: 52}
+    - name: BSlash4
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 40}
+        - {x: -49, y: 36}
+        - {x: 35, y: -50}
+        - {x: 49, y: -50}
+        - {x: 52, y: -49}
+        - {x: 52, y: -11}
+        - {x: -12, y: 52}
+    - name: BSlash5
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 52}
+        - {x: -50, y: 52}
+        - {x: -50, y: 41}
+        - {x: -45, y: 36}
+        - {x: 37, y: -51}
+        - {x: 51, y: -51}
+        - {x: 52, y: -49}
+        - {x: 52, y: -28}
+        - {x: 15, y: 34}
+    - name: BSlash6
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 51}
+        - {x: -50, y: 39}
+        - {x: 38, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: 16}
+        - {x: -25, y: 51}
+    - name: BSlash7
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 11}
+        - {x: 4, y: 36}
+        - {x: -22, y: 47}
+        - {x: -36, y: 47}
+        - {x: -36, y: 37}
+        - {x: -35, y: 32}
+        - {x: 24, y: -46}
+        - {x: 36, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -31}
+        - {x: 43, y: -14}
+    - name: BSlash8
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16, y: -24}
+        - {x: 38, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -20}
+        - {x: 42, y: 17}
+        - {x: 7, y: 32}
+        - {x: -12, y: 32}
+        - {x: -12, y: 21}
+    - name: BSlash9
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13, y: 9}
+        - {x: 13, y: -17}
+        - {x: 35, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -24}
+        - {x: 42, y: 9}
+    - name: BSplash1
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 36}
+        - {x: -41, y: 21}
+        - {x: -41, y: -32}
+        - {x: -40, y: -33}
+        - {x: 40, y: -33}
+        - {x: 40, y: 36}
+    - name: BSplash7
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 36}
+        - {x: -41, y: 21}
+        - {x: -41, y: -32}
+        - {x: -40, y: -33}
+        - {x: 40, y: -33}
+        - {x: 40, y: 36}
+    - name: BSplash10
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: BSplash2
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: BSplash6
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: BSplash8
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: BSplash3
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: BSplash5
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: BSplash9
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: BSplash4
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 1939
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -54, y: -37}
+        - {x: -26, y: -47}
+        - {x: 54, y: -47}
+        - {x: 54, y: -6}
+        - {x: 47, y: 51}
+        - {x: -29, y: 51}
+        - {x: -54, y: 26}
+    - name: Caserne
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 1831
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11, y: -5}
+        - {x: 1, y: -5}
+        - {x: 13, y: -5}
+        - {x: 13, y: 12}
+        - {x: 11, y: 20}
+        - {x: -25, y: 27}
+        - {x: -95, y: 27}
+        - {x: -95, y: -17}
+        - {x: 13, y: -17}
+        - {x: 13, y: -7}
+      - - {x: 58, y: 17}
+        - {x: 13, y: 17}
+        - {x: 13, y: -17}
+        - {x: 61, y: -17}
+        - {x: 61, y: 15}
+      - - {x: 87, y: -5}
+        - {x: 91, y: -1}
+        - {x: 91, y: 9}
+        - {x: 86, y: 17}
+        - {x: 63, y: 17}
+        - {x: 61, y: 10}
+        - {x: 61, y: -15}
+        - {x: 64, y: -17}
+        - {x: 84, y: -17}
+        - {x: 91, y: -15}
+        - {x: 91, y: -12}
+        - {x: 89, y: -7}
+        - {x: 87, y: -5}
+        - {x: 78, y: -5}
+    - name: Down1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Down10
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Tir1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Tir10
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Up1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Down2
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: 54}
+        - {x: -26, y: 51}
+        - {x: -6, y: 30}
+        - {x: 3, y: 30}
+        - {x: 20, y: 49}
+        - {x: 22, y: 54}
+    - name: Down3
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -46, y: 54}
+        - {x: -46, y: 51}
+        - {x: -7, y: 8}
+        - {x: 3, y: 8}
+        - {x: 27, y: 34}
+        - {x: 41, y: 53}
+        - {x: 41, y: 54}
+    - name: Down4
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 54}
+        - {x: -46, y: 46}
+        - {x: -46, y: 27}
+        - {x: -17, y: -13}
+        - {x: -7, y: -15}
+        - {x: 4, y: -15}
+        - {x: 41, y: 19}
+        - {x: 41, y: 47}
+        - {x: 38, y: 54}
+    - name: Down5
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35, y: 54}
+        - {x: -46, y: 39}
+        - {x: -46, y: -3}
+        - {x: -17, y: -37}
+        - {x: 13, y: -37}
+        - {x: 41, y: 6}
+        - {x: 41, y: 35}
+        - {x: 30, y: 54}
+    - name: Down6
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35, y: 36}
+        - {x: -46, y: 3}
+        - {x: -46, y: -20}
+        - {x: -10, y: -54}
+        - {x: 8, y: -54}
+        - {x: 41, y: -24}
+        - {x: 41, y: 6}
+        - {x: 30, y: 36}
+    - name: Down7
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 14}
+        - {x: -46, y: -12}
+        - {x: -46, y: -37}
+        - {x: -32, y: -54}
+        - {x: 30, y: -54}
+        - {x: 41, y: -37}
+        - {x: 41, y: -12}
+        - {x: 29, y: 14}
+    - name: Down8
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 30, y: -11}
+        - {x: 29, y: -8}
+        - {x: -30, y: -8}
+        - {x: -40, y: -9}
+        - {x: -46, y: -52}
+        - {x: -46, y: -54}
+        - {x: 41, y: -54}
+        - {x: 41, y: -51}
+        - {x: 36, y: -47}
+    - name: Down9
+      rect:
+        serializedVersion: 2
+        x: 881
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: -30}
+        - {x: -32, y: -31}
+        - {x: -35, y: -34}
+        - {x: -35, y: -54}
+        - {x: 30, y: -54}
+        - {x: 30, y: -32}
+        - {x: 26, y: -30}
+    - name: ElecTrap
+      rect:
+        serializedVersion: 2
+        x: 991
+        y: 1613
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 42, y: 60}
+        - {x: 32, y: 58}
+        - {x: 24, y: 54}
+        - {x: 30, y: 59}
+        - {x: 37, y: 60}
+        - {x: 40, y: 63}
+        - {x: 47, y: 66}
+        - {x: 51, y: 68}
+        - {x: 53, y: 74}
+        - {x: 54, y: 88}
+        - {x: 38, y: 102}
+        - {x: 26, y: 96}
+        - {x: -19, y: 108}
+        - {x: -94, y: 108}
+        - {x: -94, y: -82}
+        - {x: -41, y: -107}
+        - {x: 36, y: -107}
+        - {x: 96, y: -87}
+        - {x: 96, y: 1}
+        - {x: 50, y: 61}
+    - name: Fontaine
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 1613
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -97, y: 29}
+        - {x: -97, y: -11}
+        - {x: -93, y: -15}
+        - {x: 31, y: -15}
+        - {x: 31, y: 25}
+        - {x: 12, y: 29}
+      - - {x: 42, y: 29}
+        - {x: 31, y: 29}
+        - {x: 31, y: -14}
+        - {x: 34, y: -15}
+        - {x: 43, y: -15}
+        - {x: 44, y: -14}
+        - {x: 45, y: -3}
+        - {x: 45, y: 28}
+      - - {x: 67, y: 19}
+        - {x: 47, y: 19}
+        - {x: 45, y: 17}
+        - {x: 45, y: -13}
+        - {x: 47, y: -15}
+        - {x: 70, y: -15}
+        - {x: 73, y: -13}
+        - {x: 73, y: 13}
+      - - {x: 75, y: 19}
+        - {x: 73, y: 11}
+        - {x: 73, y: -12}
+        - {x: 80, y: -15}
+        - {x: 100, y: -15}
+        - {x: 103, y: -10}
+        - {x: 103, y: 18}
+        - {x: 99, y: 19}
+    - name: Griffe1
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 45, y: 32}
+        - {x: 31, y: 26}
+        - {x: 31, y: 17}
+        - {x: 45, y: 17}
+        - {x: 50, y: 25}
+        - {x: 50, y: 32}
+      - - {x: 33, y: 46}
+        - {x: 24, y: 43}
+        - {x: 18, y: 35}
+        - {x: 18, y: 29}
+        - {x: 23, y: 29}
+        - {x: 26, y: 30}
+        - {x: 40, y: 40}
+        - {x: 40, y: 46}
+      - - {x: -2, y: 52}
+        - {x: -7, y: 47}
+        - {x: -7, y: 38}
+        - {x: 1, y: 38}
+        - {x: 17, y: 43}
+        - {x: 18, y: 46}
+        - {x: 18, y: 51}
+        - {x: 17, y: 52}
+    - name: Griffe2
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 11}
+        - {x: 17, y: 2}
+        - {x: 37, y: 2}
+        - {x: 50, y: 23}
+        - {x: 50, y: 32}
+        - {x: 40, y: 32}
+        - {x: 30, y: 31}
+      - - {x: 25, y: 45}
+        - {x: -5, y: 21}
+        - {x: -5, y: 12}
+        - {x: 6, y: 12}
+        - {x: 35, y: 37}
+        - {x: 35, y: 45}
+      - - {x: 7, y: 52}
+        - {x: -9, y: 42}
+        - {x: -17, y: 31}
+        - {x: -17, y: 25}
+        - {x: -9, y: 25}
+        - {x: 18, y: 47}
+        - {x: 18, y: 51}
+        - {x: 16, y: 52}
+    - name: Griffe3
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4, y: -14}
+        - {x: 5, y: -15}
+        - {x: 11, y: -15}
+        - {x: 50, y: 24}
+        - {x: 50, y: 32}
+        - {x: 38, y: 32}
+        - {x: 4, y: 7}
+      - - {x: 30, y: 46}
+        - {x: 23, y: 44}
+        - {x: -10, y: 14}
+        - {x: -14, y: 5}
+        - {x: -14, y: -13}
+        - {x: -6, y: -13}
+        - {x: 40, y: 39}
+        - {x: 40, y: 46}
+      - - {x: 12, y: 52}
+        - {x: -7, y: 50}
+        - {x: -26, y: 20}
+        - {x: -26, y: 8}
+        - {x: -13, y: 8}
+        - {x: 18, y: 47}
+        - {x: 18, y: 52}
+    - name: Griffe4
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 32}
+        - {x: 32, y: 27}
+        - {x: 2, y: -1}
+        - {x: 0, y: -14}
+        - {x: 0, y: -34}
+        - {x: 7, y: -34}
+        - {x: 50, y: 23}
+        - {x: 50, y: 32}
+      - - {x: 32, y: 46}
+        - {x: 7, y: 37}
+        - {x: -21, y: -1}
+        - {x: -21, y: -19}
+        - {x: -19, y: -20}
+        - {x: -15, y: -20}
+        - {x: -10, y: -16}
+        - {x: 40, y: 39}
+        - {x: 40, y: 46}
+      - - {x: -28, y: -5}
+        - {x: 18, y: 44}
+        - {x: 18, y: 52}
+        - {x: -1, y: 52}
+        - {x: -35, y: 26}
+        - {x: -35, y: -5}
+    - name: Griffe5
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 32}
+        - {x: 31, y: 30}
+        - {x: -2, y: -15}
+        - {x: -3, y: -19}
+        - {x: -3, y: -51}
+        - {x: -2, y: -54}
+        - {x: 5, y: -54}
+        - {x: 50, y: 23}
+        - {x: 50, y: 32}
+      - - {x: 18, y: 46}
+        - {x: -30, y: -9}
+        - {x: -30, y: -45}
+        - {x: -28, y: -48}
+        - {x: -22, y: -48}
+        - {x: 40, y: 39}
+        - {x: 40, y: 46}
+      - - {x: 6, y: 52}
+        - {x: -6, y: 48}
+        - {x: -39, y: 19}
+        - {x: -45, y: -8}
+        - {x: -45, y: -33}
+        - {x: -41, y: -33}
+        - {x: -37, y: -31}
+        - {x: 18, y: 46}
+        - {x: 18, y: 51}
+        - {x: 16, y: 52}
+    - name: Griffe6
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1503
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 27, y: 26}
+        - {x: -3, y: -9}
+        - {x: -3, y: -54}
+        - {x: 5, y: -54}
+        - {x: 40, y: 19}
+        - {x: 40, y: 24}
+        - {x: 39, y: 26}
+      - - {x: 19, y: 35}
+        - {x: 12, y: 35}
+        - {x: -5, y: 22}
+        - {x: -30, y: -18}
+        - {x: -30, y: -45}
+        - {x: -29, y: -48}
+        - {x: -22, y: -48}
+        - {x: 23, y: 28}
+        - {x: 23, y: 33}
+      - - {x: -21, y: 37}
+        - {x: -45, y: 8}
+        - {x: -45, y: -33}
+        - {x: -41, y: -33}
+        - {x: -37, y: -31}
+        - {x: -2, y: 27}
+        - {x: -2, y: 37}
+      - - {x: 31, y: 46}
+        - {x: 22, y: 40}
+        - {x: 22, y: 34}
+        - {x: 32, y: 34}
+        - {x: 40, y: 40}
+        - {x: 40, y: 44}
+        - {x: 39, y: 46}
+      - - {x: 10, y: 51}
+        - {x: 2, y: 50}
+        - {x: -2, y: 44}
+        - {x: -2, y: 37}
+        - {x: 5, y: 37}
+        - {x: 14, y: 40}
+        - {x: 16, y: 46}
+        - {x: 16, y: 51}
+    - name: Griffe7
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1503
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11, y: 6}
+        - {x: -2, y: 2}
+        - {x: -3, y: -5}
+        - {x: -3, y: -54}
+        - {x: 6, y: -54}
+        - {x: 20, y: -13}
+        - {x: 20, y: 5}
+        - {x: 18, y: 6}
+      - - {x: -13, y: 8}
+        - {x: -18, y: 4}
+        - {x: -30, y: -14}
+        - {x: -30, y: -48}
+        - {x: -22, y: -48}
+        - {x: -1, y: -12}
+        - {x: -1, y: 0}
+        - {x: -4, y: 8}
+      - - {x: -14, y: 37}
+        - {x: -45, y: 0}
+        - {x: -45, y: -33}
+        - {x: -41, y: -33}
+        - {x: -37, y: -31}
+        - {x: -1, y: 30}
+        - {x: -1, y: 37}
+      - - {x: 33, y: 26}
+        - {x: 24, y: 16}
+        - {x: 23, y: 11}
+        - {x: 24, y: 9}
+        - {x: 28, y: 9}
+        - {x: 31, y: 10}
+        - {x: 39, y: 19}
+        - {x: 40, y: 23}
+        - {x: 37, y: 26}
+      - - {x: 10, y: 32}
+        - {x: -5, y: 19}
+        - {x: -5, y: 12}
+        - {x: -4, y: 10}
+        - {x: -1, y: 10}
+        - {x: 6, y: 15}
+        - {x: 16, y: 26}
+        - {x: 16, y: 30}
+        - {x: 15, y: 32}
+    - name: Griffe8
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1503
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: -45}
+        - {x: -3, y: -48}
+        - {x: -3, y: -53}
+        - {x: -1, y: -54}
+        - {x: 5, y: -54}
+        - {x: 5, y: -46}
+        - {x: 2, y: -45}
+      - - {x: -19, y: -16}
+        - {x: -22, y: -19}
+        - {x: -30, y: -32}
+        - {x: -30, y: -44}
+        - {x: -29, y: -48}
+        - {x: -22, y: -48}
+        - {x: -12, y: -25}
+        - {x: -12, y: -18}
+        - {x: -13, y: -16}
+      - - {x: -1, y: -29}
+        - {x: -3, y: -32}
+        - {x: -3, y: -38}
+        - {x: -1, y: -40}
+        - {x: 3, y: -39}
+        - {x: 7, y: -37}
+        - {x: 7, y: -33}
+        - {x: 5, y: -29}
+      - - {x: 9, y: -1}
+        - {x: 6, y: -3}
+        - {x: 3, y: -14}
+        - {x: 3, y: -20}
+        - {x: 9, y: -20}
+        - {x: 14, y: -10}
+        - {x: 14, y: -1}
+      - - {x: -32, y: -3}
+        - {x: -39, y: -3}
+        - {x: -42, y: -8}
+        - {x: -42, y: -16}
+        - {x: -38, y: -18}
+        - {x: -36, y: -18}
+        - {x: -33, y: -15}
+        - {x: -31, y: -12}
+        - {x: -31, y: -5}
+      - - {x: 0, y: 16}
+        - {x: -5, y: 16}
+        - {x: -10, y: 13}
+        - {x: -16, y: 2}
+        - {x: -17, y: 0}
+        - {x: -17, y: -3}
+        - {x: -15, y: -4}
+        - {x: -10, y: -4}
+        - {x: -1, y: 3}
+        - {x: 0, y: 7}
+      - - {x: -24, y: 21}
+        - {x: -25, y: 18}
+        - {x: -25, y: 9}
+        - {x: -20, y: 9}
+        - {x: -16, y: 11}
+        - {x: -16, y: 17}
+        - {x: -20, y: 21}
+    - name: Griffe9
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 1503
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: -54}
+        - {x: 5, y: -54}
+        - {x: 5, y: -46}
+        - {x: 4, y: -43}
+        - {x: -3, y: -43}
+        - {x: -3, y: -49}
+      - - {x: -24, y: -30}
+        - {x: -28, y: -30}
+        - {x: -30, y: -31}
+        - {x: -30, y: -43}
+        - {x: -28, y: -48}
+        - {x: -25, y: -48}
+        - {x: -22, y: -46}
+        - {x: -21, y: -38}
+        - {x: -21, y: -34}
+      - - {x: -45, y: -22}
+        - {x: -45, y: -33}
+        - {x: -40, y: -33}
+        - {x: -38, y: -32}
+        - {x: -38, y: -24}
+        - {x: -39, y: -22}
+    - name: InterludeBlue1
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 1557
+        width: 648
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 316, y: 27}
+        - {x: -292, y: 27}
+        - {x: -292, y: 24}
+        - {x: -277, y: -4}
+        - {x: -266, y: -24}
+        - {x: -285, y: -24}
+        - {x: -287, y: -26}
+        - {x: -287, y: -27}
+        - {x: 287, y: -27}
+        - {x: 292, y: -22}
+        - {x: 316, y: 23}
+    - name: InterludeBlue2
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 1557
+        width: 648
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 285, y: 11}
+        - {x: 280, y: 23}
+        - {x: 275, y: 27}
+        - {x: -295, y: 27}
+        - {x: -296, y: 26}
+        - {x: -309, y: 5}
+        - {x: -313, y: -5}
+        - {x: -323, y: -23}
+        - {x: -323, y: -27}
+        - {x: 304, y: -27}
+        - {x: 304, y: -22}
+        - {x: 291, y: 2}
+    - name: InterludeBlue3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1447
+        width: 648
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 314, y: 22}
+        - {x: 314, y: 27}
+        - {x: -273, y: 27}
+        - {x: -273, y: 22}
+        - {x: -267, y: 12}
+        - {x: -256, y: -8}
+        - {x: -246, y: -26}
+        - {x: -245, y: -27}
+        - {x: 286, y: -27}
+        - {x: 289, y: -23}
+        - {x: 295, y: -13}
+        - {x: 305, y: 6}
+    - name: PoisonTrap
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 1285
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44, y: 10}
+        - {x: 33, y: 6}
+        - {x: 34, y: 7}
+        - {x: 44, y: 38}
+        - {x: 41, y: 60}
+        - {x: 17, y: 108}
+        - {x: -6, y: 108}
+        - {x: -7, y: 105}
+        - {x: -24, y: 81}
+        - {x: -38, y: 49}
+        - {x: -33, y: 31}
+        - {x: -90, y: 10}
+        - {x: -94, y: -2}
+        - {x: -94, y: -69}
+        - {x: -34, y: -107}
+        - {x: 56, y: -107}
+        - {x: 71, y: -103}
+        - {x: 96, y: -73}
+        - {x: 96, y: -2}
+        - {x: 74, y: 13}
+    - name: RSlash1
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 52}
+        - {x: -48, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 41}
+        - {x: -48, y: 36}
+        - {x: -22, y: 21}
+        - {x: -13, y: 21}
+        - {x: -11, y: 25}
+        - {x: -11, y: 36}
+        - {x: -16, y: 43}
+    - name: RSlash10
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 48, y: -21}
+        - {x: 42, y: -18}
+        - {x: 32, y: -18}
+        - {x: 31, y: -21}
+        - {x: 31, y: -26}
+        - {x: 32, y: -30}
+        - {x: 34, y: -48}
+        - {x: 40, y: -50}
+        - {x: 51, y: -50}
+        - {x: 52, y: -46}
+        - {x: 52, y: -35}
+    - name: RSlash2
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 25}
+        - {x: 13, y: -13}
+        - {x: 33, y: -13}
+        - {x: 33, y: 6}
+        - {x: -19, y: 52}
+    - name: RSlash3
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 52}
+        - {x: -50, y: 11}
+        - {x: 26, y: -45}
+        - {x: 51, y: -45}
+        - {x: 51, y: -10}
+        - {x: -3, y: 52}
+    - name: RSlash4
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 52}
+        - {x: -50, y: 51}
+        - {x: -50, y: 40}
+        - {x: -49, y: 36}
+        - {x: 35, y: -50}
+        - {x: 49, y: -50}
+        - {x: 52, y: -49}
+        - {x: 52, y: -11}
+        - {x: -12, y: 52}
+    - name: RSlash5
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 52}
+        - {x: -50, y: 52}
+        - {x: -50, y: 41}
+        - {x: -45, y: 36}
+        - {x: 37, y: -51}
+        - {x: 51, y: -51}
+        - {x: 52, y: -49}
+        - {x: 52, y: -28}
+        - {x: 15, y: 34}
+    - name: RSlash6
+      rect:
+        serializedVersion: 2
+        x: 1529
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 51}
+        - {x: -50, y: 39}
+        - {x: 38, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: 16}
+        - {x: -25, y: 51}
+    - name: RSlash7
+      rect:
+        serializedVersion: 2
+        x: 1639
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 11}
+        - {x: 4, y: 36}
+        - {x: -22, y: 47}
+        - {x: -36, y: 47}
+        - {x: -36, y: 37}
+        - {x: -35, y: 32}
+        - {x: 24, y: -46}
+        - {x: 36, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -31}
+        - {x: 43, y: -14}
+    - name: RSlash8
+      rect:
+        serializedVersion: 2
+        x: 1749
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16, y: -24}
+        - {x: 38, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -20}
+        - {x: 42, y: 17}
+        - {x: 7, y: 32}
+        - {x: -12, y: 32}
+        - {x: -12, y: 21}
+    - name: RSlash9
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 1393
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13, y: 9}
+        - {x: 13, y: -17}
+        - {x: 35, y: -51}
+        - {x: 52, y: -51}
+        - {x: 52, y: -24}
+        - {x: 42, y: 9}
+    - name: RSplash1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 36}
+        - {x: -41, y: 21}
+        - {x: -41, y: -32}
+        - {x: -40, y: -33}
+        - {x: 40, y: -33}
+        - {x: 40, y: 36}
+    - name: RSplash7
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 36}
+        - {x: -41, y: 21}
+        - {x: -41, y: -32}
+        - {x: -40, y: -33}
+        - {x: 40, y: -33}
+        - {x: 40, y: 36}
+    - name: RSplash10
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: RSplash2
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: RSplash6
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: RSplash8
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 40}
+        - {x: -28, y: 40}
+        - {x: -45, y: 18}
+        - {x: -45, y: 7}
+        - {x: -38, y: 6}
+        - {x: -36, y: 7}
+        - {x: -26, y: 1}
+        - {x: -26, y: 2}
+        - {x: -28, y: 1}
+        - {x: -36, y: -8}
+        - {x: -45, y: -18}
+        - {x: -45, y: -36}
+        - {x: 45, y: -36}
+        - {x: 45, y: 6}
+        - {x: 32, y: 39}
+    - name: RSplash3
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: RSplash5
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: RSplash9
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 45}
+        - {x: -50, y: 18}
+        - {x: -50, y: 13}
+        - {x: -49, y: 11}
+        - {x: -42, y: 8}
+        - {x: -47, y: -21}
+        - {x: -47, y: -25}
+        - {x: -46, y: -29}
+        - {x: -20, y: -40}
+        - {x: 50, y: -40}
+        - {x: 50, y: 18}
+        - {x: 38, y: 45}
+    - name: RSplash4
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -54, y: -37}
+        - {x: -26, y: -47}
+        - {x: 54, y: -47}
+        - {x: 54, y: -6}
+        - {x: 47, y: 51}
+        - {x: -29, y: 51}
+        - {x: -54, y: 26}
+    - name: TeleTrap
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 1067
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 31, y: 7}
+        - {x: 48, y: 24}
+        - {x: 68, y: 43}
+        - {x: 67, y: 86}
+        - {x: 33, y: 108}
+        - {x: -26, y: 108}
+        - {x: -38, y: 95}
+        - {x: -94, y: 32}
+        - {x: -94, y: -97}
+        - {x: -59, y: -107}
+        - {x: 36, y: -107}
+        - {x: 96, y: -87}
+        - {x: 96, y: -3}
+        - {x: 61, y: 17}
+    - name: Tir2
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 3}
+        - {x: -35, y: -10}
+        - {x: -35, y: -14}
+        - {x: -30, y: -27}
+        - {x: -27, y: -33}
+        - {x: -5, y: -33}
+        - {x: 1, y: -31}
+        - {x: 1, y: 2}
+        - {x: -5, y: 3}
+    - name: Tir3
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 1}
+        - {x: -33, y: -7}
+        - {x: -33, y: -25}
+        - {x: -30, y: -31}
+        - {x: -1, y: -31}
+        - {x: -1, y: 0}
+        - {x: -5, y: 1}
+      - - {x: -36, y: 51}
+        - {x: -41, y: 50}
+        - {x: -41, y: 22}
+        - {x: -32, y: 14}
+        - {x: -18, y: 14}
+        - {x: -6, y: 22}
+        - {x: -6, y: 46}
+        - {x: -19, y: 51}
+    - name: Tir4
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 1}
+        - {x: -33, y: -7}
+        - {x: -33, y: -25}
+        - {x: -30, y: -31}
+        - {x: -1, y: -31}
+        - {x: -1, y: 0}
+        - {x: -5, y: 1}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Tir5
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33, y: -22}
+        - {x: -3, y: -53}
+        - {x: 24, y: -53}
+        - {x: 26, y: -52}
+        - {x: 26, y: -20}
+        - {x: 13, y: 1}
+        - {x: -26, y: 1}
+        - {x: -33, y: -7}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Tir6
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: -1}
+        - {x: -10, y: 1}
+        - {x: -26, y: 1}
+        - {x: -30, y: -5}
+        - {x: -33, y: -11}
+        - {x: -33, y: -21}
+        - {x: -31, y: -31}
+        - {x: 2, y: -50}
+        - {x: 12, y: -50}
+        - {x: 17, y: -49}
+        - {x: 23, y: -43}
+        - {x: 23, y: -29}
+        - {x: 21, y: -20}
+      - - {x: 3, y: 46}
+        - {x: 2, y: 45}
+        - {x: 2, y: 9}
+        - {x: 33, y: 9}
+        - {x: 38, y: 10}
+        - {x: 38, y: 35}
+        - {x: 30, y: 46}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Tir7
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: -1}
+        - {x: -10, y: 1}
+        - {x: -26, y: 1}
+        - {x: -30, y: -5}
+        - {x: -33, y: -11}
+        - {x: -33, y: -21}
+        - {x: -31, y: -31}
+        - {x: 2, y: -50}
+        - {x: 12, y: -50}
+        - {x: 17, y: -49}
+        - {x: 23, y: -43}
+        - {x: 23, y: -29}
+        - {x: 21, y: -20}
+      - - {x: 22, y: 44}
+        - {x: 15, y: 44}
+        - {x: 4, y: 38}
+        - {x: 4, y: 20}
+        - {x: 9, y: 11}
+        - {x: 23, y: 11}
+        - {x: 36, y: 16}
+        - {x: 36, y: 34}
+        - {x: 31, y: 40}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Tir8
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: -1}
+        - {x: -10, y: 1}
+        - {x: -26, y: 1}
+        - {x: -30, y: -5}
+        - {x: -33, y: -11}
+        - {x: -33, y: -21}
+        - {x: -31, y: -31}
+        - {x: 2, y: -50}
+        - {x: 12, y: -50}
+        - {x: 17, y: -49}
+        - {x: 23, y: -43}
+        - {x: 23, y: -29}
+        - {x: 21, y: -20}
+      - - {x: 22, y: 44}
+        - {x: 15, y: 44}
+        - {x: 4, y: 38}
+        - {x: 4, y: 20}
+        - {x: 9, y: 11}
+        - {x: 23, y: 11}
+        - {x: 36, y: 16}
+        - {x: 36, y: 34}
+        - {x: 31, y: 40}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Tir9
+      rect:
+        serializedVersion: 2
+        x: 1319
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: -1}
+        - {x: -10, y: 1}
+        - {x: -26, y: 1}
+        - {x: -30, y: -5}
+        - {x: -33, y: -11}
+        - {x: -33, y: -21}
+        - {x: -31, y: -31}
+        - {x: 2, y: -50}
+        - {x: 12, y: -50}
+        - {x: 17, y: -49}
+        - {x: 23, y: -43}
+        - {x: 23, y: -29}
+        - {x: 21, y: -20}
+      - - {x: 15, y: 44}
+        - {x: 4, y: 38}
+        - {x: 4, y: 9}
+        - {x: 16, y: -18}
+        - {x: 37, y: -18}
+        - {x: 45, y: -14}
+        - {x: 45, y: 6}
+        - {x: 38, y: 32}
+        - {x: 31, y: 40}
+        - {x: 22, y: 44}
+      - - {x: -34, y: 48}
+        - {x: -38, y: 47}
+        - {x: -38, y: 19}
+        - {x: -32, y: 17}
+        - {x: -18, y: 17}
+        - {x: -8, y: 25}
+        - {x: -8, y: 45}
+        - {x: -18, y: 48}
+    - name: Up10
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -30, y: 51}
+        - {x: -27, y: 49}
+        - {x: 33, y: 49}
+        - {x: 35, y: 53}
+        - {x: 35, y: 54}
+    - name: Up2
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: -33}
+        - {x: -19, y: -51}
+        - {x: -19, y: -54}
+        - {x: 23, y: -54}
+        - {x: 23, y: -52}
+        - {x: 5, y: -33}
+    - name: Up3
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: -11}
+        - {x: -15, y: -24}
+        - {x: -36, y: -49}
+        - {x: -38, y: -54}
+        - {x: 43, y: -54}
+        - {x: 43, y: -49}
+        - {x: 7, y: -11}
+    - name: Up4
+      rect:
+        serializedVersion: 2
+        x: 1759
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 11}
+        - {x: -7, y: 11}
+        - {x: -41, y: -23}
+        - {x: -41, y: -46}
+        - {x: -37, y: -54}
+        - {x: 39, y: -54}
+        - {x: 46, y: -40}
+        - {x: 46, y: -28}
+        - {x: 12, y: 9}
+    - name: Up5
+      rect:
+        serializedVersion: 2
+        x: 1869
+        y: 1175
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 34}
+        - {x: -3, y: 34}
+        - {x: -41, y: 4}
+        - {x: -41, y: -42}
+        - {x: -38, y: -54}
+        - {x: 35, y: -54}
+        - {x: 46, y: -26}
+        - {x: 46, y: -10}
+        - {x: 45, y: -4}
+    - name: Up6
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 957
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 31, y: 38}
+        - {x: 20, y: 54}
+        - {x: -9, y: 54}
+        - {x: -41, y: 29}
+        - {x: -41, y: -10}
+        - {x: -30, y: -35}
+        - {x: -27, y: -39}
+        - {x: 32, y: -39}
+        - {x: 35, y: -38}
+        - {x: 46, y: -14}
+        - {x: 46, y: 15}
+    - name: Up7
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 957
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 54}
+        - {x: -41, y: 44}
+        - {x: -41, y: 13}
+        - {x: -32, y: -17}
+        - {x: 34, y: -17}
+        - {x: 46, y: 16}
+        - {x: 46, y: 39}
+        - {x: 29, y: 54}
+    - name: Up8
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 957
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 54}
+        - {x: -41, y: 49}
+        - {x: -36, y: 5}
+        - {x: 35, y: 5}
+        - {x: 46, y: 49}
+        - {x: 46, y: 54}
+    - name: Up9
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 957
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -30, y: 31}
+        - {x: -28, y: 28}
+        - {x: -25, y: 27}
+        - {x: 30, y: 27}
+        - {x: 35, y: 31}
+        - {x: 35, y: 54}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -99,4 +99,5 @@ MonoBehaviour:
   - resizeRPC
   - addPlayerToRoomRPC
   - moveOnRPC
+  - startGameRPC
   DisableAutoOpenWizard: 0

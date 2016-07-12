@@ -366,7 +366,7 @@ public class MenuController : MonoBehaviour
 	public void adminBoardLink() 
 	{
 		if (HelpController.instance.canAccess (-1)) {
-			BackOfficeController.instance.loadScene ("AdminBoard");
+			BackOfficeController.instance.loadScene ("Game2");
 		}
 	}
 	public void changeThumbPicture()

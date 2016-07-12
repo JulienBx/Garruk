@@ -45,13 +45,18 @@ public class Game : MonoBehaviour
 	int currentCardID ;
 	int draggingCardID ;
 	float tileScale;
+	int nbPlayersReadyToStart;
+
+	List<int> cardsToPlay;
 
 	void Awake(){
 		instance = this;
 		this.currentCardID = -1;
 		this.draggingCardID = -1;
+		this.nbPlayersReadyToStart = 0;
 		this.skills = new SkillsM();
 		this.firstPlayer = false ;
+		this.cardsToPlay = new List<int>();
 		this.ia = false ;
 		GameObject.Find("PhotonController").GetComponent<PhotonController>().isOk = false ;
 		PhotonC.instance.findRoom();
@@ -93,6 +98,10 @@ public class Game : MonoBehaviour
 			if(!PhotonC.instance.isReconnecting()){
 				GameRPC.instance.addTime(Time.deltaTime);
 			}
+		}
+
+		if(this.getInterlude().isDisplaying()){
+			this.getInterlude().addTime(Time.deltaTime);
 		}
 
 		if(this.getMyHoveredCard().isClignoting()){
@@ -534,7 +543,7 @@ public class Game : MonoBehaviour
 				this.moveOn(x,y,draggingCardID);
 			}
 			else{
-
+				GameRPC.instance.launchRPC("moveOnRPC",x,y,draggingCardID);
 			}
 		}
 		else{
@@ -576,11 +585,63 @@ public class Game : MonoBehaviour
 
 	public void pushStartButton(){
 		if(this.ia || this.isTutorial()){
-			this.startGame();
+			this.startGame(true);
+		}
+		else{
+			GameRPC.instance.launchRPC("startGameRPC");
 		}
 	}
 
-	public void startGame(){
-
+	public void addStartGame(bool b){
+		this.nbPlayersReadyToStart++;
+		if(nbPlayersReadyToStart==2){
+			this.startGame(!b);
+		}
 	}
+
+	public void startGame(bool b){
+		if(b){
+			this.cardsToPlay.Add(0);
+			this.cardsToPlay.Add(4);
+			this.cardsToPlay.Add(1);
+			this.cardsToPlay.Add(5);
+			this.cardsToPlay.Add(2);
+			this.cardsToPlay.Add(6);
+			this.cardsToPlay.Add(3);
+			this.cardsToPlay.Add(7);
+		}
+		else{
+			this.cardsToPlay.Add(4);
+			this.cardsToPlay.Add(0);
+			this.cardsToPlay.Add(5);
+			this.cardsToPlay.Add(1);
+			this.cardsToPlay.Add(6);
+			this.cardsToPlay.Add(2);
+			this.cardsToPlay.Add(7);
+			this.cardsToPlay.Add(3);
+		}
+
+		this.firstTurn();
+	}
+
+	public void firstTurn(){
+		this.giveHandTo(this.cardsToPlay[0]);
+	}
+
+	public void giveHandTo(int i){
+		if(this.currentCardID==-1){
+			this.getInterlude().launchType(0);
+		}
+		else{
+			if(this.getCards().getCardC(i).getCardM().isMine()){
+				this.getInterlude().launchType(1);
+			}
+			else{
+				this.getInterlude().launchType(1);
+			}
+		}
+		this.currentCardID = i;
+	}
+
+
 }

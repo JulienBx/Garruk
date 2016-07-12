@@ -138,6 +138,13 @@ public class GameRPC : Photon.MonoBehaviour
 		Game.instance.createCards();
 	}
 
+	[PunRPC]
+	void startGameRPC(bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.addStartGame(isFirstP);
+	}
+
 	public void resize(){
 		photonView.RPC("resizeRPC", PhotonTargets.AllBuffered, Game.instance.isFirstPlayer());
 	}

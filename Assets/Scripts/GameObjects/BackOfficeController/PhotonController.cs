@@ -47,6 +47,7 @@ public class PhotonController : Photon.MonoBehaviour
 	public void initialize()
 	{
 		instance = this;
+		this.isOk=true;
 		DontDestroyOnLoad(this.gameObject);
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.isQuittingGame=false;
@@ -95,28 +96,34 @@ public class PhotonController : Photon.MonoBehaviour
     }
 	void OnPhotonRandomJoinFailed()
     {
-        if(ApplicationModel.player.ChosenGameType>20)
-        {
-            Debug.Log("Can't join random room! - trying again");
-            this.joinRandomRoom();
-        }
-        else
-        {
-            Debug.Log("Can't join random room! - creating a new room");
-            this.CreateNewRoom ();
+		if(this.isOk){
+	        if(ApplicationModel.player.ChosenGameType>20)
+	        {
+	            Debug.Log("Can't join random room! - trying again");
+	            this.joinRandomRoom();
+	        }
+	        else
+	        {
+	            Debug.Log("Can't join random room! - creating a new room");
+	            this.CreateNewRoom ();
+	        }
         }
     }
 	void OnPhotonJoinRoomFailed()
     {
+		if(this.isOk){
 		Debug.Log("Can't join room! - starting again");
 		this.hasToJoinRoom=true;
+		}
     }
     void OnJoinedLobby()
     {
-    	Debug.Log("retour au lobby");
+		if(this.isOk){
+		Debug.Log("retour au lobby");
     	if(hasToJoinRoom)
     	{
     		this.joinRandomRoom();
+    	}
     	}
     }
 	public void CreateNewRoom()
@@ -165,6 +172,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedRoom()
     {
+		if(this.isOk){
     	print("j'ai rejoint une room");
         ApplicationModel.gameRoomId=PhotonNetwork.room.name;
 		ApplicationModel.myPlayerName=ApplicationModel.player.Username;
@@ -189,6 +197,7 @@ public class PhotonController : Photon.MonoBehaviour
 			ApplicationModel.hisPlayerName="Garruk";
             this.hideLoadingScreen();
             GameView.instance.init();
+        }
         }
     }
 
@@ -282,8 +291,6 @@ public class PhotonController : Photon.MonoBehaviour
 			this.preMatchScreen.GetComponent<PreMatchScreenController>().launchPreMatchLoadingScreen();
         }
     }
-
-
 
 	private IEnumerator startIAGame()
     {
