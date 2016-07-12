@@ -7,6 +7,11 @@ public class CardType
 	public int Id;
 	public string Description;
 	public int Order;
+	public int MinLife;
+	public int MaxLife;
+	public int MinAttack;
+	public int MaxAttack;
+	public int Rank;
 	
 	public CardType()
 	{

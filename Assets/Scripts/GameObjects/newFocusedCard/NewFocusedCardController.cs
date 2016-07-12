@@ -526,40 +526,6 @@ public class NewFocusedCardController : MonoBehaviour
 			StartCoroutine(this.renameCard(tempString));
 		}
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
-	{
-		this.displayLoadingScreen ();
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField ("myform_attribute", attributeToUpgrade);
-		form.AddField ("myform_newpower", newPower);
-		form.AddField ("myform_newlevel", newLevel);
-
-		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		string error=ServerController.instance.getError();
-
-		if (error == "")
-		{
-			string result = ServerController.instance.getResult();
-			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-			this.c.parseCard(experienceData[0]);
-			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-			this.isNextLevelPopUpHiding=true;
-		}
-		else 
-		{	
-			BackOfficeController.instance.displayErrorPopUp(error);
-		}
-		this.hideLoadingScreen ();
-	}
 	public IEnumerator renameCard(string newName)
 	{
 		SoundController.instance.playSound(15);
@@ -638,6 +604,40 @@ public class NewFocusedCardController : MonoBehaviour
 			this.animateExperience();
 		}
 		this.refreshCredits();
+		this.hideLoadingScreen ();
+	}
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
+	{
+		this.displayLoadingScreen ();
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", this.c.Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.player.Username);
+		form.AddField ("myform_attribute", attributeToUpgrade);
+		form.AddField ("myform_newpower", newPower);
+		form.AddField ("myform_newlevel", newLevel);
+
+		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
+		{
+			string result = ServerController.instance.getResult();
+			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+			this.c.parseCard(experienceData[0]);
+			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
+			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			this.isNextLevelPopUpHiding=true;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
+		}
 		this.hideLoadingScreen ();
 	}
 	public void buyCardHandler()

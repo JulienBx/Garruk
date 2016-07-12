@@ -462,4 +462,206 @@ public class Card
 			}
 		}
 	}
+	public void updateCardXp(bool toNextLevel, int xp)
+	{
+		int newCardXp=this.Experience+xp;
+		int newCardLevel = this.ExperienceLevel;
+		int newNextLevelPrice=0;
+		int newPercentageToNextLevel=0;
+		int backLevel=0;
+		if(!toNextLevel)
+		{
+			for(int i=0;i<ApplicationModel.xpLevels.Count;i++)
+			{
+				if(newCardXp<ApplicationModel.xpLevels[i])
+				{
+					newCardLevel=i-1;
+					newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+					newPercentageToNextLevel=Mathf.CeilToInt(100f*((newCardXp-backLevel)/(ApplicationModel.xpLevels[i]-backLevel)));
+					break;
+				}
+				else if(newCardXp==ApplicationModel.xpLevels[i])
+				{
+					newCardLevel=i;
+					if(i==ApplicationModel.xpLevels.Count-1)
+					{
+						newNextLevelPrice=-1;
+						newPercentageToNextLevel=100;
+					}
+					else
+					{
+						newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+						newPercentageToNextLevel=0;
+					}
+					break;
+				}
+				backLevel=ApplicationModel.xpLevels[i];
+			}
+			if(newCardXp>ApplicationModel.xpLevels[ApplicationModel.xpLevels.Count-1])
+			{
+				newCardLevel=ApplicationModel.xpLevels[ApplicationModel.xpLevels.Count-1];
+				newNextLevelPrice=-1;
+				newPercentageToNextLevel=100;
+			}
+		}
+		else
+		{
+			for(int i=0;i<ApplicationModel.xpLevels.Count;i++)
+			{
+				if(i==this.ExperienceLevel+1)
+				{
+					newCardLevel=i;
+					newCardXp=ApplicationModel.xpLevels[i];
+					if(i==ApplicationModel.xpLevels.Count-1)
+					{
+						newNextLevelPrice=-1;
+						newPercentageToNextLevel=100;
+					}
+					else
+					{
+						newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+						newPercentageToNextLevel=0;
+					}
+					break;
+				}
+			}
+		}
+		if(newCardLevel!=this.ExperienceLevel)
+		{
+			if(newCardLevel==4)
+			{
+				this.GetNewSkill=true;
+				this.Skills[2].IsActivated=1;
+			}
+			else if(newCardLevel==8)
+			{
+				this.GetNewSkill=true;
+				this.Skills[3].IsActivated=1;
+			}
+		}
+		this.Experience=newCardXp;
+		this.ExperienceLevel=newCardLevel;
+		this.PercentageToNextLevel=newPercentageToNextLevel;
+		this.NextLevelPrice=newNextLevelPrice;
+	}
+	public void updateCardAttribute(int attribute, int newPower, int newLevel)
+	{
+		int caracteristicincrease=-1;
+		switch(attribute)
+		{
+			case -1:
+				caracteristicincrease=-1;
+				break;
+			case 0:
+				caracteristicincrease=newPower-this.Attack;
+				break;
+			case 1:
+				caracteristicincrease=newPower-this.Life;
+				break;
+			case 2:
+				break;
+			case 3: case 4: case 5: case 6:
+				caracteristicincrease=1;
+				this.Skills[attribute-3].Upgrades=this.Skills[attribute-3].Upgrades+1;
+				this.Skills[attribute-3].Power=newPower;
+				this.Skills[attribute-3].Level=newLevel;
+				break;
+		}
+		this.updateCardPower();
+		this.defineUpgradedCard();
+	}
+	public void updateCardPower()
+	{
+		int nbLevel2=0;
+		int nbLevel3=0;
+		int cardPower=0;
+		int cardPowerLevel=0;
+
+		if(this.LifeLevel==3)
+		{
+			nbLevel3++;
+		}
+		else if(this.LifeLevel==2)
+		{
+			nbLevel2++;
+		}
+		if(this.AttackLevel==3)
+		{
+			nbLevel3++;
+		}
+		else if(this.AttackLevel==2)
+		{
+			nbLevel2++;
+		}
+		for(int i=0;i<this.Skills.Count;i++)
+		{
+			if(this.Skills[i].IsActivated==1)
+			{
+				if(this.Skills[i].Level==3)
+				{
+					nbLevel3++;
+				}
+				else if(this.Skills[i].Level==2)
+				{
+					nbLevel2++;
+				}
+			}
+		}
+		if(nbLevel3>=3)
+		{
+			this.PowerLevel=3;
+			this.Power=80;
+		}
+		else if(nbLevel3+nbLevel2>=3)
+		{
+			this.PowerLevel=2;
+			this.Power=50;
+		}
+		else
+		{
+			this.PowerLevel=1;
+			this.Power=20;
+		}
+	}
+	public void defineUpgradedCard()
+	{
+		float calculus=0;
+		this.UpgradedLife=this.Life+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife/50);
+		if(this.UpgradedLife>ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife)
+		{
+			this.UpgradedLife=ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife;
+		}
+		calculus=10*(this.UpgradedLife-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife));
+		if(calculus>8)
+		{
+			this.UpgradedLife=3;
+		}
+		else if(calculus>5)
+		{
+			this.UpgradedLife=2;
+		}
+		else
+		{
+			this.UpgradedLife=1;
+		}
+
+		this.UpgradedAttack=this.Attack+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack/50);
+		if(this.UpgradedAttack>ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack)
+		{
+			this.UpgradedAttack=ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack;
+		}
+		calculus=10*(this.UpgradedAttack-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack));
+		if(calculus>8)
+		{
+			this.UpgradedAttack=3;
+		}
+		else if(calculus>5)
+		{
+			this.UpgradedAttack=2;
+		}
+		else
+		{
+			this.UpgradedAttack=1;
+		}
+	}
 }

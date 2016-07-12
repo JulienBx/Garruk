@@ -598,24 +598,34 @@ public class Player : User
                 }
 				if(gameData[13]!="")
 				{
+					ApplicationModel.packs=new Packs();
 					ApplicationModel.packs.parsePacks(gameData[13]);
 				}
 				if(gameData[14]!="")
 				{
+					ApplicationModel.products=new DisplayedProducts();
 					ApplicationModel.products.parseProducts(gameData[14]);
 				}
                 if(gameData[15]!="")
                 {
+                	ApplicationModel.skillTypes=new SkillTypes();
                     ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
                 }
                 if(gameData[16]!="")
                 {
+                	ApplicationModel.cardTypes=new CardTypes();
                     ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
                 }
                 if(gameData[17]!="")
                 {
+                	ApplicationModel.skills=new Skills();
                     ApplicationModel.skills.parseSkills(gameData[17]);
                     this.retrieveMySkills();
+                }
+                if(gameData[18]!="")
+                {
+					ApplicationModel.xpLevels=new List<int>();
+                	ApplicationModel.parseXpLevels(gameData[18]);
                 }
 				if(System.Convert.ToInt32(data[2])!=-1)
                 {

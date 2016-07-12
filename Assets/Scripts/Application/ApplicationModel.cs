@@ -45,6 +45,7 @@ public class ApplicationModel
     static public CardTypes cardTypes;
     static public SkillTypes skillTypes;
     static public Skills skills;
+    static public List<int> xpLevels;
 
 
 	#if (UNITY_EDITOR)
@@ -77,6 +78,7 @@ public class ApplicationModel
         cardTypes=new CardTypes();
         skillTypes=new SkillTypes();
         skills=new Skills();
+        xpLevels=new List<int>();
         
 		#if (UNITY_EDITOR)
 		onlineCheck=new string[3];
@@ -114,7 +116,6 @@ public class ApplicationModel
         }
         return Convert.ToBase64String(cipherTextBytes);
     }
- 
     static public string Decrypt(string encryptedText)
     {
         byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
@@ -140,4 +141,12 @@ public class ApplicationModel
 		}
 		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
 	}
+	static public void parseXpLevels(string s)
+    {
+		string[] array = s.Split (new string[]{"#XPLEVEL#"},System.StringSplitOptions.None);
+        for(int i=0;i<array.Length-1;i++)
+        {
+			xpLevels.Add (System.Convert.ToInt32(array[i]));
+        }
+    }
 }
