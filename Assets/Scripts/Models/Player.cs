@@ -141,6 +141,7 @@ public class Player : User
 		this.Connections=new List<Connection>();
 		this.IsOnline=true;
 		this.MyCards=new Cards();
+		this.MyDeck=new Deck();
 		this.MyDecks=new Decks();
 		this.MyNotifications=new Notifications();
 		this.MyConnections=new Connections();
@@ -236,6 +237,7 @@ public class Player : User
 		yield return w; 
 
 		this.SelectedDeckId=selectedDeckId;
+		ApplicationModel.player.retrieveMyDeck();
 													// On attend la réponse du serveur, le jeu est donc en attente
 		if (w.error != null) 
 		{
@@ -557,6 +559,7 @@ public class Player : User
 				{
 					this.MyDecks.parseDecks(gameData[2]);
 					this.retrieveCardsDeck();
+					this.retrieveMyDeck();
 				}
 				if(gameData[3]!="")
 				{
@@ -1065,6 +1068,17 @@ public class Player : User
     	if(!hasMoved)
     	{
 			this.MyCardsOnMarket.cards.Insert(0,tempCard);
+    	}
+    }
+    public void retrieveMyDeck()
+    {
+    	for(int i=0;i<this.MyDecks.getCount();i++)
+    	{
+    		if(this.MyDecks.getDeck(i).Id==this.SelectedDeckId)
+    		{
+    			this.MyDeck=this.MyDecks.decks[i];
+    			break;
+    		}
     	}
     }
     public void removeFromMyCardsOnMarket(int index)
