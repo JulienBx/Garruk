@@ -5,7 +5,7 @@ public class MyTimerC : TimerC
 {
 	void Awake()
 	{
-		
+		this.show(false);
 	}
 }
 

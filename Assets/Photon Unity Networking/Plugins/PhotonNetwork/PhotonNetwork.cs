@@ -1568,6 +1568,7 @@ public static class PhotonNetwork
         }
 
         Debug.LogError("Cannot send messages when not connected. Either connect to Photon OR use offline mode!");
+        throw new Exception() ;
         return false;
     }
 

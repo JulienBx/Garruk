@@ -94,4 +94,9 @@ MonoBehaviour:
   - getCurrentGameIdRPC
   - getPlayerDataRPC
   - createBackgroundRPC
+  - createCardsRPC
+  - createTileRPC
+  - resizeRPC
+  - addPlayerToRoomRPC
+  - moveOnRPC
   DisableAutoOpenWizard: 0

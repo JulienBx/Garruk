@@ -1797,7 +1797,6 @@ public class GameView : MonoBehaviour
 	
 	void Update()
 	{
-
 		if(this.toLaunchCardCreation && this.isGameskillOK){
 				this.toLaunchCardCreation = false ; 
 				this.loadMyDeck();

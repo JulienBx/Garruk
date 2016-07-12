@@ -10,6 +10,7 @@ public class ForfeitC : MonoBehaviour
 
 	public void show(bool b){
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = b ;
+		gameObject.transform.GetComponent<BoxCollider>().enabled = b ;
 	}
 
 	public void size(Vector3 position, Vector3 scale){

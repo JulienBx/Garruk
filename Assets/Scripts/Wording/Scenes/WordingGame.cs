@@ -74,7 +74,7 @@ public class WordingGame
 		texts.Add(new string[]{"Votre ennemi a positionné ses unités, la bataille peut démarrer. Vous êtes le premier joueur à avoir placé ses troupes, vous êtes donc le premier à jouer!","Your enemy has also moved his units. You have been the first to click on the START button, therefore you will be the first one to play!"});
 		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage.","The enemy owns a LEADER type unit. Let's touch the character to verify the unit's identity."});
 		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici.","Indeed the unit is a LEADER. You can read more about his skills!"});
-		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Les cases bleues représentent sa zone de mouvement. Commencez par la déplacer près de l'ennemi. ","Your unit is flashing. This means that it's her turn to play. Blue tiles determines your unit's movement range. Move it next to your enemy."});
+		texts.Add(new string[]{"Votre unité clignote, c'est à son tour de jouer. Les cases bleues représentent sa zone de mouvement. Commencez par la déplacer près de l'ennemi. ","Your unit is flashing. This means that it's its turn to play. Blue tiles determines your unit's movement range. Move it next to your enemy."});
 		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Attaquez le LEADER en déplacant le bouton d'attaque sur lui.","Units can attack adjacent enemies (diagonal attack is not allowed). Move the attack button on the LEADER to hit him."});
 		texts.Add(new string[]{"Les unités peuvent attaquer les ennemis adjacents (mais pas en diagonale). Cliquez sur le bouton ATTAQUE puis ciblez le LEADER ennemi","Units can attack adjacent enemies (diagonal attack is not allowed). Click on the ATTACK button then target the enemy LEADER"});
 		texts.Add(new string[]{"Les effets de la compétence s'affichent sur le terrain. Anéantir le LEADER a permis d'affaiblir les unités adverses!","Skill effects are displayed on the battlefield. Destroying the leader has weakened the enemy units."});
@@ -88,5 +88,9 @@ public class WordingGame
 		texts.Add(new string[]{"La timeline affiche les météorites, ainsi que le nombre de rangées qu'elles toucheront de chaque coté du terrain.", "The timeline displays meteor events. The number above the picture determines how many lines will be hit at each side of the battlefield by the meteors."});
 		texts.Add(new string[]{"Vous possédez maintenant toutes les armes pour terminer ce combat. Bonne chance et à bientôt!", "Now you hold the keys to win this fight. Good luck and see you later!"});
 		texts.Add(new string[]{"Passer","End my turn"});
+		texts.Add(new string[]{"Connexion internet perdue... Essaye de se reconnecter","Lost internet connnection... Trying to reconnect..."});
+		texts.Add(new string[]{"Démarrer le combat!","Start the fight!"});
+		texts.Add(new string[]{"Case inatteignable!","You can not move on this tile!"});
+		texts.Add(new string[]{"La case est occupée","Tile is already taken!"});
 	}
 }

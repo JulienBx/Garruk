@@ -75,9 +75,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 430634}
-  - 114: {fileID: 11451934}
   - 114: {fileID: 11454724}
   - 114: {fileID: 11450170}
+  - 114: {fileID: 11420652}
+  - 114: {fileID: 11401098}
+  - 114: {fileID: 11480822}
   m_Layer: 0
   m_Name: PhotonController
   m_TagString: Untagged
@@ -1037,6 +1039,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 3.9351852, y: 0.9722222}
+--- !u!114 &11401098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07169e9ba7c79e438c8193dfec00bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWaiting: 0
 --- !u!114 &11407034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1261,6 +1275,17 @@ MonoBehaviour:
   m_pageToDisplay: 1
   m_maskType: 0
   m_enableAutoSizing: 0
+--- !u!114 &11420652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6be3bfa2624011b47b8036e4c326905a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11422426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1390,17 +1415,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93bdf921d5dd1d24c9c32a3dbebd497f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11451934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7c6f59d8e314514bc34db880a05549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11454724
@@ -1586,6 +1600,17 @@ MonoBehaviour:
     width: 2.4008822
     height: 0.9415474
   m_margins: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &11480822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7c6f59d8e314514bc34db880a05549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11481432
 MonoBehaviour:
   m_ObjectHideFlags: 1
