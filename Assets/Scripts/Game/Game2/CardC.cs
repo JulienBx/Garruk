@@ -483,6 +483,42 @@ public class CardC : MonoBehaviour
 		return s;
 	}
 
+	public virtual string getAttackText(){
+		int index ;
+		int percentage ;
+		string tempstring ;
+		string s = WordingSkills.getDescription(0, 1);
+		if (s.Contains("%BTK")){
+			index = s.IndexOf("%BTK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.card.getAttack()/100f));
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
+		}
+		if (s.Contains("%ATK")){
+			index = s.IndexOf("%ATK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
+		}
+		if (s.Contains("%ATK")){
+			index = s.IndexOf("%ATK");
+			
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
+		}
+		if (s.Contains("%PV")){
+			index = s.IndexOf("%PV");
+			tempstring = s.Substring(index-3,3);
+			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
+			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
+		}
+
+		return s;
+	}
+
 	public List<ModifyerM> getEffects(){
 		List<ModifyerM> effects = new List<ModifyerM>();
 		for(int i = 0 ; i < this.stateModifyers.Count && effects.Count<10 ; i++){

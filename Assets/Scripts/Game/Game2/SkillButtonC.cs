@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using TMPro;
 
 public class SkillButtonC : MonoBehaviour
 {
@@ -23,6 +24,17 @@ public class SkillButtonC : MonoBehaviour
 
 	public void size(Vector3 position){
 		gameObject.transform.localPosition = position;
+	}
+
+	public void init(CardC c, int i){
+		if(i==0){
+			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(0) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = c.getAttackText() ;
+		}
+		else{
+			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(c.getCardM().getSkill(i).Id) ;
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = c.getSkillText(i) ;
+		}
 	}
 }
 

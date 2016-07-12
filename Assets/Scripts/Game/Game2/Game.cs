@@ -641,7 +641,32 @@ public class Game : MonoBehaviour
 			}
 		}
 		this.currentCardID = i;
+		if(this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
+			this.getMyHoveredCard().setNextCard(this.currentCardID);
+			this.loadController();
+		}
+		else{
+			this.getHisHoveredCard().setNextCard(this.currentCardID);
+			this.displayController(false);
+		}
 	}
 
+	public void loadController(){
+		CardC c = this.getCurrentCard();
+		this.getSkillButton(0).init(c, 0);
+		for(int i = 1 ; i < 4 ; i++){
+			if (c.getCardM().getSkill(i).IsActivated==1){
+				this.getSkillButton(i).init(c, i);
+			}
+		}
+		//this.getPassButton(0).init(c);
+	}
 
+	public void displayController(bool b){
+		this.getSkillButton(0).show(b);
+		this.getSkillButton(1).show(b);
+		this.getSkillButton(2).show(b);
+		this.getSkillButton(3).show(b);
+		this.getPassButton().show(b);
+	}
 }

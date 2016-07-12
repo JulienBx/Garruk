@@ -12,6 +12,15 @@ public class WordingGame
 		return texts[idReference][ApplicationModel.player.IdLanguage];
 	}
 
+	public virtual string getText(int id, List<int> args){
+		string text = texts[id][ApplicationModel.player.IdLanguage];
+		for(int i = 0 ; i < args.Count ; i++){
+			text = text.Replace("ARG"+(i+1), ""+args[i]);
+		}
+
+		return text ;
+	}
+
 	static WordingGame()
 	{
 		texts = new List<string[]>();
@@ -92,5 +101,7 @@ public class WordingGame
 		texts.Add(new string[]{"Démarrer le combat!","Start the fight!"});
 		texts.Add(new string[]{"Case inatteignable!","You can not move on this tile!"});
 		texts.Add(new string[]{"La case est occupée","Tile is already taken!"});
+
+
 	}
 }
