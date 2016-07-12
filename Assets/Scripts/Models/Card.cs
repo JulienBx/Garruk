@@ -54,6 +54,7 @@ public class Card
 	public Card()
 	{
 		this.Skills = new List<Skill>();
+		this.CardType=new CardType();
 		this.Decks=new List<int>();
 	}
 	

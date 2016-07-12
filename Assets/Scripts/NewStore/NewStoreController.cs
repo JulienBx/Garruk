@@ -946,7 +946,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		if(this.areRandomCardsGenerated)
 		{
 			StartCoroutine(BackOfficeController.instance.getUserData ());
-			//ApplicationModel.player.MyCards.remove(ApplicationModel.player.MyCards.getCount()-this.nbCards+this.clickedCardId);
+			print(ApplicationModel.player.MyCards.getCount());
+			print(this.nbCards);
+			print(this.clickedCardId);
+			ApplicationModel.player.MyCards.remove(this.clickedCardId);
 			this.randomCardsDisplayed[this.clickedCardId]=false;
 			this.randomCards[this.clickedCardId].SetActive(false);
 			this.hideCardFocused();

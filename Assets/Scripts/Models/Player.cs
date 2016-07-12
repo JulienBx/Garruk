@@ -965,14 +965,14 @@ public class Player : User
                     {
                         for(int k=0;k<this.MySkills.getCount();k++)
                         {
-                            if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                            if(this.MySkills.getSkill(k).Id==cards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<cards.getCard(i).Skills[j].Power)
                             {
                                 if(this.MySkills.getSkill(k).Power==0)
                                 {
                                     this.NewSkills.Add(this.MySkills.getSkill(k).Id);
                                 }
-                                this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
-                                this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                                this.MySkills.getSkill(k).Power=cards.getCard(i).Skills[j].Power;
+                                this.MySkills.getSkill(k).Level=cards.getCard(i).Skills[j].Level;
                             }
                         }
                     }
