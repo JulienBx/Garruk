@@ -1084,7 +1084,9 @@ public class Player : User
     				{
     					if(this.MyCards.getCard(k).Id==this.MyDeck.cards[j].Id)
     					{
+							int deckOrder=this.MyDeck.cards[j].deckOrder;
     						this.MyDeck.cards[j]=this.MyCards.cards[k];
+    						this.MyDeck.cards[j].deckOrder=deckOrder;
     						break;
     					}
     				}
