@@ -17,7 +17,7 @@ public class Skill
 	public float Ponderation;
 	public int XMin;
 	public string Action;
-	public CardType CardType;
+	public int IdCardType;
 	public Texture2D texture;
 	public bool IsNew;
 	public int cible ;
@@ -113,7 +113,6 @@ public class Skill
 		this.hasBeenPlayed = false ;
 		this.IsActivated = 0 ; 
 	}
-	
 	public string getProbaText()
 	{
 		if(this.proba<10){

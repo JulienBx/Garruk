@@ -8,7 +8,7 @@ public class WordingSkills
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
 	public static IList<int> probas;
-	private static IList<int> idSkills;
+	public static IList<int> idSkills;
 
 	public static string getName(int idSkill)
 	{

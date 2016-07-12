@@ -8,6 +8,7 @@ public class WordingSkillTypes
 	public static IList<string[]> descriptions;
 	public static IList<string[]> names;
 	public static IList<string[]> letter;
+    public static IList<int> idSkillTypes;
 
 	public static string getName(int idSkillType)
 	{
@@ -23,31 +24,44 @@ public class WordingSkillTypes
 	}
 	static WordingSkillTypes()
 	{
-		names=new List<string[]>();
+        idSkillTypes=new List<int>();
+        names=new List<string[]>();
+        descriptions=new List<string[]>();
+        letter=new List<string[]>();
+
+        idSkillTypes.Add(0);
 		names.Add(new string[]{"Combat","Close attack"});
+        descriptions.Add(new string[]{"Attaque directe sur un personnage adjacent (pas d'attaque en diagonale)","Direct attack on a neighbour (no diagonal attack is allowed)"});
+        letter.Add(new string[]{"C","C"});
+
+        idSkillTypes.Add(1);
 		names.Add(new string[]{"Tir","Distant attack"});
+        descriptions.Add(new string[]{"Attaque à distance","Distant attack"});
+        letter.Add(new string[]{"T","D"});
+
+        idSkillTypes.Add(2);
 		names.Add(new string[]{"Soutien","Help"});
+        descriptions.Add(new string[]{"Donne un bonus à une unité alliée","Gives a bonus to an ally unit"});
+        letter.Add(new string[]{"S","H"});
+
+        idSkillTypes.Add(3);
 		names.Add(new string[]{"Affaiblissement","Weaken"});
+        descriptions.Add(new string[]{"Donne un malus à une unité ennemie","Gives a malus to an ennemy unit"});
+        letter.Add(new string[]{"A","W"});
+
+        idSkillTypes.Add(4);
 		names.Add(new string[]{"Auto","Auto"});
+        descriptions.Add(new string[]{"L'unité se donne un bonus","The unit gives itself a bonus"});
+        letter.Add(new string[]{"A","A"});
+
+        idSkillTypes.Add(5);
 		names.Add(new string[]{"Piège","Trap"});
+        descriptions.Add(new string[]{"Pose un piège sur le champ de bataille","Sets a trap on the battlefield"});
+        letter.Add(new string[]{"Pi","T"});
+
+        idSkillTypes.Add(6);
 		names.Add(new string[]{"Passive","Passive"});
-
-		descriptions=new List<string[]>();
-		descriptions.Add(new string[]{"Attaque directe sur un personnage adjacent (pas d'attaque en diagonale)","Direct attack on a neighbour (no diagonal attack is allowed)"});
-		descriptions.Add(new string[]{"Attaque à distance","Distant attack"});
-		descriptions.Add(new string[]{"Donne un bonus à une unité alliée","Gives a bonus to an ally unit"});
-		descriptions.Add(new string[]{"Donne un malus à une unité ennemie","Gives a malus to an ennemy unit"});
-		descriptions.Add(new string[]{"L'unité se donne un bonus","The unit gives itself a bonus"});
-		descriptions.Add(new string[]{"Pose un piège sur le champ de bataille","Sets a trap on the battlefield"});
-		descriptions.Add(new string[]{"Les compétences passives se déclenchent automatiquement et ne peuvent êre utilisées par le joueur","Players cannot launch passive skills. They trigger automatically during the fight"});
-
-		letter=new List<string[]>();
-		letter.Add(new string[]{"C","C"});
-		letter.Add(new string[]{"T","D"});
-		letter.Add(new string[]{"S","H"});
-		letter.Add(new string[]{"A","W"});
-		letter.Add(new string[]{"A","A"});
-		letter.Add(new string[]{"Pi","T"});
-		letter.Add(new string[]{"Pa","P"});
+        descriptions.Add(new string[]{"Les compétences passives se déclenchent automatiquement et ne peuvent êre utilisées par le joueur","Players cannot launch passive skills. They trigger automatically during the fight"});
+        letter.Add(new string[]{"Pa","P"});
 	}
 }

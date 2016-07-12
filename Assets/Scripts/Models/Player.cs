@@ -49,7 +49,6 @@ public class Player : User
 	public bool LobbyHelp;
 	public int ConnectionBonus;
 	public int NbNotificationsNonRead;
-	public Division CurrentDivision;
 	public string ProfileChosen;
 	public int IdLanguage;
 	public bool ToDeconnect;
@@ -82,6 +81,23 @@ public class Player : User
 	public bool HasLostConnection;
     public bool HasLostConnectionDuringGame;
     public bool ShouldQuitGame;
+    public bool AutomaticConnection;
+    public bool IsOnline;
+    public int CollectionPointsEarned;
+    public List<int> NewSkills;
+    public Cards MyCards;
+    public Cards MyCardsOnMarket;
+	public Decks MyDecks;
+	public Users Users;
+	public Notifications MyNotifications;
+	public NewsList MyNews;
+	public List<int> MyFriends;
+	public Connections MyConnections;
+	public Trophies MyTrophies;
+	public ChallengesRecords MyChallengesRecords;
+	public Division MyDivision;
+    public Skills MySkills;
+    public Results MyResults;
   
 	public Player()
 	{
@@ -112,7 +128,7 @@ public class Player : User
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
 		this.URLChooseLanguage = ApplicationModel.host + "choose_language.php";
-		this.URLCheckAuthentification = ApplicationModel.host + "check_authentication.php";
+		this.URLCheckAuthentification = ApplicationModel.host + "authentication_check.php";
 		this.URLCheckPermanentConnexion = ApplicationModel.host + "check_permanent_connexion.php";
 		this.URLCreateAccount = ApplicationModel.host + "create_account.php";
 		this.URLRefreshUserData = ApplicationModel.host+"refresh_user_data.php";
@@ -123,7 +139,20 @@ public class Player : User
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
-		this.CurrentDivision=new Division();
+		this.IsOnline=true;
+		this.MyCards=new Cards();
+		this.MyDecks=new Decks();
+		this.MyNotifications=new Notifications();
+		this.MyConnections=new Connections();
+		this.MyNews=new NewsList();
+		this.MyTrophies=new Trophies();
+		this.MyChallengesRecords=new ChallengesRecords();
+		this.MyDivision=new Division();
+		this.Users=new Users();
+        this.MySkills=new Skills();
+        this.CardTypesAllowed=new List<int>();
+        this.MyResults=new Results();
+        this.MyCardsOnMarket=new Cards();
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -460,66 +489,6 @@ public class Player : User
 
 	#region AUTHENTICATION
 
-	public IEnumerator permanentConnexion()
-	{
-		WWWForm form = new WWWForm(); 
-		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_macadress", this.MacAdress);
-        form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
-        form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
-
-		ServerController.instance.setRequest(URLCheckPermanentConnexion, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-		
-		if(this.Error=="")
-		{
-            PlayerPrefs.DeleteKey("Product");
-            PlayerPrefs.DeleteKey("ProductOwner");
-            PlayerPrefs.Save();
-            string result = ServerController.instance.getResult();
-			if(result.Contains("#SUCESS#"))
-			{
-				string[] data = result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
-				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-				this.Username = profileData [0];
-				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
-				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
-				this.Money = System.Convert.ToInt32(profileData [3]);
-				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
-				this.Id=System.Convert.ToInt32(profileData[6]);
-				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
-				this.Mail=profileData[8];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
-                if(System.Convert.ToInt32(profileData[10])!=-1)
-                {
-                    this.HasLostConnectionDuringGame=true;
-                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[10]));
-                    this.ChosenGameType=System.Convert.ToInt32(profileData[11]);
-                    ApplicationModel.player.MyDeck=new Deck();
-                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-                    {
-                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-                    }
-                }
-			}
-			else
-			{
-				this.Id=-1;
-			}		
-		}
-		else
-		{
-			Debug.Log(this.Error);
-			this.Id=-1;
-		}
-	}
 	public IEnumerator Login()
 	{	
 		string toMemorizeString;
@@ -529,6 +498,15 @@ public class Player : User
 		} else
 		{
 			toMemorizeString = "0";
+		}
+		string autoConnectString;
+		if(this.AutomaticConnection)
+		{
+			autoConnectString="1";
+		}
+		else
+		{
+			autoConnectString="0";
 		}
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
@@ -540,6 +518,7 @@ public class Player : User
 		form.AddField("myform_mail", this.Mail);
         form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
         form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
+		form.AddField("myform_autoconnect", autoConnectString);
 
 		ServerController.instance.setRequest(URLCheckAuthentification, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -551,29 +530,111 @@ public class Player : User
             PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
             string result = ServerController.instance.getResult();
+
+			if(result.Contains("#PROVISIONNINGOK#"))
+			{
+				PlayerPrefs.DeleteKey("Product");
+            	PlayerPrefs.DeleteKey("ProductOwner");
+            	PlayerPrefs.Save();
+			}
 			if(result.Contains("#SUCESS#"))
 			{
-				string[] data =result.Split(new string[] { "#SUCESS#" }, System.StringSplitOptions.None);
-				string[] profileData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-				this.Username = profileData [0];
-				this.TutorialStep = System.Convert.ToInt32(profileData [1]);
-				this.IsAdmin = System.Convert.ToBoolean(System.Convert.ToInt32(profileData [2]));
-				this.Money = System.Convert.ToInt32(profileData [3]);
-				this.IdLanguage=System.Convert.ToInt32(profileData[4]);
-				this.IdProfilePicture=System.Convert.ToInt32(profileData[5]);
-				this.Id=System.Convert.ToInt32(profileData[6]);
-				this.ToChangePassword=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[7]));
-				this.TrainingStatus=System.Convert.ToInt32(profileData[8]);
-				this.Mail=profileData[9];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[10]);
-                if(System.Convert.ToInt32(profileData[11])!=-1)
+				this.IsAccountActivated=true;
+				this.IsAccountCreated=true;
+				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
+				string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+
+				this.parsePlayerInformations(gameData[0]);
+				if(gameData[12]!="")
+				{
+					this.Users.parseUsers(gameData[12]);
+				}
+				if(gameData[1]!="")
+				{
+					this.MyCards.parseCards(gameData[1]);
+				}
+				if(gameData[2]!="")
+				{
+					this.MyDecks.parseDecks(gameData[2]);
+					this.retrieveCardsDeck();
+				}
+				if(gameData[3]!="")
+				{
+					this.MyNotifications.parseNotifications(gameData[3],this);
+					this.MyNotifications.lookForNonReadNotification();
+				}
+				if(gameData[4]!="")
+				{
+					this.MyFriends=this.parseFriends(gameData[4]);
+				}
+				if(gameData[5]!="")
+				{
+					this.MyConnections.parseConnections(gameData[5],this);
+				}
+				if(gameData[6]!="")
+				{
+					this.MyNews.parseNews(gameData[6],this);
+					this.MyNews.filterNews(this.Id);
+				}
+				if(gameData[7]!="")
+				{
+					this.MyTrophies.parseTrophies(gameData[7]);
+				}
+				if(gameData[8]!="")
+				{
+					this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
+				}
+				if(gameData[9]!="")
+				{
+					this.MyDivision=this.parseDivision(gameData[9]);
+				}
+                if(gameData[10]!="")
                 {
+                   this.parseCardTypesAllowed(gameData[10]);
+                }
+                if(gameData[11]!="")
+                {
+					this.MyCardsOnMarket.parseCards(gameData[11]);
+                }
+				if(gameData[13]!="")
+				{
+					ApplicationModel.packs=new Packs();
+					ApplicationModel.packs.parsePacks(gameData[13]);
+				}
+				if(gameData[14]!="")
+				{
+					ApplicationModel.products=new DisplayedProducts();
+					ApplicationModel.products.parseProducts(gameData[14]);
+				}
+                if(gameData[15]!="")
+                {
+                	ApplicationModel.skillTypes=new SkillTypes();
+                    ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
+                }
+                if(gameData[16]!="")
+                {
+                	ApplicationModel.cardTypes=new CardTypes();
+                    ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
+                }
+                if(gameData[17]!="")
+                {
+                	ApplicationModel.skills=new Skills();
+                    ApplicationModel.skills.parseSkills(gameData[17]);
+                    this.retrieveMySkills();
+                }
+                if(gameData[18]!="")
+                {
+					ApplicationModel.xpLevels=new List<int>();
+                	ApplicationModel.parseXpLevels(gameData[18]);
+                }
+				if(System.Convert.ToInt32(data[2])!=-1)
+                {
+					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
                     this.HasLostConnectionDuringGame=true;
-                    this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(profileData[11]));
-                    this.ChosenGameType=System.Convert.ToInt32(profileData[12]);
+					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
                     ApplicationModel.player.MyDeck=new Deck();
-                    string[] myDeckData =result.Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
                     string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
                     for(int i = 0 ; i < myDeckCards.Length ; i++)
                     {
@@ -582,9 +643,6 @@ public class Player : User
                         ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
                     }
                 }
-
-				this.IsAccountActivated=true;
-				this.IsAccountCreated=true;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
@@ -650,8 +708,7 @@ public class Player : User
 				this.Id=System.Convert.ToInt32(profileData[6]);
 				this.TrainingStatus=System.Convert.ToInt32(profileData[7]);
 				this.Mail=profileData[8];
-				this.CurrentDivision=new Division();
-				this.CurrentDivision.Id=System.Convert.ToInt32(profileData[9]);
+				this.Division=System.Convert.ToInt32(profileData[9]);
                 
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
@@ -794,6 +851,241 @@ public class Player : User
 		}
 		return true;
 	}
+	private void parsePlayerInformations(string s)
+	{
+		string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+		this.Id= System.Convert.ToInt32(array[0]);
+		this.Mail= array[1];
+		this.Money= System.Convert.ToInt32(array[2]);
+		this.FirstName	= array[3];
+		this.Surname= array[4];
+		this.IdProfilePicture= System.Convert.ToInt32(array[5]);
+		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[6]));
+		this.SelectedDeckId= System.Convert.ToInt32(array[7]);
+		this.RankingPoints = System.Convert.ToInt32 (array [8]);
+		this.Ranking = System.Convert.ToInt32 (array [9]);
+		this.CollectionPoints = System.Convert.ToInt32 (array [10]);
+		this.CollectionRanking = System.Convert.ToInt32 (array [11]);
+		this.TotalNbWins = System.Convert.ToInt32 (array [12]);
+		this.TotalNbLooses = System.Convert.ToInt32 (array [13]);
+		this.Readnotificationsystem=System.Convert.ToBoolean(System.Convert.ToInt32(array[14]));
+		this.IsAdmin=System.Convert.ToBoolean(System.Convert.ToInt32(array[15]));
+		this.TutorialStep = System.Convert.ToInt32 (array [16]);
+		this.MarketTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [17]));
+		this.ProfileTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [18]));
+		this.LobbyHelp = System.Convert.ToBoolean(System.Convert.ToInt32 (array [19]));
+		this.SkillBookTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [20]));
+		this.NextLevelTutorial = System.Convert.ToBoolean(System.Convert.ToInt32 (array [21]));
+		this.IdLanguage	 = System.Convert.ToInt32 (array [22]);
+		this.Division=System.Convert.ToInt32 (array [23]);
+		this.TrainingStatus=System.Convert.ToInt32 (array [24]);
+		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
+		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [26]));
+		this.getTrainingAllowedCardType();
+	}
+	public List<int> parseFriends(string s)
+	{
+		string[] friendsData=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+		List<int> friends = new List<int> ();
+		for(int i=0;i<friendsData.Length-1;i++)
+		{
+			friends.Add (this.Users.returnUsersIndex(System.Convert.ToInt32(friendsData[i])));
+		}
+		return friends;
+	}
+	private Division parseDivision(string s)
+	{
+		string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+		Division division = new Division ();
+		division.GamesPlayed= System.Convert.ToInt32(array [0]);
+		division.NbWins= System.Convert.ToInt32(array [1]);
+		division.NbLooses= System.Convert.ToInt32(array [2]);
+		division.Status= System.Convert.ToInt32(array [3]);
+		division.Id=System.Convert.ToInt32(array[4]);
+		//division.IdPicture= System.Convert.ToInt32(array[5]);
+		division.TitlePrize = System.Convert.ToInt32(array [6]);
+		division.PromotionPrize = System.Convert.ToInt32(array [7]);
+		division.NbWinsForRelegation = System.Convert.ToInt32(array [8]);
+		division.NbWinsForPromotion = System.Convert.ToInt32(array [9]);
+		division.NbWinsForTitle = System.Convert.ToInt32(array [10]);
+		division.NbGames = System.Convert.ToInt32(array [11]);
+		return division;
+	}
+	private void retrieveCardsDeck()
+	{
+		for(int i=0;i<this.MyCards.getCount();i++)
+		{
+			this.MyCards.getCard(i).Decks=new List<int>();
+		}
+		for (int i=0;i<this.MyDecks.getCount();i++)
+		{
+			for(int j=0;j<this.MyDecks.getDeck(i).cards.Count;j++)
+			{
+				for(int k=0;k<this.MyCards.getCount();k++)
+				{
+					if(this.MyCards.getCard(k).Id==MyDecks.getDeck(i).cards[j].Id)
+					{
+						this.MyCards.getCard(k).Decks.Add (MyDecks.getDeck(i).Id);
+					}
+				}
+			}
+		}
+	}
+	public void moveToFriend(int id)
+	{
+		this.MyFriends.Add (this.MyNotifications.getNotification(id).SendingUser);
+		this.MyNotifications.remove(id);
+	}
+	public void removeFromFriends(int id)
+	{
+		for(int i=0;i<this.MyFriends.Count;i++)
+		{
+			if(this.Users.getUser(this.MyFriends[i]).Id==id)
+			{
+				this.MyFriends.RemoveAt(i);
+				break;
+			}
+		}
+	}
+    public bool hasSkills(int id)
+    {
+        for(int i=0;i<this.MySkills.getCount();i++)
+        {
+            if(this.MySkills.getSkill(i).Id==id && this.MySkills.getSkill(i).Power>0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void updateMyCollection(Cards cards)
+    {
+        int oldCollectionPoints = this.getCollectionPoints();
+        this.NewSkills=new List<int>();
+        this.CollectionPointsEarned=0;
+        for(int i=0;i<cards.getCount();i++)
+        {
+            if(cards.getCard(i).onSale==0)
+            {
+                for(int j=0;j<cards.getCard(i).Skills.Count;j++)
+                {
+                    if(cards.getCard(i).Skills[j].IsActivated==1)
+                    {
+                        for(int k=0;k<this.MySkills.getCount();k++)
+                        {
+                            if(this.MySkills.getSkill(k).Id==cards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<cards.getCard(i).Skills[j].Power)
+                            {
+                                if(this.MySkills.getSkill(k).Power==0)
+                                {
+                                    this.NewSkills.Add(this.MySkills.getSkill(k).Id);
+                                }
+                                this.MySkills.getSkill(k).Power=cards.getCard(i).Skills[j].Power;
+                                this.MySkills.getSkill(k).Level=cards.getCard(i).Skills[j].Level;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.CollectionPointsEarned=this.getCollectionPoints()-oldCollectionPoints;
+        if(this.CollectionPointsEarned>0)
+        {
+            BackOfficeController.instance.displayCollectionPointsPopUp(this.CollectionPointsEarned,this.CollectionRanking);
+        }
+        if(this.NewSkills.Count>0)
+        {
+            BackOfficeController.instance.displayNewSkillsPopUps(this.NewSkills);
+        }
+    }
+    public int getCollectionPoints()
+    {
+        int sum=0;
+        for(int i=0;i<this.MySkills.getCount();i++)
+        {
+            sum = this.MySkills.getSkill(i).Power + sum;
+        }
+        return sum;
+    }
+    public void retrieveMySkills()
+    {
+        for(int i=0;i<ApplicationModel.skills.getCount();i++)
+        {
+            this.MySkills.add();
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Id=ApplicationModel.skills.getSkill(i).Id;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).IdCardType=ApplicationModel.skills.getSkill(i).IdCardType;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).IdSkillType=ApplicationModel.skills.getSkill(i).IdSkillType;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Power=0;
+            this.MySkills.getSkill(this.MySkills.getCount()-1).Level=0;
+        }
+        for(int i=0;i<this.MyCards.getCount();i++)
+        {
+            if(this.MyCards.getCard(i).onSale==0)
+            {
+                for(int j=0;j<this.MyCards.getCard(i).Skills.Count();j++)
+                {
+                    if(this.MyCards.getCard(i).Skills[j].IsActivated==1)
+                    {
+                        for(int k=0;k<this.MySkills.getCount();k++)
+                        {
+                            if(this.MySkills.getSkill(k).Id==this.MyCards.getCard(i).Skills[j].Id && this.MySkills.getSkill(k).Power<this.MyCards.getCard(i).Skills[j].Power)
+                            {
+                                this.MySkills.getSkill(k).Power=this.MyCards.getCard(i).Skills[j].Power;
+                                this.MySkills.getSkill(k).Level=this.MyCards.getCard(i).Skills[j].Level;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void parseCardTypesAllowed(string s)
+    {
+        string[] array=s.Split(new string[] { "//" }, System.StringSplitOptions.None);
+
+        for(int i = 0 ; i < array.Length-1 ; i++)
+        {
+            this.CardTypesAllowed.Add (System.Convert.ToInt32(array[i]));
+        }
+    }
+    public void moveToMyCardsOnMarket(int index)
+    {
+    	Card tempCard = this.MyCards.getCard(index);
+    	this.MyCards.remove(index);
+    	bool hasMoved=false;
+		for(int i=0;i<this.MyCardsOnMarket.getCount();i++)
+    	{
+    		if(tempCard.Id<this.MyCardsOnMarket.getCard(i).Id)
+    		{
+    			this.MyCardsOnMarket.cards.Insert(i,tempCard);
+    			break;
+    		}
+    	}
+    	if(!hasMoved)
+    	{
+			this.MyCardsOnMarket.cards.Insert(0,tempCard);
+    	}
+    }
+    public void removeFromMyCardsOnMarket(int index)
+    {
+		Card tempCard = this.MyCardsOnMarket.getCard(index);
+    	this.MyCardsOnMarket.remove(index);
+    	bool hasMoved=false;
+		for(int i=0;i<this.MyCards.getCount();i++)
+    	{
+    		if(tempCard.Id<this.MyCards.getCard(i).Id)
+    		{
+    			this.MyCards.cards.Insert(i,tempCard);
+    			hasMoved=true;
+    			break;
+    		}
+    	}
+    	if(!hasMoved)
+    	{
+			this.MyCards.cards.Insert(0,tempCard);
+    	}
+    }
 }
 
 

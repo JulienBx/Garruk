@@ -216,9 +216,9 @@ public class MenuController : MonoBehaviour
 		{
 			this.gameObject.transform.FindChild ("MobileCristalsBar").FindChild ("Title").GetComponent<TextMeshPro> ().text = ApplicationModel.player.Money.ToString ();
 			displayedDivision = this.gameObject.transform.FindChild("MobileDivisionIcon").FindChild("Title").GetComponent<TextMeshPro>().text;
-			if(displayedDivision!=ApplicationModel.player.CurrentDivision.Id.ToString())
+			if(displayedDivision!=ApplicationModel.player.MyDivision.Id.ToString())
 			{
-				this.gameObject.transform.FindChild("MobileDivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.CurrentDivision.Id);
+				this.gameObject.transform.FindChild("MobileDivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.MyDivision.Id);
 			}
 			if(ApplicationModel.player.TrainingStatus==-1)
 			{
@@ -246,9 +246,9 @@ public class MenuController : MonoBehaviour
 		{
 			this.gameObject.transform.FindChild("UserBlock").FindChild("Credits").GetComponent<TextMeshPro>().text=ApplicationModel.player.Money.ToString();
 			displayedDivision = this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").FindChild("Title").GetComponent<TextMeshPro>().text;
-			if(displayedDivision!=ApplicationModel.player.CurrentDivision.Id.ToString())
+			if(displayedDivision!=ApplicationModel.player.MyDivision.Id.ToString())
 			{
-				this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.CurrentDivision.Id);
+				this.gameObject.transform.FindChild("UserBlock").FindChild("DivisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.MyDivision.Id);
 			}
 			if(ApplicationModel.player.TrainingStatus==-1)
 			{

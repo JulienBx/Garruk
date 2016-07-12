@@ -10,7 +10,6 @@ using System.Globalization;
 public class NewSkillBookController : MonoBehaviour
 {
 	public static NewSkillBookController instance;
-	private NewSkillBookModel model;
 	
 	public GameObject blockObject;
 	public GameObject skillObject;
@@ -222,7 +221,6 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		instance = this;
 		this.activeTab = 0;
-		this.model = new NewSkillBookModel ();
 		this.selectedCardTypeId = 0;
 		this.scrollIntersection = 1.18f;
 		this.mainContentDisplayed = true;
@@ -230,7 +228,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
-		StartCoroutine (this.initialization ());
+		this.initialization ();
 	}
 	private void initializeHelp()
 	{
@@ -252,11 +250,10 @@ public class NewSkillBookController : MonoBehaviour
 		this.backOfficeController.AddComponent<BackOfficeSkillBookController>();
 		this.backOfficeController.GetComponent<BackOfficeSkillBookController>().initialize();
 	}
-	public IEnumerator initialization()
+	public void initialization()
 	{
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (model.getSkillBookData ());
 		this.computeIndicators ();
 		this.selectATab ();
 		this.initializeFilters ();
@@ -369,7 +366,7 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.helpPaginationButtons.SetActive (true);
 		this.helpPagination.chosenPage = 0;
-		this.helpPagination.totalElements= model.skillTypesList.Count;
+		this.helpPagination.totalElements= WordingSkillTypes.idSkillTypes.Count;
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().p = this.helpPagination;
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
@@ -394,7 +391,7 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		this.helpPaginationButtons.SetActive (true);
 		this.helpPagination.chosenPage = 0;
-		this.helpPagination.totalElements= model.cardTypesList.Count;
+		this.helpPagination.totalElements= WordingCardTypes.idCardTypes.Count;
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().p = this.helpPagination;
 		this.helpPaginationButtons.GetComponent<NewSkillBookHelpPaginationController> ().setPagination ();
 		for(int i=0;i<this.contents.Length;i++)
@@ -1109,7 +1106,7 @@ public class NewSkillBookController : MonoBehaviour
 			if(this.skillsPagination.chosenPage*this.skillsPagination.nbElementsPerPage+i<this.skillsToBeDisplayed.Count)
 			{
 				this.skillsDisplayed.Add (this.skillsToBeDisplayed[this.skillsPagination.chosenPage*this.skillsPagination.nbElementsPerPage+i]);
-				this.skills[i].GetComponent<NewSkillBookSkillController>().s=model.skillsList[this.skillsToBeDisplayed[this.skillsPagination.chosenPage*this.skillsPagination.nbElementsPerPage+i]];
+                this.skills[i].GetComponent<NewSkillBookSkillController>().s=ApplicationModel.player.MySkills.getSkill(this.skillsToBeDisplayed[this.skillsPagination.chosenPage*this.skillsPagination.nbElementsPerPage+i]);
 				this.skills[i].GetComponent<NewSkillBookSkillController>().show ();
 				this.skills[i].SetActive(true);
 			}
@@ -1149,12 +1146,12 @@ public class NewSkillBookController : MonoBehaviour
 		this.cardsTypesDisplayed = new List<int> ();
 		for(int i =0;i<this.helpPagination.nbElementsPerPage;i++)
 		{
-			if(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i<model.cardTypesList.Count)
+			if(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i<ApplicationModel.cardTypes.getCount())
 			{
 				this.cardsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingCardTypes.getDescription(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
-				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(model.cardTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].getPictureId());
+				this.contents[i].transform.FindChild("cardTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCardTypePicto(ApplicationModel.cardTypes.getCardType(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i).getPictureId());
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingCardTypes.getName(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				
 			}
@@ -1169,12 +1166,12 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsTypesDisplayed = new List<int> ();
 		for(int i =0;i<this.helpPagination.nbElementsPerPage;i++)
 		{
-			if(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i<model.skillTypesList.Count)
+			if(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i<ApplicationModel.skillTypes.getCount())
 			{
 				this.skillsTypesDisplayed.Add (this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].SetActive(true);
 				this.contents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingSkillTypes.getDescription(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
-				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture (model.skillTypesList[this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i].Id);
+				this.contents[i].transform.FindChild("skillTypePicture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnSkillTypePicture (ApplicationModel.skillTypes.getSkillType(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i).getPictureId());
 				this.contents[i].transform.FindChild("skillTypePicture").FindChild("Title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getLetter(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 				this.contents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=WordingSkillTypes.getName(this.helpPagination.chosenPage*this.helpPagination.nbElementsPerPage+i);
 			}
@@ -1203,7 +1200,15 @@ public class NewSkillBookController : MonoBehaviour
 		this.helpSubtitle.SetActive (true);
 		this.helpLine.SetActive (true);
 		this.helpSubtitle.transform.GetComponent<TextMeshPro> ().text = WordingSkillBook.getReference(13);
-		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= model.ownSkillsIdList.Count.ToString();
+        int tempCount=0;
+        for(int i=0;i<ApplicationModel.player.MySkills.getCount();i++)
+        {
+            if(ApplicationModel.player.MySkills.getSkill(i).Level>0)
+            {
+                tempCount++;
+            }
+        }
+		this.stats[0].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= tempCount.ToString();
 		this.stats[1].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= this.globalPercentage.ToString()+ " %";
 		this.stats[2].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.CollectionPoints.ToString ();
 		this.stats[3].transform.FindChild ("Value").GetComponent<TextMeshPro> ().text= ApplicationModel.player.CollectionRanking.ToString ();
@@ -1283,11 +1288,11 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillsToBeDisplayed=new List<int>();
 		int nbCardTypeFilters = this.filtersCardType.Count;
 		int nbSkillTypeFilters = this.filtersSkillType.Count;
-		int max = model.skillsList.Count;
+		int max = ApplicationModel.skills.getCount();
 		
 		for(int i=0;i<max;i++)
 		{
-			if(this.isNotOwnFilterOn && !model.ownSkillsIdList.Contains(model.skillsList[i].Id))
+			if(this.isNotOwnFilterOn && !ApplicationModel.player.hasSkills(ApplicationModel.skills.getSkill(i).Id))
 			{
 				continue;
 			}
@@ -1296,7 +1301,7 @@ public class NewSkillBookController : MonoBehaviour
 				bool testCardTypes=false;
 				for(int j=0;j<nbCardTypeFilters;j++)
 				{
-					if (model.skillsList[i].CardType.Id == this.filtersCardType [j])
+					if (ApplicationModel.cardTypes.getCardType(ApplicationModel.player.MySkills.getSkill(i).IdCardType).Id == this.filtersCardType [j])
 					{
 						testCardTypes=true;
 						break;
@@ -1312,7 +1317,7 @@ public class NewSkillBookController : MonoBehaviour
 				bool testSkillTypes=false;
 				for(int j=0;j<nbSkillTypeFilters;j++)
 				{
-					if (model.skillsList[i].IdSkillType == this.filtersSkillType [j])
+					if (ApplicationModel.skillTypes.getSkillType(ApplicationModel.player.MySkills.getSkill(i).IdSkillType).Id == this.filtersSkillType [j])
 					{
 						testSkillTypes=true;
 						break;
@@ -1326,16 +1331,16 @@ public class NewSkillBookController : MonoBehaviour
 			if(this.isSkillChosen)
 			{
 				string valueSkillLower=this.valueSkill.ToLower();
-				if(WordingSkills.getName(model.skillsList[i].Id).ToLower()!=valueSkillLower)
+                if(WordingSkills.getName(ApplicationModel.player.MySkills.getSkill(i).Id).ToLower()!=valueSkillLower)
 				{
 					continue;
 				}
 			}
-			if(this.isOwnFilterOn && model.ownSkillsIdList.Contains(model.skillsList[i].Id))
+			if(this.isOwnFilterOn && ApplicationModel.player.hasSkills(ApplicationModel.skills.getSkill(i).Id))
 			{
 				continue;
 			}
-			if(model.ownSkillsIdList.Contains(model.skillsList[i].Id))
+            if(ApplicationModel.player.hasSkills(ApplicationModel.skills.getSkill(i).Id))
 			{
 				this.skillsToBeDisplayed.Insert(0,i);
 			}
@@ -1347,50 +1352,24 @@ public class NewSkillBookController : MonoBehaviour
 	}
 	private void computeIndicators()
 	{
-		this.skillsPercentages=new int[model.skillsList.Count];
-		this.skillsNbCards=new int[model.skillsList.Count];
-		this.cardTypesNbSkillsOwn=new int[model.cardTypesList.Count];
-		this.cardTypesNbSkills=new int[model.cardTypesList.Count];
-		this.cardTypesNbCards=new int[model.cardTypesList.Count];
+		this.skillsPercentages=new int[ApplicationModel.skills.getCount()];
+		this.skillsNbCards=new int[ApplicationModel.skills.getCount()];
+		this.cardTypesNbSkillsOwn=new int[ApplicationModel.cardTypes.getCount()];
+		this.cardTypesNbSkills=new int[ApplicationModel.cardTypes.getCount()];
+		this.cardTypesNbCards=new int[ApplicationModel.cardTypes.getCount()];
 		int globalSum=new int();
 		IList<int> idCards = new List<int> ();
-		for(int i=0;i<model.skillsList.Count;i++)
+		for(int i=0;i<ApplicationModel.player.MySkills.getCount();i++)
 		{
-			for(int j=0;j<model.ownSkillsList.Count;j++)
-			{
-				if(model.skillsList[i].Id==model.ownSkillsList[j].Id)
-				{
-					if(!idCards.Contains(model.cardIdsList[j]))
-					{
-						this.cardTypesNbCards[model.skillsList[i].CardType.Id]++;
-						idCards.Add (model.cardIdsList[j]);
-					}
-					this.skillsNbCards[i]++;
-					if(this.skillsPercentages[i]<model.ownSkillsList[j].Power*10)
-					{
-						this.skillsPercentages[i]=model.ownSkillsList[j].Power*10;
-					}
-				}
-			}
+			if(ApplicationModel.player.MySkills.getSkill(i).Power>0)
+            {
+                globalSum=globalSum+ApplicationModel.player.MySkills.getSkill(i).Power*10;
+            }
 			globalSum=globalSum+this.skillsPercentages[i];
 		}
-		if(this.model.skillsList.Count>0)
+		if(ApplicationModel.skills.getCount()>0)
 		{
-			this.globalPercentage=globalSum/this.model.skillsList.Count;
-		}
-		for (int i=0;i<model.cardTypesList.Count;i++)
-		{
-			for(int j=0;j<model.skillsList.Count;j++)
-			{
-				if(model.skillsList[j].CardType.Id==i)
-				{
-					this.cardTypesNbSkills[i]++;
-					if(this.skillsNbCards[j]>0)
-					{
-						this.cardTypesNbSkillsOwn[i]++;
-					}
-				}
-			}
+            this.globalPercentage=globalSum/ApplicationModel.skills.getCount();
 		}
 	}
 	public void returnPressed()
@@ -1449,14 +1428,14 @@ public class NewSkillBookController : MonoBehaviour
 		this.skillSearchBar.GetComponent<NewSkillBookSkillSearchBarController>().setButtonText(this.valueSkill);
 		if(this.valueSkill.Length>0)
 		{
-			for (int i = 0; i < model.skillsList.Count; i++) 
+			for (int i = 0; i < ApplicationModel.skills.getCount(); i++) 
 			{  
-				if(this.removeDiacritics(WordingSkills.getName(model.skillsList [i].Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
+				if(this.removeDiacritics(WordingSkills.getName(ApplicationModel.skills.getSkill (i).Id).ToLower()).Contains(this.removeDiacritics(this.valueSkill).ToLower()))
 				{
 					this.skillsDisplayed.Add (i);
 					this.skillChoices[this.skillsDisplayed.Count-1].SetActive(true);
 					this.skillChoices[this.skillsDisplayed.Count-1].GetComponent<NewSkillBookSkillChoiceController>().reset();
-					this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text =WordingSkills.getName(model.skillsList [i].Id);
+                    this.skillChoices[this.skillsDisplayed.Count-1].transform.FindChild("Title").GetComponent<TextMeshPro>().text =WordingSkills.getName(ApplicationModel.skills.getSkill (i).Id);
 				}
 				if(this.skillsDisplayed.Count==this.skillChoices.Length)
 				{
@@ -1532,7 +1511,7 @@ public class NewSkillBookController : MonoBehaviour
 		this.isFocusedSkillDisplayed= true;
 		this.displayBackUI (false);
 		this.focusedSkill.SetActive (true);
-		this.focusedSkill.GetComponent<FocusedSkillController> ().show (model.skillsList [this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]]);
+		this.focusedSkill.GetComponent<FocusedSkillController> ().show (ApplicationModel.player.MySkills.getSkill (this.skillsToBeDisplayed [this.skillsPagination.chosenPage * this.skillsPagination.nbElementsPerPage + id]));
 	}
 	public void hideFocusedSkill()
 	{

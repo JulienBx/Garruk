@@ -38,11 +38,11 @@ public class NewEndGameController : MonoBehaviour
 
 	private int xpDrawn;
 
-	private int collectionPointsEarned;
-	private int newCollectionRanking;
+	//private int collectionPointsEarned;
+	//private int newCollectionRanking;
 	private int bonus;
 	private int xpWon;
-	private List<Skill> skillsUnlocked;
+	//private List<Skill> skillsUnlocked;
 
 	private IList<int> idCardsToNextLevel;
 
@@ -250,14 +250,13 @@ public class NewEndGameController : MonoBehaviour
 				this.cards[i].GetComponent<NewCardEndGameController>().show();
 				this.cards[i].GetComponent<NewCardEndGameController>().endUpdatingCardToNextLevel();
 			}
-			if(this.collectionPointsEarned>0)
-			{
-				BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
-			}
-			if(this.skillsUnlocked.Count>0)
-			{
-				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
-			}
+            Cards cards=new Cards();
+            for(int i=0;i<ApplicationModel.player.MyDeck.cards.Count;i++)
+            {
+                cards.add();
+                cards.cards[i]=ApplicationModel.player.MyDeck.cards[i];
+            }
+            ApplicationModel.player.updateMyCollection(cards);
 		}
 	}
 	public void resize()
@@ -316,13 +315,13 @@ public class NewEndGameController : MonoBehaviour
 			ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
 			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
 			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-			this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
-			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			//this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
+			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
 		}
 	}
 	public IEnumerator initializeEndGame()
 	{
-		this.skillsUnlocked = new List<Skill> ();
+		//this.skillsUnlocked = new List<Skill> ();
 		string idCards = "";
 		for (int i=0; i<4; i++)
 		{
@@ -366,7 +365,7 @@ public class NewEndGameController : MonoBehaviour
 						{
 							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
 							{
-								this.skillsUnlocked.Add (ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1]);
+								//this.skillsUnlocked.Add (ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1]);
 								ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1].IsNew=true;
 							}
 							break;
@@ -374,8 +373,8 @@ public class NewEndGameController : MonoBehaviour
 					}
 				}
 			}
-			this.collectionPointsEarned=System.Convert.ToInt32(data[4]);
-			this.newCollectionRanking=System.Convert.ToInt32(data[5]);
+			//this.collectionPointsEarned=System.Convert.ToInt32(data[4]);
+			//this.newCollectionRanking=System.Convert.ToInt32(data[5]);
 			this.xpWon=System.Convert.ToInt32(data[6]);
 			ApplicationModel.player.Money=System.Convert.ToInt32(data[7]);
 			this.bonus=System.Convert.ToInt32(data[8]);

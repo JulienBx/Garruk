@@ -9,28 +9,16 @@ public class Connection
 	private string URLRemoveConnection= ApplicationModel.host + "remove_connection.php";
 
 	public int Id;
-	public int IdUser1;
-	public int IdUser2;
-	public bool IsAccepted;
+	public int User;
+	public bool IsInviting;
+	public bool IsAccepted; 
 	public string Error="";
 
 
 	public Connection()
 	{
 	}
-	public Connection(int id, int iduser1, int iduser2, bool isaccepted)
-	{
-		this.Id = id;
-		this.IdUser1 = iduser1;
-		this.IdUser2 = iduser2;
-		this.IsAccepted = isaccepted;
-	}
-	public Connection(int iduser1, int iduser2, bool isaccepted)
-	{
-		this.IdUser1 = iduser1;
-		this.IdUser2 = iduser2;
-		this.IsAccepted = isaccepted;
-	}
+
 	public IEnumerator remove()
 	{
 		WWWForm form = new WWWForm();
@@ -57,13 +45,13 @@ public class Connection
 			this.IsAccepted=true;
 		}
 	}
-	public IEnumerator add()
+	public IEnumerator add(int iduser1, int iduser2, bool isaccepted)
 	{
 		WWWForm form = new WWWForm(); 
 		form.AddField("myform_hash", ApplicationModel.hash); 	
-		form.AddField("myform_iduser1", this.IdUser1.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_iduser2", this.IdUser2.ToString()); 			
-		form.AddField("myform_isaccepted", (System.Convert.ToInt32(this.IsAccepted)).ToString()); 	
+		form.AddField("myform_iduser1", iduser1.ToString()); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_iduser2", iduser2.ToString()); 			
+		form.AddField("myform_isaccepted", (System.Convert.ToInt32(isaccepted)).ToString()); 	
 
 		ServerController.instance.setRequest(URLAddConnection, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");

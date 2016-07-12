@@ -25,9 +25,9 @@ public class NewFocusedCardController : MonoBehaviour
 	new public GameObject name;
 
 	public Card c;
-	public int collectionPointsEarned;
-	public int newCollectionRanking;
-	public List<Skill> skillsUnlocked;
+	//public int collectionPointsEarned;
+	//public int newCollectionRanking;
+	//public List<Skill> skillsUnlocked;
 	public bool getNewSkill;
 	public int caracteristicUpgraded;
 	public int caracteristicIncrease;
@@ -269,14 +269,14 @@ public class NewFocusedCardController : MonoBehaviour
 		{
 			this.levelUp.SetActive(false);
 			this.show ();
-			if(this.collectionPointsEarned>0)
-			{
-				BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
-			}
-			if(this.skillsUnlocked.Count>0)
-			{
-				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
-			}
+            Cards cards = new Cards();
+            cards.add();
+            cards.cards[0]=this.c;
+            ApplicationModel.player.updateMyCollection(cards);
+            if(this.c.GetNewSkill)
+            {
+                this.setHighlightedSkills();
+            }
 			if(this.c.GetNewSkill)
 			{
 				this.setHighlightedSkills();
@@ -299,10 +299,14 @@ public class NewFocusedCardController : MonoBehaviour
 		}
 		this.show ();
 		this.updateFocus ();
-		if(this.collectionPointsEarned>0)
-		{
-			BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
-		}
+        Cards cards = new Cards();
+        cards.add();
+        cards.cards[0]=this.c;
+        ApplicationModel.player.updateMyCollection(cards);
+        if(this.c.GetNewSkill)
+        {
+            this.setHighlightedSkills();
+        }
 		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
 		{
 			this.setCardUpgrade();
@@ -522,40 +526,6 @@ public class NewFocusedCardController : MonoBehaviour
 			StartCoroutine(this.renameCard(tempString));
 		}
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
-	{
-		this.displayLoadingScreen ();
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField ("myform_attribute", attributeToUpgrade);
-		form.AddField ("myform_newpower", newPower);
-		form.AddField ("myform_newlevel", newLevel);
-
-		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		string error=ServerController.instance.getError();
-
-		if (error == "")
-		{
-			string result = ServerController.instance.getResult();
-			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-			this.c.parseCard(experienceData[0]);
-			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-			this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-			this.isNextLevelPopUpHiding=true;
-		}
-		else 
-		{	
-			BackOfficeController.instance.displayErrorPopUp(error);
-		}
-		this.hideLoadingScreen ();
-	}
 	public IEnumerator renameCard(string newName)
 	{
 		SoundController.instance.playSound(15);
@@ -613,7 +583,7 @@ public class NewFocusedCardController : MonoBehaviour
 			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
 			this.c.parseCard(experienceData[0]);
 			this.getNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-			this.skillsUnlocked=new List<Skill>();
+			//this.skillsUnlocked=new List<Skill>();
 			if(this.getNewSkill)
 			{
 				for(int i=0;i<this.c.Skills.Count;i++)
@@ -622,18 +592,52 @@ public class NewFocusedCardController : MonoBehaviour
 					{
 						if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
 						{
-							this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
+							//this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
 							this.c.Skills[this.c.Skills.Count-i-1].IsNew=true;
 						}
 						break;
 					}
 				}
 			}
-			this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-			this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
 			this.animateExperience();
 		}
 		this.refreshCredits();
+		this.hideLoadingScreen ();
+	}
+	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
+	{
+		this.displayLoadingScreen ();
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_idcard", this.c.Id.ToString());
+		form.AddField("myform_nick", ApplicationModel.player.Username);
+		form.AddField ("myform_attribute", attributeToUpgrade);
+		form.AddField ("myform_newpower", newPower);
+		form.AddField ("myform_newlevel", newLevel);
+
+		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		string error=ServerController.instance.getError();
+
+		if (error == "")
+		{
+			string result = ServerController.instance.getResult();
+			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
+			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
+			this.c.parseCard(experienceData[0]);
+			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
+			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
+			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
+			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			this.isNextLevelPopUpHiding=true;
+		}
+		else 
+		{	
+			BackOfficeController.instance.displayErrorPopUp(error);
+		}
 		this.hideLoadingScreen ();
 	}
 	public void buyCardHandler()
@@ -647,7 +651,7 @@ public class NewFocusedCardController : MonoBehaviour
 		this.displayLoadingScreen ();
 
 		int oldPrice = this.c.Price;
-		this.skillsUnlocked = new List<Skill>();
+		//this.skillsUnlocked = new List<Skill>();
 
 		WWWForm form = new WWWForm(); 											// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -683,27 +687,30 @@ public class NewFocusedCardController : MonoBehaviour
 			this.c.isMine=true;
 			string[] data = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
 			string[] cardData = data [0].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
+			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [0]);
 			string[] newSkills = data [1].Split(new string[] { "//" }, System.StringSplitOptions.None);
-			for (int i=0; i<newSkills.Length-1; i++)
-			{
-				this.skillsUnlocked.Add(new Skill());
-				this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
-			}
+//			for (int i=0; i<newSkills.Length-1; i++)
+//			{
+//				this.skillsUnlocked.Add(new Skill());
+//				this.skillsUnlocked [i].Id = System.Convert.ToInt32(newSkills [i]);
+//			}
 			int newIdOwner = System.Convert.ToInt32(data[2]);
-			this.newCollectionRanking= System.Convert.ToInt32(data[3]);
-			Notification tempNotification = new Notification(c.IdOWner,newIdOwner,false,2,"",c.Id.ToString(),c.Price.ToString(),"");
+			//this.newCollectionRanking= System.Convert.ToInt32(data[3]);
+			Notification tempNotification = new Notification();
+			tempNotification.SendingUser=newIdOwner;
+			tempNotification.IdUser=c.IdOWner;
+			tempNotification.IsRead=false;
+			tempNotification.IdNotificationType=2;
+			tempNotification.HiddenParam="";
+			tempNotification.Param1=c.Id.ToString();
+			tempNotification.Param2=c.Price.ToString();
+			tempNotification.Param3="";
 			StartCoroutine(tempNotification.add ());
 			this.c.IdOWner=newIdOwner;
-
-			if(this.collectionPointsEarned>0)
-			{
-				BackOfficeController.instance.displayCollectionPointsPopUp(this.collectionPointsEarned,this.newCollectionRanking);
-			}
-			if(this.skillsUnlocked.Count>0)
-			{
-				BackOfficeController.instance.displayNewSkillsPopUps(this.skillsUnlocked);
-			}
+            Cards cards = new Cards();
+            cards.add();
+            cards.cards[0]=this.c;
+            ApplicationModel.player.updateMyCollection(cards);
 			this.deleteCard();
 		}
 		this.hideLoadingScreen();

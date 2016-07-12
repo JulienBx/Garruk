@@ -11,6 +11,10 @@ public class SkillType
 	public SkillType()
 	{
 	}
+    public int getPictureId()
+    {
+        return this.Id;
+    }
 }
 
 

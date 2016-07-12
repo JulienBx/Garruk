@@ -8,7 +8,8 @@ public class TrainingController : MonoBehaviour
 	private GameObject[] stars;
 	private GameObject cardType;
 
-	void Awake()
+
+	public void draw(int trainingStatus)
 	{
 		this.cardType=this.gameObject.transform.FindChild("CardType").gameObject;
 		this.stars=new GameObject[3];
@@ -16,10 +17,6 @@ public class TrainingController : MonoBehaviour
 		{
 			this.stars[i]=this.gameObject.transform.FindChild("Star"+i).gameObject;
 		}
-	}
-
-	public void draw(int trainingStatus)
-	{
 		switch(trainingStatus)
 		{
 			case 0:

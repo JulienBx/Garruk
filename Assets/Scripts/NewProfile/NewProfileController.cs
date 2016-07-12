@@ -256,6 +256,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		this.resize ();
 		yield return StartCoroutine (model.getData (this.isMyProfile, this.profileChosen));
+		model.displayedUser.MyTrophies.writeTrophies();
 		this.selectAFriendsTab ();
 		this.selectAResultsTab ();
 		this.initializeProfile ();
@@ -274,7 +275,7 @@ public class NewProfileController : MonoBehaviour
 	private void initializeFriendsRequests()
 	{
 		this.friendsPagination.chosenPage = 0;
-		this.friendsPagination.totalElements= model.friendsRequests.Count;
+		this.friendsPagination.totalElements= model.displayedUser.MyConnections.getCount();
 		this.friendsPaginationButtons.GetComponent<NewProfileFriendsPaginationController> ().p = this.friendsPagination;
 		this.friendsPaginationButtons.GetComponent<NewProfileFriendsPaginationController> ().setPagination ();
 		for(int i=0;i<this.friendsContents.Length;i++)
@@ -301,7 +302,7 @@ public class NewProfileController : MonoBehaviour
 	private void initializeChallengesRecords()
 	{
 		this.resultsPagination.chosenPage = 0;
-		this.resultsPagination.totalElements= model.challengesRecords.Count;
+		this.resultsPagination.totalElements= model.displayedUser.MyChallengesRecords.getCount();
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().p = this.resultsPagination;
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().setPagination ();
 		for(int i=0;i<this.resultsContents.Length;i++)
@@ -316,7 +317,7 @@ public class NewProfileController : MonoBehaviour
 	private void initializeTrophies()
 	{
 		this.resultsPagination.chosenPage = 0;
-		this.resultsPagination.totalElements= model.trophies.Count;
+		this.resultsPagination.totalElements= model.displayedUser.MyTrophies.getCount();
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().p = this.resultsPagination;
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().setPagination ();
 		for(int i=0;i<this.resultsContents.Length;i++)
@@ -331,7 +332,7 @@ public class NewProfileController : MonoBehaviour
 	private void initializeConfrontations()
 	{
 		this.resultsPagination.chosenPage = 0;
-		this.resultsPagination.totalElements= model.confrontations.Count;
+		this.resultsPagination.totalElements= model.displayedUser.MyResults.getCount();
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().p = this.resultsPagination;
 		this.resultsPaginationButtons.GetComponent<NewProfileResultsPaginationController> ().setPagination ();
 		for(int i=0;i<this.resultsContents.Length;i++)
@@ -1162,12 +1163,12 @@ public class NewProfileController : MonoBehaviour
 		this.challengesRecordsDisplayed = new List<int> ();
 		for(int i =0;i<this.resultsPagination.nbElementsPerPage;i++)
 		{
-			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.challengesRecords.Count)
+			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.displayedUser.MyChallengesRecords.getCount())
 			{
 				this.challengesRecordsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
-				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Username;
-				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.IdProfilePicture);
-				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.isPublic)
+				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=ApplicationModel.player.Users.getUser(ApplicationModel.player.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Friend).Username;
+				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Friend).IdProfilePicture);
+				if(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Friend).isPublic)
 				{
 					this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(true);
 					this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(true);
@@ -1177,17 +1178,17 @@ public class NewProfileController : MonoBehaviour
 					this.resultsContents[i].transform.FindChild("title").GetComponent<NewProfileResultsContentUsernameController>().setIsActive(false);
 					this.resultsContents[i].transform.FindChild("picture").GetComponent<NewProfileResultsContentPictureController>().setIsActive(false);
 				}
-				if(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.TrainingStatus==-1)
+				if(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Friend).TrainingStatus==-1)
 				{
 					this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
-					this.resultsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Friend.Division);
+					this.resultsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Friend).Division);
 				}
 				else
 				{
 					this.resultsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(false);
 				}
-				int nbWins = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbWins;
-				int nbLooses = model.challengesRecords[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].NbLooses;
+				int nbWins = model.displayedUser.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).NbWins;
+				int nbLooses = model.displayedUser.MyChallengesRecords.getChallengesRecord(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).NbLooses;
 				if(nbWins>nbLooses)
 				{
 					this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro> ().text = WordingProfile.getReference(15)+nbWins+WordingProfile.getReference(16)+nbLooses+WordingProfile.getReference(17);
@@ -1215,10 +1216,10 @@ public class NewProfileController : MonoBehaviour
 		Vector3 friendsStatusButtonPosition = new Vector3 ();
 		for(int i =0;i<this.friendsPagination.nbElementsPerPage;i++)
 		{
-			if(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i<this.model.friendsRequests.Count)
+			if(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i<this.model.displayedUser.MyConnections.getCount())
 			{
 				this.friendsRequestsDisplayed.Add (this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i);
-				if(this.model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].IsInvitingPlayer)
+				if(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).IsInviting)
 				{
 					this.friendsContents[i].transform.FindChild ("description").GetComponent<TextMeshPro> ().text = WordingSocial.getReference(8);
 					friendsStatusButtonPosition=this.friendsStatusButtons[2*i].transform.position;
@@ -1248,9 +1249,9 @@ public class NewProfileController : MonoBehaviour
 					this.friendsStatusButtons[2*i].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(1);
 					this.friendsStatusButtons[2*i+1].SetActive(false);
 				}
-                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.IdProfilePicture);
-				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Username;
-				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.isPublic)
+                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).User).IdProfilePicture);
+				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=ApplicationModel.player.Users.getUser(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).User).Username;
+				if(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).User).isPublic)
 				{
 					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
 					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
@@ -1260,10 +1261,10 @@ public class NewProfileController : MonoBehaviour
 					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
 					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
 				}
-				if(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.TrainingStatus==-1)
+				if(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).User).TrainingStatus==-1)
 				{
 					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
-					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.friendsRequests[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i].User.Division);
+					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(ApplicationModel.player.Users.getUser(ApplicationModel.player.MyConnections.getConnection(this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i).User).Division);
 				}
 				else
 				{
@@ -1289,7 +1290,7 @@ public class NewProfileController : MonoBehaviour
 				this.friendsDisplayed.Add (this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i);
 				this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().reset();
 				this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().reset();
-				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].isPublic)
+				if(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).isPublic)
 				{
 					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(true);
 					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(true);
@@ -1299,12 +1300,12 @@ public class NewProfileController : MonoBehaviour
 					this.friendsContents[i].transform.FindChild("picture").GetComponent<NewProfileFriendsContentPictureController>().setIsActive(false);
 					this.friendsContents[i].transform.FindChild("username").GetComponent<NewProfileFriendsContentUsernameController>().setIsActive(false);
 				}
-                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].IdProfilePicture);
-				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Username;
-				if(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].TrainingStatus==-1)
+                this.friendsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnLargeProfilePicture(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).IdProfilePicture);
+				this.friendsContents[i].transform.FindChild("username").GetComponent<TextMeshPro>().text=model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).Username;
+				if(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).TrainingStatus==-1)
 				{
 					this.friendsContents[i].transform.FindChild("divisionIcon").gameObject.SetActive(true);
-					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].Division);
+					this.friendsContents[i].transform.FindChild("divisionIcon").GetComponent<DivisionIconController>().setDivision(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).Division);
 				}
 				else
 				{
@@ -1315,7 +1316,7 @@ public class NewProfileController : MonoBehaviour
 				{
 					string connectionState="";
 					Color connectionStateColor=new Color();
-					switch(model.users[this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]].OnlineStatus)
+					switch(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsPagination.chosenPage*this.friendsPagination.nbElementsPerPage+i]).OnlineStatus)
 					{
 					case 0:
 						connectionState = WordingSocial.getReference(3);
@@ -1355,12 +1356,12 @@ public class NewProfileController : MonoBehaviour
 		this.trophiesDisplayed = new List<int> ();
 		for(int i =0;i<this.resultsPagination.nbElementsPerPage;i++)
 		{
-			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.trophies.Count)
+			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.displayedUser.MyTrophies.getCount())
 			{
 				this.trophiesDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
-				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.Name;
-				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCompetitionPicture(model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].competition.getPictureId());
-				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingProfile.getReference(23)+model.trophies[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
+				this.resultsContents[i].transform.FindChild("title").GetComponent<TextMeshPro>().text=ApplicationModel.player.MyTrophies.getTrophy(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).division.Name;
+				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCompetitionPicture(ApplicationModel.player.MyTrophies.getTrophy(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).division.getPictureId());
+				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=WordingProfile.getReference(23)+model.displayedUser.MyTrophies.getTrophy(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Date.ToString(WordingDates.getDateFormat());
 				this.resultsContents[i].SetActive(true);
 			}
 			else
@@ -1374,12 +1375,12 @@ public class NewProfileController : MonoBehaviour
 		this.confrontationsDisplayed = new List<int> ();
 		for(int i =0;i<this.resultsPagination.nbElementsPerPage;i++)
 		{
-			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.confrontations.Count)
+			if(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i<model.displayedUser.MyResults.getCount())
 			{
 				this.confrontationsDisplayed.Add (this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i);
 				string gameTypeName="";
 				int idCompetitionPicture;
-				if(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType>10 && model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].GameType<21)
+				if(model.displayedUser.MyResults.getResult(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).GameType>10 && model.displayedUser.MyResults.getResult(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).GameType<21)
 				{
 					gameTypeName=WordingGameModes.getReference(8);
 					idCompetitionPicture=1;
@@ -1393,14 +1394,14 @@ public class NewProfileController : MonoBehaviour
 				this.resultsContents[i].transform.FindChild("picture").GetComponent<SpriteRenderer>().sprite=BackOfficeController.instance.returnCompetitionPicture(idCompetitionPicture);
 				string description="";
 				Color textColor=new Color();
-				if(model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].IdWinner==ApplicationModel.player.Id)
+				if(model.displayedUser.MyResults.getResult(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).IdWinner==ApplicationModel.player.Id)
 				{
-					description="Victoire le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
+					description="Victoire le "+model.displayedUser.MyResults.getResult(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.blueColor;
 				}
 				else
 				{
-					description="Défaite le "+model.confrontations[this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i].Date.ToString(WordingDates.getDateFormat());
+					description="Défaite le "+model.displayedUser.MyResults.getResult(this.resultsPagination.chosenPage*this.resultsPagination.nbElementsPerPage+i).Date.ToString(WordingDates.getDateFormat());
 					textColor=ApplicationDesignRules.redColor;
 				}
 				this.resultsContents[i].transform.FindChild("description").GetComponent<TextMeshPro>().text=description;
@@ -1451,7 +1452,7 @@ public class NewProfileController : MonoBehaviour
 	{
 		if(PhotonNetwork.insideLobby)
 		{
-			PhotonNetwork.FindFriends (model.usernameList);
+			PhotonNetwork.FindFriends (model.displayedUser.Users.usernameList);
 		}
 	}
 	public void OnUpdatedFriendList()
@@ -1460,47 +1461,47 @@ public class NewProfileController : MonoBehaviour
 		{
 			for(int i=0;i<PhotonNetwork.Friends.Count;i++)
 			{
-				for(int j=0;j<model.users.Count;j++)
+				for(int j=0;j<model.displayedUser.Users.getCount();j++)
 				{
-					if(model.users[j].Username==PhotonNetwork.Friends[i].Name)
+					if(model.displayedUser.Users.getUser(j).Username==PhotonNetwork.Friends[i].Name)
 					{
 						if(PhotonNetwork.Friends[i].IsInRoom)
 						{
-							if(model.friends.Contains(j))
+							if(model.displayedUser.MyFriends.Contains(j))
 							{
 								if(!this.friendsOnline.Contains(j))
 								{
 									this.friendsOnline.Insert(0,j);
-									model.users[j].OnlineStatus=2;
+									model.displayedUser.Users.getUser(j).OnlineStatus=2;
 								}
-								else if(model.users[j].OnlineStatus!=2)
+								else if(model.displayedUser.Users.getUser(j).OnlineStatus!=2)
 								{
 									this.friendsOnline.Remove(j);
 									this.friendsOnline.Insert(0,j);
-									model.users[j].OnlineStatus=2;
+									model.displayedUser.Users.getUser(j).OnlineStatus=2;
 								}
 							}
 						}
 						else if(PhotonNetwork.Friends[i].IsOnline)
 						{
-							if(model.friends.Contains(j))
+							if(model.displayedUser.MyFriends.Contains(j))
 							{
 								if(!this.friendsOnline.Contains(j))
 								{
 									this.friendsOnline.Insert(0,j);
-									model.users[j].OnlineStatus=1;
+									model.displayedUser.Users.getUser(j).OnlineStatus=1;
 								}
-								else if(model.users[j].OnlineStatus!=1)
+								else if(model.displayedUser.Users.getUser(j).OnlineStatus!=1)
 								{
 									this.friendsOnline.Remove(j);
 									this.friendsOnline.Insert(0,j);
-									model.users[j].OnlineStatus=1;
+									model.displayedUser.Users.getUser(j).OnlineStatus=1;
 								}
 							}
 						}
 						else
 						{
-							model.users[j].OnlineStatus=0;
+							model.displayedUser.Users.getUser(j).OnlineStatus=0;
 						}
 						break;
 					}
@@ -1522,11 +1523,11 @@ public class NewProfileController : MonoBehaviour
 				this.friendsToBeDisplayed.Add (this.friendsOnline[i]);
 			}
 		}
-		for(int i=0;i<model.friends.Count;i++)
+		for(int i=0;i<model.displayedUser.MyFriends.Count;i++)
 		{
-			if(!this.friendsToBeDisplayed.Contains(model.friends[i]))
+			if(!this.friendsToBeDisplayed.Contains(model.displayedUser.MyFriends[i]))
 			{
-				this.friendsToBeDisplayed.Add(model.friends[i]);
+				this.friendsToBeDisplayed.Add(model.displayedUser.MyFriends[i]);
 			}
 		}
 	}
@@ -1537,7 +1538,7 @@ public class NewProfileController : MonoBehaviour
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
 		}
-		else if(model.users [this.friendsToBeDisplayed[this.friendsDisplayed[id]]].OnlineStatus!=1)
+		else if(model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsDisplayed[id]]).OnlineStatus!=1)
 		{
 			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(6));
 		}
@@ -1549,7 +1550,7 @@ public class NewProfileController : MonoBehaviour
 	public IEnumerator sendInvitation(int id)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		StartCoroutine (BackOfficeController.instance.sendInvitation (model.users [this.friendsToBeDisplayed[this.friendsDisplayed[id]]], ApplicationModel.player));
+		StartCoroutine (BackOfficeController.instance.sendInvitation (model.displayedUser.Users.getUser(this.friendsToBeDisplayed[this.friendsDisplayed[id]]), ApplicationModel.player));
 		yield break;
 	}
 	public void acceptFriendsRequestHandler(int id)
@@ -2009,16 +2010,16 @@ public class NewProfileController : MonoBehaviour
 	public IEnumerator confirmFriendRequest(int id)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.confirm ());
-		if(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error=="")
+		yield return StartCoroutine(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).confirm ());
+		if(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error=="")
 		{
-			model.moveToFriend(this.friendsRequestsDisplayed[id]);
+			model.displayedUser.moveToFriend(this.friendsRequestsDisplayed[id]);
 			this.initializeFriendsRequests();
 		}
 		else
 		{
-			BackOfficeController.instance.displayErrorPopUp(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error);
-			model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error="";
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error);
+			ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error="";
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2041,16 +2042,16 @@ public class NewProfileController : MonoBehaviour
 	public IEnumerator removeFriendRequest(int id)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.remove ());
-		if(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error=="")
+		yield return StartCoroutine(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).remove ());
+		if(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error=="")
 		{
-			model.friendsRequests.RemoveAt(this.friendsRequestsDisplayed[id]);
+			ApplicationModel.player.MyConnections.remove(this.friendsRequestsDisplayed[id]);
 			this.initializeFriendsRequests();
 		}
 		else
 		{
-			BackOfficeController.instance.displayErrorPopUp(model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error);
-			model.friendsRequests [this.friendsRequestsDisplayed[id]].Connection.Error="";
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error);
+			ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error="";
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2060,7 +2061,7 @@ public class NewProfileController : MonoBehaviour
 		yield return StartCoroutine(model.displayedUser.ConnectionWithPlayer.remove ());
 		if(model.displayedUser.ConnectionWithPlayer.Error=="")
 		{
-			model.removeActivePlayerFromFriends();
+			model.displayedUser.removeFromFriends(ApplicationModel.player.Id);
 			model.displayedUser.IsConnectedToPlayer=false;
 			this.initializeFriends();
 			this.initializeFriendshipState();
@@ -2076,11 +2077,8 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		Connection connection = new Connection ();
-		connection.IdUser1 = ApplicationModel.player.Id;
-		connection.IdUser2 = model.displayedUser.Id;
-		connection.IsAccepted = false;
 
-		yield return StartCoroutine(connection.add ());
+		yield return StartCoroutine(connection.add (ApplicationModel.player.Id,model.displayedUser.Id,false));
 		if(connection.Error=="")
 		{
 			model.displayedUser.IsConnectedToPlayer=true;
@@ -2105,7 +2103,7 @@ public class NewProfileController : MonoBehaviour
 				this.friendshipStatusButtons[1].SetActive(false);
 				this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(11);
 			}
-			else if(model.displayedUser.ConnectionWithPlayer.IdUser1==model.displayedUser.Id)
+			else if(!model.displayedUser.ConnectionWithPlayer.IsInviting)
 			{
 				this.friendshipStatusButtons[0].SetActive(true);
 				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(12);
@@ -2113,7 +2111,7 @@ public class NewProfileController : MonoBehaviour
 				this.friendshipStatusButtons[1].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(13);
 				this.friendshipStatus.GetComponent<TextMeshPro>().text=WordingSocial.getReference(14);
 			}
-			else if(model.displayedUser.ConnectionWithPlayer.IdUser1==ApplicationModel.player.Id)
+			else if(model.displayedUser.ConnectionWithPlayer.IsInviting)
 			{
 				this.friendshipStatusButtons[0].SetActive(true);
 				this.friendshipStatusButtons[0].transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingSocial.getReference(15);
@@ -2138,7 +2136,7 @@ public class NewProfileController : MonoBehaviour
 			{
 				StartCoroutine(this.removeConnection());
 			}
-			else if(model.displayedUser.ConnectionWithPlayer.IdUser1==model.displayedUser.Id)
+			else if(!model.displayedUser.ConnectionWithPlayer.IsInviting)
 			{
 				if(buttonId==0)
 				{
@@ -2149,7 +2147,7 @@ public class NewProfileController : MonoBehaviour
 					StartCoroutine(this.removeConnection());
 				}
 			}
-			else if(model.displayedUser.ConnectionWithPlayer.IdUser1==ApplicationModel.player.Id)
+			else if(model.displayedUser.ConnectionWithPlayer.IsInviting)
 			{
 				StartCoroutine(this.removeConnection());
 			}

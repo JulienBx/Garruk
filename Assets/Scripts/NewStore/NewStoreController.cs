@@ -12,7 +12,7 @@ using Xsolla;
 public class NewStoreController : MonoBehaviour, IStoreListener
 {
 	public static NewStoreController instance;
-	private NewStoreModel model;
+	//private NewStoreModel model;
 
 	private IStoreController m_StoreController;
 	private IExtensionProvider m_StoreExtensionProvider;
@@ -219,7 +219,6 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	void Awake()
 	{
 		instance = this;
-		this.model = new NewStoreModel ();
 		this.speed = 300.0f;
 		this.scrollIntersection = 1.2f;
 		this.mainContentDisplayed = true;
@@ -227,7 +226,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.initializeBackOffice();
 		this.initializeMenu();
 		this.initializeHelp();
-		StartCoroutine (this.initialization ());
+		this.initialization ();
 	}
 	private void initializeHelp()
 	{
@@ -321,11 +320,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.productsPopUp = GameObject.Find ("ProductsPopUp");
 		this.productsPopUp.SetActive (false);
 	}
-	private IEnumerator initialization()
+	private void initialization()
 	{
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return(StartCoroutine(this.model.initializeStore()));
 		this.initializePacks ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
@@ -353,7 +351,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public void initializePacks()
 	{
 		this.packsPagination.chosenPage = 0;
-		this.packsPagination.totalElements = model.packList.Count;
+		this.packsPagination.totalElements = ApplicationModel.packs.getCount();
 		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().p = packsPagination;
 		this.packsPaginationButtons.GetComponent<NewStorePaginationController> ().setPagination ();
 		this.drawPaginationNumber ();
@@ -365,9 +363,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
         {
 			string productPrice =getProductsPrice(i);
 			this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().setId(i);
-            this.productsPopUp.transform.FindChild("product"+i).FindChild("Value").GetComponent<TextMeshPro>().text=model.productList[i].Crystals.ToString()+WordingProducts.getReferences(2);
+            this.productsPopUp.transform.FindChild("product"+i).FindChild("Value").GetComponent<TextMeshPro>().text=ApplicationModel.products.getProduct(i).Crystals.ToString()+WordingProducts.getReferences(2);
 			this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().reset();
-			if(productPrice=="" || !model.productList[i].IsActive || productPrice==WordingProducts.getReferences(0))
+			if(productPrice=="" || !ApplicationModel.products.getProduct(i).IsActive || productPrice==WordingProducts.getReferences(0))
 			{
 				this.productsPopUp.transform.FindChild("product"+i).FindChild("Price").GetComponent<TextMeshPro>().text=WordingProducts.getReferences(0);
 				this.productsPopUp.transform.FindChild("product"+i).FindChild("Button").GetComponent<ProductsPopUpProductController>().setIsActive(false);
@@ -639,7 +637,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		{
 			this.randomCards[i] = Instantiate(this.cardObject) as GameObject;
 			this.randomCards[i].AddComponent<NewCardStoreController>();
-			this.randomCards[i].GetComponent<NewCardStoreController>().c=model.packList[this.selectedPackIndex].Cards.getCard(i);
+			this.randomCards[i].GetComponent<NewCardStoreController>().c=ApplicationModel.packs.getPack(this.selectedPackIndex).Cards.getCard(i);
 			this.randomCards[i].GetComponent<NewCardStoreController>().show();
 			this.randomCards[i].GetComponent<NewCardStoreController>().setId(i);
 			this.randomCards[i].GetComponent<NewCardStoreController>().setBackFace(true);
@@ -720,7 +718,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		this.randomCardsDisplayed[0]=true;
 		this.focusedCard.SetActive(true);
 		this.focusedCard.GetComponent<NewFocusedCardStoreController>().displayFocusFeatures(false);
-		this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=model.packList[this.selectedPackIndex].Cards.getCard(0);
+		this.focusedCard.GetComponent<NewFocusedCardStoreController>().c=ApplicationModel.packs.getPack(this.selectedPackIndex).Cards.getCard(0);
 		this.focusedCard.GetComponent<NewFocusedCardStoreController>().show ();
 		this.focusedCard.GetComponent<NewFocusedCardStoreController>().setBackFace(true);
 		this.focusedCard.GetComponent<NewFocusedCardStoreController>().transform.rotation=Quaternion.Euler(0, 180, 0);
@@ -788,10 +786,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		
 		for(int i=0;i<this.packsPagination.nbElementsPerPage;i++)
 		{
-			if(this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i<model.packList.Count)
+			if(this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i<ApplicationModel.packs.getCount())
 			{
 				this.packsDisplayed.Add (this.packsPagination.chosenPage*(this.packsPagination.nbElementsPerPage)+i);
-				this.packs[i].GetComponent<NewPackStoreController>().show(model.packList[this.packsDisplayed[i]]);
+				this.packs[i].GetComponent<NewPackStoreController>().show(ApplicationModel.packs.getPack(this.packsDisplayed[i]));
 				this.packs[i].SetActive(true);
 			}
 			else
@@ -828,21 +826,21 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		if (HelpController.instance.canAccess (canAccess)) {
 
 			if (fromHome) {
-				for (int i = 0; i < model.packList.Count; i++) {
-					if (model.packList [i].Id == id) {
+				for (int i = 0; i < ApplicationModel.packs.getCount(); i++) {
+					if (ApplicationModel.packs.getPack (i).Id == id) {
 						this.selectedPackIndex = i;
 						break;
 					}
 				
 				}
-				this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
+				this.selectedCardType = ApplicationModel.packs.getPack(this.selectedPackIndex).CardType;
 			}
 			if (!trainingPack) {
 				if (!fromHome) {
 					this.selectedPackIndex = this.packsDisplayed [id];
 				}
-				this.selectedCardType = model.packList [this.selectedPackIndex].CardType;
-				this.nbCards = model.packList [this.selectedPackIndex].NbCards;
+				this.selectedCardType = ApplicationModel.packs.getPack (this.selectedPackIndex).CardType;
+				this.nbCards = ApplicationModel.packs.getPack (this.selectedPackIndex).NbCards;
 			}
 			if (trainingPack) {
 				this.selectedCardType = ApplicationModel.player.TrainingAllowedCardType;
@@ -865,9 +863,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		SoundController.instance.playSound(11);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(model.buyPack (this.selectedPackIndex, this.selectedCardType, HelpController.instance.getIsTutorialLaunched(),ApplicationModel.player.HasToBuyTrainingPack));
+        yield return StartCoroutine(ApplicationModel.packs.getPack(this.selectedPackIndex).buy( this.selectedCardType, HelpController.instance.getIsTutorialLaunched(),ApplicationModel.player.HasToBuyTrainingPack));
 		BackOfficeController.instance.hideLoadingScreen ();
-		if(model.Error=="")
+        if(ApplicationModel.packs.getPack(this.selectedPackIndex).Error=="")
 		{
 			this.randomCardsDisplayed = new bool[this.nbCards];
 			this.randomCards = new GameObject[this.nbCards];
@@ -889,22 +887,11 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				this.displayBackUI(false);
 				this.displayCardFocused();
 			}
-			if(!HelpController.instance.getIsTutorialLaunched())
-			{
-				if(this.model.CollectionPointsEarned>0)
-				{
-					BackOfficeController.instance.displayCollectionPointsPopUp(model.CollectionPointsEarned,model.CollectionPointsRanking);
-				}
-				if(this.model.NewSkills.Count>0)
-				{
-					BackOfficeController.instance.displayNewSkillsPopUps(model.NewSkills);
-				}
-			}
 			StartCoroutine(BackOfficeController.instance.getUserData ());
 		}
 		else
 		{
-			BackOfficeController.instance.displayErrorPopUp(model.Error);
+            BackOfficeController.instance.displayErrorPopUp(ApplicationModel.packs.getPack(this.selectedPackIndex).Error);
 		}
 	}
 	public void hideCardFocused()
@@ -934,7 +921,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 			this.focusedCard.SetActive (true);
 			this.isCardFocusedDisplayed = true;
 			this.focusedCard.GetComponent<NewFocusedCardStoreController> ().displayFocusFeatures (true);
-			this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = model.packList [this.selectedPackIndex].Cards.getCard (this.clickedCardId);
+			this.focusedCard.GetComponent<NewFocusedCardStoreController> ().c = ApplicationModel.packs.getPack(this.selectedPackIndex).Cards.getCard (this.clickedCardId);
 			this.focusedCard.GetComponent<NewFocusedCardController> ().show ();
 			this.displayCardFocused ();
 			SoundController.instance.stopPlayingSound ();
@@ -959,6 +946,10 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		if(this.areRandomCardsGenerated)
 		{
 			StartCoroutine(BackOfficeController.instance.getUserData ());
+			print(ApplicationModel.player.MyCards.getCount());
+			print(this.nbCards);
+			print(this.clickedCardId);
+			ApplicationModel.player.MyCards.remove(this.clickedCardId);
 			this.randomCardsDisplayed[this.clickedCardId]=false;
 			this.randomCards[this.clickedCardId].SetActive(false);
 			this.hideCardFocused();
@@ -1038,7 +1029,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	{
 		for(int i=0;i<this.packsDisplayed.Count;i++)
 		{
-			if(ApplicationModel.player.Money<model.packList[this.packsDisplayed[i]].Price)
+			if(ApplicationModel.player.Money<ApplicationModel.packs.getPack(this.packsDisplayed[i]).Price)
 			{
 				this.packs[i].GetComponent<NewPackStoreController>().activeButton(false);
 			}
@@ -1168,9 +1159,9 @@ public class NewStoreController : MonoBehaviour, IStoreListener
         BackOfficeController.instance.displayLoadingScreen();
 	   	var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-	    for(int i=0;i<model.productList.Count;i++)
+	    for(int i=0;i<ApplicationModel.products.getCount();i++)
 	    {
-			builder.AddProduct(model.productList[i].ProductID, ProductType.Consumable, new IDs(){{ model.productList[i].ProductNameApple,AppleAppStore.Name },{ model.productList[i].ProductNameGooglePlay,GooglePlay.Name },});
+			builder.AddProduct(ApplicationModel.products.getProduct(i).ProductID, ProductType.Consumable, new IDs(){{ ApplicationModel.products.getProduct(i).ProductNameApple,AppleAppStore.Name },{ ApplicationModel.products.getProduct(i).ProductNameGooglePlay,GooglePlay.Name },});
 	    }
 	    UnityPurchasing.Initialize(this, builder);
 	}
@@ -1180,7 +1171,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	}
 	public string getProductsPrice(int id)
 	{
-        Product product = m_StoreController.products.WithID(model.productList[id].ProductID);
+        Product product = m_StoreController.products.WithID(ApplicationModel.products.getProduct(id).ProductID);
 		if(product!=null)
 		{
 			return product.metadata.localizedPriceString;
@@ -1193,7 +1184,7 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	public void buyProductHandler(int id)
 	{
 		BackOfficeController.instance.displayLoadingScreen();
-		this.BuyProductID(model.productList[id].ProductID);
+		this.BuyProductID(ApplicationModel.products.getProduct(id).ProductID);
 		this.hideProductsPopUp();
 	}
 	void BuyProductID(string productId)
@@ -1267,12 +1258,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 	    // A consumable product has been purchased by this user.
 	    bool isBuying=false;
 
-	    for(int i=0;i<model.productList.Count;i++)
+	    for(int i=0;i<ApplicationModel.products.getCount();i++)
 	    {
-			if (String.Equals(args.purchasedProduct.definition.id, model.productList[i].ProductID, StringComparison.Ordinal))
+			if (String.Equals(args.purchasedProduct.definition.id, ApplicationModel.products.getProduct(i).ProductID, StringComparison.Ordinal))
 		    {
 		        Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-		        StartCoroutine	(this.addProduct((int)model.productList[i].Crystals));
+		        StartCoroutine	(this.addProduct((int)ApplicationModel.products.getProduct(i).Crystals));
 		        isBuying=true;
     		}
 	    }

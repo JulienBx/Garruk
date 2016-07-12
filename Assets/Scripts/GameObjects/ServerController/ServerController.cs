@@ -9,7 +9,6 @@ public class ServerController : MonoBehaviour
 	public static ServerController instance;
 
 	private bool toDetectTimeOut;
-	private bool detectedTimeOut;
 	private float timer;
 	private string URL;
 	private WWWForm form;
@@ -25,12 +24,14 @@ public class ServerController : MonoBehaviour
 			if(this.timer>ApplicationModel.timeOutDelay)
 			{
 				this.toDetectTimeOut=false;
-				this.detectedTimeOut=true;
-                this.error=WordingServerError.getReference("5",true);
-				StopCoroutine(this.executeRequest());
-                this.lostConnection();
+                BackOfficeController.instance.displayOfflineModeButton(true);
 			}
 		}
+	}
+	public void switchOffline()
+	{
+		StopCoroutine(this.executeRequest());
+		ApplicationModel.player.IsOnline=false;
 	}
 	public void initialize()
 	{
@@ -48,17 +49,17 @@ public class ServerController : MonoBehaviour
 		this.error="";
 		this.timer=0f;
 		this.toDetectTimeOut=true;
-		this.detectedTimeOut=false;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
-		if(!this.detectedTimeOut)
+		this.toDetectTimeOut=false;
+		if(w.error!=null)
 		{
-			this.toDetectTimeOut=false;
-			if(w.error!=null)
-			{
-				this.error=WordingServerError.getReference(w.error,false);
-			}
-			else if(w.text.Contains("#ERROR#"))
+			ApplicationModel.player.IsOnline=false;
+			Debug.Log(WordingServerError.getReference(w.error,false));
+		}
+		if(ApplicationModel.player.IsOnline)
+		{
+			if(w.text.Contains("#ERROR#"))
 			{
 				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				this.error = WordingServerError.getReference(errors [1],true);

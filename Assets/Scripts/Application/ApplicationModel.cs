@@ -38,6 +38,16 @@ public class ApplicationModel
 
     static public float timeAppModel ;
 
+
+    static public Packs packs;
+    static public DisplayedProducts products;
+
+    static public CardTypes cardTypes;
+    static public SkillTypes skillTypes;
+    static public Skills skills;
+    static public List<int> xpLevels;
+
+
 	#if (UNITY_EDITOR)
     static public int[] onlineStatus;
 	static public string[] onlineCheck;
@@ -63,7 +73,13 @@ public class ApplicationModel
 		timeOutDelay=10f;
         currentGameId=-1;
 		player=new Player();
-
+		packs=new Packs();
+		products=new DisplayedProducts();
+        cardTypes=new CardTypes();
+        skillTypes=new SkillTypes();
+        skills=new Skills();
+        xpLevels=new List<int>();
+        
 		#if (UNITY_EDITOR)
 		onlineCheck=new string[3];
 		onlineCheck[0]="guillaume";
@@ -100,7 +116,6 @@ public class ApplicationModel
         }
         return Convert.ToBase64String(cipherTextBytes);
     }
- 
     static public string Decrypt(string encryptedText)
     {
         byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
@@ -116,5 +131,22 @@ public class ApplicationModel
         memoryStream.Close();
         cryptoStream.Close();
         return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+    }
+	static public string ReplaceFirst(string text, string search, string replace)
+	{
+		int pos = text.IndexOf(search);
+		if (pos < 0)
+		{
+			return text;
+		}
+		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+	}
+	static public void parseXpLevels(string s)
+    {
+		string[] array = s.Split (new string[]{"#XPLEVEL#"},System.StringSplitOptions.None);
+        for(int i=0;i<array.Length-1;i++)
+        {
+			xpLevels.Add (System.Convert.ToInt32(array[i]));
+        }
     }
 }

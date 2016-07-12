@@ -100,8 +100,8 @@ public class NewSkillBookSkillController : SpriteButtonController
 		{
 			level=1;
 		}
-		this.cardType.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(s.CardType.getPictureId());
-		this.cardType.GetComponent<NewSkillBookSkillCardTypeController>().setCardType(s.CardType.Id);
+		this.cardType.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnCardTypePicto(ApplicationModel.cardTypes.getCardType(s.IdCardType).getPictureId());
+        this.cardType.GetComponent<NewSkillBookSkillCardTypeController>().setCardType(ApplicationModel.cardTypes.getCardType(s.IdCardType).Id);
 		this.picto.GetComponent<SpriteRenderer> ().sprite = BackOfficeController.instance.returnSkillPicto(this.s.getPictureId());
 		this.picto.GetComponent<SpriteRenderer>().color=ApplicationDesignRules.returnCardColor(level);
 		if(this.s.IsActiveSkill)
