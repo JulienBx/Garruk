@@ -72,6 +72,10 @@ public class CardC : MonoBehaviour
 		lifeText = gameObject.transform.FindChild("Background").FindChild("PVValue").GetComponent<TextMeshPro>();
 	}
 
+	public void move(){
+		this.moved = true ;
+	}
+
 	public bool hasMoved(){
 		return this.moved;
 	}

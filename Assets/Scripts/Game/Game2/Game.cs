@@ -579,6 +579,11 @@ public class Game : MonoBehaviour
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
 		this.gamecards.getCardC(i).setTile(new TileM(x,y));
 		this.getBoard().getTileC(x,y).setCharacterID(i);
+		if(currentCardID!=-1){
+			if(i==this.getCurrentCardID()){
+				this.getCurrentCard().move();
+			}
+		}
 	}
 
 	public void dropOutsideBoard(){
@@ -620,7 +625,7 @@ public class Game : MonoBehaviour
 
 	public void startGame(bool b){
 		this.getStartButton().show(false);
-
+		this.deleteDestinations();
 		if(b){
 			this.cardsToPlay.Add(0);
 			this.cardsToPlay.Add(4);
@@ -678,6 +683,7 @@ public class Game : MonoBehaviour
 		for(int i = 1 ; i < 4 ; i++){
 			if (c.getCardM().getSkill(i).IsActivated==1){
 				this.getSkillButton(i).init(c, i);
+
 			}
 		}
 		//this.getPassButton(0).init(c);
