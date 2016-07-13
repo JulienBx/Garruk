@@ -151,6 +151,12 @@ public class Game : MonoBehaviour
 			Vector3 mousePos = Input.mousePosition;
 			this.getCards().getCardC(draggingCardID).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
 		}
+
+		if(this.ia){
+			if(this.intelligence.isStarting()){
+				this.intelligence.addStartTime(Time.deltaTime);
+			}
+		}
 	}
 
 	public int getCurrentCardID(){
@@ -363,10 +369,10 @@ public class Game : MonoBehaviour
 	}
 
 	public void setIA(bool b){
-		this.ia = b;
 		if(b){
 			this.intelligence = new Intelligence();
 		}
+		this.ia = b;
 	}
 
 	public bool isTutorial(){
@@ -446,6 +452,9 @@ public class Game : MonoBehaviour
 	}
 
 	public void launchPreGame(){
+		if(this.ia){
+			this.intelligence.launch();
+		}
 		this.setInitialDestinations();
 		this.getStartButton().show(true);
 		this.getForfeitButton().show(true);
@@ -585,11 +594,13 @@ public class Game : MonoBehaviour
 
 	public void pushStartButton(){
 		if(this.ia || this.isTutorial()){
-			this.startGame(true);
+			this.addStartGame(true);
 		}
 		else{
 			GameRPC.instance.launchRPC("startGameRPC");
 		}
+		this.getStartButton().setText(WordingGame.getText(70));
+		this.getStartButton().hideButton();
 	}
 
 	public void addStartGame(bool b){
@@ -599,7 +610,17 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	public void deleteDestinations(){
+		for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
+			for(int j = 0 ; j < this.getBoard().getBoardHeight() ; j++){
+				this.getBoard().getTileC(i,j).showDestination(false);
+			}
+		}
+	}
+
 	public void startGame(bool b){
+		this.getStartButton().show(false);
+
 		if(b){
 			this.cardsToPlay.Add(0);
 			this.cardsToPlay.Add(4);

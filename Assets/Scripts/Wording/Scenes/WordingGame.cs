@@ -99,8 +99,10 @@ public class WordingGame
 		texts.Add(new string[]{"Passer","End my turn"});
 		texts.Add(new string[]{"Connexion internet perdue... Essaye de se reconnecter","Lost internet connnection... Trying to reconnect..."});
 		texts.Add(new string[]{"Démarrer le combat!","Start the fight!"});
-		texts.Add(new string[]{"Case inatteignable!","You can not move on this tile!"});
+		texts.Add(new string[]{"Case hors de portée!","You can not move on this tile!"});
 		texts.Add(new string[]{"La case est occupée","Tile is already taken!"});
+
+		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
 
 
 	}

@@ -5,6 +5,14 @@ using System.Collections;
 
 public class Intelligence
 {
+	float startTime ;
+	float timerStart ;
+	bool starting ;
+
+	public Intelligence(){
+		this.starting = false ;
+	}
+
 	public void placeCards(){
 		int strategy = UnityEngine.Random.Range(1,11);
 		Tile startingTile = new Tile(-1,-1) ;
@@ -161,6 +169,24 @@ public class Intelligence
 
 			tilesOccupancy[startingTile.x, startingTile.y]=1;
 			Game.instance.moveOn(startingTile.x, startingTile.y+6, i);
+		}
+	}
+
+	public void launch(){
+		this.startTime = UnityEngine.Random.Range(1,10);
+		this.timerStart = 0f;
+		this.starting = true;
+	}
+
+	public bool isStarting(){
+		return this.starting;
+	}
+
+	public void addStartTime(float f){
+		this.timerStart+=f;
+		if(this.timerStart>this.startTime){
+			this.starting = false ;
+			Game.instance.addStartGame(false);
 		}
 	}
 }

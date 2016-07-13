@@ -4,9 +4,12 @@ using TMPro;
 
 public class SkillButtonC : MonoBehaviour
 {
+	bool launchable ;
+
 	void Awake()
 	{
 		this.show(false);
+		this.launchable = false ;
 	}
 
 	public void show(bool b){
@@ -36,5 +39,16 @@ public class SkillButtonC : MonoBehaviour
 			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = c.getSkillText(i) ;
 		}
 	}
+
+	public void OnMouseEnter()
+	{
+		this.showDescription(true);
+	}
+
+	public void OnMouseExit()
+	{
+		this.showDescription(false);
+	}
+
 }
 

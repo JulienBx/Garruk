@@ -7,7 +7,7 @@ public class StartButtonC : MonoBehaviour
 	void Awake ()
 	{
 		this.show(false);
-		gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text = WordingGame.getText(67);
+		this.setText(WordingGame.getText(67));
 	}
 
 	public void show(bool b){
@@ -35,6 +35,15 @@ public class StartButtonC : MonoBehaviour
 	public void OnMouseDown()
 	{
 		Game.instance.pushStartButton();
+	}
+
+	public void setText(string s){
+		gameObject.transform.FindChild("StartButton").GetComponent<TextMeshPro>().text = s;
+	}
+
+	public void hideButton(){
+		gameObject.transform.GetComponent<SpriteRenderer>().enabled = false ;
+		gameObject.transform.GetComponent<BoxCollider>().enabled = false ;
 	}
 }
 
