@@ -60,6 +60,8 @@ public class LoginPopUpController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		this.rememberMe=!this.rememberMe;
+        ApplicationModel.player.AutomaticConnection=this.rememberMe;
+        PlayerPrefs.SetInt("automaticConnection",System.Convert.ToInt32(ApplicationModel.player.AutomaticConnection));
 		this.applyRememberMeSprites();
 	}
 	public void loginHandler()

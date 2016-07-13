@@ -497,7 +497,9 @@ public class Player : User
 		if (this.ToRememberLogins)
 		{
 			toMemorizeString = "1";
-		} else
+           
+		} 
+        else
 		{
 			toMemorizeString = "0";
 		}
@@ -885,6 +887,7 @@ public class Player : User
 		this.TrainingStatus=System.Convert.ToInt32 (array [24]);
 		this.HasToBuyTrainingPack=System.Convert.ToBoolean(System.Convert.ToInt32 (array [25]));
 		this.isPublic=System.Convert.ToBoolean(System.Convert.ToInt32 (array [26]));
+        this.Username=array [27];
 		this.getTrainingAllowedCardType();
 	}
 	public List<int> parseFriends(string s)

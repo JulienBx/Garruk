@@ -50,10 +50,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	void Awake()
 	{
 		this.initializeScene ();
-		ApplicationModel.volBackOfficeFx = PlayerPrefs.GetFloat ("sfxVol", 0.5f) * ApplicationModel.volMaxBackOfficeFx;
-		ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
-		ApplicationModel.player.AutomaticConnection=System.Convert.ToBoolean(PlayerPrefs.GetInt("automaticConnection",0));
-		ApplicationModel.player.Username=ApplicationModel.Decrypt(PlayerPrefs.GetString("username",""));
 	}
 	void Start()
 	{
@@ -72,7 +68,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		if(ApplicationModel.player.ToDeconnect)
 		{
-			this.displayLoginPopUp();
+            this.displayLoginPopUp();
 			ApplicationModel.player.ToDeconnect=false;
 			if(ApplicationModel.player.HasLostConnection)
 			{
@@ -83,18 +79,20 @@ public class AuthenticationController : Photon.MonoBehaviour
 		}
 		else if(this.isConnectedToFB())
 		{
-			this.displayLoginPopUp();
+            this.displayLoginPopUp();
 			AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
 			ApplicationModel.player.FacebookId=aToken.UserId;
+            ApplicationModel.player.Username="";
 			StartCoroutine(this.login());
 		}
 		else if(ApplicationModel.player.AutomaticConnection)
 		{
-			StartCoroutine (this.login ());
+            ApplicationModel.player.Username="";
+            StartCoroutine (this.login ());
 		}
 		else
 		{
-			BackOfficeController.instance.hideLoadingScreen();
+            BackOfficeController.instance.hideLoadingScreen();
 			this.displayLoginPopUp();
 		}
 	}
@@ -124,6 +122,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		ApplicationModel.player.ToDeconnect=lastToDeconnect;
 		ApplicationModel.player.HasLostConnection=lastHasLostConnection;
 		ApplicationModel.player.MacAdress=SystemInfo.deviceUniqueIdentifier;
+        ApplicationModel.volBackOfficeFx = PlayerPrefs.GetFloat ("sfxVol", 0.5f) * ApplicationModel.volMaxBackOfficeFx;
+        ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
+        ApplicationModel.player.AutomaticConnection=System.Convert.ToBoolean(PlayerPrefs.GetInt("automaticConnection",0));
+        ApplicationModel.player.Username=ApplicationModel.Decrypt(PlayerPrefs.GetString("username",""));
 	}
 	private void initializeServerController()
 	{
