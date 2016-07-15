@@ -9,6 +9,7 @@ public class SkillButtonC : MonoBehaviour
 	void Awake()
 	{
 		this.show(false);
+		this.showDescription(false);
 		this.launchable = false ;
 	}
 
@@ -16,7 +17,6 @@ public class SkillButtonC : MonoBehaviour
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.GetComponent<BoxCollider>().enabled = b ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
-		this.showDescription(b);
 	}
 
 	public void showDescription(bool b){

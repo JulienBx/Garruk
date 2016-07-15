@@ -32,6 +32,7 @@ public class CardC : MonoBehaviour
 	bool deadLayer;
 	bool backTileLayer;
 
+	List<ModifyerM> damageModifyers ;
 	List<ModifyerM> stateModifyers ;
 	List<ModifyerM> moveModifyers ;
 	List<ModifyerM> esquiveModifyers ;
@@ -52,6 +53,8 @@ public class CardC : MonoBehaviour
 	bool measuringPush;
 
 	bool moved ;
+	bool dead;
+	bool[,] destinations ;
 
 	void Awake(){
 		this.upgradingLife = false ;
@@ -59,6 +62,7 @@ public class CardC : MonoBehaviour
 		this.deadLayer = false ;
 		this.backTileLayer = false ;
 		this.moved = false ;
+		this.dead = false ;
 
 		this.stateModifyers = new List<ModifyerM>();
 		this.moveModifyers = new List<ModifyerM>();
@@ -67,9 +71,29 @@ public class CardC : MonoBehaviour
 		this.lifeModifyers = new List<ModifyerM>();
 		this.attackModifyers = new List<ModifyerM>();
 		this.bouclierModifyers = new List<ModifyerM>();
+		this.damageModifyers = new List<ModifyerM>();
 
 		attackText = gameObject.transform.FindChild("Background").FindChild("AttackValue").GetComponent<TextMeshPro>();
 		lifeText = gameObject.transform.FindChild("Background").FindChild("PVValue").GetComponent<TextMeshPro>();
+
+		this.initDestinations();
+	}
+
+	public bool canMoveOn(int x, int y){
+		return this.destinations[x,y] ;
+	}
+
+	public void setDestinations(bool[,] tab){
+		this.destinations = tab;
+	}
+
+	public void initDestinations(){
+		this.destinations = new bool[Game.instance.getBoard().getBoardWidth(),Game.instance.getBoard().getBoardHeight()];
+		for (int i = 0 ; i < Game.instance.getBoard().getBoardWidth() ; i++){
+			for (int j = 0 ; j < Game.instance.getBoard().getBoardHeight() ; j++){
+				this.destinations[i,j]=false;
+			}
+		}
 	}
 
 	public void move(){
@@ -78,6 +102,10 @@ public class CardC : MonoBehaviour
 
 	public bool hasMoved(){
 		return this.moved;
+	}
+
+	public bool isDead(){
+		return this.dead;
 	}
 
 	public bool canMove(){
@@ -332,15 +360,35 @@ public class CardC : MonoBehaviour
 	}
 
 	public int getLife(){
-		return this.card.getLife();
+		int life = this.getTotalLife();
+		for(int i = 0 ; i < this.damageModifyers.Count ; i++){
+			life-=this.damageModifyers[i].getAmount();
+		}
+		return life;
 	}
 
 	public int getTotalLife(){
-		return this.card.getLife();
+		int totalLife = this.card.getLife();
+		for(int i = 0 ; i < this.lifeModifyers.Count ; i++){
+			totalLife+=this.lifeModifyers[i].getAmount();
+		}
+		return totalLife;
 	}
 
 	public int getAttack(){
-		return this.card.getAttack();
+		int attack = this.card.getAttack();
+		for(int i = 0 ; i < this.attackModifyers.Count ; i++){
+			attack+=this.attackModifyers[i].getAmount();
+		}
+		return attack;
+	}
+
+	public int getMove(){
+		int move = this.card.getMove();
+		for(int i = 0 ; i < this.moveModifyers.Count ; i++){
+			move+=this.moveModifyers[i].getAmount();
+		}
+		return move;
 	}
 
 	public List<int> getIcons(){

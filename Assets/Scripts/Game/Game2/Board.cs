@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Board
 {
@@ -78,6 +79,23 @@ public class Board
 			}
 		}
 		return tilesOccupancy;
+	}
+
+	public List<TileM> getTileNeighbours(TileM t){
+		List<TileM> tiles = new List<TileM>();
+		if(t.x>0){
+			tiles.Add(new TileM(t.x-1,t.y));
+		}
+		else if(t.y>0){
+			tiles.Add(new TileM(t.x,t.y-1));
+		}
+		else if(t.x<this.getBoardWidth()-1){
+			tiles.Add(new TileM(t.x+1,t.y));
+		}
+		else if(t.y<this.getBoardHeight()-1){
+			tiles.Add(new TileM(t.x,t.y+1));
+		}
+		return tiles;
 	} 
 }
 

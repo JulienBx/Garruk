@@ -49,6 +49,10 @@ public class CardM
 		return this.attack;
 	}
 
+	public int getMove(){
+		return this.move;
+	}
+
 	public int getLife(){
 		return this.attack;
 	}

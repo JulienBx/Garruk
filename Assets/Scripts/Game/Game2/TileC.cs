@@ -191,6 +191,19 @@ public class TileC : MonoBehaviour
 			}
 		}
 	}
+
+	public bool canPassOver(bool b){
+		bool canPass = true ;
+		if(this.isRock()){
+			canPass = false ;
+		}
+		else{
+			if(Game.instance.getCards().getCardC(this.characterID).getCardM().isMine()!=b){
+				canPass = false;
+			}
+		}
+		return canPass;
+	}
 }
 
 

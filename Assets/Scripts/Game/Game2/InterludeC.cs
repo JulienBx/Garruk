@@ -100,5 +100,14 @@ public class InterludeC : MonoBehaviour
 		}
 		*/
 	}
+
+	public void show(bool b){
+		gameObject.GetComponent<BoxCollider>().enabled = b;
+		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().enabled = b;
+		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().enabled = b;
+		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().enabled = b;
+		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b;
+		gameObject.transform.FindChild("Background").GetComponent<SpriteRenderer>().enabled = b;
+	}
 }
 
