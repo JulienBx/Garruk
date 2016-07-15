@@ -5985,7 +5985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1578b9753d2604f98d608cb4239e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_text: 34313230373636663734373236353230373436663735373232303231
+  m_text: "D\xE9but du tour"
   m_fontAsset: {fileID: 11400000, guid: 417116fc0b0e447faa47204a6eab148e, type: 2}
   m_fontStyle: 2
   m_isOverlay: 0
@@ -6005,7 +6005,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 2
+  m_fontSize: 7.7
   m_fontSizeMin: 2
   m_fontSizeMax: 12
   m_fontSizeBase: 12
@@ -6061,14 +6061,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b34fc186f40e8043b977d4fa70db8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pivot: {x: 0, y: 1}
-  m_anchorPosition: 0
+  m_pivot: {x: 0.5, y: 0.5}
+  m_anchorPosition: 4
   m_rect:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0
-    height: 0.243875
+    width: 5.5
+    height: 1
   m_margins: {x: 0, y: 0, z: 0, w: 0}
 --- !u!23 &564430399
 MeshRenderer:
