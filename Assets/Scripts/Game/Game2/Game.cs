@@ -86,8 +86,6 @@ public class Game : MonoBehaviour
 		this.hisPlayerName = GameObject.Find("HisPlayerName");
 		this.cancelButton = GameObject.Find("CancelButton");
 
-
-
 		GameObject.Find("Logo").GetComponent<SpriteRenderer>().enabled = false;
 	}
 

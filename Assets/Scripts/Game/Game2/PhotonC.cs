@@ -28,6 +28,7 @@ public class PhotonC : Photon.MonoBehaviour
 	public void addTime(float f){
 		this.waitingTime+=f;
 		if(this.waitingTime>this.timeLimit){
+			print("CLOSE");
 			this.isWaiting=false;
 			PhotonNetwork.room.visible = false;
 			this.createIARoom();
