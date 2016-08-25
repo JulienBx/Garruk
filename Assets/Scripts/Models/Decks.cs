@@ -11,12 +11,10 @@ public class Decks{
 	{
 		this.decks = new List<Deck>();
 	}
-
 	public Deck getDeck(int index)
 	{
 		return this.decks [index];
 	}
-
 	public int getCount()
 	{
 		return this.decks.Count;

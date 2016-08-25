@@ -50,6 +50,8 @@ public class Card
 	public bool isMine ;
 	public int LifeNbUpgrades;
 	public int AttackNbUpgrades;
+	public int CaracteristicUpgraded;
+	public int CaracteristicIncrease;
 	public string String;
 	public bool ToSync;
 	private string urlSyncCard = ApplicationModel.host + "card_sync.php"; 
@@ -467,6 +469,7 @@ public class Card
 	}
 	public void updateCardXp(bool toNextLevel, int xp)
 	{
+		this.GetNewSkill = false;
 		int newCardXp=this.Experience+xp;
 		int newCardLevel = this.ExperienceLevel;
 		int newNextLevelPrice=0;
@@ -522,12 +525,16 @@ public class Card
 					}
 					else
 					{
-						newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+						newNextLevelPrice=ApplicationModel.xpLevels[i+1]-newCardXp;
 						newPercentageToNextLevel=0;
 					}
 					break;
 				}
 			}
+		}
+		for (int i = 0; i < this.Skills.Count; i++) 
+		{
+			this.Skills[i].IsNew = false;
 		}
 		if(newCardLevel!=this.ExperienceLevel)
 		{
@@ -535,13 +542,16 @@ public class Card
 			{
 				this.GetNewSkill=true;
 				this.Skills[2].IsActivated=1;
+				this.Skills[2].IsNew = true;
 			}
 			else if(newCardLevel==8)
 			{
 				this.GetNewSkill=true;
 				this.Skills[3].IsActivated=1;
+				this.Skills[3].IsNew = true;
 			}
 		}
+
 		this.Experience=newCardXp;
 		this.ExperienceLevel=newCardLevel;
 		this.PercentageToNextLevel=newPercentageToNextLevel;
@@ -556,12 +566,14 @@ public class Card
 				caracteristicincrease=-1;
 				break;
 			case 0:
-				caracteristicincrease=newPower-this.Attack;
-				this.AttackNbUpgrades=this.AttackNbUpgrades+1;
+				caracteristicincrease = newPower - this.Attack;
+				this.AttackNbUpgrades = this.AttackNbUpgrades + 1;
+				this.Attack = newPower;
 				break;
 			case 1:
-				caracteristicincrease=newPower-this.Life;
-				this.LifeNbUpgrades=this.LifeNbUpgrades+1;
+				caracteristicincrease = newPower - this.Life;
+				this.LifeNbUpgrades = this.LifeNbUpgrades + 1;
+				this.Life = newPower;
 				break;
 			case 2:
 				break;
@@ -572,6 +584,8 @@ public class Card
 				this.Skills[attribute-3].Level=newLevel;
 				break;
 		}
+		this.CaracteristicIncrease = caracteristicincrease;
+		this.CaracteristicUpgraded = attribute;
 		this.updateCardPower();
 		this.defineUpgradedCard();
 	}
@@ -640,15 +654,15 @@ public class Card
 		calculus=10*(this.UpgradedLife-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife));
 		if(calculus>8)
 		{
-			this.UpgradedLife=3;
+			this.UpgradedLifeLevel=3;
 		}
 		else if(calculus>5)
 		{
-			this.UpgradedLife=2;
+			this.UpgradedLifeLevel=2;
 		}
 		else
 		{
-			this.UpgradedLife=1;
+			this.UpgradedLifeLevel=1;
 		}
 
 		this.UpgradedAttack=this.Attack+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack/50);
@@ -659,64 +673,64 @@ public class Card
 		calculus=10*(this.UpgradedAttack-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack));
 		if(calculus>8)
 		{
-			this.UpgradedAttack=3;
+			this.UpgradedAttackLevel=3;
 		}
 		else if(calculus>5)
 		{
-			this.UpgradedAttack=2;
+			this.UpgradedAttackLevel=2;
 		}
 		else
 		{
-			this.UpgradedAttack=1;
+			this.UpgradedAttackLevel=1;
 		}
 	}
 	public void setString()
 	{
 		this.String="";
-		this.String=this.Id.ToString()+"\\"; //0
-		this.String+=this.Title+"\\"; //1
-		this.String+=this.Life.ToString()+"\\"; //2
-		this.String+=this.Attack.ToString()+"\\"; //3
-		this.String+=this.Speed.ToString()+"\\"; //4
-		this.String+=this.Move.ToString()+"\\"; //5
-		this.String+=this.IdOWner.ToString()+"\\"; //6
-		this.String+=this.CardType.Id.ToString()+"\\"; //7
-		this.String+=this.PowerLevel.ToString()+"\\"; //8
-		this.String+=this.LifeLevel.ToString()+"\\"; //9
-		this.String+=this.AttackLevel.ToString()+"\\"; //10
-		this.String+=this.MoveLevel.ToString()+"\\"; //11
-		this.String+=this.SpeedLevel.ToString()+"\\"; //12
-		this.String+=this.Experience.ToString()+"\\"; //13
-		this.String+=this.ExperienceLevel.ToString()+"\\"; //14
-		this.String+=this.PercentageToNextLevel.ToString()+"\\"; //15
-		this.String+=this.NextLevelPrice.ToString()+"\\"; //16
-		this.String+=this.onSale.ToString()+"\\"; //17
-		this.String+=this.Price.ToString()+"\\"; //18
-		this.String+=this.OnSaleDate.ToString("yyyy-MM-dd HH:mm:ss")+"\\"; //19
-		this.String+=this.nbWin.ToString()+"\\"; //20
-		this.String+=this.nbLoose.ToString()+"\\"; //21
-		this.String+=this.destructionPrice.ToString()+"\\"; //22
-		this.String+=this.Power.ToString()+"\\"; //23
-		this.String+=this.LifeNbUpgrades.ToString()+"\\"; //24
-		this.String+=this.AttackNbUpgrades.ToString()+"\\"; //25
-		this.String+=this.UpgradedLife.ToString()+"\\"; //26
-		this.String+=this.UpgradedAttack.ToString()+"\\"; //27
-		this.String+=this.UpgradedSpeed.ToString()+"\\"; //28
-		this.String+=this.UpgradedLifeLevel.ToString()+"\\"; //29
-		this.String+=this.UpgradedAttackLevel.ToString()+"\\"; //30
-		this.String+=this.UpgradedSpeedLevel.ToString()+"\\"; //31
+		this.String=this.Id.ToString()+"DATA"; //0
+		this.String+=this.Title+"DATA"; //1
+		this.String+=this.Life.ToString()+"DATA"; //2
+		this.String+=this.Attack.ToString()+"DATA"; //3
+		this.String+=this.Speed.ToString()+"DATA"; //4
+		this.String+=this.Move.ToString()+"DATA"; //5
+		this.String+=this.IdOWner.ToString()+"DATA"; //6
+		this.String+=this.CardType.Id.ToString()+"DATA"; //7
+		this.String+=this.PowerLevel.ToString()+"DATA"; //8
+		this.String+=this.LifeLevel.ToString()+"DATA"; //9
+		this.String+=this.AttackLevel.ToString()+"DATA"; //10
+		this.String+=this.MoveLevel.ToString()+"DATA"; //11
+		this.String+=this.SpeedLevel.ToString()+"DATA"; //12
+		this.String+=this.Experience.ToString()+"DATA"; //13
+		this.String+=this.ExperienceLevel.ToString()+"DATA"; //14
+		this.String+=this.PercentageToNextLevel.ToString()+"DATA"; //15
+		this.String+=this.NextLevelPrice.ToString()+"DATA"; //16
+		this.String+=this.onSale.ToString()+"DATA"; //17
+		this.String+=this.Price.ToString()+"DATA"; //18
+		this.String+=this.OnSaleDate.ToString("yyyy-MM-dd HH:mm:ss")+"DATA"; //19
+		this.String+=this.nbWin.ToString()+"DATA"; //20
+		this.String+=this.nbLoose.ToString()+"DATA"; //21
+		this.String+=this.destructionPrice.ToString()+"DATA"; //22
+		this.String+=this.Power.ToString()+"DATA"; //23
+		this.String+=this.LifeNbUpgrades.ToString()+"DATA"; //24
+		this.String+=this.AttackNbUpgrades.ToString()+"DATA"; //25
+		this.String+=this.UpgradedLife.ToString()+"DATA"; //26
+		this.String+=this.UpgradedAttack.ToString()+"DATA"; //27
+		this.String+=this.UpgradedSpeed.ToString()+"DATA"; //28
+		this.String+=this.UpgradedLifeLevel.ToString()+"DATA"; //29
+		this.String+=this.UpgradedAttackLevel.ToString()+"DATA"; //30
+		this.String+=this.UpgradedSpeedLevel.ToString()+"DATA"; //31
 
 		for(int i=0;i<this.Skills.Count;i++)
 		{
-			this.String	+="#SKILL#";
-			this.String+=this.Skills[i].Id.ToString()+"\\"; //0
-			this.String+=this.Skills[i].IdSkillType.ToString()+"\\"; //1
-			this.String+=this.Skills[i].IsActivated.ToString()+"\\"; //2
-			this.String+=this.Skills[i].Level.ToString()+"\\"; //3
-			this.String+=this.Skills[i].Power.ToString()+"\\"; //4
-			this.String+=this.Skills[i].Upgrades.ToString()+"\\"; //5
-			this.String+=this.Skills[i].nextDescription+"\\"; //6
-			this.String+=this.Skills[i].nextProba.ToString()+"\\"; //7
+			this.String	+="SKILL";
+			this.String+=this.Skills[i].Id.ToString()+"DATA"; //0
+			this.String+=this.Skills[i].IdSkillType.ToString()+"DATA"; //1
+			this.String+=this.Skills[i].IsActivated.ToString()+"DATA"; //2
+			this.String+=this.Skills[i].Level.ToString()+"DATA"; //3
+			this.String+=this.Skills[i].Power.ToString()+"DATA"; //4
+			this.String+=this.Skills[i].Upgrades.ToString()+"DATA"; //5
+			this.String+=this.Skills[i].nextDescription+"DATA"; //6
+			this.String+=this.Skills[i].nextProba.ToString()+"DATA"; //7
 			this.String+=this.Skills[i].nextLevel.ToString(); //8
 		}
 	}
@@ -728,15 +742,6 @@ public class Card
 
 		ServerController.instance.setRequest(urlSyncCard, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
-		string error=ServerController.instance.getError();
-		
-		if (error != "")
-		{
-			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
-		} 
-		else
-		{
-			
-		}
+		this.Error=ServerController.instance.getError();
 	}
 }

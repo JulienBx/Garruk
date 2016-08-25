@@ -17,7 +17,10 @@ public class Division
 	public int NbWinsForTitle;
 	public int TitlePrize;
 	public int PromotionPrize;
-
+	public int earnXp_W;
+	public int earnXp_L;
+	public int earnCredits_W;
+	public int earnCredits_L;
 
 	// Status pour division
 	// - 1 -> Relégation (fin de saison)

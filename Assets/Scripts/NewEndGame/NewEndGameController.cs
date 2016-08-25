@@ -65,7 +65,7 @@ public class NewEndGameController : MonoBehaviour
 		this.initializeBackOffice();
 		this.initializeScene ();
 		this.initializeHelp();
-		StartCoroutine (this.initialization ());
+		this.initialization ();
 	}
 	void Update () 
 	{
@@ -144,7 +144,7 @@ public class NewEndGameController : MonoBehaviour
 		}
 		this.helpCamera = GameObject.Find ("HelpCamera");
 	}
-	public IEnumerator initialization()
+	public void initialization()
 	{
 		this.resize();
 		if(ApplicationModel.player.ChosenGameType>20)
@@ -159,20 +159,20 @@ public class NewEndGameController : MonoBehaviour
 			}
 			this.showEndButton();
 			BackOfficeController.instance.hideLoadingScreen();
-			yield break;
 		}
 		else if(!ApplicationModel.player.HasWonLastGame && ApplicationModel.player.PercentageLooser==0)
 		{
 			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(2);
 			this.showEndButton();
 			BackOfficeController.instance.hideLoadingScreen();
-			yield break;
 		}
 		else
 		{
-			yield return StartCoroutine(this.initializeEndGame());
-			this.endCredits = ApplicationModel.player.Money;
-			this.startCredits = ApplicationModel.player.Money - this.bonus;
+			this.retrieveBonus ();
+			this.updateCards ();
+			this.endCredits = ApplicationModel.player.Money+this.bonus;
+			this.startCredits = ApplicationModel.player.Money;
+			StartCoroutine(ApplicationModel.player.payMoney (-this.bonus));
 			this.toUpdateCredits = true;
 		}
 		BackOfficeController.instance.hideLoadingScreen();
@@ -291,99 +291,21 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public IEnumerator launchUpgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
-		yield return StartCoroutine(this.upgradeCardAttribute(attributeToUpgrade, newPower, newLevel));
+		ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].updateCardAttribute (attributeToUpgrade, newPower, newLevel);
+		ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].setString ();
+		yield return StartCoroutine(ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].syncCard ());
+		if (ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].Error != "") 
+		{
+			Debug.Log (ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].Error);
+			ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].Error = "";
+		}
 		this.hasFinishedCardUpgrade=true;
 	}
-	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
+	public void updateCards()
 	{
-		WWWForm form = new WWWForm(); 								
-		form.AddField("myform_hash", ApplicationModel.hash); 		
-		form.AddField("myform_idcard", ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField ("myform_attribute", attributeToUpgrade);
-		form.AddField ("myform_newpower", newPower);
-		form.AddField ("myform_newlevel", newLevel);
-
-		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-
-		if(ServerController.instance.getError()=="")
-		{
-			string result = ServerController.instance.getResult();
-			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-			ApplicationModel.player.MyDeck.cards[this.idCardsToNextLevel[0]].parseCard(experienceData[0]);
-			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-			this.cards[this.idCardsToNextLevel[0]].GetComponent<NewCardController>().caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-			//this.collectionPointsEarned=this.collectionPointsEarned+ System.Convert.ToInt32(cardData [1]);
-			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-		}
-	}
-	public IEnumerator initializeEndGame()
-	{
-		//this.skillsUnlocked = new List<Skill> ();
-		string idCards = "";
 		for (int i=0; i<4; i++)
 		{
-			idCards = idCards + ApplicationModel.player.MyDeck.cards [i].Id.ToString() + "SEPARATOR";
-		}
-		string hasWon ="";
-		if(ApplicationModel.player.HasWonLastGame)
-		{
-			hasWon="1";
-		}
-		else
-		{
-			hasWon="0";
-		}
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_haswon", hasWon);
-		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType.ToString());
-		form.AddField("myform_percentagelooser", ApplicationModel.player.PercentageLooser.ToString());
-		form.AddField("myform_idcard", idCards); 
-
-		ServerController.instance.setRequest(URLGetMyGameData, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-
-		if(ServerController.instance.getError()=="")
-		{
-			string result = ServerController.instance.getResult();
-			string [] data = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			for(int i=0;i<4;i++)
-			{
-				string [] experienceData = data[i].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-				ApplicationModel.player.MyDeck.cards[i].parseCard(experienceData[0]);
-				ApplicationModel.player.MyDeck.cards[i].GetNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-				//this.Cards[i].NewSkills=new List<Skill>();
-				if(ApplicationModel.player.MyDeck.cards[i].GetNewSkill)
-				{
-					for(int j=0;j<ApplicationModel.player.MyDeck.cards[i].Skills.Count;j++)
-					{
-						if(ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1].IsActivated==1)
-						{
-							if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
-							{
-								//this.skillsUnlocked.Add (ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1]);
-								ApplicationModel.player.MyDeck.cards[i].Skills[ApplicationModel.player.MyDeck.cards[i].Skills.Count-j-1].IsNew=true;
-							}
-							break;
-						}
-					}
-				}
-			}
-			//this.collectionPointsEarned=System.Convert.ToInt32(data[4]);
-			//this.newCollectionRanking=System.Convert.ToInt32(data[5]);
-			this.xpWon=System.Convert.ToInt32(data[6]);
-			ApplicationModel.player.Money=System.Convert.ToInt32(data[7]);
-			this.bonus=System.Convert.ToInt32(data[8]);
-			ApplicationModel.player.NextLevelTutorial=System.Convert.ToBoolean(System.Convert.ToInt32(data[9]));
-		}
-		else
-		{
-			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();
+			ApplicationModel.player.MyDeck.cards [i].updateCardXp(false,this.xpWon);
 		}
 	}
 	public void returnPressed()
@@ -391,6 +313,48 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void escapePressed()
 	{
+	}
+	public void retrieveBonus()
+	{
+		if (ApplicationModel.player.ChosenGameType > 10) 
+		{
+			if (ApplicationModel.player.HasWonLastGame) 
+			{
+				this.bonus = ApplicationModel.divisions.getDivision (ApplicationModel.player.Division).earnCredits_W;
+				this.xpWon = ApplicationModel.divisions.getDivision (ApplicationModel.player.Division).earnXp_W;
+			} 
+			else 
+			{
+				this.bonus = Mathf.RoundToInt (ApplicationModel.divisions.getDivision (ApplicationModel.player.Division).earnCredits_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+				this.xpWon = Mathf.RoundToInt (ApplicationModel.divisions.getDivision (ApplicationModel.player.Division).earnXp_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+			}
+		} 
+		else if (ApplicationModel.player.ChosenGameType > 0) 
+		{
+			if (ApplicationModel.player.HasWonLastGame) 
+			{
+				this.bonus = ApplicationModel.trainingGameEarnCredits_W;
+				this.xpWon = ApplicationModel.trainingGameEarnXp_W;
+			} 
+			else 
+			{
+				this.bonus = Mathf.RoundToInt (ApplicationModel.trainingGameEarnCredits_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+				this.xpWon = Mathf.RoundToInt (ApplicationModel.trainingGameEarnXp_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+			}
+		} 
+		else 
+		{
+			if (ApplicationModel.player.HasWonLastGame) 
+			{
+				this.bonus = ApplicationModel.friendlyGameEarnCredits_W;
+				this.xpWon = ApplicationModel.friendlyGameEarnXp_W;
+			}
+			else 
+			{
+				this.bonus = Mathf.RoundToInt (ApplicationModel.friendlyGameEarnCredits_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+				this.xpWon = Mathf.RoundToInt (ApplicationModel.friendlyGameEarnXp_L * (ApplicationModel.player.PercentageLooser * 0.01f));
+			}
+		}
 	}
 }
 

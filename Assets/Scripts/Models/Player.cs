@@ -9,6 +9,7 @@ public class Player : User
 	private string URLUpdateUserInformations;
 	private string URLGetNonReadNotifications;
 	private string URLAddMoney;
+	private string URLPayMoney;
 	private string URLSelectedDeck;
 	private string URLCleanCards;
 	private string URLSetTutorialStep;
@@ -116,6 +117,7 @@ public class Player : User
 		this.ChosenGameType=0;
 		this.URLUpdateUserInformations= ApplicationModel.host + "update_user_informations.php";
 		this.URLAddMoney = ApplicationModel.host + "add_money.php";
+		this.URLPayMoney = ApplicationModel.host + "pay_money.php";
 		this.URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 		this.URLCleanCards = ApplicationModel.host + "clean_cards.php";
 		this.URLSetTutorialStep = ApplicationModel.host + "set_tutorialstep.php";
@@ -225,6 +227,22 @@ public class Player : User
         {
             ServerController.instance.lostConnection();
         }
+	}
+	public IEnumerator payMoney(int money)
+	{
+		WWWForm form = new WWWForm(); 											// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 					// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_nick", this.Username);
+		form.AddField("myform_cristals", money.ToString());
+
+		ServerController.instance.setRequest(URLPayMoney, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error = ServerController.instance.getError ();
+		Debug.Log ("ok");
+		if(this.Error=="")
+		{
+			this.Money = this.Money - money;
+		}
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
@@ -632,6 +650,43 @@ public class Player : User
 					ApplicationModel.xpLevels=new List<int>();
                 	ApplicationModel.parseXpLevels(gameData[18]);
                 }
+				if(gameData[19]!="")
+				{
+					ApplicationModel.divisions=new Divisions();
+					ApplicationModel.divisions.parseDivisions(gameData[19]);
+				}
+				if(gameData[20]!="")
+				{
+					ApplicationModel.friendlyGameEarnXp_W=System.Convert.ToInt32(gameData[20]);
+				}
+				if(gameData[21]!="")
+				{
+					ApplicationModel.friendlyGameEarnXp_L=System.Convert.ToInt32(gameData[21]);
+				}
+				if(gameData[22]!="")
+				{
+					ApplicationModel.friendlyGameEarnCredits_W=System.Convert.ToInt32(gameData[22]);
+				}
+				if(gameData[23]!="")
+				{
+					ApplicationModel.friendlyGameEarnCredits_L=System.Convert.ToInt32(gameData[23]);
+				}
+				if(gameData[24]!="")
+				{
+					ApplicationModel.trainingGameEarnXp_W=System.Convert.ToInt32(gameData[24]);
+				}
+				if(gameData[25]!="")
+				{
+					ApplicationModel.trainingGameEarnXp_L=System.Convert.ToInt32(gameData[25]);
+				}
+				if(gameData[26]!="")
+				{
+					ApplicationModel.trainingGameEarnCredits_W=System.Convert.ToInt32(gameData[26]);
+				}
+				if(gameData[27]!="")
+				{
+					ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
+				}
 				if(System.Convert.ToInt32(data[2])!=-1)
                 {
 					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);

@@ -28,9 +28,9 @@ public class NewFocusedCardController : MonoBehaviour
 	//public int collectionPointsEarned;
 	//public int newCollectionRanking;
 	//public List<Skill> skillsUnlocked;
-	public bool getNewSkill;
-	public int caracteristicUpgraded;
-	public int caracteristicIncrease;
+	//public bool getNewSkill;
+	//public int caracteristicUpgraded;
+	//public int caracteristicIncrease;
 
 	private string urlAddXpLevel = ApplicationModel.host + "add_xplevel_to_card.php"; 
 	private string urlUpgradeCardAttribute = ApplicationModel.host + "upgrade_card_attribute.php";
@@ -307,7 +307,7 @@ public class NewFocusedCardController : MonoBehaviour
         {
             this.setHighlightedSkills();
         }
-		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
+		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
 		{
 			this.setCardUpgrade();
 		}
@@ -563,81 +563,39 @@ public class NewFocusedCardController : MonoBehaviour
 		this.hideBuyXpPopUp();
 		this.displayLoadingScreen ();
 
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-
-		ServerController.instance.setRequest(urlAddXpLevel, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		string error=ServerController.instance.getError();
-		
-		if (error != "")
+		yield return StartCoroutine(ApplicationModel.player.payMoney (this.c.NextLevelPrice));
+		if (ApplicationModel.player.Error != "") 
 		{
-			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
+			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
+			ApplicationModel.player.Error = "";
 		} 
-		else
+		else 
 		{
-			string result = ServerController.instance.getResult();
-			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-			this.c.parseCard(experienceData[0]);
-			this.getNewSkill=System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[1]));
-			//this.skillsUnlocked=new List<Skill>();
-			if(this.getNewSkill)
-			{
-				for(int i=0;i<this.c.Skills.Count;i++)
-				{
-					if(this.c.Skills[this.c.Skills.Count-i-1].IsActivated==1)
-					{
-						if(System.Convert.ToBoolean(System.Convert.ToInt32(experienceData[2])))
-						{
-							//this.skillsUnlocked.Add (this.c.Skills[this.c.Skills.Count-i-1]);
-							this.c.Skills[this.c.Skills.Count-i-1].IsNew=true;
-						}
-						break;
-					}
-				}
-			}
-			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
+			this.c.updateCardXp (true,0);
+			Cards cards = new Cards ();
+			cards.add ();
+			cards.cards [cards.getCount () - 1] = this.c;
+			ApplicationModel.player.updateMyCollection (cards);
 			this.animateExperience();
 		}
-		this.refreshCredits();
 		this.hideLoadingScreen ();
 	}
 	public IEnumerator upgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
 		this.displayLoadingScreen ();
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_idcard", this.c.Id.ToString());
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField ("myform_attribute", attributeToUpgrade);
-		form.AddField ("myform_newpower", newPower);
-		form.AddField ("myform_newlevel", newLevel);
-
-		ServerController.instance.setRequest(urlUpgradeCardAttribute, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		string error=ServerController.instance.getError();
-
-		if (error == "")
+		this.c.updateCardAttribute (attributeToUpgrade, newPower, newLevel);
+		this.c.setString ();
+		yield return StartCoroutine(this.c.syncCard ());
+		if (this.c.Error != "") 
 		{
-			string result = ServerController.instance.getResult();
-			string [] cardData = result.Split(new string[] { "END" }, System.StringSplitOptions.None);
-			string [] experienceData = cardData[0].Split(new string[] {"#EXPERIENCEDATA#"},System.StringSplitOptions.None);
-			this.c.parseCard(experienceData[0]);
-			this.caracteristicUpgraded=System.Convert.ToInt32(experienceData[1]);
-			this.caracteristicIncrease=System.Convert.ToInt32(experienceData[2]);
-			//this.collectionPointsEarned = System.Convert.ToInt32(cardData [1]);
-			//this.newCollectionRanking=System.Convert.ToInt32(cardData[2]);
-			this.isNextLevelPopUpHiding=true;
+			Debug.Log (this.c.Error);
+			this.c.Error = "";
 		}
-		else 
-		{	
-			BackOfficeController.instance.displayErrorPopUp(error);
-		}
+		Cards cards = new Cards ();
+		cards.add ();
+		cards.cards [cards.getCount () - 1] = this.c;
+		ApplicationModel.player.updateMyCollection (cards);
+		this.isNextLevelPopUpHiding=true;
 		this.hideLoadingScreen ();
 	}
 	public void buyCardHandler()
@@ -1095,8 +1053,8 @@ public class NewFocusedCardController : MonoBehaviour
 	public void setCardUpgrade()
 	{
 		this.cardUpgrade.SetActive(true);
-		this.cardUpgrade.GetComponent<NewCardUpgradeController> ().setCardUpgrade (this.caracteristicIncrease);
-		this.cardUpgrade.transform.position = this.getCardUpgradePosition (this.caracteristicUpgraded);
+		this.cardUpgrade.GetComponent<NewCardUpgradeController> ().setCardUpgrade (this.c.CaracteristicIncrease);
+		this.cardUpgrade.transform.position = this.getCardUpgradePosition (this.c.CaracteristicUpgraded);
 		this.timerCardUpgrade = 0;
 		this.isCardUpgradeDisplayed = true;
 	}

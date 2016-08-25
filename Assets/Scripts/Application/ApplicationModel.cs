@@ -46,7 +46,17 @@ public class ApplicationModel
     static public SkillTypes skillTypes;
     static public Skills skills;
     static public List<int> xpLevels;
+	static public Divisions divisions;
 
+	static public int friendlyGameEarnXp_W;
+	static public int friendlyGameEarnXp_L;
+	static public int friendlyGameEarnCredits_W;
+	static public int friendlyGameEarnCredits_L;
+
+	static public int trainingGameEarnXp_W;
+	static public int trainingGameEarnXp_L;
+	static public int trainingGameEarnCredits_W;
+	static public int trainingGameEarnCredits_L;
 
 	#if (UNITY_EDITOR)
     static public int[] onlineStatus;
@@ -79,6 +89,8 @@ public class ApplicationModel
         skillTypes=new SkillTypes();
         skills=new Skills();
         xpLevels=new List<int>();
+		divisions = new Divisions ();
+
         
 		#if (UNITY_EDITOR)
 		onlineCheck=new string[3];

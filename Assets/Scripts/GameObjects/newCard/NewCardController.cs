@@ -146,7 +146,7 @@ public class NewCardController : NewFocusedCardController
 		{
 			this.c.GetNewSkill=false;
 		}
-		if(this.caracteristicUpgraded>-1&&this.caracteristicIncrease>0)
+		if(this.c.CaracteristicUpgraded>-1&&this.c.CaracteristicIncrease>0)
 		{
 			base.setCardUpgrade();
 		}
