@@ -255,6 +255,8 @@ public class NewEndGameController : MonoBehaviour
             {
                 cards.add();
                 cards.cards[i]=ApplicationModel.player.MyDeck.cards[i];
+				Card card = ApplicationModel.player.MyCards.getCardWithId (ApplicationModel.player.MyDeck.cards [i].Id);
+				card = ApplicationModel.player.MyDeck.cards[i];
             }
             ApplicationModel.player.updateMyCollection(cards);
 		}

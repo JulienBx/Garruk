@@ -17,6 +17,18 @@ public class Cards{
 		return this.cards [index];
 	}
 
+	public Card getCardWithId(int id)
+	{
+		for(int i=0;i<this.cards.Count;i++)
+		{
+			if (this.cards [i].Id == id) 
+			{
+				return this.cards [i];
+			}
+		}
+		return new Card ();
+	}
+
 	public virtual CardM getCardM(int index)
 	{
 		return new CardM(this.cards [index]);
