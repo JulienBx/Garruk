@@ -13,7 +13,7 @@ public class StartButtonC : MonoBehaviour
 	public void show(bool b){
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.GetComponent<BoxCollider>().enabled = b ;
-		gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = b ;
+		this.showText(b);
 	}
 
 	public virtual void size(Vector3 position){
@@ -44,6 +44,10 @@ public class StartButtonC : MonoBehaviour
 	public void hideButton(){
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = false ;
 		gameObject.transform.GetComponent<BoxCollider>().enabled = false ;
+	}
+
+	public void showText(bool b){
+		gameObject.transform.FindChild("StartButton").GetComponent<MeshRenderer>().enabled = b ;
 	}
 }
 

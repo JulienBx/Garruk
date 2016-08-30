@@ -198,7 +198,10 @@ public class TileC : MonoBehaviour
 			canPass = false ;
 		}
 		else{
-			if(Game.instance.getCards().getCardC(this.characterID).getCardM().isMine()!=b){
+			if(this.characterID==-1){
+
+			}
+			else if(Game.instance.getCards().getCardC(this.characterID).getCardM().isMine()!=b){
 				canPass = false;
 			}
 		}

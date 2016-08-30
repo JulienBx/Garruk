@@ -86,16 +86,32 @@ public class Board
 		if(t.x>0){
 			tiles.Add(new TileM(t.x-1,t.y));
 		}
-		else if(t.y>0){
+		if(t.y>0){
 			tiles.Add(new TileM(t.x,t.y-1));
 		}
-		else if(t.x<this.getBoardWidth()-1){
+		if(t.x<this.getBoardWidth()-1){
 			tiles.Add(new TileM(t.x+1,t.y));
 		}
-		else if(t.y<this.getBoardHeight()-1){
+		if(t.y<this.getBoardHeight()-1){
 			tiles.Add(new TileM(t.x,t.y+1));
 		}
 		return tiles;
 	} 
+
+	public TileM getMouseTile(){
+		Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		TileM tile = new TileM();
+
+		if(Game.instance.isFirstPlayer()){
+			tile.x = Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3;
+			tile.y = Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
+		}
+		else{
+			tile.x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3;
+			tile.y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
+		}
+
+		return tile;
+	}
 }
 

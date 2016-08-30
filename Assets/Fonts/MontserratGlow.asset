@@ -54,7 +54,7 @@ Material:
       data:
         first:
           name: _FaceDilate
-        second: 0
+        second: 0.161
       data:
         first:
           name: _UnderlayOffsetX
@@ -82,11 +82,11 @@ Material:
       data:
         first:
           name: _OutlineWidth
-        second: 0.269
+        second: 0.246
       data:
         first:
           name: _OutlineSoftness
-        second: 0
+        second: 0.143
       data:
         first:
           name: _GradientScale
@@ -166,11 +166,11 @@ Material:
       data:
         first:
           name: _ScaleRatioB
-        second: 0.8333333
+        second: 0.6991667
       data:
         first:
           name: _ScaleRatioC
-        second: 0.8333333
+        second: 0.6991667
       data:
         first:
           name: _StencilOp

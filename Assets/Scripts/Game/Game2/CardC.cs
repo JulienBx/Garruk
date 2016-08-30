@@ -52,7 +52,14 @@ public class CardC : MonoBehaviour
 	float pushTime = 0.5f;
 	bool measuringPush;
 
+	float timerClignote;
+	float clignoteTime = 0.5f;
+	bool clignoting;
+	bool clignoteGrowing;
+	bool stopClignoting;
+
 	bool moved ;
+	bool played ;
 	bool dead;
 	bool[,] destinations ;
 
@@ -63,6 +70,10 @@ public class CardC : MonoBehaviour
 		this.backTileLayer = false ;
 		this.moved = false ;
 		this.dead = false ;
+		this.played = false ;
+		this.clignoting = false ;
+		this.clignoteGrowing = false ;
+		this.stopClignoting = false ;
 
 		this.stateModifyers = new List<ModifyerM>();
 		this.moveModifyers = new List<ModifyerM>();
@@ -77,6 +88,22 @@ public class CardC : MonoBehaviour
 		lifeText = gameObject.transform.FindChild("Background").FindChild("PVValue").GetComponent<TextMeshPro>();
 
 		this.initDestinations();
+	}
+
+	public bool isClignoting(){
+		return this.clignoting;
+	}
+
+	public void stopClignote(){
+		this.stopClignoting=true;
+	}
+
+	public void startClignote(){
+		this.timerClignote = 0f;
+		this.clignoteGrowing = true ;
+		this.moveForward();
+		this.showBackTile(false);
+		this.clignoting=true;
 	}
 
 	public bool canMoveOn(int x, int y){
@@ -102,6 +129,10 @@ public class CardC : MonoBehaviour
 
 	public bool hasMoved(){
 		return this.moved;
+	}
+
+	public bool hasPlayed(){
+		return this.played;
 	}
 
 	public bool isDead(){
@@ -137,11 +168,37 @@ public class CardC : MonoBehaviour
 		}
 	}
 
+	public void addClignoteTime(float f){
+		this.timerClignote += f ; 
+		if(this.timerClignote>this.clignoteTime){
+			this.timerClignote = 0f;
+			if(stopClignoting&&!this.clignoteGrowing){
+				this.clignoting = false;
+				if(!this.moving){
+					this.moveBackward();
+					this.showBackTile(true);
+				}
+			}
+			else{
+				this.clignoteGrowing=!this.clignoteGrowing;
+			}
+		}
+		else{
+			if(clignoteGrowing){
+				gameObject.transform.localScale = new Vector3(1f+0.2f*(this.timerClignote/this.clignoteTime), 1f+0.2f*(this.timerClignote/this.clignoteTime), 1f+0.2f*(this.timerClignote/this.clignoteTime));
+			}
+			else{
+				gameObject.transform.localScale = new Vector3(1.2f-0.2f*(this.timerClignote/this.clignoteTime), 1.2f-0.2f*(this.timerClignote/this.clignoteTime), 1.2f-0.2f*(this.timerClignote/this.clignoteTime));
+			}
+		}
+	}
+
 	public void setCard(CardM c, bool b, int i)
 	{
 		this.card = c ;
 		c.setMine(b);
-		
+		backTileLayer = true;
+
 		this.id = i ;
 
 		this.displayedLife = 0;
@@ -164,6 +221,9 @@ public class CardC : MonoBehaviour
 	public void setBackTile(bool b){
 		if(b){
 			gameObject.transform.Find("Background").FindChild("BackTile").GetComponent<SpriteRenderer>().sprite = this.backTileSprites[0];
+		}
+		else{
+			gameObject.transform.Find("Background").FindChild("BackTile").GetComponent<SpriteRenderer>().sprite = this.backTileSprites[1];
 		}
 	}
 
@@ -419,7 +479,7 @@ public class CardC : MonoBehaviour
 
 	public void OnMouseEnter()
 	{
-		if(Game.instance.getDraggingCardID()!=this.id && Game.instance.getDraggingCardID()==-1){
+		if(Game.instance.getDraggingCardID()==-1){
 			this.showHover(true);
 			if(!Game.instance.isMobile()){
 				if(this.card.isMine()){
@@ -449,20 +509,10 @@ public class CardC : MonoBehaviour
 			this.shortPush();
 		}
 		else if(Game.instance.getDraggingCardID()!=-1){
-			Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			int x=-1, y=-1 ;
+			TileM tile = Game.instance.getBoard().getMouseTile();
 
-			if(Game.instance.isFirstPlayer()){
-				x = Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3;
-				y = Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
-			}
-			else{
-				x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3;
-				y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
-			}
-
-			if(x>=0 && x<Game.instance.getBoard().getBoardWidth() && y>=0 && y<Game.instance.getBoard().getBoardHeight()){
-				Game.instance.dropOnTile(x,y);
+			if(tile.x>=0 && tile.x<Game.instance.getBoard().getBoardWidth() && tile.y>=0 && tile.y<Game.instance.getBoard().getBoardHeight()){
+				Game.instance.dropOnTile(tile.x,tile.y);
 			}
 			else{
 				Game.instance.dropOutsideBoard();
@@ -629,7 +679,9 @@ public class CardC : MonoBehaviour
 		if(this.timerMove>this.moveTime){
 			this.moving=false;
 			this.showCollider(true);
-			this.displayBackTile(true);
+			if(this.id!=Game.instance.getCurrentCardID()){
+				this.displayBackTile(true);
+			}
 			this.moveBackward();
 			Game.instance.endMove();
 		}

@@ -28,7 +28,6 @@ public class PhotonC : Photon.MonoBehaviour
 	public void addTime(float f){
 		this.waitingTime+=f;
 		if(this.waitingTime>this.timeLimit){
-			print("CLOSE");
 			this.isWaiting=false;
 			PhotonNetwork.room.visible = false;
 			this.createIARoom();
@@ -114,6 +113,16 @@ public class PhotonC : Photon.MonoBehaviour
 
 	void OnJoinedRoom()
     {
+		if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
+        {
+            this.isWaiting=true ;
+            this.waitingTime=0f;
+        }
+        if(ApplicationModel.player.ToLaunchChallengeGame==true)
+        {
+            ApplicationModel.player.ToLaunchChallengeGame=false;
+        }
+
     	if(!this.reconnecting){
 			print("J'ai rejoint la room "+PhotonNetwork.room.name);
 	       	PlayerPrefs.SetString("currentGame", PhotonNetwork.room.name);
@@ -177,20 +186,11 @@ public class PhotonC : Photon.MonoBehaviour
         newRoomOptions.customRoomPropertiesForLobby = new string[]{"C0"};
         TypedLobby sqlLobby = new TypedLobby("rankedGame", LobbyType.SqlLobby);
         PhotonNetwork.CreateRoom("GarrukGame" + Guid.NewGuid().ToString("N"), newRoomOptions, sqlLobby);
-
-        if(ApplicationModel.player.ChosenGameType<=20 && !ApplicationModel.player.ToLaunchGameTutorial)
-        {
-            this.isWaiting=true ;
-            this.waitingTime=0f;
-        }
-        if(ApplicationModel.player.ToLaunchChallengeGame==true)
-        {
-            ApplicationModel.player.ToLaunchChallengeGame=false;
-        }
     }
 
     public void addPlayer(string s){
 	    if(!s.Equals(ApplicationModel.player.Username)){
+	    	this.isWaiting = false ;
 			if(Game.instance.isFirstPlayer()){
 				PhotonNetwork.room.visible = false;
 				this.closeAndStart();

@@ -399,8 +399,6 @@ public class Gamecards
 		}
 
 		this.getCardC(i).setBackTile(mine);
-		this.getCardC(i).displayBackTile(mine);
-
 		this.getCardC(i).checkPassiveSkills();
 
 		this.getCardC(i).show(mine);

@@ -58,6 +58,11 @@ public class Slider : MonoBehaviour
 	public void launchNextMove(){
 		if(this.nextCard!=-1){
 			this.setCard(this.nextCard);
+			if(Game.instance.getInterlude().isDisplaying()){
+				if(this.currentCard==Game.instance.getCurrentCardID()){
+					this.moveCharacterForward();
+				}
+			}
 			this.growing = true ;
 			this.moving = true ;
 			this.timer=0f;
@@ -95,15 +100,12 @@ public class Slider : MonoBehaviour
 				gameObject.transform.FindChild("Skill"+compteur).FindChild("Level").GetComponent<TextMeshPro>().text = ""+tempInt;
 				if(tempInt<6){
 					gameObject.transform.FindChild("Skill"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
-					gameObject.transform.FindChild("Skill"+compteur).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(1f, 1f, 1f, 1f);
 				}
 				else if(tempInt<9){
 					gameObject.transform.FindChild("Skill"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
-					gameObject.transform.FindChild("Skill"+compteur).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);
 				}
 				else{
 					gameObject.transform.FindChild("Skill"+compteur).FindChild("Picto").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
-					gameObject.transform.FindChild("Skill"+compteur).FindChild("Level").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
 				}
 				if(i==0){
 					gameObject.transform.FindChild("Skill"+compteur).GetComponent<SpriteRenderer>().color=new Color(100f/255f, 100f/255f, 100f/255f, 1f);
@@ -249,14 +251,7 @@ public class Slider : MonoBehaviour
 			gameObject.transform.Find("Skill3").FindChild("Text").GetComponent<TextContainer>().width = 0.50f*f-4.5f;
 
 			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = false;
-			gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
-
-			gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 2;
-			gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 20;
-			gameObject.transform.Find("Title").FindChild("PVText").GetComponent<MeshRenderer>().sortingOrder = 20;
-			gameObject.transform.Find("Title").FindChild("AttackText").GetComponent<MeshRenderer>().sortingOrder = 20;
-			gameObject.transform.Find("Title").FindChild("lifeicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
-			gameObject.transform.Find("Title").FindChild("atkicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
+			this.moveCharacterBackward();
 
 			gameObject.transform.Find("Skill0").GetComponent<SpriteRenderer>().sortingOrder = 2;
 			gameObject.transform.Find("Skill0").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 20;
@@ -336,14 +331,7 @@ public class Slider : MonoBehaviour
 			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = true;
 			gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().sortingOrder = 200;
 
-			gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 201;
-
-			gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 202;
-			gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 220;
-			gameObject.transform.Find("Title").FindChild("PVText").GetComponent<MeshRenderer>().sortingOrder = 220;
-			gameObject.transform.Find("Title").FindChild("AttackText").GetComponent<MeshRenderer>().sortingOrder = 220;
-			gameObject.transform.Find("Title").FindChild("lifeicon").GetComponent<SpriteRenderer>().sortingOrder = 203;
-			gameObject.transform.Find("Title").FindChild("atkicon").GetComponent<SpriteRenderer>().sortingOrder = 203;
+			this.moveCharacterForward();
 
 			gameObject.transform.Find("Skill0").GetComponent<SpriteRenderer>().sortingOrder = 202;
 			gameObject.transform.Find("Skill0").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 220;
@@ -430,6 +418,30 @@ public class Slider : MonoBehaviour
 			}
 		}
 		*/
+	}
+
+	public void moveCharacterForward()
+	{
+		gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 201;
+
+		gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 202;
+		gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 220;
+		gameObject.transform.Find("Title").FindChild("PVText").GetComponent<MeshRenderer>().sortingOrder = 220;
+		gameObject.transform.Find("Title").FindChild("AttackText").GetComponent<MeshRenderer>().sortingOrder = 220;
+		gameObject.transform.Find("Title").FindChild("lifeicon").GetComponent<SpriteRenderer>().sortingOrder = 203;
+		gameObject.transform.Find("Title").FindChild("atkicon").GetComponent<SpriteRenderer>().sortingOrder = 203;
+	}
+
+	public void moveCharacterBackward()
+	{
+		gameObject.transform.Find("Character").GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+		gameObject.transform.Find("Title").GetComponent<SpriteRenderer>().sortingOrder = 2;
+		gameObject.transform.Find("Title").FindChild("Text").GetComponent<MeshRenderer>().sortingOrder = 20;
+		gameObject.transform.Find("Title").FindChild("PVText").GetComponent<MeshRenderer>().sortingOrder = 20;
+		gameObject.transform.Find("Title").FindChild("AttackText").GetComponent<MeshRenderer>().sortingOrder = 20;
+		gameObject.transform.Find("Title").FindChild("lifeicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
+		gameObject.transform.Find("Title").FindChild("atkicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
 	}
 }
 

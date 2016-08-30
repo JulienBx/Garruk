@@ -44,8 +44,8 @@ public class WordingGame
 		texts.Add(new string[]{"Frénétique","BloodThirsty"});
 		texts.Add(new string[]{"Fatalité","Fatality"});
 		texts.Add(new string[]{"Météorites!","Meteors!"});
-		texts.Add(new string[]{"A vous de jouer!","Your turn begins!"});
-		texts.Add(new string[]{"Tour de l'ennemi!","Your enemy plays!"});
+		texts.Add(new string[]{"A votre tour de jouer!","Your turn begins!"});
+		texts.Add(new string[]{"Tour de votre adversaire!","Your enemy plays!"});
 
 		texts.Add(new string[]{"Purifié","Purified!"});
 		texts.Add(new string[]{"Echec purification","Purify failed!"});
@@ -102,6 +102,8 @@ public class WordingGame
 		texts.Add(new string[]{"Case hors de portée!","You can not move on this tile!"});
 		texts.Add(new string[]{"La case est occupée","Tile is already taken!"});
 
+		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
+		texts.Add(new string[]{"L'unité a déjà utilisé une compétence à ce tour","The unit has already used a skill during this turn"});
 		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
 
 

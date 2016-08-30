@@ -7,6 +7,7 @@ public class PassButtonC : MonoBehaviour
 	void Awake()
 	{
 		this.show(false);
+		this.showDescription(false);
 		this.setText(WordingGame.getText(65));
 	}
 
@@ -14,7 +15,6 @@ public class PassButtonC : MonoBehaviour
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.GetComponent<BoxCollider>().enabled = b ;
 		gameObject.transform.FindChild("Text").GetComponent<MeshRenderer>().enabled = b ;
-		this.showDescription(b);
 	}
 
 	public void showDescription(bool b){
@@ -29,6 +29,12 @@ public class PassButtonC : MonoBehaviour
 
 	public void size(Vector3 position){
 		gameObject.transform.localPosition = position;
+	}
+
+	public void init(CardC c){
+		if(Game.instance.getDraggingCardID()==-1){
+			
+		}
 	}
 }
 

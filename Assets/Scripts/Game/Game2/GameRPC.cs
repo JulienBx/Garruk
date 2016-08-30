@@ -60,7 +60,7 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				photonView.RPC(s, PhotonTargets.AllBuffered, Game.instance.isFirstPlayer());
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, Game.instance.isFirstPlayer());
 				b = false;
 			}
 			catch (Exception e){
@@ -78,7 +78,7 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				photonView.RPC(s, PhotonTargets.AllBuffered, x, y, type, Game.instance.isFirstPlayer());
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, type, Game.instance.isFirstPlayer());
 				b = false;
 			}
 			catch (Exception e){
@@ -96,7 +96,7 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				photonView.RPC(s, PhotonTargets.AllBuffered, x, y, z, Game.instance.isFirstPlayer());
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, Game.instance.isFirstPlayer());
 				b = false;
 			}
 			catch (Exception e){
@@ -114,7 +114,13 @@ public class GameRPC : Photon.MonoBehaviour
 	void moveOnRPC(int x, int y, int z, bool isFirstP)
 	{
 		this.updateRPCCompteurs(isFirstP);
-		Game.instance.moveOn(x, y, z);
+		if(Game.instance.getIgnoreNextMoveOn()){
+			Game.instance.setIgnoreNextMoveOn(false);
+		}
+		else{
+			Game.instance.moveOn(x, y, z);
+		}
+
 	}
 
 	[PunRPC]

@@ -26,14 +26,15 @@ public class Game : MonoBehaviour
 	GameObject[] skillsButton ;
 	GameObject popUpChoice ;
 	GameObject timeline ;
-	GameObject myTimer ;
-	GameObject hisTimer ;
+	GameObject timer ;
 	GameObject frontTimer ;
 	GameObject popUpValidation ;
 	GameObject forfeitButton ;
 	GameObject myPlayerName ;
 	GameObject hisPlayerName ;
 	GameObject cancelButton ;
+
+	bool ignoreNextMoveOn;
 
 	SkillsM skills ;
 
@@ -49,11 +50,15 @@ public class Game : MonoBehaviour
 
 	List<int> cardsToPlay;
 
+	int indexPlayingCard;
+
 	void Awake(){
 		instance = this;
 		this.currentCardID = -1;
 		this.draggingCardID = -1;
 		this.nbPlayersReadyToStart = 0;
+		this.indexPlayingCard = -1;
+		this.ignoreNextMoveOn = false ;
 		this.skills = new SkillsM();
 		this.firstPlayer = false ;
 		this.cardsToPlay = new List<int>();
@@ -75,10 +80,13 @@ public class Game : MonoBehaviour
 		this.skillsButton[1] = GameObject.Find("SkillButton2");
 		this.skillsButton[2] = GameObject.Find("SkillButton3");
 		this.skillsButton[3] = GameObject.Find("SkillButton4");
+		this.getSkillButton(0).setId(0);
+		this.getSkillButton(1).setId(1);
+		this.getSkillButton(2).setId(2);
+		this.getSkillButton(3).setId(3);
 		this.popUpChoice = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline");
-		this.myTimer = GameObject.Find("MyTimer");
-		this.hisTimer = GameObject.Find("HisTimer");
+		this.timer = GameObject.Find("Timer");
 		this.frontTimer = GameObject.Find("FrontTimer");
 		this.popUpValidation = GameObject.Find("PopUpValidation");
 		this.forfeitButton = GameObject.Find("ForfeitButton");
@@ -112,6 +120,14 @@ public class Game : MonoBehaviour
 			this.getMyHoveredCard().addTime(Time.deltaTime);
 		}
 
+		if(this.getMyHoveredCard().isMoving()){
+			this.getMyHoveredCard().addTime(Time.deltaTime);
+		}
+
+		if(this.getMyHoveredCard().isMoving()){
+			this.getMyHoveredCard().addTime(Time.deltaTime);
+		}
+
 		if(this.getHisHoveredCard().isMoving()){
 			this.getHisHoveredCard().addTime(Time.deltaTime);
 		}
@@ -122,6 +138,9 @@ public class Game : MonoBehaviour
 
 		if(this.gamecards.isLoaded()){
 			for (int i = 0 ; i < 8 ; i++){
+				if(this.gamecards.getCardC(i).isClignoting()){
+					this.gamecards.getCardC(i).addClignoteTime(Time.deltaTime);
+				}
 				if(this.gamecards.getCardC(i).isMoving()){
 					this.gamecards.getCardC(i).addMoveTime(Time.deltaTime);
 				}
@@ -157,6 +176,14 @@ public class Game : MonoBehaviour
 				this.intelligence.addStartTime(Time.deltaTime);
 			}
 		}
+
+		if(this.getTimer().isVisible()){
+			this.getTimer().addTime(Time.deltaTime);
+		}
+
+		if(this.getTimer().isVisibleFront()){
+			this.getTimer().addFrontTime(Time.deltaTime);
+		}
 	}
 
 	public int getCurrentCardID(){
@@ -169,6 +196,14 @@ public class Game : MonoBehaviour
 
 	public CardC getCurrentCard(){
 		return this.gamecards.getCardC(this.currentCardID);
+	}
+
+	public bool getIgnoreNextMoveOn(){
+		return this.ignoreNextMoveOn;
+	}
+
+	public void setIgnoreNextMoveOn(bool b){
+		this.ignoreNextMoveOn = b;
 	}
 
 	public Sprite getSkillSprite(int i){
@@ -312,12 +347,8 @@ public class Game : MonoBehaviour
 		return this.startButton.GetComponent<StartButtonC>();
 	}
 
-	public MyTimerC getMyTimer(){
-		return this.myTimer.GetComponent<MyTimerC>();
-	}
-
-	public HisTimerC getHisTimer(){
-		return this.hisTimer.GetComponent<HisTimerC>();
+	public TimerC getTimer(){
+		return this.timer.GetComponent<TimerC>();
 	}
 
 	public ForfeitC getForfeitButton(){
@@ -403,21 +434,19 @@ public class Game : MonoBehaviour
 		for (int i = 0; i < this.board.getBoardWidth()+1; i++){
 			this.board.sizeVerticalBorder(i, new Vector3((-this.board.getBoardWidth()/2f+i)*tileScale, 0f, -1f), new Vector3(0.5f,tileScale,1f));
 		}
-		
+
 		if(this.mobile){
 			this.getForfeitButton().size(new Vector3(-realwidth/2f+0.25f, 4.75f, 0f), new Vector3(0.4f, 0.4f, 0.4f));
-			this.getMyTimer().size(new Vector3(-realwidth/2f+0.02f, 4*tileScale+0.25f, 0f));
-			this.getHisTimer().size(new Vector3(realwidth/2f-0.52f, 4*tileScale+0.25f, 0f));
 			GameObject.Find("MyPlayerName").GetComponent<MeshRenderer>().enabled = false;
 			GameObject.Find("HisPlayerName").GetComponent<MeshRenderer>().enabled = false;
 		}
 		else{
 			this.getForfeitButton().size(new Vector3(-realwidth/2f+0.5f, 4.5f, 0f), new Vector3(0.8f, 0.8f, 0.8f));
-			this.getMyTimer().size(new Vector3(-2.98f, 4*tileScale+0.25f, 0f));
-			this.getHisTimer().size(new Vector3(2.48f, 4*tileScale+0.25f, 0f));
 			GameObject.Find("MyPlayerName").transform.localPosition = new Vector3(-realwidth/2f+1f, 4.5f, 0f);
 			GameObject.Find("HisPlayerName").transform.localPosition = new Vector3(realwidth/2f, 4.5f, 0f);
 		}
+
+		this.getTimer().size(new Vector3(0f, 4*tileScale+0.1f, 0f));
 
 		GameObject.Find("Logo").transform.position = new Vector3(0f, 2.5f+2*tileScale, 0f);
 		this.getStartButton().size(new Vector3(0f, -2.5f-2*tileScale, 0f));
@@ -456,6 +485,7 @@ public class Game : MonoBehaviour
 			this.intelligence.launch();
 		}
 		this.setInitialDestinations();
+		this.getTimer().setTimer(30);
 		this.getStartButton().show(true);
 		this.getForfeitButton().show(true);
 	}
@@ -494,10 +524,16 @@ public class Game : MonoBehaviour
 
 	public void hoverMyCard(int i){
 		this.getMyHoveredCard().setNextCard(i);
+		if(this.currentCardID!=-1){
+			this.displayDestinations(i);
+		}
 	}
 
 	public void hoverHisCard(int i){
 		this.getHisHoveredCard().setNextCard(i);
+		if(this.currentCardID!=-1){
+			this.displayDestinations(i);
+		}
 	}
 
 	public void hoverTile(){
@@ -506,6 +542,7 @@ public class Game : MonoBehaviour
 			this.getHisHoveredCard().setNextCard(-1);
 		}
 		else{
+			this.displayDestinations(this.currentCardID);
 			if(this.getCurrentCard().getCardM().isMine()){
 				this.getMyHoveredCard().setNextCard(this.currentCardID);
 				this.getHisHoveredCard().setNextCard(-1);
@@ -530,7 +567,7 @@ public class Game : MonoBehaviour
 		if(this.currentCardID==-1){
 			this.startDragging(i);
 		}
-		else if(i==this.currentCardID && this.getCurrentCard().canMove()){
+		else if(this.getCurrentCard().getCardM().isMine() && i==this.currentCardID && this.getCurrentCard().canMove()){
 			this.startDragging(i);
 		}
 	}
@@ -541,7 +578,9 @@ public class Game : MonoBehaviour
 		this.gamecards.getCardC(i).showCollider(false);
 		this.gamecards.getCardC(i).showHover(false);
 		this.gamecards.getCardC(i).displayBackTile(false);
-		this.getBoard().getTileC(this.getCards().getCardC(i).getTileM()).free();
+		if(this.currentCardID==-1){
+			this.getBoard().getTileC(this.getCards().getCardC(i).getTileM()).free();
+		}
 	}
 
 	public int getDraggingCardID(){
@@ -550,10 +589,21 @@ public class Game : MonoBehaviour
 
 	public void dropOnTile(int x, int y){
 		if(this.getBoard().getTileC(x,y).getDestination()==0){
+			if(currentCardID!=-1){
+				if(this.draggingCardID==this.getCurrentCardID()){
+					this.getCurrentCard().move();
+				}
+				this.displayDestinations(this.draggingCardID);
+			}
+
 			if(this.ia || this.isTutorial()){
 				this.moveOn(x,y,draggingCardID);
 			}
 			else{
+				if(this.draggingCardID==this.currentCardID){
+					this.moveOn(x,y,draggingCardID);
+					this.setIgnoreNextMoveOn(true);
+				}
 				GameRPC.instance.launchRPC("moveOnRPC",x,y,draggingCardID);
 			}
 		}
@@ -562,7 +612,12 @@ public class Game : MonoBehaviour
 				this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(68),2);
 			}
 			else{
-				this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(69),2);
+				if(this.draggingCardID==this.getBoard().getTileC(x,y).getCharacterID()){
+					//this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(71),2);
+				}
+				else{
+					this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(69),2);
+				}
 			}
 			this.dropOutsideBoard();
 		}
@@ -578,13 +633,23 @@ public class Game : MonoBehaviour
 		else{
 			this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
 		}
-		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
-		this.gamecards.getCardC(i).setTile(new TileM(x,y));
-		this.getBoard().getTileC(x,y).setCharacterID(i);
-		if(currentCardID!=-1){
+
+		this.updateBoard(x,y,i);
+	}
+
+	public void updateBoard(int x, int y, int i){
+		if(this.currentCardID!=-1){
 			if(i==this.getCurrentCardID()){
 				this.getCurrentCard().move();
 			}
+		}
+
+		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
+		this.gamecards.getCardC(i).setTile(new TileM(x,y));
+		this.getBoard().getTileC(x,y).setCharacterID(i);
+
+		if(this.currentCardID!=-1){
+			this.loadDestinations();
 		}
 	}
 
@@ -668,51 +733,125 @@ public class Game : MonoBehaviour
 	}
 
 	public void firstTurn(){
+		this.indexPlayingCard = 0 ;
 		this.giveHandTo(this.cardsToPlay[0]);
 	}
 
+	public void launchNextTurn(){
+		this.getCurrentCard().stopClignote();
+
+		this.indexPlayingCard++;
+		while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
+			this.indexPlayingCard++;
+		}
+
+		this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
+	}
+
 	public void giveHandTo(int i){
-		if(this.currentCardID==-1){
+		
+		if(this.getCards().getCardC(i).getCardM().isMine()){
 			this.getInterlude().launchType(0);
 		}
 		else{
-			if(this.getCards().getCardC(i).getCardM().isMine()){
-				this.getInterlude().launchType(1);
-			}
-			else{
-				this.getInterlude().launchType(1);
-			}
+			this.getInterlude().launchType(1);
 		}
+	
 		this.currentCardID = i;
+		this.getCards().getCardC(this.currentCardID).startClignote();
+			
 		if(this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
 			this.getMyHoveredCard().setNextCard(this.currentCardID);
-			this.loadDestinations();
-			this.displayDestinations(currentCardID);
 			this.loadController();
 		}
 		else{
 			this.getHisHoveredCard().setNextCard(this.currentCardID);
 			this.displayController(false);
 		}
+
+		this.loadDestinations();
+		this.displayDestinations();
+	}
+
+	public void startActions(){
+		if(this.ia){
+			if(!this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
+				StartCoroutine(this.intelligence.play());
+			}
+		}
+		this.getTimer().setTimer(30);
 	}
 
 	public void loadController(){
 		CardC c = this.getCurrentCard();
-		this.getSkillButton(0).init(c, 0);
+		this.getSkillButton(0).setCard(c);
+		for(int i = 1 ; i < 4 ; i++){
+			if (c.getCardM().getSkill(i).IsActivated==1){
+				this.getSkillButton(i).setCard(c);
+			}
+		}
+
+		this.actuController();
+
 		this.getSkillButton(0).show(true);
 		for(int i = 1 ; i < 4 ; i++){
 			if (c.getCardM().getSkill(i).IsActivated==1){
-				this.getSkillButton(i).init(c, i);
 				this.getSkillButton(i).show(true);
 			}
+		}
+		this.getPassButton().show(true);
+	}
+
+	public void actuController(){
+		CardC c = this.getCurrentCard();
+
+		if(this.getCurrentCard().hasPlayed()){
+			this.getSkillButton(0).forbid();
+			for(int i = 1 ; i < 4 ; i++){
+				if (c.getCardM().getSkill(i).IsActivated==1){
+					this.getSkillButton(i).forbid();
+				}
+			}
+		}
+		else{
+			this.getSkillButton(0).update();
+			for(int i = 1 ; i < 4 ; i++){
+				if (c.getCardM().getSkill(i).IsActivated==1){
+					this.getSkillButton(i).update();
+				}
+			}	
+		}
+		//this.getPassButton().update();
+	}
+
+	public void displayDestinations(){
+		TileM tile = this.board.getMouseTile();
+		int characterID;
+
+		if(tile.x>=0 && tile.x<Game.instance.getBoard().getBoardWidth() && tile.y>=0 && tile.y<Game.instance.getBoard().getBoardHeight()){
+			characterID = this.getBoard().getTileC(tile).getCharacterID();
+		}
+		else{
+			characterID = -1;
+		}
+
+		if(characterID==-1){
+			this.displayDestinations(this.currentCardID);
+		}
+		else{
+			this.displayDestinations(characterID);
 		}
 	}
 
 	public void displayDestinations(int c){
+		this.deleteDestinations();
 		int type = 0 ;
-		if(c==this.currentCardID){
-			if(!this.getCurrentCard().getCardM().isMine()){
-				type = 1;
+		if(c==this.currentCardID && !this.getCurrentCard().hasMoved()){
+			if(this.getCurrentCard().getCardM().isMine()){
+				type = 0;
+			}
+			else{
+				type = 1 ;
 			}
 		}
 		else{
@@ -731,12 +870,12 @@ public class Game : MonoBehaviour
 	}
 
 	public void loadDestinations(){
-		this.deleteDestinations();
 		for (int i = 0 ; i < this.gamecards.getNumberOfCards() ; i++){
 			if(!this.gamecards.getCardC(i).isDead()){
 				this.gamecards.getCardC(i).setDestinations(this.getDestinations(i));
 			}
 		}
+		this.displayDestinations();
 	}
 
 	public bool[,] getDestinations(int i){
@@ -787,10 +926,12 @@ public class Game : MonoBehaviour
 				tempNeighbours = this.getBoard().getTileNeighbours(baseTiles[k]);
 				for(int l = 0 ; l < tempNeighbours.Count ; l++){
 					if(!hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]){
-						tempTiles.Add(tempNeighbours[l]);
-						hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+						if(this.getBoard().getTileC(tempNeighbours[l].x, tempNeighbours[l].y).canPassOver(mine)){
+							tempTiles.Add(tempNeighbours[l]);
+							hasBeenPassages[tempNeighbours[l].x, tempNeighbours[l].y]=true;
+						}
 					}
-					if(this.getBoard().getTileC(tempNeighbours[l].x, tempNeighbours[l].y).canPassOver(mine)){
+					if(this.getBoard().getTileC(tempNeighbours[l].x, tempNeighbours[l].y).isEmpty()){
 						if(!isDestination[tempNeighbours[l].x, tempNeighbours[l].y]){
 							isDestination[tempNeighbours[l].x, tempNeighbours[l].y]=true;
 						}
@@ -813,5 +954,23 @@ public class Game : MonoBehaviour
 		this.getSkillButton(2).show(b);
 		this.getSkillButton(3).show(b);
 		this.getPassButton().show(b);
+	}
+
+	public void timeOver(){
+		if(this.currentCardID==-1){
+			this.pushStartButton();
+		}
+		else{
+			if(this.getCurrentCard().getCardM().isMine()){
+				
+			}
+			else{
+
+			}
+		}
+	}
+
+	public void endTurn(){
+
 	}
 }

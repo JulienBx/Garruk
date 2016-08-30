@@ -11,7 +11,7 @@ public class GameSkill
 	public IList<string[]> texts ;
 	public IList<string[]> texts2 ;
 
-	public int ciblage ;
+public int ciblage ;
 	public bool auto ;
 	public int id ;
 	
@@ -282,6 +282,14 @@ public class GameSkill
 		}
 		else{
 			targets = new List<Tile>();
+		}
+		return targets;
+	}
+
+	public virtual List<TileM> getTargetTiles(CardC card){
+		List<TileM> targets = new List<TileM>();
+		if(this.ciblage==1){
+			//targets = Game.instance.getBoard().getAdjacentOpponentsTargets(new int[][] board, t, isM);
 		}
 		return targets;
 	}

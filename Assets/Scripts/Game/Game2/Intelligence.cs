@@ -173,7 +173,8 @@ public class Intelligence
 	}
 
 	public void launch(){
-		this.startTime = UnityEngine.Random.Range(1,10);
+		//this.startTime = UnityEngine.Random.Range(1,10);
+		this.startTime = 0.5f;
 		this.timerStart = 0f;
 		this.starting = true;
 	}
@@ -188,6 +189,25 @@ public class Intelligence
 			this.starting = false ;
 			Game.instance.addStartGame(false);
 		}
+	}
+
+	public IEnumerator play(){
+		this.choosePlay();
+		this.move();
+		yield return new WaitForSeconds(1);
+		this.act();
+	}
+
+	public void choosePlay(){
+
+	}
+
+	public void move(){
+
+	}
+
+	public void act(){
+		Game.instance.launchNextTurn();
 	}
 }
 
