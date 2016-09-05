@@ -200,7 +200,7 @@ public class NewProfileController : MonoBehaviour
 			sceneCameraPosition.x=camerasXPosition;
 			this.sceneCamera.transform.position=sceneCameraPosition;
 		}
-		if (this.isMyProfile && friendsCheckTimer > friendsRefreshInterval && this.isSceneLoaded) 
+		if (this.isMyProfile && friendsCheckTimer > friendsRefreshInterval && this.isSceneLoaded && ApplicationModel.player.IsOnline) 
 		{
 			this.friendsCheckTimer=0;
 			this.checkFriendsOnlineStatus();

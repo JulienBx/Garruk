@@ -41,7 +41,7 @@ public class SearchUsersPopUpModel
 		else
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 	}
 }

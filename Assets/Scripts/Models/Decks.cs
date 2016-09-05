@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable] 
 public class Decks{
 
 	public List<Deck> decks ;
+	public string String;
 	
 	public Decks()
 	{
@@ -23,9 +25,36 @@ public class Decks{
 	{
 		this.decks.Add(new Deck());
 	}
+	public void update(Deck deck)
+	{
+		bool exists = false;
+		for (int i = 0; i < this.decks.Count; i++) 
+		{
+			if (this.decks [i].Id == deck.Id) 
+			{
+				this.decks [i] = deck;
+				exists = true;
+				break;
+			}
+		}
+		if (exists) 
+		{
+			this.decks.Insert(0,deck);
+		}
+	}
 	public void remove(int index)
 	{
 		this.decks.RemoveAt(index);
+	}
+	public void setString()
+	{
+		this.String="";
+
+		for (int i = 0; i < this.decks.Count; i++) 
+		{
+			this.decks [i].setString ();
+			this.String += this.decks [i].String + "DATADECK";
+		}
 	}
 	public void parseDecks(string s)
 	{

@@ -324,29 +324,41 @@ public class NewFocusedCardController : MonoBehaviour
 	public void displaySellCardPopUp()
 	{
 		this.closePopUps();
-		BackOfficeController.instance.displayTransparentBackground ();
-		this.sellPopUp.transform.GetComponent<SellPopUpController> ().reset (this.c.destructionPrice);
-		this.isSellPopUpDisplayed = true;
-		this.sellPopUp.SetActive (true);
-		this.sellPopUpResize ();
+		if (ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayTransparentBackground ();
+			this.sellPopUp.transform.GetComponent<SellPopUpController> ().reset (this.c.destructionPrice);
+			this.isSellPopUpDisplayed = true;
+			this.sellPopUp.SetActive (true);
+			this.sellPopUpResize ();
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
+		}
 	}
 	public void displayRenameCardPopUp()
 	{
 		this.closePopUps();
-		BackOfficeController.instance.displayTransparentBackground ();
-		this.renamePopUp.transform.GetComponent<RenamePopUpController> ().reset (this.c.RenameCost,this.c.Title);
-		this.isRenamePopUpDisplayed = true;
-		this.renamePopUp.SetActive (true);
-		this.renamePopUpResize ();
+		if (ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayTransparentBackground ();
+			this.renamePopUp.transform.GetComponent<RenamePopUpController> ().reset (this.c.RenameCost,this.c.Title);
+			this.isRenamePopUpDisplayed = true;
+			this.renamePopUp.SetActive (true);
+			this.renamePopUpResize ();
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
+		}
 	}
 	public void displayBuyXpCardPopUp()
 	{
 		this.closePopUps();
-		BackOfficeController.instance.displayTransparentBackground ();
-		this.buyXpPopUp.transform.GetComponent<BuyXpPopUpController> ().reset (this.c.NextLevelPrice);
-		this.isBuyXpPopUpDisplayed = true;
-		this.buyXpPopUp.SetActive (true);
-		this.buyXpPopUpResize ();
+		if (ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayTransparentBackground ();
+			this.buyXpPopUp.transform.GetComponent<BuyXpPopUpController> ().reset (this.c.NextLevelPrice);
+			this.isBuyXpPopUpDisplayed = true;
+			this.buyXpPopUp.SetActive (true);
+			this.buyXpPopUpResize ();
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
+		}
 	}
 	public void displayBuyCardPopUp()
 	{
@@ -508,7 +520,11 @@ public class NewFocusedCardController : MonoBehaviour
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		string error=ServerController.instance.getError();
 		
-		if (error != "")
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error != "")
 		{
 			BackOfficeController.instance.displayErrorPopUp(error); 										// donne l'erreur eventuelle
 		} 
@@ -542,7 +558,11 @@ public class NewFocusedCardController : MonoBehaviour
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		string error=ServerController.instance.getError();
 
-		if (error == "")
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error == "")
 		{
 			this.c.Title = newName;
 			this.name.GetComponent<TextMeshPro> ().text = this.c.Title;
@@ -564,7 +584,11 @@ public class NewFocusedCardController : MonoBehaviour
 		this.displayLoadingScreen ();
 
 		yield return StartCoroutine(ApplicationModel.player.payMoney (this.c.NextLevelPrice));
-		if (ApplicationModel.player.Error != "") 
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (ApplicationModel.player.Error != "") 
 		{
 			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
 			ApplicationModel.player.Error = "";
@@ -622,7 +646,11 @@ public class NewFocusedCardController : MonoBehaviour
 		string error=ServerController.instance.getError();
 		string result=ServerController.instance.getResult();
 		
-		if (error != "" && result.Contains("#SOLD#"))
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error != "" && result.Contains("#SOLD#"))
 		{
 			this.c.onSale = 0;
 			this.c.IdOWner=-1;
@@ -706,7 +734,11 @@ public class NewFocusedCardController : MonoBehaviour
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		string error=ServerController.instance.getError();
 
-		if (error == "")
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error == "")
 		{
 			string result=ServerController.instance.getResult();
 			this.c.Price = newPrice;
@@ -738,7 +770,11 @@ public class NewFocusedCardController : MonoBehaviour
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		string error=ServerController.instance.getError();
 
-		if (error == "")
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error == "")
 		{
 			this.c.onSale = 0;
 		}
@@ -773,7 +809,11 @@ public class NewFocusedCardController : MonoBehaviour
 		ServerController.instance.setRequest(urlPutOnMarket, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		string error=ServerController.instance.getError();
-		if (error == "")
+		if (!ApplicationModel.player.IsOnline) 
+		{
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
+		else if (error == "")
 		{
 			this.c.onSale = 1;
 			this.c.Price = price;

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable] 
 public class Deck : Cards 
 {
 	//Interconnexion BDD
@@ -19,6 +20,9 @@ public class Deck : Cards
 	public string OwnerUsername;                                // Username de la personne possédant le deck
 	public int NbCards; 
 	public string Error;
+	public bool ToDelete;
+	public bool IsNew;
+	public int OwnerId;
 	
 	public Deck()
 	{
@@ -52,52 +56,63 @@ public class Deck : Cards
 
 	public IEnumerator addCard(int idCard, int deckOrder)
 	{
-		WWWForm form = new WWWForm(); 						
-		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_deck", Id);
-		form.AddField("myform_idCard", idCard);
-		form.AddField("myform_deckOrder", deckOrder);
-		WWW w = new WWW(URLAddCardToDeck, form); 								
-		yield return w; 						
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) {
+			WWWForm form = new WWWForm (); 						
+			form.AddField ("myform_hash", ApplicationModel.hash);
+			form.AddField ("myform_nick", ApplicationModel.player.Username);
+			form.AddField ("myform_deck", Id);
+			form.AddField ("myform_idCard", idCard);
+			form.AddField ("myform_deckOrder", deckOrder);
+			WWW w = new WWW (URLAddCardToDeck, form); 								
+			yield return w; 						
 
-		if (w.error != null)
-		{ 
-			Debug.Log (w.error); 
+			if (w.error != null) { 
+				Debug.Log (w.error); 
+				isConnected=false;
+			}
 		}
-
 		this.cards.Add(new Card(idCard));
 		this.cards[this.cards.Count-1].deckOrder=deckOrder;
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 	public IEnumerator changeCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
 	{
-		WWWForm form = new WWWForm(); 						
-		form.AddField("myform_hash", ApplicationModel.hash);
-		form.AddField("myform_nick", ApplicationModel.player.Username);
-		form.AddField("myform_deck", Id);
-		form.AddField("myform_idCard1", idCard1.ToString());
-		form.AddField("myform_deckOrder1", deckOrder1.ToString());
-		form.AddField("myform_idCard2", idCard2.ToString());
-		form.AddField("myform_deckOrder2", deckOrder2.ToString());
-		WWW w = new WWW(URLChangeCardsOrder, form); 								
-		yield return w; 						
-		
-		if (w.error != null)
-		{
-			Debug.Log(w.error);								
-		} 
-
-		for (int i =0;i<this.cards.Count;i++)
-		{
-			if(this.cards[i].Id==idCard1)
-			{
-				this.cards[i].deckOrder=deckOrder1;
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) {
+			WWWForm form = new WWWForm (); 						
+			form.AddField ("myform_hash", ApplicationModel.hash);
+			form.AddField ("myform_nick", ApplicationModel.player.Username);
+			form.AddField ("myform_deck", Id);
+			form.AddField ("myform_idCard1", idCard1.ToString ());
+			form.AddField ("myform_deckOrder1", deckOrder1.ToString ());
+			form.AddField ("myform_idCard2", idCard2.ToString ());
+			form.AddField ("myform_deckOrder2", deckOrder2.ToString ());
+			WWW w = new WWW (URLChangeCardsOrder, form); 								
+			yield return w; 						
+			
+			if (w.error != null) {
+				Debug.Log (w.error);
+				isConnected=false;
+			} 
+		}
+		for (int i = 0; i < this.cards.Count; i++) {
+			if (this.cards [i].Id == idCard1) {
+				this.cards [i].deckOrder = deckOrder1;
 			}
-			if(this.cards[i].Id==idCard2)
-			{
-				this.cards[i].deckOrder=deckOrder2;
+			if (this.cards [i].Id == idCard2) {
+				this.cards [i].deckOrder = deckOrder2;
 			}
 		}
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 	public void addCard(Card c)
 	{
@@ -106,18 +121,23 @@ public class Deck : Cards
 
 	public IEnumerator removeCard(int idCard)
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_deck", Id);
-		form.AddField("myform_idCard", idCard);
-		WWW w = new WWW(URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
-
-		if (w.error != null)
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) 
 		{
-			Debug.Log(w.error); 									// donne l'erreur eventuelle
-		} 
+			WWWForm form = new WWWForm(); 								// Création de la connexion
+			form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+			form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
+			form.AddField("myform_deck", Id);
+			form.AddField("myform_idCard", idCard);
+			WWW w = new WWW(URLRemoveCardFromDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
+			yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+
+			if (w.error != null)
+			{
+				Debug.Log(w.error); 									// donne l'erreur eventuelle
+				isConnected=false;
+			} 
+		}
 		this.NbCards--;
 		for (int i=0; i<this.cards.Count; i++)
 		{
@@ -127,55 +147,89 @@ public class Deck : Cards
 				break;
 			}
 		}
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 
 	public IEnumerator create(string decksName)
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_name", decksName);
-
-		ServerController.instance.setRequest(URLCreateDeck, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-
-		if(this.Error=="")
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) 
 		{
-			string result = ServerController.instance.getResult();
-			this.Id = System.Convert.ToInt32(result);
-			this.Name = decksName;
-			this.NbCards = 0;
-			this.cards = new List<Card>();
+			WWWForm form = new WWWForm (); 								// Création de la connexion
+			form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+			form.AddField ("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
+			form.AddField ("myform_name", decksName);
+
+			ServerController.instance.setRequest (URLCreateDeck, form);
+			yield return ServerController.instance.StartCoroutine ("executeRequest");
+			this.Error = ServerController.instance.getError ();
+			if (this.Error != "") {
+				isConnected = false;
+			}
 		}
+		string result = ServerController.instance.getResult ();
+		this.Id = System.Convert.ToInt32 (result);
+		this.Name = decksName;
+		this.NbCards = 0;
+		this.cards = new List<Card> ();
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			deck.IsNew = true;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 	public IEnumerator delete()
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", Id);
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) {
+			WWWForm form = new WWWForm (); 								// Création de la connexion
+			form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+			form.AddField ("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
+			form.AddField ("myform_id", Id);
 
-		ServerController.instance.setRequest(URLDeleteDeck, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
+			ServerController.instance.setRequest (URLDeleteDeck, form);
+			yield return ServerController.instance.StartCoroutine ("executeRequest");
+			this.Error = ServerController.instance.getError ();
+			if (this.Error != "") {
+				isConnected = false;
+			}
+		}
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			deck.ToDelete = true;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 	public IEnumerator edit(string newName)
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_id", Id);
-		form.AddField("myform_name", newName);
-
-		ServerController.instance.setRequest(URLEditDeck, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-
-		if(this.Error=="")
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) 
 		{
-			this.Name = newName;
+			WWWForm form = new WWWForm (); 								// Création de la connexion
+			form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+			form.AddField ("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
+			form.AddField ("myform_id", Id);
+			form.AddField ("myform_name", newName);
+
+			ServerController.instance.setRequest (URLEditDeck, form);
+			yield return ServerController.instance.StartCoroutine ("executeRequest");
+			this.Error = ServerController.instance.getError ();
+			if (this.Error != "") {
+				isConnected = false;
+			}
 		}
+		this.Name = newName;
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			Deck deck = this;
+			ApplicationModel.player.decksToSync.update (deck);
+		}
+		yield break;
 	}
 	public IEnumerator RetrieveCards()
 	{
@@ -200,6 +254,20 @@ public class Deck : Cards
 				this.cards[i].parseCard(cardsData[i]);
 				this.cards[i].deckOrder=i;
 			}
+		}
+	}
+	public void setString()
+	{
+		this.String="";
+		this.String += this.Id.ToString()+"DATA"; //0
+		this.String += this.Name+"DATA";
+		this.String += ApplicationModel.player.Id.ToString() + "DATA";
+		this.String += this.NbCards.ToString () + "DATA";
+		this.String += System.Convert.ToInt32 (this.ToDelete).ToString ()+"DATA";
+		this.String += System.Convert.ToInt32 (this.IsNew).ToString () + "DATA";
+		for (int i = 0; i < this.cards.Count; i++) 
+		{
+			this.String += this.cards [i].Id.ToString () + "DATA";
 		}
 	}
 }

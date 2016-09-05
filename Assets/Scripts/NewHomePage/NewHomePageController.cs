@@ -160,7 +160,7 @@ public class NewHomePageController : MonoBehaviour
 			}
 		}
 		this.checkForFriendsOnlineTimer += Time.deltaTime;
-		if (checkForFriendsOnlineTimer > refreshInterval && this.isSceneLoaded) 
+		if (checkForFriendsOnlineTimer > refreshInterval && this.isSceneLoaded && ApplicationModel.player.IsOnline) 
 		{
 			this.checkForFriendsOnlineTimer=0;
 			this.checkFriendsOnlineStatus();
@@ -1591,17 +1591,17 @@ public class NewHomePageController : MonoBehaviour
 	public void joinGameHandler(int id)
 	{
 		SoundController.instance.playSound(9);
-		if(this.deckDisplayed==-1)
-		{
-			BackOfficeController.instance.displayErrorPopUp(WordingGameModes.getReference(5));
-		}
-		else if(id==0)
-		{
-			if (HelpController.instance.canAccess (-1)) 
-			{
+		if (this.deckDisplayed == -1) {
+			BackOfficeController.instance.displayErrorPopUp (WordingGameModes.getReference (5));
+		} else if (id == 0) {
+			if (HelpController.instance.canAccess (-1)) {
 				ApplicationModel.player.ChosenGameType = 0;
 				StartCoroutine (this.joinGame ());
 			}
+		} 
+		else if (!BackOfficeController.instance.isOnline ()) 
+		{
+			BackOfficeController.instance.hidePlayPopUp ();
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{

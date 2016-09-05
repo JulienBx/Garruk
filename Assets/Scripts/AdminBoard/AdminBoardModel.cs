@@ -89,7 +89,7 @@ public class AdminBoardModel
 		else
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();	
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 	}
 	public IEnumerator refreshPeriod(DateTime startPeriod, DateTime endPeriod)

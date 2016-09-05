@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable] 
 public class Skill
 {
 	public string Name;
@@ -18,7 +19,7 @@ public class Skill
 	public int XMin;
 	public string Action;
 	public int IdCardType;
-	public Texture2D texture;
+	//public Texture2D texture;
 	public bool IsNew;
 	public int cible ;
 	public int Upgrades;
@@ -108,7 +109,7 @@ public class Skill
 	}
 	public Skill()
 	{
-		this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+		//this.texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
 		this.Description = "";
 		this.hasBeenPlayed = false ;
 		this.IsActivated = 0 ; 

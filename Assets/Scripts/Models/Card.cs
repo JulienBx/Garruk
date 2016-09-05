@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[System.Serializable] 
 public class Card 
 {
 	public int Id; 												// Id unique de la carte
@@ -482,7 +483,7 @@ public class Card
 				if(newCardXp<ApplicationModel.xpLevels[i])
 				{
 					newCardLevel=i-1;
-					newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+					newNextLevelPrice=ApplicationModel.xpLevels[i+1]-newCardXp;
 					newPercentageToNextLevel=Mathf.CeilToInt(100f*((newCardXp-backLevel)/(ApplicationModel.xpLevels[i]-backLevel)));
 					break;
 				}
@@ -496,7 +497,7 @@ public class Card
 					}
 					else
 					{
-						newNextLevelPrice=ApplicationModel.xpLevels[i]-newCardXp;
+						newNextLevelPrice=ApplicationModel.xpLevels[i+1]-newCardXp;
 						newPercentageToNextLevel=0;
 					}
 					break;
@@ -736,12 +737,22 @@ public class Card
 	}
 	public IEnumerator syncCard()
 	{
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_cardData", this.String);
+		bool isConnected = true;
+		if (ApplicationModel.player.IsOnline) {
+			WWWForm form = new WWWForm (); 								// Création de la connexion
+			form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+			form.AddField ("myform_cardData", this.String);
 
-		ServerController.instance.setRequest(urlSyncCard, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
+			ServerController.instance.setRequest (urlSyncCard, form);
+			yield return ServerController.instance.StartCoroutine ("executeRequest");
+			this.Error = ServerController.instance.getError ();
+			if (this.Error != "") {
+				isConnected = false;
+			}
+		}
+		if (!isConnected || !ApplicationModel.player.IsOnline) {
+			ApplicationModel.player.cardsToSync.update (this);
+		}
+		yield break;
 	}
 }

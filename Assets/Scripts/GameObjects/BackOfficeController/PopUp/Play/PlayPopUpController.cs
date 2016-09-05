@@ -201,15 +201,18 @@ public class PlayPopUpController : MonoBehaviour
 	public void selectGame(int id)
 	{
 		SoundController.instance.playSound(9);
-		if(this.deckDisplayed==-1)
+		if (this.deckDisplayed == -1) 
 		{
-			this.gameObject.transform.FindChild("Error").gameObject.SetActive(true);
-			this.gameObject.transform.FindChild("Error").GetComponent<TextMeshPro>().text=WordingGameModes.getReference(5);
-		}
-		else if(id==0)
+			this.gameObject.transform.FindChild ("Error").gameObject.SetActive (true);
+			this.gameObject.transform.FindChild ("Error").GetComponent<TextMeshPro> ().text = WordingGameModes.getReference (5);
+		} 
+		else if (id == 0) 
 		{
 			ApplicationModel.player.ChosenGameType = 0;
 			StartCoroutine (this.joinGame ());
+		} 
+		else if (!BackOfficeController.instance.isOnline ()) 
+		{
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{

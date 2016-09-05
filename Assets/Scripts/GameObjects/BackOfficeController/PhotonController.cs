@@ -118,12 +118,16 @@ public class PhotonController : Photon.MonoBehaviour
     }
     void OnJoinedLobby()
     {
-		if(this.isOk){
-		Debug.Log("retour au lobby");
-    	if(hasToJoinRoom)
-    	{
-    		this.joinRandomRoom();
-    	}
+		if (this.isOk) {
+			ApplicationModel.player.IsOnline = true;
+			BackOfficeController.instance.hideLoadingScreen ();
+			if (SceneManager.GetActiveScene ().name != "Authentication") {
+				MenuController.instance.refreshMenuObject ();
+			}
+	    	if(hasToJoinRoom)
+	    	{
+	    		this.joinRandomRoom();
+	    	}
     	}
     }
 	public void CreateNewRoom()
@@ -302,14 +306,7 @@ public class PhotonController : Photon.MonoBehaviour
     }
     public void OnDisconnectedFromPhoton()
     {
-    	if(this.isOk){
-			if(!ApplicationModel.player.ToDeconnect)
-	        {
-	            ApplicationModel.player.HasLostConnection=true;
-	            ApplicationModel.player.ToDeconnect=true;
-	        }
-			SceneManager.LoadScene("Authentication");
-		}
+    	
     }
 //	private void connectToPhoton()
 //	{
@@ -1180,5 +1177,13 @@ public class PhotonController : Photon.MonoBehaviour
 	public void resize()
 	{
 		this.preMatchScreen.GetComponent<PreMatchScreenController>().resize();
+	}
+	public void connectToPhoton()
+	{
+		BackOfficeController.instance.changeLoadingScreenLabel (WordingAuthentication.getReference(0));
+		gameObject.GetComponent<PhotonView>().viewID=1;
+		PhotonNetwork.playerName = ApplicationModel.player.Username;
+		PhotonNetwork.ConnectUsingSettings(ApplicationModel.photonSettings);
+		PhotonNetwork.autoCleanUpPlayerObjects = false;
 	}
 }

@@ -32,6 +32,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 	private bool isInscriptionPopUpDisplayed;
 	private GameObject authenticationMessagePopUp;
 	private bool isAuthenticationMessagePopUpDisplayed;
+	private GameObject offlineModePopUp;
+	private bool isOfflineModePopUpDisplayed;
 	private GameObject lostLoginPopUp;
 	private bool isLostLoginPopUpDisplayed;
 	private GameObject emailNonActivatedPopUp;
@@ -126,6 +128,7 @@ public class AuthenticationController : Photon.MonoBehaviour
         ApplicationModel.volMusic = PlayerPrefs.GetFloat ("musicVol", 0.5f) * ApplicationModel.volMaxMusic;
         ApplicationModel.player.AutomaticConnection=System.Convert.ToBoolean(PlayerPrefs.GetInt("automaticConnection",0));
         ApplicationModel.player.Username=ApplicationModel.Decrypt(PlayerPrefs.GetString("username",""));
+		ApplicationModel.checkForSavedGame ();
 	}
 	private void initializeServerController()
 	{
@@ -169,6 +172,8 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.loginPopUp.SetActive(false);
 		this.inscriptionPopUp=GameObject.Find("inscriptionPopUp");
 		this.inscriptionPopUp.SetActive(false);
+		this.offlineModePopUp = GameObject.Find ("offlineModePopUp");
+		this.offlineModePopUp.SetActive (false);
 		this.authenticationMessagePopUp=GameObject.Find("authenticationMessagePopUp");
 		this.authenticationMessagePopUp.SetActive(false);
 		this.emailNonActivatedPopUp=GameObject.Find("emailNonActivatedPopUp");
@@ -231,35 +236,46 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.Login());
-		if(ApplicationModel.player.Error!="")
+		Debug.Log (ApplicationModel.player.IsOnline);
+		if (ApplicationModel.player.Error != "") 
 		{
-			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError(ApplicationModel.player.Error);
-			SoundController.instance.stopPlayingSound();
-			SoundController.instance.playSound(13);
-			BackOfficeController.instance.hideLoadingScreen();
-		}
-		else if(!ApplicationModel.player.IsAccountCreated)
+			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError (ApplicationModel.player.Error);
+			SoundController.instance.stopPlayingSound ();
+			SoundController.instance.playSound (13);
+			BackOfficeController.instance.hideLoadingScreen ();
+		} 
+		else if (!ApplicationModel.player.IsAccountCreated) 
 		{
-			this.hideLoginPopUp();
-			this.hideInscriptionPopUp();
-			this.displayInscriptionFacebookPopUp(ApplicationModel.player.Mail);
-			BackOfficeController.instance.hideLoadingScreen();
-		}
-		else if(!ApplicationModel.player.IsAccountActivated)
+			this.hideLoginPopUp ();
+			this.hideInscriptionPopUp ();
+			this.displayInscriptionFacebookPopUp (ApplicationModel.player.Mail);
+			BackOfficeController.instance.hideLoadingScreen ();
+		} 
+		else if (!ApplicationModel.player.IsAccountActivated) 
 		{
-			this.hideLoginPopUp();
-			this.displayEmailNonActivatedPopUp(ApplicationModel.player.Mail);
-			BackOfficeController.instance.hideLoadingScreen();
-		}
-		else if(ApplicationModel.player.ToChangePassword)
+			this.hideLoginPopUp ();
+			this.displayEmailNonActivatedPopUp (ApplicationModel.player.Mail);
+			BackOfficeController.instance.hideLoadingScreen ();
+		} 
+		else if (ApplicationModel.player.ToChangePassword) 
 		{
-			this.hideLoginPopUp();
-			this.displayChangePasswordPopUp();
-			BackOfficeController.instance.hideLoadingScreen();
-		}
+			this.hideLoginPopUp ();
+			this.displayChangePasswordPopUp ();
+			BackOfficeController.instance.hideLoadingScreen ();
+		} 
 		else
 		{
-			this.connectToPhoton();
+			if (ApplicationModel.player.IsOnline) 
+			{
+				ApplicationModel.Save ();
+				this.connectToPhoton ();
+			} 
+			else 
+			{
+				BackOfficeController.instance.hideLoadingScreen ();
+				this.hideLoginPopUp ();
+				this.displayOfflineModePopUp ();
+			}
 		}
 	}
 	public void inscriptionHandler()
@@ -565,6 +581,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 		{
 			this.changePasswordPopUpResize();
 		}
+		if (this.isOfflineModePopUpDisplayed) 
+		{
+			this.offlineModePopUpResize ();
+		}
 	}
 	public void chooseLanguageHandler()
 	{
@@ -617,6 +637,10 @@ public class AuthenticationController : Photon.MonoBehaviour
 			{
 				this.changePasswordPopUp.GetComponent<AuthenticationChangePasswordPopUpController>().computeLabels();
 			}
+			if(this.isOfflineModePopUpDisplayed)
+			{
+				this.offlineModePopUp.GetComponent<OfflineModePopUpController>().computeLabels();
+			}
 		}
 		else
 		{
@@ -663,6 +687,14 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.isAuthenticationMessagePopUpDisplayed = true;
 		this.authenticationMessagePopUp.SetActive (true);
 		this.authenticationMessagePopUpResize ();
+	}
+	public void displayOfflineModePopUp()
+	{
+		BackOfficeController.instance.displayTransparentBackground ();
+		this.offlineModePopUp.transform.GetComponent<OfflineModePopUpController> ().reset();
+		this.isOfflineModePopUpDisplayed = true;
+		this.offlineModePopUp.SetActive (true);
+		this.offlineModePopUpResize ();
 	}
 	public void displayEmailNonActivatedPopUp(string mail)
 	{
@@ -713,6 +745,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 		this.authenticationMessagePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
 		this.authenticationMessagePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
 		this.authenticationMessagePopUp.GetComponent<AuthenticationMessagePopUpController> ().resize ();
+		this.displayFacebookButton(false);
+	}
+	public void offlineModePopUpResize()
+	{
+		this.offlineModePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y-0.5f, -2f);
+		this.offlineModePopUp.transform.localScale = ApplicationDesignRules.popUpScale;
+		this.offlineModePopUp.GetComponent<OfflineModePopUpController> ().resize ();
 		this.displayFacebookButton(false);
 	}
 	public void lostLoginPopUpResize()
@@ -769,6 +808,13 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		this.authenticationMessagePopUp.SetActive (false);
 		this.isAuthenticationMessagePopUpDisplayed = false;
+	}
+	public void hideOfflineModePopUp()
+	{
+		this.offlineModePopUp.SetActive (false);
+		this.isOfflineModePopUpDisplayed = false;
+		BackOfficeController.instance.displayLoadingScreen ();
+		this.loadLevels ();
 	}
 	public void hideEmailNonActivatedPopUp()
 	{
@@ -900,6 +946,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.changePasswordHandler();
 		}
+		if (this.isOfflineModePopUpDisplayed) 
+		{
+			SoundController.instance.playSound (8);
+			this.hideOfflineModePopUp ();
+		}
 	}
 	public void escapePressed()
 	{
@@ -926,6 +977,11 @@ public class AuthenticationController : Photon.MonoBehaviour
 			SoundController.instance.playSound(8);
 			this.displayLoginPopUp();
 			this.hideChangePasswordPopUp();
+		}
+		if (this.isOfflineModePopUpDisplayed) 
+		{
+			SoundController.instance.playSound (8);
+			this.hideOfflineModePopUp ();
 		}
 	}
 	private void loadLevels()

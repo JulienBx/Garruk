@@ -16,6 +16,10 @@ public class BackOfficeController : MonoBehaviour
 	private bool isLoadingScreenDisplayed;
 	private GameObject disconnectedPopUp;
 	private bool isDisconnectedPopUpDisplayed;
+	private GameObject offlineModePopUp;
+	private bool isOfflineModePopUpDisplayed;
+	private GameObject detectOfflinePopUp;
+	private bool isDetectOfflinePopUpDisplayed;
 	private GameObject errorPopUp;
 	private bool isErrorPopUpDisplayed;
 	private GameObject collectionPointsPopUp;
@@ -80,7 +84,7 @@ public class BackOfficeController : MonoBehaviour
 			}
 		}
 		timer = timer+speed*Time.deltaTime;
-		if (!isRefreshing && timer > this.refreshInterval && this.isMenuLoaded) 
+		if (!isRefreshing && timer > this.refreshInterval && this.isMenuLoaded && ApplicationModel.player.IsOnline) 
 		{
 			timer=timer-this.refreshInterval;
 			StartCoroutine (this.getUserData());
@@ -144,6 +148,8 @@ public class BackOfficeController : MonoBehaviour
 		this.isRefreshing=false;
 		this.toolTip=this.gameObject.transform.FindChild("toolTip").gameObject;
 		this.disconnectedPopUp=this.gameObject.transform.FindChild("disconnectPopUp").gameObject;
+		this.detectOfflinePopUp = this.gameObject.transform.FindChild ("detectOfflinePopUp").gameObject;
+		this.offlineModePopUp = this.gameObject.transform.FindChild ("offlineModeBackOfficePopUp").gameObject;
 		this.errorPopUp = this.gameObject.transform.FindChild ("errorPopUp").gameObject;
 		this.collectionPointsPopUp = this.gameObject.transform.FindChild ("collectionPointsPopUp").gameObject;
 		this.loadingScreen=this.gameObject.transform.FindChild("loadingScreen").gameObject;
@@ -342,9 +348,9 @@ public class BackOfficeController : MonoBehaviour
 	}
 	public void hidePlayPopUp()
 	{
-		Destroy (this.playPopUp);
 		this.hideTransparentBackground ();
 		this.isPlayPopUpDisplayed = false;
+		Destroy (this.playPopUp);
 	}
 	public void failPlayPopUp()
 	{
@@ -399,24 +405,31 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.invitationPopUpResize();
 		}
+		if (this.isOfflineModePopUpDisplayed) 
+		{
+			this.offlineModePopUpResize ();
+		}
+		if (this.isDetectOfflinePopUpDisplayed) 
+		{
+			this.detectOfflinePopUpResize ();
+		}
 	}
 
 	public void returnPressed()
 	{
-		if(isErrorPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.hideErrorPopUp();
-		}
-		else if(isDisconnectedPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.toDisconnect();
-		}
-		else if(isInvitationPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			InvitationPopUpController.instance.acceptInvitationHandler();
+		if (isErrorPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			this.hideErrorPopUp ();
+		} else if (isDisconnectedPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			this.toDisconnect ();
+		} else if (isInvitationPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			InvitationPopUpController.instance.acceptInvitationHandler ();
+		} else if (isOfflineModePopUpDisplayed) {
+
+		} else if (isDetectOfflinePopUpDisplayed) {
+			this.hideDetectOfflinePopUp ();
 		}
 		else
 		{
@@ -432,28 +445,24 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.hideToolTip();
 		}
-		if(isErrorPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.hideErrorPopUp();
-		}
-		else if(isPlayPopUpDisplayed)
-		{
-			if(!isLoadingScreenDisplayed)
-			{
-				SoundController.instance.playSound(8);
-				this.hidePlayPopUp();
+		if (isErrorPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			this.hideErrorPopUp ();
+		} else if (isPlayPopUpDisplayed) {
+			if (!isLoadingScreenDisplayed) {
+				SoundController.instance.playSound (8);
+				this.hidePlayPopUp ();
 			}
-		}
-		else if(isDisconnectedPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			this.hideDisconnectedPopUp();
-		}
-		else if(isInvitationPopUpDisplayed)
-		{
-			SoundController.instance.playSound(8);
-			InvitationPopUpController.instance.declineInvitationHandler();
+		} else if (isDisconnectedPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			this.hideDisconnectedPopUp ();
+		} else if (isInvitationPopUpDisplayed) {
+			SoundController.instance.playSound (8);
+			InvitationPopUpController.instance.declineInvitationHandler ();
+		} else if (isOfflineModePopUpDisplayed) {
+			this.hideOfflineModePopUp ();
+		} else if (isDetectOfflinePopUpDisplayed) {
+			this.hideDetectOfflinePopUp ();
 		}
 		else
 		{
@@ -480,6 +489,14 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
+		if (isOfflineModePopUpDisplayed) 
+		{
+			this.hideOfflineModePopUp ();
+		}
+		if (isDetectOfflinePopUpDisplayed) 
+		{
+			this.hideDetectOfflinePopUp ();
+		}
 		this.sceneCloseAllPopUp ();
 	}
 	public virtual void sceneCloseAllPopUp()
@@ -494,17 +511,82 @@ public class BackOfficeController : MonoBehaviour
 		this.disconnectedPopUp.SetActive (true);
 		this.disconnectedPopUpResize();
 	}
+	public void displayOfflineModePopUp(int idMessage)
+	{
+		SoundController.instance.playSound(9);
+		this.displayTransparentBackground ();
+		this.offlineModePopUp.transform.GetComponent<OfflineModeBackOfficePopUpController> ().reset (idMessage);
+		this.isOfflineModePopUpDisplayed = true;
+		this.offlineModePopUp.SetActive (true);
+		this.offlineModePopUpResize();
+	}
+	public void displayDetectOfflinePopUp()
+	{
+		SoundController.instance.playSound(9);
+		this.displayTransparentBackground ();
+		this.detectOfflinePopUp.transform.GetComponent<DetectOfflinePopUpController> ().reset ();
+		this.isDetectOfflinePopUpDisplayed = true;
+		this.detectOfflinePopUp.SetActive (true);
+		this.detectOfflinePopUpResize();
+	}
+	public void detectOfflinePopUpResize()
+	{
+		this.detectOfflinePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.detectOfflinePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.detectOfflinePopUp.GetComponent<DetectOfflinePopUpController> ().resize ();
+	}
 	public void disconnectedPopUpResize()
 	{
 		this.disconnectedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.disconnectedPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
-		this.disconnectedPopUp.GetComponent<DisconnectPopUpController> ().resize ();
+		this.disconnectedPopUp.GetComponent<DetectOfflinePopUpController> ().resize ();
+	}
+	public void offlineModePopUpResize()
+	{
+		this.offlineModePopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
+		this.offlineModePopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
+		this.offlineModePopUp.GetComponent<OfflineModeBackOfficePopUpController> ().resize ();
 	}
 	public void hideDisconnectedPopUp()
 	{
 		this.disconnectedPopUp.SetActive (false);
 		this.hideTransparentBackground();
 		this.isDisconnectedPopUpDisplayed = false;
+	}
+	public void hideDetectOfflinePopUp()
+	{
+		this.detectOfflinePopUp.SetActive (false);
+		this.hideTransparentBackground();
+		this.isDetectOfflinePopUpDisplayed = false;
+		string sceneName = SceneManager.GetActiveScene ().name;
+		if (sceneName == "newStore" || sceneName == "newMarket" || sceneName == "NewLobby" || sceneName == "AdminBoard" || sceneName == "NewProfile") {
+			this.loadScene ("NewHomePage");
+		} else 
+		{
+			MenuController.instance.refreshMenuObject ();
+		}
+	}
+	public void hideOfflineModePopUp()
+	{
+		this.offlineModePopUp.SetActive (false);
+		this.hideTransparentBackground();
+		this.isOfflineModePopUpDisplayed = false;
+	}
+	public bool isOnline()
+	{
+		if (ApplicationModel.player.IsOnline) 
+		{
+			return true;
+		} 
+		else 
+		{
+			if (this.isPlayPopUpDisplayed) 
+			{
+				this.hidePlayPopUp ();
+			}
+			this.displayOfflineModePopUp (3);
+			return false;
+		}
 	}
 	public void displayLoadingScreen()
 	{
