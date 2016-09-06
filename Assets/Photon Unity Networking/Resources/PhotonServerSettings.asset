@@ -100,4 +100,7 @@ MonoBehaviour:
   - addPlayerToRoomRPC
   - moveOnRPC
   - startGameRPC
+  - FailRPC
+  - DodgeRPC
+  - EffectsSkillRPC
   DisableAutoOpenWizard: 0

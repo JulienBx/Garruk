@@ -113,5 +113,47 @@ public class Board
 
 		return tile;
 	}
+
+	public List<TileM> getAdjacentOpponentsTargets(int[,] board, CardC card){
+		List<TileM> neighbourTiles = this.getTileNeighbours(card.getTileM());
+		List<TileM> cibles = new List<TileM>();
+		int playerID;
+
+		foreach (TileM t in neighbourTiles)
+		{
+			playerID = board[t.x,t.y];
+			if (playerID > 0)
+			{
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						cibles.Add(t);
+					}
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public int[,] getCurrentBoard(){
+		int[,] board = new int[this.boardWidth,this.boardHeight];
+		for(int i = 0 ; i < this.boardWidth ; i++){
+			for(int j = 0 ; j < this.boardHeight ; j++){
+				board[i,j] = this.getTileC(i,j).getBoardValue();
+			}
+		}
+		return board;
+	}
+
+	public void startTargets(List<TileM> targets){
+		for (int i = 0 ; i < targets.Count ; i++){
+			this.getTileC(targets[i]).setTarget(true);
+		}
+	}
+
+	public void stopTargets(List<TileM> targets){
+		for (int i = 0 ; i < targets.Count ; i++){
+			this.getTileC(targets[i]).setTarget(false);
+		}
+	}
 }
 

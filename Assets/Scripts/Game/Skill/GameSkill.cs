@@ -289,7 +289,7 @@ public int ciblage ;
 	public virtual List<TileM> getTargetTiles(CardC card){
 		List<TileM> targets = new List<TileM>();
 		if(this.ciblage==1){
-			//targets = Game.instance.getBoard().getAdjacentOpponentsTargets(new int[][] board, t, isM);
+			targets = Game.instance.getBoard().getAdjacentOpponentsTargets(Game.instance.getBoard().getCurrentBoard(), card);
 		}
 		return targets;
 	}

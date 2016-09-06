@@ -22,6 +22,7 @@ TextureImporter:
     21300030: RedMoveTile
     21300032: Target
     21300034: blackTile
+    21300036: HoverCarac
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -83,23 +84,8 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -270, y: 55}
-        - {x: -270, y: -54}
-        - {x: 271, y: -54}
-        - {x: 271, y: 55}
-    - name: Back108x108
-      rect:
-        serializedVersion: 2
-        x: 1845
-        y: 1939
-        width: 108
-        height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Back2160x1080
+    - name: Back108x108
       rect:
         serializedVersion: 2
         x: 1955
@@ -110,85 +96,72 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+    - name: Back2160x1080
+      rect:
+        serializedVersion: 2
+        x: 1958
+        y: 2022
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: Back216x81
       rect:
         serializedVersion: 2
-        x: 1745
+        x: 1743
         y: 1399
         width: 260
         height: 98
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -65, y: 25.5}
-        - {x: -65, y: -24.5}
-        - {x: 66, y: -24.5}
-        - {x: 66, y: 25.5}
+      outline: []
     - name: Back400x200
       rect:
         serializedVersion: 2
         x: 1203
-        y: 1144
+        y: 1146
         width: 400
         height: 200
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -95, y: 50}
-        - {x: -100, y: 46}
-        - {x: -100, y: -50}
-        - {x: 101, y: -50}
-        - {x: 101, y: 47}
-        - {x: 96, y: 50}
+      outline: []
     - name: Back400x50
       rect:
         serializedVersion: 2
         x: 1605
-        y: 1295
+        y: 1297
         width: 400
         height: 40
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -200, y: 20}
-        - {x: -200, y: -20}
-        - {x: 195, y: -20}
-        - {x: 200, y: -18}
-        - {x: 200, y: 20}
+      outline: []
     - name: Back405x99
       rect:
         serializedVersion: 2
         x: 1203
-        y: 1346
+        y: 1348
         width: 405
         height: 99
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -101, y: 25}
-        - {x: -101, y: -25}
-        - {x: 101, y: -25}
-        - {x: 102, y: -24}
-        - {x: 102, y: 25}
+      outline: []
     - name: Back540x108
       rect:
         serializedVersion: 2
         x: 1203
-        y: 1447
-        width: 540
-        height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 1449
+        width: 538
+        height: 106
+      alignment: 9
+      pivot: {x: 0.49814814, y: 0.5092593}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -135, y: 28}
-        - {x: -135, y: -27}
-        - {x: 136, y: -27}
-        - {x: 136, y: 28}
+      outline: []
     - name: Back640x490
       rect:
         serializedVersion: 2
@@ -199,11 +172,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -160, y: 123.5}
-        - {x: -160, y: -122.5}
-        - {x: 161, y: -122.5}
-        - {x: 161, y: 123.5}
+      outline: []
     - name: Back90x22
       rect:
         serializedVersion: 2
@@ -219,17 +188,13 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1845
-        y: 1829
+        y: 1939
         width: 108
         height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
+      outline: []
     - name: BackgroundTuto
       rect:
         serializedVersion: 2
@@ -240,123 +205,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -48, y: -294}
-        - {x: -49, y: -293}
-        - {x: -97, y: -281}
-        - {x: -120, y: -272}
-        - {x: -144, y: -261}
-        - {x: -134, y: -265}
-        - {x: -105, y: -276}
-        - {x: -66, y: -288}
-        - {x: -54, y: -289}
-        - {x: -47, y: -294}
-        - {x: -44, y: -292}
-        - {x: -18, y: -293}
-        - {x: 22, y: -293}
-        - {x: 50, y: -289}
-        - {x: 71, y: -285}
-        - {x: 108, y: -274}
-        - {x: 121, y: -268}
-        - {x: 150, y: -252}
-        - {x: 163, y: -244}
-        - {x: 171, y: -239}
-        - {x: 194, y: -221}
-        - {x: 214, y: -203}
-        - {x: 229, y: -187}
-        - {x: 244, y: -167}
-        - {x: 258, y: -146}
-        - {x: 267, y: -129}
-        - {x: 272, y: -120}
-        - {x: 272, y: -117}
-        - {x: 274, y: -114}
-        - {x: 274, y: -112}
-        - {x: 278, y: -105}
-        - {x: 277, y: -107}
-        - {x: 277, y: -109}
-        - {x: 275, y: -112}
-        - {x: 275, y: -114}
-        - {x: 272, y: -119}
-        - {x: 272, y: -121}
-        - {x: 259, y: -144}
-        - {x: 242, y: -171}
-        - {x: 224, y: -195}
-        - {x: 168, y: -245}
-        - {x: 144, y: -259}
-        - {x: 119, y: -272}
-        - {x: 76, y: -287}
-        - {x: 17, y: -297}
-        - {x: 15, y: -299}
-        - {x: 15, y: -300}
-        - {x: 42, y: -300}
-        - {x: 54, y: -298}
-        - {x: 85, y: -292}
-        - {x: 119, y: -280}
-        - {x: 142, y: -268}
-        - {x: 167, y: -254}
-        - {x: 194, y: -233}
-        - {x: 226, y: -202}
-        - {x: 244, y: -180}
-        - {x: 257, y: -161}
-        - {x: 268, y: -142}
-        - {x: 285, y: -106}
-        - {x: 293, y: -77}
-        - {x: 298, y: -54}
-        - {x: 301, y: -38}
-        - {x: 301, y: 39}
-        - {x: 297, y: 60}
-        - {x: 292, y: 86}
-        - {x: 280, y: 120}
-        - {x: 268, y: 143}
-        - {x: 250, y: 174}
-        - {x: 226, y: 203}
-        - {x: 201, y: 227}
-        - {x: 189, y: 238}
-        - {x: 173, y: 250}
-        - {x: 156, y: 261}
-        - {x: 129, y: 275}
-        - {x: 106, y: 286}
-        - {x: 77, y: 294}
-        - {x: 48, y: 300}
-        - {x: 42, y: 301}
-        - {x: -42, y: 301}
-        - {x: -55, y: 299}
-        - {x: -86, y: 293}
-        - {x: -119, y: 280}
-        - {x: -141, y: 270}
-        - {x: -174, y: 251}
-        - {x: -195, y: 234}
-        - {x: -227, y: 203}
-        - {x: -251, y: 174}
-        - {x: -261, y: 157}
-        - {x: -280, y: 119}
-        - {x: -289, y: 98}
-        - {x: -294, y: 78}
-        - {x: -300, y: 51}
-        - {x: -300, y: -48}
-        - {x: -299, y: -54}
-        - {x: -293, y: -85}
-        - {x: -284, y: -108}
-        - {x: -275, y: -129}
-        - {x: -269, y: -142}
-        - {x: -256, y: -164}
-        - {x: -242, y: -184}
-        - {x: -227, y: -202}
-        - {x: -195, y: -234}
-        - {x: -174, y: -250}
-        - {x: -150, y: -264}
-        - {x: -120, y: -280}
-        - {x: -104, y: -286}
-        - {x: -70, y: -296}
-        - {x: -44, y: -300}
-        - {x: -16, y: -300}
-        - {x: -17, y: -297}
-        - {x: -25, y: -294}
-      - - {x: -6, y: -300}
-        - {x: -6, y: -298}
-        - {x: -9, y: -297}
-        - {x: -11, y: -300}
+      outline: []
     - name: BlueMoveTile
+      rect:
+        serializedVersion: 2
+        x: 1845
+        y: 1829
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Dead
       rect:
         serializedVersion: 2
         x: 1845
@@ -366,12 +227,8 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
-    - name: Dead
+      outline: []
+    - name: Hover
       rect:
         serializedVersion: 2
         x: 1845
@@ -381,12 +238,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
-    - name: Hover
+      outline: []
+    - name: HoverCarac
+      rect:
+        serializedVersion: 2
+        x: 1605
+        y: 1081
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: RedMoveTile
       rect:
         serializedVersion: 2
         x: 1845
@@ -396,56 +260,29 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
-    - name: RedMoveTile
-      rect:
-        serializedVersion: 2
-        x: 1610
-        y: 1337
-        width: 108
-        height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 27, y: -27}
-        - {x: 27, y: 28}
+      outline: []
     - name: Target
       rect:
         serializedVersion: 2
-        x: 1605
-        y: 1185
+        x: 1610
+        y: 1339
         width: 108
         height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
+      outline: []
     - name: blackTile
       rect:
         serializedVersion: 2
-        x: 1715
-        y: 1185
+        x: 1821
+        y: 1187
         width: 108
         height: 108
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -27, y: 28}
-        - {x: -27, y: -27}
-        - {x: 28, y: -27}
-        - {x: 28, y: 28}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

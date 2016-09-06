@@ -73,6 +73,19 @@ public class InterludeC : MonoBehaviour
 			Game.instance.getStartButton().setText(WordingGame.getText(19));
 			Game.instance.getStartButton().showText(true);
 		}
+		else if(i==2){
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[2];
+			this.setText(WordingGame.getText(79));
+
+		}
+		else if(i==3){
+			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[3];
+			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[4];
+			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[5];
+			this.setText(WordingGame.getText(80));
+		}
 		this.displaying = true ;
 		this.timer = 0f;
 		this.show(true);

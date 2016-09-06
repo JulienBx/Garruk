@@ -54,7 +54,7 @@ public class CardM
 	}
 
 	public int getLife(){
-		return this.attack;
+		return this.life;
 	}
 
 	public Skill getSkill(int i){

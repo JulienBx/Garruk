@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,7 @@ public class Game : MonoBehaviour
 
 	public Sprite[] skillSprites;
 	public Sprite[] bigCharacterSprites;
+	public Sprite[] animSprites;
 
 	GameObject myHoveredCard ;
 	GameObject hisHoveredCard ;
@@ -45,19 +47,27 @@ public class Game : MonoBehaviour
 	Intelligence intelligence ;
 	int currentCardID ;
 	int draggingCardID ;
+	int draggingSBID ;
 	float tileScale;
 	int nbPlayersReadyToStart;
 
 	List<int> cardsToPlay;
 
+	int lastToPlay;
 	int indexPlayingCard;
+	int indexMeteores;
+
+	string URLStat = ApplicationModel.host + "updateResult.php";
 
 	void Awake(){
 		instance = this;
 		this.currentCardID = -1;
 		this.draggingCardID = -1;
+		this.draggingSBID = -1;
 		this.nbPlayersReadyToStart = 0;
 		this.indexPlayingCard = -1;
+		this.lastToPlay = -10;
+		this.indexMeteores = 1;
 		this.ignoreNextMoveOn = false ;
 		this.skills = new SkillsM();
 		this.firstPlayer = false ;
@@ -70,7 +80,7 @@ public class Game : MonoBehaviour
 		this.gamecards = new Gamecards();
 		SoundController.instance.playMusic(new int[]{4,5,6});
 
-        this.myHoveredCard = GameObject.Find("MyHoveredPlayingCard");
+		this.myHoveredCard = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredCard = GameObject.Find("HisHoveredPlayingCard");
 		this.startButton = GameObject.Find("SB");
 		this.interlude = GameObject.Find("Interlude");
@@ -80,10 +90,6 @@ public class Game : MonoBehaviour
 		this.skillsButton[1] = GameObject.Find("SkillButton2");
 		this.skillsButton[2] = GameObject.Find("SkillButton3");
 		this.skillsButton[3] = GameObject.Find("SkillButton4");
-		this.getSkillButton(0).setId(0);
-		this.getSkillButton(1).setId(1);
-		this.getSkillButton(2).setId(2);
-		this.getSkillButton(3).setId(3);
 		this.popUpChoice = GameObject.Find("PopUpChoice");
 		this.timeline = GameObject.Find("Timeline");
 		this.timer = GameObject.Find("Timer");
@@ -98,6 +104,7 @@ public class Game : MonoBehaviour
 	}
 
 	void Update(){
+		bool SE = false ;
 		if(PhotonC.instance.isWaiting){
 			PhotonC.instance.addTime(Time.deltaTime);
 		}
@@ -153,6 +160,10 @@ public class Game : MonoBehaviour
 				if(this.gamecards.getCardC(i).isUpgradingLife()){
 					this.gamecards.getCardC(i).addTimeLife(Time.deltaTime);
 				}
+				if(this.gamecards.getCardC(i).isSkillEffect()){
+					this.gamecards.getCardC(i).addSETime(Time.deltaTime);
+					SE = true ;
+				}
 			}
 		}
 
@@ -161,6 +172,10 @@ public class Game : MonoBehaviour
 				for (int j = 0 ; j < this.getBoard().getBoardHeight() ; j++){
 					if(this.getBoard().getTileC(i,j).isSkillEffect()){
 						this.getBoard().getTileC(i,j).addSETime(Time.deltaTime);
+						SE = true ;
+					}
+					if(this.getBoard().getTileC(i,j).isTarget()){
+						this.getBoard().getTileC(i,j).addTargetTime(Time.deltaTime);
 					}
 				}
 			}
@@ -169,6 +184,11 @@ public class Game : MonoBehaviour
 		if(this.draggingCardID!=-1){
 			Vector3 mousePos = Input.mousePosition;
 			this.getCards().getCardC(draggingCardID).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
+		}
+
+		if(this.draggingSBID!=-1){
+			Vector3 mousePos = Input.mousePosition;
+			this.getSkillButton(this.draggingSBID).setPosition(Camera.main.ScreenToWorldPoint(mousePos));
 		}
 
 		if(this.ia){
@@ -183,6 +203,12 @@ public class Game : MonoBehaviour
 
 		if(this.getTimer().isVisibleFront()){
 			this.getTimer().addFrontTime(Time.deltaTime);
+		}
+
+		for (int i = 0 ; i < 4 ; i++){
+			if(this.getSkillButton(i).isMoving()){
+				this.getSkillButton(i).addMoveTime(Time.deltaTime);
+			}
 		}
 	}
 
@@ -210,6 +236,10 @@ public class Game : MonoBehaviour
 		return this.skillSprites[i];
 	}
 
+	public Sprite getAnimSprite(int i){
+		return this.animSprites[i];
+	}
+
 	public Sprite getBigCharacterSprite(int i){
 		return this.bigCharacterSprites[i];
 	}
@@ -227,7 +257,6 @@ public class Game : MonoBehaviour
 	}
 
 	public void createBackground(){
-		print("BackgroundCreation");
 		for (int i = 0; i < this.board.getBoardWidth()+1; i++)
 		{
 			this.board.addVerticalBorder(i, (GameObject)Instantiate(verticalBorderModel));
@@ -257,24 +286,24 @@ public class Game : MonoBehaviour
 		}
 
 		if (this.isFirstPlayer()){
-			this.gamecards.createPlayingCard(0, ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(1, ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(2, ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(3, ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(4, ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(5, ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(6, ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(7, ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(0).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(1).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(2).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(3).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
 		}
 		else{
-			this.gamecards.createPlayingCard(4, ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(5, ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(6, ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(7, ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(0, ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(1, ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(2, ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(3, ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(0).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(1).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(2).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(3).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
 		}
 
 		this.intelligence.placeCards();
@@ -282,7 +311,7 @@ public class Game : MonoBehaviour
 			this.resize();
 		}
 		else{
-			GameRPC.instance.resize();
+			GameRPC.instance.launchRPC("resizeRPC");
 		}
 		PhotonNetwork.Reconnect();
 	}
@@ -587,11 +616,15 @@ public class Game : MonoBehaviour
 		return this.draggingCardID;
 	}
 
+	public int getDraggingSBID(){
+		return this.draggingSBID;
+	}
+
 	public void dropOnTile(int x, int y){
 		if(this.getBoard().getTileC(x,y).getDestination()==0){
 			if(currentCardID!=-1){
 				if(this.draggingCardID==this.getCurrentCardID()){
-					this.getCurrentCard().move();
+					this.getCurrentCard().move(true);
 				}
 				this.displayDestinations(this.draggingCardID);
 			}
@@ -624,6 +657,27 @@ public class Game : MonoBehaviour
 		this.draggingCardID = -1;
 	}
 
+	public void dropSBOnTile(int x, int y){
+		if(this.getBoard().getTileC(x,y).isTarget()){
+			this.getCurrentCard().play(true);
+			this.useSkill(x,y, draggingSBID);
+		}
+		else{
+			if(this.getBoard().getTileC(x,y).getCharacterID()==-1){
+				this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(73),2);
+			}
+			else{
+				this.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(74),2);
+			}
+		}
+		this.dropSBOutsideBoard();
+	}
+
+	public void useSkill(int x, int y, int id){
+		
+		this.getSkillButton(id).getSkillC().resolve(x,y,this.getSkillButton(id).getSkill());
+	}
+
 	public void moveOn(int x, int y, int i){
 		if(this.currentCardID==-1){
 			if(this.gamecards.getCardC(i).getCardM().isMine()){
@@ -640,22 +694,31 @@ public class Game : MonoBehaviour
 	public void updateBoard(int x, int y, int i){
 		if(this.currentCardID!=-1){
 			if(i==this.getCurrentCardID()){
-				this.getCurrentCard().move();
+				this.getCurrentCard().move(true);
 			}
 		}
 
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
 		this.gamecards.getCardC(i).setTile(new TileM(x,y));
+		this.getBoard().getTileC(x,y).BruteStopSE();
 		this.getBoard().getTileC(x,y).setCharacterID(i);
 
 		if(this.currentCardID!=-1){
 			this.loadDestinations();
+			this.actuController();
 		}
 	}
 
 	public void dropOutsideBoard(){
 		this.gamecards.getCardC(this.draggingCardID).startMove(this.gamecards.getCardC(this.draggingCardID).getPosition(), this.getBoard().getTileC(this.gamecards.getCardC(this.draggingCardID).getTileM()).getPosition());
 		this.draggingCardID = -1;
+	}
+
+	public void dropSBOutsideBoard(){
+		this.getSkillButton(this.draggingSBID).startMove(this.getSkillButton(this.draggingSBID).getPosition(), this.getSkillButton(this.draggingSBID).getInitialPosition());
+		this.getBoard().stopTargets(this.getCurrentSkillButtonC().getTargets());
+		this.actuController();
+		this.draggingSBID = -1;
 	}
 
 	public void endMove(){
@@ -713,7 +776,7 @@ public class Game : MonoBehaviour
 			this.cardsToPlay.Add(7);
 			this.cardsToPlay.Add(3);
 		}
-
+		this.getTimeline().show(true);
 		this.firstTurn();
 	}
 
@@ -739,8 +802,13 @@ public class Game : MonoBehaviour
 
 	public void launchNextTurn(){
 		this.getCurrentCard().stopClignote();
-
+		this.getCurrentCard().displayBackTile(true);
+		this.getCurrentCard().play(false);
+		this.getCurrentCard().move(false);
 		this.indexPlayingCard++;
+		if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
+			this.indexPlayingCard = 0 ;
+		}
 		while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
 			this.indexPlayingCard++;
 		}
@@ -748,8 +816,30 @@ public class Game : MonoBehaviour
 		this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
 	}
 
+	public void updateTimeline(){
+		List<int> liste = new List<int>();
+		liste.Add(this.lastToPlay);
+		int tempInt = this.indexPlayingCard;
+		int tempIndex = this.indexMeteores;
+
+		while(liste.Count<8){
+			if(!this.getCards().getCardC(this.cardsToPlay[tempInt]).isDead()){
+				liste.Add(this.cardsToPlay[tempInt]);
+			}
+			if(liste.Count<8){
+				tempInt++;
+				if(tempInt==this.getCards().getNumberOfCards()){
+					tempInt = 0;
+					liste.Add(-1*tempIndex);
+					tempIndex++;
+				}
+			}
+		}
+		this.getTimeline().changeFaces(liste);
+	}
+
 	public void giveHandTo(int i){
-		
+		print("AU TOUR DE "+i);
 		if(this.getCards().getCardC(i).getCardM().isMine()){
 			this.getInterlude().launchType(0);
 		}
@@ -758,6 +848,7 @@ public class Game : MonoBehaviour
 		}
 	
 		this.currentCardID = i;
+		this.updateTimeline();
 		this.getCards().getCardC(this.currentCardID).startClignote();
 			
 		if(this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
@@ -799,6 +890,7 @@ public class Game : MonoBehaviour
 				this.getSkillButton(i).show(true);
 			}
 		}
+		this.getPassButton().setLaunchable(true);
 		this.getPassButton().show(true);
 	}
 
@@ -821,7 +913,6 @@ public class Game : MonoBehaviour
 				}
 			}	
 		}
-		//this.getPassButton().update();
 	}
 
 	public void displayDestinations(){
@@ -970,7 +1061,122 @@ public class Game : MonoBehaviour
 		}
 	}
 
-	public void endTurn(){
+	public void hitSkillButton(int id){
+		this.draggingSBID = id;
 
+		this.getSkillButton(id).showTitle(false);
+		this.getSkillButton(id).showCollider(false);
+		this.getSkillButton(id).red();
+	}
+
+	public void hitPassButton(){
+		this.displayController(false);
+		if(this.ia || this.isTutorial()){
+			this.launchNextTurn();
+		}
+		else{
+			GameRPC.instance.launchRPC("launchNextTurnRPC");
+		}
+	}
+
+	public SkillButtonC getCurrentSkillButtonC(){
+		return this.getSkillButton(this.draggingSBID);
+	}
+
+	public void areUnitsDead(bool b){
+		bool areTheyDead = true ;
+
+		for (int i = 0 ; i < 8 ; i++){
+			if (this.getCards().getCardC(i).getCardM().isMine()==b){
+				if (this.getCards().getCardC(i).isDead()){
+					areTheyDead = false ;
+				}
+			}
+		}
+		
+		if(areTheyDead){
+			GameRPC.instance.launchRPC("LostRPC",b);
+		}
+	}
+
+	public IEnumerator quitGameHandler(bool hasFirstPlayerLost)
+	{		
+		this.getHisHoveredCard().moveCharacterBackward();
+		this.getMyHoveredCard().moveCharacterBackward();
+		int type = 2;
+		if(hasFirstPlayerLost==this.firstPlayer){
+			type = 3 ;
+		}
+		this.getInterlude().launchType(type);
+
+		if(this.isTutorial())
+		{
+            if(hasFirstPlayerLost==this.firstPlayer)
+			{
+                ApplicationModel.player.HasWonLastGame=false;
+                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
+			}
+			else
+			{
+                ApplicationModel.player.HasWonLastGame=true;
+                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
+			}
+		}
+		else
+		{
+            if(hasFirstPlayerLost==this.firstPlayer)
+            {
+                ApplicationModel.player.HasWonLastGame=false;
+                ApplicationModel.player.PercentageLooser=Game.instance.getPercentageTotalDamages();
+            }
+            else
+            {
+                ApplicationModel.player.HasWonLastGame=true;
+            }
+            yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
+		}
+        this.interlude.GetComponent<InterludeController>().quitGame();
+	}
+
+	public int getPercentageTotalDamages(){
+		int damages = 0;
+		int total = 0;
+		for(int i = 0 ; i < this.getCards().getNumberOfCards(); i++){
+			if(!this.getCards().getCardC(i).getCardM().isMine()){
+				damages+=Mathf.Max(0,(this.getCards().getCardC(i).getCardM().getLife()-this.getCards().getCardC(i).getLife()));
+				total+=this.getCards().getCardC(i).getCardM().getLife();
+			}
+		}
+		return Mathf.FloorToInt(100*damages/total);
+	}
+
+	public IEnumerator sendStat(int percentageTotalDamages, int currentGameid, bool hasWon, bool isFirstPlayer)
+	{
+        int hasWonInt = 0;
+        if(hasWon)
+        {
+            hasWonInt=1;
+        }
+        int isFirstPlayerInt =0;
+        if(isFirstPlayer)
+        {
+            isFirstPlayerInt=1;
+        }
+		
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+        form.AddField("myform_percentagelooser",percentageTotalDamages);
+        form.AddField("myform_currentgameid",currentGameid);
+        form.AddField("myform_haswon",hasWonInt);
+        form.AddField("myform_isfirstplayer",isFirstPlayerInt);
+
+        ServerController.instance.setRequest(this.URLStat, form);
+        yield return ServerController.instance.StartCoroutine("executeRequest");
+
+        if(ServerController.instance.getError()!="")
+        {
+            Debug.Log(ServerController.instance.getError());
+            ServerController.instance.lostConnection();
+        }
 	}
 }

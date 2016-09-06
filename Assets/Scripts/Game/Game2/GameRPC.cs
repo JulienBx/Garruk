@@ -110,6 +110,60 @@ public class GameRPC : Photon.MonoBehaviour
 		this.stopTimer();
 	}
 
+	public IEnumerator launchRPC(string s, int x){
+		bool b = true ;
+		while(b){
+			try{
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
+	public IEnumerator launchRPC(string s, bool boo){
+		bool b = true ;
+		while(b){
+			try{
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, boo, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
+	public IEnumerator launchRPC(string s, int x, int y){
+		bool b = true ;
+		while(b){
+			try{
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
 	[PunRPC]
 	void moveOnRPC(int x, int y, int z, bool isFirstP)
 	{
@@ -121,6 +175,34 @@ public class GameRPC : Photon.MonoBehaviour
 			Game.instance.moveOn(x, y, z);
 		}
 
+	}
+
+	[PunRPC]
+	void FailRPC(int x, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].fail();
+	}
+
+	[PunRPC]
+	void lostRPC(bool b, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		StartCoroutine(Game.instance.quitGameHandler(b==isFirstP));
+	}
+
+	[PunRPC]
+	void DodgeRPC(int x, int y, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].dodge(y);
+	}
+
+	[PunRPC]
+	void EffectsSkillRPC(int x, int y, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].effects(y);
 	}
 
 	[PunRPC]
@@ -149,10 +231,6 @@ public class GameRPC : Photon.MonoBehaviour
 	{
 		this.updateRPCCompteurs(isFirstP);
 		Game.instance.addStartGame(isFirstP);
-	}
-
-	public void resize(){
-		photonView.RPC("resizeRPC", PhotonTargets.AllBuffered, Game.instance.isFirstPlayer());
 	}
 	
 	[PunRPC]

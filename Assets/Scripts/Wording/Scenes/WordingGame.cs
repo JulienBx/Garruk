@@ -12,7 +12,7 @@ public class WordingGame
 		return texts[idReference][ApplicationModel.player.IdLanguage];
 	}
 
-	public virtual string getText(int id, List<int> args){
+	public static string getText(int id, List<int> args){
 		string text = texts[id][ApplicationModel.player.IdLanguage];
 		for(int i = 0 ; i < args.Count ; i++){
 			text = text.Replace("ARG"+(i+1), ""+args[i]);
@@ -104,8 +104,15 @@ public class WordingGame
 
 		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
 		texts.Add(new string[]{"L'unité a déjà utilisé une compétence à ce tour","The unit has already used a skill during this turn"});
-		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
+		texts.Add(new string[]{"Pas d'adversaire adjacent!","No adjacent opponent unit!"});
+		texts.Add(new string[]{"Cette case ne peut être ciblée","This tile can't be targeted"});
+		texts.Add(new string[]{"Cette unité ne peut être ciblée","This unit can't be targeted"});
+		texts.Add(new string[]{"échoue!","fails"});
+		texts.Add(new string[]{"Esquive","Dodges"});
+		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
+		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
+		texts.Add(new string[]{"Victoire!","You won!"});
 
-
+		texts.Add(new string[]{"Défaite!","You lost!"});
 	}
 }

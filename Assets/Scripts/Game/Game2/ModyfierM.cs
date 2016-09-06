@@ -9,13 +9,15 @@ public class ModifyerM
 	int idIcon;
 	string description;
 	string title;
+	int duration;
 
-	public ModifyerM(int Amount, int IdIcon, string Description, string Title)
+	public ModifyerM(int Amount, int IdIcon, string Description, string Title, int d)
 	{
 		this.amount = Amount;
 		this.idIcon = IdIcon;
 		this.description = Description;
 		this.title = Title;
+		this.duration = d;
 	}
 
 	public int getAmount(){
@@ -32,5 +34,9 @@ public class ModifyerM
 
 	public string getTitle(){
 		return this.title;
+	}
+
+	public int getDuration(){
+		return this.duration;
 	}
 }

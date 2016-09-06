@@ -12,6 +12,10 @@ public class TileC : MonoBehaviour
 
 	float timerSE;
 	float SETime = 1f;
+
+	bool target;
+	float timerTarget;
+
 	List<string> skillEffects;
 	List<int> skillEffectTypes;
 	bool skillEffect ;
@@ -24,6 +28,19 @@ public class TileC : MonoBehaviour
 		this.skillEffects = new List<string>();
 		this.skillEffectTypes = new List<int>();
 		this.skillEffect = false;
+	}
+
+	public bool isTarget(){
+		return this.target;
+	}
+
+	public void setTarget(bool b){
+		if(b){
+			this.timerTarget = 0f;
+			gameObject.transform.FindChild("Target").GetComponent<SpriteRenderer>().transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+		}
+		gameObject.transform.FindChild("Target").GetComponent<SpriteRenderer>().enabled = b;
+		this.target = b ;
 	}
 
 	public void size(float tileScale){
@@ -87,10 +104,22 @@ public class TileC : MonoBehaviour
 	public void OnMouseEnter()
 	{
 		this.showHover(true);
-			
 		if(Game.instance.getDraggingCardID()==-1){
 			if(!Game.instance.isMobile()){
 				Game.instance.hoverTile();
+			}
+		}
+		if(Game.instance.getDraggingCardID()!=-1 || Game.instance.getDraggingSBID()!=-1){
+			this.BruteStopSE();
+		}
+		if(Game.instance.getDraggingSBID()!=-1){
+			if(target){
+				Game.instance.getCurrentSkillButtonC().blue();
+				Game.instance.getCurrentSkillButtonC().getTargetText(this.characterID);
+			}
+			else{
+				Game.instance.getCurrentSkillButtonC().red();
+				Game.instance.getCurrentSkillButtonC().reinitSkillText();
 			}
 		}
 	}
@@ -192,6 +221,23 @@ public class TileC : MonoBehaviour
 		}
 	}
 
+	public void BruteStopSE(){
+		this.showSE(false);
+		this.skillEffect = false ;
+		this.skillEffects = new List<string>();
+	}
+
+	public void addTargetTime(float f){
+		this.timerTarget+=f;
+		gameObject.transform.FindChild("Target").GetComponent<SpriteRenderer>().transform.localRotation = Quaternion.Euler(0f, 0f, 360f*(this.timerTarget%1f));
+		if((this.timerTarget%2f)<1){
+			gameObject.transform.FindChild("Target").GetComponent<SpriteRenderer>().transform.localScale = new Vector3(0.8f+0.2f*(this.timerTarget%1f), 0.8f+0.2f*(this.timerTarget%1f), 0.8f+0.2f*(this.timerTarget%1f));
+		}
+		else{
+			gameObject.transform.FindChild("Target").GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1f-0.2f*(this.timerTarget%1f), 1f-0.2f*(this.timerTarget%1f), 1f-0.2f*(this.timerTarget%1f));
+		}
+	}
+
 	public bool canPassOver(bool b){
 		bool canPass = true ;
 		if(this.isRock()){
@@ -206,6 +252,18 @@ public class TileC : MonoBehaviour
 			}
 		}
 		return canPass;
+	}
+
+	public int getBoardValue(){
+		if(this.characterID!=-1){
+			return this.characterID;
+		}
+		else if (this.rock){
+			return -2;
+		}
+		else{
+			return -1;
+		}
 	}
 }
 
