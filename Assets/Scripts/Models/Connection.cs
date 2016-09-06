@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable] 
 public class Connection 
 {
 	private string URLConfirmConnection = ApplicationModel.host + "confirm_connection.php";

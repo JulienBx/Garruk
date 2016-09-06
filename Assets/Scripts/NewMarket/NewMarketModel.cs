@@ -49,7 +49,7 @@ public class NewMarketModel
 		else
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)

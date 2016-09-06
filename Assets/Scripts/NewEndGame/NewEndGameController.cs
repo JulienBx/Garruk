@@ -173,6 +173,9 @@ public class NewEndGameController : MonoBehaviour
 			this.endCredits = ApplicationModel.player.Money+this.bonus;
 			this.startCredits = ApplicationModel.player.Money;
 			StartCoroutine(ApplicationModel.player.payMoney (-this.bonus));
+			if (!ApplicationModel.player.IsOnline) {
+				ApplicationModel.player.moneyToSync += this.bonus;
+			}
 			this.toUpdateCredits = true;
 		}
 		BackOfficeController.instance.hideLoadingScreen();
@@ -255,8 +258,11 @@ public class NewEndGameController : MonoBehaviour
             {
                 cards.add();
                 cards.cards[i]=ApplicationModel.player.MyDeck.cards[i];
-				Card card = ApplicationModel.player.MyCards.getCardWithId (ApplicationModel.player.MyDeck.cards [i].Id);
-				card = ApplicationModel.player.MyDeck.cards[i];
+				int index = ApplicationModel.player.MyCards.getCardIndex (ApplicationModel.player.MyDeck.cards [i].Id);
+				if (index != -1) 
+				{
+					ApplicationModel.player.MyCards.cards[index] = ApplicationModel.player.MyDeck.cards [i];
+				}
             }
             ApplicationModel.player.updateMyCollection(cards);
 		}

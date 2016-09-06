@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable] 
 public class SkillTypes{
 
     public List<SkillType> skillTypes ;

@@ -63,7 +63,9 @@ public class MenuController : MonoBehaviour
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Bell").gameObject.AddComponent<MenuNotificationsController> ();
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Credits").gameObject.GetComponent<TextMeshPro> ().color = ApplicationDesignRules.whiteTextColor;
 		this.gameObject.transform.FindChild ("UserBlock").FindChild ("Help").gameObject.AddComponent<MenuHelpController> ();
+		this.gameObject.transform.FindChild ("UserBlock").FindChild ("NoNetwork").gameObject.AddComponent<MenuNoNetworkController> ();
 		this.gameObject.transform.FindChild ("MobileHelpButton").gameObject.AddComponent<MobileMenuHelpController> ();
+		this.gameObject.transform.FindChild ("MobileNoNetworkButton").gameObject.AddComponent<MobileMenuNoNetworkController> ();
 	
 		if(ApplicationModel.player.IsAdmin)
 		{
@@ -106,6 +108,7 @@ public class MenuController : MonoBehaviour
 			gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(false);
 			gameObject.transform.FindChild("MobileCristalsBar").gameObject.SetActive(false);
 			gameObject.transform.FindChild("MobileDivisionIcon").gameObject.SetActive(false);
+			gameObject.transform.FindChild("MobileNoNetworkButton").gameObject.SetActive (false);
 
 			float buttonsBorderWidth = 1500f;
 			float buttonsWorldScaleX = (ApplicationDesignRules.worldWidth-ApplicationDesignRules.leftMargin-ApplicationDesignRules.rightMargin)/(buttonsBorderWidth / ApplicationDesignRules.pixelPerUnit);
@@ -189,12 +192,14 @@ public class MenuController : MonoBehaviour
 			gameObject.transform.FindChild("MobileUsername").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(1f,1f,1f);
 			gameObject.transform.FindChild("MobileUsername").transform.position=new Vector3(gameObject.transform.FindChild("MobilePicture").position.x+ApplicationDesignRules.thumbWorldSize.x/2f+0.2f,gameObject.transform.FindChild("TopBar").position.y+ApplicationDesignRules.thumbWorldSize.y/2f-mobileCristalsWorldSize.y/2f,gameObject.transform.FindChild("TopBar").position.z);
 
-			gameObject.transform.FindChild("MobileHelpButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.7f,0.7f,0.7f);
-			gameObject.transform.FindChild("MobileNotificationsButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.7f,0.7f,0.7f);
+			gameObject.transform.FindChild("MobileHelpButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.6f,0.6f,0.6f);
+			gameObject.transform.FindChild("MobileNotificationsButton").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(0.6f,0.6f,0.6f);
+			gameObject.transform.FindChild ("MobileNoNetworkButton").transform.localScale = ApplicationDesignRules.reductionRatio * new Vector3 (0.6f, 0.6f, 0.6f);
 
 			Vector2 mobileButtonsWorldSize = new Vector2(gameObject.transform.FindChild("MobileHelpButton").transform.localScale.y*(120f/ApplicationDesignRules.pixelPerUnit),gameObject.transform.FindChild("MobileHelpButton").transform.localScale.y*(121f/ApplicationDesignRules.pixelPerUnit));
 			gameObject.transform.FindChild("MobileHelpButton").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x+ApplicationDesignRules.topBarWorldSize.x/2f-ApplicationDesignRules.blockHorizontalSpacing-mobileButtonsWorldSize.x/2f,gameObject.transform.FindChild("TopBar").position.y,0f);
 			gameObject.transform.FindChild("MobileNotificationsButton").transform.position=new Vector3(gameObject.transform.FindChild("TopBar").position.x+ApplicationDesignRules.topBarWorldSize.x/2f-0.1f-ApplicationDesignRules.blockHorizontalSpacing-1.5f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("TopBar").position.y,0f);
+			gameObject.transform.FindChild("MobileNoNetworkButton").transform.position = new Vector3 (gameObject.transform.FindChild ("TopBar").position.x + ApplicationDesignRules.topBarWorldSize.x / 2f - 0.2f - ApplicationDesignRules.blockHorizontalSpacing - 2.5f * mobileButtonsWorldSize.x, gameObject.transform.FindChild ("TopBar").position.y, 0f);
 
 			gameObject.transform.FindChild("MobileNotifications").transform.localScale=ApplicationDesignRules.reductionRatio*new Vector3(1f,1f,1f);
 			gameObject.transform.FindChild("MobileNotifications").transform.position=new Vector3(gameObject.transform.FindChild("MobileNotificationsButton").position.x-0.25f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("MobileNotificationsButton").position.y+0.25f*mobileButtonsWorldSize.x,gameObject.transform.FindChild("MobileNotificationsButton").position.z);
@@ -241,6 +246,14 @@ public class MenuController : MonoBehaviour
 				this.gameObject.transform.FindChild("MobileNotificationsButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
 				this.gameObject.transform.FindChild("MobileNotifications").gameObject.SetActive(false);
 			}
+			if (ApplicationModel.player.IsOnline) 
+			{
+				this.gameObject.transform.FindChild ("MobileNoNetworkButton").gameObject.SetActive (false);
+			} 
+			else 
+			{
+				this.gameObject.transform.FindChild ("MobileNoNetworkButton").gameObject.SetActive (true);
+			}
 		}
 		else
 		{
@@ -270,6 +283,14 @@ public class MenuController : MonoBehaviour
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<MenuNotificationsController>().setIsActive(false);
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Bell").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.greySpriteColor;
 				this.gameObject.transform.FindChild("UserBlock").FindChild("Notifications").gameObject.SetActive(false);
+			}
+			if (ApplicationModel.player.IsOnline) 
+			{
+				this.gameObject.transform.FindChild ("UserBlock").FindChild ("NoNetwork").gameObject.SetActive (false);
+			} 
+			else 
+			{
+				this.gameObject.transform.FindChild ("UserBlock").FindChild ("NoNetwork").gameObject.SetActive (true);
 			}
 		}
 	}
@@ -326,7 +347,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void profileLink() 
 	{
-		if (HelpController.instance.canAccess (-1)) 
+		if (HelpController.instance.canAccess (-1)&& BackOfficeController.instance.isOnline()) 
 		{
 			SoundController.instance.playSound (10);
 			BackOfficeController.instance.loadScene ("NewProfile");
@@ -340,7 +361,8 @@ public class MenuController : MonoBehaviour
 	}
 	public void marketLink() 
 	{
-		if (HelpController.instance.canAccess (-1)) {
+		if (HelpController.instance.canAccess (-1) && BackOfficeController.instance.isOnline()) 
+		{
 			BackOfficeController.instance.loadScene ("newMarket");
 		}
 	}
@@ -352,7 +374,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void storeLink() 
 	{
-		if (HelpController.instance.canAccess (1003)) 
+		if (HelpController.instance.canAccess (1003)&& BackOfficeController.instance.isOnline()) 
 		{
 			BackOfficeController.instance.loadScene ("newStore");
 		}
@@ -367,6 +389,12 @@ public class MenuController : MonoBehaviour
 	{
 		if (HelpController.instance.canAccess (-1)) {
 			BackOfficeController.instance.loadScene ("Game2");
+		}
+	}
+	public void noNetworkLink() 
+	{
+		if (HelpController.instance.canAccess (-1)) {
+			BackOfficeController.instance.displayOfflineModePopUp(2);
 		}
 	}
 	public void changeThumbPicture()

@@ -7,9 +7,13 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.IO;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary; 
+using System.Runtime.Serialization;
 /**
  ** Classe permettant de stocker certaines informations lors des chargements de niveaux
 */
+
+[System.Serializable] 
 public class ApplicationModel
 {
 	static public Player player;
@@ -58,6 +62,9 @@ public class ApplicationModel
 	static public int trainingGameEarnCredits_W;
 	static public int trainingGameEarnCredits_L;
 
+	static public Save savedGame;
+	static public bool savedFileExists;
+
 	#if (UNITY_EDITOR)
     static public int[] onlineStatus;
 	static public string[] onlineCheck;
@@ -90,6 +97,7 @@ public class ApplicationModel
         skills=new Skills();
         xpLevels=new List<int>();
 		divisions = new Divisions ();
+		savedFileExists = true;
 
         
 		#if (UNITY_EDITOR)
@@ -161,4 +169,50 @@ public class ApplicationModel
 			xpLevels.Add (System.Convert.ToInt32(array[i]));
         }
     }
+	public static void Save() {
+
+		Debug.Log ("issaving");
+		Save currentState = new Save ();
+		currentState.create ();
+		BinaryFormatter bf = new BinaryFormatter();
+		FileStream file = File.Create (Application.persistentDataPath + "/save.gd");
+		bf.Serialize(file, currentState);
+		file.Close();
+	}
+	public static void checkForSavedGame()
+	{
+		Debug.Log ("ischecking");
+		if (File.Exists (Application.persistentDataPath + "/save.gd")) 
+		{
+			Debug.Log ("try reading");
+			savedFileExists = true;
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + "/save.gd", FileMode.Open);
+			try
+			{
+				savedGame = (Save)bf.Deserialize (file);
+				Debug.Log(savedGame.player.Username);
+			}
+			catch (SerializationException e)
+			{
+				Debug.LogError("Fichier sauvegarde corrompu: " + e.Message);
+				savedFileExists = false;
+				DirectoryInfo dataDir = new DirectoryInfo(Application.persistentDataPath);
+				dataDir.Delete(true);
+				Debug.Log ("isdeleting");
+			}
+			finally
+			{
+				file.Close ();
+			}
+		} 
+		else 
+		{
+			savedFileExists = false;
+		}
+	}
+	public static void Load() 
+	{
+		savedGame.load ();
+	}
 }

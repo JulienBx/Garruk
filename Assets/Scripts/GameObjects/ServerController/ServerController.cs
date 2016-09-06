@@ -9,6 +9,7 @@ public class ServerController : MonoBehaviour
 	public static ServerController instance;
 
 	private bool toDetectTimeOut;
+	private bool isServerError;
 	private float timer;
 	private string URL;
 	private WWWForm form;
@@ -46,15 +47,19 @@ public class ServerController : MonoBehaviour
 	public IEnumerator executeRequest()
 	{
 		this.result="";
+		this.isServerError = false;
 		this.error="";
 		this.timer=0f;
 		this.toDetectTimeOut=true;
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
 		this.toDetectTimeOut=false;
+		Debug.Log (w.error);
 		if(w.error!=null)
 		{
 			ApplicationModel.player.IsOnline=false;
+			this.error = w.error;
+			this.isServerError = true;
 			Debug.Log(WordingServerError.getReference(w.error,false));
 		}
 		if(ApplicationModel.player.IsOnline)
@@ -74,6 +79,10 @@ public class ServerController : MonoBehaviour
 	public string getError()
 	{
 		return this.error;
+	}
+	public bool getIsServerError()
+	{
+		return this.isServerError;
 	}
 	public void lostConnection()
 	{

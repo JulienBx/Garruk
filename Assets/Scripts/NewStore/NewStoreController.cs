@@ -865,29 +865,27 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 		BackOfficeController.instance.displayLoadingScreen ();
         yield return StartCoroutine(ApplicationModel.packs.getPack(this.selectedPackIndex).buy( this.selectedCardType, HelpController.instance.getIsTutorialLaunched(),ApplicationModel.player.HasToBuyTrainingPack));
 		BackOfficeController.instance.hideLoadingScreen ();
-        if(ApplicationModel.packs.getPack(this.selectedPackIndex).Error=="")
-		{
+		if (ApplicationModel.packs.getPack (this.selectedPackIndex).Error == "") {
 			this.randomCardsDisplayed = new bool[this.nbCards];
 			this.randomCards = new GameObject[this.nbCards];
-			this.toRotate=new bool[this.nbCards];
-			if(this.nbCards>1)
-			{
-				this.backButton.SetActive(true);
-				this.createRandomCards();
-				this.resizeRandomCards();
-				this.rotateRandomCards();
-				this.displayBackUI(false);
-				this.displayRandomCards();
+			this.toRotate = new bool[this.nbCards];
+			if (this.nbCards > 1) {
+				this.backButton.SetActive (true);
+				this.createRandomCards ();
+				this.resizeRandomCards ();
+				this.rotateRandomCards ();
+				this.displayBackUI (false);
+				this.displayRandomCards ();
 				HelpController.instance.tutorialTrackPoint ();
+			} else {
+				this.createSingleCard ();
+				this.rotateSingleCard ();
+				this.displayBackUI (false);
+				this.displayCardFocused ();
 			}
-			else
-			{
-				this.createSingleCard();
-				this.rotateSingleCard();
-				this.displayBackUI(false);
-				this.displayCardFocused();
-			}
-			StartCoroutine(BackOfficeController.instance.getUserData ());
+			StartCoroutine (BackOfficeController.instance.getUserData ());
+		} else if (!ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		else
 		{

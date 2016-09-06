@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable] 
 public class Cards{
 
 	public List<Card> cards ;
+	public string String;
 	
 	public Cards()
 	{
@@ -17,16 +19,16 @@ public class Cards{
 		return this.cards [index];
 	}
 
-	public Card getCardWithId(int id)
+	public int getCardIndex(int id)
 	{
 		for(int i=0;i<this.cards.Count;i++)
 		{
 			if (this.cards [i].Id == id) 
 			{
-				return this.cards [i];
+				return i;
 			}
 		}
-		return new Card ();
+		return -1;
 	}
 
 	public virtual CardM getCardM(int index)
@@ -50,6 +52,33 @@ public class Cards{
             this.cards.Insert(0,cards.cards[cards.getCount()-i-1]);
         }
     }
+	public void update(Card card)
+	{
+		bool exists = false;
+		for (int i = 0; i < this.cards.Count; i++) 
+		{
+			if (this.cards [i].Id == card.Id) 
+			{
+				this.cards [i] = card;
+				exists = true;
+				break;
+			}
+		}
+		if (exists) 
+		{
+			this.cards.Insert(0,card);
+		}
+	}
+	public void setString()
+	{
+		this.String="";
+
+		for (int i = 0; i < this.cards.Count; i++) 
+		{
+			this.cards [i].setString ();
+			this.String += this.cards [i].String + "DATACARD";
+		}
+	}
 	public void remove(int index)
 	{
 		this.cards.RemoveAt(index);

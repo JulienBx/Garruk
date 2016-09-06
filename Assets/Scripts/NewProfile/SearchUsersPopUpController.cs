@@ -36,14 +36,16 @@ public class SearchUsersPopUpController : MonoBehaviour
 		this.gameObject.transform.FindChild ("CloseButton").GetComponent<SearchUsersPopUpCloseButtonController> ().reset ();
 		this.gameObject.transform.FindChild("Pagination").GetComponent<SearchUsersPopUpPaginationController>().reset();
 		yield return StartCoroutine (model.searchForUsers (search));
-		this.initializeUsers ();
-		if(model.users.Count==0)
-		{
-			this.gameObject.transform.FindChild("NoResults").gameObject.SetActive(true);
-		}
-		else
-		{
-			this.gameObject.transform.FindChild("NoResults").gameObject.SetActive(false);
+		if (ServerController.instance.getError() == "") {
+			this.initializeUsers ();
+			if (model.users.Count == 0) {
+				this.gameObject.transform.FindChild ("NoResults").gameObject.SetActive (true);
+			} else {
+				this.gameObject.transform.FindChild ("NoResults").gameObject.SetActive (false);
+			}
+		} else {
+			NewProfileController.instance.hideSearchUsersPopUp ();
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}

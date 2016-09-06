@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[System.Serializable] 
 public class Player : User
 {
 	private string URLUpdateUserInformations;
@@ -31,6 +32,7 @@ public class Player : User
 	private string URLSentNewEmail; 
 	private string URLLinkAccount;
 	private string URLGetPurchasingToken;
+	private string URLSyncData;
 	private int TotalNbResultLimit;
 	public string Error;
 	public string Mail;
@@ -99,6 +101,9 @@ public class Player : User
 	public Division MyDivision;
     public Skills MySkills;
     public Results MyResults;
+	public Cards cardsToSync;
+	public Decks decksToSync;
+	public int moneyToSync;
   
 	public Player()
 	{
@@ -138,6 +143,7 @@ public class Player : User
 		this.URLSentNewEmail = ApplicationModel.host+"sent_newemail.php";
 		this.URLLinkAccount = ApplicationModel.host+"link_account.php";
 		this.URLGetPurchasingToken = ApplicationModel.host+"/payment/getToken.php";
+		this.URLSyncData = ApplicationModel.host+"/syncData.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -156,6 +162,9 @@ public class Player : User
         this.CardTypesAllowed=new List<int>();
         this.MyResults=new Results();
         this.MyCardsOnMarket=new Cards();
+		this.cardsToSync = new Cards ();
+		this.decksToSync = new Decks ();
+		this.moneyToSync = 0;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -225,7 +234,7 @@ public class Player : User
         }
         else
         {
-            ServerController.instance.lostConnection();
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
         }
 	}
 	public IEnumerator payMoney(int money)
@@ -541,12 +550,21 @@ public class Player : User
         form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
         form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
 		form.AddField("myform_autoconnect", autoConnectString);
+		form.AddField("myform_datasync", "");
 
 		ServerController.instance.setRequest(URLCheckAuthentification, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		this.Error=ServerController.instance.getError();
 
-		if(this.Error=="")
+		if (!this.IsOnline && this.Username==ApplicationModel.savedGame.player.Username) 
+		{
+			ApplicationModel.Load ();
+			ApplicationModel.player.IsOnline = false;
+			ApplicationModel.player.IsAccountActivated=true;
+			ApplicationModel.player.IsAccountCreated=true;
+			Debug.Log ("isoffline");
+		}
+		else if(this.Error=="")
 		{
             PlayerPrefs.DeleteKey("Product");
             PlayerPrefs.DeleteKey("ProductOwner");
@@ -723,7 +741,7 @@ public class Player : User
 			{
 				Error=WordingAuthentication.getReference(13);
 				this.Id=-1;
-			}					
+			}
 		}
 	}
 	public IEnumerator createAccount()
@@ -833,7 +851,7 @@ public class Player : User
 		if(ServerController.instance.getError()!="")
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		else
 		{
@@ -1172,6 +1190,31 @@ public class Player : User
 			this.MyCards.cards.Insert(0,tempCard);
     	}
     }
+	public IEnumerator syncData()
+	{
+		string data = "";
+		this.cardsToSync.setString ();
+		this.decksToSync.setString ();
+		this.moneyToSync.ToString ();
+		data += this.cardsToSync.String+"DATAEND";
+		data += this.decksToSync.String + "DATAEND";
+		data += this.moneyToSync.ToString() + "DATAEND";
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_syncData", data);
+		form.AddField("myform_username", ApplicationModel.player.Username);
+
+		ServerController.instance.setRequest(URLSyncData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+		if (this.Error != "") 
+		{
+			this.cardsToSync = new Cards ();
+			this.decksToSync = new Decks ();
+			this.moneyToSync = 0;
+		}
+	}
 }
 
 

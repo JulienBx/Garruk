@@ -52,7 +52,7 @@ public class NewProfileModel
 			else
 			{
 				Debug.Log(ServerController.instance.getError());
-				ServerController.instance.lostConnection();	
+				BackOfficeController.instance.displayDetectOfflinePopUp ();
 			}
 		}
 		yield break;

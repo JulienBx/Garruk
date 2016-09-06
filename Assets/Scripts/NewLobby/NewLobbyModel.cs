@@ -42,7 +42,7 @@ public class NewLobbyModel
 		else
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();	
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 	}
 	private Division parseDivision(string[] array)
