@@ -64,7 +64,7 @@ public class Cards{
 				break;
 			}
 		}
-		if (exists) 
+		if (!exists) 
 		{
 			this.cards.Insert(0,card);
 		}

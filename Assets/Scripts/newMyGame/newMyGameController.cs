@@ -1625,22 +1625,14 @@ public class newMyGameController : MonoBehaviour
 			BackOfficeController.instance.displayLoadingScreen();
 			ApplicationModel.player.MyDecks.add();
 			yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).create(name));
-			if(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error=="")
+			this.deckDisplayed=ApplicationModel.player.MyDecks.getCount()-1;
+			this.initializeDecks();
+			this.initializeCards();
+			this.hideNewDeckPopUp();
+			if(this.toMoveFirstDeckCard)
 			{
-				this.deckDisplayed=ApplicationModel.player.MyDecks.getCount()-1;
-				this.initializeDecks();
-				this.initializeCards();
-				this.hideNewDeckPopUp();
-				if(this.toMoveFirstDeckCard)
-				{
-					this.moveToDeckCards(0);
-					this.toMoveFirstDeckCard=false;
-				}
-			}
-			else
-			{
-				BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error);
-				ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.MyDecks.getCount()-1).Error="";
+				this.moveToDeckCards(0);
+				this.toMoveFirstDeckCard=false;
 			}
 			BackOfficeController.instance.hideLoadingScreen();
 		}
@@ -1662,15 +1654,7 @@ public class newMyGameController : MonoBehaviour
 				BackOfficeController.instance.displayLoadingScreen();
 				this.hideEditDeckPopUp();
 				yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).edit(newName));
-				if(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error=="")
-				{
-					this.deckTitle.GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name;
-				}
-				else
-				{
-					BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error);
-					ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error="";
-				}
+				this.deckTitle.GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name;
 				BackOfficeController.instance.hideLoadingScreen();
 			}
 		}
@@ -1688,19 +1672,11 @@ public class newMyGameController : MonoBehaviour
 		this.hideDeleteDeckPopUp();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).delete());
-		if(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error=="")
-		{
-			this.removeDeckFromAllCards (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id);
-			ApplicationModel.player.MyDecks.remove (this.deckDisplayed);
-			this.retrieveDefaultDeck ();
-			this.initializeDecks ();
-			this.initializeCards ();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error);
-			ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Error="";
-		}
+		this.removeDeckFromAllCards (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id);
+		ApplicationModel.player.MyDecks.remove (this.deckDisplayed);
+		this.retrieveDefaultDeck ();
+		this.initializeDecks ();
+		this.initializeCards ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		HelpController.instance.tutorialTrackPoint ();
 	}

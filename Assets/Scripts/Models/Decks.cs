@@ -37,7 +37,7 @@ public class Decks{
 				break;
 			}
 		}
-		if (exists) 
+		if (!exists) 
 		{
 			this.decks.Insert(0,deck);
 		}

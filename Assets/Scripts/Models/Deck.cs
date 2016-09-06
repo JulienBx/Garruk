@@ -78,6 +78,7 @@ public class Deck : Cards
 			Deck deck = this;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 	public IEnumerator changeCardsOrder(int idCard1, int deckOrder1, int idCard2, int deckOrder2)
@@ -112,6 +113,7 @@ public class Deck : Cards
 			Deck deck = this;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 	public void addCard(Card c)
@@ -151,6 +153,7 @@ public class Deck : Cards
 			Deck deck = this;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 
@@ -171,8 +174,8 @@ public class Deck : Cards
 				isConnected = false;
 			}
 		}
-		string result = ServerController.instance.getResult ();
-		this.Id = System.Convert.ToInt32 (result);
+		//string result = ServerController.instance.getResult ();
+		//this.Id = System.Convert.ToInt32 (result);
 		this.Name = decksName;
 		this.NbCards = 0;
 		this.cards = new List<Card> ();
@@ -181,6 +184,7 @@ public class Deck : Cards
 			deck.IsNew = true;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 	public IEnumerator delete()
@@ -191,19 +195,20 @@ public class Deck : Cards
 			form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 			form.AddField ("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 			form.AddField ("myform_id", Id);
-
-			ServerController.instance.setRequest (URLDeleteDeck, form);
-			yield return ServerController.instance.StartCoroutine ("executeRequest");
-			this.Error = ServerController.instance.getError ();
-			if (this.Error != "") {
-				isConnected = false;
-			}
+			WWW w = new WWW(URLDeleteDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
+			yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+			if (w.error != null)
+			{
+				Debug.Log(w.error); 									// donne l'erreur eventuelle
+				isConnected=false;
+			} 
 		}
 		if (!isConnected || !ApplicationModel.player.IsOnline) {
 			Deck deck = this;
 			deck.ToDelete = true;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 	public IEnumerator edit(string newName)
@@ -216,19 +221,20 @@ public class Deck : Cards
 			form.AddField ("myform_nick", ApplicationModel.player.Username); 	// Pseudo de l'utilisateur connecté
 			form.AddField ("myform_id", Id);
 			form.AddField ("myform_name", newName);
-
-			ServerController.instance.setRequest (URLEditDeck, form);
-			yield return ServerController.instance.StartCoroutine ("executeRequest");
-			this.Error = ServerController.instance.getError ();
-			if (this.Error != "") {
-				isConnected = false;
-			}
+			WWW w = new WWW(URLEditDeck, form); 				// On envoie le formulaire à l'url sur le serveur 
+			yield return w; 											// On attend la réponse du serveur, le jeu est donc en attente
+			if (w.error != null)
+			{
+				Debug.Log(w.error); 									// donne l'erreur eventuelle
+				isConnected=false;
+			} 
 		}
 		this.Name = newName;
 		if (!isConnected || !ApplicationModel.player.IsOnline) {
 			Deck deck = this;
 			ApplicationModel.player.decksToSync.update (deck);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 	public IEnumerator RetrieveCards()
@@ -261,13 +267,15 @@ public class Deck : Cards
 		this.String="";
 		this.String += this.Id.ToString()+"DATA"; //0
 		this.String += this.Name+"DATA";
-		this.String += ApplicationModel.player.Id.ToString() + "DATA";
+		this.String += ApplicationModel.player.Username.ToString() + "DATA";
 		this.String += this.NbCards.ToString () + "DATA";
 		this.String += System.Convert.ToInt32 (this.ToDelete).ToString ()+"DATA";
 		this.String += System.Convert.ToInt32 (this.IsNew).ToString () + "DATA";
+
 		for (int i = 0; i < this.cards.Count; i++) 
 		{
 			this.String += this.cards [i].Id.ToString () + "DATA";
+			this.String += this.cards [i].deckOrder.ToString() + "DATA";
 		}
 	}
 }
