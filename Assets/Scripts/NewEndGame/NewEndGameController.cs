@@ -265,6 +265,7 @@ public class NewEndGameController : MonoBehaviour
 				}
             }
             ApplicationModel.player.updateMyCollection(cards);
+			ApplicationModel.Save();
 		}
 	}
 	public void resize()

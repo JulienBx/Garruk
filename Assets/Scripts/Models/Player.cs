@@ -539,6 +539,14 @@ public class Player : User
 		{
 			autoConnectString="0";
 		}
+
+		string dataToSync = "DATAENDDATAENDDATAEND";
+		if (this.Username == ApplicationModel.savedGame.player.Username) 
+		{
+			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
+		}
+		Debug.Log (dataToSync);
+
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", this.Username);
@@ -550,7 +558,7 @@ public class Player : User
         form.AddField("myform_product", ApplicationModel.Decrypt(PlayerPrefs.GetString("Product","")));
         form.AddField("myform_productowner", ApplicationModel.Decrypt(PlayerPrefs.GetString("ProductOwner","")));
 		form.AddField("myform_autoconnect", autoConnectString);
-		form.AddField("myform_datasync", "");
+		form.AddField("myform_datasync", dataToSync);
 
 		ServerController.instance.setRequest(URLCheckAuthentification, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
@@ -566,7 +574,7 @@ public class Player : User
 		}
 		else if(this.Error=="")
 		{
-            PlayerPrefs.DeleteKey("Product");
+			PlayerPrefs.DeleteKey("Product");
             PlayerPrefs.DeleteKey("ProductOwner");
             PlayerPrefs.Save();
             string result = ServerController.instance.getResult();
@@ -705,22 +713,25 @@ public class Player : User
 				{
 					ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
 				}
-				if(System.Convert.ToInt32(data[2])!=-1)
-                {
-					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-                    this.HasLostConnectionDuringGame=true;
-					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
-					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
-                    ApplicationModel.player.MyDeck=new Deck();
-                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-                    {
-                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-                    }
-                }
+//				if(System.Convert.ToInt32(data[2])!=-1)
+//                {
+//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+//                    this.HasLostConnectionDuringGame=true;
+//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
+//                    ApplicationModel.player.MyDeck=new Deck();
+//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+//                    {
+//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+//                    }
+//                }
+				ApplicationModel.player.cardsToSync = new Cards ();
+				ApplicationModel.player.decksToSync = new Decks ();
+				ApplicationModel.player.moneyToSync = 0;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{

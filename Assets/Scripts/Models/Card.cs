@@ -753,6 +753,7 @@ public class Card
 		if (!isConnected || !ApplicationModel.player.IsOnline) {
 			ApplicationModel.player.cardsToSync.update (this);
 		}
+		ApplicationModel.Save ();
 		yield break;
 	}
 }

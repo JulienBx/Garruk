@@ -54,7 +54,6 @@ public class ServerController : MonoBehaviour
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
 		this.toDetectTimeOut=false;
-		Debug.Log (w.error);
 		if(w.error!=null)
 		{
 			ApplicationModel.player.IsOnline=false;

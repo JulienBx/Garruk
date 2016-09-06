@@ -99,6 +99,18 @@ public class Save {
 		ApplicationModel.trainingGameEarnCredits_W=trainingGameEarnCredits_W;
 		ApplicationModel.trainingGameEarnCredits_L=trainingGameEarnCredits_L;
 	}
+	public string retrieveDataToSync()
+	{
+		string data = "";
+		player.cardsToSync.setString ();
+		Debug.Log(player.decksToSync.getCount());
+		player.decksToSync.setString ();
+		player.moneyToSync.ToString ();
+		data += player.cardsToSync.String+"DATAEND";
+		data += player.decksToSync.String + "DATAEND";
+		data += player.moneyToSync.ToString () + "DATAEND";
 
+		return data;
+	}
 }
 
