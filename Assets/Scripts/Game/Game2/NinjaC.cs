@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class AttackC : SkillC
+public class NinjaC : SkillC
 {
-	public AttackC(){
-		this.id = 0 ;
-		base.ciblage = 1;
-		base.animId = 0;
+	public NinjaC(){
+		this.id = 67 ;
+		base.ciblage = 0;
+		base.animId = 1;
 		base.soundId = 25;
 	}
 
@@ -51,9 +51,9 @@ public class AttackC : SkillC
 
 		int degats = caster.getDegatsAgainst(target, caster.getAttack());
 
-		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
-		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+		Game.instance.getCurrentCard().displaySkillEffect(WordingSkills.getName(this.id), 1);
+		Game.instance.getCards().getCardC(targetID).displayAnim(base.animId);
+		Game.instance.getCards().getCardC(targetID).displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
 
 		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 

@@ -49,6 +49,10 @@ public class SkillC
 		Debug.Log("Skill non implémenté");
 	}
 
+	public virtual void resolve(Skill s){
+		Debug.Log("Skill non implémenté");
+	}
+
 	public virtual void effects(int x){
 		Debug.Log("Skill non implémenté");
 	}

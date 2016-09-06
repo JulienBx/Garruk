@@ -113,6 +113,11 @@ public class CardC : MonoBehaviour
 		this.setLife();
 	}
 
+	public void addAttackModifyer(ModifyerM m){
+		this.attackModifyers.Add(m);
+		this.setAttack();
+	}
+
 	public void startClignote(){
 		this.timerClignote = 0f;
 		this.clignoteGrowing = true ;
@@ -774,6 +779,7 @@ public class CardC : MonoBehaviour
 	public void displaySkillEffect(string s, int type){
 		this.skillEffects.Add(s);
 		this.skillEffectTypes.Add(type);
+		Game.instance.getPassButton().grey();
 		if(!this.skillEffect){
 			this.launchSkillEffect();
 		}

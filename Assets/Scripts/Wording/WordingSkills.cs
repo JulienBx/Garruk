@@ -1596,16 +1596,16 @@ public class WordingSkills
 		//69 - Frénétique
 		idSkills.Add(69);
 		names.Add(new string[]{"Frénétique","Berserk"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 3 ATK et s'inflige 10 dégats","Gains 3 ATK but loses 10 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 3 ATK et s'inflige 9 dégats","Gains 3 ATK but loses 9 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 4 ATK et s'inflige 9 dégats","Gains 4 ATK but loses 9 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 4 ATK et s'inflige 8 dégats","Gains 4 ATK but loses 8 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 5 ATK et s'inflige 8 dégats","Gains 5 ATK but loses 8 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 5 ATK et s'inflige 7 dégats","Gains 5 ATK but loses 7 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 6 ATK et s'inflige 7 dégats","Gains 6 ATK but loses 7 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 6 ATK et s'inflige 6 dégats","Gains 6 ATK but loses 6 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 7 ATK et s'inflige 6 dégats","Gains 7 ATK but loses 6 PV at the end of his turns"}); 
-		descriptions.Add(new string[]{"A la fin de son tour, gagne 7 ATK et s'inflige 5 dégats","Gains 7 ATK but loses 5 PV at the end of his turns"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 3 ATK et s'inflige 10 dégats","Gains 3 ATK but loses 10 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 3 ATK et s'inflige 9 dégats","Gains 3 ATK but loses 9 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 4 ATK et s'inflige 9 dégats","Gains 4 ATK but loses 9 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 4 ATK et s'inflige 8 dégats","Gains 4 ATK but loses 8 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 5 ATK et s'inflige 8 dégats","Gains 5 ATK but loses 8 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 5 ATK et s'inflige 7 dégats","Gains 5 ATK but loses 7 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 6 ATK et s'inflige 7 dégats","Gains 6 ATK but loses 7 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 6 ATK et s'inflige 6 dégats","Gains 6 ATK but loses 6 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 7 ATK et s'inflige 6 dégats","Gains 7 ATK but loses 6 HP at the beginning of its turn"}); 
+		descriptions.Add(new string[]{"En début de tour, gagne 7 ATK et s'inflige 5 dégats","Gains 7 ATK but loses 5 HP at the beginning of its turn"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

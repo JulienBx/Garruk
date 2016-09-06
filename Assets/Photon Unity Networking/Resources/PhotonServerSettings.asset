@@ -15,43 +15,112 @@ MonoBehaviour:
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
-  AppID: b788d9f3-8ff2-44dd-880b-e6fe40f6b315
+  AppID: 62373838643966332d386666322d343464642d383830622d653666653430663662333135
   PreferredRegion: 0
   EnabledRegions: -1
   JoinLobby: 1
   EnableLobbyStatistics: 0
   RpcList:
-  - AddPlayerToList
-  - Chat
-  - ColorRpc
-  - DestroyRpc
-  - DoJump
-  - forwardInTime
-  - GetDamage
-  - InstantiateRpc
-  - Marco
-  - OnAwakeRPC
-  - PickupItemInit
-  - Polo
-  - PunPickup
-  - PunPickupSimple
-  - PunRespawn
-  - RemovePlayerFromList
-  - RequestForPickupTimes
-  - SpawnCard
-  - StartFight
-  - TaggedPlayer
-  - LoadSelectedDeck
+  - 416464506c61796572546f4c697374
+  - 43686174
+  - 436f6c6f72527063
+  - 44657374726f79527063
+  - 446f4a756d70
+  - 666f7277617264496e54696d65
+  - 47657444616d616765
+  - 496e7374616e7469617465527063
+  - 4d6172636f
+  - 4f6e4177616b65525043
+  - 5069636b75704974656d496e6974
+  - 506f6c6f
+  - 50756e5069636b7570
+  - 50756e5069636b757053696d706c65
+  - 50756e5265737061776e
+  - 52656d6f7665506c6179657246726f6d4c697374
+  - 52657175657374466f725069636b757054696d6573
+  - 537061776e43617264
+  - 53746172744669676874
+  - 546167676564506c61796572
+  - 4c6f616453656c65637465644465636b
+  - 616374697661746554726170525043
+  - 616464436861726163746572525043
+  - 616464456c656374726f7069656765525043
+  - 6164645069656765757254726170525043
+  - 616464506f69736f6e7069656765525043
+  - 616464546172676574525043
+  - 61646454617267657454696c65525043
+  - 61646454617267657456616c7565525043
+  - 41646454696c65546f426f617264
+  - 6170706c794f6e32525043
+  - 6170706c794f6e525043
+  - 6170706c794f6e52504332
+  - 6170706c794f6e52504334
+  - 6170706c794f6e52504335
+  - 6170706c794f6e54696c65525043
+  - 6170706c794f6e5669726f32525043
+  - 6170706c794f6e5669726f525043
+  - 636c69636b44657374696e6174696f6e525043
+  - 646973706c6179536b696c6c456666656374525043
+  - 656e64506c6179525043
+  - 65737175697665525043
+  - 6573717569766553525043
+  - 6661696c6564546f436173744f6e536b696c6c525043
+  - 66696e644e657874506c61796572525043
+  - 6869646554726170525043
+  - 6c61756e6368436172644372656174696f6e525043
+  - 6c61756e6368466f75525043
+  - 706c617965725265616479525043
+  - 706c6179525043
+  - 7175697447616d65525043
+  - 73656e644573717569766553687572696b656e525043
+  - 73656e6453687572696b656e525043
+  - 537061776e436861726163746572525043
+  - 61646454656c657069656765525043
+  - 72656d6f7665526f636b525043
+  - 616464526f636b525043
+  - 6170706c794f6e4d65525043
+  - 707572696679525043
+  - 636f6e76657274525043
+  - 7175697447616d6548616e646c6572525043
+  - 616464466f6e7461696e65525043
+  - 61646443617365726e65525043
+  - 4c61756e636847616d65
+  - 706c6179536f756e64525043
+  - 67657447616d654964
+  - 6c61756e636847616d65525043
+  - 61646441747461636b507265747265737365525043
+  - 416464506c61796572546f4c697374525043
+  - 436865636b506c617965725374617465525043
+  - 67657443757272656e7447616d654964525043
+  - 676574506c6179657244617461525043
+  - 6372656174654261636b67726f756e64525043
+  - 6372656174654361726473525043
+  - 63726561746554696c65525043
+  - 726573697a65525043
+  - 616464506c61796572546f526f6f6d525043
+  - 6d6f76654f6e525043
+  - 737461727447616d65525043
+  - 4661696c525043
+  - 446f646765525043
+  - 45666665637473536b696c6c525043
+  - 6c6f7374525043
   - activateTrapRPC
-  - addCharacterRPC
+  - addAttackPretresseRPC
+  - addCaserneRPC
   - addElectropiegeRPC
+  - addFontaineRPC
   - addPiegeurTrapRPC
+  - AddPlayerToListRPC
+  - addPlayerToRoomRPC
   - addPoisonpiegeRPC
+  - addRockRPC
   - addTargetRPC
   - addTargetTileRPC
   - addTargetValueRPC
+  - addTelepiegeRPC
   - AddTileToBoard
   - applyOn2RPC
+  - applyOnMeRPC
   - applyOnRPC
   - applyOnRPC2
   - applyOnRPC4
@@ -59,48 +128,44 @@ MonoBehaviour:
   - applyOnTileRPC
   - applyOnViro2RPC
   - applyOnViroRPC
+  - Chat
+  - CheckPlayerStateRPC
   - clickDestinationRPC
+  - convertRPC
+  - createBackgroundRPC
+  - createCardsRPC
+  - createTileRPC
+  - DestroyRpc
   - displaySkillEffectRPC
+  - DodgeRPC
+  - EffectsSkillRPC
   - endPlayRPC
   - esquiveRPC
   - esquiveSRPC
   - failedToCastOnSkillRPC
+  - FailRPC
   - findNextPlayerRPC
-  - hideTrapRPC
-  - launchCardCreationRPC
-  - launchFouRPC
-  - playerReadyRPC
-  - playRPC
-  - quitGameRPC
-  - sendEsquiveShurikenRPC
-  - sendShurikenRPC
-  - SpawnCharacterRPC
-  - addTelepiegeRPC
-  - removeRockRPC
-  - addRockRPC
-  - applyOnMeRPC
-  - purifyRPC
-  - convertRPC
-  - quitGameHandlerRPC
-  - addFontaineRPC
-  - addCaserneRPC
-  - LaunchGame
-  - playSoundRPC
-  - getGameId
-  - launchGameRPC
-  - addAttackPretresseRPC
-  - AddPlayerToListRPC
-  - CheckPlayerStateRPC
   - getCurrentGameIdRPC
   - getPlayerDataRPC
-  - createBackgroundRPC
-  - createCardsRPC
-  - createTileRPC
-  - resizeRPC
-  - addPlayerToRoomRPC
+  - hideTrapRPC
+  - InstantiateRpc
+  - launchFouRPC
+  - lostRPC
   - moveOnRPC
+  - OnAwakeRPC
+  - PickupItemInit
+  - playerReadyRPC
+  - playRPC
+  - playSoundRPC
+  - PunPickup
+  - PunPickupSimple
+  - PunRespawn
+  - purifyRPC
+  - quitGameHandlerRPC
+  - removeRockRPC
+  - RequestForPickupTimes
+  - resizeRPC
+  - sendEsquiveShurikenRPC
+  - sendShurikenRPC
   - startGameRPC
-  - FailRPC
-  - DodgeRPC
-  - EffectsSkillRPC
   DisableAutoOpenWizard: 0

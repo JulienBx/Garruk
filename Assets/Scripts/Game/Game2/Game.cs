@@ -58,6 +58,8 @@ public class Game : MonoBehaviour
 	int indexMeteores;
 
 	string URLStat = ApplicationModel.host + "updateResult.php";
+	bool SE ;
+	bool toLaunchNextTurn;
 
 	void Awake(){
 		instance = this;
@@ -104,7 +106,7 @@ public class Game : MonoBehaviour
 	}
 
 	void Update(){
-		bool SE = false ;
+		this.SE = false ;
 		if(PhotonC.instance.isWaiting){
 			PhotonC.instance.addTime(Time.deltaTime);
 		}
@@ -209,6 +211,18 @@ public class Game : MonoBehaviour
 			if(this.getSkillButton(i).isMoving()){
 				this.getSkillButton(i).addMoveTime(Time.deltaTime);
 			}
+		}
+
+		if(!SE){
+			if(this.toLaunchNextTurn){
+				this.hitPassButton();
+			}
+			else{
+				this.getPassButton().white();
+			}
+		}
+		else{
+			this.getPassButton().grey();
 		}
 	}
 
@@ -800,6 +814,12 @@ public class Game : MonoBehaviour
 		this.giveHandTo(this.cardsToPlay[0]);
 	}
 
+	public void handleBeginningTurnEffects(){
+		if(this.getCurrentCard().getCardM().getCharacterType()==67){
+			this.getSkills().skills[67].resolve(this.getCurrentCard().getCardM().getSkill(0));
+		}
+	}
+
 	public void launchNextTurn(){
 		this.getCurrentCard().stopClignote();
 		this.getCurrentCard().displayBackTile(true);
@@ -871,6 +891,7 @@ public class Game : MonoBehaviour
 			}
 		}
 		this.getTimer().setTimer(30);
+		this.handleBeginningTurnEffects();
 	}
 
 	public void loadController(){
@@ -904,6 +925,14 @@ public class Game : MonoBehaviour
 					this.getSkillButton(i).forbid();
 				}
 			}
+			if(this.getCurrentCard().hasMoved()){
+				if(SE){
+					this.toLaunchNextTurn = true;
+				}
+				else{
+					this.hitPassButton();
+				}
+			}
 		}
 		else{
 			this.getSkillButton(0).update();
@@ -912,6 +941,13 @@ public class Game : MonoBehaviour
 					this.getSkillButton(i).update();
 				}
 			}	
+		}
+
+		if(SE){
+			this.getPassButton().grey();
+		}
+		else{
+			this.getPassButton().white();
 		}
 	}
 
