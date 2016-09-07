@@ -44,6 +44,10 @@ public class ModifyerM
 		this.title = s;
 	}
 
+	public void setDescription(string s){
+		this.description = s;
+	}
+
 	public int getDuration(){
 		return this.duration;
 	}

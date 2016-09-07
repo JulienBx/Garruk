@@ -115,5 +115,8 @@ public class WordingGame
 
 		texts.Add(new string[]{"Défaite!","You lost!"});
 		texts.Add(new string[]{"BONUS ATK","ATK BONUS"});
+		texts.Add(new string[]{"MALUS ATK","ATK MALUS"});
+		texts.Add(new string[]{"-ARG1 ATK","-ARG1 ATK"});
+
 	}
 }

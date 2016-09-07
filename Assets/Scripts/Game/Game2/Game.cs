@@ -1254,4 +1254,13 @@ public class Game : MonoBehaviour
 			GameRPC.instance.launchRPC("LostRPC",true);
 		}
 	}
+
+	public void updateModifyers(int i){
+		if(this.getMyHoveredCard().getCurrentCard()==i){
+			this.getMyHoveredCard().setCard(i);
+		}
+		if(this.getHisHoveredCard().getCurrentCard()==i){
+			this.getHisHoveredCard().setCard(i);
+		}
+	}
 }

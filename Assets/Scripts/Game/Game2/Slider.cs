@@ -443,6 +443,10 @@ public class Slider : MonoBehaviour
 		gameObject.transform.Find("Title").FindChild("lifeicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
 		gameObject.transform.Find("Title").FindChild("atkicon").GetComponent<SpriteRenderer>().sortingOrder = 3;
 	}
+
+	public int getCurrentCard(){
+		return this.currentCard;
+	}
 }
 
 

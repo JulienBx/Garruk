@@ -119,15 +119,33 @@ public class CardC : MonoBehaviour
 			if(m.getDuration()==attackModifyers[i].getDuration()){
 				hasFound = true ;
 				attackModifyers[i].addAmount(m.getAmount());
-				if(attackModifyers[i].getAmount()>0){
-					attackModifyers[i].setTitle("BONUS ATK");
+				if(attackModifyers[i].getAmount()==0){
+					attackModifyers.RemoveAt(i);
+				}
+				else{
+					if(attackModifyers[i].getAmount()>0){
+						attackModifyers[i].setTitle(WordingGame.getText(81));
+						attackModifyers[i].setDescription(WordingGame.getText(13, new List<int>{attackModifyers[i].getAmount()})+WordingGame.getText(2));
+					}
+					else{
+						attackModifyers[i].setTitle(WordingGame.getText(82));
+						attackModifyers[i].setDescription(WordingGame.getText(83, new List<int>{attackModifyers[i].getAmount()})+WordingGame.getText(2));
+					}
 				}
 			}
 		}
 		if(!hasFound){
+			if(m.getAmount()>0){
+				m.setTitle(WordingGame.getText(81));
+				m.setDescription(WordingGame.getText(13, new List<int>{m.getAmount()})+WordingGame.getText(2));
+			}
+			else{
+				m.setTitle(WordingGame.getText(82));
+				m.setDescription(WordingGame.getText(83, new List<int>{m.getAmount()})+WordingGame.getText(2));
+			}
 			this.attackModifyers.Add(m);
 		}
-
+		Game.instance.updateModifyers(this.id);
 		this.setAttack();
 	}
 
