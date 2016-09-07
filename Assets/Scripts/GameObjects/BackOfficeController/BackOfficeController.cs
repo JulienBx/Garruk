@@ -678,7 +678,7 @@ public class BackOfficeController : MonoBehaviour
     }
 	public void joinRandomRoomHandler()
 	{
-		this.loadScene("Game");
+		this.loadScene("Game2");
 	}
 //	public void cancelInvitation()
 //	{

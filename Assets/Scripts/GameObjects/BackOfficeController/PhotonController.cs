@@ -257,7 +257,7 @@ public class PhotonController : Photon.MonoBehaviour
 
 	void getPlayerDataHandler()
     {
-		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId);
+		photonView.RPC("getPlayerDataRPC", PhotonTargets.AllBuffered, ApplicationModel.player.IsFirstPlayer, ApplicationModel.player.Username,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckIndex);
     }
 
 	[PunRPC]
@@ -303,7 +303,7 @@ public class PhotonController : Photon.MonoBehaviour
 		this.displayLoadingScreenButton(false);
 		PhotonNetwork.room.open = false;
 		this.CreateIADeck();
-		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckId));
+		yield return StartCoroutine(this.initializeGame(ApplicationModel.player.IsFirstPlayer,true,ApplicationModel.player.Id,ApplicationModel.player.RankingPoints,ApplicationModel.player.SelectedDeckIndex));
 		this.preMatchScreen.GetComponent<PreMatchScreenController>().launchPreMatchLoadingScreen();
     }
     public void OnDisconnectedFromPhoton()
@@ -1050,7 +1050,7 @@ public class PhotonController : Photon.MonoBehaviour
 		form.AddField("myform_myrankingpoints",ApplicationModel.player.RankingPoints.ToString());     
 		form.AddField("myform_hisrankingpoints", hisRankingPoints.ToString());  
 		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType.ToString());    
-		form.AddField("myform_mydeck", ApplicationModel.player.SelectedDeckId.ToString());     
+		//form.AddField("myform_mydeck", ApplicationModel.player.SelectedDeckId.ToString());     
 		form.AddField("myform_hisdeck", hisDeckId.ToString()); 
 
         ServerController.instance.setRequest(URLInitiliazeGame, form);
@@ -1061,13 +1061,13 @@ public class PhotonController : Photon.MonoBehaviour
 			string result = ServerController.instance.getResult();
 			string[] data=result.Split(new string[] { "#END#" }, System.StringSplitOptions.None);
 
-			ApplicationModel.player.MyDeck=new Deck();
+			//ApplicationModel.player.MyDeck=new Deck();
 
 			string[] myDeckData = data[0].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
 			for(int i = 0 ; i < myDeckData.Length ; i++){
-				ApplicationModel.player.MyDeck.cards.Add(new Card());
-				ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckData[i]);
-				ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+				//ApplicationModel.player.MyDeck.cards.Add(new Card());
+				//ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckData[i]);
+				//ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
 			}
 
 			if(!isIAGame)

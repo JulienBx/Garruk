@@ -104,11 +104,11 @@ public class InvitationPopUpController : MonoBehaviour
 			this.deckDisplayed = 0;
 			for(int i=0;i<model.decks.Count;i++)
 			{
-				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
-				{
-					this.deckDisplayed=i;
-					break;
-				}
+//				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
+//				{
+//					this.deckDisplayed=i;
+//					break;
+//				}
 			}
 		}
 		else
@@ -179,10 +179,10 @@ public class InvitationPopUpController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine(ApplicationModel.player.SetSelectedDeck(model.decks[this.deckDisplayed].Id));
+		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
         ApplicationModel.player.IsInvited=false;
         StartCoroutine(model.invitation.changeStatus(2));
-		
+		yield break;
 	}
 	public void declineInvitationHandler()
 	{

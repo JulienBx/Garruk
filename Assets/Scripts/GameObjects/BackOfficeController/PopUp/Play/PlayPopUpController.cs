@@ -123,7 +123,7 @@ public class PlayPopUpController : MonoBehaviour
 		{
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("deckName").GetComponent<TextMeshPro> ().text = ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Name;
 			gameObject.transform.FindChild("deckList").FindChild("currentDeck").FindChild("selectButton").gameObject.SetActive(true);
-			ApplicationModel.player.MyDeck=ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed);
+			ApplicationModel.player.SelectedDeckIndex=this.deckDisplayed;
 		}
 		else
 		{
@@ -139,7 +139,7 @@ public class PlayPopUpController : MonoBehaviour
 			this.deckDisplayed = 0;
 			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(ApplicationModel.player.MyDecks.getDeck(i).Id==ApplicationModel.player.SelectedDeckId)
+				if(i==ApplicationModel.player.SelectedDeckIndex)
 				{
 					this.deckDisplayed=i;
 					break;
@@ -235,7 +235,7 @@ public class PlayPopUpController : MonoBehaviour
 	{
 		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
+		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
             BackOfficeController.instance.loadScene("NewLobby");
@@ -244,6 +244,7 @@ public class PlayPopUpController : MonoBehaviour
 		{
 			BackOfficeController.instance.joinRandomRoomHandler();
 		}
+		yield break;
 	}
 	public void quitPopUp()
 	{

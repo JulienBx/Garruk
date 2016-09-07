@@ -70,7 +70,7 @@ public class NewLobbyModel
 		ApplicationModel.player.CollectionPoints = System.Convert.ToInt32 (array [3]);
 		ApplicationModel.player.TotalNbWins = System.Convert.ToInt32 (array [4]);
 		ApplicationModel.player.TotalNbLooses = System.Convert.ToInt32 (array [5]);
-		ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32 (array [6]);
+		//ApplicationModel.player.SelectedDeckId=System.Convert.ToInt32 (array [6]);
 	}
 	public IList<PlayerResult> parseResults(string[] array)
 	{

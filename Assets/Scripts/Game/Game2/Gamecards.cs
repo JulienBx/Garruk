@@ -384,18 +384,18 @@ public class Gamecards
         }
     }
 
-	public void createPlayingCard(int i, CardM c, bool mine, GameObject cardModel)
+	public void createPlayingCard(int i, CardM c, bool mine, GameObject cardModel, int deckOrder)
 	{
 		this.cards[i] = cardModel;
 		this.getCardC(i).setCard(c, mine, i);
 
 		if (Game.instance.isFirstPlayer()==mine){
-			this.getCardC(i).setTile(new TileM(1+c.getDeckOrder(), 0));
-			Game.instance.getBoard().getTileC(1+c.getDeckOrder(), 0).setCharacterID(i);
+			this.getCardC(i).setTile(new TileM(1+deckOrder, 0));
+			Game.instance.getBoard().getTileC(1+deckOrder, 0).setCharacterID(i);
 		}
 		else{
-			this.getCardC(i).setTile(new TileM(4-c.getDeckOrder(), 7));
-			Game.instance.getBoard().getTileC(4-c.getDeckOrder(), 7).setCharacterID(i);
+			this.getCardC(i).setTile(new TileM(4-deckOrder, 7));
+			Game.instance.getBoard().getTileC(4-deckOrder, 7).setCharacterID(i);
 		}
 
 		this.getCardC(i).setBackTile(mine);

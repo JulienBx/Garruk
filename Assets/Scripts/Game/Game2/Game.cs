@@ -299,26 +299,36 @@ public class Game : MonoBehaviour
 		if(this.ia){
 			this.gamecards.GenerateIADeck();
 		}
+			
+		int card0Index = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [0].Id);
+		int card1Index = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [1].Id);
+		int card2Index = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [2].Id);
+		int card3Index = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [3].Id);
+
+		int card0DeckOrder = ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [0].deckOrder;
+		int card1DeckOrder = ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [1].deckOrder;
+		int card2DeckOrder = ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [2].deckOrder;
+		int card3DeckOrder = ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [3].deckOrder;
 
 		if (this.isFirstPlayer()){
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(0).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(1).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(2).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(3).getDeckOrder(), ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(card0DeckOrder, ApplicationModel.player.MyCards.getCardM(card0Index), true, (GameObject)Instantiate(cardModel),card0DeckOrder);
+			this.gamecards.createPlayingCard(card1DeckOrder, ApplicationModel.player.MyCards.getCardM(card1Index), true, (GameObject)Instantiate(cardModel),card1DeckOrder);
+			this.gamecards.createPlayingCard(card2DeckOrder, ApplicationModel.player.MyCards.getCardM(card2Index), true, (GameObject)Instantiate(cardModel),card2DeckOrder);
+			this.gamecards.createPlayingCard(card3DeckOrder, ApplicationModel.player.MyCards.getCardM(card3Index), true, (GameObject)Instantiate(cardModel),card3DeckOrder);
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(0).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(1).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(2).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder()+4, ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(3).getDeckOrder());
 		}
 		else{
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(0).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(0), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(1).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(1), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(2).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(2), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.player.MyDeck.getCardM(3).getDeckOrder()+4, ApplicationModel.player.MyDeck.getCardM(3), true, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel));
-			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel));
+			this.gamecards.createPlayingCard(card0DeckOrder+4, ApplicationModel.player.MyCards.getCardM(card0Index), true, (GameObject)Instantiate(cardModel),card0DeckOrder);
+			this.gamecards.createPlayingCard(card1DeckOrder+4, ApplicationModel.player.MyCards.getCardM(card1Index), true, (GameObject)Instantiate(cardModel),card1DeckOrder);
+			this.gamecards.createPlayingCard(card2DeckOrder+4, ApplicationModel.player.MyCards.getCardM(card2Index), true, (GameObject)Instantiate(cardModel),card2DeckOrder);
+			this.gamecards.createPlayingCard(card3DeckOrder+4, ApplicationModel.player.MyCards.getCardM(card3Index), true, (GameObject)Instantiate(cardModel),card3DeckOrder);
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(0).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(0), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(0).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(1).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(1), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(1).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(2).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(2), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(2).getDeckOrder());
+			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(3).getDeckOrder());
 		}
 
 		this.intelligence.placeCards();

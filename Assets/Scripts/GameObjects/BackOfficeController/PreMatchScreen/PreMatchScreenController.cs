@@ -312,7 +312,7 @@ public class PreMatchScreenController : MonoBehaviour
 		this.toAnimateHisCards=new bool[ApplicationModel.nbCardsByDeck];
 		for(int i=0;i<ApplicationModel.nbCardsByDeck;i++)
 		{
-			this.myCards[i].transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=this.preMatchScreenAvatars[ApplicationModel.player.MyDeck.cards[i].Skills[0].Id];
+			this.myCards[i].transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=this.preMatchScreenAvatars[ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[i].Skills[0].Id];
 			this.myCards[i].SetActive(true);
 			this.hisCards[i].transform.FindChild("Avatar").GetComponent<SpriteRenderer>().sprite=this.preMatchScreenAvatars[ApplicationModel.opponentDeck.cards[i].Skills[0].Id];
 			this.hisCards[i].SetActive(true);

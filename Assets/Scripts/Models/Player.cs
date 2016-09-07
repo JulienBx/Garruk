@@ -41,7 +41,7 @@ public class Player : User
 	public int Money;
 	public List<Connection> Connections;
 	public bool Readnotificationsystem;
-	public int SelectedDeckId;
+	public int SelectedDeckIndex;
 	public List<int> CardTypesAllowed;
 	public bool IsAdmin;
 	public int TutorialStep;
@@ -75,7 +75,6 @@ public class Player : User
 	public string FacebookId;
 	public bool IsAccountCreated;
 	public bool ToChangePassword;
-	public Deck MyDeck;
 	public int PercentageLooser;
 	public string DesktopPurchasingToken;
 	public int TrainingAllowedCardType;
@@ -104,6 +103,7 @@ public class Player : User
 	public Cards cardsToSync;
 	public Decks decksToSync;
 	public int moneyToSync;
+	public int selectedDeckToSync;
   
 	public Player()
 	{
@@ -149,7 +149,6 @@ public class Player : User
 		this.Connections=new List<Connection>();
 		this.IsOnline=true;
 		this.MyCards=new Cards();
-		this.MyDeck=new Deck();
 		this.MyDecks=new Decks();
 		this.MyNotifications=new Notifications();
 		this.MyConnections=new Connections();
@@ -165,6 +164,7 @@ public class Player : User
 		this.cardsToSync = new Cards ();
 		this.decksToSync = new Decks ();
 		this.moneyToSync = 0;
+		this.selectedDeckToSync = 0;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -255,21 +255,22 @@ public class Player : User
 	}
 	public IEnumerator SetSelectedDeck(int selectedDeckId)
 	{
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_deck", selectedDeckId.ToString());                 // Deck sélectionné
-		
-		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
-		yield return w; 
-
-		this.SelectedDeckId=selectedDeckId;
-		ApplicationModel.player.retrieveMyDeck();
-													// On attend la réponse du serveur, le jeu est donc en attente
-		if (w.error != null) 
-		{
-			Debug.Log (w.error); 										// donne l'erreur eventuelle
-		}
+//		WWWForm form = new WWWForm (); 								// Création de la connexion
+//		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+//		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
+//		form.AddField("myform_deck", selectedDeckId.ToString());                 // Deck sélectionné
+//		
+//		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
+//		yield return w; 
+//
+//		this.SelectedDeckId=selectedDeckId;
+//		ApplicationModel.player.retrieveMyDeck();
+//													// On attend la réponse du serveur, le jeu est donc en attente
+//		if (w.error != null) 
+//		{
+//			Debug.Log (w.error); 										// donne l'erreur eventuelle
+//		}
+		yield break;
 	}
 	public IEnumerator cleanCards()
 	{
@@ -541,7 +542,7 @@ public class Player : User
 		}
 
 		string dataToSync = "DATAENDDATAENDDATAEND";
-		if (this.Username == ApplicationModel.savedGame.player.Username) 
+		if (ApplicationModel.savedGame!=null && this.Username == ApplicationModel.savedGame.player.Username) 
 		{
 			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
 		}
@@ -605,7 +606,6 @@ public class Player : User
 				{
 					this.MyDecks.parseDecks(gameData[2]);
 					this.retrieveCardsDeck();
-					this.retrieveMyDeck();
 				}
 				if(gameData[3]!="")
 				{
@@ -931,9 +931,9 @@ public class Player : User
 	}
 	public bool canAccessTrainingMode()
 	{
-		for(int i=0;i<this.MyDeck.cards.Count;i++)
+		for(int i=0;i<this.MyDecks.getDeck(this.SelectedDeckIndex).cards.Count;i++)
 		{
-			if(this.MyDeck.cards[i].CardType.Id!=this.TrainingAllowedCardType)
+			if(this.MyDecks.getDeck(this.SelectedDeckIndex).cards[i].CardType.Id!=this.TrainingAllowedCardType)
 			{
 				return false;
 			}
@@ -951,7 +951,7 @@ public class Player : User
 		this.Surname= array[4];
 		this.IdProfilePicture= System.Convert.ToInt32(array[5]);
 		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[6]));
-		this.SelectedDeckId= System.Convert.ToInt32(array[7]);
+		//this.SelectedDeckId= System.Convert.ToInt32(array[7]);
 		this.RankingPoints = System.Convert.ToInt32 (array [8]);
 		this.Ranking = System.Convert.ToInt32 (array [9]);
 		this.CollectionPoints = System.Convert.ToInt32 (array [10]);
@@ -1157,31 +1157,31 @@ public class Player : User
 			this.MyCardsOnMarket.cards.Insert(0,tempCard);
     	}
     }
-    public void retrieveMyDeck()
-    {
-    	this.MyDeck=new Deck();
-    	for(int i=0;i<this.MyDecks.getCount();i++)
-    	{
-    		if(this.MyDecks.getDeck(i).Id==this.SelectedDeckId)
-    		{
-    			this.MyDeck=this.MyDecks.decks[i];
-    			for(int j=0;j<this.MyDeck.cards.Count();j++)
-    			{
-    				for(int k=0;k<this.MyCards.getCount();k++)
-    				{
-    					if(this.MyCards.getCard(k).Id==this.MyDeck.cards[j].Id)
-    					{
-							int deckOrder=this.MyDeck.cards[j].deckOrder;
-    						this.MyDeck.cards[j]=this.MyCards.cards[k];
-    						this.MyDeck.cards[j].deckOrder=deckOrder;
-    						break;
-    					}
-    				}
-    			}
-    			break;
-    		}
-    	}
-    }
+//    public void retrieveMyDeck()
+//    {
+//    	this.MyDeck=new Deck();
+//    	for(int i=0;i<this.MyDecks.getCount();i++)
+//    	{
+//    		if(this.MyDecks.getDeck(i).Id==this.SelectedDeckId)
+//    		{
+//    			this.MyDeck=this.MyDecks.decks[i];
+//    			for(int j=0;j<this.MyDeck.cards.Count();j++)
+//    			{
+//    				for(int k=0;k<this.MyCards.getCount();k++)
+//    				{
+//    					if(this.MyCards.getCard(k).Id==this.MyDeck.cards[j].Id)
+//    					{
+//							int deckOrder=this.MyDeck.cards[j].deckOrder;
+//    						this.MyDeck.cards[j]=this.MyCards.cards[k];
+//    						this.MyDeck.cards[j].deckOrder=deckOrder;
+//    						break;
+//    					}
+//    				}
+//    			}
+//    			break;
+//    		}
+//    	}
+//    }
     public void removeFromMyCardsOnMarket(int index)
     {
 		Card tempCard = this.MyCardsOnMarket.getCard(index);

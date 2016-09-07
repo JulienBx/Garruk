@@ -181,6 +181,7 @@ public class ApplicationModel
 	}
 	public static void checkForSavedGame()
 	{
+
 		Debug.Log ("ischecking");
 		if (File.Exists (Application.persistentDataPath + "/save.gd")) 
 		{

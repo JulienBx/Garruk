@@ -854,15 +854,7 @@ public class NewHomePageController : MonoBehaviour
 	{
 		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
-			this.deckDisplayed = 0;
-			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
-			{
-				if(ApplicationModel.player.MyDecks.getDeck(i).Id==ApplicationModel.player.SelectedDeckId)
-				{
-					this.deckDisplayed=i;
-					break;
-				}
-			}
+			this.deckDisplayed = ApplicationModel.player.SelectedDeckIndex;
 		}
 		else
 		{
@@ -966,7 +958,7 @@ public class NewHomePageController : MonoBehaviour
 		this.isSearchingDeck = false;
 		this.cleanDeckList ();
 		this.initializeDecks ();
-		StartCoroutine(ApplicationModel.player.SetSelectedDeck(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
+		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;;
 	}
 	public void deckSelectionButtonHandler()
 	{
@@ -1621,7 +1613,7 @@ public class NewHomePageController : MonoBehaviour
 	public IEnumerator joinGame()
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
+		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
             BackOfficeController.instance.loadScene("NewLobby");
@@ -1630,6 +1622,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			BackOfficeController.instance.joinRandomRoomHandler();
 		}
+		yield break;
 	}
 	public Vector3 getEndGamePopUpButtonPosition()
 	{
@@ -1728,8 +1721,9 @@ public class NewHomePageController : MonoBehaviour
 	public IEnumerator sendInvitation(int challengeButtonId)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		yield return StartCoroutine (ApplicationModel.player.SetSelectedDeck (ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
+		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
 		StartCoroutine (BackOfficeController.instance.sendInvitation (ApplicationModel.player.Users.getUser(this.friendsToBeDisplayed[this.friendsDisplayed[challengeButtonId]]), ApplicationModel.player));
+		yield break;
 	}
 	public void moneyUpdate()
 	{
