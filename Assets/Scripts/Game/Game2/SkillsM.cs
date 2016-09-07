@@ -75,7 +75,7 @@ public class SkillsM
 		this.skills [66] = new SkillC();
 		this.skills [67] = new SkillC();
 		this.skills [68] = new SkillC();
-		this.skills [69] = new SkillC();
+		this.skills [69] = new FrenetiqueC();
 		this.skills [70] = new SkillC();
 		this.skills [71] = new SkillC();
 		this.skills [72] = new SkillC();

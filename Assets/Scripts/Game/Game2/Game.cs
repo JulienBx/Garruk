@@ -816,9 +816,8 @@ public class Game : MonoBehaviour
 	}
 
 	public void handleBeginningTurnEffects(){
-		print("Je handle "+this.getCurrentCard().getCardM().getCharacterType());
-		if(this.getCurrentCard().getCardM().getCharacterType()==67){
-			this.getSkills().skills[67].resolve(this.getCurrentCard().getCardM().getSkill(0));
+		if(this.getCurrentCard().getCardM().getCharacterType()==69){
+			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0));
 		}
 	}
 
@@ -1137,22 +1136,20 @@ public class Game : MonoBehaviour
 				}
 			}
 		}
-		if(this.ia || this.isTutorial()){
-			StartCoroutine(quitGameHandler(b));
-		}
-		else{
-			if(areTheyDead){
+		if(areTheyDead){
+			if(this.ia || this.isTutorial()){
+				StartCoroutine(quitGameHandler(b));
+			}
+			else{
 				GameRPC.instance.launchRPC("LostRPC",b);
 			}
 		}
 
-		print(b+" ARETHEYDEAD "+areTheyDead);
 		return areTheyDead;
 	}
 
 	public IEnumerator quitGameHandler(bool hasFirstPlayerLost)
 	{		
-		print("QUIT");
 		this.getHisHoveredCard().moveCharacterBackward();
 		this.getMyHoveredCard().moveCharacterBackward();
 		int type = 2;

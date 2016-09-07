@@ -680,23 +680,23 @@ public class CardC : MonoBehaviour
 		}
 
 		for(int i = 0 ; i < this.esquiveModifyers.Count && effects.Count<10 ; i++){
-			effects.Add(new ModifyerM(this.esquiveModifyers[i].getAmount(), this.esquiveModifyers[i].getIdIcon(), this.esquiveModifyers[i].getDescription(), this.esquiveModifyers[i].getTitle(),this.stateModifyers[i].getDuration()));
+			effects.Add(new ModifyerM(this.esquiveModifyers[i].getAmount(), this.esquiveModifyers[i].getIdIcon(), this.esquiveModifyers[i].getDescription(), this.esquiveModifyers[i].getTitle(),this.esquiveModifyers[i].getDuration()));
 		}
 
 		for(int i = 0 ; i < this.bouclierModifyers.Count && effects.Count<10 ; i++){
-			effects.Add(new ModifyerM(this.bouclierModifyers[i].getAmount(), this.bouclierModifyers[i].getIdIcon(), this.bouclierModifyers[i].getDescription(), this.bouclierModifyers[i].getTitle(),this.stateModifyers[i].getDuration()));
+			effects.Add(new ModifyerM(this.bouclierModifyers[i].getAmount(), this.bouclierModifyers[i].getIdIcon(), this.bouclierModifyers[i].getDescription(), this.bouclierModifyers[i].getTitle(),this.bouclierModifyers[i].getDuration()));
 		}
 
 		for(int i = 0 ; i < this.moveModifyers.Count && effects.Count<10 ; i++){
-			effects.Add(new ModifyerM(this.moveModifyers[i].getAmount(), this.moveModifyers[i].getIdIcon(), this.moveModifyers[i].getDescription(), this.moveModifyers[i].getTitle(),this.stateModifyers[i].getDuration()));
+			effects.Add(new ModifyerM(this.moveModifyers[i].getAmount(), this.moveModifyers[i].getIdIcon(), this.moveModifyers[i].getDescription(), this.moveModifyers[i].getTitle(),this.moveModifyers[i].getDuration()));
 		}
 
 		for(int i = 0 ; i < this.attackModifyers.Count && effects.Count<10 ; i++){
-			effects.Add(new ModifyerM(this.attackModifyers[i].getAmount(), this.attackModifyers[i].getIdIcon(), this.attackModifyers[i].getDescription(), this.attackModifyers[i].getTitle(),this.stateModifyers[i].getDuration()));
+			effects.Add(new ModifyerM(this.attackModifyers[i].getAmount(), this.attackModifyers[i].getIdIcon(), this.attackModifyers[i].getDescription(), this.attackModifyers[i].getTitle(),this.attackModifyers[i].getDuration()));
 		}
 
 		for(int i = 0 ; i < this.lifeModifyers.Count && effects.Count<10 ; i++){
-			effects.Add(new ModifyerM(this.lifeModifyers[i].getAmount(), this.lifeModifyers[i].getIdIcon(), this.lifeModifyers[i].getDescription(), this.lifeModifyers[i].getTitle(),this.stateModifyers[i].getDuration()));
+			effects.Add(new ModifyerM(this.lifeModifyers[i].getAmount(), this.lifeModifyers[i].getIdIcon(), this.lifeModifyers[i].getDescription(), this.lifeModifyers[i].getTitle(),this.lifeModifyers[i].getDuration()));
 		}
 
 		return effects ;
@@ -787,7 +787,7 @@ public class CardC : MonoBehaviour
 
 	public void displayAnim(int type){
 		this.skillEffects.Add("");
-		this.skillEffectTypes.Add(10+type);
+		this.skillEffectTypes.Add(10*type);
 		if(!this.skillEffect){
 			this.launchSkillEffect();
 		}
