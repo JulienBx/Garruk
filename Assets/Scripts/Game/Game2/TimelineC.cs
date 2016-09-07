@@ -21,11 +21,7 @@ public class TimelineC : MonoBehaviour
 
 	public void changeFaces(List<int> idCards){
 		if(idCards[0]==-10){
-			gameObject.transform.Find("Unit0").GetComponent<SpriteRenderer>().enabled = true;
-			gameObject.transform.Find("Unit0").FindChild("Character").GetComponent<SpriteRenderer>().enabled = false;
-		}
-		else{
-			gameObject.transform.Find("Unit0").GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.Find("Unit0").GetComponent<SpriteRenderer>().enabled = false;
 			gameObject.transform.Find("Unit0").FindChild("Character").GetComponent<SpriteRenderer>().enabled = false;
 		}
 		for(int i = 0 ; i < 8 ; i++){

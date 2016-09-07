@@ -19,12 +19,14 @@ public class TileC : MonoBehaviour
 	List<string> skillEffects;
 	List<int> skillEffectTypes;
 	bool skillEffect ;
+	int anim ;
 
 	public Sprite[] destinationSprites;
 
 	void Awake(){
 		this.characterID = -1;
 		this.destination = -1;
+		this.anim = -1;
 		this.skillEffects = new List<string>();
 		this.skillEffectTypes = new List<int>();
 		this.skillEffect = false;
@@ -165,6 +167,7 @@ public class TileC : MonoBehaviour
 	}
 
 	public void free(){
+		this.showCollider(true);
 		this.displayDestination(0);
 	}
 
@@ -186,22 +189,37 @@ public class TileC : MonoBehaviour
 	}
 
 	public void setSkillEffectText(){
-		gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
-		Game.instance.setSE(true);
 		int type = this.skillEffectTypes[0];
-		if(type==0){
-			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
-		}
-		else if(type==1){
-			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
+		Game.instance.setSE(true);
+		if(type<10){
+			this.SETime = 1.5f;
+			gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
+			if(type==0){
+				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
+			}
+			else if(type==1){
+				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
+			}
+			else{
+				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
+			}
+			this.anim = -1;
+			this.showSE(true);
 		}
 		else{
-			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
+			this.SETime = 0.8f;
+			this.anim = (type-10)*10;
+			gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
+			this.showAnim(true);
 		}
 		this.skillEffects.RemoveAt(0);
 		this.skillEffectTypes.RemoveAt(0);
 		this.timerSE = 0f;
-		this.showSE(true);
+	}
+
+	public void showAnim(bool b)
+	{
+		gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().enabled = b;
 	}
 
 	public void addSETime(float f){

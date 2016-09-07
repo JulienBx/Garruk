@@ -41,7 +41,7 @@ public class FrenetiqueC : SkillC
 		int bonusAttack = this.getAttackBonus(level);
 
 		caster.displayAnim(base.animId);
-		caster.displaySkillEffect(WordingGame.getText(13, new List<int>{bonusAttack})+"\n"+WordingGame.getText(8, new List<int>{degats}), 1);
+		caster.displaySkillEffect(WordingSkills.getName(this.id)+"\n"+WordingGame.getText(13, new List<int>{bonusAttack})+"\n"+WordingGame.getText(8, new List<int>{degats}), 1);
 
 		caster.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 		caster.addAttackModifyer(new ModifyerM(bonusAttack, 0, "", "",-1));

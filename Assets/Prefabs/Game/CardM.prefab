@@ -666,7 +666,8 @@ MonoBehaviour:
   backTileSprites:
   - {fileID: 21300024, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300030, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
-  iconSprites: []
+  iconSprites:
+  - {fileID: 21300000, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   characterSprites:
   - {fileID: 0}
   - {fileID: 0}

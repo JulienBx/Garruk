@@ -622,9 +622,7 @@ public class Game : MonoBehaviour
 		this.gamecards.getCardC(i).showCollider(false);
 		this.gamecards.getCardC(i).showHover(false);
 		this.gamecards.getCardC(i).displayBackTile(false);
-		if(this.currentCardID==-1){
-			this.getBoard().getTileC(this.getCards().getCardC(i).getTileM()).free();
-		}
+		this.getBoard().getTileC(this.getCards().getCardC(i).getTileM()).free();
 	}
 
 	public int getDraggingCardID(){
@@ -714,7 +712,10 @@ public class Game : MonoBehaviour
 		}
 
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
+		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).showCollider(true);
 		this.gamecards.getCardC(i).setTile(new TileM(x,y));
+		this.gamecards.getCardC(i).showCollider(true);
+		this.getBoard().getTileC(x,y).showCollider(false);
 		this.getBoard().getTileC(x,y).BruteStopSE();
 		this.getBoard().getTileC(x,y).setCharacterID(i);
 
@@ -725,6 +726,12 @@ public class Game : MonoBehaviour
 	}
 
 	public void dropOutsideBoard(){
+		if(this.currentCardID==-1){
+
+		}
+		else{
+			this.getBoard().getTileC(this.gamecards.getCardC(this.draggingCardID).getTileM()).showDestination(false);
+		}
 		this.gamecards.getCardC(this.draggingCardID).startMove(this.gamecards.getCardC(this.draggingCardID).getPosition(), this.getBoard().getTileC(this.gamecards.getCardC(this.draggingCardID).getTileM()).getPosition());
 		this.draggingCardID = -1;
 	}
@@ -868,6 +875,7 @@ public class Game : MonoBehaviour
 			this.getInterlude().launchType(1);
 		}
 	
+		this.lastToPlay = this.currentCardID;
 		this.currentCardID = i;
 		this.updateTimeline();
 		this.getCards().getCardC(this.currentCardID).startClignote();

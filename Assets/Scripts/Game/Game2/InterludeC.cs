@@ -61,6 +61,7 @@ public class InterludeC : MonoBehaviour
 
 	public void launchType(int i){
 		Game.instance.getStartButton().showText(false);
+		Game.instance.getTimer().stop();
 		this.type = i;
 		if(i==0){
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];

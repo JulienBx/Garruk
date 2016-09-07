@@ -24,6 +24,10 @@ public class ModifyerM
 		return this.amount;
 	}
 
+	public void addAmount(int i){
+		this.amount+=i;
+	}
+
 	public int getIdIcon(){
 		return this.idIcon;
 	}

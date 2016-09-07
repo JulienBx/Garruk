@@ -63,7 +63,7 @@ public class CardC : MonoBehaviour
 	bool[,] destinations ;
 
 	float timerSE;
-	float SETime = 1f;
+	float SETime = 1.5f;
 	List<string> skillEffects;
 	List<int> skillEffectTypes;
 	bool skillEffect ;
@@ -114,7 +114,17 @@ public class CardC : MonoBehaviour
 	}
 
 	public void addAttackModifyer(ModifyerM m){
-		this.attackModifyers.Add(m);
+		bool hasFound = false ;
+		for(int i = 0 ; i < attackModifyers.Count ;i++){
+			if(m.getDuration==attackModifyers[i].getDuration()){
+				hasFound = true ;
+				attackModifyers[i].addAmount(m.getAmount());
+			}
+		}
+		if(!hasFound){
+			this.attackModifyers.Add(m);
+		}
+
 		this.setAttack();
 	}
 
@@ -564,7 +574,12 @@ public class CardC : MonoBehaviour
 			TileM tile = Game.instance.getBoard().getMouseTile();
 
 			if(tile.x>=0 && tile.x<Game.instance.getBoard().getBoardWidth() && tile.y>=0 && tile.y<Game.instance.getBoard().getBoardHeight()){
-				Game.instance.dropOnTile(tile.x,tile.y);
+				if(tile.x!=this.tile.x || tile.y!=this.tile.y){
+					Game.instance.dropOnTile(tile.x,tile.y);
+				}
+				else{
+					Game.instance.dropOutsideBoard();
+				}
 			}
 			else{
 				Game.instance.dropOutsideBoard();
@@ -814,11 +829,13 @@ public class CardC : MonoBehaviour
 		int type = this.skillEffectTypes[0];
 		Game.instance.setSE(true);
 		if(type==666){
+			this.SETime = 2f;
 			this.deadLayer=true;
 			this.anim = 666;
 			this.showDeadLayer(true);
 		}
 		else if(type<10){
+			this.SETime = 1.5f;
 			gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
 			if(type==0){
 				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
@@ -833,6 +850,7 @@ public class CardC : MonoBehaviour
 			this.showSE(true);
 		}
 		else{
+			this.SETime = 0.8f;
 			this.anim = (type-10)*10;
 			gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
 			this.showAnim(true);

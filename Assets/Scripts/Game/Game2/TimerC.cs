@@ -112,6 +112,10 @@ public class TimerC : MonoBehaviour
 		this.showFront(true);
 		this.visibleFront = true ;
 	}
+
+	public void stop(){
+		this.visible = false;
+	}
 }
 
 
