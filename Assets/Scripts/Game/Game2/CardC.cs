@@ -116,9 +116,12 @@ public class CardC : MonoBehaviour
 	public void addAttackModifyer(ModifyerM m){
 		bool hasFound = false ;
 		for(int i = 0 ; i < attackModifyers.Count ;i++){
-			if(m.getDuration==attackModifyers[i].getDuration()){
+			if(m.getDuration()==attackModifyers[i].getDuration()){
 				hasFound = true ;
 				attackModifyers[i].addAmount(m.getAmount());
+				if(attackModifyers[i].getAmount()>0){
+					attackModifyers[i].setTitle("BONUS ATK");
+				}
 			}
 		}
 		if(!hasFound){

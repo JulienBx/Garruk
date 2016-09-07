@@ -40,6 +40,10 @@ public class ModifyerM
 		return this.title;
 	}
 
+	public void setTitle(string s){
+		this.title = s;
+	}
+
 	public int getDuration(){
 		return this.duration;
 	}
