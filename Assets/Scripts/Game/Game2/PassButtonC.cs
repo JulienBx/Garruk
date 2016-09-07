@@ -69,6 +69,7 @@ public class PassButtonC : MonoBehaviour
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(80f/255f, 80f/255f, 80f/255f, 255f/255f) ;
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 1f) ;
+		this.launchable = false;
 	}
 
 	public void red(){
@@ -95,6 +96,7 @@ public class PassButtonC : MonoBehaviour
 		gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().color = new Color(255f/255f, 255f/255f, 255f/255f, 255f/255f) ;
 		gameObject.transform.FindChild("DescriptionZone").GetComponent<SpriteRenderer>().color = new Color(255f/255f, 255f/255f, 255f/255f, 255f/255f) ;
 		gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().color = new Color(255f/255f, 255f/255f, 255f/255f, 255f/255f) ;
+		this.launchable = true;
 	}
 
 	public void setLaunchable(bool b){

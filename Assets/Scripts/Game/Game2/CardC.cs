@@ -812,6 +812,7 @@ public class CardC : MonoBehaviour
 
 	public void setSkillEffectText(){
 		int type = this.skillEffectTypes[0];
+		Game.instance.setSE(true);
 		if(type==666){
 			this.deadLayer=true;
 			this.anim = 666;

@@ -52,10 +52,12 @@ public class PhotonController : Photon.MonoBehaviour
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.isQuittingGame=false;
 	}
+
 	public void initializeGame()
 	{
         this.joinRandomRoom();
 	}
+
 	public void joinRandomRoom()
     {
     	if(this.isOk){

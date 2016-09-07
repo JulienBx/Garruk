@@ -187,6 +187,7 @@ public class TileC : MonoBehaviour
 
 	public void setSkillEffectText(){
 		gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
+		Game.instance.setSE(true);
 		int type = this.skillEffectTypes[0];
 		if(type==0){
 			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);

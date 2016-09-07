@@ -215,6 +215,7 @@ public class Game : MonoBehaviour
 
 		if(!SE){
 			if(this.toLaunchNextTurn){
+				this.toLaunchNextTurn=false;
 				this.hitPassButton();
 			}
 			else{
@@ -815,6 +816,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void handleBeginningTurnEffects(){
+		print("Je handle "+this.getCurrentCard().getCardM().getCharacterType());
 		if(this.getCurrentCard().getCardM().getCharacterType()==67){
 			this.getSkills().skills[67].resolve(this.getCurrentCard().getCardM().getSkill(0));
 		}
@@ -913,6 +915,10 @@ public class Game : MonoBehaviour
 		}
 		this.getPassButton().setLaunchable(true);
 		this.getPassButton().show(true);
+	}
+
+	public void setSE(bool b){
+		this.SE = b ;
 	}
 
 	public void actuController(){
@@ -1106,12 +1112,14 @@ public class Game : MonoBehaviour
 	}
 
 	public void hitPassButton(){
-		this.displayController(false);
-		if(this.ia || this.isTutorial()){
-			this.launchNextTurn();
-		}
-		else{
-			GameRPC.instance.launchRPC("launchNextTurnRPC");
+		if(!this.areUnitsDead(true) && !this.areUnitsDead(false)){
+			this.displayController(false);
+			if(this.ia || this.isTutorial()){
+				this.launchNextTurn();
+			}
+			else{
+				GameRPC.instance.launchRPC("launchNextTurnRPC");
+			}
 		}
 	}
 
@@ -1119,24 +1127,32 @@ public class Game : MonoBehaviour
 		return this.getSkillButton(this.draggingSBID);
 	}
 
-	public void areUnitsDead(bool b){
+	public bool areUnitsDead(bool b){
 		bool areTheyDead = true ;
 
 		for (int i = 0 ; i < 8 ; i++){
 			if (this.getCards().getCardC(i).getCardM().isMine()==b){
-				if (this.getCards().getCardC(i).isDead()){
+				if (!this.getCards().getCardC(i).isDead()){
 					areTheyDead = false ;
 				}
 			}
 		}
-		
-		if(areTheyDead){
-			GameRPC.instance.launchRPC("LostRPC",b);
+		if(this.ia || this.isTutorial()){
+			StartCoroutine(quitGameHandler(b));
 		}
+		else{
+			if(areTheyDead){
+				GameRPC.instance.launchRPC("LostRPC",b);
+			}
+		}
+
+		print(b+" ARETHEYDEAD "+areTheyDead);
+		return areTheyDead;
 	}
 
 	public IEnumerator quitGameHandler(bool hasFirstPlayerLost)
 	{		
+		print("QUIT");
 		this.getHisHoveredCard().moveCharacterBackward();
 		this.getMyHoveredCard().moveCharacterBackward();
 		int type = 2;
@@ -1171,7 +1187,6 @@ public class Game : MonoBehaviour
             }
             yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
 		}
-        this.interlude.GetComponent<InterludeController>().quitGame();
 	}
 
 	public int getPercentageTotalDamages(){
@@ -1214,5 +1229,14 @@ public class Game : MonoBehaviour
             Debug.Log(ServerController.instance.getError());
             ServerController.instance.lostConnection();
         }
+	}
+
+	public void hitForfeit(){
+		if(this.ia || this.isTutorial()){
+			StartCoroutine(quitGameHandler(true));
+		}
+		else{
+			GameRPC.instance.launchRPC("LostRPC",true);
+		}
 	}
 }

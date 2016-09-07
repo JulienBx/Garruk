@@ -17,4 +17,27 @@ public class ForfeitC : MonoBehaviour
 		gameObject.transform.localPosition = position;
 		gameObject.transform.localScale = scale;
 	}
+
+	public void OnMouseEnter()
+	{
+		this.blue();
+	}
+
+	public void OnMouseExit()
+	{
+		this.white();
+	}
+
+	public void blue(){
+		gameObject.transform.GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f) ;
+	}
+
+	public void white(){
+		gameObject.transform.GetComponent<SpriteRenderer>().color = new Color(255f/255f,255f/255f,255f/255f, 1f) ;
+	}
+
+	public void OnMouseDown()
+	{
+		Game.instance.hitForfeit()	;
+	}
 }

@@ -128,7 +128,9 @@ public class PhotonC : Photon.MonoBehaviour
 	       	PlayerPrefs.SetString("currentGame", PhotonNetwork.room.name);
 
 			print("J'add mon nom à la room");
+
 			GameRPC.instance.addPlayerToRoom(ApplicationModel.player.Username);
+			
 
 	        if(!ApplicationModel.player.ToLaunchGameTutorial && Game.instance.isFirstPlayer())
 	        {

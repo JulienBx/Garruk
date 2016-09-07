@@ -30,7 +30,6 @@ public class TimelineC : MonoBehaviour
 		}
 		for(int i = 0 ; i < 8 ; i++){
 			if(idCards[i]!=-10){
-				print(i+" - "+idCards[i]);
 				if(idCards[i]>=0){
 					if(Game.instance.getCards().getCardC(idCards[i]).getCardM().isMine()){
 						gameObject.transform.Find("Unit"+i).GetComponent<SpriteRenderer>().color = new Color(71f/255f,150f/255f,189f/255f, 1f);

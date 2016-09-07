@@ -1,14 +1,16 @@
 ﻿using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InterludeC : MonoBehaviour
 {
 	public Sprite[] bandSprites ;
 
 	float timer ;
-	float time = 0.75f;
+	float time = 0.60f;
 	bool displaying;
+	int type ;
 
 	Vector3 startPosition1, startPosition2, startPosition3;
 	Vector3 endPosition1, endPosition2, endPosition3;
@@ -59,6 +61,7 @@ public class InterludeC : MonoBehaviour
 
 	public void launchType(int i){
 		Game.instance.getStartButton().showText(false);
+		this.type = i;
 		if(i==0){
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
@@ -78,7 +81,6 @@ public class InterludeC : MonoBehaviour
 			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
 			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[2];
 			this.setText(WordingGame.getText(79));
-
 		}
 		else if(i==3){
 			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[3];
@@ -94,12 +96,18 @@ public class InterludeC : MonoBehaviour
 	public void addTime(float f){
 		this.timer += f ;
 		if(this.timer>4*this.time){
-			this.show(false);
-			this.displaying = false ;
-			Game.instance.getMyHoveredCard().moveCharacterBackward();
-			Game.instance.getHisHoveredCard().moveCharacterBackward();
-
-			Game.instance.startActions();
+			if(this.type==3){
+				ApplicationModel.player.ShouldQuitGame=true;
+				PhotonNetwork.LeaveRoom ();
+				SceneManager.LoadScene("EndGame");
+			}
+			else{
+				this.show(false);
+				this.displaying = false ;
+				Game.instance.getMyHoveredCard().moveCharacterBackward();
+				Game.instance.getHisHoveredCard().moveCharacterBackward();
+				Game.instance.startActions();
+			}
 		}
 		else if(this.timer>3*this.time){
 			float rapport1 = Mathf.Min(1,Mathf.Max(0,this.timer-3f*this.time)/(this.time*0.5f));
