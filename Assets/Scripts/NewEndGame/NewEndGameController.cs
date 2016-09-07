@@ -134,11 +134,13 @@ public class NewEndGameController : MonoBehaviour
 		this.button.transform.FindChild("Title").GetComponent<TextMeshPro>().text=WordingEndGame.getReference(0);
 		this.button.SetActive(false);
 		this.cards=new GameObject[4];
+		int cardIndex = 0;
 		for(int i=0;i<4;i++)
 		{
 			this.cards[i] = Instantiate (this.cardObject) as GameObject;
 			this.cards[i].AddComponent<NewCardEndGameController>();
-			this.cards[i].GetComponent<NewCardEndGameController>().c = ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[i];
+			cardIndex = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).getCard (i).Id);
+			this.cards[i].GetComponent<NewCardEndGameController>().c = ApplicationModel.player.MyCards.getCard(cardIndex);
 			this.cards[i].GetComponent<NewCardEndGameController>().show();
 			this.cards[i].GetComponent<NewCardEndGameController>().setId(i);
 		}
@@ -228,7 +230,8 @@ public class NewEndGameController : MonoBehaviour
 		this.nextLevelPopUp = Instantiate(this.nextLevelPopUpObject) as GameObject;
 		this.nextLevelPopUp.transform.position = new Vector3 (0, 0, -2f);
 		this.nextLevelPopUp.AddComponent<NextLevelPopUpControllerEndGame> ();
-		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).getCard(indexCard));
+		int cardIndex = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).getCard (indexCard).Id);
+		this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyCards.getCard(indexCard));
 	}
 	public void hideNextLevelPopUp()
 	{
@@ -236,13 +239,15 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public void switchToNextLevelPopUp()
 	{
+		int cardIndex = 0;
 		BackOfficeController.instance.hideLoadingScreen();
 		this.hasFinishedCardUpgrade=false;
 		this.idCardsToNextLevel.RemoveAt(0);
 		if(this.idCardsToNextLevel.Count>0)
 		{
 			SoundController.instance.playSound(3);
-			this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).getCard(this.idCardsToNextLevel[0]));
+			cardIndex = ApplicationModel.player.MyCards.getCardIndex (ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [this.idCardsToNextLevel[0]].Id);
+			this.nextLevelPopUp.transform.GetComponent<NextLevelPopUpController> ().initialize (ApplicationModel.player.MyCards.getCard(cardIndex));
 		}
 		else
 		{
@@ -257,12 +262,8 @@ public class NewEndGameController : MonoBehaviour
 			for(int i=0;i<ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards.Count;i++)
             {
                 cards.add();
-				cards.cards[i]=ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[i];
-				int index = ApplicationModel.player.MyCards.getCardIndex (ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards [i].Id);
-				if (index != -1) 
-				{
-					ApplicationModel.player.MyCards.cards[index] = ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards [i];
-				}
+				cardIndex = ApplicationModel.player.MyCards.getCardIndex (ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [i].Id);
+				cards.cards [i] = ApplicationModel.player.MyCards.getCard (cardIndex);
             }
             ApplicationModel.player.updateMyCollection(cards);
 			ApplicationModel.Save();
@@ -300,21 +301,26 @@ public class NewEndGameController : MonoBehaviour
 	}
 	public IEnumerator launchUpgradeCardAttribute(int attributeToUpgrade, int newPower, int newLevel)
 	{
-		ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].updateCardAttribute (attributeToUpgrade, newPower, newLevel);
-		ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].setString ();
-		yield return StartCoroutine(ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].syncCard ());
-		if (ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].Error != "") 
+		int cardIndex = ApplicationModel.player.MyCards.getCardIndex (ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).cards [this.idCardsToNextLevel [0]].Id);
+
+
+		ApplicationModel.player.MyCards.getCard(cardIndex).updateCardAttribute (attributeToUpgrade, newPower, newLevel);
+		ApplicationModel.player.MyCards.getCard(cardIndex).setString ();
+		yield return StartCoroutine(ApplicationModel.player.MyCards.getCard(cardIndex).syncCard ());
+		if (ApplicationModel.player.MyCards.getCard(cardIndex).Error != "") 
 		{
-			Debug.Log (ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].Error);
-			ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards[this.idCardsToNextLevel[0]].Error = "";
+			Debug.Log (ApplicationModel.player.MyCards.getCard(cardIndex).Error);
+			ApplicationModel.player.MyCards.getCard(cardIndex).Error = "";
 		}
 		this.hasFinishedCardUpgrade=true;
 	}
 	public void updateCards()
 	{
+		int cardIndex = 0;
 		for (int i=0; i<4; i++)
 		{
-			ApplicationModel.player.MyDecks.getDeck(ApplicationModel.player.SelectedDeckIndex).cards [i].updateCardXp(false,this.xpWon);
+			cardIndex = ApplicationModel.player.MyCards.getCardIndex(ApplicationModel.player.MyDecks.getDeck (ApplicationModel.player.SelectedDeckIndex).getCard (i).Id);
+			ApplicationModel.player.MyCards.getCard(i).updateCardXp(false,this.xpWon);
 		}
 	}
 	public void returnPressed()
