@@ -543,15 +543,7 @@ public class newMyGameController : MonoBehaviour
 		this.decksDisplayed=new List<int>();
 		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
-			this.deckDisplayed = 0;
-			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
-			{
-				if(ApplicationModel.player.MyDecks.getDeck(i).Id==ApplicationModel.player.SelectedDeckId)
-				{
-					this.deckDisplayed=i;
-					break;
-				}
-			}
+			this.deckDisplayed = ApplicationModel.player.SelectedDeckIndex;
 		}
 		else
 		{
@@ -1917,7 +1909,7 @@ public class newMyGameController : MonoBehaviour
 				ApplicationModel.player.HasDeck = isDeckCompleted;
 				if(isDeckCompleted)
 				{
-					StartCoroutine(ApplicationModel.player.SetSelectedDeck(ApplicationModel.player.MyDecks.getDeck(this.deckDisplayed).Id));
+					ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
 				}
 				HelpController.instance.tutorialTrackPoint();
 			}

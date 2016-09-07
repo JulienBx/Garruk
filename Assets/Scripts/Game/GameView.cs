@@ -494,7 +494,7 @@ public class GameView : MonoBehaviour
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(2), false);
 			this.createPlayingCard(ApplicationModel.opponentDeck.getGameCard(3), false);
 			this.placeIACards();
-			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
+			//this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 
 			this.numberDeckLoaded = 2 ; 
 			this.setInitialDestinations(this.isFirstPlayer);
@@ -503,13 +503,13 @@ public class GameView : MonoBehaviour
 			GameObject.Find("Forfeit").GetComponent<BoxCollider>().enabled = true ;
 		}
 		else{
-			this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
+			//this.loadDeck(ApplicationModel.player.MyDeck, this.isFirstPlayer);
 			this.loadDeck(ApplicationModel.opponentDeck, !this.isFirstPlayer);
 			GameObject.Find("Forfeit").GetComponent<SpriteRenderer>().enabled = true ;
 			GameObject.Find("Forfeit").GetComponent<BoxCollider>().enabled = true ;
 		}
 		this.nbCards=8;
-		this.myDeck = ApplicationModel.player.MyDeck;
+		//this.myDeck = ApplicationModel.player.MyDeck;
 		this.setInitialDestinations(this.isFirstPlayer);
 		this.showStartButton();
 				
@@ -3088,7 +3088,7 @@ public class GameView : MonoBehaviour
 		this.interlude.GetComponent<InterludeController>().endGame();
 		this.interlude.GetComponent<InterludeController>().set("",type);
 
-		ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
+		//ApplicationModel.player.MyDeck=GameView.instance.getMyDeck();
         if(ApplicationModel.player.ToLaunchGameTutorial)
 		{
             if(hasFirstPlayerLost==this.isFirstPlayer)

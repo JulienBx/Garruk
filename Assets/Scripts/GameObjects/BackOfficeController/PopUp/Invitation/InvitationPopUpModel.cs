@@ -44,7 +44,7 @@ public class InvitationPopUpModel {
 	}
 	private void parseUser(string[] array)
 	{
-		ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32(array [0]);
+		//ApplicationModel.player.SelectedDeckId = System.Convert.ToInt32(array [0]);
 	}
 	private List<Deck> parseDecks(string[] decksData)
 	{
