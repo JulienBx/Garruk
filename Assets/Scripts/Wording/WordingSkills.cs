@@ -422,17 +422,17 @@ public class WordingSkills
 		probas.Add(100); 
 		//18 - Frenesie
 		idSkills.Add(18);
-		names.Add(new string[]{"Frénésie","Bloodlust"}); 
-		descriptions.Add(new string[]{"S'inflige 050%ATK dégats et gagne 5ATK","Inflicts 050%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 045%ATK dégats et gagne 5ATK","Inflicts 045%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 040%ATK dégats et gagne 5ATK","Inflicts 040%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 035%ATK dégats et gagne 5ATK","Inflicts 035%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 030%ATK dégats et gagne 5ATK","Inflicts 030%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 025%ATK dégats et gagne 5ATK","Inflicts 025%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 020%ATK dégats et gagne 5ATK","Inflicts 020%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 015%ATK dégats et gagne 5ATK","Inflicts 015%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 010%ATK dégats et gagne 5ATK","Inflicts 010%ATK damage points to himself and gains 5ATK"}); 
-		descriptions.Add(new string[]{"S'inflige 005%ATK dégats et gagne 5ATK","Inflicts 005%ATK damage points to himself and gains 5ATK"}); 
+		names.Add(new string[]{"Fouet","Whipping"}); 
+		descriptions.Add(new string[]{"Inflige 050%ATK dégats à un allié adjacent. Son ATK augmente de 3","Inflicts 050%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 050%ATK dégats à un allié adjacent. Son ATK augmente de 4","Inflicts 045%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 040%ATK dégats à un allié adjacent. Son ATK augmente de 4","Inflicts 040%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 040%ATK dégats à un allié adjacent. Son ATK augmente de 5","Inflicts 035%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 030%ATK dégats à un allié adjacent. Son ATK augmente de 5","Inflicts 030%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 030%ATK dégats à un allié adjacent. Son ATK augmente de 6","Inflicts 025%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 020%ATK dégats à un allié adjacent. Son ATK augmente de 6","Inflicts 020%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 020%ATK dégats à un allié adjacent. Son ATK augmente de 7","Inflicts 015%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 010%ATK dégats à un allié adjacent. Son ATK augmente de 7","Inflicts 010%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
+		descriptions.Add(new string[]{"Inflige 010%ATK dégats à un allié adjacent. Son ATK augmente de 8","Inflicts 005%ATK damage points to an adjacent ally. Its ATK increases by 3"}); 
 		probas.Add(100); 
 		probas.Add(100); 
 		probas.Add(100); 

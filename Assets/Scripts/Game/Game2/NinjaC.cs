@@ -59,7 +59,7 @@ public class NinjaC : SkillC
 
 	}
 
-	public override string getSkillText(int targetID){
+	public override string getSkillText(int targetID, int level){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 		int degats = caster.getDegatsAgainst(target, caster.getAttack());

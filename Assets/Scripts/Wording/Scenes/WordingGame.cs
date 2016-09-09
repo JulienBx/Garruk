@@ -117,6 +117,7 @@ public class WordingGame
 		texts.Add(new string[]{"BONUS ATK","ATK BONUS"});
 		texts.Add(new string[]{"MALUS ATK","ATK MALUS"});
 		texts.Add(new string[]{"-ARG1 ATK","-ARG1 ATK"});
+		texts.Add(new string[]{"ATK : ARG1 -> ARG2","ATK : ARG1 -> ARG2"});
 
 	}
 }

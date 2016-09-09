@@ -29,6 +29,38 @@ public class SkillC
 		this.id = 99;
 	}
 
+	public virtual void resolve(int x, int y, Skill skill){
+		int targetID = Game.instance.getBoard().getTileC(x,y).getCharacterID();
+		CardC target = Game.instance.getCards().getCardC(targetID);
+		int level = skill.Power;
+		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
+			if(UnityEngine.Random.Range(0,101)<=target.getEsquive()){
+				if(Game.instance.isIA() || Game.instance.isTutorial()){
+					Game.instance.getSkills().skills[this.id].dodge(targetID);
+				}
+				else{
+					GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID);
+				}
+			}
+			else{
+				if(Game.instance.isIA() || Game.instance.isTutorial()){
+					Game.instance.getSkills().skills[this.id].effects(targetID);
+				}
+				else{
+					GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level);
+				}
+			}
+		}
+		else{
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].fail();
+			}
+			else{
+				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
+			}
+		}
+	}
+
 	public virtual List<TileM> getTargetTiles(CardC card){
 		List<TileM> targets = new List<TileM>();
 		if(this.ciblage==1){
@@ -45,15 +77,15 @@ public class SkillC
 		return s;
 	}
 
-	public virtual void resolve(int x, int y, Skill s){
-		Debug.Log("Skill non implémenté");
-	}
-
 	public virtual void resolve(Skill s){
 		Debug.Log("Skill non implémenté");
 	}
 
 	public virtual void effects(int x){
+		Debug.Log("Skill non implémenté");
+	}
+
+	public virtual void effects(int x, int y){
 		Debug.Log("Skill non implémenté");
 	}
 
@@ -67,7 +99,7 @@ public class SkillC
 		Game.instance.getCards().getCardC(x).displaySkillEffect(WordingGame.getText(76)+"\n"+WordingSkills.getName(this.id),0);
 	}
 
-	public virtual string getSkillText(int i){
+	public virtual string getSkillText(int i, int level){
 		Debug.Log("Skill non implémenté");
 		return "";
 	}

@@ -76,11 +76,12 @@ public class Game : MonoBehaviour
 		this.cardsToPlay = new List<int>();
 		this.ia = false ;
 		GameObject.Find("PhotonController").GetComponent<PhotonController>().isOk = false ;
-		PhotonC.instance.findRoom();
 
 		this.board = new Board();
 		this.gamecards = new Gamecards();
 		SoundController.instance.playMusic(new int[]{4,5,6});
+
+		PhotonC.instance.findRoom();
 
 		this.myHoveredCard = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredCard = GameObject.Find("HisHoveredPlayingCard");
@@ -272,6 +273,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void createBackground(){
+		print("createBack");
 		for (int i = 0; i < this.board.getBoardWidth()+1; i++)
 		{
 			this.board.addVerticalBorder(i, (GameObject)Instantiate(verticalBorderModel));

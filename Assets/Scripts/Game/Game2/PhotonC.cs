@@ -53,6 +53,7 @@ public class PhotonC : Photon.MonoBehaviour
 	public void findRoom(){
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.displayLoadingScreenButton(false);
+		ApplicationModel.player.IsOnline = false ;
 		if(ApplicationModel.player.ToLaunchGameIA || !ApplicationModel.player.IsOnline){
 			this.createIARoom();
 		}

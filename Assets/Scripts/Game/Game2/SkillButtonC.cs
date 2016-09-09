@@ -211,7 +211,7 @@ public class SkillButtonC : MonoBehaviour
 	}
 
 	public void getTargetText(int targetId){
-		string s = this.skillC.getSkillText(targetId);
+		string s = this.skillC.getSkillText(targetId, this.skill.Power);
 		this.setSkillText(s);
 	}
 
