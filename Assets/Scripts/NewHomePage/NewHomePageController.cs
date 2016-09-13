@@ -868,7 +868,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(i!=this.deckDisplayed)
+				if(i!=this.deckDisplayed && ApplicationModel.player.MyDecks.getDeck(i).cards.Count()==ApplicationModel.nbCardsByDeck)
 				{
 					this.decksDisplayed.Add (i);
 				}
@@ -958,7 +958,7 @@ public class NewHomePageController : MonoBehaviour
 		this.isSearchingDeck = false;
 		this.cleanDeckList ();
 		this.initializeDecks ();
-		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;;
+		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 	}
 	public void deckSelectionButtonHandler()
 	{
@@ -1613,7 +1613,7 @@ public class NewHomePageController : MonoBehaviour
 	public IEnumerator joinGame()
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
             BackOfficeController.instance.loadScene("NewLobby");
@@ -1721,7 +1721,7 @@ public class NewHomePageController : MonoBehaviour
 	public IEnumerator sendInvitation(int challengeButtonId)
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
-		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 		StartCoroutine (BackOfficeController.instance.sendInvitation (ApplicationModel.player.Users.getUser(this.friendsToBeDisplayed[this.friendsDisplayed[challengeButtonId]]), ApplicationModel.player));
 		yield break;
 	}

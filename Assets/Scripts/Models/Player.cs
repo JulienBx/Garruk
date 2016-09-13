@@ -254,25 +254,6 @@ public class Player : User
 			this.Money = this.Money - money;
 		}
 	}
-	public IEnumerator SetSelectedDeck(int selectedDeckId)
-	{
-//		WWWForm form = new WWWForm (); 								// Création de la connexion
-//		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-//		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-//		form.AddField("myform_deck", selectedDeckId.ToString());                 // Deck sélectionné
-//		
-//		WWW w = new WWW (URLSelectedDeck, form); 								// On envoie le formulaire à l'url sur le serveur 
-//		yield return w; 
-//
-//		this.SelectedDeckId=selectedDeckId;
-//		ApplicationModel.player.retrieveMyDeck();
-//													// On attend la réponse du serveur, le jeu est donc en attente
-//		if (w.error != null) 
-//		{
-//			Debug.Log (w.error); 										// donne l'erreur eventuelle
-//		}
-		yield break;
-	}
 	public IEnumerator cleanCards()
 	{
 		WWWForm form = new WWWForm (); 								// Création de la connexion
@@ -934,7 +915,7 @@ public class Player : User
 	{
 		for(int i=0;i<this.MyDecks.getDeck(this.SelectedDeckIndex).cards.Count;i++)
 		{
-			if(this.MyDecks.getDeck(this.SelectedDeckIndex).cards[i].CardType.Id!=this.TrainingAllowedCardType)
+			if(this.MyCards.getCard(this.MyCards.getCardIndex(this.MyDecks.getDeck(this.SelectedDeckIndex).getCard(i).Id)).CardType.Id!=this.TrainingAllowedCardType)
 			{
 				return false;
 			}
@@ -1225,13 +1206,14 @@ public class Player : User
 			this.cardsToSync = new Cards ();
 			this.decksToSync = new Decks ();
 			this.moneyToSync = 0;
-			this.SelectedDeckIndex = -1;
+			this.selectedDeckToSync = -1;
 		}
 	}
 	public void setSelectedDeck(int index)
 	{
 		this.SelectedDeckIndex = index;
 		this.selectedDeckToSync = index;
+		Debug.Log ("new deck =" + index);
 		ApplicationModel.Save ();
 	}
 }

@@ -1870,8 +1870,12 @@ public class newMyGameController : MonoBehaviour
 				if(ApplicationModel.player.MyDecks.getDeck(i).cards.Count==ApplicationModel.nbCardsByDeck && i!=this.deckDisplayed)
 				{
 					isADeckCompleted=true;
+					ApplicationModel.player.setSelectedDeck (i);
 					break;
 				}
+			}
+			if (!isADeckCompleted) {
+				ApplicationModel.player.setSelectedDeck (-1);
 			}
 			ApplicationModel.player.HasDeck=isADeckCompleted;
 			HelpController.instance.tutorialTrackPoint();
@@ -1909,7 +1913,7 @@ public class newMyGameController : MonoBehaviour
 				ApplicationModel.player.HasDeck = isDeckCompleted;
 				if(isDeckCompleted)
 				{
-					ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+					ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 				}
 				HelpController.instance.tutorialTrackPoint();
 			}

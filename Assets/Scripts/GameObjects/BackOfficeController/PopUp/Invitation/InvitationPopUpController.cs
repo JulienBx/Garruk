@@ -99,16 +99,16 @@ public class InvitationPopUpController : MonoBehaviour
 	}
 	private void retrieveDefaultDeck()
 	{
-		if(model.decks.Count>0)
+		if(ApplicationModel.player.MyDecks.getCount()>0)
 		{
 			this.deckDisplayed = 0;
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-//				if(model.decks[i].Id==ApplicationModel.player.SelectedDeckId)
-//				{
-//					this.deckDisplayed=i;
-//					break;
-//				}
+				if(i==ApplicationModel.player.SelectedDeckIndex)
+				{
+					this.deckDisplayed=i;
+					break;
+				}
 			}
 		}
 		else
@@ -121,9 +121,9 @@ public class InvitationPopUpController : MonoBehaviour
 		this.decksDisplayed=new List<int>();
 		if(this.deckDisplayed!=-1)
 		{
-			for(int i=0;i<model.decks.Count;i++)
+			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(i!=this.deckDisplayed)
+				if(i!=this.deckDisplayed && ApplicationModel.player.MyDecks.getDeck(i).cards.Count==ApplicationModel.nbCardsByDeck)
 				{
 					this.decksDisplayed.Add (i);
 				}
@@ -179,7 +179,7 @@ public class InvitationPopUpController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		BackOfficeController.instance.displayLoadingScreen ();
-		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+		ApplicationModel.player.setSelectedDeck (this.deckDisplayed);
         ApplicationModel.player.IsInvited=false;
         StartCoroutine(model.invitation.changeStatus(2));
 		yield break;
