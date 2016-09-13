@@ -1097,7 +1097,7 @@ public class PhotonController : Photon.MonoBehaviour
         else
         {
             Debug.Log(ServerController.instance.getError());
-            ServerController.instance.lostConnection();
+            //ServerController.instance.lostConnection();
         }
     }
     public void setSceneName(string sceneName)

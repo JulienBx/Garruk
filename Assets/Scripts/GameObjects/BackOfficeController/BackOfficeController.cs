@@ -539,7 +539,7 @@ public class BackOfficeController : MonoBehaviour
 	{
 		this.disconnectedPopUp.transform.position= new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -2f);
 		this.disconnectedPopUp.transform.localScale = ApplicationDesignRules.popUpScale*(1f/this.gameObject.transform.localScale.x);
-		this.disconnectedPopUp.GetComponent<DetectOfflinePopUpController> ().resize ();
+		this.disconnectedPopUp.GetComponent<DisconnectPopUpController> ().resize ();
 	}
 	public void offlineModePopUpResize()
 	{
@@ -642,15 +642,9 @@ public class BackOfficeController : MonoBehaviour
 		{
 			this.hideDisconnectedPopUp();
 		}
+		PhotonNetwork.Disconnect();
 		ApplicationModel.player.ToDeconnect = true;
-		if(PhotonNetwork.connectionState==ConnectionState.Disconnected)
-		{
-		    this.loadScene("Authentication");
-		}
-		else
-		{
-			PhotonNetwork.Disconnect();
-		}
+		this.loadScene("Authentication");
 	}
 	public IEnumerator sendInvitation(User invitedUser, User sendingUser)
 	{

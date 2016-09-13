@@ -53,7 +53,6 @@ public class Deck : Cards
 		this.Name = name;
 		this.cards = cards;
 	}
-
 	public IEnumerator addCard(int idCard, int deckOrder)
 	{
 		bool isConnected = true;
@@ -170,12 +169,17 @@ public class Deck : Cards
 			ServerController.instance.setRequest (URLCreateDeck, form);
 			yield return ServerController.instance.StartCoroutine ("executeRequest");
 			this.Error = ServerController.instance.getError ();
-			if (this.Error != "") {
+			if (this.Error != "") 
+			{
 				isConnected = false;
+			} 
+			else 
+			{
+				string result = ServerController.instance.getResult ();
+				this.Id = System.Convert.ToInt32 (result);
 			}
 		}
-		//string result = ServerController.instance.getResult ();
-		//this.Id = System.Convert.ToInt32 (result);
+
 		this.Name = decksName;
 		this.NbCards = 0;
 		this.cards = new List<Card> ();

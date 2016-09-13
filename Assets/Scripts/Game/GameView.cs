@@ -3034,7 +3034,7 @@ public class GameView : MonoBehaviour
         if(ServerController.instance.getError()!="")
         {
             Debug.Log(ServerController.instance.getError());
-            ServerController.instance.lostConnection();
+            //ServerController.instance.lostConnection();
         }
 	}
     public void quitGameHandler(bool b)

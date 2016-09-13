@@ -42,6 +42,7 @@ public class Player : User
 	public List<Connection> Connections;
 	public bool Readnotificationsystem;
 	public int SelectedDeckIndex;
+	public int SelectedDeckId;
 	public List<int> CardTypesAllowed;
 	public bool IsAdmin;
 	public int TutorialStep;
@@ -164,7 +165,7 @@ public class Player : User
 		this.cardsToSync = new Cards ();
 		this.decksToSync = new Decks ();
 		this.moneyToSync = 0;
-		this.selectedDeckToSync = 0;
+		this.selectedDeckToSync = -1;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -541,7 +542,7 @@ public class Player : User
 			autoConnectString="0";
 		}
 
-		string dataToSync = "DATAENDDATAENDDATAEND";
+		string dataToSync = "DATAENDDATAENDDATAEND-1DATAEND";
 		if (ApplicationModel.savedGame!=null && this.Username == ApplicationModel.savedGame.player.Username) 
 		{
 			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
@@ -951,7 +952,7 @@ public class Player : User
 		this.Surname= array[4];
 		this.IdProfilePicture= System.Convert.ToInt32(array[5]);
 		this.AutomaticConnection	= System.Convert.ToBoolean(System.Convert.ToInt32(array[6]));
-		//this.SelectedDeckId= System.Convert.ToInt32(array[7]);
+		this.SelectedDeckId= System.Convert.ToInt32(array[7]);
 		this.RankingPoints = System.Convert.ToInt32 (array [8]);
 		this.Ranking = System.Convert.ToInt32 (array [9]);
 		this.CollectionPoints = System.Convert.ToInt32 (array [10]);
@@ -1206,10 +1207,10 @@ public class Player : User
 		string data = "";
 		this.cardsToSync.setString ();
 		this.decksToSync.setString ();
-		this.moneyToSync.ToString ();
 		data += this.cardsToSync.String+"DATAEND";
 		data += this.decksToSync.String + "DATAEND";
 		data += this.moneyToSync.ToString() + "DATAEND";
+		data += this.selectedDeckToSync.ToString () + "DATAEND";
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -1224,7 +1225,14 @@ public class Player : User
 			this.cardsToSync = new Cards ();
 			this.decksToSync = new Decks ();
 			this.moneyToSync = 0;
+			this.SelectedDeckIndex = -1;
 		}
+	}
+	public void setSelectedDeck(int index)
+	{
+		this.SelectedDeckIndex = index;
+		this.selectedDeckToSync = index;
+		ApplicationModel.Save ();
 	}
 }
 

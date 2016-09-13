@@ -86,7 +86,10 @@ public class Decks{
 					this.decks[i].cards[j-1].Id=System.Convert.ToInt32(deckInfo [0]);
 					this.decks[i].cards[j-1].deckOrder=System.Convert.ToInt32(deckInfo[1]);
 				}
-			}	                     
+			}
+			if (this.decks [i].Id == ApplicationModel.player.SelectedDeckId) {
+				ApplicationModel.player.SelectedDeckIndex = i;
+			}
 		}
 	}
 }
