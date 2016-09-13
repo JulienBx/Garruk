@@ -193,15 +193,15 @@ public class TileC : MonoBehaviour
 		Game.instance.setSE(true);
 		if(type<10){
 			this.SETime = 1.5f;
-			gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
+			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
 			if(type==0){
-				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
+				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
 			}
 			else if(type==1){
-				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
+				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
 			}
 			else{
-				gameObject.transform.Find("Background").FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
+				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
 			}
 			this.anim = -1;
 			this.showSE(true);

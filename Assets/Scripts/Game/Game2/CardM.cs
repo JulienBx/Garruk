@@ -66,14 +66,24 @@ public class CardM
 	}
 
 	public int getNbActivatedSkill(){
-		if(this.getSkill(2).IsActivated!=1){
-			return 2;
-		}
-		else if(this.getSkill(3).IsActivated!=1){
-			return 3;
+		if(this.skills.Count>2){
+			if(this.getSkill(2).IsActivated!=1){
+				return 2;
+			}
+			else if(this.skills.Count>3){
+				if(this.getSkill(3).IsActivated!=1){
+					return 3;
+				}
+				else{
+					return 4;
+				}
+			}
+			else{
+				return 3;
+			}
 		}
 		else{
-			return 4;
+			return 2;
 		}
 	}
 

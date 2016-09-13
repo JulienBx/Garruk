@@ -198,7 +198,13 @@ public class Intelligence
 
 	public IEnumerator play(){
 		this.choosePlay(true);
-		yield return new WaitForSeconds(UnityEngine.Random.Range(1,5));
+
+		if(this.bestDeplacement.x!=-1){
+			Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
+			yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
+		}
+
+		yield return new WaitForSeconds(1f);
 
 		this.act();
 	}
@@ -208,7 +214,7 @@ public class Intelligence
 		int[,] board = Game.instance.getBoard().getCurrentBoard();
 		int[,] updatedBoard;
 		bool[,] destinations = card.getDestinations();
-		this.bestScore = 0f;
+		this.initBestScore();
 		int[,] tempBoard = new int[Game.instance.getBoard().getBoardWidth(), Game.instance.getBoard().getBoardHeight()] ;
 		TileM currentTile = Game.instance.getCurrentCard().getTileM();
 		int currentID = Game.instance.getCurrentCardID();
@@ -237,7 +243,7 @@ public class Intelligence
 						}
 					}
 
-					passiveScore = this.getPassiveScore(x,y,tempBoard);
+					passiveScore = this.getPassiveScore(x,y,tempBoard,false);
 
 					if(action){
 						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
@@ -254,6 +260,13 @@ public class Intelligence
 		}
 	}
 
+	public void initBestScore(){
+		this.bestScore = 0 ;
+		this.bestDeplacement = new TileM(-1,-1);
+		this.bestTarget = new TileM(-1, -1);
+		this.bestSkill = -1;
+	}
+
 	public void testBestScore(int s, int x, int y, TileM t, int b){
 		if(s>this.bestScore){
 			Debug.Log("BESTSCORE "+s+",("+x+","+y+"),("+t.x+","+t.y+"),"+b);
@@ -264,7 +277,67 @@ public class Intelligence
 		}
 	}
 
-	public int getPassiveScore(int x, int y, int[,] tempBoard){
+	public int getPassiveScore(int x, int y, int[,] tempBoard, bool debug){
+		int meteores = Game.instance.getIndexMeteores();
+		int passiveScore = 0;
+		CardC card = Game.instance.getCurrentCard();
+
+		if(y==0 || y==7){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*meteores));
+		}
+		if(y==1 || y==6){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-1)));
+		}
+		if(y==2 || y==5){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-2)));
+		}
+		if(y==3 || y==4){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
+		}
+		if(debug){
+			Debug.Log("- - - - - - - - - - - - - ");
+			Debug.Log("SCORE METEORES "+passiveScore);
+		}
+
+		int distance ; 
+		CardC target ;
+		for(int i = 0 ; i < 4 ; i++){
+			target = Game.instance.getCards().getCardC(i);
+			if(!target.isDead()){
+				distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
+				if((distance-1)<=card.getMove()){
+					passiveScore+=card.getDamageScore(target, card.getAttack());
+					if(debug){
+						Debug.Log("AJOUT "+card.getDamageScore(target, card.getAttack()));
+					}
+				}
+				if((distance-1)<=target.getMove()){
+					passiveScore-=target.getDamageScore(card, target.getAttack());
+					if(debug){
+						Debug.Log("RETRAIT "+target.getDamageScore(card, target.getAttack()));
+					}
+				}
+				passiveScore+=5-distance;
+				if(debug){
+					Debug.Log("AJOUT DISTANCE "+(5-distance));
+				}
+			}
+		}
+
+		if(x==card.getTileM().x && y==card.getTileM().y){
+			passiveScore+=1;
+			if(debug){
+				Debug.Log("AJOUT BONUS -1");
+			}
+		}
+		if(debug){
+			Debug.Log("SCORE FINAL "+passiveScore);
+		}
+		return passiveScore ;
+
+	}
+
+	public int describePassiveScore(int x, int y, int[,] tempBoard){
 		int meteores = Game.instance.getIndexMeteores();
 		int passiveScore = 0;
 		CardC card = Game.instance.getCurrentCard();
@@ -282,6 +355,8 @@ public class Intelligence
 			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
 		}
 
+		Debug.Log("SCORE METEORES "+passiveScore);
+
 		int distance ; 
 		CardC target ;
 		for(int i = 0 ; i < 4 ; i++){
@@ -290,19 +365,24 @@ public class Intelligence
 				distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
 				if((distance-1)<=card.getMove()){
 					passiveScore+=card.getDamageScore(target, card.getAttack());
+					Debug.Log("AJOUT "+card.getDamageScore(target, card.getAttack()));
 				}
 				if((distance-1)<=target.getMove()){
-					passiveScore+=target.getDamageScore(card, target.getAttack());
+					passiveScore-=target.getDamageScore(card, target.getAttack());
+					Debug.Log("RETRAIT "+target.getDamageScore(card, target.getAttack()));
 				}
 				passiveScore+=5-distance;
+				Debug.Log("AJOUT DISTANCE "+(5-distance));
 			}
 		}
 
 		if(x==card.getTileM().x && y==card.getTileM().y){
 			passiveScore+=1;
+			Debug.Log("AJOUT BONUS -1");
 		}
 
 		return passiveScore ;
+		Debug.Log("SCORE TOTAL");
 	}
 
 	public void move(){
