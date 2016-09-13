@@ -868,7 +868,7 @@ public class NewHomePageController : MonoBehaviour
 		{
 			for(int i=0;i<ApplicationModel.player.MyDecks.getCount();i++)
 			{
-				if(i!=this.deckDisplayed)
+				if(i!=this.deckDisplayed && ApplicationModel.player.MyDecks.getDeck(i).cards.Count()==4)
 				{
 					this.decksDisplayed.Add (i);
 				}
