@@ -134,6 +134,28 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getAdjacentAllysTargets(int[,] board, CardC card){
+		List<TileM> neighbourTiles = this.getTileNeighbours(card.getTileM());
+		List<TileM> cibles = new List<TileM>();
+		int playerID;
+
+		foreach (TileM t in neighbourTiles)
+		{
+			playerID = board[t.x,t.y];
+			if (playerID > 0)
+			{
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()==Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						if(card.getCardM().getCharacterType()!=Game.instance.getCards().getCardC(playerID).getCardM().getCharacterType()){
+							cibles.Add(t);
+						}
+					}
+				}
+			}
+		}
+		return cibles;
+	}
+
 	public int[,] getCurrentBoard(){
 		int[,] board = new int[this.boardWidth,this.boardHeight];
 		for(int i = 0 ; i < this.boardWidth ; i++){

@@ -100,6 +100,10 @@ public class CardC : MonoBehaviour
 		this.initDestinations();
 	}
 
+	public bool[,] getDestinations(){
+		return this.destinations;
+	}
+
 	public bool isClignoting(){
 		return this.clignoting;
 	}
@@ -941,9 +945,19 @@ public class CardC : MonoBehaviour
 	}
 
 	public int getDegatsAgainst(CardC target, int d){
-		int degats = d;
-		d = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		int degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		return degats;
+	}
 
+	public int getDamageScore(CardC target, int d){
+		int degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		if(degats==target.getLife()){
+			degats = 100+target.getLife()+target.getAttack();
+		}
+
+		if(!target.getCardM().isMine()){
+			degats = -1*degats;
+		}
 		return d;
 	}
 }

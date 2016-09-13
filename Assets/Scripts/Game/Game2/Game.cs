@@ -81,8 +81,6 @@ public class Game : MonoBehaviour
 		this.gamecards = new Gamecards();
 		SoundController.instance.playMusic(new int[]{4,5,6});
 
-		PhotonC.instance.findRoom();
-
 		this.myHoveredCard = GameObject.Find("MyHoveredPlayingCard");
 		this.hisHoveredCard = GameObject.Find("HisHoveredPlayingCard");
 		this.startButton = GameObject.Find("SB");
@@ -103,6 +101,7 @@ public class Game : MonoBehaviour
 		this.hisPlayerName = GameObject.Find("HisPlayerName");
 		this.cancelButton = GameObject.Find("CancelButton");
 
+		PhotonC.instance.findRoom();
 		GameObject.Find("Logo").GetComponent<SpriteRenderer>().enabled = false;
 	}
 
@@ -273,7 +272,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void createBackground(){
-		print("createBack");
+		print("createBack "+this.getBoard().getBoardWidth());
 		for (int i = 0; i < this.board.getBoardWidth()+1; i++)
 		{
 			this.board.addVerticalBorder(i, (GameObject)Instantiate(verticalBorderModel));
@@ -285,6 +284,7 @@ public class Game : MonoBehaviour
 
 		if(this.isFirstPlayer()){
 			this.createTiles();
+
 			if(this.ia || this.isTutorial()){
 				this.createCards();
 			}
@@ -1264,5 +1264,10 @@ public class Game : MonoBehaviour
 		if(this.getHisHoveredCard().getCurrentCard()==i){
 			this.getHisHoveredCard().setCard(i);
 		}
+		this.actuController();
+	}
+
+	public int getIndexMeteores(){
+		return this.indexMeteores;
 	}
 }

@@ -9,6 +9,11 @@ public class Intelligence
 	float timerStart ;
 	bool starting ;
 
+	float bestScore ;
+	TileM bestDeplacement ;
+	TileM bestTarget ;
+	int bestSkill ;
+
 	public Intelligence(){
 		this.starting = false ;
 	}
@@ -192,14 +197,112 @@ public class Intelligence
 	}
 
 	public IEnumerator play(){
-		this.choosePlay();
-		this.move();
-		yield return new WaitForSeconds(1);
+		this.choosePlay(true);
+		yield return new WaitForSeconds(UnityEngine.Random.Range(1,5));
+
 		this.act();
 	}
 
-	public void choosePlay(){
+	public void choosePlay(bool action){
+		CardC card = Game.instance.getCurrentCard();
+		int[,] board = Game.instance.getBoard().getCurrentBoard();
+		int[,] updatedBoard;
+		bool[,] destinations = card.getDestinations();
+		this.bestScore = 0f;
+		int[,] tempBoard = new int[Game.instance.getBoard().getBoardWidth(), Game.instance.getBoard().getBoardHeight()] ;
+		TileM currentTile = Game.instance.getCurrentCard().getTileM();
+		int currentID = Game.instance.getCurrentCardID();
+		int activeScore ;
+		int passiveScore ;
+		List<TileM> targets;
 
+		for(int x = 0 ; x < Game.instance.getBoard().getBoardWidth() ; x++){
+			for(int y = 0 ; y < Game.instance.getBoard().getBoardHeight() ; y++){
+				if(destinations[x,y]){
+					for(int a = 0 ; a < Game.instance.getBoard().getBoardWidth() ; a++){
+						for(int b = 0 ; b < Game.instance.getBoard().getBoardHeight() ; b++){
+							if(currentTile.x==a && currentTile.y==b){
+								if(x!=currentTile.x || y!=currentTile.y){
+									tempBoard[a,b] = -1;
+								}
+							}
+							else{
+								if(a==x && b==y){
+									tempBoard[a,b] = currentID;
+								}
+								else{
+									tempBoard[a,b] = board[a,b];
+								}
+							}
+						}
+					}
+
+					passiveScore = this.getPassiveScore(x,y,tempBoard);
+
+					if(action){
+						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
+							targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card);
+							for(int t = 0 ; t < targets.Count ; t++){
+								activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
+								this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id);
+							}
+						}
+					}
+					this.testBestScore(passiveScore, x, y, new TileM(-1,-1), -1);
+				}
+			}
+		}
+	}
+
+	public void testBestScore(int s, int x, int y, TileM t, int b){
+		if(s>this.bestScore){
+			Debug.Log("BESTSCORE "+s+",("+x+","+y+"),("+t.x+","+t.y+"),"+b);
+			this.bestScore = s ;
+			this.bestDeplacement = new TileM(x,y);
+			this.bestTarget = new TileM(t.x, t.y);
+			this.bestSkill = b;
+		}
+	}
+
+	public int getPassiveScore(int x, int y, int[,] tempBoard){
+		int meteores = Game.instance.getIndexMeteores();
+		int passiveScore = 0;
+		CardC card = Game.instance.getCurrentCard();
+
+		if(y==0 || y==7){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*meteores));
+		}
+		if(y==1 || y==6){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-1)));
+		}
+		if(y==2 || y==5){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-2)));
+		}
+		if(y==3 || y==4){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
+		}
+
+		int distance ; 
+		CardC target ;
+		for(int i = 0 ; i < 4 ; i++){
+			target = Game.instance.getCards().getCardC(i);
+			if(!target.isDead()){
+				distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
+				if((distance-1)<=card.getMove()){
+					passiveScore+=card.getDamageScore(target, card.getAttack());
+				}
+				if((distance-1)<=target.getMove()){
+					passiveScore+=target.getDamageScore(card, target.getAttack());
+				}
+				passiveScore+=5-distance;
+			}
+		}
+
+		if(x==card.getTileM().x && y==card.getTileM().y){
+			passiveScore+=1;
+		}
+
+		return passiveScore ;
 	}
 
 	public void move(){

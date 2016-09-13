@@ -55,6 +55,8 @@ public class PhotonC : Photon.MonoBehaviour
 		this.displayLoadingScreenButton(false);
 		ApplicationModel.player.IsOnline = false ;
 		if(ApplicationModel.player.ToLaunchGameIA || !ApplicationModel.player.IsOnline){
+			ApplicationModel.player.IsFirstPlayer = true;
+			Game.instance.setFirstPlayer(true);
 			this.createIARoom();
 		}
 		else{

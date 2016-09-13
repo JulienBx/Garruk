@@ -11,6 +11,7 @@ public class FouetC : SkillC
 	}
 
 	public override void effects(int targetID, int level){
+		Debug.Log(level);
 		SoundController.instance.playSound(base.soundId);
 
 		CardC target = Game.instance.getCards().getCardC(targetID);
@@ -40,16 +41,16 @@ public class FouetC : SkillC
 	}
 
 	public int getAttackPercentage(int level){
-		if(level<=1){
+		if(level<=2){
 			return 50;
 		}
-		else if(level<=3){
+		else if(level<=4){
 			return 40;
 		}
-		else if(level<=5){
+		else if(level<=6){
 			return 30;
 		}
-		else if(level<=7){
+		else if(level<=8){
 			return 20;
 		}
 		else{
@@ -58,19 +59,19 @@ public class FouetC : SkillC
 	}
 
 	public int getAttackBonus(int level){
-		if(level<=0){
+		if(level<=1){
 			return 3;
 		}
-		else if(level<=2){
+		else if(level<=3){
 			return 4;
 		}
-		else if(level<=4){
+		else if(level<=5){
 			return 5;
 		}
-		else if(level<=6){
+		else if(level<=7){
 			return 6;
 		}
-		else if(level<=8){
+		else if(level<=9){
 			return 7;
 		}
 		else{
@@ -78,24 +79,19 @@ public class FouetC : SkillC
 		}
 	}
 
-//	public override int getActionScore(Tile t, Skill s){
-//		int score = 0 ;
-//		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
-//		GameCard currentCard = GameView.instance.getCurrentCard();
-//
-//		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
-//		if(damages>=targetCard.getLife()){
-//			score+=Mathf.RoundToInt((100f-targetCard.getEsquive())*2f+targetCard.getLife()/10f);
-//		}
-//		else{
-//			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
-//		}
-//
-//		if(currentCard.isHumaHunter() && (targetCard.CardType.Id==5 ||targetCard.CardType.Id==6)){
-//			score=0;
-//		}
-//					
-//		score = score * GameView.instance.IA.getAgressiveFactor() ;
-//		return score ;
-//	}
+	public override int getActionScore(TileM t, Skill s, int[,] board){
+		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC caster = Game.instance.getCurrentCard();
+
+		int score = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(s.Power)/100f)));
+	
+		int attackBonus = this.getAttackBonus(s.Power)*Mathf.FloorToInt(target.getLife()/10f);
+		if(target.getCardM().isMine()){
+			score+=attackBonus;
+		}
+		else{
+			score-=attackBonus;
+		}
+		return score;
+	}
 }

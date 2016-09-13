@@ -118,6 +118,8 @@ public class WordingGame
 		texts.Add(new string[]{"MALUS ATK","ATK MALUS"});
 		texts.Add(new string[]{"-ARG1 ATK","-ARG1 ATK"});
 		texts.Add(new string[]{"ATK : ARG1 -> ARG2","ATK : ARG1 -> ARG2"});
+		texts.Add(new string[]{"Pas d'allié adjacent!","No adjacent ally unit!"});
+
 
 	}
 }

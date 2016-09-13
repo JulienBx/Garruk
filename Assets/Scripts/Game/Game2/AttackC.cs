@@ -67,24 +67,11 @@ public class AttackC : SkillC
 		return text ;
 	}
 
-//	public override int getActionScore(Tile t, Skill s){
-//		int score = 0 ;
-//		GameCard targetCard = GameView.instance.getCard(GameView.instance.getTileCharacterID(t.x,t.y));
-//		GameCard currentCard = GameView.instance.getCurrentCard();
-//
-//		int damages = currentCard.getNormalDamagesAgainst(targetCard, currentCard.getAttack());
-//		if(damages>=targetCard.getLife()){
-//			score+=Mathf.RoundToInt((100f-targetCard.getEsquive())*2f+targetCard.getLife()/10f);
-//		}
-//		else{
-//			score+=Mathf.RoundToInt(((100-targetCard.getEsquive())/100f)*(damages+5-targetCard.getLife()/10f));
-//		}
-//
-//		if(currentCard.isHumaHunter() && (targetCard.CardType.Id==5 ||targetCard.CardType.Id==6)){
-//			score=0;
-//		}
-//					
-//		score = score * GameView.instance.IA.getAgressiveFactor() ;
-//		return score ;
-//	}
+	public override int getActionScore(TileM t, Skill s, int[,] board){
+		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC caster = Game.instance.getCurrentCard();
+
+		int score = caster.getDamageScore(target, caster.getAttack());
+		return score;
+	}
 }

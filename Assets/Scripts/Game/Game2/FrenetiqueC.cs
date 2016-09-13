@@ -48,19 +48,19 @@ public class FrenetiqueC : SkillC
 	}
 
 	public int getDegats(int level){
-		if(level==0){
+		if(level==1){
 			return 10;
 		}
-		else if(level<=2){
+		else if(level<=3){
 			return 9;
 		}
-		else if(level<=4){
+		else if(level<=5){
 			return 8;
 		}
-		else if(level<=6){
+		else if(level<=7){
 			return 7;
 		}
-		else if(level<=8){
+		else if(level<=9){
 			return 6;
 		}
 		else{
@@ -69,16 +69,16 @@ public class FrenetiqueC : SkillC
 	}
 
 	public int getAttackBonus(int level){
-		if(level<=1){
+		if(level<=2){
 			return 3;
 		}
-		else if(level<=3){
+		else if(level<=4){
 			return 4;
 		}
-		else if(level<=5){
+		else if(level<=6){
 			return 5;
 		}
-		else if(level<=7){
+		else if(level<=8){
 			return 6;
 		}
 		else{
