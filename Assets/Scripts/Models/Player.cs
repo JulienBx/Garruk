@@ -144,7 +144,7 @@ public class Player : User
 		this.URLSentNewEmail = ApplicationModel.host+"sent_newemail.php";
 		this.URLLinkAccount = ApplicationModel.host+"link_account.php";
 		this.URLGetPurchasingToken = ApplicationModel.host+"/payment/getToken.php";
-		this.URLSyncData = ApplicationModel.host+"/syncData.php";
+		this.URLSyncData = ApplicationModel.host+"syncData.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -512,18 +512,24 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_syncData", data);
 		form.AddField("myform_username", ApplicationModel.player.Username);
+		Debug.Log (ApplicationModel.player.Username);
 
+		ApplicationModel.player.IsOnline = true;
 		ServerController.instance.setRequest(URLSyncData, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		this.Error=ServerController.instance.getError();
-		if (this.Error != "") 
-		{
+		if (this.Error == "") {
 			ApplicationModel.player.cardsToSync = new Cards ();
 			ApplicationModel.player.decksToSync = new Decks ();
 			ApplicationModel.player.moneyToSync = 0;
 			ApplicationModel.player.selectedDeckToSync = -1;
-			string result = ServerController.instance.getResult();
+			string result = ServerController.instance.getResult ();
+			ApplicationModel.player = new Player ();
 			ApplicationModel.player.parseAll (result);
+			ApplicationModel.player.IsOnline = true;
+		} else {
+			Debug.Log (this.Error);
+			ApplicationModel.player.IsOnline = false;
 		}
 	}
 
@@ -556,8 +562,6 @@ public class Player : User
 		{
 			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
 		}
-		Debug.Log (dataToSync);
-
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", this.Username);
@@ -1079,7 +1083,6 @@ public class Player : User
 	{
 		this.SelectedDeckIndex = index;
 		this.selectedDeckToSync = index;
-		Debug.Log ("new deck =" + index);
 		ApplicationModel.Save ();
 	}
 	private void parseAll(string result)
