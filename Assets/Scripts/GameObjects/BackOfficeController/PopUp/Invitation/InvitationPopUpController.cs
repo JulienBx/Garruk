@@ -179,7 +179,7 @@ public class InvitationPopUpController : MonoBehaviour
 	{
 		SoundController.instance.playSound(8);
 		BackOfficeController.instance.displayLoadingScreen ();
-		ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+		ApplicationModel.player.setSelectedDeck (this.deckDisplayed);
         ApplicationModel.player.IsInvited=false;
         StartCoroutine(model.invitation.changeStatus(2));
 		yield break;

@@ -1909,7 +1909,7 @@ public class newMyGameController : MonoBehaviour
 				ApplicationModel.player.HasDeck = isDeckCompleted;
 				if(isDeckCompleted)
 				{
-					ApplicationModel.player.SelectedDeckIndex =this.deckDisplayed;
+					ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 				}
 				HelpController.instance.tutorialTrackPoint();
 			}

@@ -103,7 +103,6 @@ public class Save {
 	{
 		string data = "";
 		player.cardsToSync.setString ();
-		Debug.Log(player.decksToSync.getCount());
 		player.decksToSync.setString ();
 		data += player.cardsToSync.String+"DATAEND";
 		data += player.decksToSync.String + "DATAEND";
