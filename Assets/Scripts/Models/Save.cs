@@ -105,10 +105,10 @@ public class Save {
 		player.cardsToSync.setString ();
 		Debug.Log(player.decksToSync.getCount());
 		player.decksToSync.setString ();
-		player.moneyToSync.ToString ();
 		data += player.cardsToSync.String+"DATAEND";
 		data += player.decksToSync.String + "DATAEND";
 		data += player.moneyToSync.ToString () + "DATAEND";
+		data += player.selectedDeckToSync.ToString () + "DATAEND";
 
 		return data;
 	}

@@ -124,7 +124,7 @@ public class AdminBoardModel
 		else
 		{
 			Debug.Log(ServerController.instance.getError());
-			ServerController.instance.lostConnection();	
+			//ServerController.instance.lostConnection();	
 		}
 	}
 }

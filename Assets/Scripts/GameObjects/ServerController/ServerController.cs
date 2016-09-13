@@ -83,9 +83,5 @@ public class ServerController : MonoBehaviour
 	{
 		return this.isServerError;
 	}
-	public void lostConnection()
-	{
-		BackOfficeController.instance.toDisconnect();
-	}
 }
 

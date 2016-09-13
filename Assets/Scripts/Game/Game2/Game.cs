@@ -1244,7 +1244,7 @@ public class Game : MonoBehaviour
         if(ServerController.instance.getError()!="")
         {
             Debug.Log(ServerController.instance.getError());
-            ServerController.instance.lostConnection();
+            //ServerController.instance.lostConnection();
         }
 	}
 
