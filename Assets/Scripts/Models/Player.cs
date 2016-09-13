@@ -498,6 +498,34 @@ public class Player : User
 			}
 		}
 	}
+	public IEnumerator syncData()
+	{
+		string data = "";
+		this.cardsToSync.setString ();
+		this.decksToSync.setString ();
+		data += this.cardsToSync.String+"DATAEND";
+		data += this.decksToSync.String + "DATAEND";
+		data += this.moneyToSync.ToString() + "DATAEND";
+		data += this.selectedDeckToSync.ToString () + "DATAEND";
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_syncData", data);
+		form.AddField("myform_username", ApplicationModel.player.Username);
+
+		ServerController.instance.setRequest(URLSyncData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+		if (this.Error != "") 
+		{
+			ApplicationModel.player.cardsToSync = new Cards ();
+			ApplicationModel.player.decksToSync = new Decks ();
+			ApplicationModel.player.moneyToSync = 0;
+			ApplicationModel.player.selectedDeckToSync = -1;
+			string result = ServerController.instance.getResult();
+			ApplicationModel.player.parseAll (result);
+		}
+	}
 
 	#region AUTHENTICATION
 
@@ -572,148 +600,12 @@ public class Player : User
 			{
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
-				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
-				string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+				this.parseAll (result);
 
-				this.parsePlayerInformations(gameData[0]);
-				if(gameData[12]!="")
-				{
-					this.Users.parseUsers(gameData[12]);
-				}
-				if(gameData[1]!="")
-				{
-					this.MyCards.parseCards(gameData[1]);
-				}
-				if(gameData[2]!="")
-				{
-					this.MyDecks.parseDecks(gameData[2]);
-					this.retrieveCardsDeck();
-				}
-				if(gameData[3]!="")
-				{
-					this.MyNotifications.parseNotifications(gameData[3],this);
-					this.MyNotifications.lookForNonReadNotification();
-				}
-				if(gameData[4]!="")
-				{
-					this.MyFriends=this.parseFriends(gameData[4]);
-				}
-				if(gameData[5]!="")
-				{
-					this.MyConnections.parseConnections(gameData[5],this);
-				}
-				if(gameData[6]!="")
-				{
-					this.MyNews.parseNews(gameData[6],this);
-					this.MyNews.filterNews(this.Id);
-				}
-				if(gameData[7]!="")
-				{
-					this.MyTrophies.parseTrophies(gameData[7]);
-				}
-				if(gameData[8]!="")
-				{
-					this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
-				}
-				if(gameData[9]!="")
-				{
-					this.MyDivision=this.parseDivision(gameData[9]);
-				}
-                if(gameData[10]!="")
-                {
-                   this.parseCardTypesAllowed(gameData[10]);
-                }
-                if(gameData[11]!="")
-                {
-					this.MyCardsOnMarket.parseCards(gameData[11]);
-                }
-				if(gameData[13]!="")
-				{
-					ApplicationModel.packs=new Packs();
-					ApplicationModel.packs.parsePacks(gameData[13]);
-				}
-				if(gameData[14]!="")
-				{
-					ApplicationModel.products=new DisplayedProducts();
-					ApplicationModel.products.parseProducts(gameData[14]);
-				}
-                if(gameData[15]!="")
-                {
-                	ApplicationModel.skillTypes=new SkillTypes();
-                    ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
-                }
-                if(gameData[16]!="")
-                {
-                	ApplicationModel.cardTypes=new CardTypes();
-                    ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
-                }
-                if(gameData[17]!="")
-                {
-                	ApplicationModel.skills=new Skills();
-                    ApplicationModel.skills.parseSkills(gameData[17]);
-                    this.retrieveMySkills();
-                }
-                if(gameData[18]!="")
-                {
-					ApplicationModel.xpLevels=new List<int>();
-                	ApplicationModel.parseXpLevels(gameData[18]);
-                }
-				if(gameData[19]!="")
-				{
-					ApplicationModel.divisions=new Divisions();
-					ApplicationModel.divisions.parseDivisions(gameData[19]);
-				}
-				if(gameData[20]!="")
-				{
-					ApplicationModel.friendlyGameEarnXp_W=System.Convert.ToInt32(gameData[20]);
-				}
-				if(gameData[21]!="")
-				{
-					ApplicationModel.friendlyGameEarnXp_L=System.Convert.ToInt32(gameData[21]);
-				}
-				if(gameData[22]!="")
-				{
-					ApplicationModel.friendlyGameEarnCredits_W=System.Convert.ToInt32(gameData[22]);
-				}
-				if(gameData[23]!="")
-				{
-					ApplicationModel.friendlyGameEarnCredits_L=System.Convert.ToInt32(gameData[23]);
-				}
-				if(gameData[24]!="")
-				{
-					ApplicationModel.trainingGameEarnXp_W=System.Convert.ToInt32(gameData[24]);
-				}
-				if(gameData[25]!="")
-				{
-					ApplicationModel.trainingGameEarnXp_L=System.Convert.ToInt32(gameData[25]);
-				}
-				if(gameData[26]!="")
-				{
-					ApplicationModel.trainingGameEarnCredits_W=System.Convert.ToInt32(gameData[26]);
-				}
-				if(gameData[27]!="")
-				{
-					ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
-				}
-//				if(System.Convert.ToInt32(data[2])!=-1)
-//                {
-//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-//                    this.HasLostConnectionDuringGame=true;
-//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
-//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
-//                    ApplicationModel.player.MyDeck=new Deck();
-//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-//                    {
-//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-//                    }
-//                }
 				ApplicationModel.player.cardsToSync = new Cards ();
 				ApplicationModel.player.decksToSync = new Decks ();
 				ApplicationModel.player.moneyToSync = 0;
+				ApplicationModel.player.selectedDeckToSync = -1;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
@@ -1183,32 +1075,6 @@ public class Player : User
 			this.MyCards.cards.Insert(0,tempCard);
     	}
     }
-	public IEnumerator syncData()
-	{
-		string data = "";
-		this.cardsToSync.setString ();
-		this.decksToSync.setString ();
-		data += this.cardsToSync.String+"DATAEND";
-		data += this.decksToSync.String + "DATAEND";
-		data += this.moneyToSync.ToString() + "DATAEND";
-		data += this.selectedDeckToSync.ToString () + "DATAEND";
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_syncData", data);
-		form.AddField("myform_username", ApplicationModel.player.Username);
-
-		ServerController.instance.setRequest(URLSyncData, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-		if (this.Error != "") 
-		{
-			this.cardsToSync = new Cards ();
-			this.decksToSync = new Decks ();
-			this.moneyToSync = 0;
-			this.selectedDeckToSync = -1;
-		}
-	}
 	public void setSelectedDeck(int index)
 	{
 		this.SelectedDeckIndex = index;
@@ -1216,6 +1082,150 @@ public class Player : User
 		Debug.Log ("new deck =" + index);
 		ApplicationModel.Save ();
 	}
+	private void parseAll(string result)
+	{
+		string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
+		string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+
+		this.parsePlayerInformations(gameData[0]);
+		if(gameData[12]!="")
+		{
+			this.Users.parseUsers(gameData[12]);
+		}
+		if(gameData[1]!="")
+		{
+			this.MyCards.parseCards(gameData[1]);
+		}
+		if(gameData[2]!="")
+		{
+			this.MyDecks.parseDecks(gameData[2]);
+			this.retrieveCardsDeck();
+		}
+		if(gameData[3]!="")
+		{
+			this.MyNotifications.parseNotifications(gameData[3],this);
+			this.MyNotifications.lookForNonReadNotification();
+		}
+		if(gameData[4]!="")
+		{
+			this.MyFriends=this.parseFriends(gameData[4]);
+		}
+		if(gameData[5]!="")
+		{
+			this.MyConnections.parseConnections(gameData[5],this);
+		}
+		if(gameData[6]!="")
+		{
+			this.MyNews.parseNews(gameData[6],this);
+			this.MyNews.filterNews(this.Id);
+		}
+		if(gameData[7]!="")
+		{
+			this.MyTrophies.parseTrophies(gameData[7]);
+		}
+		if(gameData[8]!="")
+		{
+			this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
+		}
+		if(gameData[9]!="")
+		{
+			this.MyDivision=this.parseDivision(gameData[9]);
+		}
+		if(gameData[10]!="")
+		{
+			this.parseCardTypesAllowed(gameData[10]);
+		}
+		if(gameData[11]!="")
+		{
+			this.MyCardsOnMarket.parseCards(gameData[11]);
+		}
+		if(gameData[13]!="")
+		{
+			ApplicationModel.packs=new Packs();
+			ApplicationModel.packs.parsePacks(gameData[13]);
+		}
+		if(gameData[14]!="")
+		{
+			ApplicationModel.products=new DisplayedProducts();
+			ApplicationModel.products.parseProducts(gameData[14]);
+		}
+		if(gameData[15]!="")
+		{
+			ApplicationModel.skillTypes=new SkillTypes();
+			ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
+		}
+		if(gameData[16]!="")
+		{
+			ApplicationModel.cardTypes=new CardTypes();
+			ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
+		}
+		if(gameData[17]!="")
+		{
+			ApplicationModel.skills=new Skills();
+			ApplicationModel.skills.parseSkills(gameData[17]);
+			this.retrieveMySkills();
+		}
+		if(gameData[18]!="")
+		{
+			ApplicationModel.xpLevels=new List<int>();
+			ApplicationModel.parseXpLevels(gameData[18]);
+		}
+		if(gameData[19]!="")
+		{
+			ApplicationModel.divisions=new Divisions();
+			ApplicationModel.divisions.parseDivisions(gameData[19]);
+		}
+		if(gameData[20]!="")
+		{
+			ApplicationModel.friendlyGameEarnXp_W=System.Convert.ToInt32(gameData[20]);
+		}
+		if(gameData[21]!="")
+		{
+			ApplicationModel.friendlyGameEarnXp_L=System.Convert.ToInt32(gameData[21]);
+		}
+		if(gameData[22]!="")
+		{
+			ApplicationModel.friendlyGameEarnCredits_W=System.Convert.ToInt32(gameData[22]);
+		}
+		if(gameData[23]!="")
+		{
+			ApplicationModel.friendlyGameEarnCredits_L=System.Convert.ToInt32(gameData[23]);
+		}
+		if(gameData[24]!="")
+		{
+			ApplicationModel.trainingGameEarnXp_W=System.Convert.ToInt32(gameData[24]);
+		}
+		if(gameData[25]!="")
+		{
+			ApplicationModel.trainingGameEarnXp_L=System.Convert.ToInt32(gameData[25]);
+		}
+		if(gameData[26]!="")
+		{
+			ApplicationModel.trainingGameEarnCredits_W=System.Convert.ToInt32(gameData[26]);
+		}
+		if(gameData[27]!="")
+		{
+			ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
+		}
+		//				if(System.Convert.ToInt32(data[2])!=-1)
+		//                {
+		//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+		//                    this.HasLostConnectionDuringGame=true;
+		//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+		//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
+		//                    ApplicationModel.player.MyDeck=new Deck();
+		//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+		//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+		//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+		//                    {
+		//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+		//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+		//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+		//                    }
+		//                }
+	}
+
+
 }
 
 
