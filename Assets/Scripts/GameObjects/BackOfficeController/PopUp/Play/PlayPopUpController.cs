@@ -213,10 +213,11 @@ public class PlayPopUpController : MonoBehaviour
 		} 
 		else if (!BackOfficeController.instance.isOnline ()) 
 		{
+			BackOfficeController.instance.displayOfflineModePopUp (3);
+			BackOfficeController.instance.hidePlayPopUp ();
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{
-			
 			ApplicationModel.player.ChosenGameType=10+ApplicationModel.player.MyDivision.Id;
 			StartCoroutine (this.joinGame ());
 		}
@@ -236,9 +237,18 @@ public class PlayPopUpController : MonoBehaviour
 		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
+		if (ApplicationModel.player.IsOnline) 
+		{
+			yield return ApplicationModel.player.syncData ();
+		}
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
-            BackOfficeController.instance.loadScene("NewLobby");
+			if (ApplicationModel.player.IsOnline) {
+				BackOfficeController.instance.loadScene ("NewLobby");
+			} else {
+				BackOfficeController.instance.displayOfflineModePopUp (3);
+
+			}
 		}
 		else
 		{

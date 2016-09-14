@@ -104,7 +104,8 @@ public class Player : User
 	public Cards cardsToSync;
 	public Decks decksToSync;
 	public int moneyToSync;
-	public int selectedDeckToSync;
+	public bool toSyncSelectedDeck;
+	public bool toSyncTutorialStep;
   
 	public Player()
 	{
@@ -165,7 +166,6 @@ public class Player : User
 		this.cardsToSync = new Cards ();
 		this.decksToSync = new Decks ();
 		this.moneyToSync = 0;
-		this.selectedDeckToSync = -1;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -506,7 +506,11 @@ public class Player : User
 		data += this.cardsToSync.String+"DATAEND";
 		data += this.decksToSync.String + "DATAEND";
 		data += this.moneyToSync.ToString() + "DATAEND";
-		data += this.selectedDeckToSync.ToString () + "DATAEND";
+		data += this.SelectedDeckIndex.ToString() + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncSelectedDeck).ToString () + "DATAEND";
+		data += this.TutorialStep.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncTutorialStep).ToString () + "DATAEND";
+
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -522,7 +526,8 @@ public class Player : User
 			ApplicationModel.player.cardsToSync = new Cards ();
 			ApplicationModel.player.decksToSync = new Decks ();
 			ApplicationModel.player.moneyToSync = 0;
-			ApplicationModel.player.selectedDeckToSync = -1;
+			ApplicationModel.player.toSyncSelectedDeck = false;
+			ApplicationModel.player.toSyncTutorialStep = false;
 			string result = ServerController.instance.getResult ();
 			ApplicationModel.player = new Player ();
 			ApplicationModel.player.parseAll (result);
@@ -557,7 +562,7 @@ public class Player : User
 			autoConnectString="0";
 		}
 
-		string dataToSync = "DATAENDDATAENDDATAEND-1DATAEND";
+		string dataToSync = "NONE";
 		if (ApplicationModel.savedGame!=null && this.Username == ApplicationModel.savedGame.player.Username) 
 		{
 			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
@@ -609,7 +614,8 @@ public class Player : User
 				ApplicationModel.player.cardsToSync = new Cards ();
 				ApplicationModel.player.decksToSync = new Decks ();
 				ApplicationModel.player.moneyToSync = 0;
-				ApplicationModel.player.selectedDeckToSync = -1;
+				ApplicationModel.player.toSyncSelectedDeck = false;
+				ApplicationModel.player.toSyncTutorialStep = false;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
@@ -1082,7 +1088,7 @@ public class Player : User
 	public void setSelectedDeck(int index)
 	{
 		this.SelectedDeckIndex = index;
-		this.selectedDeckToSync = index;
+		this.toSyncSelectedDeck = true;
 		ApplicationModel.Save ();
 	}
 	private void parseAll(string result)

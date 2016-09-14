@@ -31,8 +31,8 @@ public class ServerController : MonoBehaviour
 	}
 	public void switchOffline()
 	{
-		StopCoroutine(this.executeRequest());
 		ApplicationModel.player.IsOnline=false;
+		StopCoroutine(this.executeRequest());
 	}
 	public void initialize()
 	{

@@ -107,7 +107,10 @@ public class Save {
 		data += player.cardsToSync.String+"DATAEND";
 		data += player.decksToSync.String + "DATAEND";
 		data += player.moneyToSync.ToString () + "DATAEND";
-		data += player.selectedDeckToSync.ToString () + "DATAEND";
+		data += player.SelectedDeckIndex.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncSelectedDeck).ToString () + "DATAEND";
+		data += player.TutorialStep.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncTutorialStep).ToString () + "DATAEND";
 
 		return data;
 	}
