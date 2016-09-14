@@ -186,10 +186,10 @@ public class SkillButtonC : MonoBehaviour
 
 	public void update(){
 		if(this.id==0){
-			this.targets = Game.instance.getSkills().skills[0].getTargetTiles(Game.instance.getBoard().getCurrentBoard(), this.card);
+			this.targets = Game.instance.getSkills().skills[0].getTargetTiles(Game.instance.getBoard().getCurrentBoard(), this.card, this.card.getTileM());
 		}
 		else{
-			this.targets = Game.instance.getSkills().skills[this.card.getCardM().getSkill(this.id).Id].getTargetTiles(Game.instance.getBoard().getCurrentBoard(), this.card);
+			this.targets = Game.instance.getSkills().skills[this.card.getCardM().getSkill(this.id).Id].getTargetTiles(Game.instance.getBoard().getCurrentBoard(), this.card, this.card.getTileM());
 		}
 
 		if(this.targets.Count==0){
@@ -211,7 +211,13 @@ public class SkillButtonC : MonoBehaviour
 	}
 
 	public void getTargetText(int targetId){
-		string s = this.skillC.getSkillText(targetId, this.skill.Power);
+		string s = "";
+		if(this.id==0){
+			s = this.skillC.getSkillText(targetId, 0);
+		}
+		else{
+			s = this.skillC.getSkillText(targetId, this.skill.Power);
+		}
 		this.setSkillText(s);
 	}
 

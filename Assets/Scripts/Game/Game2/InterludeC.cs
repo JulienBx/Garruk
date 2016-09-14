@@ -8,7 +8,7 @@ public class InterludeC : MonoBehaviour
 	public Sprite[] bandSprites ;
 
 	float timer ;
-	float time = 0.60f;
+	float time = 0.50f;
 	bool displaying;
 	int type ;
 

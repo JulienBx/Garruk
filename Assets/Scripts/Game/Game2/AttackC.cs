@@ -19,33 +19,37 @@ public class AttackC : SkillC
 			if(UnityEngine.Random.Range(0,101)<=target.getEsquive()){
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
 					Game.instance.getSkills().skills[this.id].dodge(targetID);
+					Game.instance.getSkills().skills[this.id].playDodgeSound();
 				}
 				else{
 					GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID);
+					GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id);
 				}
 			}
 			else{
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
 					Game.instance.getSkills().skills[this.id].effects(targetID);
+					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
 					GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID);
+					GameRPC.instance.launchRPC("PlaySoundRPC", this.id);
 				}
 			}
 		}
 		else{
 			if(Game.instance.isIA() || Game.instance.isTutorial()){
 				Game.instance.getSkills().skills[this.id].fail();
+				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
 				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
+				GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id);
 			}
 		}
 	}
 
 	public override void effects(int targetID){
-		SoundController.instance.playSound(base.soundId);
-
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
@@ -72,6 +76,8 @@ public class AttackC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 
 		int score = caster.getDamageScore(target, caster.getAttack());
+		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
+
 		return score;
 	}
 }

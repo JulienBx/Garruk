@@ -185,6 +185,27 @@ public class GameRPC : Photon.MonoBehaviour
 	}
 
 	[PunRPC]
+	void PlaySoundRPC(int x, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].playSound();
+	}
+
+	[PunRPC]
+	void PlayFailSoundRPC(int x, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].playFailSound();
+	}
+
+	[PunRPC]
+	void PlayDodgeSoundRPC(int x, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].playDodgeSound();
+	}
+
+	[PunRPC]
 	void lostRPC(bool b, bool isFirstP)
 	{
 		this.updateRPCCompteurs(isFirstP);

@@ -954,7 +954,9 @@ public class CardC : MonoBehaviour
 		if(degats==target.getLife()){
 			degats = 100+target.getLife()+target.getAttack();
 		}
-
+		else{
+			degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+		}
 		if(!target.getCardM().isMine()){
 			degats = -1*degats;
 		}

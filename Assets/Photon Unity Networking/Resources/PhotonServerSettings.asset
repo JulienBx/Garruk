@@ -168,4 +168,7 @@ MonoBehaviour:
   - sendEsquiveShurikenRPC
   - sendShurikenRPC
   - startGameRPC
+  - PlayDodgeSoundRPC
+  - PlayFailSoundRPC
+  - PlaySoundRPC
   DisableAutoOpenWizard: 0

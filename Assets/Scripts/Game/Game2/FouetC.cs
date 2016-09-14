@@ -11,9 +11,6 @@ public class FouetC : SkillC
 	}
 
 	public override void effects(int targetID, int level){
-		Debug.Log(level);
-		SoundController.instance.playSound(base.soundId);
-
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
@@ -92,6 +89,9 @@ public class FouetC : SkillC
 		else{
 			score-=attackBonus;
 		}
+
+		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
+
 		return score;
 	}
 }

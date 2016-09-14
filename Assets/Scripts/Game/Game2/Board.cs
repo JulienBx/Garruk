@@ -114,8 +114,8 @@ public class Board
 		return tile;
 	}
 
-	public List<TileM> getAdjacentOpponentsTargets(int[,] board, CardC card){
-		List<TileM> neighbourTiles = this.getTileNeighbours(card.getTileM());
+	public List<TileM> getAdjacentOpponentsTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
 		List<TileM> cibles = new List<TileM>();
 		int playerID;
 
@@ -134,8 +134,8 @@ public class Board
 		return cibles;
 	}
 
-	public List<TileM> getAdjacentAllysTargets(int[,] board, CardC card){
-		List<TileM> neighbourTiles = this.getTileNeighbours(card.getTileM());
+	public List<TileM> getAdjacentAllysTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
 		List<TileM> cibles = new List<TileM>();
 		int playerID;
 

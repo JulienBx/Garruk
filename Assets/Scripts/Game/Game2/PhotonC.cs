@@ -14,7 +14,7 @@ public class PhotonC : Photon.MonoBehaviour
 	public static PhotonC instance;
 	float waitingTime;
 	public bool isWaiting;
-	float timeLimit=2f;
+	float timeLimit=10f;
 	bool reconnecting ;
 
 	bool isQuittingGame ;
@@ -53,7 +53,6 @@ public class PhotonC : Photon.MonoBehaviour
 	public void findRoom(){
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
 		this.displayLoadingScreenButton(false);
-		ApplicationModel.player.IsOnline = false ;
 		if(ApplicationModel.player.ToLaunchGameIA || !ApplicationModel.player.IsOnline){
 			ApplicationModel.player.IsFirstPlayer = true;
 			Game.instance.setFirstPlayer(true);
@@ -194,17 +193,18 @@ public class PhotonC : Photon.MonoBehaviour
     }
 
     public void addPlayer(string s){
+    	print("J'add "+s);
 	    if(!s.Equals(ApplicationModel.player.Username)){
 	    	this.isWaiting = false ;
 			if(Game.instance.isFirstPlayer()){
 				PhotonNetwork.room.visible = false;
 				this.closeAndStart();
 	    	}
+			this.displayLoadingScreenButton(false);
 	    }
     }
 
     public void closeAndStart(){
-		this.displayLoadingScreenButton(false);
 		if(Game.instance.isIA() || Game.instance.isTutorial()){
 			Game.instance.createBackground();
 		}

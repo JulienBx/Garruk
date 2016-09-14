@@ -289,7 +289,7 @@ public class Game : MonoBehaviour
 				this.createCards();
 			}
 			else{
-				//StartCoroutine(GameRPC.instance.launchRPC("createCardsRPC"));
+				StartCoroutine(GameRPC.instance.launchRPC("createCardsRPC"));
 				//GameRPC.instance.sendMyDeckID();
 			}
 		}
@@ -685,7 +685,7 @@ public class Game : MonoBehaviour
 	public void dropSBOnTile(int x, int y){
 		if(this.getBoard().getTileC(x,y).isTarget()){
 			this.getCurrentCard().play(true);
-			this.useSkill(x,y, draggingSBID);
+			this.getSkillButton(draggingSBID).getSkillC().resolve(x,y,this.getSkillButton(draggingSBID).getSkill());
 		}
 		else{
 			if(this.getBoard().getTileC(x,y).getCharacterID()==-1){
@@ -696,11 +696,6 @@ public class Game : MonoBehaviour
 			}
 		}
 		this.dropSBOutsideBoard();
-	}
-
-	public void useSkill(int x, int y, int id){
-		
-		this.getSkillButton(id).getSkillC().resolve(x,y,this.getSkillButton(id).getSkill());
 	}
 
 	public void moveOn(int x, int y, int i){
@@ -733,7 +728,9 @@ public class Game : MonoBehaviour
 
 		if(this.currentCardID!=-1){
 			this.loadDestinations();
-			this.actuController();
+			if(this.getCurrentCard().getCardM().isMine()){
+				this.actuController();
+			}
 		}
 	}
 
@@ -749,10 +746,11 @@ public class Game : MonoBehaviour
 	}
 
 	public void dropSBOutsideBoard(){
+		this.getSkillButton(this.draggingSBID).showDescription(false);
 		this.getSkillButton(this.draggingSBID).startMove(this.getSkillButton(this.draggingSBID).getPosition(), this.getSkillButton(this.draggingSBID).getInitialPosition());
 		this.getBoard().stopTargets(this.getCurrentSkillButtonC().getTargets());
-		this.actuController();
 		this.draggingSBID = -1;
+		this.actuController();
 	}
 
 	public void endMove(){
@@ -1264,7 +1262,9 @@ public class Game : MonoBehaviour
 		if(this.getHisHoveredCard().getCurrentCard()==i){
 			this.getHisHoveredCard().setCard(i);
 		}
-		this.actuController();
+		if(this.getCurrentCard().getCardM().isMine()){
+			this.actuController();
+		}
 	}
 
 	public int getIndexMeteores(){

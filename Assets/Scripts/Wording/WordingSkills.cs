@@ -400,15 +400,15 @@ public class WordingSkills
 		//17 - Attaque 360
 		idSkills.Add(17);
 		names.Add(new string[]{"Attaque 360","Attack 360"}); 
-		descriptions.Add(new string[]{"Inflige 055%ATK dégats aux unités adjacentes","Inflicts 055%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 028%ATK dégats aux unités adjacentes","Inflicts 028%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 036%ATK dégats aux unités adjacentes","Inflicts 036%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 044%ATK dégats aux unités adjacentes","Inflicts 044%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 052%ATK dégats aux unités adjacentes","Inflicts 052%ATK damage points to every adjacent unit"}); 
 		descriptions.Add(new string[]{"Inflige 060%ATK dégats aux unités adjacentes","Inflicts 060%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 065%ATK dégats aux unités adjacentes","Inflicts 065%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 070%ATK dégats aux unités adjacentes","Inflicts 070%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 075%ATK dégats aux unités adjacentes","Inflicts 075%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 080%ATK dégats aux unités adjacentes","Inflicts 080%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 085%ATK dégats aux unités adjacentes","Inflicts 085%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 090%ATK dégats aux unités adjacentes","Inflicts 090%ATK damage points to every adjacent unit"}); 
-		descriptions.Add(new string[]{"Inflige 095%ATK dégats aux unités adjacentes","Inflicts 095%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 068%ATK dégats aux unités adjacentes","Inflicts 068%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 076%ATK dégats aux unités adjacentes","Inflicts 076%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 084%ATK dégats aux unités adjacentes","Inflicts 084%ATK damage points to every adjacent unit"}); 
+		descriptions.Add(new string[]{"Inflige 092%ATK dégats aux unités adjacentes","Inflicts 092%ATK damage points to every adjacent unit"}); 
 		descriptions.Add(new string[]{"Inflige 100%ATK dégats aux unités adjacentes","Inflicts 100%ATK damage points to every adjacent unit"}); 
 		probas.Add(100); 
 		probas.Add(100); 
