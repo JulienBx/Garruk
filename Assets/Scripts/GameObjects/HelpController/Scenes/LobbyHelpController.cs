@@ -75,7 +75,7 @@ public class LobbyHelpController : HelpController
 		} 
 		else 
 		{
-			StartCoroutine (NewLobbyController.instance.endHelp ());
+			NewLobbyController.instance.endHelp ();
 			if (ApplicationDesignRules.isMobileScreen) {
 				NewLobbyController.instance.slideRight ();
 			}

@@ -23,9 +23,20 @@ public class OfflineModeBackOfficePopUpController : MonoBehaviour
 	public void reconnectHandler()
 	{
 		SoundController.instance.playSound(8);
+		StartCoroutine (this.reconnect ());
+	}
+	public IEnumerator reconnect()
+	{
+		BackOfficeController.instance.displayLoadingScreen ();
+		yield return StartCoroutine (ApplicationModel.player.syncData ());
+		BackOfficeController.instance.hideLoadingScreen ();
+		if (ApplicationModel.player.IsOnline) {
+			MenuController.instance.refreshMenuObject ();
+			PhotonController.instance.connectToPhoton ();	
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
 		BackOfficeController.instance.hideOfflineModePopUp ();
-		PhotonController.instance.connectToPhoton ();
-	
 	}
 	public void exitPopUp()
 	{

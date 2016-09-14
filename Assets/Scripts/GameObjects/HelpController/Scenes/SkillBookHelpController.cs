@@ -81,7 +81,7 @@ public class SkillBookHelpController : HelpController
 			{
 				NewSkillBookController.instance.slideLeft();
 			}
-			StartCoroutine (NewSkillBookController.instance.endHelp ());
+			NewSkillBookController.instance.endHelp ();
 			this.quitHelp ();
 		}
 	}

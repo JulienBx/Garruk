@@ -107,7 +107,20 @@ public class Save {
 		data += player.cardsToSync.String+"DATAEND";
 		data += player.decksToSync.String + "DATAEND";
 		data += player.moneyToSync.ToString () + "DATAEND";
-		data += player.selectedDeckToSync.ToString () + "DATAEND";
+		data += player.SelectedDeckIndex.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncSelectedDeck).ToString () + "DATAEND";
+		data += player.TutorialStep.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncTutorialStep).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.MarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncMarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.ProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.LobbyHelp).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncLobbyTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.SkillBookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncSkillbookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.NextLevelTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncNextLevelTutorial).ToString () + "DATAEND";
 
 		return data;
 	}

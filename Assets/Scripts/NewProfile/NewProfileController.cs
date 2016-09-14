@@ -2347,12 +2347,12 @@ public class NewProfileController : MonoBehaviour
 	{
 		return this.isMyProfile;
 	}
-	public IEnumerator endHelp()
+	public void endHelp()
 	{
 		if(!ApplicationModel.player.ProfileTutorial)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setProfileTutorial(true));
+			ApplicationModel.player.setProfileTutorial(true);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}

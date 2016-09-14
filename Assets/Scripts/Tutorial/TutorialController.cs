@@ -52,7 +52,7 @@ public class TutorialController : MonoBehaviour
 	}
 	private void quitTutorial()
 	{
-		StartCoroutine(BackOfficeController.instance.joinTutorialGame());
+		BackOfficeController.instance.joinTutorialGame();
 	}
 	public void resize()
 	{

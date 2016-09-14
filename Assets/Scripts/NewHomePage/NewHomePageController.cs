@@ -1593,7 +1593,7 @@ public class NewHomePageController : MonoBehaviour
 		} 
 		else if (!BackOfficeController.instance.isOnline ()) 
 		{
-			BackOfficeController.instance.hidePlayPopUp ();
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
 		else if(ApplicationModel.player.TrainingStatus==-1)
 		{
@@ -1614,9 +1614,18 @@ public class NewHomePageController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
+		if (ApplicationModel.player.IsOnline) 
+		{
+			yield return ApplicationModel.player.syncData ();
+		}
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
-            BackOfficeController.instance.loadScene("NewLobby");
+			if (ApplicationModel.player.IsOnline) {
+				BackOfficeController.instance.loadScene ("NewLobby");
+			} else {
+				BackOfficeController.instance.displayOfflineModePopUp (3);
+
+			}
 		}
 		else
 		{

@@ -98,7 +98,7 @@ public class MarketHelpController : HelpController
 			{
 				NewMarketController.instance.slideLeft();
 			}
-			StartCoroutine (NewMarketController.instance.endHelp ());
+			NewMarketController.instance.endHelp ();
 			this.quitHelp ();
 		}
 	}

@@ -1844,12 +1844,12 @@ public class NewMarketController : MonoBehaviour
 	{
 		return this.focusedCard;
 	}
-	public IEnumerator endHelp()
+	public void endHelp()
 	{
 		if(!ApplicationModel.player.MarketTutorial)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setMarketTutorial(true));
+			ApplicationModel.player.setMarketTutorial(true);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}

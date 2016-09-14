@@ -683,10 +683,10 @@ public class BackOfficeController : MonoBehaviour
 //		invitation.Id = ApplicationModel.player.ChosenGameType-20;
 //		StartCoroutine(invitation.changeStatus(-1));
 //	}
-	public IEnumerator joinTutorialGame()
+	public void joinTutorialGame()
 	{
 		BackOfficeController.instance.displayLoadingScreen();
-		yield return StartCoroutine(ApplicationModel.player.setTutorialStep (1));
+		ApplicationModel.player.setTutorialStep (1);
 		ApplicationModel.player.ToLaunchGameTutorial=true;
 		ApplicationModel.player.ChosenGameType=-1;
 		BackOfficeController.instance.joinRandomRoomHandler();

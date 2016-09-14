@@ -1181,12 +1181,12 @@ public class Game : MonoBehaviour
             if(hasFirstPlayerLost==this.firstPlayer)
 			{
                 ApplicationModel.player.HasWonLastGame=false;
-                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
+				ApplicationModel.player.setTutorialStep (3);
 			}
 			else
 			{
                 ApplicationModel.player.HasWonLastGame=true;
-                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
+				ApplicationModel.player.setTutorialStep (2);
 			}
 		}
 		else
@@ -1202,6 +1202,7 @@ public class Game : MonoBehaviour
             }
             yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
 		}
+		yield break;
 	}
 
 	public int getPercentageTotalDamages(){

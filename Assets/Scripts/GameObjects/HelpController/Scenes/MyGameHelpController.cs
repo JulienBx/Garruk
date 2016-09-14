@@ -137,7 +137,7 @@ public class MyGameHelpController : HelpController
 			}
 			else if(this.sequenceId ==9)
 			{
-				StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
+				ApplicationModel.player.setTutorialStep(-1);
 				this.quitTutorial();
 			} 
 			else if(this.sequenceId >3)

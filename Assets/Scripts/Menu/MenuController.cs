@@ -393,9 +393,7 @@ public class MenuController : MonoBehaviour
 	}
 	public void noNetworkLink() 
 	{
-		if (HelpController.instance.canAccess (-1)) {
-			BackOfficeController.instance.displayOfflineModePopUp(2);
-		}
+		BackOfficeController.instance.displayOfflineModePopUp(2);
 	}
 	public void changeThumbPicture()
 	{

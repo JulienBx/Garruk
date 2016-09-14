@@ -13,12 +13,6 @@ public class Player : User
 	private string URLPayMoney;
 	private string URLSelectedDeck;
 	private string URLCleanCards;
-	private string URLSetTutorialStep;
-	private string URLSetMarketTutorial;
-	private string URLSetProfileTutorial;
-	private string URLSetSkillBookTutorial;
-	private string URLSetNextLevelTutorial;
-	private string URLSetLobbyTutorial;
 	private string URLUpdateEndGameData;
 	private string URLSetProfilePicture;
 	private string URLCheckPassword;
@@ -104,7 +98,13 @@ public class Player : User
 	public Cards cardsToSync;
 	public Decks decksToSync;
 	public int moneyToSync;
-	public int selectedDeckToSync;
+	public bool toSyncSelectedDeck;
+	public bool toSyncTutorialStep;
+	public bool toSyncMarketTutorial;
+	public bool toSyncProfileTutorial;
+	public bool toSyncLobbyTutorial;
+	public bool toSyncSkillbookTutorial;
+	public bool toSyncNextLevelTutorial;
   
 	public Player()
 	{
@@ -126,12 +126,6 @@ public class Player : User
 		this.URLPayMoney = ApplicationModel.host + "pay_money.php";
 		this.URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 		this.URLCleanCards = ApplicationModel.host + "clean_cards.php";
-		this.URLSetTutorialStep = ApplicationModel.host + "set_tutorialstep.php";
-		this.URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
-		this.URLSetProfileTutorial = ApplicationModel.host + "set_profileTutorial.php";
-		this.URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
-		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
-		this.URLSetNextLevelTutorial = ApplicationModel.host + "set_nextLevelTutorial.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
@@ -144,7 +138,7 @@ public class Player : User
 		this.URLSentNewEmail = ApplicationModel.host+"sent_newemail.php";
 		this.URLLinkAccount = ApplicationModel.host+"link_account.php";
 		this.URLGetPurchasingToken = ApplicationModel.host+"/payment/getToken.php";
-		this.URLSyncData = ApplicationModel.host+"/syncData.php";
+		this.URLSyncData = ApplicationModel.host+"syncData.php";
 		this.TotalNbResultLimit=1000;
 		this.Error="";
 		this.Connections=new List<Connection>();
@@ -165,7 +159,6 @@ public class Player : User
 		this.cardsToSync = new Cards ();
 		this.decksToSync = new Decks ();
 		this.moneyToSync = 0;
-		this.selectedDeckToSync = -1;
 	}
 	public IEnumerator updateInformations(string firstname, string surname, string mail, bool isNewEmail, bool isPublic)
 	{
@@ -269,146 +262,41 @@ public class Player : User
 			Debug.Log(ServerController.instance.getError());
 		}
 	}
-	public IEnumerator setTutorialStep(int step)
+	public void setTutorialStep(int step)
 	{
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", step.ToString());                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetTutorialStep, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.TutorialStep=step;
+		this.toSyncTutorialStep = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setMarketTutorial(bool step)
+	public void setMarketTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetMarketTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.MarketTutorial=step;
+		this.toSyncMarketTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setProfileTutorial(bool step)
+	public void setProfileTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetProfileTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.ProfileTutorial=step;
+		this.toSyncProfileTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setSkillBookTutorial(bool step)
+	public void setSkillBookTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetSkillBookTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.SkillBookTutorial=step;
+		this.toSyncSkillbookTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setLobbyTutorial(bool step)
+	public void setLobbyTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetLobbyTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.LobbyHelp=step;
+		this.toSyncLobbyTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setNextLevelTutorial(bool step)
+	public void setNextLevelTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);  
-
-		ServerController.instance.setRequest(URLSetNextLevelTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.NextLevelTutorial=step;
+		this.toSyncNextLevelTutorial = true;
+		ApplicationModel.Save ();
 	}
 	public IEnumerator checkPassword(string password)
 	{
@@ -498,6 +386,60 @@ public class Player : User
 			}
 		}
 	}
+	public IEnumerator syncData()
+	{
+		string data = "";
+		this.cardsToSync.setString ();
+		this.decksToSync.setString ();
+		data += this.cardsToSync.String+"DATAEND";
+		data += this.decksToSync.String + "DATAEND";
+		data += this.moneyToSync.ToString() + "DATAEND";
+		data += this.SelectedDeckIndex.ToString() + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncSelectedDeck).ToString () + "DATAEND";
+		data += this.TutorialStep.ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncTutorialStep).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.MarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncMarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.ProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.LobbyHelp).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncLobbyTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.SkillBookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncSkillbookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.NextLevelTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncNextLevelTutorial).ToString () + "DATAEND";
+
+		WWWForm form = new WWWForm(); 								// Création de la connexion
+		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
+		form.AddField("myform_syncData", data);
+		form.AddField("myform_username", ApplicationModel.player.Username);
+		Debug.Log (ApplicationModel.player.Username);
+
+		ApplicationModel.player.IsOnline = true;
+		ServerController.instance.setRequest(URLSyncData, form);
+		yield return ServerController.instance.StartCoroutine("executeRequest");
+		this.Error=ServerController.instance.getError();
+		if (this.Error == "") {
+			ApplicationModel.player.cardsToSync = new Cards ();
+			ApplicationModel.player.decksToSync = new Decks ();
+			ApplicationModel.player.moneyToSync = 0;
+			ApplicationModel.player.toSyncSelectedDeck = false;
+			ApplicationModel.player.toSyncTutorialStep = false;
+			ApplicationModel.player.toSyncMarketTutorial = false;
+			ApplicationModel.player.toSyncProfileTutorial = false;
+			ApplicationModel.player.toSyncSkillbookTutorial = false;
+			ApplicationModel.player.toSyncLobbyTutorial = false;
+			ApplicationModel.player.toSyncNextLevelTutorial = false;
+
+			string result = ServerController.instance.getResult ();
+			ApplicationModel.player = new Player ();
+			ApplicationModel.player.parseAll (result);
+			ApplicationModel.player.IsOnline = true;
+		} else {
+			Debug.Log (this.Error);
+			ApplicationModel.player.IsOnline = false;
+		}
+	}
 
 	#region AUTHENTICATION
 
@@ -523,13 +465,11 @@ public class Player : User
 			autoConnectString="0";
 		}
 
-		string dataToSync = "DATAENDDATAENDDATAEND-1DATAEND";
+		string dataToSync = "NONE";
 		if (ApplicationModel.savedGame!=null && this.Username == ApplicationModel.savedGame.player.Username) 
 		{
 			dataToSync = ApplicationModel.savedGame.retrieveDataToSync ();
 		}
-		Debug.Log (dataToSync);
-
 		WWWForm form = new WWWForm();
 		form.AddField("myform_hash", ApplicationModel.hash);
 		form.AddField("myform_nick", this.Username);
@@ -572,148 +512,18 @@ public class Player : User
 			{
 				this.IsAccountActivated=true;
 				this.IsAccountCreated=true;
-				string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
-				string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+				this.parseAll (result);
 
-				this.parsePlayerInformations(gameData[0]);
-				if(gameData[12]!="")
-				{
-					this.Users.parseUsers(gameData[12]);
-				}
-				if(gameData[1]!="")
-				{
-					this.MyCards.parseCards(gameData[1]);
-				}
-				if(gameData[2]!="")
-				{
-					this.MyDecks.parseDecks(gameData[2]);
-					this.retrieveCardsDeck();
-				}
-				if(gameData[3]!="")
-				{
-					this.MyNotifications.parseNotifications(gameData[3],this);
-					this.MyNotifications.lookForNonReadNotification();
-				}
-				if(gameData[4]!="")
-				{
-					this.MyFriends=this.parseFriends(gameData[4]);
-				}
-				if(gameData[5]!="")
-				{
-					this.MyConnections.parseConnections(gameData[5],this);
-				}
-				if(gameData[6]!="")
-				{
-					this.MyNews.parseNews(gameData[6],this);
-					this.MyNews.filterNews(this.Id);
-				}
-				if(gameData[7]!="")
-				{
-					this.MyTrophies.parseTrophies(gameData[7]);
-				}
-				if(gameData[8]!="")
-				{
-					this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
-				}
-				if(gameData[9]!="")
-				{
-					this.MyDivision=this.parseDivision(gameData[9]);
-				}
-                if(gameData[10]!="")
-                {
-                   this.parseCardTypesAllowed(gameData[10]);
-                }
-                if(gameData[11]!="")
-                {
-					this.MyCardsOnMarket.parseCards(gameData[11]);
-                }
-				if(gameData[13]!="")
-				{
-					ApplicationModel.packs=new Packs();
-					ApplicationModel.packs.parsePacks(gameData[13]);
-				}
-				if(gameData[14]!="")
-				{
-					ApplicationModel.products=new DisplayedProducts();
-					ApplicationModel.products.parseProducts(gameData[14]);
-				}
-                if(gameData[15]!="")
-                {
-                	ApplicationModel.skillTypes=new SkillTypes();
-                    ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
-                }
-                if(gameData[16]!="")
-                {
-                	ApplicationModel.cardTypes=new CardTypes();
-                    ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
-                }
-                if(gameData[17]!="")
-                {
-                	ApplicationModel.skills=new Skills();
-                    ApplicationModel.skills.parseSkills(gameData[17]);
-                    this.retrieveMySkills();
-                }
-                if(gameData[18]!="")
-                {
-					ApplicationModel.xpLevels=new List<int>();
-                	ApplicationModel.parseXpLevels(gameData[18]);
-                }
-				if(gameData[19]!="")
-				{
-					ApplicationModel.divisions=new Divisions();
-					ApplicationModel.divisions.parseDivisions(gameData[19]);
-				}
-				if(gameData[20]!="")
-				{
-					ApplicationModel.friendlyGameEarnXp_W=System.Convert.ToInt32(gameData[20]);
-				}
-				if(gameData[21]!="")
-				{
-					ApplicationModel.friendlyGameEarnXp_L=System.Convert.ToInt32(gameData[21]);
-				}
-				if(gameData[22]!="")
-				{
-					ApplicationModel.friendlyGameEarnCredits_W=System.Convert.ToInt32(gameData[22]);
-				}
-				if(gameData[23]!="")
-				{
-					ApplicationModel.friendlyGameEarnCredits_L=System.Convert.ToInt32(gameData[23]);
-				}
-				if(gameData[24]!="")
-				{
-					ApplicationModel.trainingGameEarnXp_W=System.Convert.ToInt32(gameData[24]);
-				}
-				if(gameData[25]!="")
-				{
-					ApplicationModel.trainingGameEarnXp_L=System.Convert.ToInt32(gameData[25]);
-				}
-				if(gameData[26]!="")
-				{
-					ApplicationModel.trainingGameEarnCredits_W=System.Convert.ToInt32(gameData[26]);
-				}
-				if(gameData[27]!="")
-				{
-					ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
-				}
-//				if(System.Convert.ToInt32(data[2])!=-1)
-//                {
-//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-//                    this.HasLostConnectionDuringGame=true;
-//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
-//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
-//                    ApplicationModel.player.MyDeck=new Deck();
-//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-//                    {
-//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-//                    }
-//                }
 				ApplicationModel.player.cardsToSync = new Cards ();
 				ApplicationModel.player.decksToSync = new Decks ();
 				ApplicationModel.player.moneyToSync = 0;
+				ApplicationModel.player.toSyncSelectedDeck = false;
+				ApplicationModel.player.toSyncTutorialStep = false;
+				ApplicationModel.player.toSyncMarketTutorial = false;
+				ApplicationModel.player.toSyncProfileTutorial = false;
+				ApplicationModel.player.toSyncSkillbookTutorial = false;
+				ApplicationModel.player.toSyncLobbyTutorial = false;
+				ApplicationModel.player.toSyncNextLevelTutorial = false;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{
@@ -1183,39 +993,156 @@ public class Player : User
 			this.MyCards.cards.Insert(0,tempCard);
     	}
     }
-	public IEnumerator syncData()
-	{
-		string data = "";
-		this.cardsToSync.setString ();
-		this.decksToSync.setString ();
-		data += this.cardsToSync.String+"DATAEND";
-		data += this.decksToSync.String + "DATAEND";
-		data += this.moneyToSync.ToString() + "DATAEND";
-		data += this.selectedDeckToSync.ToString () + "DATAEND";
-
-		WWWForm form = new WWWForm(); 								// Création de la connexion
-		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField("myform_syncData", data);
-		form.AddField("myform_username", ApplicationModel.player.Username);
-
-		ServerController.instance.setRequest(URLSyncData, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		this.Error=ServerController.instance.getError();
-		if (this.Error != "") 
-		{
-			this.cardsToSync = new Cards ();
-			this.decksToSync = new Decks ();
-			this.moneyToSync = 0;
-			this.selectedDeckToSync = -1;
-		}
-	}
 	public void setSelectedDeck(int index)
 	{
 		this.SelectedDeckIndex = index;
-		this.selectedDeckToSync = index;
-		Debug.Log ("new deck =" + index);
+		this.toSyncSelectedDeck = true;
 		ApplicationModel.Save ();
 	}
+	private void parseAll(string result)
+	{
+		string[] data =result.Split(new string[] { "#DATASEPARATOR#" }, System.StringSplitOptions.None);
+		string[] gameData =data[1].Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+
+		this.parsePlayerInformations(gameData[0]);
+		if(gameData[12]!="")
+		{
+			this.Users.parseUsers(gameData[12]);
+		}
+		if(gameData[1]!="")
+		{
+			this.MyCards.parseCards(gameData[1]);
+		}
+		if(gameData[2]!="")
+		{
+			this.MyDecks.parseDecks(gameData[2]);
+			this.retrieveCardsDeck();
+		}
+		if(gameData[3]!="")
+		{
+			this.MyNotifications.parseNotifications(gameData[3],this);
+			this.MyNotifications.lookForNonReadNotification();
+		}
+		if(gameData[4]!="")
+		{
+			this.MyFriends=this.parseFriends(gameData[4]);
+		}
+		if(gameData[5]!="")
+		{
+			this.MyConnections.parseConnections(gameData[5],this);
+		}
+		if(gameData[6]!="")
+		{
+			this.MyNews.parseNews(gameData[6],this);
+			this.MyNews.filterNews(this.Id);
+		}
+		if(gameData[7]!="")
+		{
+			this.MyTrophies.parseTrophies(gameData[7]);
+		}
+		if(gameData[8]!="")
+		{
+			this.MyChallengesRecords.parseChallengesRecords(gameData[8],this);
+		}
+		if(gameData[9]!="")
+		{
+			this.MyDivision=this.parseDivision(gameData[9]);
+		}
+		if(gameData[10]!="")
+		{
+			this.parseCardTypesAllowed(gameData[10]);
+		}
+		if(gameData[11]!="")
+		{
+			this.MyCardsOnMarket.parseCards(gameData[11]);
+		}
+		if(gameData[13]!="")
+		{
+			ApplicationModel.packs=new Packs();
+			ApplicationModel.packs.parsePacks(gameData[13]);
+		}
+		if(gameData[14]!="")
+		{
+			ApplicationModel.products=new DisplayedProducts();
+			ApplicationModel.products.parseProducts(gameData[14]);
+		}
+		if(gameData[15]!="")
+		{
+			ApplicationModel.skillTypes=new SkillTypes();
+			ApplicationModel.skillTypes.parseSkillTypes(gameData[15]);
+		}
+		if(gameData[16]!="")
+		{
+			ApplicationModel.cardTypes=new CardTypes();
+			ApplicationModel.cardTypes.parseCardTypes(gameData[16]);
+		}
+		if(gameData[17]!="")
+		{
+			ApplicationModel.skills=new Skills();
+			ApplicationModel.skills.parseSkills(gameData[17]);
+			this.retrieveMySkills();
+		}
+		if(gameData[18]!="")
+		{
+			ApplicationModel.xpLevels=new List<int>();
+			ApplicationModel.parseXpLevels(gameData[18]);
+		}
+		if(gameData[19]!="")
+		{
+			ApplicationModel.divisions=new Divisions();
+			ApplicationModel.divisions.parseDivisions(gameData[19]);
+		}
+		if(gameData[20]!="")
+		{
+			ApplicationModel.friendlyGameEarnXp_W=System.Convert.ToInt32(gameData[20]);
+		}
+		if(gameData[21]!="")
+		{
+			ApplicationModel.friendlyGameEarnXp_L=System.Convert.ToInt32(gameData[21]);
+		}
+		if(gameData[22]!="")
+		{
+			ApplicationModel.friendlyGameEarnCredits_W=System.Convert.ToInt32(gameData[22]);
+		}
+		if(gameData[23]!="")
+		{
+			ApplicationModel.friendlyGameEarnCredits_L=System.Convert.ToInt32(gameData[23]);
+		}
+		if(gameData[24]!="")
+		{
+			ApplicationModel.trainingGameEarnXp_W=System.Convert.ToInt32(gameData[24]);
+		}
+		if(gameData[25]!="")
+		{
+			ApplicationModel.trainingGameEarnXp_L=System.Convert.ToInt32(gameData[25]);
+		}
+		if(gameData[26]!="")
+		{
+			ApplicationModel.trainingGameEarnCredits_W=System.Convert.ToInt32(gameData[26]);
+		}
+		if(gameData[27]!="")
+		{
+			ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
+		}
+		//				if(System.Convert.ToInt32(data[2])!=-1)
+		//                {
+		//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+		//                    this.HasLostConnectionDuringGame=true;
+		//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+		//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
+		//                    ApplicationModel.player.MyDeck=new Deck();
+		//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
+		//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+		//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
+		//                    {
+		//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
+		//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
+		//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+		//                    }
+		//                }
+	}
+
+
 }
 
 
