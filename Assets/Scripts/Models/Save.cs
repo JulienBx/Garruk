@@ -111,6 +111,16 @@ public class Save {
 		data += System.Convert.ToInt32 (player.toSyncSelectedDeck).ToString () + "DATAEND";
 		data += player.TutorialStep.ToString () + "DATAEND";
 		data += System.Convert.ToInt32 (player.toSyncTutorialStep).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.MarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncMarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.ProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.LobbyHelp).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncLobbyTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.SkillBookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncSkillbookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.NextLevelTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (player.toSyncNextLevelTutorial).ToString () + "DATAEND";
 
 		return data;
 	}

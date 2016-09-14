@@ -1613,15 +1613,14 @@ public class NewSkillBookController : MonoBehaviour
 	{
 		return this.helpBlock;
 	}
-	public IEnumerator endHelp()
+	public void endHelp()
 	{
 		if(!ApplicationModel.player.SkillBookTutorial)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setSkillBookTutorial(true));
+			ApplicationModel.player.setSkillBookTutorial(true);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
-		yield break;
 	}
 	public bool getAreFilersDisplayed()
 	{

@@ -109,13 +109,13 @@ public class HomePageHelpController : HelpController
 		} 
 		else if (this.sequenceId == 2) 
 		{
-			StartCoroutine(ApplicationModel.player.setTutorialStep(4));
+			ApplicationModel.player.setTutorialStep(4);
 			this.sequenceId++;
 			this.launchTutorialSequence ();
 		}
 		else if (this.sequenceId == 4) 
 		{
-			StartCoroutine(ApplicationModel.player.setTutorialStep(-1));
+			ApplicationModel.player.setTutorialStep(-1);
 			this.sequenceId++;
 			this.launchTutorialSequence ();
 		}  

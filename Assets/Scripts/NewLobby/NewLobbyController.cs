@@ -826,12 +826,12 @@ public class NewLobbyController : MonoBehaviour
 	{
 		return this.competitionBlock;
 	}
-	public IEnumerator endHelp()
+	public void endHelp()
 	{
 		if(!ApplicationModel.player.LobbyHelp)
 		{
 			BackOfficeController.instance.displayLoadingScreen();
-			yield return StartCoroutine(ApplicationModel.player.setLobbyTutorial(true));
+			ApplicationModel.player.setLobbyTutorial(true);
 			BackOfficeController.instance.hideLoadingScreen();
 		}
 	}

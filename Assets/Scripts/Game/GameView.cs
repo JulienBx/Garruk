@@ -3094,12 +3094,12 @@ public class GameView : MonoBehaviour
             if(hasFirstPlayerLost==this.isFirstPlayer)
 			{
                 ApplicationModel.player.HasWonLastGame=false;
-                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
+                //yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(3)));
 			}
 			else
 			{
                 ApplicationModel.player.HasWonLastGame=true;
-                yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
+                //yield return (StartCoroutine(ApplicationModel.player.setTutorialStep(2)));
 			}
 		}
 		else
@@ -3117,6 +3117,7 @@ public class GameView : MonoBehaviour
             yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
 		}
         this.interlude.GetComponent<InterludeController>().quitGame();
+		yield break;
 	}
 
 

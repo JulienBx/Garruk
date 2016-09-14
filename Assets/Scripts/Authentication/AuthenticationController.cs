@@ -995,7 +995,7 @@ public class AuthenticationController : Photon.MonoBehaviour
                 BackOfficeController.instance.loadScene("Tutorial");	
 				break;
 			case 1:
-				StartCoroutine(BackOfficeController.instance.joinTutorialGame());
+				BackOfficeController.instance.joinTutorialGame();
 				break;
 			case 2: case 3:
 				BackOfficeController.instance.loadScene("NewHomePage");	

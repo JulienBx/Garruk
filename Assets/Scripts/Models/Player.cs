@@ -13,12 +13,6 @@ public class Player : User
 	private string URLPayMoney;
 	private string URLSelectedDeck;
 	private string URLCleanCards;
-	private string URLSetTutorialStep;
-	private string URLSetMarketTutorial;
-	private string URLSetProfileTutorial;
-	private string URLSetSkillBookTutorial;
-	private string URLSetNextLevelTutorial;
-	private string URLSetLobbyTutorial;
 	private string URLUpdateEndGameData;
 	private string URLSetProfilePicture;
 	private string URLCheckPassword;
@@ -106,6 +100,11 @@ public class Player : User
 	public int moneyToSync;
 	public bool toSyncSelectedDeck;
 	public bool toSyncTutorialStep;
+	public bool toSyncMarketTutorial;
+	public bool toSyncProfileTutorial;
+	public bool toSyncLobbyTutorial;
+	public bool toSyncSkillbookTutorial;
+	public bool toSyncNextLevelTutorial;
   
 	public Player()
 	{
@@ -127,12 +126,6 @@ public class Player : User
 		this.URLPayMoney = ApplicationModel.host + "pay_money.php";
 		this.URLSelectedDeck = ApplicationModel.host + "set_selected_deck.php";
 		this.URLCleanCards = ApplicationModel.host + "clean_cards.php";
-		this.URLSetTutorialStep = ApplicationModel.host + "set_tutorialstep.php";
-		this.URLSetMarketTutorial = ApplicationModel.host + "set_marketTutorial.php";
-		this.URLSetProfileTutorial = ApplicationModel.host + "set_profileTutorial.php";
-		this.URLSetSkillBookTutorial = ApplicationModel.host + "set_skillBookTutorial.php";
-		this.URLSetLobbyTutorial = ApplicationModel.host + "set_lobbyTutorial.php";
-		this.URLSetNextLevelTutorial = ApplicationModel.host + "set_nextLevelTutorial.php";
 		this.URLSetProfilePicture = ApplicationModel.host + "set_profile_picture.php";
 		this.URLCheckPassword = ApplicationModel.host + "check_password.php";
 		this.URLEditPassword = ApplicationModel.host + "edit_password.php";
@@ -269,146 +262,41 @@ public class Player : User
 			Debug.Log(ServerController.instance.getError());
 		}
 	}
-	public IEnumerator setTutorialStep(int step)
+	public void setTutorialStep(int step)
 	{
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", step.ToString());                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetTutorialStep, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.TutorialStep=step;
+		this.toSyncTutorialStep = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setMarketTutorial(bool step)
+	public void setMarketTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetMarketTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.MarketTutorial=step;
+		this.toSyncMarketTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setProfileTutorial(bool step)
+	public void setProfileTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetProfileTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.ProfileTutorial=step;
+		this.toSyncProfileTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setSkillBookTutorial(bool step)
+	public void setSkillBookTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetSkillBookTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.SkillBookTutorial=step;
+		this.toSyncSkillbookTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setLobbyTutorial(bool step)
+	public void setLobbyTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);                 // Deck sélectionné
-
-		ServerController.instance.setRequest(URLSetLobbyTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.LobbyHelp=step;
+		this.toSyncLobbyTutorial = true;
+		ApplicationModel.Save ();
 	}
-	public IEnumerator setNextLevelTutorial(bool step)
+	public void setNextLevelTutorial(bool step)
 	{
-		string tempString;
-		if(step)
-		{
-			tempString="1";
-		}
-		else
-		{
-			tempString="0";
-		}
-		WWWForm form = new WWWForm (); 								// Création de la connexion
-		form.AddField ("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
-		form.AddField ("myform_nick", this.Username); 	// Pseudo de l'utilisateur connecté
-		form.AddField("myform_step", tempString);  
-
-		ServerController.instance.setRequest(URLSetNextLevelTutorial, form);
-		yield return ServerController.instance.StartCoroutine("executeRequest");
-		
-		if (ServerController.instance.getError()!="") 
-		{
-			Debug.Log (ServerController.instance.getError()); 										
-		}
 		this.NextLevelTutorial=step;
+		this.toSyncNextLevelTutorial = true;
+		ApplicationModel.Save ();
 	}
 	public IEnumerator checkPassword(string password)
 	{
@@ -510,7 +398,16 @@ public class Player : User
 		data += System.Convert.ToInt32 (this.toSyncSelectedDeck).ToString () + "DATAEND";
 		data += this.TutorialStep.ToString () + "DATAEND";
 		data += System.Convert.ToInt32 (this.toSyncTutorialStep).ToString () + "DATAEND";
-
+		data += System.Convert.ToInt32 (this.MarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncMarketTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.ProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncProfileTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.LobbyHelp).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncLobbyTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.SkillBookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncSkillbookTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.NextLevelTutorial).ToString () + "DATAEND";
+		data += System.Convert.ToInt32 (this.toSyncNextLevelTutorial).ToString () + "DATAEND";
 
 		WWWForm form = new WWWForm(); 								// Création de la connexion
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
@@ -528,6 +425,12 @@ public class Player : User
 			ApplicationModel.player.moneyToSync = 0;
 			ApplicationModel.player.toSyncSelectedDeck = false;
 			ApplicationModel.player.toSyncTutorialStep = false;
+			ApplicationModel.player.toSyncMarketTutorial = false;
+			ApplicationModel.player.toSyncProfileTutorial = false;
+			ApplicationModel.player.toSyncSkillbookTutorial = false;
+			ApplicationModel.player.toSyncLobbyTutorial = false;
+			ApplicationModel.player.toSyncNextLevelTutorial = false;
+
 			string result = ServerController.instance.getResult ();
 			ApplicationModel.player = new Player ();
 			ApplicationModel.player.parseAll (result);
@@ -616,6 +519,11 @@ public class Player : User
 				ApplicationModel.player.moneyToSync = 0;
 				ApplicationModel.player.toSyncSelectedDeck = false;
 				ApplicationModel.player.toSyncTutorialStep = false;
+				ApplicationModel.player.toSyncMarketTutorial = false;
+				ApplicationModel.player.toSyncProfileTutorial = false;
+				ApplicationModel.player.toSyncSkillbookTutorial = false;
+				ApplicationModel.player.toSyncLobbyTutorial = false;
+				ApplicationModel.player.toSyncNextLevelTutorial = false;
 			}
 			else if(result.Contains("#NONACTIVE#"))
 			{

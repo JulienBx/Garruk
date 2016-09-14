@@ -79,7 +79,7 @@ public class ProfileHelpController : HelpController
 			{
 				NewProfileController.instance.slideRight();
 			}
-			StartCoroutine (NewProfileController.instance.endHelp ());
+			NewProfileController.instance.endHelp ();
 			this.quitHelp ();
 		}
 	}

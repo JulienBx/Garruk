@@ -293,7 +293,7 @@ public class HelpController : MonoBehaviour
 		else if(this.sequenceId==300)
 		{
 			this.quitHelp ();
-			StartCoroutine(ApplicationModel.player.setNextLevelTutorial(true));
+			ApplicationModel.player.setNextLevelTutorial(true);
 		}
         else if(this.sequenceId==400)
         {
