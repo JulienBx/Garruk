@@ -668,7 +668,7 @@ public class BackOfficeController : MonoBehaviour
 	}
     public void loadingScreenButtonHandler()
     {
-		BackOfficeController.instance.hideLoadingScreen ();   
+		
     }
 	public void joinRandomRoomHandler()
 	{

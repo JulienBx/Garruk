@@ -470,6 +470,7 @@ public class Card
 	}
 	public void updateCardXp(bool toNextLevel, int xp)
 	{
+		this.defineUpgradedCard();
 		this.GetNewSkill = false;
 		int newCardXp=this.Experience+xp;
 		int newCardLevel = this.ExperienceLevel;
@@ -588,7 +589,7 @@ public class Card
 		this.CaracteristicIncrease = caracteristicincrease;
 		this.CaracteristicUpgraded = attribute;
 		this.updateCardPower();
-		this.defineUpgradedCard();
+		//this.defineUpgradedCard();
 	}
 	public void updateCardPower()
 	{

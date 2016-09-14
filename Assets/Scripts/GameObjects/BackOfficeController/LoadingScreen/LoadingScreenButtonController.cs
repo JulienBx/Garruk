@@ -11,7 +11,6 @@ public class LoadingScreenButtonController : SimpleButtonController
 	public override void mainInstruction ()
 	{
 		SoundController.instance.playSound(9);
-		Debug.Log ("toto");
         BackOfficeController.instance.loadingScreenButtonHandler();
 	}
 }
