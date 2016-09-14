@@ -309,6 +309,7 @@ public class newMyGameController : MonoBehaviour
 		this.initializeCards ();
 		BackOfficeController.instance.hideLoadingScreen ();
 		this.isSceneLoaded = true;
+		Debug.Log (ApplicationModel.player.TutorialStep);
 		if(ApplicationModel.player.TutorialStep==5)
 		{
 			HelpController.instance.startTutorial();

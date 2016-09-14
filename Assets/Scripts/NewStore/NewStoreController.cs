@@ -883,9 +883,12 @@ public class NewStoreController : MonoBehaviour, IStoreListener
 				this.displayBackUI (false);
 				this.displayCardFocused ();
 			}
+			if (HelpController.instance.getIsTutorialLaunched ()) {
+				ApplicationModel.player.setTutorialStep (5);
+			}
 			StartCoroutine (BackOfficeController.instance.getUserData ());
 		} else if (!ApplicationModel.player.IsOnline) {
-			BackOfficeController.instance.displayDetectOfflinePopUp ();
+			BackOfficeController.instance.displayOfflineModePopUp(3);
 		}
 		else
 		{

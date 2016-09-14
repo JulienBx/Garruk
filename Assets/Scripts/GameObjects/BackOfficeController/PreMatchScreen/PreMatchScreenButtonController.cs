@@ -11,7 +11,7 @@ public class PreMatchScreenButtonController : SimpleButtonController
 	public override void mainInstruction ()
 	{
 		SoundController.instance.playSound(9);
-		PhotonController.instance.leaveRandomRoomHandler();
+		PhotonC.instance.OnPhotonJoinRoomFailed();
 	}
 	public override void hideToolTip()
 	{
