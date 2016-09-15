@@ -1612,12 +1612,14 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator joinGame()
 	{
+		int chosenGameType = ApplicationModel.player.ChosenGameType;
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 		if (ApplicationModel.player.IsOnline) 
 		{
 			yield return ApplicationModel.player.syncData ();
 		}
+		ApplicationModel.player.ChosenGameType = chosenGameType;
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
 			if (ApplicationModel.player.IsOnline) {

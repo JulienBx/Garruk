@@ -668,7 +668,7 @@ public class BackOfficeController : MonoBehaviour
 	}
     public void loadingScreenButtonHandler()
     {
-        
+		
     }
 	public void joinRandomRoomHandler()
 	{

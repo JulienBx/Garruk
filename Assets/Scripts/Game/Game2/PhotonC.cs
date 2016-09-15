@@ -169,11 +169,12 @@ public class PhotonC : Photon.MonoBehaviour
         }
     }
 
-	void OnPhotonJoinRoomFailed()
+	public void OnPhotonJoinRoomFailed()
     {
 		Debug.Log("La room ciblée n'existe plus !");
 		PlayerPrefs.DeleteKey("currentGame");
 		SceneManager.LoadScene("NewHomePage");
+		hideLoadingScreen ();
     }
 
 	public void CreateNewRoom()

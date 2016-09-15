@@ -1117,6 +1117,7 @@ public class PhotonController : Photon.MonoBehaviour
 			invitation.Id = ApplicationModel.player.ChosenGameType-20;
 			StartCoroutine(invitation.changeStatus(-1));
 		}
+		BackOfficeController.instance.hideLoadingScreen ();
 		this.loadScene(this.sceneName);
 	}
 	public void loadScene(string sceneName)

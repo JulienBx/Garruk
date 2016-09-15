@@ -234,6 +234,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public IEnumerator joinGame()
 	{
+		int chosenGameType = ApplicationModel.player.ChosenGameType;
 		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
@@ -241,6 +242,7 @@ public class PlayPopUpController : MonoBehaviour
 		{
 			yield return ApplicationModel.player.syncData ();
 		}
+		ApplicationModel.player.ChosenGameType = chosenGameType;
 		if(ApplicationModel.player.ChosenGameType>10)
 		{
 			if (ApplicationModel.player.IsOnline) {

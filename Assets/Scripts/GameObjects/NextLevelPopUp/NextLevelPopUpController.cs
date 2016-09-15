@@ -47,6 +47,7 @@ public class NextLevelPopUpController : MonoBehaviour
 
 		this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
 		this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
+		Debug.Log (c.UpgradedAttack + "//" + c.Attack + "//" + c.AttackNbUpgrades);
 		if(c.UpgradedAttack<=c.Attack || c.AttackNbUpgrades==3)
 		{
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
