@@ -156,6 +156,29 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getMySelfWithNeighbours(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+		bool hasSomeone = false;
+		int playerID;
+
+		foreach (TileM t in neighbourTiles)
+		{
+			playerID = board[t.x,t.y];
+			if (playerID > 0)
+			{
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					hasSomeone = true;
+				}
+			}
+		}
+
+		if(hasSomeone){
+			cibles.Add(tile);
+		}
+		return cibles;
+	}
+
 	public int[,] getCurrentBoard(){
 		int[,] board = new int[this.boardWidth,this.boardHeight];
 		for(int i = 0 ; i < this.boardWidth ; i++){

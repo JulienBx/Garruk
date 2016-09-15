@@ -23,7 +23,7 @@ public class SkillsM
 		this.skills [14] = new SkillC();
 		this.skills [15] = new SkillC();
 		this.skills [16] = new SkillC();
-		this.skills [17] = new SkillC();
+		this.skills [17] = new Attaque360C();
 		this.skills [18] = new FouetC();
 		this.skills [19] = new SkillC();
 		this.skills [20] = new SkillC();

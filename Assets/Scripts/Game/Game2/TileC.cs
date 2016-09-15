@@ -92,7 +92,11 @@ public class TileC : MonoBehaviour
 
 	public void setCharacterID(int i){
 		this.characterID = i;
-		this.showCollider(i==-1);
+		if(i!=-1){
+			if(Game.instance.getCurrentCardID()!=-1 || Game.instance.gamecards.getCardC(i).getCardM().isMine()){
+				this.showCollider(i==-1);
+			}
+		}
 	}
 
 	public bool hasCharacter(){

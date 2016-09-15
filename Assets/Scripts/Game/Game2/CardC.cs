@@ -813,7 +813,7 @@ public class CardC : MonoBehaviour
 	}
 
 	public bool canBeTargeted(){
-		return true ;
+		return !this.isDead() ;
 	}
 
 	public void displaySkillEffect(string s, int type){
@@ -827,7 +827,7 @@ public class CardC : MonoBehaviour
 
 	public void displayAnim(int type){
 		this.skillEffects.Add("");
-		this.skillEffectTypes.Add(10*type);
+		this.skillEffectTypes.Add(10*(type+1));
 		if(!this.skillEffect){
 			this.launchSkillEffect();
 		}
@@ -876,7 +876,7 @@ public class CardC : MonoBehaviour
 		}
 		else{
 			this.SETime = 0.8f;
-			this.anim = (type-10)*10;
+			this.anim = (type-10);
 			gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
 			this.showAnim(true);
 		}

@@ -14,7 +14,7 @@ public class PhotonC : Photon.MonoBehaviour
 	public static PhotonC instance;
 	float waitingTime;
 	public bool isWaiting;
-	float timeLimit=10f;
+	float timeLimit=2f;
 	bool reconnecting ;
 
 	bool isQuittingGame ;
@@ -214,7 +214,6 @@ public class PhotonC : Photon.MonoBehaviour
 
 	public void displayLoadingScreenButton(bool value)
 	{
-		print("Je hide2 "+value);
 		this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
         this.preMatchScreen.GetComponent<PreMatchScreenController> ().displayButton (value);
 	}

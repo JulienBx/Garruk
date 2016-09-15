@@ -721,17 +721,21 @@ public class Game : MonoBehaviour
 
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).showCollider(true);
+		
 		this.gamecards.getCardC(i).setTile(new TileM(x,y));
-		this.gamecards.getCardC(i).showCollider(true);
-		this.getBoard().getTileC(x,y).showCollider(false);
+		if(this.currentCardID!=-1 || this.gamecards.getCardC(i).getCardM().isMine()){
+			this.gamecards.getCardC(i).showCollider(true);
+			this.getBoard().getTileC(x,y).showCollider(false);
+		}
+
 		this.getBoard().getTileC(x,y).BruteStopSE();
 		this.getBoard().getTileC(x,y).setCharacterID(i);
 
 		if(this.currentCardID!=-1){
-			this.loadDestinations();
 			if(this.getCurrentCard().getCardM().isMine()){
-				this.actuController();
+				this.actuController(false);
 			}
+			this.loadDestinations();
 		}
 	}
 
@@ -751,12 +755,17 @@ public class Game : MonoBehaviour
 		this.getSkillButton(this.draggingSBID).startMove(this.getSkillButton(this.draggingSBID).getPosition(), this.getSkillButton(this.draggingSBID).getInitialPosition());
 		this.getBoard().stopTargets(this.getCurrentSkillButtonC().getTargets());
 		this.draggingSBID = -1;
-		this.actuController();
+		this.actuController(true);
 	}
 
 	public void endMove(){
 		if(this.currentCardID==-1){
 			this.setInitialDestinations();
+		}
+		else{
+			if(this.getCurrentCard().getCardM().isMine()){
+				this.actuController(true);
+			}
 		}
 	}
 
@@ -923,7 +932,7 @@ public class Game : MonoBehaviour
 			}
 		}
 
-		this.actuController();
+		this.actuController(false);
 
 		this.getSkillButton(0).show(true);
 		for(int i = 1 ; i < 4 ; i++){
@@ -939,7 +948,7 @@ public class Game : MonoBehaviour
 		this.SE = b ;
 	}
 
-	public void actuController(){
+	public void actuController(bool checkEndTurn){
 		CardC c = this.getCurrentCard();
 
 		if(this.getCurrentCard().hasPlayed()){
@@ -949,12 +958,14 @@ public class Game : MonoBehaviour
 					this.getSkillButton(i).forbid();
 				}
 			}
-			if(this.getCurrentCard().hasMoved()){
-				if(SE){
-					this.toLaunchNextTurn = true;
-				}
-				else{
-					this.hitPassButton();
+			if(checkEndTurn){
+				if(this.getCurrentCard().hasMoved()){
+					if(SE){
+						this.toLaunchNextTurn = true;
+					}
+					else{
+						this.hitPassButton();
+					}
 				}
 			}
 		}
@@ -1266,7 +1277,7 @@ public class Game : MonoBehaviour
 			this.getHisHoveredCard().setCard(i);
 		}
 		if(this.getCurrentCard().getCardM().isMine()){
-			this.actuController();
+			this.actuController(false);
 		}
 	}
 

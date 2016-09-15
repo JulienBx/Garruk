@@ -22,7 +22,7 @@ public class FouetC : SkillC
 		target.displaySkillEffect(WordingGame.getText(13, new List<int>{attackBonus})+"\n"+WordingGame.getText(8, new List<int>{degats}), 2);
 
 		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
-		target.addAttackModifyer(new ModifyerM(attackBonus, -1, "", "",-1));
+		target.addAttackModifyer(new ModifyerM(attackBonus, 0, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){

@@ -225,6 +225,10 @@ public class SkillButtonC : MonoBehaviour
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = s;
 	}
 
+	public string getSkillText(){
+		return this.skillText ;
+	}
+
 	public void reinitSkillText(){
 		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = this.skillText;
 	}

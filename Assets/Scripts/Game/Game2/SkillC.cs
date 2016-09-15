@@ -67,8 +67,11 @@ public class SkillC
 		if(this.ciblage==1){
 			targets = Game.instance.getBoard().getAdjacentOpponentsTargets(board, card, tile);
 		}
-		if(this.ciblage==2){
+		else if(this.ciblage==2){
 			targets = Game.instance.getBoard().getAdjacentAllysTargets(board, card, tile);
+		}
+		else if(this.ciblage==3){
+			targets = Game.instance.getBoard().getMySelfWithNeighbours(board, card, tile);
 		}
 		return targets;
 	}
@@ -80,6 +83,9 @@ public class SkillC
 		}
 		else if(this.ciblage==2){
 			s = WordingGame.getText(85);
+		}
+		else if(this.ciblage==3){
+			s = WordingGame.getText(86);
 		}
 		return s;
 	}
