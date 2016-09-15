@@ -1213,7 +1213,7 @@ public class Game : MonoBehaviour
             {
                 ApplicationModel.player.HasWonLastGame=true;
             }
-            yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,ApplicationModel.player.IsFirstPlayer)));
+			yield return (StartCoroutine(this.sendStat(ApplicationModel.player.PercentageLooser,ApplicationModel.currentGameId,ApplicationModel.player.HasWonLastGame,this.firstPlayer)));
 		}
 		yield break;
 	}
@@ -1232,7 +1232,8 @@ public class Game : MonoBehaviour
 
 	public IEnumerator sendStat(int percentageTotalDamages, int currentGameid, bool hasWon, bool isFirstPlayer)
 	{
-        int hasWonInt = 0;
+		Debug.Log ("Damages :" + percentageTotalDamages + "// CurentGameId :" + currentGameid.ToString () + "// HasWon :" + System.Convert.ToInt32 (hasWon).ToString () + "// isFirstPlayer :" + System.Convert.ToInt32 (isFirstPlayer).ToString ());
+		int hasWonInt = 0;
         if(hasWon)
         {
             hasWonInt=1;
