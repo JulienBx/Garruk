@@ -52,7 +52,6 @@ public class PhotonC : Photon.MonoBehaviour
 
 	public void findRoom(){
 		this.preMatchScreen=this.gameObject.transform.FindChild("PreMatchScreen").gameObject;
-		this.displayLoadingScreenButton(false);
 		if(ApplicationModel.player.ToLaunchGameIA || !ApplicationModel.player.IsOnline){
 			ApplicationModel.player.IsFirstPlayer = true;
 			Game.instance.setFirstPlayer(true);
@@ -200,7 +199,6 @@ public class PhotonC : Photon.MonoBehaviour
 				PhotonNetwork.room.visible = false;
 				this.closeAndStart();
 	    	}
-			this.displayLoadingScreenButton(false);
 	    }
     }
 
@@ -215,6 +213,7 @@ public class PhotonC : Photon.MonoBehaviour
 
 	public void displayLoadingScreenButton(bool value)
 	{
+		print("Je hide2 "+value);
 		this.preMatchScreen.transform.FindChild("button").GetComponent<PreMatchScreenButtonController>().reset();
         this.preMatchScreen.GetComponent<PreMatchScreenController> ().displayButton (value);
 	}

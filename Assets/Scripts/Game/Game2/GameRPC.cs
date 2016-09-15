@@ -39,7 +39,6 @@ public class GameRPC : Photon.MonoBehaviour
 
 	public void stopTimer(){
 		this.failing = false;
-		PhotonC.instance.hideLoadingScreen();
 	}
 
 	public void addTime(float f){
@@ -206,7 +205,7 @@ public class GameRPC : Photon.MonoBehaviour
 	}
 
 	[PunRPC]
-	void lostRPC(bool b, bool isFirstP)
+	void LostRPC(bool b, bool isFirstP)
 	{
 		this.updateRPCCompteurs(isFirstP);
 		StartCoroutine(Game.instance.quitGameHandler(b==isFirstP));
@@ -281,5 +280,10 @@ public class GameRPC : Photon.MonoBehaviour
 			compteurHis++;
 			PlayerPrefs.SetInt("CompteurHis",compteurHis);
 		}
+	}
+
+	[PunRPC]
+	void sendMyDeckIDRPC(int idDeck, int idPlayer, int rankingPoints, bool isFirstP){
+		Game.instance.initialize2PGame(isFirstP, idDeck, idPlayer, rankingPoints);
 	}
 }

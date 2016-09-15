@@ -179,6 +179,7 @@ public class ApplicationModel
 		bf.Serialize(file, currentState);
 		file.Close();
 	}
+
 	public static void checkForSavedGame()
 	{
 

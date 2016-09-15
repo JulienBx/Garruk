@@ -97,7 +97,7 @@ public class InterludeC : MonoBehaviour
 	public void addTime(float f){
 		this.timer += f ;
 		if(this.timer>4*this.time){
-			if(this.type==3){
+			if(this.type>=2){
 				ApplicationModel.player.ShouldQuitGame=true;
 				PhotonNetwork.LeaveRoom ();
 				SceneManager.LoadScene("EndGame");

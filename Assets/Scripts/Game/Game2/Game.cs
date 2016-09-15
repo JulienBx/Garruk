@@ -61,6 +61,8 @@ public class Game : MonoBehaviour
 	bool SE ;
 	bool toLaunchNextTurn;
 
+	private string URLInitiliazeGame = ApplicationModel.host + "initialize_game.php";
+
 	void Awake(){
 		instance = this;
 		this.currentCardID = -1;
@@ -284,14 +286,6 @@ public class Game : MonoBehaviour
 
 		if(this.isFirstPlayer()){
 			this.createTiles();
-
-			if(this.ia || this.isTutorial()){
-				this.createCards();
-			}
-			else{
-				StartCoroutine(GameRPC.instance.launchRPC("createCardsRPC"));
-				//GameRPC.instance.sendMyDeckID();
-			}
 		}
 	}
 
@@ -333,18 +327,15 @@ public class Game : MonoBehaviour
 			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(3).getDeckOrder());
 		}
 
-		this.intelligence.placeCards();
 		if(this.ia || this.isTutorial()){
-			this.resize();
+			this.intelligence.placeCards();
 		}
-		else{
-			GameRPC.instance.launchRPC("resizeRPC");
-		}
-		PhotonNetwork.Reconnect();
+		this.resize();
 	}
 
 	void createTiles()
 	{
+		print("CREATETILES");
 		bool isRock = false;
 		List<TileM> rocks = new List<TileM>();
 		TileM t = new TileM(0,0) ;
@@ -389,7 +380,7 @@ public class Game : MonoBehaviour
 					this.createTile(x, y, isRock);
 				}
 				else{
-					GameRPC.instance.launchRPC("createTileRPC", x, y, isRock);
+					StartCoroutine(GameRPC.instance.launchRPC("createTileRPC", x, y, isRock));
 				}
 			}
 		}
@@ -549,6 +540,16 @@ public class Game : MonoBehaviour
 	public void createTile(int x, int y, bool type)
 	{
 		this.board.addTile(x,y,type,(GameObject)Instantiate(this.tileModel));
+		if(x==this.getBoard().getBoardWidth()-1 && y==this.getBoard().getBoardHeight()-1){
+			if(this.ia || this.isTutorial()){
+				StartCoroutine(this.initializeGame(this.isFirstPlayer(), true, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints, ApplicationModel.player.SelectedDeckId));
+			}
+			else{
+				print("J'initialise");
+				StartCoroutine(GameRPC.instance.launchRPC("sendMyDeckIDRPC", ApplicationModel.player.SelectedDeckId, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints));
+			}
+		}
+
 	}
 
 	public void setInitialDestinations(){
@@ -1168,6 +1169,7 @@ public class Game : MonoBehaviour
 
 	public IEnumerator quitGameHandler(bool hasFirstPlayerLost)
 	{		
+		print("LOST");
 		this.getHisHoveredCard().moveCharacterBackward();
 		this.getMyHoveredCard().moveCharacterBackward();
 		int type = 2;
@@ -1252,7 +1254,7 @@ public class Game : MonoBehaviour
 			StartCoroutine(quitGameHandler(true));
 		}
 		else{
-			GameRPC.instance.launchRPC("LostRPC",true);
+			StartCoroutine(GameRPC.instance.launchRPC("LostRPC",true));
 		}
 	}
 
@@ -1271,4 +1273,84 @@ public class Game : MonoBehaviour
 	public int getIndexMeteores(){
 		return this.indexMeteores;
 	}
+
+	public void initialize2PGame(bool isFirstP, int idDeck, int idPlayer, int rankingPoints){
+		if(idPlayer!=ApplicationModel.player.Id){
+			StartCoroutine(this.initializeGame(isFirstP, false, idPlayer, rankingPoints, idDeck));
+		}
+	}
+
+	private IEnumerator initializeGame(bool isFirstPlayer, bool isIAGame, int hisId, int hisRankingPoints, int hisDeckId)
+    {
+    	string isFirstPlayerString="1";
+    	if(!isFirstPlayer)
+    	{
+    		isFirstPlayerString="0";
+    	}
+		string isIAGameString="1";
+    	if(!isIAGame)
+    	{
+    		isIAGameString="0";
+    	}
+        WWWForm form = new WWWForm();                                       
+        form.AddField("myform_hash", ApplicationModel.hash);                
+		form.AddField("myform_isfirstplayer", isFirstPlayerString);
+		form.AddField("myform_isiagame", isIAGameString);        
+		form.AddField("myform_myid", ApplicationModel.player.Id.ToString());     
+		form.AddField("myform_hisid", hisId.ToString());     
+		form.AddField("myform_myrankingpoints",ApplicationModel.player.RankingPoints.ToString());     
+		form.AddField("myform_hisrankingpoints", hisRankingPoints.ToString());  
+		form.AddField("myform_gametype", ApplicationModel.player.ChosenGameType.ToString());    
+		//form.AddField("myform_mydeck", ApplicationModel.player.SelectedDeckId.ToString());     
+		form.AddField("myform_hisdeck", hisDeckId.ToString()); 
+
+        ServerController.instance.setRequest(URLInitiliazeGame, form);
+        yield return ServerController.instance.StartCoroutine("executeRequest");
+        
+        if(ServerController.instance.getError()=="")
+        {
+			string result = ServerController.instance.getResult();
+			string[] data=result.Split(new string[] { "#END#" }, System.StringSplitOptions.None);
+
+			//ApplicationModel.player.MyDeck=new Deck();
+
+			string[] myDeckData = data[0].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+			for(int i = 0 ; i < myDeckData.Length ; i++){
+				//ApplicationModel.player.MyDeck.cards.Add(new Card());
+				//ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckData[i]);
+				//ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
+			}
+
+			if(!isIAGame)
+			{
+				ApplicationModel.opponentDeck=new Deck();
+
+				string[] hisDeckData = data[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
+				for(int i = 0 ; i < hisDeckData.Length ; i++){
+					ApplicationModel.opponentDeck.cards.Add(new Card());
+					ApplicationModel.opponentDeck.cards[i].parseCard(hisDeckData[i]);
+					ApplicationModel.opponentDeck.cards[i].deckOrder=i;
+				}
+			}
+			else
+			{
+				string[] iAData = data[1].Split(new string[] { "#IAINFO#" }, System.StringSplitOptions.None);
+				ApplicationModel.hisPlayerID=System.Convert.ToInt32(iAData[0]);
+				ApplicationModel.hisPlayerName=iAData[1];
+				ApplicationModel.hisRankingPoints=System.Convert.ToInt32(iAData[2]);
+			}
+
+			if(isFirstPlayer)
+			{
+				ApplicationModel.currentGameId=System.Convert.ToInt32(data[2]);
+			}
+        }
+        else
+        {
+            Debug.Log(ServerController.instance.getError());
+            //ServerController.instance.lostConnection();
+        }
+
+        this.createCards();
+    }
 }

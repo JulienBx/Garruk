@@ -171,4 +171,8 @@ MonoBehaviour:
   - PlayDodgeSoundRPC
   - PlayFailSoundRPC
   - PlaySoundRPC
+  - sendMyDeckID
+  - SendMyDeckID
+  - sendMyDeckIDRPC
+  - LostRPC
   DisableAutoOpenWizard: 0
