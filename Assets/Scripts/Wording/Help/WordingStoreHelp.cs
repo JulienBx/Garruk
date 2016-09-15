@@ -29,7 +29,7 @@ public class WordingStoreHelp
 		tutorialContents.Add(new string[]{"Accédons au détail des compétences en cliquant sur la carte","Let's click on the unit to see its details"}); //7
 		tutorialContents.Add(new string[]{"Des informations plus détaillées s'affichent comme le nom de l'unité et son niveau","You can now see your unit name and experience level"}); //8
 		tutorialContents.Add(new string[]{"Vous pouvez aussi voir le niveau de puissance de la compétence, et les effets associés","You can also see eack skill power level and effects"}); //9
-		tutorialContents.Add(new string[]{"Il est maintenant de former une équipe avec vos unités pour disputer votre premier combat","Let's move on to the last step before fighting : organizing your units into fight teams"}); //10
+		tutorialContents.Add(new string[]{"Il est maintenant temps de former une équipe avec vos unités pour disputer votre premier combat","Let's move on to the last step before fighting : organizing your units into fight teams"}); //10
 
 		helpContents=new List<string[]>();
 		helpContents.Add(new string[]{"Le centre de recrutement propose plusieurs offres chaque semaine. Plus vous recruterez d'unités simultanément, plus le prix par unité sera bas","Store displays different offers each week. The more units you buy, the less each unit will cost you!"}); //1

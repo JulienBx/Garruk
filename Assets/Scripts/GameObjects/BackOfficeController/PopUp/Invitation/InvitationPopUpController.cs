@@ -182,7 +182,9 @@ public class InvitationPopUpController : MonoBehaviour
 		ApplicationModel.player.setSelectedDeck (this.deckDisplayed);
         ApplicationModel.player.IsInvited=false;
         StartCoroutine(model.invitation.changeStatus(2));
+		int chosenGameType = ApplicationModel.player.ChosenGameType;
 		yield return ApplicationModel.player.syncData ();
+		ApplicationModel.player.ChosenGameType = chosenGameType;
 	}
 	public void declineInvitationHandler()
 	{
