@@ -388,6 +388,7 @@ public class Player : User
 	}
 	public IEnumerator syncData()
 	{
+		int chosenGameType = ApplicationModel.player.ChosenGameType;
 		string data = "";
 		this.cardsToSync.setString ();
 		this.decksToSync.setString ();
@@ -413,7 +414,6 @@ public class Player : User
 		form.AddField("myform_hash", ApplicationModel.hash); 		// hashcode de sécurité, doit etre identique à celui sur le serveur
 		form.AddField("myform_syncData", data);
 		form.AddField("myform_username", ApplicationModel.player.Username);
-		Debug.Log (ApplicationModel.player.Username);
 
 		ApplicationModel.player.IsOnline = true;
 		ServerController.instance.setRequest(URLSyncData, form);
@@ -439,6 +439,8 @@ public class Player : User
 			Debug.Log (this.Error);
 			ApplicationModel.player.IsOnline = false;
 		}
+		ApplicationModel.player.ChosenGameType = chosenGameType;
+		ApplicationModel.Save ();
 	}
 
 	#region AUTHENTICATION
@@ -493,7 +495,6 @@ public class Player : User
 			ApplicationModel.player.IsOnline = false;
 			ApplicationModel.player.IsAccountActivated=true;
 			ApplicationModel.player.IsAccountCreated=true;
-			Debug.Log ("isoffline");
 		}
 		else if(this.Error=="")
 		{
@@ -1124,22 +1125,11 @@ public class Player : User
 		{
 			ApplicationModel.trainingGameEarnCredits_L=System.Convert.ToInt32(gameData[27]);
 		}
-		//				if(System.Convert.ToInt32(data[2])!=-1)
-		//                {
-		//					string[] resultsHistoryData = data[1].Split(new string[] { "\\" }, System.StringSplitOptions.None);
-		//                    this.HasLostConnectionDuringGame=true;
-		//					this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
-		//					this.ChosenGameType=System.Convert.ToInt32(resultsHistoryData[1]);
-		//                    ApplicationModel.player.MyDeck=new Deck();
-		//                    string[] myDeckData =data[1].Split(new string[] { "#MYDECK#" }, System.StringSplitOptions.None);
-		//                    string[] myDeckCards = myDeckData[1].Split(new string[] { "#CARD#" }, System.StringSplitOptions.None);
-		//                    for(int i = 0 ; i < myDeckCards.Length ; i++)
-		//                    {
-		//                        ApplicationModel.player.MyDeck.cards.Add(new Card());
-		//                        ApplicationModel.player.MyDeck.cards[i].parseCard(myDeckCards[i]);
-		//                        ApplicationModel.player.MyDeck.cards[i].deckOrder=i;
-		//                    }
-		//                }
+		if(data[2]!="-1")
+       	{
+			string[] resultsHistoryData = data[2].Split(new string[] { "\\" }, System.StringSplitOptions.None);
+            this.HasWonLastGame=System.Convert.ToBoolean(System.Convert.ToInt32(resultsHistoryData[0]));
+        }			
 	}
 
 

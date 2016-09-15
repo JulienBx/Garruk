@@ -55,8 +55,8 @@ public class NewEndGameController : MonoBehaviour
 	{
 		instance = this;
 		SoundController.instance.playMusic(new int[]{3});
-        
-        ApplicationModel.player.HasLostConnectionDuringGame=false;
+		PlayerPrefs.DeleteKey("currentGame");
+		PlayerPrefs.DeleteKey("offlineGame");
 		this.updateSpeed = 1.5f;
 		this.updateRatio = 0;
 		this.toUpdateCredits = false;
@@ -149,16 +149,18 @@ public class NewEndGameController : MonoBehaviour
 	public void initialization()
 	{
 		this.resize();
-		if(ApplicationModel.player.ChosenGameType>20)
+		if (ApplicationModel.player.ChosenGameType > 20) {
+			if (ApplicationModel.player.HasWonLastGame) {
+				this.credits.GetComponent<TextMeshPro> ().text = WordingEndGame.getReference (3);
+			} else {
+				this.credits.GetComponent<TextMeshPro> ().text = WordingEndGame.getReference (9);
+			}
+			this.showEndButton ();
+			BackOfficeController.instance.hideLoadingScreen ();
+		} 
+		else if (ApplicationModel.player.HasLostConnectionDuringGame && !ApplicationModel.player.HasWonLastGame) 
 		{
-			if(ApplicationModel.player.HasWonLastGame)
-			{
-				this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(3);
-			}
-			else
-			{
-				this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(9);
-			}
+			this.credits.GetComponent<TextMeshPro>().text=WordingEndGame.getReference(11);
 			this.showEndButton();
 			BackOfficeController.instance.hideLoadingScreen();
 		}
@@ -180,6 +182,7 @@ public class NewEndGameController : MonoBehaviour
 			}
 			this.toUpdateCredits = true;
 		}
+		ApplicationModel.player.HasLostConnectionDuringGame=false;
 		BackOfficeController.instance.hideLoadingScreen();
 	}
 	public void incrementXpDrawn(bool hasChangedLevel, int id)

@@ -56,12 +56,14 @@ public class PhotonC : Photon.MonoBehaviour
 			ApplicationModel.player.IsFirstPlayer = true;
 			Game.instance.setFirstPlayer(true);
 			this.createIARoom();
+			PlayerPrefs.SetInt ("offlineGame", 1);
 		}
 		else{
 			if(PlayerPrefs.HasKey("currentGame")){
 				Debug.Log("J'essaye de me reconnecter à ma room");
 				ApplicationModel.player.IsFirstPlayer = false;
 	            ApplicationModel.player.ToLaunchGameIA = false;
+				this.reconnecting = true;
 				PhotonNetwork.JoinRoom(PlayerPrefs.GetString("currentGame"));
 			}
 			else{
@@ -168,15 +170,22 @@ public class PhotonC : Photon.MonoBehaviour
             this.CreateNewRoom ();
         }
     }
-
 	public void OnPhotonJoinRoomFailed()
     {
 		Debug.Log("La room ciblée n'existe plus !");
 		PlayerPrefs.DeleteKey("currentGame");
-		SceneManager.LoadScene("NewHomePage");
 		hideLoadingScreen ();
+		if (this.reconnecting) 
+		{
+			ApplicationModel.player.HasLostConnectionDuringGame = true;
+			SceneManager.LoadScene ("EndGame");
+			reconnecting = false;
+		} 
+		else 
+		{
+			SceneManager.LoadScene("NewHomePage");
+		}
     }
-
 	public void CreateNewRoom()
     {
         print("Création de la room");

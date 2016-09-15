@@ -236,7 +236,6 @@ public class AuthenticationController : Photon.MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.Login());
-		Debug.Log (ApplicationModel.player.IsOnline);
 		if (ApplicationModel.player.Error != "") 
 		{
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError (ApplicationModel.player.Error);
@@ -1013,6 +1012,15 @@ public class AuthenticationController : Photon.MonoBehaviour
 				BackOfficeController.instance.loadScene("NewHomePage");
 				break;
 			}
+		}
+		else if(PlayerPrefs.HasKey("currentGame"))
+		{
+			BackOfficeController.instance.loadScene("Game2");
+		}
+		else if(PlayerPrefs.HasKey("offlineGame"))
+		{
+			ApplicationModel.player.HasLostConnectionDuringGame = true;
+			BackOfficeController.instance.loadScene("EndGame");
 		}
         else if(ApplicationModel.player.HasLostConnectionDuringGame)
         {

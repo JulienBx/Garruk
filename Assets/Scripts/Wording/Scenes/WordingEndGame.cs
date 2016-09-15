@@ -25,5 +25,7 @@ public class WordingEndGame
 		references.Add(new string[]{" points d'expérience"," experience points"}); //8
 		references.Add(new string[]{"Votre ami a été le plus fort!\nVous ne gagnez pas de points d'expérience et de cristaux lors de batailles avec vos amis","You lost !\nYou don't get to earn rewards as you have been fighting a friend"}); //9
 		references.Add(new string[]{"Votre adversaire a remporté le combat!\n Vous gagnez ","Your opponent has won !\n You earn "}); //10
+		references.Add(new string[]{"Vous avez quitté votre dernier combat\n Vous ne gagnez donc ni points d'expérience ni cristaux!","You quit your last fight, Cristalian authorities decided not to give you any rewards"}); //11
+
 	}
 }

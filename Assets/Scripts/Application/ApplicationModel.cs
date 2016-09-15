@@ -171,7 +171,6 @@ public class ApplicationModel
     }
 	public static void Save() {
 
-		Debug.Log ("issaving");
 		Save currentState = new Save ();
 		currentState.create ();
 		BinaryFormatter bf = new BinaryFormatter();
