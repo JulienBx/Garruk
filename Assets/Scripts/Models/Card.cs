@@ -648,17 +648,17 @@ public class Card
 	public void defineUpgradedCard()
 	{
 		float calculus=0;
-		this.UpgradedLife=this.Life+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife/50);
+		this.UpgradedLife=this.Life+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife/50f);
 		if(this.UpgradedLife>ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife)
 		{
 			this.UpgradedLife=ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife;
 		}
-		calculus=10*(this.UpgradedLife-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife));
-		if(calculus>8)
+		calculus=10f*(((float)this.UpgradedLife-(float)(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife))/((float)ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxLife-(float)ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinLife));
+		if(calculus>8f)
 		{
 			this.UpgradedLifeLevel=3;
 		}
-		else if(calculus>5)
+		else if(calculus>5f)
 		{
 			this.UpgradedLifeLevel=2;
 		}
@@ -667,17 +667,19 @@ public class Card
 			this.UpgradedLifeLevel=1;
 		}
 
-		this.UpgradedAttack=this.Attack+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack/50);
+		calculus = 0;
+
+		this.UpgradedAttack=this.Attack+Mathf.CeilToInt(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack/40f);
 		if(this.UpgradedAttack>ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack)
 		{
 			this.UpgradedAttack=ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack;
 		}
-		calculus=10*(this.UpgradedAttack-(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack)/(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack-ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack));
-		if(calculus>8)
+		calculus=10f*(((float)this.UpgradedAttack-(float)(ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack))/((float)ApplicationModel.cardTypes.getCardType(this.CardType.Id).MaxAttack-(float)ApplicationModel.cardTypes.getCardType(this.CardType.Id).MinAttack));
+		if(calculus>8f)
 		{
 			this.UpgradedAttackLevel=3;
 		}
-		else if(calculus>5)
+		else if(calculus>5f)
 		{
 			this.UpgradedAttackLevel=2;
 		}

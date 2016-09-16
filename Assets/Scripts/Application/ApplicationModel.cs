@@ -181,18 +181,14 @@ public class ApplicationModel
 
 	public static void checkForSavedGame()
 	{
-
-		Debug.Log ("ischecking");
 		if (File.Exists (Application.persistentDataPath + "/save.gd")) 
 		{
-			Debug.Log ("try reading");
 			savedFileExists = true;
 			BinaryFormatter bf = new BinaryFormatter ();
 			FileStream file = File.Open (Application.persistentDataPath + "/save.gd", FileMode.Open);
 			try
 			{
 				savedGame = (Save)bf.Deserialize (file);
-				Debug.Log(savedGame.player.Username);
 			}
 			catch (SerializationException e)
 			{
@@ -200,7 +196,6 @@ public class ApplicationModel
 				savedFileExists = false;
 				DirectoryInfo dataDir = new DirectoryInfo(Application.persistentDataPath);
 				dataDir.Delete(true);
-				Debug.Log ("isdeleting");
 			}
 			finally
 			{

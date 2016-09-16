@@ -241,7 +241,6 @@ public class Player : User
 		ServerController.instance.setRequest(URLPayMoney, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		this.Error = ServerController.instance.getError ();
-		Debug.Log ("ok");
 		if(this.Error=="")
 		{
 			this.Money = this.Money - money;
