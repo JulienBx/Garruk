@@ -1005,12 +1005,19 @@ public class CardC : MonoBehaviour
 	}
 
 	public int getDegatsAgainst(CardC target, int d){
-		int degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		int degats = 0;
+		if(this.card.getCharacterType()==71 && target.getLife()>=50){ 
+			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(Mathf.RoundToInt(d*(110f+5f*this.card.getSkill(0).Power)/100f)*(1-(target.getBouclier()/100f)))));
+		}
+		else{
+			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		}
+
 		return degats;
 	}
 
 	public int getDamageScore(CardC target, int d){
-		int degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		int degats = this.getDegatsAgainst(target, d);
 		if(degats==target.getLife()){
 			degats = 100+target.getLife()+target.getAttack();
 		}
