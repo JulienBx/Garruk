@@ -52,15 +52,14 @@ public class ServerController : MonoBehaviour
 		this.error = "";
 		WWW w =new WWW(this.URL, this.form);
 		yield return w;
-		this.requestIsOver = true;
-		if (w.error != null) {
+		if (w.error != null && w.error!="") {
 			this.error = w.error;
-			Debug.Log ("servor Error");
 		}
 		else if (w.text != null) {
 			this.text = w.text;
 			Debug.Log ("it's fine");
 		}
+		this.requestIsOver = true;
 	}
 	public IEnumerator executeRequest()
 	{
@@ -71,26 +70,22 @@ public class ServerController : MonoBehaviour
 		this.toDetectTimeOut=true;
 		this.stopCoroutine = false;
 		this.requestIsOver = false;
-		StartCoroutine ("mainRequest");
-		bool continueLoop=true;
-		while (continueLoop) {
-			if (this.requestIsOver) {
-				continueLoop = false;
-			}
-			if (this.stopCoroutine) {
-				continueLoop = false;
-				StopCoroutine ("mainRequest");
-			}
+		StartCoroutine (this.mainRequest());
+
+		while(this.stopCoroutine!=true && this.requestIsOver!=true)
+		{
+			yield return null;
 		}
-		yield return 0;
+		if (this.stopCoroutine) {
+			StopCoroutine (this.mainRequest());
+		}
 		this.toDetectTimeOut=false;
 		
-		if(this.error!=null || this.stopCoroutine)
+		if(this.error!="" || this.stopCoroutine)
 		{
 			ApplicationModel.player.IsOnline=false;
 			if (this.error!=null) {
 				this.isServerError = true;
-				Debug.Log(WordingServerError.getReference(this.error,false));
 			}
 		}
 		if(ApplicationModel.player.IsOnline)
