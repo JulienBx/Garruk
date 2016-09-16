@@ -120,6 +120,13 @@ public class WordingGame
 		texts.Add(new string[]{"ATK : ARG1 -> ARG2","ATK : ARG1 -> ARG2"});
 		texts.Add(new string[]{"Pas d'allié adjacent!","No adjacent ally unit!"});
 		texts.Add(new string[]{"Pas d'unité adjacente!","No adjacent unit!"});
+		texts.Add(new string[]{"Bouclier ARG1%","ARG1% shield"});
+		texts.Add(new string[]{"Bouclier","Shield"});
+		texts.Add(new string[]{"S'inflige ARG1 dégat","Inflicts ARG damage point to itself"});
 
+		texts.Add(new string[]{"S'inflige ARG1 dégats","Inflicts ARG damage points to itself"});
+		texts.Add(new string[]{"Paralysé!","Paralyzed!"});
+		texts.Add(new string[]{"25% de chances de paralyser","25% chances of paralyzing"});
+		texts.Add(new string[]{"Compétences inactives pour 1 tour","Cannot use skills during 1 turn"});
 	}
 }

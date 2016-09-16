@@ -8,34 +8,12 @@ public class FrenetiqueC : SkillC
 		base.ciblage = 0;
 		base.animId = 1;
 		base.soundId = 25;
-	}
-
-	public override void resolve(Skill skill){
-		CardC target = Game.instance.getCurrentCard();
-		int level = skill.Power;
-		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
-			if(Game.instance.isIA() || Game.instance.isTutorial()){
-				Game.instance.getSkills().skills[this.id].effects(Game.instance.getCurrentCardID());
-			}
-			else{
-				GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, Game.instance.getCurrentCardID());
-			}	
-		}
-		else{
-			if(Game.instance.isIA() || Game.instance.isTutorial()){
-				Game.instance.getSkills().skills[this.id].fail();
-			}
-			else{
-				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
-			}
-		}
+		base.nbIntsToSend=0;
 	}
 
 	public override void effects(int targetID){
-		SoundController.instance.playSound(base.soundId);
-
-		CardC caster = Game.instance.getCurrentCard();
-		int level = Game.instance.getCurrentCard().getCardM().getSkill(0).Power;
+		CardC caster = Game.instance.getCards().getCardC(targetID);
+		int level = caster.getCardM().getSkill(0).Power;
 
 		int degats = caster.getDegatsAgainst(caster, this.getDegats(level));
 		int bonusAttack = this.getAttackBonus(level);

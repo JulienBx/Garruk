@@ -22,11 +22,11 @@ public class SkillsM
 		this.skills [13] = new SkillC();
 		this.skills [14] = new SkillC();
 		this.skills [15] = new SkillC();
-		this.skills [16] = new SkillC();
+		this.skills [16] = new BerserkC();
 		this.skills [17] = new Attaque360C();
 		this.skills [18] = new FouetC();
 		this.skills [19] = new SkillC();
-		this.skills [20] = new SkillC();
+		this.skills [20] = new TerreurC();
 		this.skills [21] = new SkillC();
 		this.skills [22] = new SkillC();
 		this.skills [23] = new SkillC();
@@ -74,9 +74,9 @@ public class SkillsM
 		this.skills [65] = new SkillC();
 		this.skills [66] = new SkillC();
 		this.skills [67] = new SkillC();
-		this.skills [68] = new SkillC();
+		this.skills [68] = new CoriaceC();
 		this.skills [69] = new FrenetiqueC();
-		this.skills [70] = new SkillC();
+		this.skills [70] = new CuirasseC();
 		this.skills [71] = new SkillC();
 		this.skills [72] = new SkillC();
 		this.skills [73] = new SkillC();

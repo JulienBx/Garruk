@@ -122,7 +122,7 @@ public class Board
 		foreach (TileM t in neighbourTiles)
 		{
 			playerID = board[t.x,t.y];
-			if (playerID > 0)
+			if (playerID >= 0)
 			{
 				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
 					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
@@ -142,7 +142,7 @@ public class Board
 		foreach (TileM t in neighbourTiles)
 		{
 			playerID = board[t.x,t.y];
-			if (playerID > 0)
+			if (playerID >= 0)
 			{
 				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
 					if(card.getCardM().isMine()==Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
@@ -165,7 +165,7 @@ public class Board
 		foreach (TileM t in neighbourTiles)
 		{
 			playerID = board[t.x,t.y];
-			if (playerID > 0)
+			if (playerID >= 0)
 			{
 				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
 					hasSomeone = true;

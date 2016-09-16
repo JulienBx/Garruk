@@ -322,20 +322,20 @@ public class Card
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%ATK")){
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%PV")){
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
+			percentage = Mathf.Max(Mathf.RoundToInt(Int32.Parse(tempstring)*this.getLife()/100f));
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
 		}
 		return s;

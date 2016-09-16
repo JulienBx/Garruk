@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FouetC : SkillC
+public class BerserkC : SkillC
 {
-	public FouetC(){
-		this.id = 18 ;
-		base.ciblage = 2;
+	public BerserkC(){
+		this.id = 16 ;
+		base.ciblage = 1;
 		base.animId = 0;
 		base.soundId = 25;
 		base.nbIntsToSend = 0;
@@ -16,14 +16,17 @@ public class FouetC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 
 		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(level)/100f)));
-		int attackBonus = this.getAttackBonus(level);
+		int selfDegats = caster.getDegatsAgainst(caster, this.getDegats(level));
 
 		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
-		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(13, new List<int>{attackBonus})+"\n"+WordingGame.getText(8, new List<int>{degats}), 2);
+		caster.displayAnim(base.animId);
+		caster.displaySkillEffect(WordingGame.getText(77, new List<int>{selfDegats}), 2);
 
+		target.displayAnim(base.animId);
+		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+
+		caster.addDamageModifyer(new ModifyerM(selfDegats, -1, "", "",-1));
 		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
-		target.addAttackModifyer(new ModifyerM(attackBonus, 0, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){
@@ -31,49 +34,55 @@ public class FouetC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 
 		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(level)/100f)));
-		int attackBonus = this.getAttackBonus(level);
+		int selfDegats = caster.getDegatsAgainst(caster, this.getDegats(level));
 
-		string text = WordingGame.getText(84, new List<int>{target.getAttack(),target.getAttack()+attackBonus});
-		text+="\n"+WordingGame.getText(78, new List<int>{target.getLife(),target.getLife()-degats});
+		string text = WordingGame.getText(78, new List<int>{target.getLife(),target.getLife()-degats});
+		if(selfDegats<=1){
+			text+="\n"+WordingGame.getText(89, new List<int>{selfDegats});
+		}
+		else{
+			text+="\n"+WordingGame.getText(90, new List<int>{selfDegats});
+		}
+
 		return text ;
+	}
+
+	public int getDegats(int level){
+		if(level<=1){
+			return 20;
+		}
+		else if(level<=3){
+			return 17;
+		}
+		else if(level<=5){
+			return 14;
+		}
+		else if(level<=7){
+			return 11;
+		}
+		else if(level<=9){
+			return 8;
+		}
+		else{
+			return 5;
+		}
 	}
 
 	public int getAttackPercentage(int level){
 		if(level<=2){
-			return 50;
+			return 110;
 		}
 		else if(level<=4){
-			return 40;
+			return 115;
 		}
 		else if(level<=6){
-			return 30;
+			return 120;
 		}
 		else if(level<=8){
-			return 20;
+			return 125;
 		}
 		else{
-			return 10;
-		}
-	}
-
-	public int getAttackBonus(int level){
-		if(level<=1){
-			return 3;
-		}
-		else if(level<=3){
-			return 4;
-		}
-		else if(level<=5){
-			return 5;
-		}
-		else if(level<=7){
-			return 6;
-		}
-		else if(level<=9){
-			return 7;
-		}
-		else{
-			return 8;
+			return 130;
 		}
 	}
 
@@ -82,17 +91,12 @@ public class FouetC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 
 		int score = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(s.Power)/100f)));
-	
-		int attackBonus = this.getAttackBonus(s.Power)*Mathf.FloorToInt(target.getLife()/10f);
-		if(target.getCardM().isMine()){
-			score+=attackBonus;
-		}
-		else{
-			score-=attackBonus;
-		}
-
 		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
 
+		int score2 = caster.getDamageScore(caster, this.getDegats(s.Power));
+		score2 = Mathf.RoundToInt(s.getProba(s.Power)*(score2*(100-caster.getEsquive())/100f)/100f);
+
+		score+=score2 ;
 		return score;
 	}
 }

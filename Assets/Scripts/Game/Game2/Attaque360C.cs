@@ -8,6 +8,7 @@ public class Attaque360C : SkillC
 		base.ciblage = 3;
 		base.animId = 0;
 		base.soundId = 25;
+		base.nbIntsToSend = 0;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
@@ -30,7 +31,7 @@ public class Attaque360C : SkillC
 								Game.instance.getSkills().skills[this.id].dodge(targetID);
 							}
 							else{
-								GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID);
+								StartCoroutine(GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID));
 							}
 						}
 						else{
@@ -38,7 +39,7 @@ public class Attaque360C : SkillC
 								Game.instance.getSkills().skills[this.id].effects(targetID, level);
 							}
 							else{
-								GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level);
+								StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level));
 							}
 						}
 					}
@@ -51,7 +52,7 @@ public class Attaque360C : SkillC
 				Game.instance.getSkills().skills[this.id].fail();
 			}
 			else{
-				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
 			}
 		}
 
@@ -60,7 +61,7 @@ public class Attaque360C : SkillC
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
 			}
 		}
 		else if (hasDodged){
@@ -68,7 +69,7 @@ public class Attaque360C : SkillC
 				Game.instance.getSkills().skills[this.id].playDodgeSound();
 			}
 			else{
-				GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id));
 			}
 		}
 		else{
@@ -76,7 +77,7 @@ public class Attaque360C : SkillC
 				Game.instance.getSkills().skills[this.id].playSound();
 			}
 			else{
-				GameRPC.instance.launchRPC("PlaySoundRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
 			}
 		}
 	}

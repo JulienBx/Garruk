@@ -323,12 +323,15 @@ public class Intelligence
 		}
 		if(y==1 || y==6){
 			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-1)));
+			passiveScore+=1;
 		}
 		if(y==2 || y==5){
 			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-2)));
+			passiveScore+=2;
 		}
 		if(y==3 || y==4){
 			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
+			passiveScore+=3;
 		}
 		if(debug){
 			Debug.Log("- - - - - - - - - - - - - ");
@@ -352,10 +355,6 @@ public class Intelligence
 					if(debug){
 						Debug.Log("RETRAIT "+Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/2f));
 					}
-				}
-				passiveScore+=7-y;
-				if(debug){
-					Debug.Log("AJOUT DISTANCE "+(7-y));
 				}
 			}
 		}

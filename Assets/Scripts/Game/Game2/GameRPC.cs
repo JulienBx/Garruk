@@ -226,6 +226,13 @@ public class GameRPC : Photon.MonoBehaviour
 	}
 
 	[PunRPC]
+	void EffectsSkillRPC(int x, int y, int z, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].effects(y, z);
+	}
+
+	[PunRPC]
 	void createTileRPC(int x, int y, bool type, bool isFirstP)
 	{
 		this.updateRPCCompteurs(isFirstP);

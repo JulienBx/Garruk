@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SkillC
+public class SkillC : MonoBehaviour
 {
 	public int numberOfExpectedTargets ; 
 
@@ -18,6 +18,7 @@ public class SkillC
 	public int failSoundId = 25;
 	public int soundId;
 	public int animId;
+	public int nbIntsToSend;
 
 	public SkillC(){
 		this.ciblage=99;
@@ -28,25 +29,36 @@ public class SkillC
 		int targetID = Game.instance.getBoard().getTileC(x,y).getCharacterID();
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		int level = skill.Power;
-		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
-			if(UnityEngine.Random.Range(0,101)<=target.getEsquive()){
+		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
+			if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
 					Game.instance.getSkills().skills[this.id].dodge(targetID);
 					Game.instance.getSkills().skills[this.id].playDodgeSound();
 				}
 				else{
-					GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID);
-					GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id);
+					StartCoroutine(GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID));
+					StartCoroutine(GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id));
 				}
 			}
 			else{
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
-					Game.instance.getSkills().skills[this.id].effects(targetID, level);
+					if(nbIntsToSend==0){
+						Game.instance.getSkills().skills[this.id].effects(targetID, level);
+					}
+					else if(nbIntsToSend==1){
+						Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
+					}
 					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
-					GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level);
-					GameRPC.instance.launchRPC("PlaySoundRPC", this.id);
+					if(nbIntsToSend==0){
+						StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level));
+					}
+					else if(nbIntsToSend==1){
+						StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101)));
+					}
+
+					StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
 				}
 			}
 		}
@@ -56,8 +68,44 @@ public class SkillC
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
-				GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
+				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
+			}
+		}
+	}
+
+	public virtual void resolve(Skill skill, int targetID){
+		CardC target = Game.instance.getCards().getCardC(targetID);
+		int level = skill.Power;
+		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				if(nbIntsToSend==0){
+					Game.instance.getSkills().skills[this.id].effects(targetID, level);
+				}
+				else if(nbIntsToSend==1){
+					Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
+				}
+				Game.instance.getSkills().skills[this.id].playSound();
+			}
+			else{
+				if(nbIntsToSend==0){
+					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level));
+				}
+				else if(nbIntsToSend==1){
+					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101)));
+				}
+
+				StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
+			}	
+		}
+		else{
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].fail();
+				Game.instance.getSkills().skills[this.id].playFailSound();
+			}
+			else{
+				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
+				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
 			}
 		}
 	}
@@ -99,6 +147,10 @@ public class SkillC
 	}
 
 	public virtual void effects(int x, int y){
+		Debug.Log("Skill non implémenté");
+	}
+
+	public virtual void effects(int x, int y, int z){
 		Debug.Log("Skill non implémenté");
 	}
 

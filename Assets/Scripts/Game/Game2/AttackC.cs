@@ -8,6 +8,7 @@ public class AttackC : SkillC
 		base.ciblage = 1;
 		base.animId = 0;
 		base.soundId = 25;
+		base.nbIntsToSend = 0;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
@@ -15,15 +16,15 @@ public class AttackC : SkillC
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		//int level = skill.Power;
 		int level = 1;
-		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
-			if(UnityEngine.Random.Range(0,101)<=target.getEsquive()){
+		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
+			if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
 					Game.instance.getSkills().skills[this.id].dodge(targetID);
 					Game.instance.getSkills().skills[this.id].playDodgeSound();
 				}
 				else{
-					GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID);
-					GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id);
+					StartCoroutine(GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID));
+					StartCoroutine(GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id));
 				}
 			}
 			else{
@@ -32,8 +33,8 @@ public class AttackC : SkillC
 					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
-					GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID);
-					GameRPC.instance.launchRPC("PlaySoundRPC", this.id);
+					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID));
+					StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
 				}
 			}
 		}
@@ -43,8 +44,8 @@ public class AttackC : SkillC
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				GameRPC.instance.launchRPC("FailSkillRPC", this.id);
-				GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id);
+				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
+				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
 			}
 		}
 	}
@@ -60,7 +61,6 @@ public class AttackC : SkillC
 		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
 
 		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
-
 	}
 
 	public override string getSkillText(int targetID, int level){

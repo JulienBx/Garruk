@@ -327,6 +327,12 @@ public class Game : MonoBehaviour
 			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(3).getDeckOrder());
 		}
 
+		for(int i = 0 ; i < this.getCards().getNumberOfCards() ; i++){
+			if(this.getCards().getCardC(i).getCardM().getCharacterType()==70){
+				this.getSkills().skills[70].resolve(this.getCards().getCardC(i).getCardM().getSkill(0), i);
+			}
+		}
+
 		if(this.ia || this.isTutorial()){
 			this.intelligence.placeCards();
 		}
@@ -844,7 +850,10 @@ public class Game : MonoBehaviour
 
 	public void handleBeginningTurnEffects(){
 		if(this.getCurrentCard().getCardM().getCharacterType()==69){
-			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0));
+			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
+		}
+		else if(this.getCurrentCard().getCardM().getCharacterType()==68){
+			this.getSkills().skills[68].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
 	}
 
@@ -902,6 +911,9 @@ public class Game : MonoBehaviour
 			
 		if(this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
 			this.getMyHoveredCard().setNextCard(this.currentCardID);
+			if(this.getCurrentCard().isParalized()){
+				this.getCurrentCard().play(true);
+			}
 			this.loadController();
 		}
 		else{
@@ -1271,14 +1283,21 @@ public class Game : MonoBehaviour
 	}
 
 	public void updateModifyers(int i){
-		if(this.getMyHoveredCard().getCurrentCard()==i){
-			this.getMyHoveredCard().setCard(i);
+		this.getCards().getCardC(i).showIcons(true);
+		if(this.getMyHoveredCard().getCurrentCard()!=-1){
+			if(this.getMyHoveredCard().getCurrentCard()==i){
+				this.getMyHoveredCard().setCard(i);
+			}
 		}
-		if(this.getHisHoveredCard().getCurrentCard()==i){
-			this.getHisHoveredCard().setCard(i);
+		if(this.getHisHoveredCard().getCurrentCard()!=-1){
+			if(this.getHisHoveredCard().getCurrentCard()==i){
+				this.getHisHoveredCard().setCard(i);
+			}
 		}
-		if(this.getCurrentCard().getCardM().isMine()){
-			this.actuController(false);
+		if(this.getCurrentCardID()!=-1){
+			if(this.getCurrentCard().getCardM().isMine()){
+				this.actuController(false);
+			}
 		}
 	}
 

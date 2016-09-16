@@ -113,8 +113,25 @@ public class CardC : MonoBehaviour
 	}
 
 	public void addDamageModifyer(ModifyerM m){
-		this.damageModifyers.Add(m);
+		bool hasFound = false ;
+		for(int i = 0 ; i < damageModifyers.Count ;i++){
+			if(m.getDuration()==damageModifyers[i].getDuration()){
+				hasFound = true ;
+				damageModifyers[i].addAmount(m.getAmount());
+				if(damageModifyers[i].getAmount()==0){
+					damageModifyers.RemoveAt(i);
+				}
+			}
+		}
+		if(!hasFound){
+			this.damageModifyers.Add(m);
+		}
 		this.setLife();
+	}
+
+	public void addStateModifyer(ModifyerM m){
+		this.stateModifyers.Add(m);
+		Game.instance.updateModifyers(this.id);
 	}
 
 	public void addAttackModifyer(ModifyerM m){
@@ -151,6 +168,29 @@ public class CardC : MonoBehaviour
 		}
 		Game.instance.updateModifyers(this.id);
 		this.setAttack();
+	}
+
+	public void addShieldModifyer(ModifyerM m){
+		bool hasFound = false ;
+		for(int i = 0 ; i < bouclierModifyers.Count ;i++){
+			if(m.getDuration()==bouclierModifyers[i].getDuration()){
+				hasFound = true ;
+				bouclierModifyers[i].addAmount(m.getAmount());
+				if(bouclierModifyers[i].getAmount()==0){
+					bouclierModifyers.RemoveAt(i);
+				}
+				else{
+					bouclierModifyers[i].setTitle(WordingGame.getText(88));
+					bouclierModifyers[i].setDescription(WordingGame.getText(87, new List<int>{bouclierModifyers[i].getAmount()}));
+				}
+			}
+		}
+		if(!hasFound){
+			m.setTitle(WordingGame.getText(88));
+			m.setDescription(WordingGame.getText(87, new List<int>{m.getAmount()}));
+			this.bouclierModifyers.Add(m);
+		}
+		Game.instance.updateModifyers(this.id);
 	}
 
 	public void startClignote(){
@@ -337,7 +377,14 @@ public class CardC : MonoBehaviour
 	}
 
 	public void setIcon(int i, int idSkill){
-		gameObject.transform.Find("Background").FindChild("Icon"+(i+1)).GetComponent<SpriteRenderer>().sprite = this.iconSprites[idSkill];
+		gameObject.transform.Find("Background").FindChild("Icon"+(i+1)).GetComponent<SpriteRenderer>().sprite = this.iconSprites[Math.Abs(idSkill)];
+
+		if(idSkill>=0){
+			gameObject.transform.Find("Background").FindChild("Icon"+(i+1)).GetComponent<SpriteRenderer>().color = new Color(60f/255f, 160f/255f, 100f/255f, 1f);
+		}
+		else{
+			gameObject.transform.Find("Background").FindChild("Icon"+(i+1)).GetComponent<SpriteRenderer>().color = new Color(231f/255f, 0f, 66f/255f, 1f);
+		}
 	}
 
 	public void showDeadLayer(bool b){
@@ -510,6 +557,13 @@ public class CardC : MonoBehaviour
 		for(int i = 0 ; i < this.damageModifyers.Count ; i++){
 			life-=this.damageModifyers[i].getAmount();
 		}
+		if(life>this.getTotalLife()){
+			life = this.getTotalLife();
+		}
+
+		for(int i = 0 ; i < this.lifeModifyers.Count ; i++){
+			life+=this.lifeModifyers[i].getAmount();
+		}
 		return life;
 	}
 
@@ -544,16 +598,22 @@ public class CardC : MonoBehaviour
 			icons.Add(this.stateModifyers[i].getIdIcon());
 			compteur++;
 		}
-		for(int i = 0 ; i < esquiveModifyers.Count && compteur<3 ; i++){
-			icons.Add(this.esquiveModifyers[i].getIdIcon());
+		if(esquiveModifyers.Count>0 && compteur<3){
+			icons.Add(this.esquiveModifyers[0].getIdIcon());
 			compteur++;
 		}
-		for(int i = 0 ; i < bouclierModifyers.Count && compteur<3 ; i++){
-			icons.Add(this.bouclierModifyers[i].getIdIcon());
+		if(bouclierModifyers.Count>0 && compteur<3){
+			icons.Add(this.bouclierModifyers[0].getIdIcon());
 			compteur++;
 		}
-		for(int i = 0 ; i < moveModifyers.Count && compteur<3 ; i++){
-			icons.Add(this.moveModifyers[i].getIdIcon());
+		if(moveModifyers.Count>0 && compteur<3){
+			if(this.getMove()<this.card.getMove()){
+				icons.Add(this.moveModifyers[0].getIdIcon());
+			}
+			else{
+				icons.Add(-1*this.moveModifyers[0].getIdIcon());
+			}
+
 			compteur++;
 		}
 		return icons;
@@ -655,20 +715,20 @@ public class CardC : MonoBehaviour
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%ATK")){
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%PV")){
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getLife()/100f));
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
 		}
 		if (WordingSkills.getProba(this.card.getSkill(i).Id, this.card.getSkill(i).Power-1)!=100){
@@ -693,20 +753,20 @@ public class CardC : MonoBehaviour
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%ATK")){
 			index = s.IndexOf("%ATK");
 			
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getAttack()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getAttack()/100f));
 			s = s.Substring(0,index-3)+percentage+s.Substring(index+4,s.Length-index-4);
 		}
 		if (s.Contains("%PV")){
 			index = s.IndexOf("%PV");
 			tempstring = s.Substring(index-3,3);
-			percentage = Mathf.CeilToInt(Int32.Parse(tempstring)*this.getLife()/100f);
+			percentage = Mathf.Max(1,Mathf.RoundToInt(Int32.Parse(tempstring)*this.getLife()/100f));
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
 		}
 
@@ -961,5 +1021,15 @@ public class CardC : MonoBehaviour
 			degats = -1*degats;
 		}
 		return d;
+	}
+
+	public bool isParalized(){
+		bool p = false;
+		for(int i = 0 ; i < stateModifyers.Count ;i++){
+			if(stateModifyers[i].getIdIcon()==20){
+				p = true ;
+			}
+		}
+		return p;
 	}
 }

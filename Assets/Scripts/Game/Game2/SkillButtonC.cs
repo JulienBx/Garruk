@@ -100,7 +100,12 @@ public class SkillButtonC : MonoBehaviour
 	public void forbid(){
 		this.grey();
 		this.launchable = false ;
-		gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = WordingGame.getText(71) ;
+		if(Game.instance.getCurrentCard().isParalized()){
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = WordingGame.getText(91)+" "+WordingGame.getText(93);
+		}
+		else{
+			gameObject.transform.FindChild("DescriptionZone").FindChild("DescriptionText").GetComponent<TextMeshPro>().text = WordingGame.getText(71) ;
+		}
 	}
 
 	public void OnMouseEnter()
