@@ -494,6 +494,15 @@ public class Player : User
 			ApplicationModel.player.IsOnline = false;
 			ApplicationModel.player.IsAccountActivated=true;
 			ApplicationModel.player.IsAccountCreated=true;
+			ApplicationModel.player.Error = "";
+		}
+		else if (!this.IsOnline && ApplicationModel.player.AutomaticConnection) 
+		{
+			ApplicationModel.Load ();
+			ApplicationModel.player.IsOnline = false;
+			ApplicationModel.player.IsAccountActivated=true;
+			ApplicationModel.player.IsAccountCreated=true;
+			ApplicationModel.player.Error = "";
 		}
 		else if(this.Error=="")
 		{

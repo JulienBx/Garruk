@@ -39,11 +39,6 @@ public class NewLobbyModel
 			ApplicationModel.player.MyDivision=parseDivision(data[1].Split(new string[] { "//" }, System.StringSplitOptions.None));
 			this.lastResults=parseResults(data[2].Split(new string[] {"RESULT"},System.StringSplitOptions.None));
 		}
-		else
-		{
-			Debug.Log(ServerController.instance.getError());
-			BackOfficeController.instance.displayDetectOfflinePopUp ();
-		}
 	}
 	private Division parseDivision(string[] array)
 	{
