@@ -47,7 +47,7 @@ public class NextLevelPopUpController : MonoBehaviour
 
 		this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
 		this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
-		Debug.Log (c.UpgradedAttack + "//" + c.Attack + "//" + c.AttackNbUpgrades);
+
 		if(c.UpgradedAttack<=c.Attack || c.AttackNbUpgrades==3)
 		{
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<SpriteRenderer>().color=ApplicationDesignRules.redColor;
@@ -334,6 +334,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		if(index==0)
 		{
 			this.gameObject.transform.FindChild("AttackButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Attack.ToString();
+			this.gameObject.transform.FindChild("AttackButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.AttackLevel - 1];
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController>().setIsSelected(false);
 			this.gameObject.transform.FindChild("AttackButton").GetComponent<NextLevelPopUpAttributeController>().setInitialState();
 			if(c.AttackNbUpgrades==0)
@@ -370,6 +371,7 @@ public class NextLevelPopUpController : MonoBehaviour
 		else if(index ==1)
 		{
 			this.gameObject.transform.FindChild("LifeButton").FindChild("Title").GetComponent<TextMeshPro>().text = c.Life.ToString();
+			this.gameObject.transform.FindChild("LifeButton").FindChild("Picto").GetComponent<SpriteRenderer> ().color = ressources.colors [c.LifeLevel - 1];
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().setIsSelected(false);
 			this.gameObject.transform.FindChild("LifeButton").GetComponent<NextLevelPopUpAttributeController>().setInitialState();
 			if(c.LifeNbUpgrades==0)

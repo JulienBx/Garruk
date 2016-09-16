@@ -1244,7 +1244,7 @@ public class Game : MonoBehaviour
 
 	public IEnumerator sendStat(int percentageTotalDamages, int currentGameid, bool hasWon, bool isFirstPlayer)
 	{
-		Debug.Log ("Damages :" + percentageTotalDamages + "// CurentGameId :" + currentGameid.ToString () + "// HasWon :" + System.Convert.ToInt32 (hasWon).ToString () + "// isFirstPlayer :" + System.Convert.ToInt32 (isFirstPlayer).ToString ());
+		//Debug.Log ("Damages :" + percentageTotalDamages + "// CurentGameId :" + currentGameid.ToString () + "// HasWon :" + System.Convert.ToInt32 (hasWon).ToString () + "// isFirstPlayer :" + System.Convert.ToInt32 (isFirstPlayer).ToString ());
 		int hasWonInt = 0;
         if(hasWon)
         {

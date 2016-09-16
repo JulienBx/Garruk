@@ -234,6 +234,7 @@ public class PlayPopUpController : MonoBehaviour
 	}
 	public IEnumerator joinGame()
 	{
+		bool wasOnline = ApplicationModel.player.IsOnline;
 		this.gameObject.transform.FindChild("Error").gameObject.SetActive(false);
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
@@ -246,8 +247,13 @@ public class PlayPopUpController : MonoBehaviour
 			if (ApplicationModel.player.IsOnline) {
 				BackOfficeController.instance.loadScene ("NewLobby");
 			} else {
-				BackOfficeController.instance.displayOfflineModePopUp (3);
-
+				BackOfficeController.instance.hideLoadingScreen ();
+				if (!wasOnline) {
+					BackOfficeController.instance.displayOfflineModePopUp(3);
+				} else {
+					BackOfficeController.instance.displayDetectOfflinePopUp();
+				}
+				BackOfficeController.instance.hidePlayPopUp ();
 			}
 		}
 		else

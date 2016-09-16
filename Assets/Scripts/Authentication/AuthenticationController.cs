@@ -238,6 +238,7 @@ public class AuthenticationController : Photon.MonoBehaviour
 		yield return StartCoroutine(ApplicationModel.player.Login());
 		if (ApplicationModel.player.Error != "") 
 		{
+			this.displayLoginPopUp ();
 			this.loginPopUp.transform.GetComponent<LoginPopUpController> ().setError (ApplicationModel.player.Error);
 			SoundController.instance.stopPlayingSound ();
 			SoundController.instance.playSound (13);

@@ -195,25 +195,25 @@ public class NewLobbyController : MonoBehaviour
 		this.resize ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.getLobbyData(this.isEndGameLobby));
-		this.initializeResults ();
-		this.initializeCompetitions ();
-		this.initializeStats ();
-		this.drawGauge();
-		if(this.isEndGameLobby)
-		{
-			this.initializePopUp ();
+		if (ApplicationModel.player.IsOnline) {
+			this.initializeResults ();
+			this.initializeCompetitions ();
+			this.initializeStats ();
+			this.drawGauge ();
+			if (this.isEndGameLobby) {
+				this.initializePopUp ();
+			}
+			this.initializePlayButton ();
+			this.isSceneLoaded = true;
+			if (ApplicationModel.player.TutorialStep != -1) {
+				HelpController.instance.startTutorial ();
+			} else if (!ApplicationModel.player.LobbyHelp) {
+				HelpController.instance.startHelp ();
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
-		this.initializePlayButton ();
-		this.isSceneLoaded = true;
 		BackOfficeController.instance.hideLoadingScreen ();
-		if(ApplicationModel.player.TutorialStep!=-1)
-		{
-			HelpController.instance.startTutorial();
-		}
-		else if(!ApplicationModel.player.LobbyHelp)
-		{
-			HelpController.instance.startHelp();
-		}
 	}
 	public void initializeResults()
 	{

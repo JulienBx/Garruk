@@ -1410,10 +1410,14 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void buyPackHandler()
 	{
-		if (HelpController.instance.canAccess (-1)) {
-			SoundController.instance.playSound (9);
-			ApplicationModel.player.PackToBuy = ApplicationModel.packs.getPack (this.displayedPack).Id;
-			BackOfficeController.instance.loadScene ("NewStore");
+		if (ApplicationModel.player.IsOnline) {
+			if (HelpController.instance.canAccess (-1)) {
+				SoundController.instance.playSound (9);
+				ApplicationModel.player.PackToBuy = ApplicationModel.packs.getPack (this.displayedPack).Id;
+				BackOfficeController.instance.loadScene ("NewStore");
+			}
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
 	}
 	private void manageNonReadsNotifications()
@@ -1612,6 +1616,7 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator joinGame()
 	{
+		bool wasOnline = ApplicationModel.player.IsOnline;
 		BackOfficeController.instance.displayLoadingScreen ();
 		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
 		if (ApplicationModel.player.IsOnline) 
@@ -1623,8 +1628,12 @@ public class NewHomePageController : MonoBehaviour
 			if (ApplicationModel.player.IsOnline) {
 				BackOfficeController.instance.loadScene ("NewLobby");
 			} else {
-				BackOfficeController.instance.displayOfflineModePopUp (3);
-
+				BackOfficeController.instance.hideLoadingScreen ();
+				if (!wasOnline) {
+					BackOfficeController.instance.displayOfflineModePopUp (3);
+				} else {
+					BackOfficeController.instance.displayDetectOfflinePopUp ();
+				}
 			}
 		}
 		else
@@ -1729,10 +1738,14 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public IEnumerator sendInvitation(int challengeButtonId)
 	{
-		BackOfficeController.instance.displayLoadingScreen ();
-		ApplicationModel.player.setSelectedDeck(this.deckDisplayed);
-		StartCoroutine (BackOfficeController.instance.sendInvitation (ApplicationModel.player.Users.getUser(this.friendsToBeDisplayed[this.friendsDisplayed[challengeButtonId]]), ApplicationModel.player));
-		yield break;
+		if (ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayLoadingScreen ();
+			ApplicationModel.player.setSelectedDeck (this.deckDisplayed);
+			StartCoroutine (BackOfficeController.instance.sendInvitation (ApplicationModel.player.Users.getUser (this.friendsToBeDisplayed [this.friendsDisplayed [challengeButtonId]]), ApplicationModel.player));
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
+		}
+			yield break;
 	}
 	public void moneyUpdate()
 	{
@@ -1746,61 +1759,77 @@ public class NewHomePageController : MonoBehaviour
 	}
 	public void clickOnContentProfile(int id)
 	{
-		if (HelpController.instance.canAccess (-1)) {
-			SoundController.instance.playSound (9);
-			ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
-			BackOfficeController.instance.loadScene ("NewProfile");
+		if (ApplicationModel.player.IsOnline) {
+			if (HelpController.instance.canAccess (-1)) {
+				SoundController.instance.playSound (9);
+				ApplicationModel.player.ProfileChosen = this.contents [id].transform.FindChild ("username").GetComponent<TextMeshPro> ().text;
+				BackOfficeController.instance.loadScene ("NewProfile");
+			}
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
 	}
 	public void acceptFriendsRequestHandler(int id)
 	{
-		if (HelpController.instance.canAccess (-1)) {
-			SoundController.instance.playSound (9);
-			StartCoroutine (this.confirmFriendRequest (id));
+		if (ApplicationModel.player.IsOnline) {
+			if (HelpController.instance.canAccess (-1)) {
+				SoundController.instance.playSound (9);
+				StartCoroutine (this.confirmFriendRequest (id));
+			}
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
 	}
 	public void declineFriendsRequestHandler(int id)
 	{
-		if (HelpController.instance.canAccess (-1)) {
-			SoundController.instance.playSound (9);
-			StartCoroutine (this.removeFriendRequest (id));
+		if (ApplicationModel.player.IsOnline) {
+			if (HelpController.instance.canAccess (-1)) {
+				SoundController.instance.playSound (9);
+				StartCoroutine (this.removeFriendRequest (id));
+			}
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
 	}
 	public IEnumerator confirmFriendRequest(int id)
 	{
-		SoundController.instance.playSound(9);
-		BackOfficeController.instance.displayLoadingScreen ();
-		Connection connection = new Connection ();
-		connection.Id = System.Convert.ToInt32(ApplicationModel.player.MyNotifications.getNotification(this.notificationsDisplayed [id]).HiddenParam);
-		yield return StartCoroutine (connection.confirm ());
-		if(connection.Error=="")
-		{
-			ApplicationModel.player.moveToFriend(this.notificationsDisplayed[id]);
-			this.initializeNotifications();
+		if (ApplicationModel.player.IsOnline) {
+			SoundController.instance.playSound (9);
+			BackOfficeController.instance.displayLoadingScreen ();
+			Connection connection = new Connection ();
+			connection.Id = System.Convert.ToInt32 (ApplicationModel.player.MyNotifications.getNotification (this.notificationsDisplayed [id]).HiddenParam);
+			yield return StartCoroutine (connection.confirm ());
+			if (connection.Error == "") {
+				ApplicationModel.player.moveToFriend (this.notificationsDisplayed [id]);
+				this.initializeNotifications ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (connection.Error);
+			}
+			BackOfficeController.instance.hideLoadingScreen ();
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(connection.Error);
-		}
-		BackOfficeController.instance.hideLoadingScreen ();
+		yield break;
 	}
 	public IEnumerator removeFriendRequest(int id)
 	{
-		SoundController.instance.playSound(9);
-		BackOfficeController.instance.displayLoadingScreen ();
-		Connection connection = new Connection ();
-		connection.Id = System.Convert.ToInt32(ApplicationModel.player.MyNotifications.getNotification(this.notificationsDisplayed [id]).HiddenParam);
-		yield return StartCoroutine(connection.remove ());
-		if(connection.Error=="")
-		{
-			ApplicationModel.player.MyNotifications.remove(this.notificationsDisplayed[id]);
-			this.initializeNotifications();
+		if (ApplicationModel.player.IsOnline) {
+			SoundController.instance.playSound (9);
+			BackOfficeController.instance.displayLoadingScreen ();
+			Connection connection = new Connection ();
+			connection.Id = System.Convert.ToInt32 (ApplicationModel.player.MyNotifications.getNotification (this.notificationsDisplayed [id]).HiddenParam);
+			yield return StartCoroutine (connection.remove ());
+			if (connection.Error == "") {
+				ApplicationModel.player.MyNotifications.remove (this.notificationsDisplayed [id]);
+				this.initializeNotifications ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (connection.Error);
+			}
+			BackOfficeController.instance.hideLoadingScreen ();
+		} else {
+			BackOfficeController.instance.displayOfflineModePopUp (3);
 		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(connection.Error);
-		}
-		BackOfficeController.instance.hideLoadingScreen ();
+		yield break;
 	}
 	public Camera returnCurrentCamera()
 	{

@@ -85,6 +85,8 @@ TextureImporter:
     21300156: Renaissance
     21300158: Sacrifice
     21300160: Sermon
+    21300162: CristoCurse
+    21300164: Vampir
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -167,7 +169,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: Fatalite
+    - name: CristoCurse
       rect:
         serializedVersion: 2
         x: 1
@@ -198,7 +200,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: Faveur
+    - name: Fatalite
       rect:
         serializedVersion: 2
         x: 1
@@ -229,7 +231,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: Justice
+    - name: Faveur
       rect:
         serializedVersion: 2
         x: 1
@@ -260,11 +262,42 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: Madshooter
+    - name: Justice
       rect:
         serializedVersion: 2
         x: 1
         y: 2837
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: Madshooter
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2585
         width: 250
         height: 250
       alignment: 0
@@ -291,7 +324,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 2585
+        y: 2333
         width: 250
         height: 250
       alignment: 0
@@ -322,7 +355,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 2333
+        y: 2081
         width: 250
         height: 250
       alignment: 0
@@ -349,7 +382,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 2081
+        y: 1829
         width: 250
         height: 250
       alignment: 0
@@ -380,7 +413,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1829
+        y: 1577
         width: 250
         height: 250
       alignment: 0
@@ -407,7 +440,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1577
+        y: 1325
         width: 250
         height: 250
       alignment: 0
@@ -434,7 +467,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1325
+        y: 1073
         width: 250
         height: 250
       alignment: 0
@@ -461,7 +494,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1073
+        y: 821
         width: 250
         height: 250
       alignment: 0
@@ -492,7 +525,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 821
+        y: 569
         width: 250
         height: 250
       alignment: 0
@@ -523,7 +556,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 569
+        y: 317
         width: 250
         height: 250
       alignment: 0
@@ -554,7 +587,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 317
+        y: 65
         width: 250
         height: 250
       alignment: 0
@@ -581,11 +614,42 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
+    - name: Vampir
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 3845
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: -37}
+        - {x: 122, y: 30}
+        - {x: 121, y: 44}
+        - {x: 86, y: 95}
+        - {x: 33, y: 121}
+        - {x: -30, y: 121}
+        - {x: -66, y: 111}
+        - {x: -113, y: 60}
+        - {x: -123, y: 30}
+        - {x: -124, y: 23}
+        - {x: -124, y: -31}
+        - {x: -109, y: -67}
+        - {x: -88, y: -91}
+        - {x: -53, y: -116}
+        - {x: -32, y: -124}
+        - {x: -14, y: -125}
+        - {x: 23, y: -125}
+        - {x: 51, y: -116}
+        - {x: 75, y: -101}
+        - {x: 103, y: -73}
     - name: adrenaline
       rect:
         serializedVersion: 2
-        x: 1
-        y: 65
+        x: 505
+        y: 3845
         width: 250
         height: 250
       alignment: 0
@@ -615,7 +679,7 @@ TextureImporter:
     - name: "agilit\xE9"
       rect:
         serializedVersion: 2
-        x: 253
+        x: 757
         y: 3845
         width: 250
         height: 250
@@ -647,7 +711,7 @@ TextureImporter:
     - name: aguerri
       rect:
         serializedVersion: 2
-        x: 505
+        x: 1009
         y: 3845
         width: 250
         height: 250
@@ -672,68 +736,6 @@ TextureImporter:
         - {x: 90, y: -78}
         - {x: 110, y: -64}
     - name: antibio
-      rect:
-        serializedVersion: 2
-        x: 757
-        y: 3845
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 122, y: 31}
-        - {x: 101, y: 76}
-        - {x: 60, y: 107}
-        - {x: 30, y: 120}
-        - {x: 24, y: 121}
-        - {x: -27, y: 121}
-        - {x: -65, y: 108}
-        - {x: -90, y: 85}
-        - {x: -110, y: 58}
-        - {x: -123, y: 30}
-        - {x: -124, y: 19}
-        - {x: -124, y: -29}
-        - {x: -118, y: -53}
-        - {x: -80, y: -101}
-        - {x: -54, y: -117}
-        - {x: -17, y: -125}
-        - {x: 24, y: -125}
-        - {x: 67, y: -109}
-        - {x: 95, y: -85}
-        - {x: 122, y: -39}
-    - name: assassinat
-      rect:
-        serializedVersion: 2
-        x: 1009
-        y: 3845
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 122, y: 31}
-        - {x: 101, y: 76}
-        - {x: 60, y: 107}
-        - {x: 30, y: 120}
-        - {x: 24, y: 121}
-        - {x: -27, y: 121}
-        - {x: -65, y: 108}
-        - {x: -90, y: 85}
-        - {x: -110, y: 58}
-        - {x: -123, y: 30}
-        - {x: -124, y: 19}
-        - {x: -124, y: -29}
-        - {x: -118, y: -53}
-        - {x: -80, y: -101}
-        - {x: -54, y: -117}
-        - {x: -17, y: -125}
-        - {x: 24, y: -125}
-        - {x: 67, y: -109}
-        - {x: 95, y: -85}
-        - {x: 122, y: -39}
-    - name: attaque360
       rect:
         serializedVersion: 2
         x: 1261
@@ -764,7 +766,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: berserk
+    - name: assassinat
       rect:
         serializedVersion: 2
         x: 1513
@@ -795,10 +797,72 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: berserker
+    - name: attaque360
       rect:
         serializedVersion: 2
         x: 1765
+        y: 3845
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: berserk
+      rect:
+        serializedVersion: 2
+        x: 2017
+        y: 3845
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: berserker
+      rect:
+        serializedVersion: 2
+        x: 2269
         y: 3845
         width: 250
         height: 250
@@ -825,7 +889,7 @@ TextureImporter:
     - name: bloodykiller
       rect:
         serializedVersion: 2
-        x: 2017
+        x: 2521
         y: 3845
         width: 250
         height: 250
@@ -852,7 +916,7 @@ TextureImporter:
     - name: bombardier
       rect:
         serializedVersion: 2
-        x: 2269
+        x: 2773
         y: 3845
         width: 250
         height: 250
@@ -883,7 +947,7 @@ TextureImporter:
     - name: cannibal
       rect:
         serializedVersion: 2
-        x: 2521
+        x: 3025
         y: 3845
         width: 250
         height: 250
@@ -915,7 +979,7 @@ TextureImporter:
     - name: chasseur
       rect:
         serializedVersion: 2
-        x: 2773
+        x: 3277
         y: 3845
         width: 250
         height: 250
@@ -947,7 +1011,7 @@ TextureImporter:
     - name: chocbleu
       rect:
         serializedVersion: 2
-        x: 3025
+        x: 3529
         y: 3845
         width: 250
         height: 250
@@ -978,7 +1042,7 @@ TextureImporter:
     - name: combo
       rect:
         serializedVersion: 2
-        x: 3277
+        x: 3781
         y: 3845
         width: 250
         height: 250
@@ -1009,8 +1073,8 @@ TextureImporter:
     - name: coupejambe
       rect:
         serializedVersion: 2
-        x: 3529
-        y: 3845
+        x: 253
+        y: 3593
         width: 250
         height: 250
       alignment: 0
@@ -1040,8 +1104,8 @@ TextureImporter:
     - name: "couppr\xE9cis"
       rect:
         serializedVersion: 2
-        x: 3781
-        y: 3845
+        x: 253
+        y: 3341
         width: 250
         height: 250
       alignment: 0
@@ -1072,7 +1136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 3593
+        y: 3089
         width: 250
         height: 250
       alignment: 0
@@ -1104,7 +1168,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 3341
+        y: 2837
         width: 250
         height: 250
       alignment: 0
@@ -1131,7 +1195,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 3089
+        y: 2585
         width: 250
         height: 250
       alignment: 0
@@ -1163,7 +1227,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 2837
+        y: 2333
         width: 250
         height: 250
       alignment: 0
@@ -1195,7 +1259,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 2585
+        y: 2081
         width: 250
         height: 250
       alignment: 0
@@ -1222,7 +1286,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 2333
+        y: 1829
         width: 250
         height: 250
       alignment: 0
@@ -1253,7 +1317,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 2081
+        y: 1577
         width: 250
         height: 250
       alignment: 0
@@ -1285,7 +1349,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 1829
+        y: 1325
         width: 250
         height: 250
       alignment: 0
@@ -1316,64 +1380,6 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 253
-        y: 1577
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 110, y: 62}
-        - {x: 109, y: 64}
-        - {x: 90, y: 76}
-        - {x: 4, y: 125}
-        - {x: -6, y: 125}
-        - {x: -93, y: 76}
-        - {x: -106, y: 67}
-        - {x: -111, y: 62}
-        - {x: -111, y: -63}
-        - {x: -109, y: -66}
-        - {x: -72, y: -88}
-        - {x: -7, y: -125}
-        - {x: 7, y: -125}
-        - {x: 42, y: -105}
-        - {x: 90, y: -78}
-        - {x: 110, y: -64}
-    - name: estoc
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 1325
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 122, y: 31}
-        - {x: 101, y: 76}
-        - {x: 60, y: 107}
-        - {x: 30, y: 120}
-        - {x: 24, y: 121}
-        - {x: -27, y: 121}
-        - {x: -65, y: 108}
-        - {x: -90, y: 85}
-        - {x: -110, y: 58}
-        - {x: -123, y: 30}
-        - {x: -124, y: 19}
-        - {x: -124, y: -29}
-        - {x: -118, y: -53}
-        - {x: -80, y: -101}
-        - {x: -54, y: -117}
-        - {x: -17, y: -125}
-        - {x: 24, y: -125}
-        - {x: 67, y: -109}
-        - {x: 95, y: -85}
-        - {x: 122, y: -39}
-    - name: flash
-      rect:
-        serializedVersion: 2
-        x: 253
         y: 1073
         width: 250
         height: 250
@@ -1397,7 +1403,7 @@ TextureImporter:
         - {x: 42, y: -105}
         - {x: 90, y: -78}
         - {x: 110, y: -64}
-    - name: fortifiant
+    - name: estoc
       rect:
         serializedVersion: 2
         x: 253
@@ -1428,7 +1434,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: frenesie
+    - name: flash
       rect:
         serializedVersion: 2
         x: 253
@@ -1439,28 +1445,23 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 121, y: -27}
-        - {x: 122, y: -18}
-        - {x: 122, y: 19}
-        - {x: 116, y: 45}
-        - {x: 90, y: 95}
-        - {x: 30, y: 121}
-        - {x: -28, y: 121}
-        - {x: -59, y: 110}
-        - {x: -94, y: 85}
-        - {x: -120, y: 53}
-        - {x: -124, y: 24}
-        - {x: -124, y: -26}
-        - {x: -122, y: -29}
-        - {x: -114, y: -52}
-        - {x: -96, y: -89}
-        - {x: -55, y: -120}
-        - {x: -29, y: -125}
-        - {x: 33, y: -125}
-        - {x: 88, y: -96}
-        - {x: 103, y: -73}
-        - {x: 116, y: -45}
-    - name: furie
+      - - {x: 110, y: 62}
+        - {x: 109, y: 64}
+        - {x: 90, y: 76}
+        - {x: 4, y: 125}
+        - {x: -6, y: 125}
+        - {x: -93, y: 76}
+        - {x: -106, y: 67}
+        - {x: -111, y: 62}
+        - {x: -111, y: -63}
+        - {x: -109, y: -66}
+        - {x: -72, y: -88}
+        - {x: -7, y: -125}
+        - {x: 7, y: -125}
+        - {x: 42, y: -105}
+        - {x: 90, y: -78}
+        - {x: 110, y: -64}
+    - name: fortifiant
       rect:
         serializedVersion: 2
         x: 253
@@ -1471,28 +1472,27 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 121, y: -27}
-        - {x: 122, y: -18}
-        - {x: 122, y: 19}
-        - {x: 116, y: 45}
-        - {x: 90, y: 95}
-        - {x: 30, y: 121}
-        - {x: -28, y: 121}
-        - {x: -59, y: 110}
-        - {x: -94, y: 85}
-        - {x: -120, y: 53}
-        - {x: -124, y: 24}
-        - {x: -124, y: -26}
-        - {x: -122, y: -29}
-        - {x: -114, y: -52}
-        - {x: -96, y: -89}
-        - {x: -55, y: -120}
-        - {x: -29, y: -125}
-        - {x: 33, y: -125}
-        - {x: 88, y: -96}
-        - {x: 103, y: -73}
-        - {x: 116, y: -45}
-    - name: "furtivit\xE9"
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: frenesie
       rect:
         serializedVersion: 2
         x: 253
@@ -1524,10 +1524,74 @@ TextureImporter:
         - {x: 88, y: -96}
         - {x: 103, y: -73}
         - {x: 116, y: -45}
-    - name: golem
+    - name: furie
       rect:
         serializedVersion: 2
         x: 505
+        y: 3593
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 121, y: -27}
+        - {x: 122, y: -18}
+        - {x: 122, y: 19}
+        - {x: 116, y: 45}
+        - {x: 90, y: 95}
+        - {x: 30, y: 121}
+        - {x: -28, y: 121}
+        - {x: -59, y: 110}
+        - {x: -94, y: 85}
+        - {x: -120, y: 53}
+        - {x: -124, y: 24}
+        - {x: -124, y: -26}
+        - {x: -122, y: -29}
+        - {x: -114, y: -52}
+        - {x: -96, y: -89}
+        - {x: -55, y: -120}
+        - {x: -29, y: -125}
+        - {x: 33, y: -125}
+        - {x: 88, y: -96}
+        - {x: 103, y: -73}
+        - {x: 116, y: -45}
+    - name: "furtivit\xE9"
+      rect:
+        serializedVersion: 2
+        x: 757
+        y: 3593
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 121, y: -27}
+        - {x: 122, y: -18}
+        - {x: 122, y: 19}
+        - {x: 116, y: 45}
+        - {x: 90, y: 95}
+        - {x: 30, y: 121}
+        - {x: -28, y: 121}
+        - {x: -59, y: 110}
+        - {x: -94, y: 85}
+        - {x: -120, y: 53}
+        - {x: -124, y: 24}
+        - {x: -124, y: -26}
+        - {x: -122, y: -29}
+        - {x: -114, y: -52}
+        - {x: -96, y: -89}
+        - {x: -55, y: -120}
+        - {x: -29, y: -125}
+        - {x: 33, y: -125}
+        - {x: 88, y: -96}
+        - {x: 103, y: -73}
+        - {x: 116, y: -45}
+    - name: golem
+      rect:
+        serializedVersion: 2
+        x: 1009
         y: 3593
         width: 250
         height: 250
@@ -1554,7 +1618,7 @@ TextureImporter:
     - name: grenade
       rect:
         serializedVersion: 2
-        x: 757
+        x: 1261
         y: 3593
         width: 250
         height: 250
@@ -1585,7 +1649,7 @@ TextureImporter:
     - name: groscalibre
       rect:
         serializedVersion: 2
-        x: 1009
+        x: 1513
         y: 3593
         width: 250
         height: 250
@@ -1616,7 +1680,7 @@ TextureImporter:
     - name: implosion
       rect:
         serializedVersion: 2
-        x: 1261
+        x: 1765
         y: 3593
         width: 250
         height: 250
@@ -1647,7 +1711,7 @@ TextureImporter:
     - name: kunai
       rect:
         serializedVersion: 2
-        x: 1513
+        x: 2017
         y: 3593
         width: 250
         height: 250
@@ -1678,7 +1742,7 @@ TextureImporter:
     - name: lance
       rect:
         serializedVersion: 2
-        x: 1765
+        x: 2269
         y: 3593
         width: 250
         height: 250
@@ -1709,7 +1773,7 @@ TextureImporter:
     - name: lanceflamme
       rect:
         serializedVersion: 2
-        x: 2017
+        x: 2521
         y: 3593
         width: 250
         height: 250
@@ -1740,7 +1804,7 @@ TextureImporter:
     - name: laser
       rect:
         serializedVersion: 2
-        x: 2269
+        x: 2773
         y: 3593
         width: 250
         height: 250
@@ -1771,7 +1835,7 @@ TextureImporter:
     - name: leader
       rect:
         serializedVersion: 2
-        x: 2521
+        x: 3025
         y: 3593
         width: 250
         height: 250
@@ -1798,7 +1862,7 @@ TextureImporter:
     - name: lest
       rect:
         serializedVersion: 2
-        x: 2773
+        x: 3277
         y: 3593
         width: 250
         height: 250
@@ -1829,7 +1893,7 @@ TextureImporter:
     - name: massue
       rect:
         serializedVersion: 2
-        x: 3025
+        x: 3529
         y: 3593
         width: 250
         height: 250
@@ -1860,7 +1924,7 @@ TextureImporter:
     - name: mitraillette
       rect:
         serializedVersion: 2
-        x: 3277
+        x: 3781
         y: 3593
         width: 250
         height: 250
@@ -1891,60 +1955,6 @@ TextureImporter:
     - name: mutant
       rect:
         serializedVersion: 2
-        x: 3529
-        y: 3593
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 110, y: 62}
-        - {x: 109, y: 64}
-        - {x: 90, y: 76}
-        - {x: 4, y: 125}
-        - {x: -6, y: 125}
-        - {x: -93, y: 76}
-        - {x: -106, y: 67}
-        - {x: -111, y: 62}
-        - {x: -111, y: -63}
-        - {x: -109, y: -66}
-        - {x: -72, y: -88}
-        - {x: -7, y: -125}
-        - {x: 7, y: -125}
-        - {x: 42, y: -105}
-        - {x: 90, y: -78}
-        - {x: 110, y: -64}
-    - name: ninja
-      rect:
-        serializedVersion: 2
-        x: 3781
-        y: 3593
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 110, y: 62}
-        - {x: 109, y: 64}
-        - {x: 90, y: 76}
-        - {x: 4, y: 125}
-        - {x: -6, y: 125}
-        - {x: -93, y: 76}
-        - {x: -106, y: 67}
-        - {x: -111, y: 62}
-        - {x: -111, y: -63}
-        - {x: -109, y: -66}
-        - {x: -72, y: -88}
-        - {x: -7, y: -125}
-        - {x: 7, y: -125}
-        - {x: 42, y: -105}
-        - {x: 90, y: -78}
-        - {x: 110, y: -64}
-    - name: nurse
-      rect:
-        serializedVersion: 2
         x: 505
         y: 3341
         width: 250
@@ -1969,7 +1979,7 @@ TextureImporter:
         - {x: 42, y: -105}
         - {x: 90, y: -78}
         - {x: 110, y: -64}
-    - name: paladin
+    - name: ninja
       rect:
         serializedVersion: 2
         x: 505
@@ -1996,7 +2006,7 @@ TextureImporter:
         - {x: 42, y: -105}
         - {x: 90, y: -78}
         - {x: 110, y: -64}
-    - name: parapiege
+    - name: nurse
       rect:
         serializedVersion: 2
         x: 505
@@ -2007,27 +2017,23 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 122, y: -37}
-        - {x: 122, y: 30}
-        - {x: 121, y: 44}
-        - {x: 86, y: 95}
-        - {x: 33, y: 121}
-        - {x: -30, y: 121}
-        - {x: -66, y: 111}
-        - {x: -113, y: 60}
-        - {x: -123, y: 30}
-        - {x: -124, y: 23}
-        - {x: -124, y: -31}
-        - {x: -109, y: -67}
-        - {x: -88, y: -91}
-        - {x: -53, y: -116}
-        - {x: -32, y: -124}
-        - {x: -14, y: -125}
-        - {x: 23, y: -125}
-        - {x: 51, y: -116}
-        - {x: 75, y: -101}
-        - {x: 103, y: -73}
-    - name: perfotir
+      - - {x: 110, y: 62}
+        - {x: 109, y: 64}
+        - {x: 90, y: 76}
+        - {x: 4, y: 125}
+        - {x: -6, y: 125}
+        - {x: -93, y: 76}
+        - {x: -106, y: 67}
+        - {x: -111, y: 62}
+        - {x: -111, y: -63}
+        - {x: -109, y: -66}
+        - {x: -72, y: -88}
+        - {x: -7, y: -125}
+        - {x: 7, y: -125}
+        - {x: 42, y: -105}
+        - {x: 90, y: -78}
+        - {x: 110, y: -64}
+    - name: paladin
       rect:
         serializedVersion: 2
         x: 505
@@ -2038,27 +2044,23 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 122, y: -37}
-        - {x: 122, y: 30}
-        - {x: 121, y: 44}
-        - {x: 86, y: 95}
-        - {x: 33, y: 121}
-        - {x: -30, y: 121}
-        - {x: -66, y: 111}
-        - {x: -113, y: 60}
-        - {x: -123, y: 30}
-        - {x: -124, y: 23}
-        - {x: -124, y: -31}
-        - {x: -109, y: -67}
-        - {x: -88, y: -91}
-        - {x: -53, y: -116}
-        - {x: -32, y: -124}
-        - {x: -14, y: -125}
-        - {x: 23, y: -125}
-        - {x: 51, y: -116}
-        - {x: 75, y: -101}
-        - {x: 103, y: -73}
-    - name: pluiebleue
+      - - {x: 110, y: 62}
+        - {x: 109, y: 64}
+        - {x: 90, y: 76}
+        - {x: 4, y: 125}
+        - {x: -6, y: 125}
+        - {x: -93, y: 76}
+        - {x: -106, y: 67}
+        - {x: -111, y: 62}
+        - {x: -111, y: -63}
+        - {x: -109, y: -66}
+        - {x: -72, y: -88}
+        - {x: -7, y: -125}
+        - {x: 7, y: -125}
+        - {x: 42, y: -105}
+        - {x: 90, y: -78}
+        - {x: 110, y: -64}
+    - name: parapiege
       rect:
         serializedVersion: 2
         x: 505
@@ -2089,11 +2091,73 @@ TextureImporter:
         - {x: 51, y: -116}
         - {x: 75, y: -101}
         - {x: 103, y: -73}
-    - name: poison
+    - name: perfotir
       rect:
         serializedVersion: 2
         x: 505
         y: 2081
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: -37}
+        - {x: 122, y: 30}
+        - {x: 121, y: 44}
+        - {x: 86, y: 95}
+        - {x: 33, y: 121}
+        - {x: -30, y: 121}
+        - {x: -66, y: 111}
+        - {x: -113, y: 60}
+        - {x: -123, y: 30}
+        - {x: -124, y: 23}
+        - {x: -124, y: -31}
+        - {x: -109, y: -67}
+        - {x: -88, y: -91}
+        - {x: -53, y: -116}
+        - {x: -32, y: -124}
+        - {x: -14, y: -125}
+        - {x: 23, y: -125}
+        - {x: 51, y: -116}
+        - {x: 75, y: -101}
+        - {x: 103, y: -73}
+    - name: pluiebleue
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1829
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: -37}
+        - {x: 122, y: 30}
+        - {x: 121, y: 44}
+        - {x: 86, y: 95}
+        - {x: 33, y: 121}
+        - {x: -30, y: 121}
+        - {x: -66, y: 111}
+        - {x: -113, y: 60}
+        - {x: -123, y: 30}
+        - {x: -124, y: 23}
+        - {x: -124, y: -31}
+        - {x: -109, y: -67}
+        - {x: -88, y: -91}
+        - {x: -53, y: -116}
+        - {x: -32, y: -124}
+        - {x: -14, y: -125}
+        - {x: 23, y: -125}
+        - {x: 51, y: -116}
+        - {x: 75, y: -101}
+        - {x: 103, y: -73}
+    - name: poison
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 1577
         width: 250
         height: 250
       alignment: 0
@@ -2124,7 +2188,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 1829
+        y: 1325
         width: 250
         height: 250
       alignment: 0
@@ -2156,7 +2220,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 1577
+        y: 1073
         width: 250
         height: 250
       alignment: 0
@@ -2183,7 +2247,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 1325
+        y: 821
         width: 250
         height: 250
       alignment: 0
@@ -2214,7 +2278,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 1073
+        y: 569
         width: 250
         height: 250
       alignment: 0
@@ -2245,7 +2309,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 821
+        y: 317
         width: 250
         height: 250
       alignment: 0
@@ -2272,7 +2336,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 505
-        y: 569
+        y: 65
         width: 250
         height: 250
       alignment: 0
@@ -2296,68 +2360,6 @@ TextureImporter:
         - {x: 90, y: -78}
         - {x: 110, y: -64}
     - name: soin
-      rect:
-        serializedVersion: 2
-        x: 505
-        y: 317
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 122, y: 31}
-        - {x: 101, y: 76}
-        - {x: 60, y: 107}
-        - {x: 30, y: 120}
-        - {x: 24, y: 121}
-        - {x: -27, y: 121}
-        - {x: -65, y: 108}
-        - {x: -90, y: 85}
-        - {x: -110, y: 58}
-        - {x: -123, y: 30}
-        - {x: -124, y: 19}
-        - {x: -124, y: -29}
-        - {x: -118, y: -53}
-        - {x: -80, y: -101}
-        - {x: -54, y: -117}
-        - {x: -17, y: -125}
-        - {x: 24, y: -125}
-        - {x: 67, y: -109}
-        - {x: 95, y: -85}
-        - {x: 122, y: -39}
-    - name: steroide
-      rect:
-        serializedVersion: 2
-        x: 505
-        y: 65
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 122, y: 31}
-        - {x: 101, y: 76}
-        - {x: 60, y: 107}
-        - {x: 30, y: 120}
-        - {x: 24, y: 121}
-        - {x: -27, y: 121}
-        - {x: -65, y: 108}
-        - {x: -90, y: 85}
-        - {x: -110, y: 58}
-        - {x: -123, y: 30}
-        - {x: -124, y: 19}
-        - {x: -124, y: -29}
-        - {x: -118, y: -53}
-        - {x: -80, y: -101}
-        - {x: -54, y: -117}
-        - {x: -17, y: -125}
-        - {x: 24, y: -125}
-        - {x: 67, y: -109}
-        - {x: 95, y: -85}
-        - {x: 122, y: -39}
-    - name: synergie
       rect:
         serializedVersion: 2
         x: 757
@@ -2388,7 +2390,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: "s\xE9n\xE9lit\xE9"
+    - name: steroide
       rect:
         serializedVersion: 2
         x: 1009
@@ -2419,7 +2421,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: tank
+    - name: synergie
       rect:
         serializedVersion: 2
         x: 1261
@@ -2430,23 +2432,27 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 110, y: 62}
-        - {x: 109, y: 64}
-        - {x: 90, y: 76}
-        - {x: 4, y: 125}
-        - {x: -6, y: 125}
-        - {x: -93, y: 76}
-        - {x: -106, y: 67}
-        - {x: -111, y: 62}
-        - {x: -111, y: -63}
-        - {x: -109, y: -66}
-        - {x: -72, y: -88}
-        - {x: -7, y: -125}
-        - {x: 7, y: -125}
-        - {x: 42, y: -105}
-        - {x: 90, y: -78}
-        - {x: 110, y: -64}
-    - name: terreur
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: "s\xE9n\xE9lit\xE9"
       rect:
         serializedVersion: 2
         x: 1513
@@ -2477,7 +2483,7 @@ TextureImporter:
         - {x: 67, y: -109}
         - {x: 95, y: -85}
         - {x: 122, y: -39}
-    - name: trapper
+    - name: tank
       rect:
         serializedVersion: 2
         x: 1765
@@ -2504,10 +2510,68 @@ TextureImporter:
         - {x: 42, y: -105}
         - {x: 90, y: -78}
         - {x: 110, y: -64}
-    - name: virologiste
+    - name: terreur
       rect:
         serializedVersion: 2
         x: 2017
+        y: 3341
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122, y: 31}
+        - {x: 101, y: 76}
+        - {x: 60, y: 107}
+        - {x: 30, y: 120}
+        - {x: 24, y: 121}
+        - {x: -27, y: 121}
+        - {x: -65, y: 108}
+        - {x: -90, y: 85}
+        - {x: -110, y: 58}
+        - {x: -123, y: 30}
+        - {x: -124, y: 19}
+        - {x: -124, y: -29}
+        - {x: -118, y: -53}
+        - {x: -80, y: -101}
+        - {x: -54, y: -117}
+        - {x: -17, y: -125}
+        - {x: 24, y: -125}
+        - {x: 67, y: -109}
+        - {x: 95, y: -85}
+        - {x: 122, y: -39}
+    - name: trapper
+      rect:
+        serializedVersion: 2
+        x: 2269
+        y: 3341
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 110, y: 62}
+        - {x: 109, y: 64}
+        - {x: 90, y: 76}
+        - {x: 4, y: 125}
+        - {x: -6, y: 125}
+        - {x: -93, y: 76}
+        - {x: -106, y: 67}
+        - {x: -111, y: 62}
+        - {x: -111, y: -63}
+        - {x: -109, y: -66}
+        - {x: -72, y: -88}
+        - {x: -7, y: -125}
+        - {x: 7, y: -125}
+        - {x: 42, y: -105}
+        - {x: 90, y: -78}
+        - {x: 110, y: -64}
+    - name: virologiste
+      rect:
+        serializedVersion: 2
+        x: 2521
         y: 3341
         width: 250
         height: 250
@@ -2534,7 +2598,7 @@ TextureImporter:
     - name: visee
       rect:
         serializedVersion: 2
-        x: 2269
+        x: 2773
         y: 3341
         width: 250
         height: 250

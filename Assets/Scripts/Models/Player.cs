@@ -241,7 +241,6 @@ public class Player : User
 		ServerController.instance.setRequest(URLPayMoney, form);
 		yield return ServerController.instance.StartCoroutine("executeRequest");
 		this.Error = ServerController.instance.getError ();
-		Debug.Log ("ok");
 		if(this.Error=="")
 		{
 			this.Money = this.Money - money;
@@ -495,6 +494,15 @@ public class Player : User
 			ApplicationModel.player.IsOnline = false;
 			ApplicationModel.player.IsAccountActivated=true;
 			ApplicationModel.player.IsAccountCreated=true;
+			ApplicationModel.player.Error = "";
+		}
+		else if (!this.IsOnline && ApplicationModel.player.AutomaticConnection) 
+		{
+			ApplicationModel.Load ();
+			ApplicationModel.player.IsOnline = false;
+			ApplicationModel.player.IsAccountActivated=true;
+			ApplicationModel.player.IsAccountCreated=true;
+			ApplicationModel.player.Error = "";
 		}
 		else if(this.Error=="")
 		{

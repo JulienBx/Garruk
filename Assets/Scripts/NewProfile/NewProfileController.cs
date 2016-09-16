@@ -256,21 +256,23 @@ public class NewProfileController : MonoBehaviour
 	{
 		this.resize ();
 		yield return StartCoroutine (model.getData (this.isMyProfile, this.profileChosen));
-		model.displayedUser.MyTrophies.writeTrophies();
-		this.selectAFriendsTab ();
-		this.selectAResultsTab ();
-		this.initializeProfile ();
-		if(!this.isMyProfile)
-		{
-			this.initializeFriendshipState();
+		if (ApplicationModel.player.IsOnline) {
+			model.displayedUser.MyTrophies.writeTrophies ();
+			this.selectAFriendsTab ();
+			this.selectAResultsTab ();
+			this.initializeProfile ();
+			if (!this.isMyProfile) {
+				this.initializeFriendshipState ();
+			}
+			this.checkFriendsOnlineStatus ();
+			this.isSceneLoaded = true;
+			if (!ApplicationModel.player.ProfileTutorial) {
+				HelpController.instance.startHelp ();
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
-		this.checkFriendsOnlineStatus ();
 		BackOfficeController.instance.hideLoadingScreen ();
-		this.isSceneLoaded = true;
-		if(!ApplicationModel.player.ProfileTutorial)
-		{
-			HelpController.instance.startHelp();
-		}
 	}
 	private void initializeFriendsRequests()
 	{
@@ -1629,16 +1631,17 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.setProfilePicture(id));
-		if(ApplicationModel.player.Error!="")
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-		}
-		else
-		{
-			model.displayedUser.IdProfilePicture=ApplicationModel.player.IdProfilePicture;
-			this.drawProfilePicture ();
-			MenuController.instance.changeThumbPicture ();
+		if (ApplicationModel.player.IsOnline) {
+			if (ApplicationModel.player.Error != "") {
+				BackOfficeController.instance.displayErrorPopUp (ApplicationModel.player.Error);
+				ApplicationModel.player.Error = "";
+			} else {
+				model.displayedUser.IdProfilePicture = ApplicationModel.player.IdProfilePicture;
+				this.drawProfilePicture ();
+				MenuController.instance.changeThumbPicture ();
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen();
 	}
@@ -1674,15 +1677,16 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen();
 		yield return StartCoroutine(ApplicationModel.player.chooseLanguage(id));
-		if(ApplicationModel.player.Error=="")
-		{
-			MenuController.instance.profileLink();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-			BackOfficeController.instance.hideLoadingScreen();
+		if (ApplicationModel.player.IsOnline) {
+			if (ApplicationModel.player.Error == "") {
+				MenuController.instance.profileLink ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (ApplicationModel.player.Error);
+				ApplicationModel.player.Error = "";
+				BackOfficeController.instance.hideLoadingScreen ();
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 	}
 	public void displayCheckPasswordPopUp()
@@ -1815,18 +1819,20 @@ public class NewProfileController : MonoBehaviour
 			BackOfficeController.instance.displayLoadingScreen();
 			this.checkPasswordPopUp.SetActive(false);
 			yield return StartCoroutine(ApplicationModel.player.checkPassword(password));
-			BackOfficeController.instance.hideLoadingScreen();
-			this.checkPasswordPopUp.SetActive(true);
-			if(ApplicationModel.player.Error=="")
-			{
-				this.hideCheckPasswordPopUp();
-				this.displayChangePasswordPopUp();
-			}
-			else
-			{
-				SoundController.instance.playSound(13);
-				this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController>().setError(ApplicationModel.player.Error);
-				ApplicationModel.player.Error="";
+			if (ApplicationModel.player.IsOnline) {
+				BackOfficeController.instance.hideLoadingScreen ();
+				this.checkPasswordPopUp.SetActive (true);
+				if (ApplicationModel.player.Error == "") {
+					this.hideCheckPasswordPopUp ();
+					this.displayChangePasswordPopUp ();
+				} else {
+					SoundController.instance.playSound (13);
+					this.checkPasswordPopUp.GetComponent<CheckPasswordPopUpController> ().setError (ApplicationModel.player.Error);
+					ApplicationModel.player.Error = "";
+				}
+			} else {
+				this.hideCheckPasswordPopUp ();
+				BackOfficeController.instance.displayDetectOfflinePopUp ();
 			}
 		}
 		else
@@ -1873,15 +1879,16 @@ public class NewProfileController : MonoBehaviour
 		this.hideChangePasswordPopUp ();
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.editPassword());
-		if(ApplicationModel.player.Error=="")
-		{
-			this.hideChangePasswordPopUp();
-		}
-		else
-		{
-			SoundController.instance.playSound(13);
-			this.changePasswordPopUp.GetComponent<ChangePasswordPopUpController>().setError(ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (ApplicationModel.player.Error == "") {
+				this.hideChangePasswordPopUp ();
+			} else {
+				SoundController.instance.playSound (13);
+				this.changePasswordPopUp.GetComponent<ChangePasswordPopUpController> ().setError (ApplicationModel.player.Error);
+				ApplicationModel.player.Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -1937,22 +1944,23 @@ public class NewProfileController : MonoBehaviour
 		BackOfficeController.instance.displayLoadingScreen ();
 		this.editInformationsPopUp.SetActive(false);
 		yield return StartCoroutine (ApplicationModel.player.updateInformations (firstname,surname,mail,isNewEmail, isPublic));
-		this.editInformationsPopUp.SetActive(true);
-		if(ApplicationModel.player.Error=="")
-		{
-			this.hideEditInformationsPopUp ();
-			if(isNewEmail)
-			{
-				this.displayMessagePopUp(1);
+		if (ApplicationModel.player.IsOnline) {
+			this.editInformationsPopUp.SetActive (true);
+			if (ApplicationModel.player.Error == "") {
+				this.hideEditInformationsPopUp ();
+				if (isNewEmail) {
+					this.displayMessagePopUp (1);
+				}
+				this.drawPersonalInformations ();
+			} else {
+				this.editInformationsPopUp.SetActive (true);
+				this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (ApplicationModel.player.Error);
+				ApplicationModel.player.Error = "";
+				SoundController.instance.playSound (13);
 			}
-			this.drawPersonalInformations ();
-		}
-		else
-		{
-			this.editInformationsPopUp.SetActive(true);
-			this.editInformationsPopUp.transform.GetComponent<EditInformationsPopUpController> ().setError (ApplicationModel.player.Error);
-			ApplicationModel.player.Error="";
-			SoundController.instance.playSound(13);
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+			this.hideEditInformationsPopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2011,15 +2019,16 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).confirm ());
-		if(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error=="")
-		{
-			model.displayedUser.moveToFriend(this.friendsRequestsDisplayed[id]);
-			this.initializeFriendsRequests();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error);
-			ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error == "") {
+				model.displayedUser.moveToFriend (this.friendsRequestsDisplayed [id]);
+				this.initializeFriendsRequests ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error);
+				ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2027,15 +2036,16 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.displayedUser.ConnectionWithPlayer.confirm ());
-		if(model.displayedUser.ConnectionWithPlayer.Error=="")
-		{
-			this.initializeFriendshipState();
-			this.initializeFriends();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(model.displayedUser.ConnectionWithPlayer.Error);
-			model.displayedUser.ConnectionWithPlayer.Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (model.displayedUser.ConnectionWithPlayer.Error == "") {
+				this.initializeFriendshipState ();
+				this.initializeFriends ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (model.displayedUser.ConnectionWithPlayer.Error);
+				model.displayedUser.ConnectionWithPlayer.Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2043,15 +2053,16 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).remove ());
-		if(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error=="")
-		{
-			ApplicationModel.player.MyConnections.remove(this.friendsRequestsDisplayed[id]);
-			this.initializeFriendsRequests();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error);
-			ApplicationModel.player.MyConnections.getConnection(this.friendsRequestsDisplayed[id]).Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error == "") {
+				ApplicationModel.player.MyConnections.remove (this.friendsRequestsDisplayed [id]);
+				this.initializeFriendsRequests ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error);
+				ApplicationModel.player.MyConnections.getConnection (this.friendsRequestsDisplayed [id]).Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2059,17 +2070,18 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(model.displayedUser.ConnectionWithPlayer.remove ());
-		if(model.displayedUser.ConnectionWithPlayer.Error=="")
-		{
-			model.displayedUser.removeFromFriends(ApplicationModel.player.Id);
-			model.displayedUser.IsConnectedToPlayer=false;
-			this.initializeFriends();
-			this.initializeFriendshipState();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(model.displayedUser.ConnectionWithPlayer.Error);
-			model.displayedUser.ConnectionWithPlayer.Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (model.displayedUser.ConnectionWithPlayer.Error == "") {
+				model.displayedUser.removeFromFriends (ApplicationModel.player.Id);
+				model.displayedUser.IsConnectedToPlayer = false;
+				this.initializeFriends ();
+				this.initializeFriendshipState ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (model.displayedUser.ConnectionWithPlayer.Error);
+				model.displayedUser.ConnectionWithPlayer.Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2079,16 +2091,17 @@ public class NewProfileController : MonoBehaviour
 		Connection connection = new Connection ();
 
 		yield return StartCoroutine(connection.add (ApplicationModel.player.Id,model.displayedUser.Id,false));
-		if(connection.Error=="")
-		{
-			model.displayedUser.IsConnectedToPlayer=true;
-			model.displayedUser.ConnectionWithPlayer=connection;
-			this.initializeFriendshipState();
-		}
-		else
-		{
-			BackOfficeController.instance.displayErrorPopUp(connection.Error);
-			connection.Error="";
+		if (ApplicationModel.player.IsOnline) {
+			if (connection.Error == "") {
+				model.displayedUser.IsConnectedToPlayer = true;
+				model.displayedUser.ConnectionWithPlayer = connection;
+				this.initializeFriendshipState ();
+			} else {
+				BackOfficeController.instance.displayErrorPopUp (connection.Error);
+				connection.Error = "";
+			}
+		} else {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
 		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
@@ -2166,6 +2179,9 @@ public class NewProfileController : MonoBehaviour
 	{
 		BackOfficeController.instance.displayLoadingScreen ();
 		yield return StartCoroutine(ApplicationModel.player.cleanCards ());
+		if (!ApplicationModel.player.IsOnline) {
+			BackOfficeController.instance.displayDetectOfflinePopUp ();
+		}
 		BackOfficeController.instance.hideLoadingScreen ();
 	}
 	public void clickOnFriendsContentProfile(int id)
