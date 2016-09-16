@@ -597,6 +597,7 @@ public class BackOfficeController : MonoBehaviour
 			this.isLoadingScreenDisplayed=true;
 			this.changeLoadingScreenLabel(WordingLoadingScreen.getReference(0));
 			this.loadingScreen.transform.FindChild("button").GetComponent<LoadingScreenButtonController>().reset();
+			this.loadingScreen.GetComponent<LoadingScreenController> ().displayButton (false);
 			if(this.isHelpLoaded)
 			{
 				HelpController.instance.freeze();
@@ -668,7 +669,7 @@ public class BackOfficeController : MonoBehaviour
 	}
     public void loadingScreenButtonHandler()
     {
-		
+		ServerController.instance.switchOffline ();
     }
 	public void joinRandomRoomHandler()
 	{

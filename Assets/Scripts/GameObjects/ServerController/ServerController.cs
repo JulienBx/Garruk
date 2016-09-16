@@ -15,7 +15,9 @@ public class ServerController : MonoBehaviour
 	private WWWForm form;
 	private string result;
 	private string error;
-
+	private string text;
+	private bool stopCoroutine;
+	private bool requestIsOver;
 
 	void Update()
 	{
@@ -32,7 +34,7 @@ public class ServerController : MonoBehaviour
 	public void switchOffline()
 	{
 		ApplicationModel.player.IsOnline=false;
-		StopCoroutine(this.executeRequest());
+		this.stopCoroutine = true;
 	}
 	public void initialize()
 	{
@@ -44,6 +46,22 @@ public class ServerController : MonoBehaviour
 		this.URL=URL;
 		this.form=form;
 	}
+	public IEnumerator mainRequest()
+	{
+		this.text = "";
+		this.error = "";
+		WWW w =new WWW(this.URL, this.form);
+		yield return w;
+		this.requestIsOver = true;
+		if (w.error != null) {
+			this.error = w.error;
+			Debug.Log ("servor Error");
+		}
+		else if (w.text != null) {
+			this.text = w.text;
+			Debug.Log ("it's fine");
+		}
+	}
 	public IEnumerator executeRequest()
 	{
 		this.result="";
@@ -51,24 +69,38 @@ public class ServerController : MonoBehaviour
 		this.error="";
 		this.timer=0f;
 		this.toDetectTimeOut=true;
-		WWW w =new WWW(this.URL, this.form);
-		yield return w;
+		this.stopCoroutine = false;
+		this.requestIsOver = false;
+		StartCoroutine ("mainRequest");
+		bool continueLoop=true;
+		while (continueLoop) {
+			if (this.requestIsOver) {
+				continueLoop = false;
+			}
+			if (this.stopCoroutine) {
+				continueLoop = false;
+				StopCoroutine ("mainRequest");
+			}
+		}
+		yield return 0;
 		this.toDetectTimeOut=false;
-		if(w.error!=null)
+		
+		if(this.error!=null || this.stopCoroutine)
 		{
 			ApplicationModel.player.IsOnline=false;
-			this.error = w.error;
-			this.isServerError = true;
-			Debug.Log(WordingServerError.getReference(w.error,false));
+			if (this.error!=null) {
+				this.isServerError = true;
+				Debug.Log(WordingServerError.getReference(this.error,false));
+			}
 		}
 		if(ApplicationModel.player.IsOnline)
 		{
-			if(w.text.Contains("#ERROR#"))
+			if(this.text.Contains("#ERROR#"))
 			{
-				string[] errors = w.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
+				string[] errors = this.text.Split(new string[] { "#ERROR#" }, System.StringSplitOptions.None);
 				this.error = WordingServerError.getReference(errors [1],true);
 			}
-			this.result=w.text;
+			this.result=this.text;
 		}
 	}
 	public string getResult()

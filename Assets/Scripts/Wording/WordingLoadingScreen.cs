@@ -17,5 +17,6 @@ public class WordingLoadingScreen
 		references.Add(new string[]{"Chargement...","Loading..."}); //0
 		references.Add(new string[]{"vs","vs"}); //1
 		references.Add(new string[]{"Connexion perdue... Tentative de reconexion","Poor Connection ... Trying to reconnect"}); //2
+		references.Add(new string[]{"Mode hors ligne","Offline Mode"}); //3
 	}
 }

@@ -17,6 +17,7 @@ public class LoadingScreenController : MonoBehaviour
 		this.speed = 300.0f;
 		this.angle = 0f;
 		this.toShowLoading=true;
+		this.gameObject.transform.FindChild ("button").FindChild ("Title").GetComponent<TextMeshPro> ().text = WordingLoadingScreen.getReference (3);
 	}
 	void Update()
 	{
@@ -35,7 +36,6 @@ public class LoadingScreenController : MonoBehaviour
 	{
 		this.gameObject.transform.FindChild ("button").gameObject.SetActive (value);
 	}
-
 	public void resize()
 	{
 		this.gameObject.transform.position = new Vector3 (ApplicationDesignRules.menuPosition.x, ApplicationDesignRules.menuPosition.y, -9f);

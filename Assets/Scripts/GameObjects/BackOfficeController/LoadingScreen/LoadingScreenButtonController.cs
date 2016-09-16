@@ -10,6 +10,7 @@ public class LoadingScreenButtonController : SimpleButtonController
 {
 	public override void mainInstruction ()
 	{
+		print ("toto");
 		SoundController.instance.playSound(9);
         BackOfficeController.instance.loadingScreenButtonHandler();
 	}
