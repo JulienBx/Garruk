@@ -77,6 +77,7 @@ public class ServerController : MonoBehaviour
 		}
 		if (this.stopCoroutine) {
 			StopCoroutine (this.mainRequest());
+			this.error = "no internet connexion";
 		}
 		this.toDetectTimeOut=false;
 		

@@ -46,11 +46,6 @@ public class NewMarketModel
 				this.oldCardsTimeLimit = cardsOnSale.getCard(cardsOnSale.getCount()-1).OnSaleDate;
 			}
 		}
-		else
-		{
-			Debug.Log(ServerController.instance.getError());
-			BackOfficeController.instance.displayDetectOfflinePopUp ();
-		}
 	}
 	public IEnumerator refreshMarket (int totalNbResultLimit)
 	{	
