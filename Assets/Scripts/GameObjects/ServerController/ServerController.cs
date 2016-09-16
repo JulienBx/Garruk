@@ -57,7 +57,6 @@ public class ServerController : MonoBehaviour
 		}
 		else if (w.text != null) {
 			this.text = w.text;
-			Debug.Log ("it's fine");
 		}
 		this.requestIsOver = true;
 	}
