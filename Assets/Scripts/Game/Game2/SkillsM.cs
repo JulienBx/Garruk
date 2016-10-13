@@ -9,11 +9,11 @@ public class SkillsM
 		this.skills [0] = new AttackC();
 		this.skills [1] = new SkillC();
 		this.skills [2] = new SkillC();
-		this.skills [3] = new SkillC();
-		this.skills [4] = new SkillC();
-		this.skills [5] = new SkillC();
-		this.skills [6] = new SkillC();
-		this.skills [7] = new SkillC();
+		this.skills [3] = new PistoboostC();
+		this.skills [4] = new PistosapeC();
+		this.skills [5] = new PistolestC();
+		this.skills [6] = new VitaminesC();
+		this.skills [7] = new AntibiotiqueC();
 		this.skills [8] = new SkillC();
 		this.skills [9] = new SkillC();
 		this.skills [10] = new SkillC();
@@ -25,9 +25,9 @@ public class SkillsM
 		this.skills [16] = new BerserkC();
 		this.skills [17] = new Attaque360C();
 		this.skills [18] = new FouetC();
-		this.skills [19] = new SkillC();
+		this.skills [19] = new CriderageC();
 		this.skills [20] = new TerreurC();
-		this.skills [21] = new SkillC();
+		this.skills [21] = new CannibaleC();
 		this.skills [22] = new SkillC();
 		this.skills [23] = new SkillC();
 		this.skills [24] = new SkillC();
@@ -45,7 +45,7 @@ public class SkillsM
 		this.skills [36] = new SkillC();
 		this.skills [37] = new SkillC();
 		this.skills [38] = new SkillC();
-		this.skills [39] = new SkillC();
+		this.skills [39] = new RenfodermeC();
 		this.skills [40] = new SkillC();
 		this.skills [41] = new SkillC();
 		this.skills [42] = new SkillC();
@@ -62,14 +62,14 @@ public class SkillsM
 		this.skills [53] = new SkillC();
 		this.skills [54] = new SkillC();
 		this.skills [55] = new SkillC();
-		this.skills [56] = new SkillC();
-		this.skills [57] = new SkillC();
+		this.skills [56] = new SteroidesC();
+		this.skills [57] = new SeniliteC();
 		this.skills [58] = new SkillC();
 		this.skills [59] = new SkillC();
 		this.skills [60] = new SkillC();
 		this.skills [61] = new SkillC();
 		this.skills [62] = new SkillC();
-		this.skills [63] = new SkillC();
+		this.skills [63] = new MassueC();
 		this.skills [64] = new SkillC();
 		this.skills [65] = new SkillC();
 		this.skills [66] = new SkillC();
@@ -77,7 +77,7 @@ public class SkillsM
 		this.skills [68] = new CoriaceC();
 		this.skills [69] = new FrenetiqueC();
 		this.skills [70] = new CuirasseC();
-		this.skills [71] = new SkillC();
+		this.skills [71] = new CarnassierC();
 		this.skills [72] = new SkillC();
 		this.skills [73] = new SkillC();
 		this.skills [74] = new SkillC();
@@ -97,20 +97,10 @@ public class SkillsM
 		this.skills [88] = new SkillC();
 		this.skills [89] = new SkillC();
 		this.skills [90] = new SkillC();
-		this.skills [91] = new SkillC();
-		this.skills [92] = new SkillC();
-		this.skills [93] = new SkillC();
-		this.skills [94] = new SkillC();
-		this.skills [95] = new SkillC();
-		this.skills [96] = new SkillC();
-		this.skills [97] = new SkillC();
-		this.skills [98] = new SkillC();
-		this.skills [99] = new SkillC();
-		this.skills [90] = new SkillC();
-		this.skills [91] = new SkillC();
-		this.skills [92] = new SkillC();
-		this.skills [93] = new SkillC();
-		this.skills [94] = new SkillC();
+		this.skills [91] = new LanceC();
+		this.skills [92] = new DesequilibreC();
+		this.skills [93] = new FracasC();
+		this.skills [94] = new PoisonC();
 		this.skills [95] = new SkillC();
 		this.skills [96] = new SkillC();
 		this.skills [97] = new SkillC();
@@ -166,6 +156,8 @@ public class SkillsM
 		this.skills [147] = new SkillC();
 		this.skills [148] = new SkillC();
 		this.skills [149] = new SkillC();
+		Debug.Log("CREATION");
+
 	}
 }
 

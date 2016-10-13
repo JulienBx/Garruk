@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SkillC : MonoBehaviour
+public class SkillC
 {
 	public int numberOfExpectedTargets ; 
 
@@ -36,8 +36,8 @@ public class SkillC : MonoBehaviour
 					Game.instance.getSkills().skills[this.id].playDodgeSound();
 				}
 				else{
-					StartCoroutine(GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID));
-					StartCoroutine(GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id));
+					Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
+					Game.instance.launchCorou("PlayDodgeSoundRPC", this.id);
 				}
 			}
 			else{
@@ -48,17 +48,22 @@ public class SkillC : MonoBehaviour
 					else if(nbIntsToSend==1){
 						Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
 					}
+					else if(nbIntsToSend==2){
+						Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+					}
 					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
 					if(nbIntsToSend==0){
-						StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level));
+						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
 					}
 					else if(nbIntsToSend==1){
-						StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101)));
+						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101));
 					}
-
-					StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
+					else if(nbIntsToSend==2){
+						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+					}
+					Game.instance.launchCorou("PlaySoundRPC", this.id);
 				}
 			}
 		}
@@ -68,8 +73,48 @@ public class SkillC : MonoBehaviour
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
-				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
+				Game.instance.launchCorou("FailSkillRPC", this.id);
+				Game.instance.launchCorou("PlayFailSoundRPC", this.id);
+			}
+		}
+
+		if(Game.instance.getCurrentCard().getCardM().getCharacterType()==72){
+			List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(new TileM(x,y));
+			for(int i = 0 ; i < neighbours.Count;i++){
+				if(Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID()!=-1 && Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID()!=Game.instance.getCurrentCardID()){
+					targetID = Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID();
+					target = Game.instance.getCards().getCardC(targetID);
+					if(UnityEngine.Random.Range(1,101)<=5*Game.instance.getCurrentCard().getCardM().getSkill(0).Power){
+						if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
+							
+						}
+						else{
+							if(Game.instance.isIA() || Game.instance.isTutorial()){
+								if(nbIntsToSend==0){
+									Game.instance.getSkills().skills[this.id].effects(targetID, level);
+								}
+								else if(nbIntsToSend==1){
+									Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
+								}
+								else if(nbIntsToSend==2){
+									Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+								}
+								Game.instance.getSkills().skills[this.id].playSound();
+							}
+							else{
+								if(nbIntsToSend==0){
+									Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
+								}
+								else if(nbIntsToSend==1){
+									Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101));
+								}
+								else if(nbIntsToSend==2){
+									Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -85,17 +130,22 @@ public class SkillC : MonoBehaviour
 				else if(nbIntsToSend==1){
 					Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
 				}
+				else if(nbIntsToSend==2){
+					Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+				}
 				Game.instance.getSkills().skills[this.id].playSound();
 			}
 			else{
 				if(nbIntsToSend==0){
-					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, level));
+					Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
 				}
 				else if(nbIntsToSend==1){
-					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101)));
+					Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101));
 				}
-
-				StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
+				else if(nbIntsToSend==2){
+					Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+				}
+				Game.instance.launchCorou("PlaySoundRPC", this.id);
 			}	
 		}
 		else{
@@ -104,8 +154,8 @@ public class SkillC : MonoBehaviour
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
-				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
+				Game.instance.launchCorou("FailSkillRPC", this.id);
+				Game.instance.launchCorou("PlayFailSoundRPC", this.id);
 			}
 		}
 	}
@@ -121,6 +171,24 @@ public class SkillC : MonoBehaviour
 		else if(this.ciblage==3){
 			targets = Game.instance.getBoard().getMySelfWithNeighbours(board, card, tile);
 		}
+		else if(this.ciblage==4){
+			targets = Game.instance.getBoard().get1TileAwayOpponents(board, card, tile);
+		}
+		else if(this.ciblage==5){
+			targets = Game.instance.getBoard().getAdjacentCristals(board, card, tile);
+		}
+		else if(this.ciblage==6){
+			targets = Game.instance.getBoard().getOpponentsTargets(board, card, tile);
+		}
+		else if(this.ciblage==7){
+			targets = Game.instance.getBoard().getAdjacentTargets(board, card, tile);
+		}
+		else if(this.ciblage==8){
+			targets = Game.instance.getBoard().getAllysTargets(board, card, tile);
+		}
+		else if(this.ciblage==9){
+			targets = Game.instance.getBoard().getAllysTargets(board, card, tile);
+		}
 		return targets;
 	}
 
@@ -135,6 +203,21 @@ public class SkillC : MonoBehaviour
 		else if(this.ciblage==3){
 			s = WordingGame.getText(86);
 		}
+		else if(this.ciblage==4){
+			s = WordingGame.getText(101);
+		}
+		else if(this.ciblage==5){
+			s = WordingGame.getText(102);
+		}
+		else if(this.ciblage==6){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==7){
+			s = WordingGame.getText(86);
+		}
+		else if(this.ciblage==8){
+			s = WordingGame.getText(115);
+		}
 		return s;
 	}
 
@@ -143,15 +226,23 @@ public class SkillC : MonoBehaviour
 	}
 
 	public virtual void effects(int x){
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Skill non implémenté ef1");
 	}
 
 	public virtual void effects(int x, int y){
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Skill non implémenté ef2");
+	}
+
+	public virtual void effects2(int x, int y){
+		Debug.Log("Skill non implémenté effects2");
 	}
 
 	public virtual void effects(int x, int y, int z){
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Skill non implémenté ef3");
+	}
+
+	public virtual void effects(int x, int y, int z, int z2){
+		Debug.Log("Skill non implémenté ef3");
 	}
 
 	public virtual void fail(){
@@ -165,12 +256,12 @@ public class SkillC : MonoBehaviour
 	}
 
 	public virtual string getSkillText(int i, int level){
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Skill non implémenté gst");
 		return "";
 	}
 
 	public virtual int getActionScore(TileM t, Skill s, int[,] board){
-		Debug.Log("Skill non implémenté");
+		Debug.Log("Skill non implémenté gas");
 		return 0 ;
 	}
 

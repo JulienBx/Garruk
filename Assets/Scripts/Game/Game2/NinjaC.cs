@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class NinjaC : SkillC
 {
 	public NinjaC(){
-		this.id = 67 ;
+		base.id = 67 ;
 		base.ciblage = 0;
 		base.animId = 1;
 		base.soundId = 25;

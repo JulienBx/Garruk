@@ -95,7 +95,27 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
+				print("Je tente");
 				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
+	public IEnumerator launchRPC(string s, int x, int y, int z, int z2){
+		bool b = true ;
+		while(b){
+			try{
+				print("Je tente");
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, Game.instance.isFirstPlayer());
 				b = false;
 			}
 			catch (Exception e){
@@ -223,6 +243,13 @@ public class GameRPC : Photon.MonoBehaviour
 	{
 		this.updateRPCCompteurs(isFirstP);
 		Game.instance.getSkills().skills[x].effects(y);
+	}
+
+	[PunRPC]
+	void EffectsSkill2RPC(int x, int y, int z, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].effects2(y, z);
 	}
 
 	[PunRPC]

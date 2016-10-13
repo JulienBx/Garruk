@@ -291,6 +291,8 @@ public class Game : MonoBehaviour
 
 	public void createCards(){
 		print("CardsCreation");
+		int characterID;
+		int power ;
 
 		if(this.ia){
 			this.gamecards.GenerateIADeck();
@@ -327,11 +329,36 @@ public class Game : MonoBehaviour
 			this.gamecards.createPlayingCard(ApplicationModel.opponentDeck.getCardM(3).getDeckOrder(), ApplicationModel.opponentDeck.getCardM(3), false, (GameObject)Instantiate(cardModel),ApplicationModel.opponentDeck.getCardM(3).getDeckOrder());
 		}
 
-//		for(int i = 0 ; i < this.getCards().getNumberOfCards() ; i++){
-//			if(this.getCards().getCardC(i).getCardM().getCharacterType()==70){
-//				this.getSkills().skills[70].resolve(this.getCards().getCardC(i).getCardM().getSkill(0), i);
-//			}
-//		}
+		for(int i = 0 ; i < this.getCards().getNumberOfCards() ; i++){
+			if(this.getCards().getCardC(i).getCardM().isMine() || this.ia || this.isTutorial()){
+				if(this.getCards().getCardC(i).getCardM().getCharacterType()==70){
+					this.getSkills().skills[70].resolve(this.getCards().getCardC(i).getCardM().getSkill(0), i);
+				}
+			}
+			if(this.getCards().getCardC(i).getCardM().getCharacterType()==73){
+				List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.getCards().getCardC(i).getTileM());
+				for (int j = 0 ; j < neighbours.Count ;j++){
+					characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+					if(characterID!=-1){
+						if(this.getCards().getCardC(i).getCardM().isMine()!=this.getCards().getCardC(characterID).getCardM().isMine()){
+							Game.instance.getCards().getCardC(characterID).addAttackModifyer(new ModifyerM(-2-Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,3,WordingGame.getText(83, new List<int>{2+Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),"Paladin",-1));
+						}
+					}
+				}
+			}
+			if(this.getCards().getCardC(i).getCardM().getCharacterType()==76){
+				Game.instance.getCards().getCardC(i).addDamageModifyer(new ModifyerM(Mathf.RoundToInt(Game.instance.getCards().getCardC(i).getLife()/2f), -1, "", "",-1));
+				power = this.getCards().getCardC(i).getCardM().getSkill(0).Power;
+				for (int j = 0 ; j < this.getCards().getNumberOfCards() ;j++){
+					if(i!=j){
+						if(this.getCards().getCardC(j).getCardM().isMine()==this.getCards().getCardC(i).getCardM().isMine()){
+							Game.instance.getCards().getCardC(j).addAttackModifyer(new ModifyerM(power,4, "","Leader",-1));
+							Game.instance.getCards().getCardC(j).addLifeModifyer(new ModifyerM(2+power,4, "","Leader",-1));
+						}
+					}
+				}
+			}
+		}
 
 		if(this.ia || this.isTutorial()){
 			this.intelligence.placeCards();
@@ -719,6 +746,8 @@ public class Game : MonoBehaviour
 	}
 
 	public void updateBoard(int x, int y, int i){
+		int characterID ;
+		int found ;
 		if(this.currentCardID!=-1){
 			if(i==this.getCurrentCardID()){
 				this.getCurrentCard().move(true);
@@ -727,11 +756,63 @@ public class Game : MonoBehaviour
 
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).showCollider(true);
+
+		if(Game.instance.getCards().getCardC(i).getCardM().getCharacterType()==73){
+			List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.gamecards.getCardC(i).getTileM());
+			for (int j = 0 ; j < neighbours.Count ;j++){
+				characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+				if(characterID!=-1){
+					if(this.getCards().getCardC(i).getCardM().isMine()!=this.getCards().getCardC(characterID).getCardM().isMine()){
+						Game.instance.getCards().getCardC(characterID).removePaladinModifyer();
+						Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(105),0);
+					}
+				}
+			}
+		}
 		
 		this.gamecards.getCardC(i).setTile(new TileM(x,y));
 		if(this.currentCardID!=-1 || this.gamecards.getCardC(i).getCardM().isMine()){
 			this.gamecards.getCardC(i).showCollider(true);
 			this.getBoard().getTileC(x,y).showCollider(false);
+		}
+
+		if(Game.instance.getCards().getCardC(i).getCardM().getCharacterType()==73){
+			List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.gamecards.getCardC(i).getTileM());
+			for (int j = 0 ; j < neighbours.Count ;j++){
+				characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+				if(characterID!=-1){
+					if(this.getCards().getCardC(i).getCardM().isMine()!=this.getCards().getCardC(characterID).getCardM().isMine()){
+						Game.instance.getCards().getCardC(characterID).addAttackModifyer(new ModifyerM(-2-Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,3,WordingGame.getText(83, new List<int>{2+Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),"Paladin",-1));
+						Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(106)+"\n"+WordingGame.getText(83, new List<int>{-2-Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),2);
+					}
+				}
+			}
+		}
+		else{
+			List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.gamecards.getCardC(i).getTileM());
+			found = -1 ;
+			for (int j = 0 ; j < neighbours.Count ;j++){
+				characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+				if(characterID!=-1){
+					if(this.getCards().getCardC(characterID).hasPaladinModifyer()){
+						if(this.getCards().getCardC(i).getCardM().isMine()!=this.getCards().getCardC(characterID).getCardM().isMine()){
+							found = characterID;
+						}
+					}
+				}
+			}
+			if(found!=-1){
+				if(!this.gamecards.getCardC(i).hasPaladinModifyer()){
+					Game.instance.getCards().getCardC(i).addAttackModifyer(new ModifyerM(-2-Game.instance.getCards().getCardC(found).getCardM().getSkill(0).Power,3,WordingGame.getText(83, new List<int>{2+Game.instance.getCards().getCardC(found).getCardM().getSkill(0).Power}),"Paladin",-1));
+					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(106)+"\n"+WordingGame.getText(83, new List<int>{-2-Game.instance.getCards().getCardC(found).getCardM().getSkill(0).Power}),2);
+				}
+			}
+			else{
+				if(this.gamecards.getCardC(i).hasPaladinModifyer()){
+					Game.instance.getCards().getCardC(i).removePaladinModifyer();
+					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(105),0);
+				}
+			}
 		}
 
 		this.getBoard().getTileC(x,y).BruteStopSE();
@@ -849,25 +930,114 @@ public class Game : MonoBehaviour
 	}
 
 	public void handleBeginningTurnEffects(){
+		int playerID;
+		int tempInt;
 		if(this.getCurrentCard().getCardM().getCharacterType()==69){
 			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
 		else if(this.getCurrentCard().getCardM().getCharacterType()==68){
 			this.getSkills().skills[68].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
+		else if(this.getCurrentCard().getCardM().getCharacterType()==75){
+			List<TileM> neighbours = this.getBoard().getTileNeighbours(this.getCurrentCard().getTileM());
+			for(int i = 0 ; i < neighbours.Count; i++){
+				playerID = this.getBoard().getTileC(neighbours[i]).getCharacterID()	;
+				if(playerID!=-1){
+					if(this.getCards().getCardC(playerID).getCardM().isMine()==this.getCurrentCard().getCardM().isMine()){
+						if(this.getCards().getCardC(playerID).getLife()!=this.getCards().getCardC(playerID).getTotalLife()){
+							tempInt = this.getCurrentCard().getCardM().getSkill(0).Power+5;
+							this.getCards().getCardC(playerID).addDamageModifyer(new ModifyerM(-1*tempInt, -1, "", "",-1));
+							this.getCards().getCardC(playerID).displaySkillEffect(WordingGame.getText(11, new List<int>{tempInt}),0);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void launchNextTurn(){
 		this.getCurrentCard().stopClignote();
+		if(this.getCurrentCard().getCardM().isMine()){
+			this.getMyHoveredCard().stopClignoting();
+		}
+		else{
+			this.getHisHoveredCard().stopClignoting();
+		}
+		this.getCurrentCard().checkModifyers();
 		this.getCurrentCard().displayBackTile(true);
 		this.getCurrentCard().play(false);
 		this.getCurrentCard().move(false);
 		this.indexPlayingCard++;
+		bool toLaunchMeteors = false;
 		if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
 			this.indexPlayingCard = 0 ;
+			toLaunchMeteors = true;
 		}
 		while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
 			this.indexPlayingCard++;
+			if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
+				this.indexPlayingCard = 0 ;
+				toLaunchMeteors = true;
+			}
+		}
+
+		if(!toLaunchMeteors){
+			this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
+		}
+		else{
+			StartCoroutine(this.launchMeteors());
+		}
+	}
+
+	public void meteorHitTile(TileM t, int amount){
+		if(this.getBoard().getTileC(t).getCharacterID()!=-1){
+				this.getCards().getCardC(this.getBoard().getTileC(t).getCharacterID()).meteorEffect(amount);
+		}
+		else{
+			this.getBoard().getTileC(t).displayAnim(0);
+		}
+	}
+
+	public IEnumerator launchMeteors(){
+		GameObject.Find("GameBackground").transform.GetComponent<GameBackgroundController>().launchMeteors();
+		yield return new WaitForSeconds(1f);
+
+		int amount = 5 ;
+		SoundController.instance.playSound(25);
+
+		for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
+			this.meteorHitTile(new TileM(i,0), amount*this.indexMeteores);
+			this.meteorHitTile(new TileM(i,this.getBoard().getBoardHeight()-1), amount*this.indexMeteores);
+		}
+
+		if(this.indexMeteores>=2){
+			for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
+				this.meteorHitTile(new TileM(i,1), amount*(this.indexMeteores-1));
+				this.meteorHitTile(new TileM(i,this.getBoard().getBoardHeight()-2), amount*(this.indexMeteores-1));
+			}
+		}
+
+		if(this.indexMeteores>=3){
+			for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
+				this.meteorHitTile(new TileM(i,2), amount*(this.indexMeteores-2));
+				this.meteorHitTile(new TileM(i,this.getBoard().getBoardHeight()-3), amount*(this.indexMeteores-2));
+			}
+		}
+
+		if(this.indexMeteores>=4){
+			for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
+				this.meteorHitTile(new TileM(i,2), amount*(this.indexMeteores-3));
+				this.meteorHitTile(new TileM(i,this.getBoard().getBoardHeight()-4), amount*(this.indexMeteores-3));
+			}
+		}
+
+		this.indexMeteores++;
+		yield return new WaitForSeconds(3f);
+		while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
+			this.indexPlayingCard++;
+			if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
+				this.indexPlayingCard = 0 ;
+			}
 		}
 
 		this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
@@ -960,9 +1130,16 @@ public class Game : MonoBehaviour
 		this.SE = b ;
 	}
 
+	public void setLaunchNextTurn(bool b){
+		this.toLaunchNextTurn = b ;
+	}
+
+	public bool getSE(){
+		return this.SE ;
+	}
+
 	public void actuController(bool checkEndTurn){
 		CardC c = this.getCurrentCard();
-
 		if(this.getCurrentCard().hasPlayed()){
 			this.getSkillButton(0).forbid();
 			for(int i = 1 ; i < 4 ; i++){
@@ -1283,7 +1460,9 @@ public class Game : MonoBehaviour
 	}
 
 	public void updateModifyers(int i){
-		this.getCards().getCardC(i).showIcons(true);
+		if(this.getCards().getCardC(i).getCardM().isMine() || Game.instance.getCurrentCardID()!=-1){
+			this.getCards().getCardC(i).showIcons(true);
+		}
 		if(this.getMyHoveredCard().getCurrentCard()!=-1){
 			if(this.getMyHoveredCard().getCurrentCard()==i){
 				this.getMyHoveredCard().setCard(i);
@@ -1384,4 +1563,22 @@ public class Game : MonoBehaviour
 
         this.createCards();
     }
+
+	public void launchCorou(string s, int a, int b, int c){
+
+		StartCoroutine(GameRPC.instance.launchRPC(s, a, b, c));
+    }
+
+	public void launchCorou(string s, int a, int b, int c, int d){
+		StartCoroutine(GameRPC.instance.launchRPC(s, a, b, c, d));
+    }
+
+    public void launchCorou(string s, int a, int b){
+		StartCoroutine(GameRPC.instance.launchRPC(s, a, b));
+    }
+
+	public void launchCorou(string s, int a){
+		StartCoroutine(GameRPC.instance.launchRPC(s, a));
+    }
+
 }

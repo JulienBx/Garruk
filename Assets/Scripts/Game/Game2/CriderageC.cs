@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Attaque360C : SkillC
+public class CriderageC : SkillC
 {
-	public Attaque360C(){
-		base.id = 17 ;
+	public CriderageC(){
+		base.id = 19 ;
 		base.ciblage = 3;
-		base.animId = 0;
+		base.animId = 2;
 		base.soundId = 25;
-		base.nbIntsToSend = 0;
+		base.nbIntsToSend = 1;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
@@ -36,7 +36,7 @@ public class Attaque360C : SkillC
 						}
 						else{
 							if(Game.instance.isIA() || Game.instance.isTutorial()){
-								Game.instance.getSkills().skills[this.id].effects(targetID, level);
+								Game.instance.getSkills().skills[this.id].effects(targetID, level, Random.Range(1,101));
 							}
 							else{
 								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
@@ -84,21 +84,25 @@ public class Attaque360C : SkillC
 		}
 	}
 
-	public override void effects(int targetID, int level){
+	public override void effects(int targetID, int level, int z){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(20f+level*8f)/100f));
-
+		int attackBonus = 1+Mathf.RoundToInt((1+level)*z/100f);
 		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+		target.displaySkillEffect(WordingGame.getText(13, new List<int>{attackBonus}), 2);
 
-		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+		target.addAttackModifyer(new ModifyerM(attackBonus, 0, "", "",1));
 	}
 
 	public override string getSkillText(int targetID, int level){
-		string s = Game.instance.getCurrentSkillButtonC().getSkillText();
-		return s ;
+		CardC target = Game.instance.getCards().getCardC(targetID);
+		CardC caster = Game.instance.getCurrentCard();
+
+		int attackBonus = 2+level;
+
+		string text = WordingGame.getText(99, new List<int>{attackBonus});
+		return text ;
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
@@ -106,6 +110,7 @@ public class Attaque360C : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(t);
 
+		int attackBonus = Mathf.RoundToInt(3+s.Power/2f);
 		int score = 0 ;
 		int tempScore ;
 
@@ -113,7 +118,7 @@ public class Attaque360C : SkillC
 			if(Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID()!=-1){
 				if(Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID()!=Game.instance.getCurrentCardID()){
 					target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(neighbours[i]).getCharacterID());
-					tempScore = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(20f+s.Power*8f)/100f));
+					tempScore = attackBonus;
 					tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
 					if(!target.getCardM().isMine()){
 						tempScore=-1*tempScore;
@@ -126,5 +131,3 @@ public class Attaque360C : SkillC
 		return score;
 	}
 }
-
-

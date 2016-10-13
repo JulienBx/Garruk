@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FouetC : SkillC
+public class TelepiegeC : SkillC
 {
-	public FouetC(){
-		base.id = 18 ;
-		base.ciblage = 2;
+	public TelepiegeC(){
+		base.id = 58 ;
+		base.ciblage = 9;
 		base.animId = 1;
 		base.soundId = 25;
 		base.nbIntsToSend = 0;

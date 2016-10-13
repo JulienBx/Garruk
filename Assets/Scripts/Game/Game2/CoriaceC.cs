@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class CoriaceC : SkillC
 {
 	public CoriaceC(){
-		this.id = 68;
+		base.id = 68;
 		base.ciblage = 0;
 		base.animId = 2;
 		base.soundId = 25;

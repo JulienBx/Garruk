@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class AttackC : SkillC
 {
 	public AttackC(){
-		this.id = 0 ;
+		base.id = 0 ;
 		base.ciblage = 1;
 		base.animId = 0;
 		base.soundId = 25;
@@ -23,8 +23,8 @@ public class AttackC : SkillC
 					Game.instance.getSkills().skills[this.id].playDodgeSound();
 				}
 				else{
-					StartCoroutine(GameRPC.instance.launchRPC("DodgeSkillRPC", this.id, targetID));
-					StartCoroutine(GameRPC.instance.launchRPC("PlayDodgeSoundRPC", this.id));
+					Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
+					Game.instance.launchCorou("PlayDodgeSoundRPC", this.id);
 				}
 			}
 			else{
@@ -33,8 +33,8 @@ public class AttackC : SkillC
 					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
-					StartCoroutine(GameRPC.instance.launchRPC("EffectsSkillRPC", this.id, targetID));
-					StartCoroutine(GameRPC.instance.launchRPC("PlaySoundRPC", this.id));
+					Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID);
+					Game.instance.launchCorou("PlaySoundRPC", this.id);
 				}
 			}
 		}
@@ -44,8 +44,8 @@ public class AttackC : SkillC
 				Game.instance.getSkills().skills[this.id].playFailSound();
 			}
 			else{
-				StartCoroutine(GameRPC.instance.launchRPC("FailSkillRPC", this.id));
-				StartCoroutine(GameRPC.instance.launchRPC("PlayFailSoundRPC", this.id));
+				Game.instance.launchCorou("FailSkillRPC", this.id);
+				Game.instance.launchCorou("PlayFailSoundRPC", this.id);
 			}
 		}
 	}

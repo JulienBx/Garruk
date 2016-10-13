@@ -134,6 +134,117 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getAdjacentTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+		int playerID;
+
+		foreach (TileM t in neighbourTiles)
+		{
+			playerID = board[t.x,t.y];
+			if (playerID >= 0)
+			{
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					cibles.Add(t);
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getOpponentsTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(i).getCardM().isMine()){
+					cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getAllysTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				if(i!=Game.instance.getCurrentCardID()){
+					if(card.getCardM().isMine()==Game.instance.getCards().getCardC(i).getCardM().isMine()){
+						cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+					}
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getAdjacentCristals(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		foreach (TileM t in neighbourTiles)
+		{
+			if (board[t.x,t.y] == -2){
+				cibles.Add(t);
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> get1TileAwayOpponents(int[,] board, CardC card, TileM tile){
+		List<TileM> cibles = new List<TileM>();
+		int playerID;
+
+		if(tile.x>1){
+			playerID = board[tile.x-2,tile.y];
+			if (playerID >= 0){
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						cibles.Add(new TileM(tile.x-2, tile.y));
+					}
+				}
+			}
+		}
+		if(tile.y>1){
+			playerID = board[tile.x,tile.y-2];
+			if (playerID >= 0){
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						cibles.Add(new TileM(tile.x, tile.y-2));
+					}
+				}
+			}
+		}
+		if(tile.x<this.getBoardWidth()-2){
+			playerID = board[tile.x+2,tile.y];
+			if (playerID >= 0){
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						cibles.Add(new TileM(tile.x+2, tile.y));
+					}
+				}
+			}
+		}
+		if(tile.y<this.getBoardHeight()-2){
+			playerID = board[tile.x,tile.y+2];
+			if (playerID >= 0){
+				if(Game.instance.getCards().getCardC(playerID).canBeTargeted()){
+					if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+						cibles.Add(new TileM(tile.x, tile.y+2));
+					}
+				}
+			}
+		}
+			
+		return cibles;
+	}
+
 	public List<TileM> getAdjacentAllysTargets(int[,] board, CardC card, TileM tile){
 		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
 		List<TileM> cibles = new List<TileM>();

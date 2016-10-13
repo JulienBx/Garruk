@@ -118,7 +118,7 @@ public class CardC : MonoBehaviour
 			if(m.getDuration()==damageModifyers[i].getDuration()){
 				hasFound = true ;
 				damageModifyers[i].addAmount(m.getAmount());
-				if(damageModifyers[i].getAmount()==0){
+				if(damageModifyers[i].getAmount()<=0){
 					damageModifyers.RemoveAt(i);
 				}
 			}
@@ -131,13 +131,21 @@ public class CardC : MonoBehaviour
 
 	public void addStateModifyer(ModifyerM m){
 		this.stateModifyers.Add(m);
+		this.showIcons(true);
 		Game.instance.updateModifyers(this.id);
 	}
 
 	public void addAttackModifyer(ModifyerM m){
 		bool hasFound = false ;
+		string durationText = "" ;
+		if(m.getDuration()==1){
+			durationText = WordingGame.getText(100);
+		}
+		else{
+			durationText = WordingGame.getText(2);
+		}
 		for(int i = 0 ; i < attackModifyers.Count ;i++){
-			if(m.getDuration()==attackModifyers[i].getDuration()){
+			if(m.getDuration()==attackModifyers[i].getDuration() && m.getIdIcon()==0 && attackModifyers[i].getIdIcon()==0){
 				hasFound = true ;
 				attackModifyers[i].addAmount(m.getAmount());
 				if(attackModifyers[i].getAmount()==0){
@@ -146,11 +154,11 @@ public class CardC : MonoBehaviour
 				else{
 					if(attackModifyers[i].getAmount()>0){
 						attackModifyers[i].setTitle(WordingGame.getText(81));
-						attackModifyers[i].setDescription(WordingGame.getText(13, new List<int>{attackModifyers[i].getAmount()})+WordingGame.getText(2));
+						attackModifyers[i].setDescription(WordingGame.getText(13, new List<int>{attackModifyers[i].getAmount()})+durationText);
 					}
 					else{
 						attackModifyers[i].setTitle(WordingGame.getText(82));
-						attackModifyers[i].setDescription(WordingGame.getText(83, new List<int>{attackModifyers[i].getAmount()})+WordingGame.getText(2));
+						attackModifyers[i].setDescription(WordingGame.getText(83, new List<int>{attackModifyers[i].getAmount()})+durationText);
 					}
 				}
 			}
@@ -170,26 +178,98 @@ public class CardC : MonoBehaviour
 		this.setAttack();
 	}
 
-	public void addShieldModifyer(ModifyerM m){
+	public void addLifeModifyer(ModifyerM m){
 		bool hasFound = false ;
-		for(int i = 0 ; i < bouclierModifyers.Count ;i++){
-			if(m.getDuration()==bouclierModifyers[i].getDuration()){
+		string durationText = "" ;
+		if(m.getDuration()==1){
+			durationText = WordingGame.getText(100);
+		}
+		else{
+			durationText = WordingGame.getText(2);
+		}
+		for(int i = 0 ; i < lifeModifyers.Count ;i++){
+			if(m.getDuration()==lifeModifyers[i].getDuration()){
 				hasFound = true ;
-				bouclierModifyers[i].addAmount(m.getAmount());
-				if(bouclierModifyers[i].getAmount()==0){
-					bouclierModifyers.RemoveAt(i);
+				lifeModifyers[i].addAmount(m.getAmount());
+				if(lifeModifyers[i].getAmount()==0){
+					lifeModifyers.RemoveAt(i);
 				}
 				else{
-					bouclierModifyers[i].setTitle(WordingGame.getText(88));
-					bouclierModifyers[i].setDescription(WordingGame.getText(87, new List<int>{bouclierModifyers[i].getAmount()}));
+					lifeModifyers[i].setTitle(WordingGame.getText(98));
+					lifeModifyers[i].setDescription(WordingGame.getText(11, new List<int>{lifeModifyers[i].getAmount()})+durationText);
 				}
 			}
 		}
 		if(!hasFound){
-			m.setTitle(WordingGame.getText(88));
-			m.setDescription(WordingGame.getText(87, new List<int>{m.getAmount()}));
-			this.bouclierModifyers.Add(m);
+			m.setTitle(WordingGame.getText(98));
+			m.setDescription(WordingGame.getText(11, new List<int>{m.getAmount()})+durationText);
+			this.lifeModifyers.Add(m);
 		}
+		Game.instance.updateModifyers(this.id);
+		this.setLife();
+	}
+
+	public void addMoveModifyer(ModifyerM m){
+		bool hasFound = false ;
+		string durationText = "" ;
+		if(m.getDuration()==1){
+			durationText = WordingGame.getText(100);
+		}
+		else{
+			durationText = WordingGame.getText(2);
+		}
+		for(int i = 0 ; i < moveModifyers.Count ;i++){
+			if(m.getDuration()==moveModifyers[i].getDuration()){
+				hasFound = true ;
+				moveModifyers[i].addAmount(m.getAmount());
+				if(moveModifyers[i].getAmount()==0){
+					moveModifyers.RemoveAt(i);
+				}
+				else{
+					if(attackModifyers[i].getAmount()>0){
+						moveModifyers[i].setTitle(WordingGame.getText(109));
+						moveModifyers[i].setDescription(WordingGame.getText(108, new List<int>{moveModifyers[i].getAmount()})+durationText);
+					}
+					else{
+						moveModifyers[i].setTitle(WordingGame.getText(111));
+						moveModifyers[i].setDescription(WordingGame.getText(110, new List<int>{moveModifyers[i].getAmount()})+durationText);
+					}
+				}
+			}
+		}
+		if(!hasFound){
+			if(m.getAmount()>0){
+				m.setTitle(WordingGame.getText(109));
+				m.setDescription(WordingGame.getText(108, new List<int>{m.getAmount()})+durationText);
+			}
+			else{
+				m.setTitle(WordingGame.getText(111));
+				m.setDescription(WordingGame.getText(110, new List<int>{m.getAmount()})+durationText);
+			}
+			this.lifeModifyers.Add(m);
+		}
+		Game.instance.updateModifyers(this.id);
+		this.showIcons(true);
+	}
+
+	public void addShieldModifyer(ModifyerM m){
+		string durationText = "" ;
+		if(m.getDuration()==1){
+			durationText = WordingGame.getText(100);
+		}
+		else{
+			durationText = WordingGame.getText(2);
+		}
+		for(int i = 0 ; i < bouclierModifyers.Count ;i++){
+			if(m.getDuration()==bouclierModifyers[i].getDuration()){
+				bouclierModifyers.RemoveAt(i);
+			}
+		}
+
+		m.setTitle(WordingGame.getText(88));
+		m.setDescription(WordingGame.getText(87, new List<int>{m.getAmount()})+durationText);
+		this.bouclierModifyers.Add(m);
+		
 		Game.instance.updateModifyers(this.id);
 	}
 
@@ -374,6 +454,53 @@ public class CardC : MonoBehaviour
 			gameObject.transform.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = b ;
 			gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = b ;
 		}
+	}
+
+	public void checkModifyers(){
+		for (int i = this.attackModifyers.Count-1 ; i >=0 ; i--){
+			if (this.attackModifyers [i].getDuration() == 1)
+			{
+				this.attackModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.moveModifyers.Count-1 ; i >=0 ; i--){
+			if (this.moveModifyers [i].getDuration() == 1)
+			{
+				this.moveModifyers.RemoveAt(i);
+			}
+		}
+
+		for (int i = this.lifeModifyers.Count-1 ; i >=0 ; i--){
+			if (this.lifeModifyers [i].getDuration() == 1)
+			{
+				this.lifeModifyers.RemoveAt(i);
+			}
+		}
+		
+		for (int i = this.esquiveModifyers.Count-1 ; i >=0 ; i--){
+			if (this.esquiveModifyers [i].getDuration() == 1)
+			{
+				this.esquiveModifyers.RemoveAt(i);
+			}
+		}
+
+		for (int i = this.stateModifyers.Count-1 ; i >=0 ; i--){
+			if (this.stateModifyers [i].getDuration() == 1)
+			{
+				this.stateModifyers.RemoveAt(i);
+			}
+		}
+
+		for (int i = this.bouclierModifyers.Count-1 ; i >=0 ; i--){
+			if (this.bouclierModifyers [i].getDuration() == 1)
+			{
+				this.bouclierModifyers.RemoveAt(i);
+			}
+		}
+		this.setLife();
+		this.setAttack();
+		this.showIcons(true);
 	}
 
 	public void setIcon(int i, int idSkill){
@@ -561,10 +688,7 @@ public class CardC : MonoBehaviour
 			life = this.getTotalLife();
 		}
 
-		for(int i = 0 ; i < this.lifeModifyers.Count ; i++){
-			life+=this.lifeModifyers[i].getAmount();
-		}
-		return life;
+		return Mathf.Max(0,life);
 	}
 
 	public int getTotalLife(){
@@ -580,7 +704,7 @@ public class CardC : MonoBehaviour
 		for(int i = 0 ; i < this.attackModifyers.Count ; i++){
 			attack+=this.attackModifyers[i].getAmount();
 		}
-		return attack;
+		return Mathf.Max(1,attack);
 	}
 
 	public int getMove(){
@@ -588,32 +712,43 @@ public class CardC : MonoBehaviour
 		for(int i = 0 ; i < this.moveModifyers.Count ; i++){
 			move+=this.moveModifyers[i].getAmount();
 		}
-		return move;
+		return Mathf.Max(1,move);
 	}
 
 	public List<int> getIcons(){
 		List<int> icons = new List<int>();
 		int compteur = 0;
+		int id ;
 		for(int i = 0 ; i < stateModifyers.Count && compteur<3 ; i++){
-			icons.Add(this.stateModifyers[i].getIdIcon());
+			id = this.stateModifyers[i].getIdIcon();
+			if(this.stateModifyers[i].getAmount()<=0){
+				id = -1*id;
+			}
+			icons.Add(id);
 			compteur++;
 		}
 		if(esquiveModifyers.Count>0 && compteur<3){
-			icons.Add(this.esquiveModifyers[0].getIdIcon());
+			id = this.esquiveModifyers[0].getIdIcon();
+			if(this.esquiveModifyers[0].getAmount()<=0){
+				id = -1*id;
+			}
+			icons.Add(id);
 			compteur++;
 		}
 		if(bouclierModifyers.Count>0 && compteur<3){
+			id = this.bouclierModifyers[0].getIdIcon();
+			if(this.bouclierModifyers[0].getAmount()<=0){
+				id = -1*id;
+			}
 			icons.Add(this.bouclierModifyers[0].getIdIcon());
 			compteur++;
 		}
 		if(moveModifyers.Count>0 && compteur<3){
-			if(this.getMove()<this.card.getMove()){
-				icons.Add(this.moveModifyers[0].getIdIcon());
+			id = this.moveModifyers[0].getIdIcon();
+			if(this.moveModifyers[0].getAmount()<=0){
+				id = -1*id;
 			}
-			else{
-				icons.Add(-1*this.moveModifyers[0].getIdIcon());
-			}
-
+			icons.Add(id);
 			compteur++;
 		}
 		return icons;
@@ -968,6 +1103,30 @@ public class CardC : MonoBehaviour
 			if(this.anim==666){
 				this.show(false);
 				this.dead = true;
+				int characterID;
+
+				if(this.getCardM().getCharacterType()==73){
+					List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.getTileM());
+					for (int j = 0 ; j < neighbours.Count ;j++){
+						characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+						if(characterID!=-1){
+							if(this.getCardM().isMine()!=Game.instance.getCards().getCardC(characterID).getCardM().isMine()){
+								Game.instance.getCards().getCardC(characterID).removePaladinModifyer();
+							}
+						}
+					}
+				}
+
+				if(this.getCardM().getCharacterType()==76){
+					for (int j = 0 ; j < Game.instance.getCards().getNumberOfCards() ;j++){
+						if(Game.instance.getCards().getCardC(j).getCardM().isMine()==this.getCardM().isMine()){
+							if(Game.instance.getCards().getCardC(j).hasLeaderModifyer()){
+								Game.instance.getCards().getCardC(j).removeLeaderModifyer();
+							}
+						}
+					}
+				}
+
 				if(Game.instance.isIA()||Game.instance.isTutorial()){
 					Game.instance.areUnitsDead(this.getCardM().isMine());
 				}
@@ -1007,10 +1166,22 @@ public class CardC : MonoBehaviour
 	public int getDegatsAgainst(CardC target, int d){
 		int degats = 0;
 		if(this.card.getCharacterType()==71 && target.getLife()>=50){ 
-			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(Mathf.RoundToInt(d*(110f+5f*this.card.getSkill(0).Power)/100f)*(1-(target.getBouclier()/100f)))));
+			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(Mathf.RoundToInt(d*(110f+4f*this.card.getSkill(0).Power)/100f)*(1-(target.getBouclier()/100f)))));
 		}
 		else{
 			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		}
+
+		return degats;
+	}
+
+	public int getDegatsMaxAgainst(CardC target, int d){
+		int degats = 0;
+		if(this.card.getCharacterType()==71 && target.getLife()>=50){ 
+			degats = Mathf.Max(1,Mathf.RoundToInt(Mathf.RoundToInt(d*(110f+4f*this.card.getSkill(0).Power)/100f)*(1-(target.getBouclier()/100f))));
+		}
+		else{
+			degats = Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f))));
 		}
 
 		return degats;
@@ -1027,16 +1198,97 @@ public class CardC : MonoBehaviour
 		if(!target.getCardM().isMine()){
 			degats = -1*degats;
 		}
-		return d;
+		return degats;
+	}
+
+	public int getDamageScore(CardC target, int dmin, int dmax){
+		int degatsMin = this.getDegatsAgainst(target, dmin);
+		int degatsMax = this.getDegatsMaxAgainst(target, dmax);
+		int degats = Mathf.RoundToInt((100+target.getLife()+target.getAttack())*(degatsMax+1-target.getLife())+(Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f)))*(target.getLife()-degatsMin))/(degatsMax+1-degatsMin);
+
+		if(!target.getCardM().isMine()){
+			degats = -1*degats;
+		}
+		return degats;
 	}
 
 	public bool isParalized(){
 		bool p = false;
 		for(int i = 0 ; i < stateModifyers.Count ;i++){
-			if(stateModifyers[i].getIdIcon()==20){
+			if(stateModifyers[i].getIdIcon()==2){
 				p = true ;
 			}
 		}
 		return p;
+	}
+
+	public void meteorEffect(int degats){
+		this.displayAnim(0);
+		this.displaySkillEffect(WordingGame.getText(43, new List<int>{degats}), 2);
+		this.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+	}
+
+	public void removePaladinModifyer(){
+		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
+			if(this.attackModifyers[i].getIdIcon()==3){
+				this.attackModifyers.RemoveAt(i);
+			}
+		}
+		Game.instance.updateModifyers(this.id);
+		this.setAttack();
+	}
+
+	public void removeLeaderModifyer(){
+		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
+			if(this.attackModifyers[i].getIdIcon()==4){
+				this.attackModifyers.RemoveAt(i);
+			}
+		}
+		for (int i = lifeModifyers.Count-1 ; i>=0 ; i--){
+			if(this.lifeModifyers[i].getIdIcon()==4){
+				this.lifeModifyers.RemoveAt(i);
+			}
+		}
+		this.displaySkillEffect(WordingGame.getText(107),0);
+		Game.instance.updateModifyers(this.id);
+		this.setAttack();
+		this.setLife();
+	}
+
+	public bool hasPaladinModifyer(){
+		bool found = false ;
+		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
+			if(this.attackModifyers[i].getIdIcon()==3){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
+	public bool hasLeaderModifyer(){
+		bool found = false ;
+		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
+			if(this.attackModifyers[i].getIdIcon()==4){
+				found = true ;
+			}
+		}
+		for (int i = lifeModifyers.Count-1 ; i>=0 ; i--){
+			if(this.lifeModifyers[i].getIdIcon()==4){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
+	public void emptyModifyers(){
+		this.attackModifyers = new List<ModifyerM>();
+		this.lifeModifyers = new List<ModifyerM>();
+		this.bouclierModifyers = new List<ModifyerM>();
+		this.esquiveModifyers = new List<ModifyerM>();
+		this.stateModifyers = new List<ModifyerM>();
+		this.moveModifyers = new List<ModifyerM>();
+		this.setLife();
+		this.setAttack();
+		this.showIcons(true);
 	}
 }

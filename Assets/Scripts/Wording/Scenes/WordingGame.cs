@@ -116,7 +116,7 @@ public class WordingGame
 		texts.Add(new string[]{"Défaite!","You lost!"});
 		texts.Add(new string[]{"BONUS ATK","ATK BONUS"});
 		texts.Add(new string[]{"MALUS ATK","ATK MALUS"});
-		texts.Add(new string[]{"-ARG1 ATK","-ARG1 ATK"});
+		texts.Add(new string[]{"ARG1 ATK","ARG1 ATK"});
 		texts.Add(new string[]{"ATK : ARG1 -> ARG2","ATK : ARG1 -> ARG2"});
 		texts.Add(new string[]{"Pas d'allié adjacent!","No adjacent ally unit!"});
 		texts.Add(new string[]{"Pas d'unité adjacente!","No adjacent unit!"});
@@ -128,5 +128,30 @@ public class WordingGame
 		texts.Add(new string[]{"Paralysé!","Paralyzed!"});
 		texts.Add(new string[]{"25% de chances de paralyser","25% chances of paralyzing"});
 		texts.Add(new string[]{"Compétences inactives pour 1 tour","Cannot use skills during 1 turn"});
+		texts.Add(new string[]{"Paralysé pour 1 tour","Paralyzed for 1 turn"});
+		texts.Add(new string[]{"Repoussé!","Pushed!"});
+		texts.Add(new string[]{"PV : ARG1 -> [ARG2-ARG3]","HP : ARG1 -> [ARG2-ARG3]"});
+		texts.Add(new string[]{"Dévore l'unité et absorbe ARG1 ATK et ARG2 PV","Eats the unit and absorbs ARG1 ATK and ARG2 HP"});
+		texts.Add(new string[]{"BONUS PV","BONUS HP"});
+		texts.Add(new string[]{"+[1-ARG1] ATK aux unités adjacentes","+[1-ARG1] ATK to adjacent units"});
+
+		texts.Add(new string[]{"Actif 1 tour","Active for 1 turn"});
+		texts.Add(new string[]{"Pas d'adversaire à cibler!","No opponent to target!"});
+		texts.Add(new string[]{"Pas de cristal adjacent","No adjacent cristal"});
+		texts.Add(new string[]{"ATK : ARG1 -> [ARG2-ARG3]","ATK : ARG1 -> [ARG2-ARG3]"});
+		texts.Add(new string[]{"Pas d'ennemi à cibler","No enemy to target"});
+		texts.Add(new string[]{"Malus paladin retiré!","Paladin malus removed"});
+		texts.Add(new string[]{"Malus paladin !","Paladin malus !"});
+		texts.Add(new string[]{"Bonus leader retiré!","Leader bonus removed!"});
+		texts.Add(new string[]{"+ARG1 MOV","+ARG1 MOV"});
+		texts.Add(new string[]{"BONUS MOV","BONUS MOV"});
+
+		texts.Add(new string[]{"ARG1 MOV","ARG1 MOV"});
+		texts.Add(new string[]{"MALUS MOV","MALUS MOV"});
+		texts.Add(new string[]{"MOV : ARG1 -> ARG2","MOV : ARG1 -> ARG2"});
+		texts.Add(new string[]{"-ARG1 PV / tour","-ARG1 HP / turn"});
+		texts.Add(new string[]{"Soigné!","Healed!"});
+		texts.Add(new string[]{"Pas d'allié à cibler!","No ally to target!"});
+
 	}
 }

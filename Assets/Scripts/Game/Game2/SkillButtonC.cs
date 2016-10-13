@@ -82,8 +82,9 @@ public class SkillButtonC : MonoBehaviour
 			this.skillC = Game.instance.getSkills().skills[0];
 		}
 		else{
+			
 			this.skillC = Game.instance.getSkills().skills[this.card.getCardM().getSkill(this.id).Id];
-			this.skill = c.getCardM().getSkill(this.id);
+			this.skill = this.card.getCardM().getSkill(this.id);
 		}
 		if(this.id==0){
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(0) ;
@@ -91,6 +92,7 @@ public class SkillButtonC : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().sprite = Game.instance.getSkillSprite(0);
 		}
 		else{
+			print(this.id+" - - -"+this.skillC.id);
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(this.skillC.id) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = WordingSkills.getName(this.skillC.id) ;
 			gameObject.GetComponent<SpriteRenderer>().sprite = Game.instance.getSkillSprite(this.skillC.id);

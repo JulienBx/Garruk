@@ -14,7 +14,7 @@ public class PhotonC : Photon.MonoBehaviour
 	public static PhotonC instance;
 	float waitingTime;
 	public bool isWaiting;
-	float timeLimit=20f;
+	float timeLimit=2f;
 	bool reconnecting ;
 
 	bool isQuittingGame ;

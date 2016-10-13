@@ -155,6 +155,14 @@ public class TileC : MonoBehaviour
 		gameObject.transform.FindChild("Destination").GetComponent<SpriteRenderer>().enabled = b;
 	}
 
+	public void displayAnim(int type){
+		this.skillEffects.Add("");
+		this.skillEffectTypes.Add(10*(type+1));
+		if(!this.skillEffect){
+			this.launchSkillEffect();
+		}
+	}
+
 	public void showRock(bool b)
 	{
 		gameObject.transform.FindChild("Rock").GetComponent<SpriteRenderer>().enabled = b;
@@ -197,23 +205,24 @@ public class TileC : MonoBehaviour
 		Game.instance.setSE(true);
 		if(type<10){
 			this.SETime = 1.5f;
-			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
+			gameObject.transform.Find("EffectText").GetComponent<TextMeshPro>().text = this.skillEffects[0];
 			if(type==0){
-				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
+				gameObject.transform.Find("EffectText").GetComponent<TextMeshPro>().color = new Color(60f/255f, 160f/255f, 100f/255f, 0f);
 			}
 			else if(type==1){
-				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
+				gameObject.transform.Find("EffectText").GetComponent<TextMeshPro>().color = new Color(71f/255f,150f/255f,189f/255f, 0f);
 			}
 			else{
-				gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
+				gameObject.transform.Find("EffectText").GetComponent<TextMeshPro>().color = new Color(231f/255f, 0f, 66f/255f, 0f);
 			}
 			this.anim = -1;
 			this.showSE(true);
 		}
 		else{
 			this.SETime = 0.8f;
-			this.anim = (type-10)*10;
-			gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
+			this.anim = (type-10);
+
+			gameObject.transform.Find("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
 			this.showAnim(true);
 		}
 		this.skillEffects.RemoveAt(0);
@@ -223,18 +232,32 @@ public class TileC : MonoBehaviour
 
 	public void showAnim(bool b)
 	{
-		gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().enabled = b;
+		print(b);
+		gameObject.transform.Find("Anim").GetComponent<SpriteRenderer>().enabled = b;
 	}
 
 	public void addSETime(float f){
 		this.timerSE+=f;
-		gameObject.transform.FindChild("EffectText").localPosition = new Vector3(0f, -0.25f+0.5f*Mathf.Min(1f,this.timerSE/SETime) ,0f);
-		Color c = gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color;
-		c.a = Mathf.Min(1f,2f*this.timerSE/SETime);
-		gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = c;
-
+		if(this.anim<0){
+			gameObject.transform.FindChild("EffectText").localPosition = new Vector3(0f, -0.25f+0.5f*Mathf.Min(1f,this.timerSE/SETime) ,0f);
+			Color c = gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color;
+			c.a = Mathf.Min(1f,2f*this.timerSE/SETime);
+			gameObject.transform.FindChild("EffectText").GetComponent<TextMeshPro>().color = c;
+		}
+		else{
+			int tempInt = Mathf.Min(9,Mathf.FloorToInt(10f*this.timerSE/SETime));
+			if(tempInt!=this.anim%10){
+				this.anim++ ;
+				gameObject.transform.Find("Anim").GetComponent<SpriteRenderer>().sprite = Game.instance.getAnimSprite(this.anim);
+			}
+		}
 		if(this.timerSE>SETime){
-			this.showSE(false);
+			if(this.anim>=0){
+				this.showAnim(false);
+			}
+			else{
+				this.showSE(false);
+			}
 			if(this.skillEffects.Count>0){
 				this.setSkillEffectText();
 			}

@@ -4,16 +4,15 @@ using System.Collections.Generic;
 public class FrenetiqueC : SkillC
 {
 	public FrenetiqueC(){
-		this.id = 69 ;
+		base.id = 69 ;
 		base.ciblage = 0;
 		base.animId = 1;
 		base.soundId = 25;
 		base.nbIntsToSend=0;
 	}
 
-	public override void effects(int targetID){
+	public override void effects(int targetID, int level){
 		CardC caster = Game.instance.getCards().getCardC(targetID);
-		int level = caster.getCardM().getSkill(0).Power;
 
 		int degats = caster.getDegatsAgainst(caster, this.getDegats(level));
 		int bonusAttack = this.getAttackBonus(level);

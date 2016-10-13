@@ -198,7 +198,7 @@ public class Intelligence
 	}
 
 	public IEnumerator play(){
-		this.choosePlay(true);
+		this.choosePlay(!Game.instance.getCurrentCard().isParalized());
 
 		if(this.bestSkill!=-1){
 			if(this.bestDeplacement.x!=-1){
@@ -230,8 +230,13 @@ public class Intelligence
 		}
 
 		yield return new WaitForSeconds(2f);
-
-		this.act();
+	
+		if(Game.instance.getSE()){
+			Game.instance.setLaunchNextTurn(true);
+		}
+		else{
+			this.act();
+		}
 	}
 
 	public void choosePlay(bool action){

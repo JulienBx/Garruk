@@ -1089,7 +1089,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 105153916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -3736,7 +3736,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 444850421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -4000,6 +4000,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdecb29bf3d6e5745a65b51f413d13d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill:
+    Name: 
+    Id: 0
+    IsActivated: 0
+    Level: 0
+    Power: 0
+    ManaCost: 0
+    nextProba: 0
+    Description: 
+    nextDescription: 
+    ResourceName: 
+    Ponderation: 0
+    XMin: 0
+    Action: 
+    IdCardType: 0
+    IsNew: 0
+    cible: 0
+    Upgrades: 0
+    nextLevel: 0
+    AllDescriptions: []
+    AllProbas: 
+    IdSkillType: 0
+    hasBeenPlayed: 0
+    IsActiveSkill: 0
   isLaunched: 0
   isLaunchable: 0
   launchabilityText: 
@@ -4458,6 +4482,17 @@ MonoBehaviour:
   passZone: {fileID: 0}
   skillZone: {fileID: 0}
   hasLaunchedQGH: 0
+  myDeck:
+    cards: []
+    String: 
+    Id: 0
+    Name: 
+    OwnerUsername: 
+    NbCards: 0
+    Error: 
+    ToDelete: 0
+    IsNew: 0
+    OwnerId: 0
   hasFightStarted: 0
   realwidth: 0
   isDisplayedMyDestination: 0
@@ -4986,7 +5021,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 511885051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -6307,7 +6342,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 600758214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -8105,6 +8140,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdecb29bf3d6e5745a65b51f413d13d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill:
+    Name: 
+    Id: 0
+    IsActivated: 0
+    Level: 0
+    Power: 0
+    ManaCost: 0
+    nextProba: 0
+    Description: 
+    nextDescription: 
+    ResourceName: 
+    Ponderation: 0
+    XMin: 0
+    Action: 
+    IdCardType: 0
+    IsNew: 0
+    cible: 0
+    Upgrades: 0
+    nextLevel: 0
+    AllDescriptions: []
+    AllProbas: 
+    IdSkillType: 0
+    hasBeenPlayed: 0
+    IsActiveSkill: 0
   isLaunched: 0
   isLaunchable: 0
   launchabilityText: 
@@ -11423,7 +11482,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1066501338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -11797,7 +11856,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1076077316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -14454,7 +14513,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333884445}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -15556,6 +15615,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdecb29bf3d6e5745a65b51f413d13d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill:
+    Name: 
+    Id: 0
+    IsActivated: 0
+    Level: 0
+    Power: 0
+    ManaCost: 0
+    nextProba: 0
+    Description: 
+    nextDescription: 
+    ResourceName: 
+    Ponderation: 0
+    XMin: 0
+    Action: 
+    IdCardType: 0
+    IsNew: 0
+    cible: 0
+    Upgrades: 0
+    nextLevel: 0
+    AllDescriptions: []
+    AllProbas: 
+    IdSkillType: 0
+    hasBeenPlayed: 0
+    IsActiveSkill: 0
   isLaunched: 0
   isLaunchable: 0
   launchabilityText: 
@@ -16073,7 +16156,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1580482647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -16227,7 +16310,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1581691902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -19035,7 +19118,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1777960292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.45, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -21509,6 +21592,67 @@ MonoBehaviour:
   animationTime: 0.25
   animationTimeC: 0.5
   realwidth: 0
+  nextDisplayedCard:
+    Id: 0
+    Art: 
+    Title: 
+    ArtIndex: 0
+    Life: 0
+    Speed: 0
+    Move: 0
+    Attack: 0
+    Energy: 0
+    Skills: []
+    CardType:
+      Name: 
+      Id: 0
+      Description: 
+      Order: 0
+      MinLife: 0
+      MaxLife: 0
+      MinAttack: 0
+      MaxAttack: 0
+      Rank: 0
+    TitleClass: 
+    IdOWner: 0
+    AttackLevel: 0
+    MoveLevel: 0
+    LifeLevel: 0
+    SpeedLevel: 0
+    Price: 0
+    Experience: 0
+    nbWin: 0
+    nbLoose: 0
+    ExperienceLevel: 0
+    NextLevelPrice: 0
+    PercentageToNextLevel: 0
+    onSale: 0
+    RenameCost: 5
+    Error: 
+    Decks: 
+    deckOrder: 0
+    destructionPrice: 0
+    Power: 0
+    PowerLevel: 0
+    GetNewSkill: 0
+    UpgradedAttack: 0
+    UpgradedLife: 0
+    UpgradedSpeed: 0
+    UpgradedAttackLevel: 0
+    UpgradedLifeLevel: 0
+    UpgradedSpeedLevel: 0
+    isMine: 0
+    LifeNbUpgrades: 0
+    AttackNbUpgrades: 0
+    CaracteristicUpgraded: 0
+    CaracteristicIncrease: 0
+    String: 
+    ToSync: 0
+    isStateModifyed: 0
+    nbTurnsToWait: 0
+    isDead: 0
+    hasMoved: 0
+    hasPlayed: 0
   nextDisplayedCharacter: 0
   currentCharacter: -1
   isGettingBigger: 0
@@ -21598,6 +21742,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdecb29bf3d6e5745a65b51f413d13d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill:
+    Name: 
+    Id: 0
+    IsActivated: 0
+    Level: 0
+    Power: 0
+    ManaCost: 0
+    nextProba: 0
+    Description: 
+    nextDescription: 
+    ResourceName: 
+    Ponderation: 0
+    XMin: 0
+    Action: 
+    IdCardType: 0
+    IsNew: 0
+    cible: 0
+    Upgrades: 0
+    nextLevel: 0
+    AllDescriptions: []
+    AllProbas: 
+    IdSkillType: 0
+    hasBeenPlayed: 0
+    IsActiveSkill: 0
   isLaunched: 0
   isLaunchable: 0
   launchabilityText: 
@@ -22032,6 +22200,67 @@ MonoBehaviour:
   animationTime: 0.25
   animationTimeC: 0.5
   realwidth: 0
+  nextDisplayedCard:
+    Id: 0
+    Art: 
+    Title: 
+    ArtIndex: 0
+    Life: 0
+    Speed: 0
+    Move: 0
+    Attack: 0
+    Energy: 0
+    Skills: []
+    CardType:
+      Name: 
+      Id: 0
+      Description: 
+      Order: 0
+      MinLife: 0
+      MaxLife: 0
+      MinAttack: 0
+      MaxAttack: 0
+      Rank: 0
+    TitleClass: 
+    IdOWner: 0
+    AttackLevel: 0
+    MoveLevel: 0
+    LifeLevel: 0
+    SpeedLevel: 0
+    Price: 0
+    Experience: 0
+    nbWin: 0
+    nbLoose: 0
+    ExperienceLevel: 0
+    NextLevelPrice: 0
+    PercentageToNextLevel: 0
+    onSale: 0
+    RenameCost: 5
+    Error: 
+    Decks: 
+    deckOrder: 0
+    destructionPrice: 0
+    Power: 0
+    PowerLevel: 0
+    GetNewSkill: 0
+    UpgradedAttack: 0
+    UpgradedLife: 0
+    UpgradedSpeed: 0
+    UpgradedAttackLevel: 0
+    UpgradedLifeLevel: 0
+    UpgradedSpeedLevel: 0
+    isMine: 0
+    LifeNbUpgrades: 0
+    AttackNbUpgrades: 0
+    CaracteristicUpgraded: 0
+    CaracteristicIncrease: 0
+    String: 
+    ToSync: 0
+    isStateModifyed: 0
+    nbTurnsToWait: 0
+    isDead: 0
+    hasMoved: 0
+    hasPlayed: 0
   nextDisplayedCharacter: 0
   currentCharacter: -1
   isGettingBigger: 0

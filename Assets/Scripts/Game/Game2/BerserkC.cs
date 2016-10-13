@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BerserkC : SkillC
 {
 	public BerserkC(){
-		this.id = 16 ;
+		base.id = 16 ;
 		base.ciblage = 1;
 		base.animId = 0;
 		base.soundId = 25;

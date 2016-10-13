@@ -175,4 +175,5 @@ MonoBehaviour:
   - SendMyDeckID
   - sendMyDeckIDRPC
   - LostRPC
+  - EffectsSkill2RPC
   DisableAutoOpenWizard: 0

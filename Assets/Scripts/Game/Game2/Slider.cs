@@ -190,6 +190,10 @@ public class Slider : MonoBehaviour
 		this.toStopClignoting = false;
 	}
 
+	public void stopClignoting(){
+		this.toStopClignoting = true;
+	}
+
 	public void stopClignote(){
 		this.clignoting = false;
 		this.toStopClignoting = false;
