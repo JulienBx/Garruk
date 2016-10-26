@@ -35,15 +35,16 @@ public class RayonlaserC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target ;
-		CardC caster = Game.instance.getCurrentCard();
-
-		int score = 0 ;
-		int tempScore ;
-
-		target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
-		tempScore = caster.getDamageScore(target, 5+s.Power, 15+s.Power);
-		tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
-		return score;
+//		CardC target ;
+//		CardC caster = Game.instance.getCurrentCard();
+//
+//		int score = 0 ;
+//		int tempScore ;
+//
+//		target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+//		tempScore = caster.getDamageScore(target, 5+s.Power, 15+s.Power);
+//		tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
+//		return score;
+	return 0;
 	}
 }

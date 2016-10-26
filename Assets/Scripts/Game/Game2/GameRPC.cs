@@ -95,7 +95,6 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				print("Je tente");
 				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, Game.instance.isFirstPlayer());
 				b = false;
 			}
@@ -114,7 +113,6 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				print("Je tente");
 				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, Game.instance.isFirstPlayer());
 				b = false;
 			}
@@ -133,7 +131,6 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				print("Je tente");
 				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, z3, Game.instance.isFirstPlayer());
 				b = false;
 			}
@@ -152,7 +149,6 @@ public class GameRPC : Photon.MonoBehaviour
 		bool b = true ;
 		while(b){
 			try{
-				print("Je tente");
 				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, boo, Game.instance.isFirstPlayer());
 				b = false;
 			}
