@@ -1387,6 +1387,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void hitPassButton(){
+		print("Je passe");
 		if(!this.areUnitsDead(true) && !this.areUnitsDead(false)){
 			this.displayController(false);
 			if(this.ia || this.isTutorial()){

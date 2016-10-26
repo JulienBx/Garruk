@@ -8,7 +8,7 @@ public class SkillsM
 		this.skills = new SkillC[151];
 		this.skills [0] = new AttackC();
 		this.skills [1] = new SkillC();
-		this.skills [2] = new SkillC();
+		this.skills [2] = new PistosoinC();
 		this.skills [3] = new PistoboostC();
 		this.skills [4] = new PistosapeC();
 		this.skills [5] = new PistolestC();
