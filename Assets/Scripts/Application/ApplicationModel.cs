@@ -87,7 +87,7 @@ public class ApplicationModel
 		nbCardsByDeck=4;
 		myPlayerName="";
 		hisPlayerName="";
-		timeOutDelay=10f;
+		timeOutDelay=4f;
         currentGameId=-1;
 		player=new Player();
 		packs=new Packs();

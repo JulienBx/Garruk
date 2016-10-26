@@ -381,6 +381,9 @@ public class NewMarketController : MonoBehaviour
 		{
 		case 0: 
 			yield return StartCoroutine (model.initializeMarket (this.totalNbResultLimit));
+			if (!ApplicationModel.player.IsOnline) {
+				BackOfficeController.instance.displayDetectOfflinePopUp ();
+			}
 			this.marketCards=model.cardsOnSale;
 			this.priceFilterTitle.SetActive(true);
 			this.priceFilter.SetActive(true);
