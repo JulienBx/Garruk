@@ -176,4 +176,8 @@ MonoBehaviour:
   - sendMyDeckIDRPC
   - LostRPC
   - EffectsSkill2RPC
+  - SetTrapRPC
+  - SanguinaireEffectsSkillRPC
+  - launchNextTurnRPC
+  - toLaunchNextTurnRPC
   DisableAutoOpenWizard: 0

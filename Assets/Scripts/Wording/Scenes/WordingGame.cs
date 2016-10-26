@@ -58,7 +58,7 @@ public class WordingGame
 		texts.Add(new string[]{"Aucun ennemi à proximité de droides alliés","There is no unit next to your droids"});
 		texts.Add(new string[]{"Aucun cristal à proximité","There is no cristal next to your unit"});
 
-		texts.Add(new string[]{"Aucun terrain adjacent ne peut être ciblé","There is no free tile next to your unit"});
+		texts.Add(new string[]{"Aucun terrain adjacent vide","No free tile next to your unit"});
 		texts.Add(new string[]{"Aucun allié à proximité","There is no ally next to your unit"});
 		texts.Add(new string[]{"Aucun ennemi ne peut être ciblé","No enemy can be targeted"});
 		texts.Add(new string[]{"Aucune unité ne peut être ciblée","No unit can be targeted"});
@@ -152,6 +152,19 @@ public class WordingGame
 		texts.Add(new string[]{"-ARG1 PV / tour","-ARG1 HP / turn"});
 		texts.Add(new string[]{"Soigné!","Healed!"});
 		texts.Add(new string[]{"Pas d'allié à cibler!","No ally to target!"});
+		texts.Add(new string[]{"Télépiège posé!","Teletrap set!"});
+		texts.Add(new string[]{"Téléporté!","Teleported!"});
+		texts.Add(new string[]{"25% de chances d'empoisonner","25% chances of poisoning"});
+		texts.Add(new string[]{"Piège supprimé!","Trap suppressed"});
+
+		texts.Add(new string[]{"Pas de pièges cachés","No hidden traps"});
+		texts.Add(new string[]{"Esquive ARG1%","ARG1% dodging"});
+		texts.Add(new string[]{"Esquive","Dodging"});
+		texts.Add(new string[]{"Résistance ARG1% aux météorites","ARG1% resistance to meteors"});
+		texts.Add(new string[]{"L'unité ne peut être ciblée","Unit can not be targeted"});
+		texts.Add(new string[]{"+ ARG1% dégats au prochain tour","+ ARG1% damages next turn"});
+		texts.Add(new string[]{"Malus de ARG1% aux dégats","ARG1% damage malus"});
+		texts.Add(new string[]{"Pas de tile à cibler","No tile to target"});
 
 	}
 }

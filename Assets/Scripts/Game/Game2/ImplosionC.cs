@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Attaque360C : SkillC
+public class ImplosionC : SkillC
 {
-	public Attaque360C(){
-		base.id = 17 ;
+	public ImplosionC(){
+		base.id = 28 ;
 		base.ciblage = 3;
-		base.animId = 0;
+		base.animId = 4;
 		base.soundId = 25;
-		base.nbIntsToSend = 0;
+		base.nbIntsToSend = 1;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
@@ -19,7 +19,7 @@ public class Attaque360C : SkillC
 		bool hasFailed = false ;
 		bool hasDodged = false ;
 
-		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
+		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
 			for(int i = 0 ; i < neighbours.Count ; i++){
 				targetID = Game.instance.getBoard().getTileC(neighbours[i].x, neighbours[i].y).getCharacterID();
 				if(targetID!=-1){
@@ -36,10 +36,10 @@ public class Attaque360C : SkillC
 						}
 						else{
 							if(Game.instance.isIA() || Game.instance.isTutorial()){
-								Game.instance.getSkills().skills[this.id].effects(targetID, level);
+								Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
 							}
 							else{
-								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
+								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, UnityEngine.Random.Range(1,101));
 							}
 						}
 					}
@@ -73,8 +73,12 @@ public class Attaque360C : SkillC
 			}
 		}
 		else{
-			Game.instance.getCurrentCard().displaySkillEffect(WordingSkills.getName(this.id), 1);
-		
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].effects(Game.instance.getCurrentCardID(), level, UnityEngine.Random.Range(1,101));
+			}
+			else{
+				Game.instance.launchCorou("EffectsSkillRPC", this.id, Game.instance.getCurrentCardID(), level, UnityEngine.Random.Range(1,101));
+			}
 			if(Game.instance.isIA() || Game.instance.isTutorial()){
 				Game.instance.getSkills().skills[this.id].playSound();
 			}
@@ -82,18 +86,35 @@ public class Attaque360C : SkillC
 				Game.instance.launchCorou("PlaySoundRPC", this.id);
 			}
 		}
+
+		if(Game.instance.getCurrentCard().isSanguinaire()){
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].sanguinaireEffects(Game.instance.getCurrentCardID(), Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
+			}
+			else{
+				Game.instance.launchCorou("SanguinaireEffectsSkillRPC", this.id, Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
+			}
+		}
 	}
 
-	public override void effects(int targetID, int level){
+	public override void effects(int targetID, int level, int z){
+		int degats ;
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
+		if(targetID==Game.instance.getCurrentCardID()){
+			degats = target.getLife();
+			target.displayAnim(1);
+			target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+			target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+		}
+		else{
+			degats = caster.getDegatsAgainst(target, Mathf.RoundToInt((2*level+5)+(5*z)/100f));
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(20f+level*8f)/100f));
+			target.displayAnim(base.animId);
+			target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
 
-		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
-
-		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+			target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+		}
 	}
 
 	public override string getSkillText(int targetID, int level){
@@ -113,7 +134,7 @@ public class Attaque360C : SkillC
 			if(board[neighbours[i].x, neighbours[i].y]>=0){
 				if(board[neighbours[i].x, neighbours[i].y]!=Game.instance.getCurrentCardID()){
 					target = Game.instance.getCards().getCardC(board[neighbours[i].x, neighbours[i].y]);
-					tempScore = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(20f+s.Power*8f)/100f));
+					tempScore = caster.getDamageScore(target, Mathf.RoundToInt((2*s.Power+12.5f)));
 					tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
 					score+=tempScore;
 				}
@@ -122,3 +143,5 @@ public class Attaque360C : SkillC
 		return score;
 	}
 }
+
+

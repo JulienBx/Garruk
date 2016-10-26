@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TelepiegeC : SkillC
+public class ElectropiegeC : SkillC
 {
-	public TelepiegeC(){
-		base.id = 58 ;
+	public ElectropiegeC(){
+		base.id = 13 ;
 		base.ciblage = 9;
 		base.animId = 5;
 		base.soundId = 25;
@@ -15,13 +15,14 @@ public class TelepiegeC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 
 		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
+		int malus = level*2+5;
 
 		if(Game.instance.getCurrentCard().getCardM().isMine()){
 			Game.instance.getBoard().getTileC(x,y).displayAnim(base.animId);
-			Game.instance.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(116), 0);
+			Game.instance.getBoard().getTileC(x,y).displaySkillEffect(WordingGame.getText(116), 2);
 		}
 
-		Game.instance.getBoard().getTileC(x,y).setTrap(0, level, Game.instance.getCurrentCard().getCardM().isMine()==Game.instance.isFirstPlayer());
+		Game.instance.getBoard().getTileC(x,y).setTrap(2, malus, Game.instance.getCurrentCard().getCardM().isMine()==Game.instance.isFirstPlayer());
 	}
 
 	public override string getSkillText(int targetID, int level){

@@ -27,41 +27,65 @@ public class SkillC
 
 	public virtual void resolve(int x, int y, Skill skill){
 		int targetID = Game.instance.getBoard().getTileC(x,y).getCharacterID();
-		CardC target = Game.instance.getCards().getCardC(targetID);
 		int level = skill.Power;
+		CardC target;
+				
 		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
-			if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
-				if(Game.instance.isIA() || Game.instance.isTutorial()){
-					Game.instance.getSkills().skills[this.id].dodge(targetID);
-					Game.instance.getSkills().skills[this.id].playDodgeSound();
+			if(targetID!=-1){
+				target = Game.instance.getCards().getCardC(targetID);
+				if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
+					if(Game.instance.isIA() || Game.instance.isTutorial()){
+						Game.instance.getSkills().skills[this.id].dodge(targetID);
+						Game.instance.getSkills().skills[this.id].playDodgeSound();
+					}
+					else{
+						Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
+						Game.instance.launchCorou("PlayDodgeSoundRPC", this.id);
+					}
 				}
 				else{
-					Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
-					Game.instance.launchCorou("PlayDodgeSoundRPC", this.id);
+					if(Game.instance.isIA() || Game.instance.isTutorial()){
+						if(nbIntsToSend==0){
+							Game.instance.getSkills().skills[this.id].effects(targetID, level);
+						}
+						else if(nbIntsToSend==1){
+							Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
+						}
+						else if(nbIntsToSend==2){
+							Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+						}
+						Game.instance.getSkills().skills[this.id].playSound();
+					}
+					else{
+						if(nbIntsToSend==0){
+							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
+						}
+						else if(nbIntsToSend==1){
+							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, UnityEngine.Random.Range(1,101));
+						}
+						else if(nbIntsToSend==2){
+							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+						}
+						Game.instance.launchCorou("PlaySoundRPC", this.id);
+					}
 				}
 			}
 			else{
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
 					if(nbIntsToSend==0){
-						Game.instance.getSkills().skills[this.id].effects(targetID, level);
+						Game.instance.getSkills().skills[this.id].effects(x, level, y);
 					}
 					else if(nbIntsToSend==1){
-						Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
-					}
-					else if(nbIntsToSend==2){
-						Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+						Game.instance.getSkills().skills[this.id].effects(x, level, y, UnityEngine.Random.Range(1,101));
 					}
 					Game.instance.getSkills().skills[this.id].playSound();
 				}
 				else{
 					if(nbIntsToSend==0){
-						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
+						Game.instance.launchCorou("EffectsSkillRPC", this.id, x, level, y);
 					}
 					else if(nbIntsToSend==1){
-						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101));
-					}
-					else if(nbIntsToSend==2){
-						Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, UnityEngine.Random.Range(1,101), UnityEngine.Random.Range(1,101));
+						Game.instance.launchCorou("EffectsSkillRPC", this.id, x, level, y, UnityEngine.Random.Range(1,101));
 					}
 					Game.instance.launchCorou("PlaySoundRPC", this.id);
 				}
@@ -75,6 +99,15 @@ public class SkillC
 			else{
 				Game.instance.launchCorou("FailSkillRPC", this.id);
 				Game.instance.launchCorou("PlayFailSoundRPC", this.id);
+			}
+		}
+
+		if(Game.instance.getCurrentCard().isSanguinaire()){
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].sanguinaireEffects(Game.instance.getCurrentCardID(), Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
+			}
+			else{
+				Game.instance.launchCorou("SanguinaireEffectsSkillRPC", this.id, Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
 			}
 		}
 
@@ -158,6 +191,15 @@ public class SkillC
 				Game.instance.launchCorou("PlayFailSoundRPC", this.id);
 			}
 		}
+
+		if(Game.instance.getCurrentCard().isSanguinaire()){
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				Game.instance.getSkills().skills[this.id].sanguinaireEffects(Game.instance.getCurrentCardID(), Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
+			}
+			else{
+				Game.instance.launchCorou("SanguinaireEffectsSkillRPC", this.id, Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
+			}
+		}
 	}
 
 	public virtual List<TileM> getTargetTiles(int[,] board, CardC card, TileM tile){
@@ -187,7 +229,28 @@ public class SkillC
 			targets = Game.instance.getBoard().getAllysTargets(board, card, tile);
 		}
 		else if(this.ciblage==9){
-			targets = Game.instance.getBoard().getAllysTargets(board, card, tile);
+			targets = Game.instance.getBoard().getAdjacentFreeTilesTargets(board, card, tile);
+		}
+		else if(this.ciblage==10){
+			targets = Game.instance.getBoard().getMyselfWithOpponents(board, card, tile);
+		}
+		else if(this.ciblage==11){
+			targets = Game.instance.getBoard().getMyselfWithOpponentTraps(board, card, tile);
+		}
+		else if(this.ciblage==12){
+			targets = Game.instance.getBoard().getMyselfWithNeighbours4D(board, card, tile);
+		}
+		else if(this.ciblage==13){
+			targets = Game.instance.getBoard().getNearestNeighbours4D(board, card, tile);
+		}
+		else if(this.ciblage==14){
+			targets = Game.instance.getBoard().getMyself(board, card, tile);
+		}
+		else if(this.ciblage==15){
+			targets = Game.instance.getBoard().getNearestNeighboursDiagonal(board, card, tile);
+		}
+		else if(this.ciblage==16){
+			targets = Game.instance.getBoard().getNearestNeighbourTiles4D(board, card, tile);
 		}
 		return targets;
 	}
@@ -218,7 +281,43 @@ public class SkillC
 		else if(this.ciblage==8){
 			s = WordingGame.getText(115);
 		}
+		else if(this.ciblage==9){
+			s = WordingGame.getText(30);
+		}
+		else if(this.ciblage==10){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==11){
+			s = WordingGame.getText(120);
+		}
+		else if(this.ciblage==12){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==13){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==14){
+			s = WordingGame.getText(134);
+		}
+		else if(this.ciblage==15){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==16){
+			s = WordingGame.getText(127);
+		}
 		return s;
+	}
+
+	public virtual void sanguinaireEffects(int targetID, int level){
+		CardC target = Game.instance.getCards().getCardC(targetID);
+		CardC caster = Game.instance.getCurrentCard();
+
+		int degats = caster.getDegatsMaxAgainst(target, 13-level);
+
+		target.displayAnim(1);
+		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+
+		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 	}
 
 	public virtual void resolve(Skill s){

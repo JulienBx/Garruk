@@ -273,6 +273,27 @@ public class CardC : MonoBehaviour
 		Game.instance.updateModifyers(this.id);
 	}
 
+	public void addEsquiveModifyer(ModifyerM m){
+		string durationText = "" ;
+		if(m.getDuration()==1){
+			durationText = WordingGame.getText(100);
+		}
+		else{
+			durationText = WordingGame.getText(2);
+		}
+		for(int i = 0 ; i < esquiveModifyers.Count ;i++){
+			if(m.getDuration()==esquiveModifyers[i].getDuration()){
+				esquiveModifyers.RemoveAt(i);
+			}
+		}
+
+		m.setTitle(WordingGame.getText(122));
+		m.setDescription(WordingGame.getText(121, new List<int>{m.getAmount()})+durationText);
+		this.esquiveModifyers.Add(m);
+		
+		Game.instance.updateModifyers(this.id);
+	}
+
 	public void startClignote(){
 		this.timerClignote = 0f;
 		this.clignoteGrowing = true ;
@@ -428,6 +449,9 @@ public class CardC : MonoBehaviour
 		this.showIcons(b);
 		this.showBackTile(b);
 		this.showCollider(b);
+		if(!b){
+			this.showHover(false);
+		}
 		gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled = b ;
 		gameObject.transform.Find("Background").FindChild("Character").GetComponent<SpriteRenderer>().enabled = b ;
 	}
@@ -437,7 +461,7 @@ public class CardC : MonoBehaviour
 	}
 
 	public void showIcons(bool b){
-		if(b){
+		if(b && gameObject.transform.Find("Background").GetComponent<SpriteRenderer>().enabled == true){
 			List<int> icons = this.getIcons();
 			for(int i = 0 ; i < 3 ; i++){
 				if(i<icons.Count){
@@ -450,9 +474,9 @@ public class CardC : MonoBehaviour
 			}
 		}
 		else{
-			gameObject.transform.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = b ;
-			gameObject.transform.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = b ;
-			gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = b ;
+			gameObject.transform.Find("Background").FindChild("Icon1").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.Find("Background").FindChild("Icon2").GetComponent<SpriteRenderer>().enabled = false ;
+			gameObject.transform.Find("Background").FindChild("Icon3").GetComponent<SpriteRenderer>().enabled = false ;
 		}
 	}
 
@@ -961,14 +985,39 @@ public class CardC : MonoBehaviour
 		this.setPosition(p);
 		if(this.timerMove>this.moveTime){
 			this.moving=false;
-			this.showCollider(true);
-			if(this.id!=Game.instance.getCurrentCardID()){
+			if(Game.instance.getCurrentCardID()!=-1 || this.getCardM().isMine()){
+				this.showCollider(true);
+			}
+
+			if(this.id!=Game.instance.getCurrentCardID() && (Game.instance.getCurrentCardID()!=-1 || this.getCardM().isMine())){
 				this.displayBackTile(true);
 			}
 			if(this.id!=Game.instance.getCurrentCardID()){
 				this.moveBackward();
 			}
 
+			if(Game.instance.getBoard().getTileC(this.getTileM()).isTrapped()){
+				int value = Game.instance.getBoard().getTileC(this.getTileM()).getTrapValue();
+				TileM tile ;
+				Game.instance.getBoard().getTileC(this.getTileM()).displayAnim(1);
+				if(Game.instance.getBoard().getTileC(this.getTileM()).getTrapId()==0){
+					this.displaySkillEffect(WordingGame.getText(8, new List<int>{2+value})+"\n"+WordingGame.getText(117),2);
+					this.addDamageModifyer(new ModifyerM(2+value, -1, "", "", -1));
+					tile = Game.instance.getBoard().getRandomEmptyTile();
+					Game.instance.getBoard().getTileC(this.getTileM()).removeTrap();
+					Game.instance.moveOn(tile.x,tile.y,this.id);
+				}
+				else if(Game.instance.getBoard().getTileC(this.getTileM()).getTrapId()==1){
+					this.displaySkillEffect(WordingGame.getText(8, new List<int>{5+2*value}),2);
+					this.addDamageModifyer(new ModifyerM(5+2*value, -1, "", "", -1));
+					Game.instance.getBoard().getTileC(this.getTileM()).removeTrap();
+				}
+				else if(Game.instance.getBoard().getTileC(this.getTileM()).getTrapId()==2){
+					this.displaySkillEffect(WordingGame.getText(83, new List<int>{-1*value})+"\n"+WordingGame.getText(100),2);
+					this.addAttackModifyer(new ModifyerM(-1*value, 0, "", "", -1));
+					Game.instance.getBoard().getTileC(this.getTileM()).removeTrap();
+				}
+			}
 			Game.instance.endMove();
 		}
 	}
@@ -1136,6 +1185,13 @@ public class CardC : MonoBehaviour
 					}
 				}
 				Game.instance.getBoard().getTileC(this.tile).setCharacterID(-1);
+				Game.instance.getBoard().getTileC(this.tile).showHover(false);
+				Game.instance.getBoard().getTileC(this.tile).showCollider(true);
+				if(this.id==Game.instance.getCurrentCardID()){
+					this.displayBackTile(false);
+					this.showHover(false);
+					Game.instance.hitPassButton();
+				}
 				Game.instance.loadDestinations();
 			}
 			else if(this.anim>=0){
@@ -1172,6 +1228,54 @@ public class CardC : MonoBehaviour
 			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
 		}
 
+		if(this.isSniper()){
+			degats = degats - Mathf.RoundToInt(((50f-5f*this.getCardM().getSkill(0).Power)*degats)/100f);
+		}
+
+		if(this.getBonusDamages()>0){
+			degats = degats+Mathf.RoundToInt((degats*this.getBonusDamages())/100f);
+		}
+
+		if(this.isSanguinaire()){
+			degats = degats+Mathf.RoundToInt((25f*degats)/100f);
+		}
+
+		if(this.card.getCharacterType()==65){
+			if(!Game.instance.getCurrentCard().hasMoved()){
+				degats+=2+this.getCardM().getSkill(0).Power;
+			}
+		}
+
+		return degats;
+	}
+
+	public int getDegatsNoShieldAgainst(CardC target, int d){
+		int degats = 0;
+		if(this.card.getCharacterType()==71 && target.getLife()>=50){ 
+			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(Mathf.RoundToInt(d*(110f+4f*this.card.getSkill(0).Power)/100f))));
+		}
+		else{
+			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		}
+
+		if(this.isSniper()){
+			degats = degats - Mathf.RoundToInt(((50f-5f*this.getCardM().getSkill(0).Power)*degats)/100f);
+		}
+
+		if(this.getBonusDamages()>0){
+			degats = degats+Mathf.RoundToInt((degats*this.getBonusDamages())/100f);
+		}
+
+		if(this.isSanguinaire()){
+			degats = degats+Mathf.RoundToInt(25f/100f);
+		}
+
+		if(this.card.getCharacterType()==65){
+			if(!Game.instance.getCurrentCard().hasMoved()){
+				degats+=2+this.getCardM().getSkill(0).Power;
+			}
+		}
+
 		return degats;
 	}
 
@@ -1184,11 +1288,37 @@ public class CardC : MonoBehaviour
 			degats = Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f))));
 		}
 
+		if(this.isSniper()){
+			degats = degats - Mathf.RoundToInt(((50f-5f*this.getCardM().getSkill(0).Power)*degats)/100f);
+		}
+
+		if(this.getBonusDamages()>0){
+			degats = degats+Mathf.RoundToInt((degats*this.getBonusDamages())/100f);
+		}
+
+		if(this.isSanguinaire()){
+			degats = degats+Mathf.RoundToInt(25f/100f);
+		}
+
 		return degats;
 	}
 
 	public int getDamageScore(CardC target, int d){
 		int degats = this.getDegatsAgainst(target, d);
+		if(degats==target.getLife()){
+			degats = 100+target.getLife()+target.getAttack();
+		}
+		else{
+			degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+		}
+		if(!target.getCardM().isMine()){
+			degats = -1*degats;
+		}
+		return degats;
+	}
+
+	public int getDamageScoreNoShield(CardC target, int d){
+		int degats = this.getDegatsNoShieldAgainst(target, d);
 		if(degats==target.getLife()){
 			degats = 100+target.getLife()+target.getAttack();
 		}
@@ -1224,6 +1354,9 @@ public class CardC : MonoBehaviour
 
 	public void meteorEffect(int degats){
 		this.displayAnim(0);
+
+		degats = degats - Mathf.RoundToInt((this.getSniperModifyer()*degats)/100f);
+
 		this.displaySkillEffect(WordingGame.getText(43, new List<int>{degats}), 2);
 		this.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 	}
@@ -1265,6 +1398,16 @@ public class CardC : MonoBehaviour
 		return found;
 	}
 
+	public int getSniperModifyer(){
+		int compteur = 0 ;
+		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==8){
+				compteur = this.stateModifyers[i].getAmount() ;
+			}
+		}
+		return compteur;
+	}
+
 	public bool hasLeaderModifyer(){
 		bool found = false ;
 		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
@@ -1290,5 +1433,35 @@ public class CardC : MonoBehaviour
 		this.setLife();
 		this.setAttack();
 		this.showIcons(true);
+	}
+
+	public bool isSniper(){
+		bool found = false ;
+		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==9){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
+	public bool isSanguinaire(){
+		bool found = false ;
+		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==11){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
+	public int getBonusDamages(){
+		int compteur = 0 ;
+		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==10){
+				compteur += this.stateModifyers[i].getAmount();
+			}
+		}
+		return compteur;
 	}
 }

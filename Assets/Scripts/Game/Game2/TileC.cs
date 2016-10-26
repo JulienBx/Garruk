@@ -22,11 +22,18 @@ public class TileC : MonoBehaviour
 	int anim ;
 
 	public Sprite[] destinationSprites;
+	public Sprite[] trapSprites;
+
+	int trapId ; 
+	int trapValue ;
+	bool trapIsMine ;
 
 	void Awake(){
 		this.characterID = -1;
 		this.destination = -1;
 		this.anim = -1;
+		this.trapValue = -1;
+		this.trapId = -1;
 		this.skillEffects = new List<string>();
 		this.skillEffectTypes = new List<int>();
 		this.skillEffect = false;
@@ -301,15 +308,57 @@ public class TileC : MonoBehaviour
 	}
 
 	public int getBoardValue(){
+		int toBeReturned=-9;
 		if(this.characterID!=-1){
-			return this.characterID;
+			if(Game.instance.getCards().getCardC(this.characterID).canBeTargeted()){
+				toBeReturned=this.characterID;
+			}
+			else{
+				toBeReturned=-1;
+			}
 		}
 		else if (this.rock){
-			return -2;
+			toBeReturned=-2;
 		}
 		else{
-			return -1;
+			toBeReturned=-1;
 		}
+		return toBeReturned;
+	}
+
+	public void setTrap(int id, int value, bool isFirstP){
+		this.trapId = id;
+		this.trapValue = value;
+		trapIsMine = Game.instance.isFirstPlayer()==isFirstP;
+		if(trapIsMine){
+			this.showTrap();
+		}
+	}
+
+	public void showTrap(){
+		gameObject.transform.FindChild("Trap").GetComponent<SpriteRenderer>().sprite = this.trapSprites[this.trapId];
+		gameObject.transform.FindChild("Trap").GetComponent<SpriteRenderer>().enabled = true;
+	}
+
+	public void removeTrap(){
+		this.trapId=-1;
+		gameObject.transform.FindChild("Trap").GetComponent<SpriteRenderer>().enabled = false;
+	}
+
+	public bool isTrapped(){
+		return (this.trapId!=-1);
+	}
+
+	public int getTrapId(){
+		return this.trapId;
+	}
+
+	public int getTrapValue(){
+		return this.trapValue;
+	}
+
+	public bool getTrapIsMine(){
+		return this.trapIsMine;
 	}
 }
 

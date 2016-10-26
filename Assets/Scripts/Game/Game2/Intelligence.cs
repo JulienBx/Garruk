@@ -352,7 +352,7 @@ public class Intelligence
 				if((distance-1)<=card.getMove()){
 					passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/2f);
 					if(debug){
-						Debug.Log("AJOUT "+Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/2f));
+						Debug.Log("AJOUT "+Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f));
 					}
 				}
 				if((distance-1)<=target.getMove()){

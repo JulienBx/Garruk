@@ -98,6 +98,276 @@ public class Board
 		return tiles;
 	} 
 
+	public List<int> getNearestNeighbours4D(int[,] board, TileM t){
+		List<int> targets = new List<int>();
+		int compteur = t.x-1 ; 
+
+		while(compteur>=0){
+			if(board[compteur, t.y]>=0){
+				targets.Add(board[compteur, t.y]);
+				compteur=-1;
+			}
+			else if(board[compteur, t.y]==-2){
+				compteur=-1;
+			}
+			compteur--;
+		}
+
+		compteur = t.x+1 ; 
+
+		while(compteur<this.boardWidth){
+			if(board[compteur, t.y]>=0){
+				targets.Add(board[compteur, t.y]);
+				compteur=this.boardWidth;
+			}
+			else if(board[compteur, t.y]==-2){
+				compteur=this.boardWidth;
+			}
+			compteur++;
+		}
+
+		compteur = t.y+1 ; 
+
+		while(compteur<this.boardHeight){
+			if(board[t.x, compteur]>=0){
+				targets.Add(board[t.x, compteur]);
+				compteur=this.boardHeight;
+			}
+			else if(board[t.x, compteur]==-2){
+				compteur=this.boardHeight;
+			}
+			compteur++;
+		}
+
+		compteur = t.y-1 ; 
+
+		while(compteur>=0){
+			if(board[t.x, compteur]>=0){
+				targets.Add(board[t.x, compteur]);
+				compteur=-1;
+			}
+			else if(board[t.x, compteur]==-2){
+				compteur=-1;
+			}
+			compteur--;
+		}
+
+		return targets;
+	} 
+
+	public List<TileM> getNearestNeighbours4D(int[,] board, CardC c, TileM t){
+		List<TileM> targets = new List<TileM>();
+		int compteur = t.x-1 ; 
+
+		while(compteur>=0){
+			if(board[compteur, t.y]>=0){
+				targets.Add(new TileM(compteur, t.y));
+				compteur=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[compteur, t.y]==-2){
+					compteur=-1;
+				}
+			}
+			compteur--;
+		}
+
+		compteur = t.x+1 ; 
+
+		while(compteur<this.boardWidth){
+			if(board[compteur, t.y]>=0){
+				targets.Add(new TileM(compteur, t.y));
+				compteur=this.boardWidth;
+			}
+			else if(!c.isSniper()){
+				if(board[compteur, t.y]==-2){
+					compteur=-1;
+				}
+			}
+			compteur++;
+		}
+
+		compteur = t.y+1 ; 
+
+		while(compteur<this.boardHeight){
+			if(board[t.x, compteur]>=0){
+				targets.Add(new TileM(t.x, compteur));
+				compteur=this.boardHeight;
+			}
+			else if(!c.isSniper()){
+				if(board[t.x, compteur]==-2){
+					compteur=-1;
+				}
+			}
+			compteur++;
+		}
+
+		compteur = t.y-1 ; 
+
+		while(compteur>=0){
+			if(board[t.x, compteur]>=0){
+				targets.Add(new TileM(t.x, compteur));
+				compteur=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[t.x, compteur]==-2){
+					compteur=-1;
+				}
+			}
+			compteur--;
+		}
+
+		return targets;
+	}
+
+	public List<TileM> getNearestNeighbourTiles4D(int[,] board, CardC c, TileM t){
+		List<TileM> targets = new List<TileM>();
+		int compteur = t.x-1 ; 
+
+		while(compteur>=0){
+			if(board[compteur, t.y]==-2){
+				targets.Add(new TileM(compteur, t.y));
+				compteur=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[compteur, t.y]>=0){
+					compteur=-1;
+				}
+			}
+			compteur--;
+		}
+
+		compteur = t.x+1 ; 
+
+		while(compteur<this.boardWidth){
+			if(board[compteur, t.y]==-2){
+				targets.Add(new TileM(compteur, t.y));
+				compteur=this.boardWidth;
+			}
+			else if(!c.isSniper()){
+				if(board[compteur, t.y]>=0){
+					compteur=-1;
+				}
+			}
+			compteur++;
+		}
+
+		compteur = t.y+1 ; 
+
+		while(compteur<this.boardHeight){
+			if(board[t.x, compteur]==-2){
+				targets.Add(new TileM(t.x, compteur));
+				compteur=this.boardHeight;
+			}
+			else if(!c.isSniper()){
+				if(board[t.x, compteur]>=0){
+					compteur=-1;
+				}
+			}
+			compteur++;
+		}
+
+		compteur = t.y-1 ; 
+
+		while(compteur>=0){
+			if(board[t.x, compteur]==-2){
+				targets.Add(new TileM(t.x, compteur));
+				compteur=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[t.x, compteur]>=0){
+					compteur=-1;
+				}
+			}
+			compteur--;
+		}
+
+		return targets;
+	}
+
+	public List<TileM> getNearestNeighboursDiagonal(int[,] board, CardC c, TileM t){
+		List<TileM> targets = new List<TileM>();
+
+		int compteurX = t.x-1 ; 
+		int compteurY = t.y-1 ; 
+
+		while(compteurX>=0 && compteurY>=0){
+			if(board[compteurX, compteurY]>=0){
+				targets.Add(new TileM(compteurX, compteurY));
+				compteurX=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[compteurX, compteurY]==-2){
+					compteurX=-1;
+				}
+			}
+			compteurX--;
+			compteurY--;
+		}
+
+		compteurX = t.x-1 ; 
+		compteurY = t.y+1 ; 
+
+		while(compteurX>=0 && compteurY<this.boardHeight){
+			if(board[compteurX, compteurY]>=0){
+				targets.Add(new TileM(compteurX, compteurY));
+				compteurX=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[compteurX, compteurY]==-2){
+					compteurX=-1;
+				}
+			}
+			compteurX--;
+			compteurY++;
+		}
+
+		compteurX = t.x+1 ; 
+		compteurY = t.y-1 ; 
+
+		while(compteurY>=0 && compteurX<this.boardWidth){
+			if(board[compteurX, compteurY]>=0){
+				targets.Add(new TileM(compteurX, compteurY));
+				compteurY=-1;
+			}
+			else if(!c.isSniper()){
+				if(board[compteurX, compteurY]==-2){
+					compteurY=-1;
+				}
+			}
+			compteurX++;
+			compteurY--;
+		}
+
+		compteurX = t.x+1 ; 
+		compteurY = t.y+1 ; 
+
+		while(compteurY<this.boardHeight && compteurX<this.boardWidth){
+			if(board[compteurX, compteurY]>=0){
+				targets.Add(new TileM(compteurX, compteurY));
+				compteurY=99;
+			}
+			else if(!c.isSniper()){
+				if(board[compteurX, compteurY]==-2){
+					compteurY=99;
+				}
+			}
+			compteurX++;
+			compteurY++;
+		}
+
+		return targets;
+	}
+
+	public List<TileM> getMyselfWithNeighbours4D(int[,] board, CardC c, TileM t){
+		List<TileM> target = new List<TileM>();
+		List<int> targets = this.getNearestNeighbours4D(board, t);
+		if(targets.Count>=1){
+			target.Add(t);
+		}
+		return target;
+	}
+
 	public TileM getMouseTile(){
 		Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		TileM tile = new TileM();
@@ -107,8 +377,9 @@ public class Board
 			tile.y = Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
 		}
 		else{
-			tile.x = (GameView.instance.boardWidth-1)-Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3;
-			tile.y = (GameView.instance.boardHeight-1)-Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4;
+			tile.x = (this.boardWidth-1)-(Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3);
+			tile.y = (this.boardHeight-1)-(Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4);
+			Debug.Log(tile.x+","+tile.y);
 		}
 
 		return tile;
@@ -129,6 +400,19 @@ public class Board
 						cibles.Add(t);
 					}
 				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getAdjacentFreeTilesTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		foreach (TileM t in neighbourTiles)
+		{
+			if(this.getTileC(t).isEmpty()){
+				cibles.Add(t);
 			}
 		}
 		return cibles;
@@ -290,6 +574,42 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getMyself(int[,] board, CardC card, TileM tile){
+		List<TileM> cibles = new List<TileM>();
+
+		if(Game.instance.getCurrentCard().canBeTargeted()){
+			cibles.Add(tile);
+		}
+		return cibles;
+	}
+
+	public List<TileM> getMyselfWithOpponents(int[,] board, CardC card, TileM tile){
+		List<TileM> cibles = new List<TileM>();
+		bool hasSomeone = false;
+
+		for (int i = 0 ; i < Game.instance.getCards().getNumberOfCards() ; i++){
+			if (Game.instance.getCards().getCardC(i).getCardM().isMine()!=card.getCardM().isMine())
+			{
+				if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+					hasSomeone = true;
+				}
+			}
+		}
+
+		if(hasSomeone){
+			cibles.Add(tile);
+		}
+		return cibles;
+	}
+
+	public List<TileM> getMyselfWithOpponentTraps(int[,] board, CardC card, TileM tile){
+		List<TileM> cibles = new List<TileM>();
+		if(this.getNumberOfHiddenEnnemyTraps(card.getCardM().isMine())>0){
+			cibles.Add(tile);
+		}
+		return cibles;
+	}
+
 	public int[,] getCurrentBoard(){
 		int[,] board = new int[this.boardWidth,this.boardHeight];
 		for(int i = 0 ; i < this.boardWidth ; i++){
@@ -310,6 +630,138 @@ public class Board
 		for (int i = 0 ; i < targets.Count ; i++){
 			this.getTileC(targets[i]).setTarget(false);
 		}
+	}
+
+	public TileM getRandomEmptyTile(){
+		bool found = false ;
+		int x = -1;
+		int y = -1;
+		while(!found){
+			x = UnityEngine.Random.Range(0,this.boardWidth);
+			y = UnityEngine.Random.Range(0,this.boardHeight);
+
+			if(this.getTileC(x,y).isEmpty()){
+				found = true ;
+			}
+		}
+		return new TileM(x,y);
+	}
+
+	public List<TileM> get4RandomEmptyCenterTile(){
+		bool found = false ;
+		int x = -1;
+		int y = -1;
+		List<TileM> tiles = new List<TileM>();
+
+		while(tiles.Count<4){
+			found = false ;
+			while(!found){
+				x = UnityEngine.Random.Range(0,this.boardWidth);
+				y = UnityEngine.Random.Range(2,6);
+
+				if(this.getTileC(x,y).isEmpty() && this.getTileC(x,y).getTrapId()==-1){
+					found = true ;
+				}
+				for(int i = 0 ; i < tiles.Count ;i++){
+					if(tiles[i].x==x && tiles[i].y==y){
+						found = false ;
+					}
+				}
+
+				if(found){
+					tiles.Add(new TileM(x,y));
+				}
+			}
+		}
+		return tiles;
+	}
+
+	public int getNumberOfHiddenEnnemyTraps(bool isMe){
+		int compteur = 0 ;
+		for(int x = 0 ; x < this.boardWidth ; x++){
+			for(int y = 0 ; y < this.boardHeight ; y++){
+				if(this.getTileC(x,y).getTrapId()!=-1){
+					if(this.getTileC(x,y).getTrapIsMine()!=isMe){
+						compteur++;
+					}
+				}
+			}
+		}
+		return compteur;
+	}
+
+	public void eraseTraps(bool isMe){
+		for(int x = 0 ; x < this.boardWidth ; x++){
+			for(int y = 0 ; y < this.boardHeight ; y++){
+				if(this.getTileC(x,y).getTrapId()!=-1){
+					if(this.getTileC(x,y).getTrapIsMine()!=isMe){
+						this.getTileC(x,y).displayAnim(5);
+						this.getTileC(x,y).displaySkillEffect(WordingGame.getText(119),0);
+						this.getTileC(x,y).removeTrap();
+					}
+				}
+			}
+		}
+	}
+
+	public List<TileM> getUnitsStraightLine(TileM casterTile, TileM targetTile, int[,] board){
+		bool end = false;
+		List<TileM> targets = new List<TileM>();
+		targets.Add(targetTile);
+		if(casterTile.x==targetTile.x){
+			if(targetTile.y>casterTile.y){
+				for(int i = targetTile.y+1; i<8 && !end; i++){
+					if(board[casterTile.x, i]==-2){
+						if(!Game.instance.getCurrentCard().isSniper()){
+							end = true;
+						}
+					}
+					else if(board[casterTile.x, i]>=0){
+						targets.Add(new TileM(casterTile.x,i));
+					}
+				}
+			}
+			else{
+				for(int i = targetTile.y-1; i>=0 && !end; i--){
+					if(board[casterTile.x, i]==-2){
+						if(!Game.instance.getCurrentCard().isSniper()){
+							end = true;
+						}
+					}
+					else if(board[casterTile.x, i]>=0){
+						targets.Add(new TileM(casterTile.x,i));
+					}
+				}
+			}
+		}
+		else{
+			if(targetTile.x>casterTile.x){
+				for(int i = targetTile.x+1; i<6 && !end; i++){
+					if(board[i,casterTile.y]==-2){
+						if(!Game.instance.getCurrentCard().isSniper()){
+							end = true;
+						}
+					}
+					else if(board[i,casterTile.y]>=0){
+						targets.Add(new TileM(i,casterTile.y));
+					}
+				}
+			}
+			else{
+				for(int i = targetTile.x-1; i>=0 && !end; i--){
+					if(board[i,casterTile.y]==-2){
+						if(!Game.instance.getCurrentCard().isSniper()){
+							end = true;
+						}
+					}
+					else if(board[i,casterTile.y]>=0){
+						targets.Add(new TileM(i,casterTile.y));
+					}
+				}
+			}
+		}
+
+		return targets;
 	}
 }
 

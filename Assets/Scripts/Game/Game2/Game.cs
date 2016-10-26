@@ -330,12 +330,21 @@ public class Game : MonoBehaviour
 		}
 
 		for(int i = 0 ; i < this.getCards().getNumberOfCards() ; i++){
-			if(this.getCards().getCardC(i).getCardM().isMine() || this.ia || this.isTutorial()){
-				if(this.getCards().getCardC(i).getCardM().getCharacterType()==70){
-					this.getSkills().skills[70].resolve(this.getCards().getCardC(i).getCardM().getSkill(0), i);
-				}
+			if(this.getCards().getCardC(i).getCardM().getCharacterType()==70){
+				int bonusBouclier = this.getCards().getCardC(i).getCardM().getSkill(0).Power*4;
+				this.getCards().getCardC(i).addShieldModifyer(new ModifyerM(bonusBouclier, 1, "", "",-1));
 			}
-			if(this.getCards().getCardC(i).getCardM().getCharacterType()==73){
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==34){
+				this.getCards().getCardC(i).addStateModifyer(new ModifyerM(1,9,WordingGame.getText(126, new List<int>{(50-5*this.getCards().getCardC(i).getCardM().getSkill(0).Power)}),WordingSkills.getName(34),-1));
+			}
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==32){
+				this.getCards().getCardC(i).addShieldModifyer(new ModifyerM(this.getCards().getCardC(i).getCardM().getSkill(0).Power*8+20,12,WordingGame.getText(87, new List<int>{(this.getCards().getCardC(i).getCardM().getSkill(0).Power*8+20)})+". "+WordingGame.getText(100),WordingSkills.getName(32),1));
+			}
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==35){
+				this.getCards().getCardC(i).addMoveModifyer(new ModifyerM(-2,8,"","",-1));
+				this.getCards().getCardC(i).addStateModifyer(new ModifyerM(20+this.getCards().getCardC(i).getCardM().getSkill(0).Power,8,WordingGame.getText(123, new List<int>{20+this.getCards().getCardC(i).getCardM().getSkill(0).Power}),WordingSkills.getName(35),-1));
+			}
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==73){
 				List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.getCards().getCardC(i).getTileM());
 				for (int j = 0 ; j < neighbours.Count ;j++){
 					characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
@@ -346,7 +355,7 @@ public class Game : MonoBehaviour
 					}
 				}
 			}
-			if(this.getCards().getCardC(i).getCardM().getCharacterType()==76){
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==76){
 				Game.instance.getCards().getCardC(i).addDamageModifyer(new ModifyerM(Mathf.RoundToInt(Game.instance.getCards().getCardC(i).getLife()/2f), -1, "", "",-1));
 				power = this.getCards().getCardC(i).getCardM().getSkill(0).Power;
 				for (int j = 0 ; j < this.getCards().getNumberOfCards() ;j++){
@@ -357,6 +366,18 @@ public class Game : MonoBehaviour
 						}
 					}
 				}
+			}
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==64){
+				if(Game.instance.isFirstPlayer()){
+					List<TileM> tiles = this.getBoard().get4RandomEmptyCenterTile();
+					for(int j = 0 ; j < tiles.Count ; j++){
+						Game.instance.getBoard().getTileC(tiles[j].x, tiles[j].y).setTrap(1,this.getCards().getCardC(i).getCardM().getSkill(0).Power, this.getCards().getCardC(i).getCardM().isMine());
+						Game.instance.launchCorou("SetTrapRPC", tiles[j].x, tiles[j].y, 1, this.getCards().getCardC(i).getCardM().getSkill(0).Power, this.getCards().getCardC(i).getCardM().isMine());
+					}
+				}
+			}
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==66){
+				Game.instance.getCards().getCardC(i).addEsquiveModifyer(new ModifyerM(10+4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,7,"","",-1));
 			}
 		}
 
@@ -582,7 +603,6 @@ public class Game : MonoBehaviour
 				StartCoroutine(GameRPC.instance.launchRPC("sendMyDeckIDRPC", ApplicationModel.player.SelectedDeckId, ApplicationModel.player.Id, ApplicationModel.player.RankingPoints));
 			}
 		}
-
 	}
 
 	public void setInitialDestinations(){
@@ -680,6 +700,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void dropOnTile(int x, int y){
+		print("Drop "+x+","+y);
 		if(this.getBoard().getTileC(x,y).getDestination()==0){
 			if(currentCardID!=-1){
 				if(this.draggingCardID==this.getCurrentCardID()){
@@ -696,7 +717,9 @@ public class Game : MonoBehaviour
 					this.moveOn(x,y,draggingCardID);
 					this.setIgnoreNextMoveOn(true);
 				}
-				GameRPC.instance.launchRPC("moveOnRPC",x,y,draggingCardID);
+				print("Launchy "+x+","+y);
+		
+				StartCoroutine(GameRPC.instance.launchRPC("moveOnRPC",x,y,draggingCardID));
 			}
 		}
 		else{
@@ -734,9 +757,7 @@ public class Game : MonoBehaviour
 
 	public void moveOn(int x, int y, int i){
 		if(this.currentCardID==-1){
-			if(this.gamecards.getCardC(i).getCardM().isMine()){
-				this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
-			}
+			this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
 		}
 		else{
 			this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
@@ -861,7 +882,7 @@ public class Game : MonoBehaviour
 			this.addStartGame(true);
 		}
 		else{
-			GameRPC.instance.launchRPC("startGameRPC");
+			StartCoroutine(GameRPC.instance.launchRPC("startGameRPC"));
 		}
 		this.getStartButton().setText(WordingGame.getText(70));
 		this.getStartButton().hideButton();
@@ -953,6 +974,33 @@ public class Game : MonoBehaviour
 				}
 			}
 		}
+		else if(this.getCurrentCard().getCardM().getCharacterType()==67){
+			if(this.getCurrentCard().getCardM().isMine()){
+				List<int> opponents = this.getTargetableOpponents(true);
+				int random = opponents[UnityEngine.Random.Range(0,opponents.Count)];
+
+				if(Game.instance.isIA() || Game.instance.isTutorial()){
+					Game.instance.getSkills().skills[67].effects(random, this.getCurrentCard().getCardM().getSkill(0).Power);
+				}
+				else{
+					Game.instance.launchCorou("EffectsSkillRPC", 67, random, this.getCurrentCard().getCardM().getSkill(0).Power);
+				}
+
+				if(UnityEngine.Random.Range(0,101)<=50){
+					opponents.Remove(random);
+					if(opponents.Count>0){
+						random = opponents[UnityEngine.Random.Range(0,opponents.Count)];
+
+						if(Game.instance.isIA() || Game.instance.isTutorial()){
+							Game.instance.getSkills().skills[67].effects(random, this.getCurrentCard().getCardM().getSkill(0).Power);
+						}
+						else{
+							Game.instance.launchCorou("EffectsSkillRPC", 67, random, this.getCurrentCard().getCardM().getSkill(0).Power);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void launchNextTurn(){
@@ -964,7 +1012,9 @@ public class Game : MonoBehaviour
 			this.getHisHoveredCard().stopClignoting();
 		}
 		this.getCurrentCard().checkModifyers();
-		this.getCurrentCard().displayBackTile(true);
+		if(!this.getCurrentCard().isDead()){
+			this.getCurrentCard().displayBackTile(true);
+		}
 		this.getCurrentCard().play(false);
 		this.getCurrentCard().move(false);
 		this.indexPlayingCard++;
@@ -1149,11 +1199,11 @@ public class Game : MonoBehaviour
 			}
 			if(checkEndTurn){
 				if(this.getCurrentCard().hasMoved()){
-					if(SE){
-						this.toLaunchNextTurn = true;
+					if(Game.instance.isIA() || Game.instance.isTutorial()){
+						Game.instance.setLaunchNextTurn(true);
 					}
 					else{
-						this.hitPassButton();
+						StartCoroutine(GameRPC.instance.launchRPC("toLaunchNextTurnRPC"));
 					}
 				}
 			}
@@ -1336,7 +1386,7 @@ public class Game : MonoBehaviour
 				this.launchNextTurn();
 			}
 			else{
-				GameRPC.instance.launchRPC("launchNextTurnRPC");
+				StartCoroutine(GameRPC.instance.launchRPC("launchNextTurnRPC"));
 			}
 		}
 	}
@@ -1360,7 +1410,7 @@ public class Game : MonoBehaviour
 				StartCoroutine(quitGameHandler(b));
 			}
 			else{
-				GameRPC.instance.launchRPC("LostRPC",b);
+				StartCoroutine(GameRPC.instance.launchRPC("LostRPC",b));
 			}
 		}
 
@@ -1573,6 +1623,14 @@ public class Game : MonoBehaviour
 		StartCoroutine(GameRPC.instance.launchRPC(s, a, b, c, d));
     }
 
+	public void launchCorou(string s, int a, int b, int c, int d, int e){
+		StartCoroutine(GameRPC.instance.launchRPC(s, a, b, c, d, e));
+    }
+
+	public void launchCorou(string s, int a, int b, int c, int d, bool boo){
+		StartCoroutine(GameRPC.instance.launchRPC(s, a, b, c, d, boo));
+    }
+
     public void launchCorou(string s, int a, int b){
 		StartCoroutine(GameRPC.instance.launchRPC(s, a, b));
     }
@@ -1581,4 +1639,18 @@ public class Game : MonoBehaviour
 		StartCoroutine(GameRPC.instance.launchRPC(s, a));
     }
 
+    public List<int> getTargetableOpponents(bool isMine){
+    	List<int> opponents = new List<int>();
+    	for(int i = 0 ; i < this.getCards().getNumberOfCards() ;i++){
+			if(this.getCards().getCardC(i).getCardM().isMine()!=isMine){
+	    		if(!this.getCards().getCardC(i).isDead()){
+					if(this.getCards().getCardC(i).canBeTargeted()){
+						opponents.Add(i);
+						print(i);
+					}
+	    		}
+	    	}
+    	}
+    	return opponents;
+    }
 }

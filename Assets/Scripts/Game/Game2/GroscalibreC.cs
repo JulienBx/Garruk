@@ -1,36 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PistoboostC : SkillC
+public class GroscalibreC : SkillC
 {
-	public PistoboostC(){
-		base.id = 3 ;
-		base.ciblage = 8;
-		base.animId = 2;
+	public GroscalibreC(){
+		base.id = 26 ;
+		base.ciblage = 1;
+		base.animId = 4;
 		base.soundId = 25;
-		base.nbIntsToSend = 1;
+		base.nbIntsToSend = 0;
 	}
 
-	public override void effects(int targetID, int level, int z){
+	public override void effects(int targetID, int level){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int bonus = (level+Mathf.RoundToInt((5*z)/100f));
+		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(120f+10f*level)/100f));
 
 		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
 
 		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(13, new List<int>{bonus}),0);
-		target.addAttackModifyer(new ModifyerM(bonus, 0, "", "",1));
+		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+
+		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int maxBonus = 5+level;
+		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(120f+10f*level)/100f));
 
-		string text = WordingGame.getText(103, new List<int>{target.getAttack(),target.getAttack()+level, target.getAttack()+maxBonus});
+		string text = WordingGame.getText(78, new List<int>{target.getLife(),target.getLife()-degats})+"\n"+WordingGame.getText(92);
 		return text ;
 	}
 
@@ -38,7 +39,7 @@ public class PistoboostC : SkillC
 		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
 		CardC caster = Game.instance.getCurrentCard();
 
-		int score = 3+s.Power;
+		int score = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(120f+10f*s.Power)/100f));
 		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
 
 		return score;

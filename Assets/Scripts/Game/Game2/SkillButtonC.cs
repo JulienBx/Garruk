@@ -92,7 +92,6 @@ public class SkillButtonC : MonoBehaviour
 			gameObject.GetComponent<SpriteRenderer>().sprite = Game.instance.getSkillSprite(0);
 		}
 		else{
-			print(this.id+" - - -"+this.skillC.id);
 			gameObject.transform.FindChild("DescriptionZone").FindChild("TitleText").GetComponent<TextMeshPro>().text = WordingSkills.getName(this.skillC.id) ;
 			gameObject.transform.FindChild("Text").GetComponent<TextMeshPro>().text = WordingSkills.getName(this.skillC.id) ;
 			gameObject.GetComponent<SpriteRenderer>().sprite = Game.instance.getSkillSprite(this.skillC.id);

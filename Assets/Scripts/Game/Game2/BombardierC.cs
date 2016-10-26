@@ -1,28 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Attaque360C : SkillC
+public class BombardierC : SkillC
 {
-	public Attaque360C(){
-		base.id = 17 ;
-		base.ciblage = 3;
-		base.animId = 0;
+	public BombardierC(){
+		base.id = 24 ;
+		base.ciblage = 10;
+		base.animId = 1;
 		base.soundId = 25;
-		base.nbIntsToSend = 0;
+		base.nbIntsToSend = 1;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
 		int targetID ;
 		CardC target ;
 		int level = skill.Power;
-		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(new TileM(x,y));
 		bool hasFailed = false ;
 		bool hasDodged = false ;
 
-		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
-			for(int i = 0 ; i < neighbours.Count ; i++){
-				targetID = Game.instance.getBoard().getTileC(neighbours[i].x, neighbours[i].y).getCharacterID();
-				if(targetID!=-1){
+		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
+			for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards() ; i++){
+				targetID = i;
+				if(!Game.instance.getCards().getCardC(targetID).isDead()){
 					target = Game.instance.getCards().getCardC(targetID);
 					if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
 						if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
@@ -36,10 +35,10 @@ public class Attaque360C : SkillC
 						}
 						else{
 							if(Game.instance.isIA() || Game.instance.isTutorial()){
-								Game.instance.getSkills().skills[this.id].effects(targetID, level);
+								Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
 							}
 							else{
-								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level);
+								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, UnityEngine.Random.Range(1,101));
 							}
 						}
 					}
@@ -84,11 +83,11 @@ public class Attaque360C : SkillC
 		}
 	}
 
-	public override void effects(int targetID, int level){
+	public override void effects(int targetID, int level, int z){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(caster.getAttack()*(20f+level*8f)/100f));
+		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(level+(5f*z)/100f));
 
 		target.displayAnim(base.animId);
 		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
@@ -104,21 +103,20 @@ public class Attaque360C : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
-		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(t);
 
 		int score = 0 ;
 		int tempScore ;
 
-		for(int i = 0 ; i < neighbours.Count ;i++){
-			if(board[neighbours[i].x, neighbours[i].y]>=0){
-				if(board[neighbours[i].x, neighbours[i].y]!=Game.instance.getCurrentCardID()){
-					target = Game.instance.getCards().getCardC(board[neighbours[i].x, neighbours[i].y]);
-					tempScore = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(20f+s.Power*8f)/100f));
-					tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
-					score+=tempScore;
-				}
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards() ;i++){
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				target = Game.instance.getCards().getCardC(i);
+				tempScore = caster.getDamageScore(target, s.Power, s.Power+5);
+				tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
+				score+=tempScore;
 			}
 		}
 		return score;
 	}
 }
+
+

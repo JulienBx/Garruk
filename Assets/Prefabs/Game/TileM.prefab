@@ -623,6 +623,10 @@ MonoBehaviour:
   - {fileID: 21300024, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300030, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
   - {fileID: 21300028, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
+  trapSprites:
+  - {fileID: 21300028, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300026, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
+  - {fileID: 21300004, guid: 8cb990f12e1930e4a86310d69d8dcfb8, type: 3}
 --- !u!114 &11462666
 MonoBehaviour:
   m_ObjectHideFlags: 1

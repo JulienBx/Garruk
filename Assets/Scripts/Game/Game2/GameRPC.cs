@@ -129,6 +129,44 @@ public class GameRPC : Photon.MonoBehaviour
 		this.stopTimer();
 	}
 
+	public IEnumerator launchRPC(string s, int x, int y, int z, int z2, int z3){
+		bool b = true ;
+		while(b){
+			try{
+				print("Je tente");
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, z3, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
+	public IEnumerator launchRPC(string s, int x, int y, int z, int z2, bool boo){
+		bool b = true ;
+		while(b){
+			try{
+				print("Je tente");
+				photonView.RPC(s, PhotonTargets.AllBufferedViaServer, x, y, z, z2, boo, Game.instance.isFirstPlayer());
+				b = false;
+			}
+			catch (Exception e){
+				Debug.Log(e.ToString());
+				if(!this.failing && !PhotonC.instance.isReconnecting()){
+					this.initTimer();
+				}
+			}
+			yield return new WaitForSeconds(0.5f);
+		}
+		this.stopTimer();
+	}
+
 	public IEnumerator launchRPC(string s, int x){
 		bool b = true ;
 		while(b){
@@ -186,14 +224,15 @@ public class GameRPC : Photon.MonoBehaviour
 	[PunRPC]
 	void moveOnRPC(int x, int y, int z, bool isFirstP)
 	{
+		print("MOVEON "+x+","+y+","+z);
 		this.updateRPCCompteurs(isFirstP);
 		if(Game.instance.getIgnoreNextMoveOn()){
+			print("IGNORE");
 			Game.instance.setIgnoreNextMoveOn(false);
 		}
 		else{
 			Game.instance.moveOn(x, y, z);
 		}
-
 	}
 
 	[PunRPC]
@@ -239,10 +278,24 @@ public class GameRPC : Photon.MonoBehaviour
 	}
 
 	[PunRPC]
+	void SetTrapRPC(int x, int y, int id, int value, bool boo, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getBoard().getTileC(x,y).setTrap(id, value, boo);
+	}
+
+	[PunRPC]
 	void EffectsSkillRPC(int x, int y, bool isFirstP)
 	{
 		this.updateRPCCompteurs(isFirstP);
 		Game.instance.getSkills().skills[x].effects(y);
+	}
+
+	[PunRPC]
+	void SanguinaireEffectsSkillRPC(int x, int y, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[0].sanguinaireEffects(x,y);
 	}
 
 	[PunRPC]
@@ -257,6 +310,32 @@ public class GameRPC : Photon.MonoBehaviour
 	{
 		this.updateRPCCompteurs(isFirstP);
 		Game.instance.getSkills().skills[x].effects(y, z);
+	}
+
+	[PunRPC]
+	void EffectsSkillRPC(int x, int y, int z, int z2, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].effects(y, z, z2);
+	}
+
+	[PunRPC]
+	void EffectsSkillRPC(int x, int y, int z, int z2, int z3, bool isFirstP)
+	{
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.getSkills().skills[x].effects(y, z, z2, z3);
+	}
+
+	[PunRPC]
+	void launchNextTurnRPC(bool isFirstP){
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.launchNextTurn();
+	}
+
+	[PunRPC]
+	void toLaunchNextTurnRPC(bool isFirstP){
+		this.updateRPCCompteurs(isFirstP);
+		Game.instance.setLaunchNextTurn(true);
 	}
 
 	[PunRPC]
