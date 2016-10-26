@@ -31,7 +31,7 @@ public class SkillsM
 		this.skills [22] = new RayonlaserC();
 		this.skills [23] = new GrenadeC();
 		this.skills [24] = new BombardierC();
-		this.skills [25] = new SkillC();
+		this.skills [25] = new ViseeC();
 		this.skills [26] = new GroscalibreC();
 		this.skills [27] = new LanceflammesC();
 		this.skills [28] = new ImplosionC();

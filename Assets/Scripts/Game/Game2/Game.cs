@@ -757,7 +757,14 @@ public class Game : MonoBehaviour
 
 	public void moveOn(int x, int y, int i){
 		if(this.currentCardID==-1){
-			this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
+			if(Game.instance.isIA() || Game.instance.isTutorial()){
+				if(Game.instance.getCards().getCardC(i).getCardM().isMine()){
+					this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
+				}
+			}
+			else{
+				this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());
+			}
 		}
 		else{
 			this.gamecards.getCardC(i).startMove(this.gamecards.getCardC(i).getPosition(), this.getBoard().getTileC(x,y).getPosition());

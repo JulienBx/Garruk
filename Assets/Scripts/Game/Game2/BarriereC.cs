@@ -27,17 +27,18 @@ public class BarriereC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
-		CardC caster = Game.instance.getCurrentCard();
-		int score = 0;
-
-		if(Game.instance.getCurrentCard().getBouclier()>0){
-			score = 0;
-		}
-		else{
-			score = Mathf.RoundToInt(((10f+4f*s.Power)/2f)*(Game.instance.getCurrentCard().getLife()/30f));
-		}
-
-		return score;
+//		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+//		CardC caster = Game.instance.getCurrentCard();
+//		int score = 0;
+//
+//		if(Game.instance.getCurrentCard().getBouclier()>0){
+//			score = 0;
+//		}
+//		else{
+//			score = Mathf.RoundToInt(((10f+4f*s.Power)/2f)*(Game.instance.getCurrentCard().getLife()/30f));
+//		}
+//
+//		return score;
+		return 0 ;
 	}
 }
