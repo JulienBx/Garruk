@@ -1,0 +1,3208 @@
+fileFormatVersion: 2
+guid: 6d1d59900432a6e4193eaa75538dea38
+timeCreated: 1477515222
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 0Attaque
+    21300002: 100Renaissance
+    21300004: 101Fatalite
+    21300006: 102Sermon
+    21300008: 103Benediction
+    21300010: 104Faveur
+    21300012: 105Copieur
+    21300014: 106Malediction
+    21300016: 107Miracle
+    21300018: 108Sacrifice
+    21300020: 109RageDivine
+    21300022: 10Assassinat
+    21300024: 110Missionnaire
+    21300026: 110Missionnairesmall
+    21300028: 111Protecteursmall
+    21300030: 111protecteur
+    21300032: 112Pretresse
+    21300034: 112Pretressesmall
+    21300036: 113Purificateur
+    21300038: 113Purificateursmall
+    21300040: 119PluieBleue
+    21300042: 11Blesser
+    21300044: 128Cristopower
+    21300046: 129Cristolife
+    21300048: 12Combo
+    21300050: 131Chasseur
+    21300052: 132ChocBleu
+    21300054: 133Synergie
+    21300056: 138Mutant
+    21300058: 138Mutantsmall
+    21300060: 139Cristomaitre
+    21300062: 139Cristomaitresmall
+    21300064: 13Electropiege
+    21300066: 140Createur
+    21300068: 140Createursmall
+    21300070: 141Golem
+    21300072: 141Golemsmall
+    21300074: 144CristoGod
+    21300076: 14Pisteur
+    21300078: 15Guerilla
+    21300080: 16Berserk
+    21300082: 17Attaque360
+    21300084: 18Frenesie
+    21300086: 19Criderage
+    21300088: 1Passe
+    21300090: 20Terreur
+    21300092: 21Cannibale
+    21300094: 22RayonLaser
+    21300096: 23Grenade
+    21300098: 24Bombardier
+    21300100: 25Visee
+    21300102: 26Groscalibre
+    21300104: 27Lanceflammes
+    21300106: 28Implosion
+    21300108: 29barriere
+    21300110: 2Pistosoin
+    21300112: 30Mitraillette
+    21300114: 31Perfotir
+    21300116: 32Embusque
+    21300118: 32Embusquesmall
+    21300120: 33Puissant
+    21300122: 33Puissantsmall
+    21300124: 34Sanguinaire
+    21300126: 34Sanguinairesmall
+    21300128: 35Sniper
+    21300130: 35Snipersmall
+    21300132: 39Renfoderme
+    21300134: 3PistoBoost
+    21300136: 40Vampire
+    21300138: 41CristoCurse
+    21300140: 42Alchimie
+    21300142: 4Pistosape
+    21300144: 56Steroide
+    21300146: 57Senilite
+    21300148: 58Telepiege
+    21300150: 59Coupprecis
+    21300152: 5Pistolest
+    21300154: 63Massue
+    21300156: 64Piegeur
+    21300158: 64Piegeursmall
+    21300160: 65Lache
+    21300162: 65Lachesmall
+    21300164: 66Agile
+    21300166: 66Agilesmall
+    21300168: 67Ninja
+    21300170: 67Ninjasmall
+    21300172: 68Fantassin
+    21300174: 68Fantassinsmall
+    21300176: 69Frenetique
+    21300178: 69Frenetiquesmall
+    21300180: 6Vitamines
+    21300182: 70Cuirasse
+    21300184: 70Cuirassesmall
+    21300186: 71Rapide
+    21300188: 71Rapidesmall
+    21300190: 72Virologue
+    21300192: 72Virologuesmall
+    21300194: 73Paladin
+    21300196: 73Paladinsmall
+    21300198: 75Infirmiere
+    21300200: 75Infirmiersmall
+    21300202: 76Leader
+    21300204: 76Leadersmall
+    21300206: 7Antibiotique
+    21300208: 8Kunai
+    21300210: 91Lance
+    21300212: 92Desequilibre
+    21300214: 93Furie
+    21300216: 94Poison
+    21300218: 95Justice
+    21300220: 9Furtivite
+    21300222: AssassinFaction
+    21300224: BackgroundUnit
+    21300226: CristoideFaction
+    21300228: DieuCristoide
+    21300230: DroidFaction
+    21300232: HisSliderBackground
+    21300234: HisUnitBorder
+    21300236: HorizontalBorder
+    21300238: MedicFaction
+    21300240: MentalisteFaction
+    21300242: Meteor1
+    21300244: Meteor2
+    21300246: Meteor3
+    21300248: Meteor4
+    21300250: MySliderBackground
+    21300252: MyUnitBorder
+    21300254: MysticFaction
+    21300256: PredateurFaction
+    21300258: ScientistFaction
+    21300260: SkillBar
+    21300262: Target
+    21300264: TerraformerFaction
+    21300266: TimelineArrow
+    21300268: TimelineFaceBorder
+    21300270: TimelineGreyBackground
+    21300272: TrooperFaction
+    21300274: VerticalBorder
+    21300276: WhiteFlag
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 0Attaque
+      rect:
+        serializedVersion: 2
+        x: 1519
+        y: 1928
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 100Renaissance
+      rect:
+        serializedVersion: 2
+        x: 1519
+        y: 1818
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 101Fatalite
+      rect:
+        serializedVersion: 2
+        x: 1847
+        y: 1721
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 102Sermon
+      rect:
+        serializedVersion: 2
+        x: 1847
+        y: 1611
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 103Benediction
+      rect:
+        serializedVersion: 2
+        x: 1515
+        y: 1708
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 104Faveur
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 446
+        width: 104
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38, y: 52}
+        - {x: -52, y: 48}
+        - {x: -52, y: -29}
+        - {x: -31, y: -52}
+        - {x: 43, y: -52}
+        - {x: 52, y: -26}
+        - {x: 52, y: 43}
+        - {x: 47, y: 52}
+    - name: 105Copieur
+      rect:
+        serializedVersion: 2
+        x: 1515
+        y: 1598
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 106Malediction
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 1501
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 107Miracle
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 1391
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 108Sacrifice
+      rect:
+        serializedVersion: 2
+        x: 1513
+        y: 1488
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 109RageDivine
+      rect:
+        serializedVersion: 2
+        x: 1513
+        y: 1378
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 10Assassinat
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 1281
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 110Missionnaire
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 1171
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 110Missionnairesmall
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 1604
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 101, y: 61}
+        - {x: 54, y: 83}
+        - {x: -14, y: 83}
+        - {x: -61, y: 71}
+        - {x: -107, y: 0}
+        - {x: -107, y: -40}
+        - {x: -74, y: -93}
+        - {x: -37, y: -107}
+        - {x: 30, y: -107}
+        - {x: 71, y: -89}
+        - {x: 107, y: -45}
+        - {x: 107, y: 38}
+    - name: 111Protecteursmall
+      rect:
+        serializedVersion: 2
+        x: 1299
+        y: 1604
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 103, y: 81}
+        - {x: 50, y: 107}
+        - {x: -29, y: 107}
+        - {x: -72, y: 52}
+        - {x: -82, y: 34}
+        - {x: -105, y: 51}
+        - {x: -107, y: 40}
+        - {x: -107, y: -44}
+        - {x: -92, y: -67}
+        - {x: -90, y: -107}
+        - {x: 103, y: -107}
+        - {x: 103, y: -53}
+        - {x: 102, y: -49}
+        - {x: 93, y: -50}
+        - {x: 103, y: -34}
+    - name: 111protecteur
+      rect:
+        serializedVersion: 2
+        x: 1513
+        y: 1268
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 112Pretresse
+      rect:
+        serializedVersion: 2
+        x: 1513
+        y: 1158
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 112Pretressesmall
+      rect:
+        serializedVersion: 2
+        x: 1625
+        y: 1397
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 69}
+        - {x: 44, y: 107}
+        - {x: -37, y: 107}
+        - {x: -71, y: 97}
+        - {x: -104, y: 45}
+        - {x: -104, y: 21}
+        - {x: -77, y: -11}
+        - {x: -102, y: -31}
+        - {x: -99, y: -64}
+        - {x: -52, y: -107}
+        - {x: 44, y: -107}
+        - {x: 102, y: -74}
+        - {x: 107, y: -39}
+        - {x: 107, y: 45}
+    - name: 113Purificateur
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 1061
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 113Purificateursmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1534
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 73, y: 93}
+        - {x: 37, y: 107}
+        - {x: -34, y: 107}
+        - {x: -43, y: 106}
+        - {x: -71, y: 97}
+        - {x: -104, y: 47}
+        - {x: -104, y: -7}
+        - {x: -91, y: -50}
+        - {x: -73, y: -87}
+        - {x: -46, y: -107}
+        - {x: 31, y: -107}
+        - {x: 60, y: -102}
+        - {x: 92, y: -66}
+        - {x: 107, y: -33}
+        - {x: 107, y: 44}
+    - name: 119PluieBleue
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 951
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 11Blesser
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1208
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 128Cristopower
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1208
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 129Cristolife
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 1208
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 12Combo
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 1098
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 131Chasseur
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 1062
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 132ChocBleu
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 1062
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 133Synergie
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 1062
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 138Mutant
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 1062
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 138Mutantsmall
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 1534
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 90, y: 66}
+        - {x: 70, y: 88}
+        - {x: 36, y: 107}
+        - {x: -35, y: 107}
+        - {x: -68, y: 94}
+        - {x: -107, y: 42}
+        - {x: -107, y: -33}
+        - {x: -93, y: -68}
+        - {x: -44, y: -107}
+        - {x: 36, y: -107}
+        - {x: 72, y: -90}
+        - {x: 107, y: -44}
+        - {x: 107, y: 36}
+    - name: 139Cristomaitre
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 1048
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 139Cristomaitresmall
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 1534
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 62, y: 107}
+        - {x: -54, y: 107}
+        - {x: -63, y: 104}
+        - {x: -49, y: 94}
+        - {x: -47, y: 89}
+        - {x: -47, y: 91}
+        - {x: -50, y: 83}
+        - {x: -74, y: 89}
+        - {x: -107, y: 44}
+        - {x: -107, y: -54}
+        - {x: -62, y: -107}
+        - {x: 44, y: -107}
+        - {x: 97, y: -70}
+        - {x: 107, y: -39}
+        - {x: 107, y: 56}
+    - name: 13Electropiege
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 992
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 54}
+        - {x: -30, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -52}
+        - {x: -46, y: -54}
+        - {x: 41, y: -54}
+        - {x: 53, y: -35}
+        - {x: 54, y: -27}
+        - {x: 54, y: 33}
+    - name: 140Createur
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 992
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 140Createursmall
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 1534
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 69}
+        - {x: 44, y: 107}
+        - {x: -44, y: 107}
+        - {x: -91, y: 73}
+        - {x: -107, y: 32}
+        - {x: -107, y: -27}
+        - {x: -103, y: -42}
+        - {x: -93, y: -68}
+        - {x: -44, y: -107}
+        - {x: 30, y: -107}
+        - {x: 72, y: -90}
+        - {x: 107, y: -44}
+        - {x: 107, y: 39}
+    - name: 141Golem
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 992
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 141Golemsmall
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 1534
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 107, y: 42}
+        - {x: 106, y: 43}
+        - {x: 72, y: 90}
+        - {x: 42, y: 107}
+        - {x: -40, y: 107}
+        - {x: -88, y: 77}
+        - {x: -101, y: 39}
+        - {x: -101, y: -47}
+        - {x: -100, y: -57}
+        - {x: -73, y: -91}
+        - {x: -36, y: -107}
+        - {x: 37, y: -107}
+        - {x: 43, y: -106}
+        - {x: 66, y: -89}
+        - {x: 103, y: -61}
+        - {x: 107, y: -39}
+    - name: 144CristoGod
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 1062
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 14Pisteur
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 992
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 15Guerilla
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 992
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 16Berserk
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 988
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 17Attaque360
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 952
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 18Frenesie
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 952
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 19Criderage
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 952
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 1Passe
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 952
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 20Terreur
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 938
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 21Cannibale
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 938
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 22RayonLaser
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 855
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 23Grenade
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 855
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 24Bombardier
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 841
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 25Visee
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 841
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 26Groscalibre
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 882
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 27Lanceflammes
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 882
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 28Implosion
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 882
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 29barriere
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 882
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 2Pistosoin
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 882
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 30Mitraillette
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 878
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 31Perfotir
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 842
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35, y: 54}
+        - {x: -54, y: 36}
+        - {x: -54, y: -28}
+        - {x: -29, y: -54}
+        - {x: 42, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 39}
+        - {x: 29, y: 54}
+    - name: 32Embusque
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 842
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 32Embusquesmall
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 1388
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 107, y: 33}
+        - {x: 90, y: 66}
+        - {x: 70, y: 88}
+        - {x: 36, y: 107}
+        - {x: -34, y: 107}
+        - {x: -68, y: 93}
+        - {x: -107, y: 44}
+        - {x: -107, y: -44}
+        - {x: -74, y: -93}
+        - {x: -39, y: -107}
+        - {x: 33, y: -107}
+        - {x: 43, y: -106}
+        - {x: 72, y: -90}
+        - {x: 106, y: -43}
+        - {x: 107, y: -37}
+    - name: 33Puissant
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 842
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 33Puissantsmall
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 1388
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 98, y: 72}
+        - {x: 40, y: 107}
+        - {x: -58, y: 107}
+        - {x: -86, y: 35}
+        - {x: -86, y: -71}
+        - {x: -56, y: -97}
+        - {x: -33, y: -107}
+        - {x: 45, y: -107}
+        - {x: 93, y: -67}
+        - {x: 107, y: -42}
+        - {x: 107, y: 40}
+    - name: 34Sanguinaire
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 842
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 34Sanguinairesmall
+      rect:
+        serializedVersion: 2
+        x: 1623
+        y: 1181
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 96, y: -3}
+        - {x: 92, y: -6}
+        - {x: 64, y: -17}
+        - {x: 58, y: -25}
+        - {x: 54, y: -34}
+        - {x: 49, y: -34}
+        - {x: 51, y: -34}
+        - {x: 69, y: -10}
+        - {x: 72, y: -7}
+        - {x: 76, y: 4}
+        - {x: 73, y: 7}
+        - {x: 107, y: 42}
+        - {x: 107, y: 63}
+        - {x: 84, y: 107}
+        - {x: -52, y: 107}
+        - {x: -107, y: 89}
+        - {x: -107, y: -70}
+        - {x: -98, y: -87}
+        - {x: -46, y: -107}
+        - {x: 69, y: -107}
+        - {x: 106, y: -76}
+        - {x: 107, y: -71}
+        - {x: 107, y: 2}
+    - name: 35Sniper
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 828
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 54}
+        - {x: -50, y: 31}
+        - {x: -50, y: -39}
+        - {x: -10, y: -54}
+        - {x: 16, y: -54}
+        - {x: 49, y: -34}
+        - {x: 49, y: 37}
+        - {x: 7, y: 54}
+    - name: 35Snipersmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1318
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94, y: 8}
+        - {x: 107, y: 26}
+        - {x: 107, y: 36}
+        - {x: 89, y: 71}
+        - {x: 70, y: 88}
+        - {x: 45, y: 101}
+        - {x: 44, y: 97}
+        - {x: -8, y: 106}
+        - {x: -26, y: 106}
+        - {x: -32, y: 104}
+        - {x: -76, y: 81}
+        - {x: -77, y: -13}
+        - {x: -77, y: -26}
+        - {x: -69, y: -35}
+        - {x: -65, y: -37}
+        - {x: -69, y: -39}
+        - {x: -72, y: -44}
+        - {x: -77, y: -55}
+        - {x: -77, y: -87}
+        - {x: -49, y: -107}
+        - {x: 42, y: -107}
+        - {x: 78, y: -97}
+        - {x: 107, y: -41}
+        - {x: 107, y: 4}
+        - {x: 89, y: 9}
+    - name: 39Renfoderme
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 828
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 3PistoBoost
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 745
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 40Vampire
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 745
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 41CristoCurse
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 731
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 42Alchimie
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 731
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 54}
+        - {x: -30, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -52}
+        - {x: -46, y: -54}
+        - {x: 41, y: -54}
+        - {x: 53, y: -35}
+        - {x: 54, y: -27}
+        - {x: 54, y: 33}
+    - name: 4Pistosape
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 772
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 56Steroide
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 772
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 57Senilite
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 772
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 58Telepiege
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 772
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: 54}
+        - {x: -30, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -52}
+        - {x: -46, y: -54}
+        - {x: 41, y: -54}
+        - {x: 53, y: -35}
+        - {x: 54, y: -27}
+        - {x: 54, y: 33}
+    - name: 59Coupprecis
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 772
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 5Pistolest
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 768
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 63Massue
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 732
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 64Piegeur
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 732
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 64Piegeursmall
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 1318
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 95, y: 69}
+        - {x: 44, y: 107}
+        - {x: -46, y: 107}
+        - {x: -107, y: 62}
+        - {x: -107, y: -6}
+        - {x: -101, y: -12}
+        - {x: -94, y: -17}
+        - {x: -74, y: -63}
+        - {x: -35, y: -107}
+        - {x: 48, y: -107}
+        - {x: 100, y: -72}
+        - {x: 107, y: -37}
+        - {x: 107, y: 49}
+      - - {x: -70, y: -84}
+        - {x: -67, y: -82}
+        - {x: -69, y: -77}
+        - {x: -73, y: -76}
+        - {x: -75, y: -79}
+    - name: 65Lache
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 732
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 65Lachesmall
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 1318
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 100, y: 72}
+        - {x: 37, y: 107}
+        - {x: -52, y: 107}
+        - {x: -107, y: 61}
+        - {x: -107, y: -11}
+        - {x: -97, y: -27}
+        - {x: -89, y: -38}
+        - {x: -72, y: -38}
+        - {x: -74, y: -36}
+        - {x: -68, y: -48}
+        - {x: -93, y: -52}
+        - {x: -97, y: -56}
+        - {x: -82, y: -103}
+        - {x: -60, y: -107}
+        - {x: 63, y: -107}
+        - {x: 75, y: -94}
+        - {x: 107, y: -55}
+        - {x: 107, y: 42}
+    - name: 66Agile
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 732
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 66Agilesmall
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 1318
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 73, y: 92}
+        - {x: 42, y: 107}
+        - {x: -45, y: 107}
+        - {x: -91, y: 73}
+        - {x: -107, y: 33}
+        - {x: -107, y: 3}
+        - {x: -99, y: -20}
+        - {x: -73, y: -102}
+        - {x: -29, y: -106}
+        - {x: -27, y: -107}
+        - {x: 29, y: -107}
+        - {x: 75, y: -94}
+        - {x: 107, y: -42}
+        - {x: 107, y: 41}
+    - name: 67Ninja
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 718
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 67Ninjasmall
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 1318
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 103, y: 48}
+        - {x: 74, y: 93}
+        - {x: 39, y: 105}
+        - {x: -31, y: 105}
+        - {x: -88, y: 49}
+        - {x: -88, y: -28}
+        - {x: -76, y: -84}
+        - {x: -40, y: -107}
+        - {x: 40, y: -107}
+        - {x: 73, y: -91}
+        - {x: 107, y: -39}
+        - {x: 107, y: 0}
+    - name: 68Fantassin
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 718
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 68Fantassinsmall
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 1172
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 97, y: 70}
+        - {x: 41, y: 107}
+        - {x: -59, y: 107}
+        - {x: -97, y: 60}
+        - {x: -97, y: 22}
+        - {x: -91, y: 15}
+        - {x: -86, y: -3}
+        - {x: -97, y: -29}
+        - {x: -97, y: -40}
+        - {x: -72, y: -97}
+        - {x: -35, y: -107}
+        - {x: 54, y: -107}
+        - {x: 102, y: -74}
+        - {x: 107, y: -40}
+        - {x: 107, y: 47}
+      - - {x: -103, y: 23}
+        - {x: -105, y: 23}
+        - {x: -107, y: 22}
+        - {x: -107, y: -26}
+        - {x: -104, y: -28}
+        - {x: -101, y: -27}
+        - {x: -95, y: -20}
+        - {x: -89, y: -1}
+        - {x: -89, y: 4}
+    - name: 69Frenetique
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 635
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 69Frenetiquesmall
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 1172
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -64, y: 107}
+        - {x: -107, y: 40}
+        - {x: -107, y: 2}
+        - {x: -69, y: -54}
+        - {x: -63, y: -58}
+        - {x: -52, y: -59}
+        - {x: -61, y: -63}
+        - {x: -74, y: -56}
+        - {x: -104, y: -10}
+        - {x: -107, y: -10}
+        - {x: -107, y: -85}
+        - {x: -82, y: -107}
+        - {x: 81, y: -107}
+        - {x: 107, y: -87}
+        - {x: 107, y: 89}
+        - {x: 72, y: 107}
+    - name: 6Vitamines
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 635
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 70Cuirasse
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 621
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 70Cuirassesmall
+      rect:
+        serializedVersion: 2
+        x: 1623
+        y: 965
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 100}
+        - {x: -24, y: 100}
+        - {x: -33, y: 94}
+        - {x: -72, y: 48}
+        - {x: -107, y: 11}
+        - {x: -107, y: -38}
+        - {x: -87, y: -65}
+        - {x: -93, y: -71}
+        - {x: -44, y: -107}
+        - {x: 45, y: -107}
+        - {x: 60, y: -104}
+        - {x: 107, y: -46}
+        - {x: 107, y: 16}
+        - {x: 76, y: 91}
+    - name: 71Rapide
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 621
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 71Rapidesmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 735
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 91, y: 76}
+        - {x: 37, y: 107}
+        - {x: -48, y: 107}
+        - {x: -92, y: 92}
+        - {x: -107, y: 55}
+        - {x: -107, y: -34}
+        - {x: -99, y: -36}
+        - {x: -107, y: -58}
+        - {x: -107, y: -84}
+        - {x: -61, y: -107}
+        - {x: 70, y: -107}
+        - {x: 97, y: -71}
+        - {x: 106, y: -25}
+        - {x: 106, y: 50}
+    - name: 72Virologue
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 662
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 72Virologuesmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 956
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 55, y: 107}
+        - {x: -44, y: 107}
+        - {x: -73, y: 101}
+        - {x: -101, y: 77}
+        - {x: -107, y: 48}
+        - {x: -107, y: -47}
+        - {x: -93, y: -63}
+        - {x: -82, y: -61}
+        - {x: -67, y: -34}
+        - {x: -53, y: -52}
+        - {x: -49, y: -53}
+        - {x: -45, y: -48}
+        - {x: -42, y: -54}
+        - {x: -47, y: -53}
+        - {x: -58, y: -53}
+        - {x: -83, y: -72}
+        - {x: -55, y: -107}
+        - {x: 51, y: -107}
+        - {x: 61, y: -102}
+        - {x: 107, y: -53}
+        - {x: 107, y: 50}
+        - {x: 102, y: 74}
+    - name: 73Paladin
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 662
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 73Paladinsmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 519
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 60, y: 102}
+        - {x: 33, y: 107}
+        - {x: -32, y: 107}
+        - {x: -75, y: 89}
+        - {x: -100, y: 50}
+        - {x: -104, y: 11}
+        - {x: -104, y: -42}
+        - {x: -89, y: -71}
+        - {x: -56, y: -97}
+        - {x: -40, y: -107}
+        - {x: 41, y: -107}
+        - {x: 96, y: -69}
+        - {x: 107, y: -41}
+        - {x: 107, y: 48}
+    - name: 75Infirmiere
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 662
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 75Infirmiersmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 303
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 107, y: 64}
+        - {x: 50, y: 101}
+        - {x: -1, y: 101}
+        - {x: -88, y: 71}
+        - {x: -90, y: 42}
+        - {x: -90, y: -48}
+        - {x: -64, y: -96}
+        - {x: -40, y: -107}
+        - {x: 39, y: -107}
+        - {x: 88, y: -81}
+        - {x: 100, y: -45}
+        - {x: 107, y: -16}
+    - name: 76Leader
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 662
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 54}
+        - {x: -49, y: 30}
+        - {x: -49, y: -30}
+        - {x: -19, y: -54}
+        - {x: 12, y: -54}
+        - {x: 49, y: -36}
+        - {x: 49, y: 32}
+        - {x: 9, y: 54}
+    - name: 76Leadersmall
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 87
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50, y: 107}
+        - {x: -47, y: 107}
+        - {x: -92, y: 73}
+        - {x: -104, y: 58}
+        - {x: -104, y: -40}
+        - {x: -90, y: -65}
+        - {x: -68, y: -86}
+        - {x: -65, y: -85}
+        - {x: -55, y: -98}
+        - {x: -39, y: -107}
+        - {x: 36, y: -107}
+        - {x: 60, y: -103}
+        - {x: 100, y: -72}
+        - {x: 107, y: -53}
+        - {x: 107, y: 60}
+      - - {x: -56, y: -72}
+        - {x: -53, y: -71}
+        - {x: -53, y: -68}
+        - {x: -56, y: -67}
+        - {x: -58, y: -69}
+    - name: 7Antibiotique
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 662
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 8Kunai
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 658
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 54}
+        - {x: -54, y: 38}
+        - {x: -54, y: -36}
+        - {x: -47, y: -54}
+        - {x: 32, y: -54}
+        - {x: 54, y: -32}
+        - {x: 54, y: 33}
+        - {x: 23, y: 54}
+    - name: 91Lance
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 622
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 92Desequilibre
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 622
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51, y: 54}
+        - {x: -54, y: 42}
+        - {x: -54, y: -27}
+        - {x: -53, y: -36}
+        - {x: -31, y: -54}
+        - {x: 30, y: -54}
+        - {x: 40, y: -52}
+        - {x: 54, y: -27}
+        - {x: 54, y: 54}
+    - name: 93Furie
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 622
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: 94Poison
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 622
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 95Justice
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 608
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 54}
+        - {x: -54, y: 25}
+        - {x: -54, y: -31}
+        - {x: -51, y: -35}
+        - {x: -30, y: -54}
+        - {x: 30, y: -54}
+        - {x: 54, y: -44}
+        - {x: 54, y: 52}
+        - {x: 48, y: 54}
+    - name: 9Furtivite
+      rect:
+        serializedVersion: 2
+        x: 1427
+        y: 608
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 47}
+        - {x: -54, y: -30}
+        - {x: -35, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -38}
+        - {x: 54, y: 44}
+        - {x: 50, y: 54}
+    - name: AssassinFaction
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 525
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: BackgroundUnit
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 444
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -53, y: 53}
+        - {x: -53, y: -50}
+        - {x: -52, y: -53}
+        - {x: 53, y: -53}
+        - {x: 53, y: 43}
+        - {x: 30, y: 53}
+    - name: CristoideFaction
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 525
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: DieuCristoide
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1102
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 90, y: 66}
+        - {x: 70, y: 88}
+        - {x: 36, y: 107}
+        - {x: -35, y: 107}
+        - {x: -68, y: 94}
+        - {x: -107, y: 42}
+        - {x: -107, y: -33}
+        - {x: -93, y: -68}
+        - {x: -44, y: -107}
+        - {x: 36, y: -107}
+        - {x: 72, y: -90}
+        - {x: 107, y: -44}
+        - {x: 107, y: 36}
+    - name: DroidFaction
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 511
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: HisSliderBackground
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1932
+        width: 1080
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 491, y: -48.5}
+        - {x: 492, y: -48.5}
+        - {x: 504, y: -36.5}
+        - {x: 504, y: -35.5}
+        - {x: 507, y: -31.5}
+        - {x: 507, y: 31.5}
+        - {x: 504, y: 35.5}
+        - {x: 504, y: 36.5}
+        - {x: 489, y: 51.5}
+        - {x: 478, y: 56.5}
+        - {x: 472, y: 57.5}
+        - {x: -535, y: 57.5}
+        - {x: -540, y: 56.5}
+        - {x: -540, y: -56.5}
+        - {x: -538, y: -56.5}
+        - {x: -536, y: -57.5}
+        - {x: 472, y: -57.5}
+        - {x: 478, y: -56.5}
+        - {x: 489, y: -51.5}
+    - name: HisUnitBorder
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1102
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58, y: 107}
+        - {x: -73, y: 105}
+        - {x: -104, y: 60}
+        - {x: -107, y: 44}
+        - {x: -107, y: -107}
+        - {x: 107, y: -107}
+        - {x: 107, y: 58}
+        - {x: 73, y: 107}
+      - - {x: -19, y: -84}
+        - {x: -20, y: -62}
+        - {x: -25, y: -55}
+        - {x: -50, y: -37}
+        - {x: -48, y: -27}
+        - {x: -50, y: -11}
+        - {x: -54, y: -4}
+        - {x: -65, y: 6}
+        - {x: -79, y: 9}
+        - {x: -86, y: 9}
+        - {x: -80, y: 33}
+        - {x: -65, y: 56}
+        - {x: -44, y: 74}
+        - {x: -29, y: 81}
+        - {x: -6, y: 86}
+        - {x: 16, y: 85}
+        - {x: 32, y: 80}
+        - {x: 56, y: 66}
+        - {x: 75, y: 43}
+        - {x: 85, y: 17}
+        - {x: 86, y: 16}
+        - {x: 88, y: 8}
+        - {x: 87, y: 9}
+        - {x: 72, y: 9}
+        - {x: 62, y: 4}
+        - {x: 52, y: -9}
+        - {x: 49, y: -16}
+        - {x: 50, y: -35}
+        - {x: 20, y: -59}
+        - {x: 20, y: -85}
+        - {x: -10, y: -86}
+    - name: HorizontalBorder
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 2038
+        width: 648
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: MedicFaction
+      rect:
+        serializedVersion: 2
+        x: 1867
+        y: 511
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: MentalisteFaction
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 401
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: Meteor1
+      rect:
+        serializedVersion: 2
+        x: 1733
+        y: 1831
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24, y: 105}
+        - {x: 5, y: 91}
+        - {x: 3, y: 76}
+        - {x: 13, y: 74}
+        - {x: 19, y: 69}
+        - {x: -15, y: 82}
+        - {x: -25, y: 83}
+        - {x: -28, y: 72}
+        - {x: -26, y: 37}
+        - {x: -44, y: 59}
+        - {x: -49, y: 60}
+        - {x: -55, y: 57}
+        - {x: -52, y: 60}
+        - {x: -49, y: 60}
+        - {x: -41, y: 61}
+        - {x: -33, y: 64}
+        - {x: -28, y: 70}
+        - {x: -27, y: 84}
+        - {x: -44, y: 106}
+        - {x: -105, y: 106}
+        - {x: -105, y: 40}
+        - {x: -103, y: 30}
+        - {x: -94, y: -56}
+        - {x: -39, y: -107}
+        - {x: 77, y: -107}
+        - {x: 106, y: -98}
+        - {x: 106, y: 1}
+        - {x: 46, y: 104}
+    - name: Meteor2
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 1820
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 40, y: 106}
+        - {x: 8, y: 106}
+        - {x: 6, y: 93}
+        - {x: 9, y: 76}
+        - {x: -27, y: 85}
+        - {x: -28, y: 72}
+        - {x: -26, y: 37}
+        - {x: -44, y: 59}
+        - {x: -49, y: 60}
+        - {x: -55, y: 57}
+        - {x: -52, y: 60}
+        - {x: -49, y: 60}
+        - {x: -41, y: 61}
+        - {x: -33, y: 64}
+        - {x: -28, y: 70}
+        - {x: -27, y: 84}
+        - {x: -44, y: 106}
+        - {x: -105, y: 106}
+        - {x: -105, y: -29}
+        - {x: -55, y: -107}
+        - {x: 106, y: -107}
+        - {x: 106, y: 49}
+        - {x: 66, y: 99}
+    - name: Meteor3
+      rect:
+        serializedVersion: 2
+        x: 1301
+        y: 1820
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16, y: 104}
+        - {x: 7, y: 94}
+        - {x: 8, y: 84}
+        - {x: 11, y: 79}
+        - {x: -25, y: 83}
+        - {x: -28, y: 72}
+        - {x: -26, y: 37}
+        - {x: -44, y: 59}
+        - {x: -49, y: 60}
+        - {x: -55, y: 57}
+        - {x: -52, y: 60}
+        - {x: -49, y: 60}
+        - {x: -41, y: 61}
+        - {x: -33, y: 64}
+        - {x: -28, y: 70}
+        - {x: -27, y: 84}
+        - {x: -44, y: 106}
+        - {x: -105, y: 106}
+        - {x: -105, y: -39}
+        - {x: -29, y: -107}
+        - {x: 101, y: -107}
+        - {x: 106, y: -82}
+        - {x: 106, y: 44}
+        - {x: 51, y: 104}
+    - name: Meteor4
+      rect:
+        serializedVersion: 2
+        x: 1629
+        y: 1613
+        width: 216
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 31, y: 103}
+        - {x: -25, y: 83}
+        - {x: -27, y: 72}
+        - {x: -6, y: 38}
+        - {x: -44, y: 59}
+        - {x: -49, y: 60}
+        - {x: -55, y: 57}
+        - {x: -52, y: 60}
+        - {x: -49, y: 60}
+        - {x: -41, y: 61}
+        - {x: -33, y: 64}
+        - {x: -28, y: 70}
+        - {x: -27, y: 84}
+        - {x: -44, y: 106}
+        - {x: -105, y: 106}
+        - {x: -105, y: -38}
+        - {x: -29, y: -107}
+        - {x: 90, y: -107}
+        - {x: 106, y: -63}
+        - {x: 106, y: 22}
+        - {x: 54, y: 105}
+    - name: MySliderBackground
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1815
+        width: 1080
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 491, y: -48.5}
+        - {x: 492, y: -48.5}
+        - {x: 504, y: -36.5}
+        - {x: 504, y: -35.5}
+        - {x: 507, y: -31.5}
+        - {x: 507, y: 31.5}
+        - {x: 504, y: 35.5}
+        - {x: 504, y: 36.5}
+        - {x: 489, y: 51.5}
+        - {x: 478, y: 56.5}
+        - {x: 472, y: 57.5}
+        - {x: -535, y: 57.5}
+        - {x: -540, y: 56.5}
+        - {x: -540, y: -56.5}
+        - {x: -538, y: -56.5}
+        - {x: -536, y: -57.5}
+        - {x: 472, y: -57.5}
+        - {x: 478, y: -56.5}
+        - {x: 489, y: -51.5}
+    - name: MyUnitBorder
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 1102
+        width: 214
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58, y: 107}
+        - {x: -73, y: 105}
+        - {x: -104, y: 60}
+        - {x: -107, y: 44}
+        - {x: -107, y: -107}
+        - {x: 107, y: -107}
+        - {x: 107, y: 58}
+        - {x: 73, y: 107}
+      - - {x: -19, y: -84}
+        - {x: -20, y: -62}
+        - {x: -25, y: -55}
+        - {x: -50, y: -37}
+        - {x: -48, y: -27}
+        - {x: -50, y: -11}
+        - {x: -54, y: -4}
+        - {x: -65, y: 6}
+        - {x: -79, y: 9}
+        - {x: -86, y: 9}
+        - {x: -80, y: 33}
+        - {x: -65, y: 56}
+        - {x: -44, y: 74}
+        - {x: -29, y: 81}
+        - {x: -6, y: 86}
+        - {x: 16, y: 85}
+        - {x: 32, y: 80}
+        - {x: 56, y: 66}
+        - {x: 75, y: 43}
+        - {x: 85, y: 17}
+        - {x: 86, y: 16}
+        - {x: 88, y: 8}
+        - {x: 87, y: 9}
+        - {x: 72, y: 9}
+        - {x: 62, y: 4}
+        - {x: 52, y: -9}
+        - {x: 49, y: -16}
+        - {x: 50, y: -35}
+        - {x: 20, y: -59}
+        - {x: 20, y: -85}
+        - {x: -10, y: -86}
+    - name: MysticFaction
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 512
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: PredateurFaction
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 291
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: ScientistFaction
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 181
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: SkillBar
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1750
+        width: 1080
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 418, y: -31.5}
+        - {x: 427, y: -24.5}
+        - {x: 434, y: -9.5}
+        - {x: 434, y: 10.5}
+        - {x: 433, y: 11.5}
+        - {x: 433, y: 13.5}
+        - {x: 431, y: 18.5}
+        - {x: 428, y: 20.5}
+        - {x: 428, y: 21.5}
+        - {x: 422, y: 28.5}
+        - {x: 415, y: 31.5}
+        - {x: -540, y: 31.5}
+        - {x: -540, y: -31.5}
+    - name: Target
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 71
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 52, y: 4}
+        - {x: 39, y: 30}
+        - {x: 10, y: 54}
+        - {x: -50, y: 54}
+        - {x: -54, y: 22}
+        - {x: -54, y: -47}
+        - {x: -33, y: -54}
+        - {x: 10, y: -54}
+        - {x: 33, y: -44}
+        - {x: 54, y: -6}
+        - {x: 54, y: 2}
+    - name: TerraformerFaction
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 552
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: TimelineArrow
+      rect:
+        serializedVersion: 2
+        x: 1951
+        y: 2017
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: TimelineFaceBorder
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 552
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 54}
+        - {x: -54, y: 36}
+        - {x: -54, y: -48}
+        - {x: -41, y: -54}
+        - {x: 54, y: -54}
+        - {x: 54, y: 36}
+        - {x: 48, y: 54}
+    - name: TimelineGreyBackground
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 552
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 54}
+        - {x: -54, y: 49}
+        - {x: -54, y: -31}
+        - {x: -45, y: -54}
+        - {x: 33, y: -54}
+        - {x: 54, y: -31}
+        - {x: 54, y: 54}
+    - name: TrooperFaction
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 552
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: -29}
+        - {x: -5, y: -54}
+        - {x: 3, y: -54}
+        - {x: 46, y: -29}
+        - {x: 46, y: 31}
+        - {x: 16, y: 53}
+        - {x: -7, y: 53}
+        - {x: -47, y: 34}
+    - name: VerticalBorder
+      rect:
+        serializedVersion: 2
+        x: 1983
+        y: 1183
+        width: 9
+        height: 864
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WhiteFlag
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 548
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 54, y: -10}
+        - {x: 54, y: 37}
+        - {x: 18, y: 52}
+        - {x: -24, y: 52}
+        - {x: -26, y: 49}
+        - {x: -54, y: -41}
+        - {x: -54, y: -50}
+        - {x: -51, y: -52}
+        - {x: -45, y: -52}
+        - {x: -39, y: -42}
+        - {x: 48, y: -27}
+        - {x: 50, y: -25}
+      - - {x: 51, y: -23}
+        - {x: 53, y: -25}
+        - {x: 54, y: -25}
+        - {x: 54, y: -15}
+        - {x: 51, y: -16}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

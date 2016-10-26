@@ -217,6 +217,7 @@ public class Game : MonoBehaviour
 
 		if(!SE){
 			if(this.toLaunchNextTurn){
+				print("Laisse");
 				this.toLaunchNextTurn=false;
 				this.hitPassButton();
 			}
