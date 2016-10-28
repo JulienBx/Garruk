@@ -216,10 +216,11 @@ public class Game : MonoBehaviour
 		}
 
 		if(!SE){
+			//print("Plus de Skill");
 			if(this.toLaunchNextTurn){
-				print("Laisse");
+				print("Launchnext");
 				this.toLaunchNextTurn=false;
-				this.hitPassButton();
+				this.launchNextTurn();
 			}
 			else{
 				this.getPassButton().white();
@@ -1012,6 +1013,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void launchNextTurn(){
+		print("START");
 		this.getCurrentCard().stopClignote();
 		if(this.getCurrentCard().getCardM().isMine()){
 			this.getMyHoveredCard().stopClignoting();
@@ -1045,6 +1047,7 @@ public class Game : MonoBehaviour
 		else{
 			StartCoroutine(this.launchMeteors());
 		}
+		print("END");
 	}
 
 	public void meteorHitTile(TileM t, int amount){
@@ -1115,7 +1118,7 @@ public class Game : MonoBehaviour
 				tempInt++;
 				if(tempInt==this.getCards().getNumberOfCards()){
 					tempInt = 0;
-					liste.Add(-1*tempIndex);
+					liste.Add(Mathf.Max(-4,-1*tempIndex));
 					tempIndex++;
 				}
 			}
@@ -1392,10 +1395,10 @@ public class Game : MonoBehaviour
 		if(!this.areUnitsDead(true) && !this.areUnitsDead(false)){
 			this.displayController(false);
 			if(this.ia || this.isTutorial()){
-				this.launchNextTurn();
+				this.setLaunchNextTurn(true);
 			}
 			else{
-				StartCoroutine(GameRPC.instance.launchRPC("launchNextTurnRPC"));
+				StartCoroutine(GameRPC.instance.launchRPC("toLaunchNextTurnRPC"));
 			}
 		}
 	}

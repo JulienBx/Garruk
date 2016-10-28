@@ -231,12 +231,7 @@ public class Intelligence
 
 		yield return new WaitForSeconds(2f);
 	
-		if(Game.instance.getSE()){
-			Game.instance.setLaunchNextTurn(true);
-		}
-		else{
-			this.act();
-		}
+		Game.instance.setLaunchNextTurn(true);
 	}
 
 	public void choosePlay(bool action){

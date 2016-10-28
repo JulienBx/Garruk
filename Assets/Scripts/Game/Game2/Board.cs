@@ -246,7 +246,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[compteur, t.y]>=0){
-					compteur=-1;
+					compteur=this.boardWidth;
 				}
 			}
 			compteur++;
@@ -261,7 +261,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[t.x, compteur]>=0){
-					compteur=-1;
+					compteur=this.boardHeight;
 				}
 			}
 			compteur++;
@@ -379,7 +379,6 @@ public class Board
 		else{
 			tile.x = (this.boardWidth-1)-(Mathf.FloorToInt(vec.x/Game.instance.getTileScale())+3);
 			tile.y = (this.boardHeight-1)-(Mathf.FloorToInt(vec.y/Game.instance.getTileScale())+4);
-			Debug.Log(tile.x+","+tile.y);
 		}
 
 		return tile;

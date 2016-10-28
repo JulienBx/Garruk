@@ -220,10 +220,8 @@ public class GameRPC : Photon.MonoBehaviour
 	[PunRPC]
 	void moveOnRPC(int x, int y, int z, bool isFirstP)
 	{
-		print("MOVEON "+x+","+y+","+z);
 		this.updateRPCCompteurs(isFirstP);
 		if(Game.instance.getIgnoreNextMoveOn()){
-			print("IGNORE");
 			Game.instance.setIgnoreNextMoveOn(false);
 		}
 		else{
