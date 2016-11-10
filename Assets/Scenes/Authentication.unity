@@ -1220,7 +1220,7 @@ Transform:
   - {fileID: 1987438549}
   - {fileID: 755240381}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &213752365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1818,8 +1818,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2020,7 +2020,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2028,8 +2028,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2265,7 +2265,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2273,8 +2273,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2423,7 +2423,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2431,8 +2431,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -2668,7 +2668,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -2676,8 +2676,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3106,8 +3106,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3256,7 +3256,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -3264,8 +3264,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -3949,7 +3949,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -3957,8 +3957,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4353,7 +4353,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -4361,8 +4361,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4505,7 +4505,7 @@ Transform:
   - {fileID: 386120890}
   - {fileID: 672090887}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!1 &717669487
 GameObject:
   m_ObjectHideFlags: 0
@@ -4673,7 +4673,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -4681,8 +4681,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -4831,7 +4831,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -4839,8 +4839,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -5632,7 +5632,7 @@ Transform:
   - {fileID: 303330917}
   - {fileID: 1353346799}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
 --- !u!1 &903450507
 GameObject:
   m_ObjectHideFlags: 0
@@ -5894,8 +5894,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6052,8 +6052,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6202,7 +6202,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6210,8 +6210,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6360,7 +6360,7 @@ Transform:
   - {fileID: 935081508}
   - {fileID: 938944394}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
 --- !u!1001 &969968770
 Prefab:
   m_ObjectHideFlags: 0
@@ -6574,7 +6574,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6582,8 +6582,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -6892,7 +6892,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -6900,8 +6900,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7147,8 +7147,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -7217,96 +7217,6 @@ MonoBehaviour:
     width: 2.4008822
     height: 4.0208826
   m_margins: {x: 0, y: 0, z: 0, w: 0}
---- !u!1001 &1097474466
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -10.229284
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.3965507
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -4.3264875
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 418430, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3369674, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11448810, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: checkPaddingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11448810, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11448810, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3347716, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11498546, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: checkPaddingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11498546, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11498546, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384512, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463206, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: checkPaddingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463206, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463206, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1104618160
 GameObject:
   m_ObjectHideFlags: 0
@@ -7475,7 +7385,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -7483,8 +7393,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8102,7 +8012,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &1177963778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8202,8 +8112,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8352,7 +8262,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8360,8 +8270,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8488,7 +8398,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &1209433888
 GameObject:
   m_ObjectHideFlags: 0
@@ -8577,8 +8487,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8814,7 +8724,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8822,8 +8732,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -8972,7 +8882,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -8980,8 +8890,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9217,7 +9127,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9225,8 +9135,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9375,7 +9285,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9383,8 +9293,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9533,7 +9443,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9541,8 +9451,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -9685,7 +9595,7 @@ Transform:
   - {fileID: 793926435}
   - {fileID: 167032830}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
 --- !u!1 &1410921123
 GameObject:
   m_ObjectHideFlags: 0
@@ -9766,7 +9676,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -9774,8 +9684,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10257,7 +10167,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10265,8 +10175,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -10412,7 +10322,7 @@ Transform:
   - {fileID: 822768194}
   - {fileID: 1413650967}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!1 &1581231693
 GameObject:
   m_ObjectHideFlags: 0
@@ -10852,7 +10762,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -10860,8 +10770,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11010,7 +10920,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11018,8 +10928,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11168,7 +11078,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11176,8 +11086,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11457,7 +11367,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11465,8 +11375,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -11615,7 +11525,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -11623,8 +11533,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12019,7 +11929,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -12027,8 +11937,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12197,7 +12107,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
 --- !u!1 &1869137626
 GameObject:
   m_ObjectHideFlags: 0
@@ -12460,8 +12370,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -12618,8 +12528,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13175,7 +13085,7 @@ Transform:
   - {fileID: 1644272348}
   - {fileID: 415108962}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &2098248273
 GameObject:
   m_ObjectHideFlags: 0
@@ -13256,7 +13166,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13264,8 +13174,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13414,7 +13324,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13422,8 +13332,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -13572,7 +13482,7 @@ Transform:
   - {fileID: 2139954180}
   - {fileID: 1765551671}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
 --- !u!1 &2139954179
 GameObject:
   m_ObjectHideFlags: 0
@@ -13680,7 +13590,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 1
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -13688,8 +13598,8 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
-  m_havePropertiesChanged: 0
+  isInputParsingRequired: 1
+  m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1

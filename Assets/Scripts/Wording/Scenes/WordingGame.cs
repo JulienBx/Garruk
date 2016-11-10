@@ -150,7 +150,7 @@ public class WordingGame
 		texts.Add(new string[]{"MALUS MOV","MALUS MOV"});
 		texts.Add(new string[]{"MOV : ARG1 -> ARG2","MOV : ARG1 -> ARG2"});
 		texts.Add(new string[]{"-ARG1 PV / tour","-ARG1 HP / turn"});
-		texts.Add(new string[]{"Soigné!","Healed!"});
+		texts.Add(new string[]{"Purifié!","Purifyed!"});
 		texts.Add(new string[]{"Pas d'allié à cibler!","No ally to target!"});
 		texts.Add(new string[]{"Télépiège posé!","Teletrap set!"});
 		texts.Add(new string[]{"Téléporté!","Teleported!"});
@@ -165,6 +165,9 @@ public class WordingGame
 		texts.Add(new string[]{"+ ARG1% dégats au prochain tour","+ ARG1% damages next turn"});
 		texts.Add(new string[]{"Malus de ARG1% aux dégats","ARG1% damage malus"});
 		texts.Add(new string[]{"Pas de tile à cibler","No tile to target"});
+		texts.Add(new string[]{"Prochain à jouer","Next to play"});
+		texts.Add(new string[]{"Mort à la fin de son tour","Dies at the end of its turn"});
 
+		texts.Add(new string[]{"Converti!","Converted!"});
 	}
 }

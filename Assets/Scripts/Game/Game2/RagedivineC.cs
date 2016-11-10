@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class KunaiC : SkillC
+public class RagedivineC : SkillC
 {
-	public KunaiC(){
-		base.id = 8 ;
+	public RagedivineC(){
+		base.id = 109 ;
 		base.ciblage = 10;
 		base.animId = 1;
 		base.soundId = 25;
-		base.nbIntsToSend = 2;
+		base.nbIntsToSend = 1;
 	}
 
-	public override void effects(int targetID, int level, int z, int z2){
+	public override void effects(int targetID, int level, int z){
 		CardC caster = Game.instance.getCurrentCard();
 
-		List<int> opponents = Game.instance.getTargetableOpponents(Game.instance.getCurrentCard().getCardM().isMine());
+		List<int> opponents = Game.instance.getTargetableAnyone();
 		z = opponents[Mathf.Min(Mathf.FloorToInt(z/(100/opponents.Count)),opponents.Count-1)];
 		CardC target = Game.instance.getCards().getCardC(z);
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(2+level+Mathf.RoundToInt((5f*z2)/100f)));
+		int degats = target.getLife();
 
 		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
 
@@ -37,15 +37,14 @@ public class KunaiC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 		CardC target ;
 
-		List<int> opponents = Game.instance.getTargetableOpponents(Game.instance.getCurrentCard().getCardM().isMine());
+		List<int> opponents = Game.instance.getTargetableAnyone();
 		int score = 0 ;
 		int tempScore ;
 
 		for(int i = 0 ; i < opponents.Count ; i++){
 			target = Game.instance.getCards().getCardC(opponents[i]);
 		
-			tempScore = caster.getDamageScore(target, s.Power, s.Power+5);
-			tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
+			tempScore = caster.getDegatsNoShieldAgainst(target, target.getLife());
 			score+=tempScore;
 		}
 		score = score/opponents.Count;

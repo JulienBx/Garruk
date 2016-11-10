@@ -404,5 +404,49 @@ public class Gamecards
 		this.getCardC(i).show(mine);
 		this.nbCards++;
 	}
+
+	public CardC getMaxLifeCard(){
+		int bestLife = 0 ;
+		CardC bestCard = new CardC();
+
+		for (int i = 0 ; i < this.cards.Length ;i++){
+			if(!this.getCardC(i).isDead()){
+				if(this.getCardC(i).getLife()>bestLife){
+					bestLife = this.getCardC(i).getLife();
+					bestCard = this.getCardC(i);
+				}
+			}
+		}
+
+		return bestCard ;
+	}
+
+	public CardC getMinLifeCard(){
+		int bestLife = 1000 ;
+		CardC bestCard = new CardC();
+
+		for (int i = 0 ; i < this.cards.Length ;i++){
+			if(!this.getCardC(i).isDead()){
+				if(this.getCardC(i).getLife()<bestLife){
+					bestLife = this.getCardC(i).getLife();
+					bestCard = this.getCardC(i);
+				}
+			}
+		}
+
+		return bestCard ;
+	}
+
+	public List<int> getAnyoneSharingFactionWith(CardC card){
+		List<int> targets = new List<int>();
+
+		for(int i = 0; i < this.getNumberOfCards();i++){
+			if(this.getCardC(i).getCardM().getFaction()==card.getCardM().getFaction()){
+				targets.Add(i);
+			}
+		}
+
+		return targets;
+	}
 }
 

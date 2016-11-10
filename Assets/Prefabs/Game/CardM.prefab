@@ -681,6 +681,7 @@ MonoBehaviour:
   - {fileID: 21300120, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 21300116, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   - {fileID: 21300108, guid: 0c4a2f13b8934be49807338300435261, type: 3}
+  - {fileID: 21300016, guid: 0c4a2f13b8934be49807338300435261, type: 3}
   characterSprites:
   - {fileID: 0}
   - {fileID: 0}

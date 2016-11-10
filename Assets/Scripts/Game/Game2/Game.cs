@@ -965,6 +965,44 @@ public class Game : MonoBehaviour
 		if(this.getCurrentCard().getCardM().getCharacterType()==69){
 			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
+		else if(this.getCurrentCard().getCardM().getCharacterType()==110){
+			if(this.getCurrentCard().getCardM().isMine()){
+				List<TileM> neighbours = this.getBoard().getTileNeighbours(this.getCurrentCard().getTileM());
+				for(int i = 0 ; i < neighbours.Count; i++){
+					playerID = this.getBoard().getTileC(neighbours[i]).getCharacterID()	;
+					if(playerID>=0){
+						if(!Game.instance.getCards().getCardC(playerID).getCardM().isMine()){
+							if(UnityEngine.Random.Range(1,101)<=this.getCurrentCard().getCardM().getSkill(0).Power*4+10){
+								if(Game.instance.isIA() || Game.instance.isTutorial()){
+									Game.instance.getSkills().skills[110].effects(playerID, 0);
+								}
+								else{
+									Game.instance.launchCorou("EffectsSkillRPC", 110, playerID, 0);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else if(this.getCurrentCard().getCardM().getCharacterType()==113){
+			if(this.getCurrentCard().getCardM().isMine()){
+				List<TileM> neighbours = this.getBoard().getTileNeighbours(this.getCurrentCard().getTileM());
+				for(int i = 0 ; i < neighbours.Count; i++){
+					playerID = this.getBoard().getTileC(neighbours[i]).getCharacterID()	;
+					if(playerID>=0){
+						if(UnityEngine.Random.Range(1,101)<=this.getCurrentCard().getCardM().getSkill(0).Power*5+50){
+							if(Game.instance.isIA() || Game.instance.isTutorial()){
+								Game.instance.getSkills().skills[113].effects(playerID, 0);
+							}
+							else{
+								Game.instance.launchCorou("EffectsSkillRPC", 113, playerID, 0);
+							}
+						}
+					}
+				}
+			}
+		}
 		else if(this.getCurrentCard().getCardM().getCharacterType()==68){
 			this.getSkills().skills[68].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
@@ -1013,41 +1051,47 @@ public class Game : MonoBehaviour
 	}
 
 	public void launchNextTurn(){
-		print("START");
-		this.getCurrentCard().stopClignote();
-		if(this.getCurrentCard().getCardM().isMine()){
-			this.getMyHoveredCard().stopClignoting();
+		if(this.getCurrentCard().isFatality()){
+			int degats = this.getCurrentCard().getLife();
+			this.getCurrentCard().displayAnim(1);
+			this.getCurrentCard().addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 		}
 		else{
-			this.getHisHoveredCard().stopClignoting();
-		}
-		this.getCurrentCard().checkModifyers();
-		if(!this.getCurrentCard().isDead()){
-			this.getCurrentCard().displayBackTile(true);
-		}
-		this.getCurrentCard().play(false);
-		this.getCurrentCard().move(false);
-		this.indexPlayingCard++;
-		bool toLaunchMeteors = false;
-		if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
-			this.indexPlayingCard = 0 ;
-			toLaunchMeteors = true;
-		}
-		while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
+			this.getCurrentCard().stopClignote();
+			if(this.getCurrentCard().getCardM().isMine()){
+				this.getMyHoveredCard().stopClignoting();
+			}
+			else{
+				this.getHisHoveredCard().stopClignoting();
+			}
+			this.getCurrentCard().checkModifyers();
+			if(!this.getCurrentCard().isDead()){
+				this.getCurrentCard().displayBackTile(true);
+			}
+			this.getCurrentCard().play(false);
+			this.getCurrentCard().move(false);
 			this.indexPlayingCard++;
+			bool toLaunchMeteors = false;
 			if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
 				this.indexPlayingCard = 0 ;
 				toLaunchMeteors = true;
 			}
+			while(this.getCards().getCardC(this.cardsToPlay[indexPlayingCard]).isDead()){
+				this.indexPlayingCard++;
+				if(this.indexPlayingCard>=this.getCards().getNumberOfCards()){
+					this.indexPlayingCard = 0 ;
+					toLaunchMeteors = true;
+				}
+			}
+
+			if(!toLaunchMeteors){
+				this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
+			}
+			else{
+				StartCoroutine(this.launchMeteors());
+			}
 		}
 
-		if(!toLaunchMeteors){
-			this.giveHandTo(this.cardsToPlay[this.indexPlayingCard]);
-		}
-		else{
-			StartCoroutine(this.launchMeteors());
-		}
-		print("END");
 	}
 
 	public void meteorHitTile(TileM t, int amount){
@@ -1664,5 +1708,47 @@ public class Game : MonoBehaviour
 	    	}
     	}
     	return opponents;
+    }
+
+	public List<int> getTargetableAllys(bool isMine){
+    	List<int> opponents = new List<int>();
+    	for(int i = 0 ; i < this.getCards().getNumberOfCards() ;i++){
+    		if(i!=this.getCurrentCardID()){
+				if(this.getCards().getCardC(i).getCardM().isMine()==isMine){
+		    		if(!this.getCards().getCardC(i).isDead()){
+						if(this.getCards().getCardC(i).canBeTargeted()){
+							opponents.Add(i);
+							print(i);
+						}
+		    		}
+		    	}
+	    	}
+    	}
+    	return opponents;
+    }
+
+	public List<int> getTargetableAnyone(){
+    	List<int> opponents = new List<int>();
+    	for(int i = 0 ; i < this.getCards().getNumberOfCards() ;i++){
+			if(!this.getCards().getCardC(i).isDead()){
+				if(this.getCards().getCardC(i).canBeTargeted()){
+					opponents.Add(i);
+					print(i);
+				}
+    		}
+    	}
+    	return opponents;
+    }
+
+    public void setNextPlayer(int j){
+    	for(int i = this.getCards().getNumberOfCards()-1 ; i>=0 ; i--){
+			if(this.cardsToPlay[indexPlayingCard]==j){
+				this.cardsToPlay.Remove(j);
+				i=-1;
+			}
+    	}
+
+		this.cardsToPlay.Insert(this.indexPlayingCard+1, j);
+		this.updateTimeline();
     }
 }

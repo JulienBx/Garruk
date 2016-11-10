@@ -11,7 +11,7 @@ public class BarriereC : SkillC
 		base.nbIntsToSend = 0;
 	}
 
-	public override void effects(int targetID, int level, int z){
+	public override void effects(int targetID, int level){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 

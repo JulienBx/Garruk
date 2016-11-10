@@ -126,6 +126,17 @@ public class CardC : MonoBehaviour
 		if(!hasFound){
 			this.damageModifyers.Add(m);
 		}
+		if(this.getCardM().getCharacterType()==112){
+			List<int> allys = Game.instance.getBoard().getAllys(this, this.id);
+			for (int j = 0 ; j < allys.Count ;j++){
+				if(Game.instance.isIA() || Game.instance.isTutorial()){
+					Game.instance.getSkills().skills[112].effects(allys[j], Game.instance.getCurrentCard().getCardM().getSkill(0).Power, UnityEngine.Random.Range(1,101));
+				}
+				else{
+					Game.instance.launchCorou("EffectsSkillRPC", 112, allys[j], Game.instance.getCurrentCard().getCardM().getSkill(0).Power, UnityEngine.Random.Range(1,101));
+				}
+			}
+		}
 		this.setLife();
 	}
 
@@ -891,7 +902,7 @@ public class CardC : MonoBehaviour
 			s = s.Substring(0,index-4)+" "+percentage+" "+s.Substring(index+4,s.Length-index-4);
 		}
 		if (WordingSkills.getProba(this.card.getSkill(i).Id, this.card.getSkill(i).Power-1)!=100){
-			s+=". "+WordingSkills.getProba(this.card.getSkill(i).Id, this.card.getSkill(i).Power-1)+"HIT%";
+			s+=". HIT%"+WordingSkills.getProba(this.card.getSkill(i).Id, this.card.getSkill(i).Power-1);
 		}
 		return s;
 	}
@@ -1439,6 +1450,16 @@ public class CardC : MonoBehaviour
 		bool found = false ;
 		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
 			if(this.stateModifyers[i].getIdIcon()==9){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
+	public bool isFatality(){
+		bool found = false ;
+		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==15){
 				found = true ;
 			}
 		}

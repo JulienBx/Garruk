@@ -450,6 +450,21 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getAnyoneTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(i).getCardM().isMine()){
+					cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+				}
+			}
+		}
+		return cibles;
+	}
+
 	public List<TileM> getAllysTargets(int[,] board, CardC card, TileM tile){
 		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
 		List<TileM> cibles = new List<TileM>();
@@ -460,6 +475,37 @@ public class Board
 				if(i!=Game.instance.getCurrentCardID()){
 					if(card.getCardM().isMine()==Game.instance.getCards().getCardC(i).getCardM().isMine()){
 						cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+					}
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getOpponentTargets(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
+		List<TileM> cibles = new List<TileM>();
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				if(card.getCardM().isMine()!=Game.instance.getCards().getCardC(i).getCardM().isMine()){
+					cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+				}
+			}
+		}
+		return cibles;
+	}
+
+	public List<int> getAllys(CardC card, int id){
+		List<int> cibles = new List<int>();
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				if(i!=id){
+					if(card.getCardM().isMine()==Game.instance.getCards().getCardC(i).getCardM().isMine()){
+						cibles.Add(i);
 					}
 				}
 			}
@@ -592,6 +638,22 @@ public class Board
 				if(Game.instance.getCards().getCardC(i).canBeTargeted()){
 					hasSomeone = true;
 				}
+			}
+		}
+
+		if(hasSomeone){
+			cibles.Add(tile);
+		}
+		return cibles;
+	}
+
+	public List<TileM> getMyselfWithSomeone(int[,] board, CardC card, TileM tile){
+		List<TileM> cibles = new List<TileM>();
+		bool hasSomeone = false;
+
+		for (int i = 0 ; i < Game.instance.getCards().getNumberOfCards() ; i++){
+			if(Game.instance.getCards().getCardC(i).canBeTargeted()){
+				hasSomeone = true;
 			}
 		}
 
@@ -761,6 +823,12 @@ public class Board
 		}
 
 		return targets;
+	}
+
+	public TileM getRandomEnnemyTile(){
+		List<TileM> ennemies = this.getOpponentTargets(this.getCurrentBoard(), Game.instance.getCurrentCard(), new TileM(0,0));
+		TileM ennemy = ennemies[UnityEngine.Random.Range(0,ennemies.Count-1)];
+		return ennemy;
 	}
 }
 

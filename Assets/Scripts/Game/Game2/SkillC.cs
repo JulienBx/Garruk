@@ -252,6 +252,15 @@ public class SkillC
 		else if(this.ciblage==16){
 			targets = Game.instance.getBoard().getNearestNeighbourTiles4D(board, card, tile);
 		}
+		else if(this.ciblage==17){
+			targets = Game.instance.getBoard().getMyselfWithSomeone(board, card, tile);
+		}
+		else if(this.ciblage==18){
+			targets = Game.instance.getBoard().getMyselfWithSomeone(board, card, tile);
+		}
+		else if(this.ciblage==19){
+			targets = Game.instance.getBoard().getAnyoneTargets(board, card, tile);
+		}
 		return targets;
 	}
 
@@ -305,6 +314,15 @@ public class SkillC
 		else if(this.ciblage==16){
 			s = WordingGame.getText(127);
 		}
+		else if(this.ciblage==17){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==18){
+			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==19){
+			s = WordingGame.getText(104);
+		}
 		return s;
 	}
 
@@ -346,7 +364,6 @@ public class SkillC
 
 	public virtual void fail(){
 		Game.instance.getCurrentCard().displaySkillEffect(WordingSkills.getName(this.id)+"\n"+WordingGame.getText(75), 2);
-		Game.instance.getCurrentCard().launchSkillEffect();
 	}
 
 	public virtual void dodge(int x){
@@ -375,4 +392,5 @@ public class SkillC
 	public virtual void playDodgeSound(){
 		SoundController.instance.playSound(this.dodgeSoundId);
 	}
+
 }

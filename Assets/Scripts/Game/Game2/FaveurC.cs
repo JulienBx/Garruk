@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ViseeC : SkillC
+public class FaveurC : SkillC
 {
-	public ViseeC(){
-		base.id = 25 ;
-		base.ciblage = 14;
+	public FaveurC(){
+		base.id = 104 ;
+		base.ciblage = 2;
 		base.animId = 2;
 		base.soundId = 25;
 		base.nbIntsToSend = 0;
@@ -15,23 +15,26 @@ public class ViseeC : SkillC
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		target.addStateModifyer(new ModifyerM(20+10*level, 10, WordingGame.getText(135, new List<int>{20+10*level}), WordingSkills.getName(this.id),2));
+		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
+
+		target.displayAnim(base.animId);
+		target.displaySkillEffect(WordingGame.getText(128),0);
+		Game.instance.setNextPlayer(targetID);
 	}
 
 	public override string getSkillText(int targetID, int level){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		string text = WordingGame.getText(135, new List<int>{20+10*level});
+		string text = WordingGame.getText(128);
 		return text ;
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		Debug.Log(board[t.x, t.y]);
-		CardC target = Game.instance.getCards().getCardC(board[t.x, t.y]);
+		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
 		CardC caster = Game.instance.getCurrentCard();
 
-		int score=s.Power;
+		int score = Mathf.RoundToInt(target.getAttack()/5f);
 
 		return score;
 	}

@@ -1,46 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class LanceflammesC : SkillC
+public class SacrificeC : SkillC
 {
-	public LanceflammesC(){
-		base.id = 27 ;
-		base.ciblage = 16;
-		base.animId = 4;
+	public SacrificeC(){
+		base.id = 108 ;
+		base.ciblage = 2;
+		base.animId = 1;
 		base.soundId = 25;
-		base.nbIntsToSend = 1;
+		base.nbIntsToSend = 0;
 	}
 
 	public override void resolve(int x, int y, Skill skill){
 		int targetID ;
 		CardC target ;
 		int level = skill.Power;
-		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(new TileM(x,y));
+		TileM targetTile = Game.instance.getBoard().getRandomEnnemyTile();
+		target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(new TileM(x,y)).getCharacterID());
+				
 		bool hasFailed = false ;
 		bool hasDodged = false ;
 
 		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
-			for(int i = 0 ; i < neighbours.Count ; i++){
-				targetID = Game.instance.getBoard().getTileC(neighbours[i].x, neighbours[i].y).getCharacterID();
-				if(targetID!=-1){
-					target = Game.instance.getCards().getCardC(targetID);
-					if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
-						if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
-							hasDodged = true ;
-							if(Game.instance.isIA() || Game.instance.isTutorial()){
-								Game.instance.getSkills().skills[this.id].dodge(targetID);
-							}
-							else{
-								Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
-							}
+			targetID = Game.instance.getBoard().getTileC(targetTile.x, targetTile.y).getCharacterID();
+			if(targetID!=-1){
+				if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
+					if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
+						hasDodged = true ;
+						if(Game.instance.isIA() || Game.instance.isTutorial()){
+							Game.instance.getSkills().skills[this.id].dodge(targetID);
 						}
 						else{
-							if(Game.instance.isIA() || Game.instance.isTutorial()){
-								Game.instance.getSkills().skills[this.id].effects(targetID, level, UnityEngine.Random.Range(1,101));
-							}
-							else{
-								Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, UnityEngine.Random.Range(1,101));
-							}
+							Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
+						}
+					}
+					else{
+						if(Game.instance.isIA() || Game.instance.isTutorial()){
+							Game.instance.getSkills().skills[this.id].effects(targetID, level, Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
+						}
+						else{
+							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
 						}
 					}
 				}
@@ -94,10 +93,11 @@ public class LanceflammesC : SkillC
 	}
 
 	public override void effects(int targetID, int level, int z){
+		Debug.Log(z);
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(2+level+(8f*z)/100f));
+		int degats = caster.getDegatsAgainst(target, z);
 
 		target.displayAnim(base.animId);
 		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
@@ -113,23 +113,25 @@ public class LanceflammesC : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
-		Debug.Log("LF");
-		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(t);
+		List<TileM> neighbours = Game.instance.getBoard().getOpponentTargets(board, caster, t);
 
 		int score = 0 ;
 		int tempScore ;
+
+		CardC initialT = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		int degats = Mathf.RoundToInt((initialT.getAttack()*(50f+10f*s.Power))/100f);
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
 			if(board[neighbours[i].x, neighbours[i].y]>=0){
 				if(board[neighbours[i].x, neighbours[i].y]!=Game.instance.getCurrentCardID()){
 					target = Game.instance.getCards().getCardC(board[neighbours[i].x, neighbours[i].y]);
-					tempScore = caster.getDamageScore(target, 2+s.Power, 10+s.Power);
-					tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
+					tempScore = caster.getDamageScore(target, degats);
 					score+=tempScore;
 				}
 			}
 		}
-		Debug.Log("LFEND");
+		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-initialT.getEsquive())/100f)/100f);
+		score = Mathf.RoundToInt(score/neighbours.Count);	
 
 		return score;
 	}
