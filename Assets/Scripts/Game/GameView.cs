@@ -1787,10 +1787,6 @@ public class GameView : MonoBehaviour
 		return this.tiles[this.getPlayingCardController(c).getTile().x,this.getPlayingCardController(c).getTile().y].GetComponent<TileController>();
 	}
 	
-	public PlayingCardController getPlayingCardController(int i){
-		return this.playingCards[i].GetComponent<PlayingCardController>();
-	}
-	
 	public void displayCurrentMove(){
 		this.displayDestinations(this.currentPlayingCard);
 	}

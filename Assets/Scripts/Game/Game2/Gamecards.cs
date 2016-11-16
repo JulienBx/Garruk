@@ -171,7 +171,7 @@ public class Gamecards
 				skills.Add(new Skill(idSkill, this.getRandomInt10(difficultyLevel)));
                 compteurSkills++;
             }
-			ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
+			//ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
         }
     }
 

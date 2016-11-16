@@ -8,7 +8,7 @@ public class SkillC
 	public List<int> targets;
 	public List<int> results;
 	public List<int> values;
-	public List<Tile> tileTargets;
+	public List<TileM> tileTargets;
 	public IList<string[]> texts ;
 	public IList<string[]> texts2 ;
 	public int ciblage ;
@@ -261,6 +261,9 @@ public class SkillC
 		else if(this.ciblage==19){
 			targets = Game.instance.getBoard().getAnyoneTargets(board, card, tile);
 		}
+		else if(this.ciblage==20){
+			targets = Game.instance.getBoard().getAnyoneAdjacentCristal(board, card, tile);
+		}
 		return targets;
 	}
 
@@ -322,6 +325,9 @@ public class SkillC
 		}
 		else if(this.ciblage==19){
 			s = WordingGame.getText(104);
+		}
+		else if(this.ciblage==20){
+			s = WordingGame.getText(132);
 		}
 		return s;
 	}

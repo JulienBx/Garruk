@@ -35,11 +35,6 @@ public class Cards{
 	{
 		return new CardM(this.cards [index]);
 	}
-	
-	public virtual GameCard getGameCard(int index)
-	{
-		return new GameCard(this.cards [index]);
-	}
 
 	public void add()
 	{

@@ -465,6 +465,27 @@ public class Board
 		return cibles;
 	}
 
+	public List<TileM> getAnyoneAdjacentCristal(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = new List<TileM>();
+		List<TileM> cibles = new List<TileM>();
+		bool b ;
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			neighbourTiles = this.getTileNeighbours(Game.instance.getCards().getCardC(i).getTileM());
+			b = false;
+			for(int j = 0 ; j < Game.instance.getCards().getNumberOfCards(); j++){
+				if(board[neighbourTiles[j].x,neighbourTiles[j].y]==-2){
+					b = true;
+				}
+			}
+			if(b){
+				cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+			}
+		}
+		return cibles;
+	}
+
 	public List<TileM> getAllysTargets(int[,] board, CardC card, TileM tile){
 		List<TileM> neighbourTiles = this.getTileNeighbours(tile);
 		List<TileM> cibles = new List<TileM>();

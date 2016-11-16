@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class LanceflammesC : SkillC
+public class PluiebleueC : SkillC
 {
-	public LanceflammesC(){
-		base.id = 27 ;
-		base.ciblage = 16;
+	public PluiebleueC(){
+		base.id = 130 ;
+		base.ciblage = 19;
 		base.animId = 4;
 		base.soundId = 25;
 		base.nbIntsToSend = 1;
@@ -16,6 +16,7 @@ public class LanceflammesC : SkillC
 		CardC target ;
 		int level = skill.Power;
 		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(new TileM(x,y));
+		neighbours.Add(new TileM(x,y));
 		bool hasFailed = false ;
 		bool hasDodged = false ;
 
@@ -82,27 +83,24 @@ public class LanceflammesC : SkillC
 				Game.instance.launchCorou("PlaySoundRPC", this.id);
 			}
 		}
-
-		if(Game.instance.getCurrentCard().isSanguinaire()){
-			if(Game.instance.isIA() || Game.instance.isTutorial()){
-				Game.instance.getSkills().skills[this.id].sanguinaireEffects(Game.instance.getCurrentCardID(), Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
-			}
-			else{
-				Game.instance.launchCorou("SanguinaireEffectsSkillRPC", this.id, Game.instance.getCurrentCard().getCardM().getSkill(0).Power);
-			}
-		}
 	}
 
 	public override void effects(int targetID, int level, int z){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(2+level+(8f*z)/100f));
-
-		target.displayAnim(base.animId);
-		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
-
-		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+		if(target.getCardM().getFaction()==6){
+			int soins = Mathf.Min(Mathf.RoundToInt(1+(((2*level+2)*z)/100f)), target.getTotalLife()-target.getLife());
+			target.displayAnim(2);
+			target.displaySkillEffect(WordingGame.getText(11, new List<int>{soins}), 0);
+			target.addDamageModifyer(new ModifyerM(-1*soins, -1, "", "",-1));
+		}
+		else{
+			int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(1+(((2*level+2)*z)/100f)));
+			target.displayAnim(5);
+			target.displaySkillEffect(WordingGame.getText(13, new List<int>{degats}), 2);
+			target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+		}
 	}
 
 	public override string getSkillText(int targetID, int level){
@@ -114,21 +112,27 @@ public class LanceflammesC : SkillC
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
 		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(t);
+		neighbours.Add(t);
+		int targetID ;
 
 		int score = 0 ;
 		int tempScore ;
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
-			if(board[neighbours[i].x, neighbours[i].y]>=0){
-				if(board[neighbours[i].x, neighbours[i].y]!=Game.instance.getCurrentCardID()){
-					target = Game.instance.getCards().getCardC(board[neighbours[i].x, neighbours[i].y]);
-					tempScore = caster.getDamageScore(target, 2+s.Power, 10+s.Power);
-					tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
-					score+=tempScore;
+			targetID = Game.instance.getBoard().getTileC(neighbours[i].x, neighbours[i].y).getCharacterID();
+			target = Game.instance.getCards().getCardC(targetID);
+			if(target.getCardM().getFaction()==6){
+				tempScore = Mathf.Min(4+s.Power, target.getTotalLife()-target.getLife());
+				if(target.getCardM().isMine()){
+					tempScore = -1*tempScore;
 				}
 			}
-		}
+			else{
+				tempScore = caster.getDamageScore(target, 1, 2*s.Power+5);
+			}
 
+			score+=tempScore;
+		}	
 		return score;
 	}
 }

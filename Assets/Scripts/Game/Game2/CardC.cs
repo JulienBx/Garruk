@@ -141,6 +141,11 @@ public class CardC : MonoBehaviour
 	}
 
 	public void addStateModifyer(ModifyerM m){
+		for (int i = this.stateModifyers.Count-1 ; i >=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==17){
+				this.stateModifyers.RemoveAt(i);
+			}
+		}
 		this.stateModifyers.Add(m);
 		this.showIcons(true);
 		Game.instance.updateModifyers(this.id);
@@ -1176,6 +1181,17 @@ public class CardC : MonoBehaviour
 						}
 					}
 				}
+				else if(this.getCardM().getCharacterType()==111){
+					List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.getTileM());
+					for (int j = 0 ; j < neighbours.Count ;j++){
+						characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
+						if(characterID!=-1){
+							if(this.getCardM().isMine()!=Game.instance.getCards().getCardC(characterID).getCardM().isMine()){
+								Game.instance.getCards().getCardC(characterID).removeProtecteurModifyer();
+							}
+						}
+					}
+				}
 
 				if(this.getCardM().getCharacterType()==76){
 					for (int j = 0 ; j < Game.instance.getCards().getNumberOfCards() ;j++){
@@ -1230,6 +1246,26 @@ public class CardC : MonoBehaviour
 		gameObject.transform.Find("Background").FindChild("Anim").GetComponent<SpriteRenderer>().enabled = b;
 	}
 
+	public int getChasseurLevel(){
+		int level = -1 ;
+		for (int i = this.stateModifyers.Count-1 ; i >=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==17){
+				level = this.stateModifyers[i].getDuration();
+			}
+		}
+		return level;
+	}
+
+	public int getChasseurTarget(){
+		int level = 0 ;
+		for (int i = this.stateModifyers.Count-1 ; i >=0 ; i--){
+			if(this.stateModifyers[i].getIdIcon()==17){
+				level = this.stateModifyers[i].getAmount();
+			}
+		}
+		return level;
+	}
+
 	public int getDegatsAgainst(CardC target, int d){
 		int degats = 0;
 		if(this.card.getCharacterType()==71 && target.getLife()>=50){ 
@@ -1237,6 +1273,12 @@ public class CardC : MonoBehaviour
 		}
 		else{
 			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
+		}
+
+		if(this.getChasseurLevel()>0){
+			if(Game.instance.getCards().getCardC(this.getChasseurTarget()).getCardM().getCharacterType()==target.getCardM().getCharacterType()){
+				degats = degats+Mathf.RoundToInt((degats*this.getChasseurLevel())/100f);
+			}
 		}
 
 		if(this.isSniper()){
@@ -1269,6 +1311,12 @@ public class CardC : MonoBehaviour
 			degats = Mathf.Min(target.getLife(),Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f)))));
 		}
 
+		if(this.getChasseurLevel()>0){
+			if(Game.instance.getCards().getCardC(this.getChasseurTarget()).getCardM().getCharacterType()==target.getCardM().getCharacterType()){
+				degats = degats+Mathf.RoundToInt((degats*this.getChasseurLevel())/100f);
+			}
+		}
+
 		if(this.isSniper()){
 			degats = degats - Mathf.RoundToInt(((50f-5f*this.getCardM().getSkill(0).Power)*degats)/100f);
 		}
@@ -1299,6 +1347,12 @@ public class CardC : MonoBehaviour
 			degats = Mathf.Max(1,Mathf.RoundToInt(d*(1-(target.getBouclier()/100f))));
 		}
 
+		if(this.getChasseurLevel()>0){
+			if(Game.instance.getCards().getCardC(this.getChasseurTarget()).getCardM().getCharacterType()==target.getCardM().getCharacterType()){
+				degats = degats+Mathf.RoundToInt((degats*this.getChasseurLevel())/100f);
+			}
+		}
+
 		if(this.isSniper()){
 			degats = degats - Mathf.RoundToInt(((50f-5f*this.getCardM().getSkill(0).Power)*degats)/100f);
 		}
@@ -1309,6 +1363,12 @@ public class CardC : MonoBehaviour
 
 		if(this.isSanguinaire()){
 			degats = degats+Mathf.RoundToInt(25f/100f);
+		}
+
+		if(this.card.getCharacterType()==65){
+			if(!Game.instance.getCurrentCard().hasMoved()){
+				degats+=2+this.getCardM().getSkill(0).Power;
+			}
 		}
 
 		return degats;
@@ -1380,6 +1440,15 @@ public class CardC : MonoBehaviour
 		}
 		Game.instance.updateModifyers(this.id);
 		this.setAttack();
+	}
+
+	public void removeProtecteurModifyer(){
+		for (int i = bouclierModifyers.Count-1 ; i>=0 ; i--){
+			if(this.bouclierModifyers[i].getIdIcon()==16){
+				this.bouclierModifyers.RemoveAt(i);
+			}
+		}
+		Game.instance.updateModifyers(this.id);
 	}
 
 	public void removeLeaderModifyer(){
@@ -1484,5 +1553,20 @@ public class CardC : MonoBehaviour
 			}
 		}
 		return compteur;
+	}
+
+	public void godTransform(){
+		int attackBonus = this.card.getSkill(0).Power*2+5;
+		int lifeBonus = this.card.getSkill(0).Power*2+10;
+
+		this.card.setCharacterType(144);
+		this.show(true);
+		this.actuCharacter();
+		this.displayAnim(2);
+		this.displaySkillEffect(WordingGame.getText(23), 0);
+		this.addAttackModifyer(new ModifyerM(attackBonus, -1, "", "",-1));
+		this.addLifeModifyer(new ModifyerM(lifeBonus, -1, "", "",-1));
+		this.setAttack();
+		this.setLife();
 	}
 }

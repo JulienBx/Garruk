@@ -254,7 +254,7 @@ public class PreMatchScreenController : MonoBehaviour
 			if(isOver)
 			{
 				this.toRewindPreMatchLoadingScreen = false ;
-				GameView.instance.init();
+				//Game.instance.init();
 				PhotonController.instance.hideLoadingScreen();
 			}
 		}

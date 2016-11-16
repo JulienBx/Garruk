@@ -46,7 +46,7 @@ public class SkillsM
 		this.skills [37] = new SkillC();
 		this.skills [38] = new SkillC();
 		this.skills [39] = new RenfodermeC();
-		this.skills [40] = new SkillC();
+		this.skills [40] = new VampireC();
 		this.skills [41] = new SkillC();
 		this.skills [42] = new SkillC();
 		this.skills [43] = new SkillC();
@@ -136,8 +136,8 @@ public class SkillsM
 		this.skills [127] = new SkillC();
 		this.skills [128] = new SkillC();
 		this.skills [129] = new SkillC();
-		this.skills [130] = new SkillC();
-		this.skills [131] = new SkillC();
+		this.skills [130] = new PluiebleueC();
+		this.skills [131] = new ChasseurC();
 		this.skills [132] = new SkillC();
 		this.skills [133] = new SkillC();
 		this.skills [134] = new SkillC();

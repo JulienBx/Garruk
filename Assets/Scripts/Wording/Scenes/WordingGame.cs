@@ -169,5 +169,9 @@ public class WordingGame
 		texts.Add(new string[]{"Mort à la fin de son tour","Dies at the end of its turn"});
 
 		texts.Add(new string[]{"Converti!","Converted!"});
+		texts.Add(new string[]{"Bouclier enlevé!","Shield suppressed!"});
+		texts.Add(new string[]{"Pas de cristal à cibler","No cristal to target"});
+		texts.Add(new string[]{"+ARG1% dégats","+ARG1% damages"});
+		texts.Add(new string[]{"+ARG1% dégats contre ","+ARG1% damages against"});
 	}
 }

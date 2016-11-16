@@ -90,4 +90,8 @@ public class CardM
 	public int getCharacterType(){
 		return this.skills[0].Id;
 	}
+
+	public void setCharacterType(int id){
+		this.skills[0].Id = id;
+	}
 }
