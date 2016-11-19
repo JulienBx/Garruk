@@ -685,6 +685,7 @@ MonoBehaviour:
   - {fileID: 21300004, guid: 6d1d59900432a6e4193eaa75538dea38, type: 3}
   - {fileID: 21300030, guid: 6d1d59900432a6e4193eaa75538dea38, type: 3}
   - {fileID: 21300050, guid: 6d1d59900432a6e4193eaa75538dea38, type: 3}
+  - {fileID: 21300060, guid: 6d1d59900432a6e4193eaa75538dea38, type: 3}
   characterSprites:
   - {fileID: 0}
   - {fileID: 0}

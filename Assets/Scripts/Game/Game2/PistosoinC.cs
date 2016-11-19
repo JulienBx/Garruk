@@ -5,7 +5,7 @@ public class PistosoinC : SkillC
 {
 	public PistosoinC(){
 		base.id = 3 ;
-		base.ciblage = 8;
+		base.ciblage = 13;
 		base.animId = 2;
 		base.soundId = 25;
 		base.nbIntsToSend = 1;
@@ -35,7 +35,7 @@ public class PistosoinC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		CardC caster = Game.instance.getCurrentCard();
 
 		int score = Mathf.Min(10+s.Power,target.getTotalLife()-target.getLife());

@@ -171,7 +171,7 @@ public class Gamecards
 				skills.Add(new Skill(idSkill, this.getRandomInt10(difficultyLevel)));
                 compteurSkills++;
             }
-			//ApplicationModel.opponentDeck.cards.Add(new GameCard(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
+			ApplicationModel.opponentDeck.cards.Add(new Card(WordingCardName.getName(skills[0].Id), this.getRandomLife(cardType, difficultyLevel), cardType, this.getRandomMove(cardType), this.getRandomAttack(cardType, difficultyLevel), skills,i));
         }
     }
 
@@ -405,15 +405,15 @@ public class Gamecards
 		this.nbCards++;
 	}
 
-	public CardC getMaxLifeCard(){
+	public int getMaxLifeCard(){
 		int bestLife = 0 ;
-		CardC bestCard = new CardC();
+		int bestCard = 0;
 
 		for (int i = 0 ; i < this.cards.Length ;i++){
 			if(!this.getCardC(i).isDead()){
 				if(this.getCardC(i).getLife()>bestLife){
 					bestLife = this.getCardC(i).getLife();
-					bestCard = this.getCardC(i);
+					bestCard = i;
 				}
 			}
 		}
@@ -421,15 +421,15 @@ public class Gamecards
 		return bestCard ;
 	}
 
-	public CardC getMinLifeCard(){
+	public int getMinLifeCard(){
 		int bestLife = 1000 ;
-		CardC bestCard = new CardC();
+		int bestCard = 0;
 
 		for (int i = 0 ; i < this.cards.Length ;i++){
 			if(!this.getCardC(i).isDead()){
 				if(this.getCardC(i).getLife()<bestLife){
 					bestLife = this.getCardC(i).getLife();
-					bestCard = this.getCardC(i);
+					bestCard = i;
 				}
 			}
 		}

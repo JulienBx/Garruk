@@ -180,4 +180,5 @@ MonoBehaviour:
   - SanguinaireEffectsSkillRPC
   - launchNextTurnRPC
   - toLaunchNextTurnRPC
+  - createRockRPC
   DisableAutoOpenWizard: 0

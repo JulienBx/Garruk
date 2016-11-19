@@ -41,7 +41,7 @@ public class TircroiseC : SkillC
 		int score = 0 ;
 		int tempScore ;
 
-		target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		tempScore = caster.getDamageScore(target, 5+s.Power, 15+s.Power);
 		tempScore = Mathf.RoundToInt(s.getProba(s.Power)*(tempScore*(100-target.getEsquive())/100f)/100f);
 		return score;

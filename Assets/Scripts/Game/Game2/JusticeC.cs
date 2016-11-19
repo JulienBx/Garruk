@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class JusticeC : SkillC
 {
 	public JusticeC(){
-		base.id = 8 ;
+		base.id = 95 ;
 		base.ciblage = 10;
 		base.animId = 1;
 		base.soundId = 25;
@@ -13,8 +13,8 @@ public class JusticeC : SkillC
 
 	public override void effects(int targetID, int level){
 		CardC caster = Game.instance.getCurrentCard();
-		CardC targetMax = Game.instance.getCards().getMaxLifeCard();
-		CardC targetMin = Game.instance.getCards().getMinLifeCard();
+		CardC targetMax = Game.instance.getCards().getCardC(Game.instance.getCards().getMaxLifeCard());
+		CardC targetMin = Game.instance.getCards().getCardC(Game.instance.getCards().getMinLifeCard());
 
 		int degats = caster.getDegatsAgainst(targetMax, 5+2*level);
 
@@ -35,8 +35,8 @@ public class JusticeC : SkillC
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC caster = Game.instance.getCurrentCard();
-		CardC targetMax = Game.instance.getCards().getMaxLifeCard();
-		CardC targetMin = Game.instance.getCards().getMinLifeCard();
+		CardC targetMax = Game.instance.getCards().getCardC(Game.instance.getCards().getMaxLifeCard());
+		CardC targetMin = Game.instance.getCards().getCardC(Game.instance.getCards().getMinLifeCard());
 
 		int score = caster.getDamageScore(targetMax, 5+2*s.Power);
 		if(targetMin.getCardM().isMine()){

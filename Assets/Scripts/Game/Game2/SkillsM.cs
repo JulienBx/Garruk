@@ -47,8 +47,8 @@ public class SkillsM
 		this.skills [38] = new SkillC();
 		this.skills [39] = new RenfodermeC();
 		this.skills [40] = new VampireC();
-		this.skills [41] = new SkillC();
-		this.skills [42] = new SkillC();
+		this.skills [41] = new CristocurseC();
+		this.skills [42] = new AlchimieC();
 		this.skills [43] = new SkillC();
 		this.skills [44] = new SkillC();
 		this.skills [45] = new SkillC();
@@ -108,8 +108,8 @@ public class SkillsM
 		this.skills [99] = new SkillC();
 		this.skills [100] = new SkillC();
 		this.skills [101] = new FataliteC();
-		this.skills [102] = new SkillC();
-		this.skills [103] = new SkillC();
+		this.skills [102] = new SermonC();
+		this.skills [103] = new BenedictionC();
 		this.skills [104] = new FaveurC();
 		this.skills [105] = new SkillC();
 		this.skills [106] = new MaledictionC();
@@ -134,8 +134,8 @@ public class SkillsM
 		this.skills [125] = new SkillC();
 		this.skills [126] = new SkillC();
 		this.skills [127] = new SkillC();
-		this.skills [128] = new SkillC();
-		this.skills [129] = new SkillC();
+		this.skills [128] = new CristopowerC();
+		this.skills [129] = new CristolifeC();
 		this.skills [130] = new PluiebleueC();
 		this.skills [131] = new ChasseurC();
 		this.skills [132] = new SkillC();

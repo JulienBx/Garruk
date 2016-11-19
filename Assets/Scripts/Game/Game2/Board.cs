@@ -474,9 +474,34 @@ public class Board
 		{
 			neighbourTiles = this.getTileNeighbours(Game.instance.getCards().getCardC(i).getTileM());
 			b = false;
-			for(int j = 0 ; j < Game.instance.getCards().getNumberOfCards(); j++){
+			for(int j = 0 ; j < neighbourTiles.Count; j++){
 				if(board[neighbourTiles[j].x,neighbourTiles[j].y]==-2){
 					b = true;
+				}
+			}
+			if(b){
+				cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
+			}
+		}
+		return cibles;
+	}
+
+	public List<TileM> getAnyoneAdjacentCristoid(int[,] board, CardC card, TileM tile){
+		List<TileM> neighbourTiles = new List<TileM>();
+		List<TileM> cibles = new List<TileM>();
+		bool b ;
+
+		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
+		{
+			neighbourTiles = this.getTileNeighbours(Game.instance.getCards().getCardC(i).getTileM());
+			b = false;
+			for(int j = 0 ; j < neighbourTiles.Count; j++){
+				if(board[neighbourTiles[j].x,neighbourTiles[j].y]>=0){
+					if(Game.instance.getCards().getCardC(board[neighbourTiles[j].x,neighbourTiles[j].y]).getCardM().getFaction()==6){
+						if(Game.instance.getCards().getCardC(board[neighbourTiles[j].x,neighbourTiles[j].y]).getCardM().isMine()==card.getCardM().isMine()){
+							b = true;
+						}
+					}
 				}
 			}
 			if(b){
@@ -702,6 +727,36 @@ public class Board
 		return board;
 	}
 
+	public List<TileM> getMyselfWithSermon(int[,] board, CardC c, TileM t){
+		List<TileM> target = new List<TileM>();
+		bool b = false ;
+		for(int i = 0; i<Game.instance.getCards().getNumberOfCards();i++){
+			if(!Game.instance.getCards().getCardC(i).isDead()){
+				if(Game.instance.getCards().getCardC(i).getCardM().getFaction()==0 || Game.instance.getCards().getCardC(i).getCardM().getFaction()==1 || Game.instance.getCards().getCardC(i).getCardM().getFaction()==3){
+					b = true ;
+				}
+			}
+		}
+
+		if(b){
+			target.Add(t);
+		}
+		return target;
+	}
+
+	public List<int> getEveryoneWithSermon(int[,] board, CardC c, TileM t){
+		List<int> target = new List<int>();
+		for(int i = 0; i<Game.instance.getCards().getNumberOfCards();i++){
+			if(!Game.instance.getCards().getCardC(i).isDead()){
+				if(Game.instance.getCards().getCardC(i).getCardM().getFaction()==0 || Game.instance.getCards().getCardC(i).getCardM().getFaction()==1 || Game.instance.getCards().getCardC(i).getCardM().getFaction()==3){
+					target.Add(i);
+				}
+			}
+		}
+
+		return target;
+	}
+
 	public void startTargets(List<TileM> targets){
 		for (int i = 0 ; i < targets.Count ; i++){
 			this.getTileC(targets[i]).setTarget(true);
@@ -850,6 +905,34 @@ public class Board
 		List<TileM> ennemies = this.getOpponentTargets(this.getCurrentBoard(), Game.instance.getCurrentCard(), new TileM(0,0));
 		TileM ennemy = ennemies[UnityEngine.Random.Range(0,ennemies.Count-1)];
 		return ennemy;
+	}
+
+	public void createRock(int x, int y){
+		this.getTileC(x,y).setRock(true);
+		Game.instance.getBoard().updateCristoMasters();
+	}
+
+	public void updateCristoMasters(){
+		if(Game.instance.getCurrentCardID()!=-1){
+			int compteur=0;
+			int bonus;
+			for(int x = 0; x < this.getBoardWidth();x++){
+				for(int y = 0; y < this.getBoardHeight();y++){
+					if(this.getTileC(x,y).isRock()){
+						compteur++;	
+					}
+				}
+			}
+
+			for(int i = 0; i < Game.instance.getCards().getNumberOfCards(); i++){
+				if(Game.instance.getCards().getCardC(i).getCardM().getCharacterType()==139){
+					bonus = Mathf.RoundToInt(Game.instance.getCards().getCardC(i).getCardM().getAttack()*(compteur*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power)/100f);
+					Game.instance.getCards().getCardC(i).removeCristoMaster();
+
+					Game.instance.getCards().getCardC(i).addAttackModifyer(new ModifyerM(bonus, 18, "", "",-1));
+				}
+			}
+		}
 	}
 }
 

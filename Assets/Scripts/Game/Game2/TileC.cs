@@ -83,6 +83,7 @@ public class TileC : MonoBehaviour
 	public void setRock(bool b){
 		this.rock = b;
 		this.showRock(b);
+		Game.instance.getBoard().updateCristoMasters();
 	}
 
 	public void setTile(int x, int y){

@@ -1569,4 +1569,12 @@ public class CardC : MonoBehaviour
 		this.setAttack();
 		this.setLife();
 	}
+
+	public void removeCristoMaster(){
+		for (int i = attackModifyers.Count-1 ; i>=0 ; i--){
+			if(this.attackModifyers[i].getIdIcon()==18){
+				this.attackModifyers.RemoveAt(i);
+			}
+		}
+	}
 }

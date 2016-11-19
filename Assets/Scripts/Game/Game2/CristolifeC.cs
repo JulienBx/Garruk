@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CristopowerC : SkillC
+public class CristolifeC : SkillC
 {
-	public CristopowerC(){
+	public CristolifeC(){
 		base.id = 129 ;
 		base.ciblage = 5;
 		base.animId = 2;
@@ -15,13 +15,13 @@ public class CristopowerC : SkillC
 		CardC caster = Game.instance.getCurrentCard();
 		Game.instance.getBoard().getTileC(x,y).setRock(false);
 
-		int bonus = 5+d+Mathf.RoundToInt(z*5f/100f);
+		int bonus = d+Mathf.RoundToInt(z*5f/100f);
 
 		Game.instance.getBoard().getTileC(x,y).displayAnim(base.animId);
 
 		caster.displayAnim(2);
-		caster.displaySkillEffect(WordingGame.getText(13, new List<int>{bonus}), 0);
-		caster.addAttackModifyer(new ModifyerM(bonus, -1, "", "",-1));
+		caster.displaySkillEffect(WordingGame.getText(11, new List<int>{bonus}), 0);
+		caster.addLifeModifyer(new ModifyerM(bonus, -1, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){
@@ -32,7 +32,7 @@ public class CristopowerC : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC caster = Game.instance.getCurrentCard();
 
-		int score=Mathf.RoundToInt(((3.5f+s.Power)*caster.getLife())/30f);
+		int score=Mathf.RoundToInt(((8.5f+s.Power)*caster.getAttack())/20f);
 
 		return score;
 	}

@@ -796,6 +796,21 @@ public class Game : MonoBehaviour
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).setCharacterID(-1);
 		this.getBoard().getTileC(this.gamecards.getCardC(i).getTileM()).showCollider(true);
 
+		if(this.currentCardID!=-1){
+			if(Game.instance.getCards().getCardC(i).getCardM().getCharacterType()==140){
+				if(Game.instance.getCards().getCardC(i).getCardM().isMine()){
+					if(UnityEngine.Random.Range(1,101)<Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power*5+30){
+						if(this.ia || this.isTutorial()){
+							this.getBoard().createRock(this.gamecards.getCardC(i).getTileM().x, this.gamecards.getCardC(i).getTileM().y);
+						}
+						else{
+							Game.instance.launchCorou("createRockRPC", this.gamecards.getCardC(i).getTileM().x, this.gamecards.getCardC(i).getTileM().y);
+						}
+					}
+				}
+			}
+		}
+
 		if(Game.instance.getCards().getCardC(i).getCardM().getCharacterType()==73){
 			List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(this.gamecards.getCardC(i).getTileM());
 			for (int j = 0 ; j < neighbours.Count ;j++){
@@ -999,7 +1014,9 @@ public class Game : MonoBehaviour
 			this.getSkills().skills[69].resolve(this.getCurrentCard().getCardM().getSkill(0), this.getCurrentCardID());
 		}
 		else if(this.getCurrentCard().getCardM().getCharacterType()==138){
-			this.getCurrentCard().godTransform();
+			if(this.indexMeteores==3){
+				this.getCurrentCard().godTransform();
+			}
 		}
 		else if(this.getCurrentCard().getCardM().getCharacterType()==141){
 			int soin = Mathf.Min(this.getCurrentCard().getTotalLife()-this.getCurrentCard().getLife(), 10+2*this.getCurrentCard().getCardM().getSkill(0).Power);
@@ -1743,7 +1760,6 @@ public class Game : MonoBehaviour
 	    		if(!this.getCards().getCardC(i).isDead()){
 					if(this.getCards().getCardC(i).canBeTargeted()){
 						opponents.Add(i);
-						print(i);
 					}
 	    		}
 	    	}
@@ -1759,7 +1775,6 @@ public class Game : MonoBehaviour
 		    		if(!this.getCards().getCardC(i).isDead()){
 						if(this.getCards().getCardC(i).canBeTargeted()){
 							opponents.Add(i);
-							print(i);
 						}
 		    		}
 		    	}
@@ -1774,7 +1789,6 @@ public class Game : MonoBehaviour
 			if(!this.getCards().getCardC(i).isDead()){
 				if(this.getCards().getCardC(i).canBeTargeted()){
 					opponents.Add(i);
-					print(i);
 				}
     		}
     	}

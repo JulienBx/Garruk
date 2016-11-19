@@ -109,6 +109,18 @@ public class Card
 		this.Skills = skills;
 	}
 
+	public Card(string title, int life, int artIndex, int move, int attack, List<Skill> skills, int i)
+	{
+		this.Title = title;
+		this.Life = life;
+		this.CardType=new CardType();
+		this.CardType.Id = artIndex;
+		this.Move = move;
+		this.Attack = attack;
+		this.Skills = skills;
+		this.deckOrder = i;
+	}
+
 	public Card(int id, 
 	            string title, 
 	            int life, 

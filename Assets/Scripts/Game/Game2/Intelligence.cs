@@ -272,12 +272,14 @@ public class Intelligence
 					}
 					else{
 						passiveScore = this.getPassiveScore(x,y,tempBoard,false);
+						Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
 					}
 
 					if(action){
 						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
 							targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
 							for(int t = 0 ; t < targets.Count ; t++){
+								Debug.Log("Je vise "+passiveScore+",("+targets[t].x+","+targets[t].y+")");
 								activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
 								this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);
 							}
@@ -302,7 +304,6 @@ public class Intelligence
 	}
 
 	public void testBestScore(int s, int x, int y, TileM t, int b, int i){
-		//Debug.Log("TESTSCORE "+s+",("+x+","+y+"),("+t.x+","+t.y+"),"+b);
 		if(s>this.bestScore){
 			Debug.Log("BESTSCORE "+s+",("+x+","+y+"),("+t.x+","+t.y+"),"+b);
 			this.bestScore = s ;
@@ -319,23 +320,19 @@ public class Intelligence
 		CardC card = Game.instance.getCurrentCard();
 
 		if(y==0 || y==7){
-			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*meteores));
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*meteores));
 		}
-		if(y==1 || y==6){
-			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-1)));
+		else if(y==1 || y==6){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-1)));
 			passiveScore+=1;
 		}
-		if(y==2 || y==5){
-			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-2)));
+		else if(y==2 || y==5){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-2)));
 			passiveScore+=2;
 		}
-		if(y==3 || y==4){
-			passiveScore = -1*card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
+		else if(y==3 || y==4){
+			passiveScore = card.getDamageScore(card, Mathf.Max(0,5*(meteores-3)));
 			passiveScore+=3;
-		}
-		if(debug){
-			Debug.Log("- - - - - - - - - - - - - ");
-			Debug.Log("SCORE METEORES "+passiveScore);
 		}
 
 		int distance ; 
@@ -345,29 +342,18 @@ public class Intelligence
 			if(!target.isDead()){
 				distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
 				if((distance-1)<=card.getMove()){
-					passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/2f);
-					if(debug){
-						Debug.Log("AJOUT "+Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f));
-					}
+					passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f);
 				}
 				if((distance-1)<=target.getMove()){
 					passiveScore-=Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/2f);
-					if(debug){
-						Debug.Log("RETRAIT "+Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/2f));
-					}
 				}
 			}
 		}
 
 		if(x==card.getTileM().x && y==card.getTileM().y){
 			passiveScore+=1;
-			if(debug){
-				Debug.Log("AJOUT BONUS -1");
-			}
 		}
-		if(debug){
-			Debug.Log("SCORE FINAL "+passiveScore);
-		}
+
 		return passiveScore ;
 
 	}

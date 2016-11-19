@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class AlchimieC : SkillC
 {
 	public AlchimieC(){
-		base.id = 29 ;
+		base.id = 42 ;
 		base.ciblage = 14;
 		base.animId = 2;
 		base.soundId = 25;

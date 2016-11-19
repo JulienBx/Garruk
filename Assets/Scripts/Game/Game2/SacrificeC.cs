@@ -93,16 +93,20 @@ public class SacrificeC : SkillC
 	}
 
 	public override void effects(int targetID, int level, int z){
-		Debug.Log(z);
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
-		int degats = caster.getDegatsAgainst(target, z);
-
-		target.displayAnim(base.animId);
+		int degats = target.getLife();
+		target.displayAnim(0);
 		target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
-
 		target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
+
+		List<TileM> targets = Game.instance.getBoard().getOpponentTargets(Game.instance.getBoard().getCurrentBoard(), caster, new TileM());
+		int cible = Game.instance.getBoard().getTileC(targets[Mathf.RoundToInt(((targets.Count-1)*z)/100f)]).getCharacterID();
+		degats = target.getDegatsAgainst(Game.instance.getCards().getCardC(cible),Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
+		Game.instance.getCards().getCardC(cible).displayAnim(base.animId);
+		Game.instance.getCards().getCardC(cible).displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
+		Game.instance.getCards().getCardC(cible).addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){
@@ -111,14 +115,14 @@ public class SacrificeC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target ;
+		CardC target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		CardC caster = Game.instance.getCurrentCard();
 		List<TileM> neighbours = Game.instance.getBoard().getOpponentTargets(board, caster, t);
 
 		int score = 0 ;
 		int tempScore ;
 
-		CardC initialT = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC initialT = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		int degats = Mathf.RoundToInt((initialT.getAttack()*(50f+10f*s.Power))/100f);
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
@@ -130,8 +134,10 @@ public class SacrificeC : SkillC
 				}
 			}
 		}
+		score-= Mathf.RoundToInt((100f*(target.getLife()))/20f);
 		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-initialT.getEsquive())/100f)/100f);
-		score = Mathf.RoundToInt(score/neighbours.Count);	
+		score = Mathf.RoundToInt(score/neighbours.Count);
+
 
 		return score;
 	}

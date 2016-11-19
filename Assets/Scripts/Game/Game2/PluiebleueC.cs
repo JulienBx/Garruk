@@ -5,7 +5,7 @@ public class PluiebleueC : SkillC
 {
 	public PluiebleueC(){
 		base.id = 130 ;
-		base.ciblage = 19;
+		base.ciblage = 13;
 		base.animId = 4;
 		base.soundId = 25;
 		base.nbIntsToSend = 1;
@@ -116,19 +116,21 @@ public class PluiebleueC : SkillC
 		int targetID ;
 
 		int score = 0 ;
-		int tempScore ;
+		int tempScore = 0 ;
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
-			targetID = Game.instance.getBoard().getTileC(neighbours[i].x, neighbours[i].y).getCharacterID();
-			target = Game.instance.getCards().getCardC(targetID);
-			if(target.getCardM().getFaction()==6){
-				tempScore = Mathf.Min(4+s.Power, target.getTotalLife()-target.getLife());
-				if(target.getCardM().isMine()){
-					tempScore = -1*tempScore;
+			targetID = board[neighbours[i].x, neighbours[i].y];
+			if(targetID!=-1){
+				target = Game.instance.getCards().getCardC(targetID);
+				if(target.getCardM().getFaction()==6){
+					tempScore = Mathf.Min(4+s.Power, target.getTotalLife()-target.getLife());
+					if(target.getCardM().isMine()){
+						tempScore = -1*tempScore;
+					}
 				}
-			}
-			else{
-				tempScore = caster.getDamageScore(target, 1, 2*s.Power+5);
+				else{
+					tempScore = caster.getDamageScore(target, 1, 2*s.Power+5);
+				}
 			}
 
 			score+=tempScore;

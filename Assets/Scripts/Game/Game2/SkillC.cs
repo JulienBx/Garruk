@@ -264,6 +264,12 @@ public class SkillC
 		else if(this.ciblage==20){
 			targets = Game.instance.getBoard().getAnyoneAdjacentCristal(board, card, tile);
 		}
+		else if(this.ciblage==21){
+			targets = Game.instance.getBoard().getAnyoneAdjacentCristoid(board, card, tile);
+		}
+		else if(this.ciblage==22){
+			targets = Game.instance.getBoard().getMyselfWithSermon(board, card, tile);
+		}
 		return targets;
 	}
 
@@ -328,6 +334,9 @@ public class SkillC
 		}
 		else if(this.ciblage==20){
 			s = WordingGame.getText(132);
+		}
+		else if(this.ciblage==21){
+			s = WordingGame.getText(104);
 		}
 		return s;
 	}

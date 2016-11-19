@@ -78,18 +78,14 @@ public class FouetC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		CardC caster = Game.instance.getCurrentCard();
 
 		int score = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(s.Power)/100f)));
-	
+		Debug.Log("1 - "+score);
 		int attackBonus = this.getAttackBonus(s.Power)*Mathf.FloorToInt(target.getLife()/10f);
-		if(target.getCardM().isMine()){
-			score+=attackBonus;
-		}
-		else{
-			score-=attackBonus;
-		}
+		score+=attackBonus;
+		Debug.Log("2 - "+score);
 
 		score = Mathf.RoundToInt(s.getProba(s.Power)*(score*(100-target.getEsquive())/100f)/100f);
 

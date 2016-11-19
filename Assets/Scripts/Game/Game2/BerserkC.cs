@@ -87,7 +87,7 @@ public class BerserkC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		CardC caster = Game.instance.getCurrentCard();
 
 		int score = caster.getDamageScore(target, Mathf.RoundToInt(caster.getAttack()*(this.getAttackPercentage(s.Power)/100f)));

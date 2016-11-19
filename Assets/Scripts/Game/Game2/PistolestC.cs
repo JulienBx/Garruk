@@ -5,13 +5,13 @@ public class PistolestC : SkillC
 {
 	public PistolestC(){
 		base.id = 5 ;
-		base.ciblage = 6;
+		base.ciblage = 13;
 		base.animId = 4;
 		base.soundId = 25;
 		base.nbIntsToSend = 1;
 	}
 
-	public override void effects(int targetID, int level, int z, int z2){
+	public override void effects(int targetID, int level, int z){
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
@@ -39,7 +39,7 @@ public class PistolestC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		CardC target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID());
+		CardC target = Game.instance.getCards().getCardC(board[t.x,t.y]);
 		CardC caster = Game.instance.getCurrentCard();
 
 		int maxDegats = caster.getDegatsAgainst(target, 2*s.Power);
