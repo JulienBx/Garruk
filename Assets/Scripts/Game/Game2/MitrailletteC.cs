@@ -114,7 +114,16 @@ public class MitrailletteC : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
-		List<TileM> neighbours = Game.instance.getBoard().getUnitsStraightLine(Game.instance.getCurrentCard().getTileM(), t, board);
+		TileM casterTile = new TileM(-1,-1);
+		for(int i = 0 ; i < Game.instance.getBoard().getBoardWidth();i++){
+			for(int j = 0 ; j < Game.instance.getBoard().getBoardHeight();j++){
+				if(board[i,j]==Game.instance.getCurrentCardID()){
+					casterTile = new TileM(i,j);
+				}
+			}
+		}
+
+		List<TileM> neighbours = Game.instance.getBoard().getUnitsStraightLine(casterTile, t, board);
 
 		int score = 0 ;
 		int tempScore ;

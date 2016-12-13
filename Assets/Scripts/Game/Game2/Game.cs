@@ -1008,6 +1008,7 @@ public class Game : MonoBehaviour
 	}
 
 	public void handleBeginningTurnEffects(){
+		print("BEGINNINGTURNEFFECTS");
 		int playerID;
 		int tempInt;
 		if(this.getCurrentCard().getCardM().getCharacterType()==69){
@@ -1256,6 +1257,7 @@ public class Game : MonoBehaviour
 
 		this.loadDestinations();
 		this.displayDestinations();
+		print("ENDGIVEHAND");
 	}
 
 	public void startActions(){
@@ -1395,29 +1397,7 @@ public class Game : MonoBehaviour
 	public bool[,] getDestinations(int i){
 		int boardWidth = this.getBoard().getBoardWidth();
 		int boardHeight = this.getBoard().getBoardHeight();
-		/*
-		if(this.getCard(i).isGolem()){
-			List<Tile> rocks = this.getRocks();
-			List<Tile> voisins ;
-			bool[,] isDestination = new bool[this.boardWidth, this.boardHeight];
-			for(int l = 0 ; l < this.boardWidth ; l++){
-				for(int k = 0 ; k < this.boardHeight ; k++){
-					isDestination[l,k]=false;
-				}
-			}
-			for(int m = 0 ; m < rocks.Count ; m++){
-				voisins = rocks[m].getImmediateNeighbourTiles();
-				for (int n = 0 ; n < voisins.Count ; n++){
-					if(!isDestination[voisins[n].x, voisins[n].y]){
-						if(this.getTileController(voisins[n].x, voisins[n].y).canBeDestination()){
-							destinations.Add(voisins[n]);
-						}
-					}
-				}
-			}
-		}
-		else{
-		*/
+
 		bool[,] hasBeenPassages = new bool[boardWidth, boardHeight];
 		bool[,] isDestination = new bool[boardWidth, boardHeight];
 		for(int l = 0 ; l < boardWidth ; l++){

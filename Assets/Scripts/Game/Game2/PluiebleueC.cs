@@ -120,7 +120,7 @@ public class PluiebleueC : SkillC
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
 			targetID = board[neighbours[i].x, neighbours[i].y];
-			if(targetID!=-1){
+			if(targetID>=0){
 				target = Game.instance.getCards().getCardC(targetID);
 				if(target.getCardM().getFaction()==6){
 					tempScore = Mathf.Min(4+s.Power, target.getTotalLife()-target.getLife());

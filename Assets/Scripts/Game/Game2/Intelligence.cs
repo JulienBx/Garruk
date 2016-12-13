@@ -199,11 +199,14 @@ public class Intelligence
 
 	public IEnumerator play(){
 		this.choosePlay(!Game.instance.getCurrentCard().isParalized());
+		bool hasMoved = false ;
 
 		if(this.bestSkill!=-1){
-			if(this.bestDeplacement.x!=-1){
+			if(this.bestDeplacement.x!=-1 && (this.bestDeplacement.x!=Game.instance.getCurrentCard().getTileM().x || this.bestDeplacement.y!=Game.instance.getCurrentCard().getTileM().y)){
+				Debug.Log("MOVE");
 				yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
 				Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
+				hasMoved = true ;
 			}
 
 			yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
@@ -214,7 +217,7 @@ public class Intelligence
 				Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, Game.instance.getCurrentCard().getCardM().getSkill(this.bestIDSkill));
 			}
 
-			if(this.bestDeplacement.x==-1){
+			if(!hasMoved){
 				this.choosePlay(false);
 				if(this.bestDeplacement.x!=-1){
 					yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
@@ -243,7 +246,7 @@ public class Intelligence
 		TileM currentTile = Game.instance.getCurrentCard().getTileM();
 		int currentID = Game.instance.getCurrentCardID();
 		int activeScore ;
-		int passiveScore ;
+		int passiveScore = 0 ;
 		List<TileM> targets;
 
 		for(int x = 0 ; x < Game.instance.getBoard().getBoardWidth() ; x++){
@@ -268,18 +271,20 @@ public class Intelligence
 					}
 
 					if(x==currentTile.x && y==currentTile.y){
-						passiveScore = 0 ;
+						if(action){
+							passiveScore = 0 ;
+							//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
+						}
 					}
 					else{
 						passiveScore = this.getPassiveScore(x,y,tempBoard,false);
-						Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
+						//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
 					}
 
 					if(action){
 						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
 							targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
 							for(int t = 0 ; t < targets.Count ; t++){
-								Debug.Log("Je vise "+passiveScore+",("+targets[t].x+","+targets[t].y+")");
 								activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
 								this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);
 							}
@@ -335,17 +340,21 @@ public class Intelligence
 			passiveScore+=3;
 		}
 
+		//Debug.Log("PASS "+passiveScore);
+
 		int distance ; 
 		CardC target ;
-		for(int i = 0 ; i < 4 ; i++){
+		for(int i = 0 ; i < 8 ; i++){
 			target = Game.instance.getCards().getCardC(i);
 			if(!target.isDead()){
-				distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
-				if((distance-1)<=card.getMove()){
-					passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f);
-				}
-				if((distance-1)<=target.getMove()){
-					passiveScore-=Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/2f);
+				if(target.getCardM().isMine()){
+					distance = Mathf.Abs(x-target.getTileM().x)+Mathf.Abs(y-target.getTileM().y);
+					if((distance-1)<=card.getMove()){
+						passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f);
+					}
+					if((distance-1)<=target.getMove()){
+						passiveScore+=Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/3f);
+					}
 				}
 			}
 		}

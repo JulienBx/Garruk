@@ -874,6 +874,7 @@ public class Board
 		else{
 			if(targetTile.x>casterTile.x){
 				for(int i = targetTile.x+1; i<6 && !end; i++){
+					Debug.Log(i);
 					if(board[i,casterTile.y]==-2){
 						if(!Game.instance.getCurrentCard().isSniper()){
 							end = true;

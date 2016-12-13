@@ -18,8 +18,6 @@ public class MaledictionC : SkillC
 		List<int> targets = Game.instance.getCards().getAnyoneSharingFactionWith(Game.instance.getCards().getCardC(targetID));
 		int atkMalus ;
 
-		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
-
 		for(int i = 0 ; i < targets.Count ;i++){
 			target = Game.instance.getCards().getCardC(targets[i]);
 			atkMalus = -1*Mathf.RoundToInt((target.getAttack()*(10f+4f*level))/100f);

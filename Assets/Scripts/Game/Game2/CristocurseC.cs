@@ -103,7 +103,7 @@ public class CristocurseC : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
-		List<TileM> neighbours = Game.instance.getBoard().getAnyoneAdjacentCristal(board, caster, t);
+		List<TileM> neighbours = Game.instance.getBoard().getTileNeighbours(t);
 
 		int score = 0 ;
 		int tempScore ;

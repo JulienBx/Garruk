@@ -752,7 +752,12 @@ public class CardC : MonoBehaviour
 		for(int i = 0 ; i < this.moveModifyers.Count ; i++){
 			move+=this.moveModifyers[i].getAmount();
 		}
-		return Mathf.Max(1,move);
+		if(this.isSniper()){
+			return 1;
+		}
+		else{
+			return Mathf.Max(1,move);
+		}
 	}
 
 	public List<int> getIcons(){
@@ -1376,11 +1381,13 @@ public class CardC : MonoBehaviour
 
 	public int getDamageScore(CardC target, int d){
 		int degats = this.getDegatsAgainst(target, d);
-		if(degats==target.getLife()){
-			degats = 100+target.getLife()+target.getAttack();
-		}
-		else{
-			degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+		if(degats!=0){
+			if(degats==target.getLife()){
+				degats = 100+target.getLife()+target.getAttack();
+			}
+			else{
+				degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+			}
 		}
 		if(!target.getCardM().isMine()){
 			degats = -1*degats;
@@ -1390,11 +1397,13 @@ public class CardC : MonoBehaviour
 
 	public int getDamageScoreNoShield(CardC target, int d){
 		int degats = this.getDegatsNoShieldAgainst(target, d);
-		if(degats==target.getLife()){
-			degats = 100+target.getLife()+target.getAttack();
-		}
-		else{
-			degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+		if(degats!=0){
+			if(degats==target.getLife()){
+				degats = 100+target.getLife()+target.getAttack();
+			}
+			else{
+				degats+=Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f));
+			}
 		}
 		if(!target.getCardM().isMine()){
 			degats = -1*degats;
@@ -1405,7 +1414,7 @@ public class CardC : MonoBehaviour
 	public int getDamageScore(CardC target, int dmin, int dmax){
 		int degatsMin = this.getDegatsAgainst(target, dmin);
 		int degatsMax = this.getDegatsMaxAgainst(target, dmax);
-		int degats = Mathf.RoundToInt((100+target.getLife()+target.getAttack())*(degatsMax+1-target.getLife())+(Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f)))*(target.getLife()-degatsMin))/(degatsMax+1-degatsMin);
+		int degats = Mathf.RoundToInt((100+target.getLife()+target.getAttack())*(Mathf.Max(0,degatsMax+1-target.getLife()))+(Mathf.RoundToInt((60-target.getLife())/10f)+(Mathf.RoundToInt(target.getAttack()/5f)))*(Mathf.Max(0,target.getLife()-degatsMin)))/(degatsMax+1-degatsMin);
 
 		if(!target.getCardM().isMine()){
 			degats = -1*degats;
