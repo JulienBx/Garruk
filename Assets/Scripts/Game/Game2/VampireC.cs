@@ -13,7 +13,7 @@ public class VampireC : SkillC
 
 	public override void effects(int targetID, int level, int z){
 		CardC caster = Game.instance.getCurrentCard();
-		CardC target = Game.instance.getCards().getCardC(z);
+		CardC target = Game.instance.getCards().getCardC(targetID);
 
 		int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(5+level+Mathf.RoundToInt((7f*z)/100f)));
 		int bonus = Mathf.Min(caster.getTotalLife()-caster.getLife(), degats);

@@ -198,7 +198,10 @@ public class Intelligence
 	}
 
 	public IEnumerator play(){
+		Debug.Log("CHOOSEPLAY");
+				
 		this.choosePlay(!Game.instance.getCurrentCard().isParalized());
+		Debug.Log("ENDCHOOSEPLAY");
 		bool hasMoved = false ;
 
 		if(this.bestSkill!=-1){
@@ -225,7 +228,9 @@ public class Intelligence
 				}
 			}
 		}
+
 		else{
+			this.choosePlay(false);
 			if(this.bestDeplacement.x!=-1){
 				yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
 				Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
@@ -283,7 +288,9 @@ public class Intelligence
 
 					if(action){
 						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
+							Debug.Log("TARGET");
 							targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
+							Debug.Log("ENDTARGET");
 							for(int t = 0 ; t < targets.Count ; t++){
 								activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
 								this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);
@@ -353,7 +360,7 @@ public class Intelligence
 						passiveScore+=Mathf.RoundToInt(card.getDamageScore(target, card.getAttack())/4f);
 					}
 					if((distance-1)<=target.getMove()){
-						passiveScore+=Mathf.RoundToInt(target.getDamageScore(card, target.getAttack())/3f);
+						passiveScore+=Mathf.RoundToInt((target.getDamageScore(card, target.getAttack())*10f)/card.getLife());
 					}
 				}
 			}

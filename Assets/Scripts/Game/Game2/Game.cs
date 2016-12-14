@@ -336,7 +336,7 @@ public class Game : MonoBehaviour
 				int bonusBouclier = this.getCards().getCardC(i).getCardM().getSkill(0).Power*4;
 				this.getCards().getCardC(i).addShieldModifyer(new ModifyerM(bonusBouclier, 1, "", "",-1));
 			}
-			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==34){
+			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==35){
 				this.getCards().getCardC(i).addStateModifyer(new ModifyerM(1,9,WordingGame.getText(126, new List<int>{(50-5*this.getCards().getCardC(i).getCardM().getSkill(0).Power)}),WordingSkills.getName(34),-1));
 			}
 			else if(this.getCards().getCardC(i).getCardM().getCharacterType()==32){
@@ -1257,12 +1257,12 @@ public class Game : MonoBehaviour
 
 		this.loadDestinations();
 		this.displayDestinations();
-		print("ENDGIVEHAND");
 	}
 
 	public void startActions(){
 		if(this.ia){
 			if(!this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
+				print("STARTINTELLIGENCE");
 				StartCoroutine(this.intelligence.play());
 			}
 		}

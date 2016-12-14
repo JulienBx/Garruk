@@ -44,7 +44,7 @@ public class RagedivineC : SkillC
 		for(int i = 0 ; i < opponents.Count ; i++){
 			target = Game.instance.getCards().getCardC(opponents[i]);
 		
-			tempScore = caster.getDegatsNoShieldAgainst(target, target.getLife());
+			tempScore = caster.getDamageScoreNoShield(target, target.getLife());
 			score+=tempScore;
 		}
 		score = score/opponents.Count;

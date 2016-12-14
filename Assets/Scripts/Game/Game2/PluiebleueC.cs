@@ -98,7 +98,7 @@ public class PluiebleueC : SkillC
 		else{
 			int degats = caster.getDegatsAgainst(target, Mathf.RoundToInt(1+(((2*level+2)*z)/100f)));
 			target.displayAnim(5);
-			target.displaySkillEffect(WordingGame.getText(13, new List<int>{degats}), 2);
+			target.displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
 			target.addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
 		}
 	}
