@@ -5,7 +5,7 @@ public class SermonC : SkillC
 {
 	public SermonC(){
 		base.id = 102 ;
-		base.ciblage = 3;
+		base.ciblage = 22;
 		base.animId = 2;
 		base.soundId = 25;
 		base.nbIntsToSend = 1;
@@ -21,7 +21,7 @@ public class SermonC : SkillC
 
 		if(UnityEngine.Random.Range(0,101)<=WordingSkills.getProba(this.id, level)){
 			for(int i = 0 ; i < targets.Count ; i++){
-				targetID = i;
+				targetID = targets[i];
 				if(!Game.instance.getCards().getCardC(targetID).isDead()){
 					target = Game.instance.getCards().getCardC(targetID);
 					if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
@@ -92,7 +92,7 @@ public class SermonC : SkillC
 		degats = Mathf.RoundToInt(1+((1f+level)*z)/100f);
 		target.displayAnim(base.animId);
 		target.displaySkillEffect(WordingGame.getText(13, new List<int>{degats}), 0);
-		target.addAttackModifyer(new ModifyerM(degats, -1, "", "",-1));
+		target.addAttackModifyer(new ModifyerM(degats, 0, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){

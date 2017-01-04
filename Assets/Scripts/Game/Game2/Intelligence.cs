@@ -213,18 +213,20 @@ public class Intelligence
 			}
 
 			yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
-			if(this.bestIDSkill==-1){
-				Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, new Skill());
-			}
-			else{
-				Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, Game.instance.getCurrentCard().getCardM().getSkill(this.bestIDSkill));
-			}
+			if(Game.instance.getCurrentCard().getLife()>0){
+				if(this.bestIDSkill==-1){
+					Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, new Skill());
+				}
+				else{
+					Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, Game.instance.getCurrentCard().getCardM().getSkill(this.bestIDSkill));
+				}
 
-			if(!hasMoved){
-				this.choosePlay(false);
-				if(this.bestDeplacement.x!=-1){
-					yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
-					Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
+				if(!hasMoved){
+					this.choosePlay(false);
+					if(this.bestDeplacement.x!=-1){
+						yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
+						Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
+					}
 				}
 			}
 		}
@@ -256,53 +258,55 @@ public class Intelligence
 
 		for(int x = 0 ; x < Game.instance.getBoard().getBoardWidth() ; x++){
 			for(int y = 0 ; y < Game.instance.getBoard().getBoardHeight() ; y++){
-				if(destinations[x,y] || (x==currentTile.x && y==currentTile.y)){
-					for(int a = 0 ; a < Game.instance.getBoard().getBoardWidth() ; a++){
-						for(int b = 0 ; b < Game.instance.getBoard().getBoardHeight() ; b++){
-							if(currentTile.x==a && currentTile.y==b){
-								if(x!=currentTile.x || y!=currentTile.y){
-									tempBoard[a,b] = -1;
-								}
-							}
-							else{
-								if(a==x && b==y){
-									tempBoard[a,b] = currentID;
+				if(!Game.instance.getBoard().getTileC(x,y).isMyTrap()){
+					if(destinations[x,y] || (x==currentTile.x && y==currentTile.y)){
+						for(int a = 0 ; a < Game.instance.getBoard().getBoardWidth() ; a++){
+							for(int b = 0 ; b < Game.instance.getBoard().getBoardHeight() ; b++){
+								if(currentTile.x==a && currentTile.y==b){
+									if(x!=currentTile.x || y!=currentTile.y){
+										tempBoard[a,b] = -1;
+									}
 								}
 								else{
-									tempBoard[a,b] = board[a,b];
+									if(a==x && b==y){
+										tempBoard[a,b] = currentID;
+									}
+									else{
+										tempBoard[a,b] = board[a,b];
+									}
 								}
 							}
 						}
-					}
 
-					if(x==currentTile.x && y==currentTile.y){
-						if(action){
-							passiveScore = 0 ;
-							//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
-						}
-					}
-					else{
-						passiveScore = this.getPassiveScore(x,y,tempBoard,false);
-						//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
-					}
-
-					if(action){
-						for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
-							Debug.Log("TARGET");
-							targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
-							Debug.Log("ENDTARGET");
-							for(int t = 0 ; t < targets.Count ; t++){
-								activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
-								this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);
+						if(x==currentTile.x && y==currentTile.y){
+							if(action){
+								passiveScore = 0 ;
+								//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
 							}
 						}
-						targets = Game.instance.getSkills().skills[0].getTargetTiles(tempBoard, card, new TileM(x,y));
-						for(int t = 0 ; t < targets.Count ; t++){
-							activeScore = Game.instance.getSkills().skills[0].getActionScore(targets[t], new Skill(),tempBoard);
-							this.testBestScore(activeScore+passiveScore, x, y, targets[t], 0,-1);
+						else{
+							passiveScore = this.getPassiveScore(x,y,tempBoard,false);
+							//Debug.Log("PASSIVESCORE "+passiveScore+",("+x+","+y+")");
 						}
+
+						if(action){
+							for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
+								Debug.Log("TARGET");
+								targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
+								Debug.Log("ENDTARGET");
+								for(int t = 0 ; t < targets.Count ; t++){
+									activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
+									this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);
+								}
+							}
+							targets = Game.instance.getSkills().skills[0].getTargetTiles(tempBoard, card, new TileM(x,y));
+							for(int t = 0 ; t < targets.Count ; t++){
+								activeScore = Game.instance.getSkills().skills[0].getActionScore(targets[t], new Skill(),tempBoard);
+								this.testBestScore(activeScore+passiveScore, x, y, targets[t], 0,-1);
+							}
+						}
+						this.testBestScore(passiveScore, x, y, new TileM(-1,-1), -1,-1);
 					}
-					this.testBestScore(passiveScore, x, y, new TileM(-1,-1), -1,-1);
 				}
 			}
 		}

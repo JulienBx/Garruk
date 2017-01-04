@@ -21,7 +21,7 @@ public class CristolifeC : SkillC
 
 		caster.displayAnim(2);
 		caster.displaySkillEffect(WordingGame.getText(11, new List<int>{bonus}), 0);
-		caster.addLifeModifyer(new ModifyerM(bonus, -1, "", "",-1));
+		caster.addLifeModifyer(new ModifyerM(bonus, 19, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){

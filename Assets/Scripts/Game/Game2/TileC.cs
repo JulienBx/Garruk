@@ -350,6 +350,16 @@ public class TileC : MonoBehaviour
 		return (this.trapId!=-1);
 	}
 
+	public bool isMyTrap(){
+		bool test = false ;
+		if(this.trapId!=-1){
+			if(!this.trapIsMine){
+				test = true;
+			}
+		}
+		return (test);
+	}
+
 	public int getTrapId(){
 		return this.trapId;
 	}

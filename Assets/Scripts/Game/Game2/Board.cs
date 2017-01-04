@@ -166,7 +166,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[compteur, t.y]==-2){
-					compteur=-1;
+					compteur=-2;
 				}
 			}
 			compteur--;
@@ -181,7 +181,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[compteur, t.y]==-2){
-					compteur=-1;
+					compteur=10;
 				}
 			}
 			compteur++;
@@ -196,7 +196,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[t.x, compteur]==-2){
-					compteur=-1;
+					compteur=10;
 				}
 			}
 			compteur++;
@@ -211,7 +211,7 @@ public class Board
 			}
 			else if(!c.isSniper()){
 				if(board[t.x, compteur]==-2){
-					compteur=-1;
+					compteur=-2;
 				}
 			}
 			compteur--;
@@ -470,17 +470,20 @@ public class Board
 		List<TileM> cibles = new List<TileM>();
 		bool b ;
 
-		for(int i = 0 ; i < Game.instance.getCards().getNumberOfCards(); i++)
-		{
-			neighbourTiles = this.getTileNeighbours(Game.instance.getCards().getCardC(i).getTileM());
-			b = false;
-			for(int j = 0 ; j < neighbourTiles.Count; j++){
-				if(board[neighbourTiles[j].x,neighbourTiles[j].y]==-2){
-					b = true;
+		for(int x = 0 ; x < 6; x++){
+			for(int y = 0 ; y < 8; y++){
+				if(board[x,y]>=0){
+					neighbourTiles = this.getTileNeighbours(new TileM(x,y));
+					b = false;
+					for(int j = 0 ; j < neighbourTiles.Count; j++){
+						if(board[neighbourTiles[j].x,neighbourTiles[j].y]==-2){
+							b = true;
+						}
+					}
+					if(b){
+						cibles.Add(new TileM(x,y));
+					}
 				}
-			}
-			if(b){
-				cibles.Add(Game.instance.getCards().getCardC(i).getTileM());
 			}
 		}
 		return cibles;

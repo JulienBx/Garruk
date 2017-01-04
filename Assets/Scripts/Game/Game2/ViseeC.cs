@@ -27,10 +27,6 @@ public class ViseeC : SkillC
 	}
 
 	public override int getActionScore(TileM t, Skill s, int[,] board){
-		Debug.Log(board[t.x, t.y]);
-		CardC target = Game.instance.getCards().getCardC(board[t.x, t.y]);
-		CardC caster = Game.instance.getCurrentCard();
-
 		int score=s.Power;
 
 		return score;

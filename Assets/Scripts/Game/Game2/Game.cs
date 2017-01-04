@@ -1190,7 +1190,7 @@ public class Game : MonoBehaviour
 
 		if(this.indexMeteores>=4){
 			for(int i = 0 ; i < this.getBoard().getBoardWidth() ; i++){
-				this.meteorHitTile(new TileM(i,2), amount*(this.indexMeteores-3));
+				this.meteorHitTile(new TileM(i,3), amount*(this.indexMeteores-3));
 				this.meteorHitTile(new TileM(i,this.getBoard().getBoardHeight()-4), amount*(this.indexMeteores-3));
 			}
 		}
@@ -1257,17 +1257,20 @@ public class Game : MonoBehaviour
 
 		this.loadDestinations();
 		this.displayDestinations();
+		print("END GIVE HAND ");
+
 	}
 
 	public void startActions(){
+		this.getTimer().setTimer(30);
+		this.handleBeginningTurnEffects();
+
 		if(this.ia){
 			if(!this.getCards().getCardC(this.currentCardID).getCardM().isMine()){
 				print("STARTINTELLIGENCE");
 				StartCoroutine(this.intelligence.play());
 			}
 		}
-		this.getTimer().setTimer(30);
-		this.handleBeginningTurnEffects();
 	}
 
 	public void loadController(){

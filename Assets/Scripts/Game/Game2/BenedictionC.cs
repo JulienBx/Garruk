@@ -42,8 +42,6 @@ public class BenedictionC : SkillC
 		List<int> targets = Game.instance.getCards().getAnyoneSharingFactionWith(Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(t).getCharacterID()));
 		int atkMalus ;
 
-		caster.displaySkillEffect(WordingSkills.getName(this.id), 1);
-
 		for(int i = 0 ; i < targets.Count ;i++){
 			target = Game.instance.getCards().getCardC(targets[i]);
 			atkMalus = Mathf.RoundToInt((target.getAttack()*(3f*s.Power))/100f);

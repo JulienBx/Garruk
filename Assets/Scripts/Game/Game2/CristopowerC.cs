@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class CristopowerC : SkillC
 {
 	public CristopowerC(){
-		base.id = 129 ;
+		base.id = 128 ;
 		base.ciblage = 5;
 		base.animId = 2;
 		base.soundId = 25;
@@ -21,7 +21,7 @@ public class CristopowerC : SkillC
 
 		caster.displayAnim(2);
 		caster.displaySkillEffect(WordingGame.getText(13, new List<int>{bonus}), 0);
-		caster.addAttackModifyer(new ModifyerM(bonus, -1, "", "",-1));
+		caster.addAttackModifyer(new ModifyerM(bonus, 0, "", "",-1));
 	}
 
 	public override string getSkillText(int targetID, int level){

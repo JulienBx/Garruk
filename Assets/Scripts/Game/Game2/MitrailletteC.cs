@@ -114,7 +114,7 @@ public class MitrailletteC : SkillC
 	public override int getActionScore(TileM t, Skill s, int[,] board){
 		CardC target ;
 		CardC caster = Game.instance.getCurrentCard();
-		TileM casterTile = new TileM(-1,-1);
+		TileM casterTile = new TileM(0,0);
 		for(int i = 0 ; i < Game.instance.getBoard().getBoardWidth();i++){
 			for(int j = 0 ; j < Game.instance.getBoard().getBoardHeight();j++){
 				if(board[i,j]==Game.instance.getCurrentCardID()){
@@ -122,7 +122,7 @@ public class MitrailletteC : SkillC
 				}
 			}
 		}
-
+		Debug.Log("CASTERTILE "+casterTile.x+","+casterTile.y);
 		List<TileM> neighbours = Game.instance.getBoard().getUnitsStraightLine(casterTile, t, board);
 
 		int score = 0 ;
