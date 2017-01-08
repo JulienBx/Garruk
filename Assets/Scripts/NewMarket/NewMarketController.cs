@@ -396,7 +396,7 @@ public class NewMarketController : MonoBehaviour
 			this.refreshMarketButton.SetActive(false);
 			break;
 		case 2:
-			this.marketCards=ApplicationModel.player.MyCards;
+			this.marketCards=this.filterMyCards();
 			this.priceFilterTitle.SetActive(false);
 			this.priceFilter.SetActive(false);
 			this.refreshMarketButton.SetActive(false);
@@ -407,6 +407,21 @@ public class NewMarketController : MonoBehaviour
 		BackOfficeController.instance.hideLoadingScreen ();
 		yield break;
 	}
+	public Cards filterMyCards()
+	{
+		Cards cards = new Cards();
+		for (int i = 0; i < ApplicationModel.player.MyCards.getCount (); i++) 
+		{
+			if (ApplicationModel.player.MyCards.getCard (i).Decks.Count == 0) {
+				Cards cardToAdd = new Cards ();
+				cardToAdd.add();
+				cardToAdd.cards[0]=ApplicationModel.player.MyCards.getCard(i);
+				cards.addCards(cardToAdd);
+			}
+		}
+		return cards;
+	}
+
 	public void initializeScene()
 	{
 		this.cardsBlock = Instantiate (this.blockObject) as GameObject;
@@ -1596,6 +1611,7 @@ public class NewMarketController : MonoBehaviour
 	}
 	public void deleteCard()
 	{
+		marketCards.remove (this.cardsDisplayed [this.idCardClicked]);
 		StartCoroutine(BackOfficeController.instance.getUserData ());
 		if(this.isCardFocusedDisplayed)
 		{

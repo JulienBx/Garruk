@@ -45,14 +45,6 @@ public class NewCardMyGameController : NewCardController
 	public override void show()
 	{
 		base.show ();
-		if(this.c.IdOWner==-1)
-		{
-			this.displayPanelSold();
-		}
-		else
-		{
-			this.hidePanelSold();
-		}
 	}
 	public override Camera getCurrentCamera()
 	{
