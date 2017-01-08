@@ -1487,6 +1487,16 @@ public class CardC : MonoBehaviour
 		return found;
 	}
 
+	public bool hasProtecteurModifyer(){
+		bool found = false ;
+		for (int i = bouclierModifyers.Count-1 ; i>=0 ; i--){
+			if(this.bouclierModifyers[i].getIdIcon()==16){
+				found = true ;
+			}
+		}
+		return found;
+	}
+
 	public int getSniperModifyer(){
 		int compteur = 0 ;
 		for (int i = stateModifyers.Count-1 ; i>=0 ; i--){
@@ -1573,8 +1583,8 @@ public class CardC : MonoBehaviour
 		this.actuCharacter();
 		this.displayAnim(2);
 		this.displaySkillEffect(WordingGame.getText(23), 0);
-		this.addAttackModifyer(new ModifyerM(attackBonus, -1, "", "",-1));
-		this.addLifeModifyer(new ModifyerM(lifeBonus, -1, "", "",-1));
+		this.addAttackModifyer(new ModifyerM(attackBonus, 20, "", "",-1));
+		this.addLifeModifyer(new ModifyerM(lifeBonus, 20, "", "",-1));
 		this.setAttack();
 		this.setLife();
 	}

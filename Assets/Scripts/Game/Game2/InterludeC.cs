@@ -96,21 +96,17 @@ public class InterludeC : MonoBehaviour
 
 	public void addTime(float f){
 		this.timer += f ;
-		print(this.timer);
 		if(this.timer>4*this.time){
 			if(this.type>=2){
-				print("STARTENDINTERLUDE2");
 				ApplicationModel.player.ShouldQuitGame=true;
 				PhotonNetwork.LeaveRoom ();
 				SceneManager.LoadScene("EndGame");
 			}
 			else{
-				print("STARTENDINTERLUDE");
 				this.show(false);
 				this.displaying = false ;
 				Game.instance.getMyHoveredCard().moveCharacterBackward();
 				Game.instance.getHisHoveredCard().moveCharacterBackward();
-				print("STARTACTIONS");
 				Game.instance.startActions();
 			}
 		}

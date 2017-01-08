@@ -198,21 +198,20 @@ public class Intelligence
 	}
 
 	public IEnumerator play(){
-		Debug.Log("CHOOSEPLAY");
-				
+
+		yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f,1f));		
 		this.choosePlay(!Game.instance.getCurrentCard().isParalized());
-		Debug.Log("ENDCHOOSEPLAY");
+		yield return new WaitForSeconds(UnityEngine.Random.Range(1f,2f));		
 		bool hasMoved = false ;
 
 		if(this.bestSkill!=-1){
 			if(this.bestDeplacement.x!=-1 && (this.bestDeplacement.x!=Game.instance.getCurrentCard().getTileM().x || this.bestDeplacement.y!=Game.instance.getCurrentCard().getTileM().y)){
 				Debug.Log("MOVE");
-				yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
 				Game.instance.moveOn(this.bestDeplacement.x, this.bestDeplacement.y, Game.instance.getCurrentCardID());
+				yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
 				hasMoved = true ;
 			}
 
-			yield return new WaitForSeconds(UnityEngine.Random.Range(1.5f,3f));
 			if(Game.instance.getCurrentCard().getLife()>0){
 				if(this.bestIDSkill==-1){
 					Game.instance.getSkills().skills[this.bestSkill].resolve(this.bestTarget.x, this.bestTarget.y, new Skill());

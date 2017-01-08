@@ -173,5 +173,7 @@ public class WordingGame
 		texts.Add(new string[]{"Pas de cristal à cibler","No cristal to target"});
 		texts.Add(new string[]{"+ARG1% dégats","+ARG1% damages"});
 		texts.Add(new string[]{"+ARG1% dégats contre ","+ARG1% damages against "});
+		texts.Add(new string[]{"Echec","Fail"});
+		texts.Add(new string[]{"Cristal créé!","Cristal created!"});
 	}
 }

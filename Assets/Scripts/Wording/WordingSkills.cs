@@ -985,16 +985,16 @@ public class WordingSkills
 		descriptions.Add(new string[]{"52% de chances de créer un cristal sur chaque case adjacente","52% chances of creating a cristal on each adjacent tile"}); 
 		descriptions.Add(new string[]{"56% de chances de créer un cristal sur chaque case adjacente","56% chances of creating a cristal on each adjacent tile"}); 
 		descriptions.Add(new string[]{"60% de chances de créer un cristal sur chaque case adjacente","60% chances of creating a cristal on each adjacent tile"}); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
-		probas.Add(100); 
+		probas.Add(24); 
+		probas.Add(28); 
+		probas.Add(32); 
+		probas.Add(36); 
+		probas.Add(40); 
+		probas.Add(44); 
+		probas.Add(48); 
+		probas.Add(52); 
+		probas.Add(56); 
+		probas.Add(60); 
 		//43 - Caméléon
 		idSkills.Add(43);
 		names.Add(new string[]{"Astronome","Astronomer"}); 
