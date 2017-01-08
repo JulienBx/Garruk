@@ -696,8 +696,9 @@ public class NewFocusedCardController : MonoBehaviour
             Cards cards = new Cards();
             cards.add();
             cards.cards[0]=this.c;
+			ApplicationModel.player.MyCards.addCards(cards);
             ApplicationModel.player.updateMyCollection(cards);
-			this.deleteCard();
+			this.deleteCard ();
 		}
 		this.hideLoadingScreen();
 	}

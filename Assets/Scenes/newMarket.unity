@@ -1428,7 +1428,7 @@ MonoBehaviour:
   m_enableKerning: 0
   m_overrideHtmlColors: 0
   m_enableExtraPadding: 0
-  checkPaddingRequired: 0
+  checkPaddingRequired: 1
   m_enableWordWrapping: 0
   m_overflowMode: 0
   m_wordWrappingRatios: 0.4
@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_verticalMapping: 0
   m_uvOffset: {x: 0, y: 0}
   m_uvLineOffset: 0
-  isInputParsingRequired: 0
+  isInputParsingRequired: 1
   m_havePropertiesChanged: 1
   hasFontAssetChanged: 0
   m_isRichText: 1
@@ -1946,7 +1946,7 @@ MonoBehaviour:
   cardObject: {fileID: 190900, guid: f775ae7416f404f6c88334f843071b57, type: 2}
   popUpSkin: {fileID: 11400000, guid: 6346424849e084205bcebcf25bed265c, type: 2}
   totalNbResultLimit: 2000
-  refreshInterval: 5
+  refreshInterval: 10
 --- !u!81 &1177881361
 AudioListener:
   m_ObjectHideFlags: 0
