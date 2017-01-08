@@ -365,7 +365,9 @@ public class Game : MonoBehaviour
 				for (int j = 0 ; j < neighbours.Count ;j++){
 					characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
 					if(characterID!=-1){
-						Game.instance.getCards().getCardC(characterID).addShieldModifyer(new ModifyerM(4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,16, "",WordingSkills.getName(111),-1));
+						if(this.getCards().getCardC(i).getCardM().isMine()||this.currentCardID!=-1){
+							Game.instance.getCards().getCardC(characterID).addShieldModifyer(new ModifyerM(4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,16, "",WordingSkills.getName(111),-1));
+						}
 					}
 				}
 			}
@@ -829,7 +831,9 @@ public class Game : MonoBehaviour
 				characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
 				if(characterID!=-1){
 					Game.instance.getCards().getCardC(characterID).removeProtecteurModifyer();
-					Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(131),0);
+					if(this.getCards().getCardC(characterID).getCardM().isMine()||this.currentCardID!=-1){
+						Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(131),0);
+					}
 				}
 			}
 		}
@@ -858,7 +862,9 @@ public class Game : MonoBehaviour
 				characterID = Game.instance.getBoard().getTileC(neighbours[j]).getCharacterID();
 				if(characterID!=-1){
 					Game.instance.getCards().getCardC(characterID).addShieldModifyer(new ModifyerM(4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power,16,WordingGame.getText(87, new List<int>{4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),"Paladin",-1));
-					Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(87, new List<int>{4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),0);
+					if(this.getCards().getCardC(characterID).getCardM().isMine()||this.currentCardID!=-1){
+						Game.instance.getCards().getCardC(characterID).displaySkillEffect(WordingGame.getText(87, new List<int>{4*Game.instance.getCards().getCardC(i).getCardM().getSkill(0).Power}),0);
+					}
 				}
 			}
 		}
