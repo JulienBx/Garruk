@@ -290,9 +290,7 @@ public class Intelligence
 
 						if(action){
 							for(int s = 1 ; s < card.getCardM().getNbActivatedSkill() ; s++){
-								Debug.Log("TARGET");
 								targets = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getTargetTiles(tempBoard, card, new TileM(x,y));
-								Debug.Log("ENDTARGET");
 								for(int t = 0 ; t < targets.Count ; t++){
 									activeScore = Game.instance.getSkills().skills[card.getCardM().getSkill(s).Id].getActionScore(targets[t], card.getCardM().getSkill(s),tempBoard);
 									this.testBestScore(activeScore+passiveScore, x, y, targets[t], card.getCardM().getSkill(s).Id,s);

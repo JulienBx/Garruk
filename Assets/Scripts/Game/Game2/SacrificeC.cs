@@ -15,14 +15,13 @@ public class SacrificeC : SkillC
 		int targetID ;
 		CardC target ;
 		int level = skill.Power;
-		TileM targetTile = Game.instance.getBoard().getRandomEnnemyTile();
 		target = Game.instance.getCards().getCardC(Game.instance.getBoard().getTileC(new TileM(x,y)).getCharacterID());
 				
 		bool hasFailed = false ;
 		bool hasDodged = false ;
 
 		if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
-			targetID = Game.instance.getBoard().getTileC(targetTile.x, targetTile.y).getCharacterID();
+			targetID = Game.instance.getBoard().getTileC(x, y).getCharacterID();
 			if(targetID!=-1){
 				if(UnityEngine.Random.Range(1,101)<=WordingSkills.getProba(this.id, level)){
 					if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
@@ -36,10 +35,10 @@ public class SacrificeC : SkillC
 					}
 					else{
 						if(Game.instance.isIA() || Game.instance.isTutorial()){
-							Game.instance.getSkills().skills[this.id].effects(targetID, level, Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
+							Game.instance.getSkills().skills[this.id].effects(targetID, level, Random.Range(0,Game.instance.getBoard().getOpponentTargets(Game.instance.getBoard().getCurrentBoard(), Game.instance.getCurrentCard(), new TileM()).Count));
 						}
 						else{
-							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
+							Game.instance.launchCorou("EffectsSkillRPC", this.id, targetID, level, Random.Range(0,Game.instance.getBoard().getOpponentTargets(Game.instance.getBoard().getCurrentBoard(), Game.instance.getCurrentCard(), new TileM()).Count));
 						}
 					}
 				}
@@ -103,7 +102,7 @@ public class SacrificeC : SkillC
 
 		List<TileM> targets = Game.instance.getBoard().getOpponentTargets(Game.instance.getBoard().getCurrentBoard(), caster, new TileM());
 		int cible = Game.instance.getBoard().getTileC(targets[Mathf.RoundToInt(((targets.Count-1)*z)/100f)]).getCharacterID();
-		degats = target.getDegatsAgainst(Game.instance.getCards().getCardC(cible),Mathf.RoundToInt((target.getAttack()*(50f+10f*level))/100f));
+		degats = target.getDegatsAgainst(Game.instance.getCards().getCardC(cible),Mathf.RoundToInt((target.getAttack()*(80f+10f*level))/100f));
 		Game.instance.getCards().getCardC(cible).displayAnim(base.animId);
 		Game.instance.getCards().getCardC(cible).displaySkillEffect(WordingGame.getText(77, new List<int>{degats}), 2);
 		Game.instance.getCards().getCardC(cible).addDamageModifyer(new ModifyerM(degats, -1, "", "",-1));
@@ -123,7 +122,7 @@ public class SacrificeC : SkillC
 		int tempScore ;
 
 		CardC initialT = Game.instance.getCards().getCardC(board[t.x,t.y]);
-		int degats = Mathf.RoundToInt((initialT.getAttack()*(50f+10f*s.Power))/100f);
+		int degats = Mathf.RoundToInt((initialT.getAttack()*(80f+10f*s.Power))/100f);
 
 		for(int i = 0 ; i < neighbours.Count ;i++){
 			if(board[neighbours[i].x, neighbours[i].y]>=0){

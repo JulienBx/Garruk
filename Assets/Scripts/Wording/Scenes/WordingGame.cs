@@ -175,5 +175,7 @@ public class WordingGame
 		texts.Add(new string[]{"+ARG1% dégats contre ","+ARG1% damages against "});
 		texts.Add(new string[]{"Echec","Fail"});
 		texts.Add(new string[]{"Cristal créé!","Cristal created!"});
+		texts.Add(new string[]{"Apprend ","Learns "});
+		texts.Add(new string[]{". Niv.ARG1",". Lev.ARG1"});
 	}
 }

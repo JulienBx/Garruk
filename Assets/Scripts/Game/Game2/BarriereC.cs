@@ -15,6 +15,7 @@ public class BarriereC : SkillC
 		CardC target = Game.instance.getCards().getCardC(targetID);
 		CardC caster = Game.instance.getCurrentCard();
 
+		caster.displaySkillEffect(WordingGame.getText(87, new List<int>{10+4*level}), 0);
 		target.addShieldModifyer(new ModifyerM(10+4*level, 13, "", "",-1));
 	}
 

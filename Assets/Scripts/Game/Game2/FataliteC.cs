@@ -5,7 +5,7 @@ public class FataliteC : SkillC
 {
 	public FataliteC(){
 		base.id = 101 ;
-		base.ciblage = 1;
+		base.ciblage = 6;
 		base.animId = 1;
 		base.soundId = 25;
 		base.nbIntsToSend = 0 ;

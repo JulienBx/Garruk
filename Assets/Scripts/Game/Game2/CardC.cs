@@ -126,7 +126,7 @@ public class CardC : MonoBehaviour
 		if(!hasFound){
 			this.damageModifyers.Add(m);
 		}
-		if(this.getCardM().getCharacterType()==112){
+		if(m.getAmount()>0 && this.getCardM().getCharacterType()==112){
 			List<int> allys = Game.instance.getBoard().getAllys(this, this.id);
 			for (int j = 0 ; j < allys.Count ;j++){
 				if(Game.instance.isIA() || Game.instance.isTutorial()){
@@ -1082,11 +1082,13 @@ public class CardC : MonoBehaviour
 	}
 
 	public void displaySkillEffect(string s, int type){
-		this.skillEffects.Add(s);
-		this.skillEffectTypes.Add(type);
-		Game.instance.getPassButton().grey();
-		if(!this.skillEffect){
-			this.launchSkillEffect();
+		if(this.getCardM().isMine()||Game.instance.getCurrentCardID()!=-1){
+			this.skillEffects.Add(s);
+			this.skillEffectTypes.Add(type);
+			Game.instance.getPassButton().grey();
+			if(!this.skillEffect){
+				this.launchSkillEffect();
+			}
 		}
 	}
 
@@ -1595,5 +1597,10 @@ public class CardC : MonoBehaviour
 				this.attackModifyers.RemoveAt(i);
 			}
 		}
+	}
+
+	public void setSkill(int i, Skill s){
+		this.getCardM().setSkill(i,s);
+		Game.instance.updateModifyers(this.id);
 	}
 }

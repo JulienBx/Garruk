@@ -894,8 +894,8 @@ public class Game : MonoBehaviour
 			}
 			else{
 				if(this.gamecards.getCardC(i).hasPaladinModifyer()){
-					Game.instance.getCards().getCardC(i).removeProtecteurModifyer();
-					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(131),0);
+					Game.instance.getCards().getCardC(i).removePaladinModifyer();
+					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(105),0);
 				}
 			}
 
@@ -907,8 +907,8 @@ public class Game : MonoBehaviour
 			}
 			else{
 				if(this.gamecards.getCardC(i).hasProtecteurModifyer()){
-					Game.instance.getCards().getCardC(i).removePaladinModifyer();
-					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(105),0);
+					Game.instance.getCards().getCardC(i).removeProtecteurModifyer();
+					Game.instance.getCards().getCardC(i).displaySkillEffect(WordingGame.getText(131),0);
 				}
 			}
 		}

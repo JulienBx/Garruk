@@ -111,7 +111,7 @@ public class SkillsM
 		this.skills [102] = new SermonC();
 		this.skills [103] = new BenedictionC();
 		this.skills [104] = new FaveurC();
-		this.skills [105] = new SkillC();
+		this.skills [105] = new CopieurC();
 		this.skills [106] = new MaledictionC();
 		this.skills [107] = new MiracleC();
 		this.skills [108] = new SacrificeC();
@@ -157,7 +157,6 @@ public class SkillsM
 		this.skills [148] = new SkillC();
 		this.skills [149] = new SkillC();
 		Debug.Log("CREATION");
-
 	}
 }
 

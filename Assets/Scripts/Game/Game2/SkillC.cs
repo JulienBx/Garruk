@@ -119,7 +119,14 @@ public class SkillC
 					target = Game.instance.getCards().getCardC(targetID);
 					if(UnityEngine.Random.Range(1,101)<=5*Game.instance.getCurrentCard().getCardM().getSkill(0).Power){
 						if(UnityEngine.Random.Range(1,101)<=target.getEsquive()){
-							
+							if(Game.instance.isIA() || Game.instance.isTutorial()){
+								Game.instance.getSkills().skills[this.id].dodge(targetID);
+								Game.instance.getSkills().skills[this.id].playDodgeSound();
+							}
+							else{
+								Game.instance.launchCorou("DodgeSkillRPC", this.id, targetID);
+								Game.instance.launchCorou("PlayDodgeSoundRPC", this.id);
+							}
 						}
 						else{
 							if(Game.instance.isIA() || Game.instance.isTutorial()){

@@ -61,6 +61,11 @@ public class CardM
 		return this.skills[i];
 	}
 
+	public void setSkill(int i, Skill s){
+		this.skills[i] = s;
+
+	}
+
 	public int getNbSkill(){
 		return this.skills.Count;
 	}
