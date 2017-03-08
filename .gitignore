@@ -49,6 +49,7 @@ $RECYCLE.BIN/
 *.msp
 *.assets
 player_win_x86_s.pdb
+player_win_x86.pdb
 ProjectSettings/EditorBuildSettings.asset
 Assets/Photon Unity Networking/Demos/DemoRPGMovement/New Terrain.asset
 Assets/TextMesh Pro/*
