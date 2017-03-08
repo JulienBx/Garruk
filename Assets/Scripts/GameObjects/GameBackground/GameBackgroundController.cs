@@ -5,7 +5,7 @@ public class GameBackgroundController : MonoBehaviour {
 
     private GameObject mountains;
     private GameObject clouds;
-    private GameObject light;
+    new private GameObject light;
     private GameObject plane;
     private GameObject[] meteors;
 
@@ -26,19 +26,15 @@ public class GameBackgroundController : MonoBehaviour {
     private Color meteorEndColor;
     private float meteorColorRatio;
 
-
     private Vector3 planeStartPosition;
     private Vector3 planeEndPosition;
     private float planeRatio;
-    private float planeSpeed;
-    private bool toMovePlane;
-
+   
     private int backgroundColorStep;
     private int[] backgroundColorOrder;
     private Color[] backgroundColors;
     private float backgroundColorRatio;
     private float backgroundColorSpeed;
-
 
     private bool toMoveMeteors;
     private Vector3[] meteorsStartPosition;
@@ -46,17 +42,11 @@ public class GameBackgroundController : MonoBehaviour {
     private float[] meteorsSpeed;
     private float[] meteorsRatio;
 
-
-
-
-
-    // Use this for initialization
     void Awake () {
 
 	    this.mountains=gameObject.transform.FindChild("mountains").gameObject;
 	    this.clouds=gameObject.transform.FindChild("clouds").gameObject;
 	    this.light=gameObject.transform.FindChild("light").gameObject;
-	    this.plane=gameObject.transform.FindChild("plane").gameObject;
 	    this.meteors=new GameObject[5];
 	    for(int i=0;i<this.meteors.Length;i++)
 	    {
@@ -70,18 +60,8 @@ public class GameBackgroundController : MonoBehaviour {
 	    this.cloudsPosition=this.cloudsStartPosition;
 	    this.clouds.transform.position=new Vector3(this.cloudsPosition,0f,0f);
 
-	//    this.mountainsSpeed=0f;
-	//    this.mountainsStartPosition=-19.15f;
-	//    this.mountainsEndPosition=19.15f;
-	//    this.mountainsPosition=this.mountainsStartPosition;
-	//    this.mountains.transform.position=new Vector3(this.mountainsPosition,0f,0f);
-
 	    this.meteorStartColor=new Color(255f/255f,184f/255f,184f/255f);
 	    this.meteorEndColor=new Color(255f/255f,81f/255f,81f/255f);
-
-	    this.planeSpeed=0.1f;
-	    this.planeStartPosition=new Vector3(-11.43f,-1.13f,0f);
-	    this.planeEndPosition=new Vector3(10.44f,6.18f,0f);
 
 	    this.backgroundColorStep=0;
 	    this.backgroundColors=new Color[6];
@@ -101,8 +81,6 @@ public class GameBackgroundController : MonoBehaviour {
 		}
 		this.backgroundColorRatio=0f;
 		this.backgroundColorSpeed=0.025f;
-
-
 
 		this.meteorsStartPosition=new Vector3[5];
 		this.meteorsEndPosition=new Vector3[5];
@@ -135,28 +113,12 @@ public class GameBackgroundController : MonoBehaviour {
     // Update is called once per frame
     void Update () 
     {
-//		if(toMovePlane)
-//        {
-//            this.movePlane();
-//        }
         if(toMoveMeteors)
         {
         	this.moveMeteors();
         }
         this.changeColor();
         this.moveClouds();
-
-//        this.mountainsPosition=this.mountainsPosition+Time.deltaTime*mountainsSpeed;
-//        if(this.mountainsPosition>=this.mountainsEndPosition)
-//        {
-//            this.mountainsPosition=this.mountainsStartPosition;
-//        }
-        
-//        Vector3 mountainsPosition = this.mountains.transform.position;
-//        mountainsPosition.x=this.mountainsPosition;
-//        this.mountains.transform.position=mountainsPosition;
-
-       
 
         if(this.meteorAnimation)
         {
@@ -182,9 +144,7 @@ public class GameBackgroundController : MonoBehaviour {
         }
         
     }
-    void Start()
-    {
-    }
+  
     public void MeteorsBackground()
     {
         this.colorationNumber=0;
@@ -243,6 +203,7 @@ public class GameBackgroundController : MonoBehaviour {
 		}
 		this.toMoveMeteors=true;
 	}
+
 	public void moveMeteors()
 	{
 		bool isOver=true;
@@ -268,28 +229,5 @@ public class GameBackgroundController : MonoBehaviour {
 		{
 			this.toMoveMeteors=false;
 		}
-
 	}
-
-    public IEnumerator launchPlane()
-    {
-
-        yield return new WaitForSeconds(25f);
-        this.toMovePlane=true;
-        this.plane.transform.position=this.planeStartPosition;
-        this.planeRatio=0f;
-    }
-    public void movePlane()
-    {
-
-        planeRatio=planeRatio+Time.deltaTime*planeSpeed;
-        this.plane.transform.position=new Vector3(this.planeStartPosition.x+planeRatio*(this.planeEndPosition.x-this.planeStartPosition.x),
-            this.planeStartPosition.y+planeRatio*(this.planeEndPosition.y-this.planeStartPosition.y),0f);
-
-        if(planeRatio>1f)
-        {
-            this.toMovePlane=false;
-        }
-    }
-
 }

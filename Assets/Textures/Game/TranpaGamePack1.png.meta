@@ -23,6 +23,7 @@ TextureImporter:
     21300032: RedMoveTile
     21300034: Target
     21300036: blackTile
+    21300038: BackTuto108x108
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -250,6 +251,22 @@ TextureImporter:
         - {x: -54, y: -54}
         - {x: 54, y: -54}
         - {x: 54, y: 54}
+    - name: BackTuto108x108
+      rect:
+        serializedVersion: 2
+        x: 1845
+        y: 1829
+        width: 108
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -54, y: 54}
+        - {x: -54, y: -54}
+        - {x: 54, y: -54}
+        - {x: 54, y: 52}
+        - {x: 53, y: 54}
     - name: BackgroundTuto
       rect:
         serializedVersion: 2
@@ -634,7 +651,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1845
-        y: 1829
+        y: 1719
         width: 108
         height: 108
       alignment: 0
@@ -649,7 +666,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1845
-        y: 1719
+        y: 1609
         width: 108
         height: 108
       alignment: 0
@@ -664,7 +681,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1845
-        y: 1609
+        y: 1499
         width: 108
         height: 108
       alignment: 0
@@ -705,8 +722,8 @@ TextureImporter:
     - name: RedMoveTile
       rect:
         serializedVersion: 2
-        x: 1845
-        y: 1499
+        x: 1610
+        y: 1339
         width: 108
         height: 108
       alignment: 0
@@ -720,18 +737,25 @@ TextureImporter:
     - name: Target
       rect:
         serializedVersion: 2
-        x: 1610
-        y: 1339
-        width: 108
+        x: 1931
+        y: 1187
+        width: 107
         height: 108
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5046729, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -54, y: 54}
-        - {x: -54, y: -54}
-        - {x: 54, y: -54}
-        - {x: 54, y: 54}
+      - - {x: 39, y: 30}
+        - {x: 10, y: 54}
+        - {x: -50, y: 54}
+        - {x: -54, y: 22}
+        - {x: -54, y: -47}
+        - {x: -33, y: -54}
+        - {x: 10, y: -54}
+        - {x: 33, y: -44}
+        - {x: 53, y: -8}
+        - {x: 53, y: 3}
+        - {x: 52, y: 4}
     - name: blackTile
       rect:
         serializedVersion: 2

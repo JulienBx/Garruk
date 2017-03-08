@@ -25,6 +25,7 @@ public class WordingGame
 	{
 		texts = new List<string[]>();
 
+		//0-9
 		texts.Add(new string[]{"Bienvenue dans le simulateur de combat Alpha-B49 ! Mon nom est Mudo et je serai votre guide pour cette première bataille.","Welcome to Alpha Fight Simulator AB49! My name is Mudo and I will guide you throught this first cristalian battle."});
 		texts.Add(new string[]{"Leader","Leader"});
 		texts.Add(new string[]{". Permanent",". Permanent"});
@@ -36,6 +37,7 @@ public class WordingGame
 		texts.Add(new string[]{"-ARG1 PV","-ARG1 HP"});
 		texts.Add(new string[]{"Poison","Poison"});
 
+		//10-19
 		texts.Add(new string[]{"Soin sans effet","Healing\nNo effects"});
 		texts.Add(new string[]{"+ARG1 PV","+ARG1 HP"});
 		texts.Add(new string[]{"Caserne","Barracks"});
@@ -47,6 +49,7 @@ public class WordingGame
 		texts.Add(new string[]{"A votre tour de jouer!","Your turn begins!"});
 		texts.Add(new string[]{"Tour de votre adversaire!","Your enemy plays!"});
 
+		//20-29
 		texts.Add(new string[]{"Purifié","Purified!"});
 		texts.Add(new string[]{"Echec purification","Purify failed!"});
 		texts.Add(new string[]{"Mutant","Mutant"});
@@ -58,6 +61,7 @@ public class WordingGame
 		texts.Add(new string[]{"Aucun ennemi à proximité de droides alliés","There is no unit next to your droids"});
 		texts.Add(new string[]{"Aucun cristal à proximité","There is no cristal next to your unit"});
 
+		//30-39
 		texts.Add(new string[]{"Aucun terrain adjacent vide","No free tile next to your unit"});
 		texts.Add(new string[]{"Aucun allié à proximité","There is no ally next to your unit"});
 		texts.Add(new string[]{"Aucun ennemi ne peut être ciblé","No enemy can be targeted"});
@@ -69,6 +73,7 @@ public class WordingGame
 		texts.Add(new string[]{"Sanguinaire","BloodThirsty"});
 		texts.Add(new string[]{"Dégats à distance +ARG1%","+ARG1% to distant damages"});
 
+		//40-49
 		texts.Add(new string[]{"Pas d'ennemis à proximité de cristaux","No enemies next to cristals"});
 		texts.Add(new string[]{"Compétence en cours","A skill is running"});
 		texts.Add(new string[]{"Lancer","Launch"});
@@ -80,6 +85,7 @@ public class WordingGame
 		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","Before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
 		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain.","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield."});
 
+		//50-59
 		texts.Add(new string[]{"Votre ennemi a positionné ses unités, la bataille peut démarrer. Vous êtes le premier joueur à avoir placé ses troupes, vous êtes donc le premier à jouer!","Your enemy has also moved his units. You have been the first to click on the START button, therefore you will be the first one to play!"});
 		texts.Add(new string[]{"L'ennemi possède une unité de type LEADER, vérifions en touchant son personnage.","The enemy owns a LEADER type unit. Let's touch the character to verify the unit's identity."});
 		texts.Add(new string[]{"Il s'agit bien d'un LEADER! Vous pouvez consulter ses compétences sur ici.","Indeed the unit is a LEADER. You can read more about his skills!"});
@@ -91,6 +97,7 @@ public class WordingGame
 		texts.Add(new string[]{"C'est maintenant le tour de votre ennemi! A gauche sur la carte les points d'attaque (ATK) déterminent le nombre de points enlevés à chaque attaque.", "Now begins your enemy's turn. to the left of the card, attack power (ATK) determines how many health points are removed to the target when it's attacked."});
 		texts.Add(new string[]{"Apprenons maintenant à utiliser les compétences de vos unités. Votre unité active, un MEDIC, peut soigner les unités blessées.", "Let's learn how to use your unit's skills. Your active unit, a MEDIC, can use a skill to heal wounded allys."});
 
+		//60-69
 		texts.Add(new string[]{"Choisissez la compétence PISTOSOIN et soignez votre unité blessée!. Chaque unité peut utiliser une compétence par tour ou attaquer.", "Choose HEALSHOT skill and heal your wounded unit. Each unit can use 1 skill or attack during its turn."});
 		texts.Add(new string[]{"Félicitations, Votre unité est soignée ! Vous pouvez déplacer votre unité ou terminer directement votre tour en cliquant sur le bouton TERMINER.", "Congratulations, you have healed your unit. You can still move your unit or end your turn by clicking on END OF TURN."});
 		texts.Add(new string[]{"Pour éviter que les combats ne durent trop longtemps, des météorites s'abattent fréquemment sur les côtés du champ de bataille.", "To avoid long fights, meteors often fall on the sides of the battlefield."});
@@ -102,6 +109,7 @@ public class WordingGame
 		texts.Add(new string[]{"Case hors de portée!","You can not move on this tile!"});
 		texts.Add(new string[]{"La case est occupée","Tile is already taken!"});
 
+		//70-79
 		texts.Add(new string[]{"En attente de votre adversaire!","Your enemy is moving its troops!"});
 		texts.Add(new string[]{"L'unité a déjà utilisé une compétence à ce tour","The unit has already used a skill during this turn"});
 		texts.Add(new string[]{"Pas d'adversaire adjacent!","No adjacent opponent unit!"});
@@ -113,6 +121,7 @@ public class WordingGame
 		texts.Add(new string[]{"PV : ARG1 -> ARG2","HP : ARG1 -> ARG2"});
 		texts.Add(new string[]{"Victoire!","You won!"});
 
+		//80-89
 		texts.Add(new string[]{"Défaite!","You lost!"});
 		texts.Add(new string[]{"BONUS ATK","ATK BONUS"});
 		texts.Add(new string[]{"MALUS ATK","ATK MALUS"});
@@ -124,6 +133,7 @@ public class WordingGame
 		texts.Add(new string[]{"Bouclier","Shield"});
 		texts.Add(new string[]{"S'inflige ARG1 dégat","Inflicts ARG damage point to itself"});
 
+		//90-99
 		texts.Add(new string[]{"S'inflige ARG1 dégats","Inflicts ARG damage points to itself"});
 		texts.Add(new string[]{"Paralysé!","Paralyzed!"});
 		texts.Add(new string[]{"25% de chances de paralyser","25% chances of paralyzing"});
@@ -135,6 +145,7 @@ public class WordingGame
 		texts.Add(new string[]{"BONUS PV","BONUS HP"});
 		texts.Add(new string[]{"+[1-ARG1] ATK aux unités adjacentes","+[1-ARG1] ATK to adjacent units"});
 
+		//100-109
 		texts.Add(new string[]{"Actif 1 tour","Active for 1 turn"});
 		texts.Add(new string[]{"Pas d'adversaire à cibler!","No opponent to target!"});
 		texts.Add(new string[]{"Pas de cristal adjacent","No adjacent cristal"});
@@ -146,6 +157,7 @@ public class WordingGame
 		texts.Add(new string[]{"+ARG1 MOV","+ARG1 MOV"});
 		texts.Add(new string[]{"BONUS MOV","BONUS MOV"});
 
+		//110-119
 		texts.Add(new string[]{"ARG1 MOV","ARG1 MOV"});
 		texts.Add(new string[]{"MALUS MOV","MALUS MOV"});
 		texts.Add(new string[]{"MOV : ARG1 -> ARG2","MOV : ARG1 -> ARG2"});
@@ -157,6 +169,7 @@ public class WordingGame
 		texts.Add(new string[]{"25% de chances d'empoisonner","25% chances of poisoning"});
 		texts.Add(new string[]{"Piège supprimé!","Trap suppressed"});
 
+		//120-129
 		texts.Add(new string[]{"Pas de pièges cachés","No hidden traps"});
 		texts.Add(new string[]{"Esquive ARG1%","ARG1% dodging"});
 		texts.Add(new string[]{"Esquive","Dodging"});
@@ -168,6 +181,7 @@ public class WordingGame
 		texts.Add(new string[]{"Prochain à jouer","Next to play"});
 		texts.Add(new string[]{"Mort à la fin de son tour","Dies at the end of its turn"});
 
+		//130-139
 		texts.Add(new string[]{"Converti!","Converted!"});
 		texts.Add(new string[]{"Bouclier enlevé!","Shield suppressed!"});
 		texts.Add(new string[]{"Pas de cristal à cibler","No cristal to target"});
@@ -177,5 +191,10 @@ public class WordingGame
 		texts.Add(new string[]{"Cristal créé!","Cristal created!"});
 		texts.Add(new string[]{"Apprend ","Learns "});
 		texts.Add(new string[]{". Niv.ARG1",". Lev.ARG1"});
+		texts.Add(new string[]{"Préparation de l'arène","Arena preparation"});
+
+		//140-149
+		texts.Add(new string[]{"Recherche d'un adversaire en cours...","Looking for an opponent..."});
+		texts.Add(new string[]{"Non connecté à Internet. IA en cours de chargement...","No internet connection. Loading AI..."});
 	}
 }

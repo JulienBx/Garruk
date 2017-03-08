@@ -222,6 +222,7 @@ public class PhotonC : Photon.MonoBehaviour
 	    }
     }
 
+
     public void closeAndStart(){
 		if(Game.instance.isIA() || Game.instance.isTutorial()){
 			Game.instance.createBackground();
