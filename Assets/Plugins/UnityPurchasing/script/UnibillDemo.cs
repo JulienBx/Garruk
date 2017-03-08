@@ -1,1 +1,1 @@
-﻿// This file can be safely deleted.
+// This file can be safely deleted.
