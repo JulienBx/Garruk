@@ -196,5 +196,6 @@ public class WordingGame
 		//140-149
 		texts.Add(new string[]{"Recherche d'un adversaire en cours...","Looking for an opponent..."});
 		texts.Add(new string[]{"Non connecté à Internet. IA en cours de chargement...","No internet connection. Loading AI..."});
+		texts.Add(new string[]{"Suivant","Next"});
 	}
 }

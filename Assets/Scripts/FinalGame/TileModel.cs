@@ -10,6 +10,12 @@ public class TileModel
 		this.y = -1;
 	}
 
+	public TileModel (int a, int b)
+	{
+		this.x = a;
+		this.y = b;
+	}
+
 	public void setX(int i){
 		this.x = i;
 	}

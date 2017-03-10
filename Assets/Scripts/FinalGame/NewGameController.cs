@@ -9,6 +9,7 @@ public class NewGameController : MonoBehaviour
 	public GameObject verticalBorderModel;
 	public GameObject horizontalBorderModel;
 	public GameObject tileModel;
+	public GameObject tutorialModel;
 
 	public static NewGameController instance;
 
@@ -20,10 +21,18 @@ public class NewGameController : MonoBehaviour
 	BoardController boardController ;
 
 	bool firstPlayer ;
+	bool useTutorial ;
 	bool useRPC ;
+	bool objectsCreated ;
+
+	TutorielsController tutorielsController ;
 
 	void Awake(){
+		instance = this;
 		this.firstPlayer = false ;
+		this.useTutorial = false ;
+		this.useRPC = false ;
+		this.objectsCreated = false ;
 		this.Background = GameObject.Find("Background");
 
 		this.CentralMessage = GameObject.Find("CentralMessage");
@@ -32,12 +41,12 @@ public class NewGameController : MonoBehaviour
 
 		this.boardController = new BoardController(this.boardWidth,this.boardHeight);
 		this.tilesController = new TilesController(this.boardWidth, this.boardHeight);
+		this.tutorielsController = new TutorielsController((GameObject)Instantiate(tutorialModel));
 
 		this.screenDimensions = new ScreenDimensions(0,0);
 	}
 
 	void Start(){
-		this.resize();
 		try{
 			PhotonC.instance.findRoom();
 		}
@@ -46,7 +55,30 @@ public class NewGameController : MonoBehaviour
 			this.getCentralMessageController().setDescription(WordingGame.getText(141));
 			this.firstPlayer = true;
 			this.useRPC = false;
+			this.useTutorial = true;
+
 			this.createBackground();
+//			this.tutorielsController.getTutorielController().setPosition(new Vector3(0f,0f,0f));
+//			this.tutorielsController.getTutorielController().setTexts("Titre tutoriel","Blablacar",WordingGame.getText(142));
+//			this.tutorielsController.getTutorielController().show(true);
+//			this.tutorielsController.getTutorielController().startAnimation();
+
+			this.objectsCreated = true ;
+			this.resize();
+		}
+	}
+
+	void Update(){
+		if(this.objectsCreated){
+			if(this.screenDimensions.hasChanged(Screen.width,Screen.height)){
+				this.resize();
+			}
+		}
+
+		if(this.useTutorial){
+			if(this.tutorielsController.getTutorielController().isAnimation()){
+				this.tutorielsController.getTutorielController().addTime(Time.deltaTime);
+			}
 		}
 	}
 
@@ -57,7 +89,7 @@ public class NewGameController : MonoBehaviour
 		}
 		for (int i = 0; i < this.boardHeight+1; i++)
 		{
-			this.boardController.addVerticalBorder(i,(GameObject)Instantiate(horizontalBorderModel));
+			this.boardController.addHorizontalBorder(i,(GameObject)Instantiate(horizontalBorderModel));
 		}
 
 		if(this.firstPlayer){
@@ -65,16 +97,12 @@ public class NewGameController : MonoBehaviour
 		}
 	}
 
-	void Update(){
-		if(this.screenDimensions.hasChanged(Screen.width,Screen.height)){
-			this.resize();
-		}
-	}
-
 	public void resize(){
 		this.screenDimensions.setDimensions(Screen.width, Screen.height);
 
 		float realwidth = this.screenDimensions.getRealWidth();
+		this.boardController.resize(realwidth, this.boardWidth, this.boardHeight);
+		this.tilesController.resize(realwidth, this.boardWidth, this.boardHeight);
 	}
 
 	public GameBackgroundController getBackground(){
@@ -85,8 +113,16 @@ public class NewGameController : MonoBehaviour
 		return this.CentralMessage.GetComponent<MessageController>();
 	}
 
+	public TutorielsController getTutorielsController(){
+		return this.tutorielsController;
+	}
+
 	public bool isUsingRPC(){
 		return this.useRPC;
+	}
+
+	public void hitTutorial(){
+		this.tutorielsController.hitTutorial();
 	}
 
 	public void createTile(int x, int y, bool isRock)

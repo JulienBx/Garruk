@@ -63,9 +63,25 @@ public class TilesController
 	public void createTile(int x, int y, bool isRock, GameObject g)
 	{
 		this.tiles[x,y] = g;
+		this.tiles[x,y].name = "Tile "+x+","+y;
+		this.getTileController(x,y).setTile(new TileModel(x,y));
+		if(isRock){
+			this.getTileController(x,y).setRock();
+		}
 	}
 
 	public TileController getTileController(int x, int y){
 		return this.tiles[x,y].GetComponent<TileController>();
+	}
+
+	public void resize(float realWidth, int width, int height){
+		float scale = Mathf.Min(1f,realWidth/6.05f);
+		for (int x = 0; x < width; x++){
+			for (int y = 0; y < height; y++){
+				this.getTileController(x,y).setPosition(new Vector3((-width/2f+0.5f)*scale+scale*x,(-height/2f+0.5f)*scale+scale*y,0));
+				this.getTileController(x,y).setScale(new Vector3(scale,scale,scale));
+				this.getTileController(x,y).show(true);
+			}
+		}
 	}
 }
