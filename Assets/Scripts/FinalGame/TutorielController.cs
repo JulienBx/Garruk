@@ -8,18 +8,11 @@ public class TutorielController : MonoBehaviour
 	float scaleBonus = 0.2f ;
 
 	int id ;
-	float animationTimer ;
-	bool animationUp ;
-	bool animated ;
 	Vector3 position;
 
 	void Awake ()
 	{
 		this.show(false);
-	}
-
-	public bool isAnimation(){
-		return this.animated;
 	}
 
 	public void show(bool b){
@@ -68,28 +61,5 @@ public class TutorielController : MonoBehaviour
 	{
 		gameObject.transform.FindChild("Cross").GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
 		gameObject.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-	}
-
-	public void addTime(float f){
-		this.animationTimer = Mathf.Min(this.animationTimer+f,this.animationTimeLimit);
-		if(this.animationUp){
-			this.setTempCrossScale((this.animationTimer/this.animationTimeLimit)*this.scaleBonus);
-		}
-		else{
-			this.setTempCrossScale(((this.animationTimeLimit-this.animationTimer)/this.animationTimeLimit)*this.scaleBonus);
-		}
-		if(this.animationTimer==this.animationTimeLimit){
-			this.animationUp = !this.animationUp;
-			this.animationTimer=0f;
-		}
-	}
-
-	public void startAnimation(){
-		this.animationTimer = 0f;
-		this.animated = true;
-	}
-
-	public void stopAnimation(){
-		this.animated = false;
 	}
 }

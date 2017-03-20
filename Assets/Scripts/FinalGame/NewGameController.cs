@@ -10,11 +10,14 @@ public class NewGameController : MonoBehaviour
 	public GameObject horizontalBorderModel;
 	public GameObject tileModel;
 	public GameObject tutorialModel;
+	public GameObject cardModel;
 
 	public static NewGameController instance;
 
 	GameObject Background ;
 	GameObject CentralMessage ;
+
+	GameCardsController gameCardsController;
 
 	ScreenDimensions screenDimensions ;
 	TilesController tilesController ;
@@ -24,6 +27,7 @@ public class NewGameController : MonoBehaviour
 	bool useTutorial ;
 	bool useRPC ;
 	bool objectsCreated ;
+	int draggingCardID;
 
 	TutorielsController tutorielsController ;
 
@@ -33,15 +37,17 @@ public class NewGameController : MonoBehaviour
 		this.useTutorial = false ;
 		this.useRPC = false ;
 		this.objectsCreated = false ;
+		this.draggingCardID=-1;
 		this.Background = GameObject.Find("Background");
 
 		this.CentralMessage = GameObject.Find("CentralMessage");
 		this.getCentralMessageController().setTexts(WordingGame.getText(139),WordingGame.getText(140));
-		this.getCentralMessageController().display(true);
+		this.getCentralMessageController().show(true);
 
 		this.boardController = new BoardController(this.boardWidth,this.boardHeight);
 		this.tilesController = new TilesController(this.boardWidth, this.boardHeight);
 		this.tutorielsController = new TutorielsController((GameObject)Instantiate(tutorialModel));
+		this.gameCardsController = new GameCardsController();
 
 		this.screenDimensions = new ScreenDimensions(0,0);
 	}
@@ -64,8 +70,21 @@ public class NewGameController : MonoBehaviour
 //			this.tutorielsController.getTutorielController().startAnimation();
 
 			this.objectsCreated = true ;
-			this.resize();
+			this.gameCardsController.createMyFakeHand(this.firstPlayer,(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel));
+			this.gameCardsController.createHisFakeHand(this.firstPlayer,(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel),(GameObject)Instantiate(cardModel));
 		}
+
+		this.gameCardsController.initCards();
+		this.resize();
+
+		if(this.useTutorial){
+			this.tutorielsController.launchNextTutorial();
+		}
+		else{
+			this.tilesController.loadPreGameDestinations(this.firstPlayer);
+		}
+
+		this.getCentralMessageController().show(false);
 	}
 
 	void Update(){
@@ -75,10 +94,10 @@ public class NewGameController : MonoBehaviour
 			}
 		}
 
-		if(this.useTutorial){
-			if(this.tutorielsController.getTutorielController().isAnimation()){
-				this.tutorielsController.getTutorielController().addTime(Time.deltaTime);
-			}
+		if(this.draggingCardID!=-1){
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			mousePos.z = 0;
+			this.getGameCardsController().getCardController(this.draggingCardID).setPosition(mousePos);
 		}
 	}
 
@@ -103,10 +122,19 @@ public class NewGameController : MonoBehaviour
 		float realwidth = this.screenDimensions.getRealWidth();
 		this.boardController.resize(realwidth, this.boardWidth, this.boardHeight);
 		this.tilesController.resize(realwidth, this.boardWidth, this.boardHeight);
+		this.gameCardsController.resize();
 	}
 
 	public GameBackgroundController getBackground(){
 		return this.Background.GetComponent<GameBackgroundController>();
+	}
+
+	public void setDraggingCardID(int i){
+		this.draggingCardID = i;
+	}
+
+	public int getDraggingCardID(int i){
+		return this.draggingCardID ;
 	}
 
 	public MessageController getCentralMessageController(){
@@ -115,6 +143,10 @@ public class NewGameController : MonoBehaviour
 
 	public TutorielsController getTutorielsController(){
 		return this.tutorielsController;
+	}
+
+	public TilesController getTilesController(){
+		return this.tilesController;
 	}
 
 	public bool isUsingRPC(){
@@ -128,6 +160,19 @@ public class NewGameController : MonoBehaviour
 	public void createTile(int x, int y, bool isRock)
 	{
 		this.tilesController.createTile(x,y,isRock,(GameObject)Instantiate(this.tileModel));
+	}
+
+	public bool isFirstPlayer(){
+		return this.firstPlayer;
+	}
+
+	public void setCharacterToTile(int characterID, TileModel t){
+		this.gameCardsController.getCardController(characterID).setTileModel(t);
+		this.getTilesController().getTileController(t).setCharacterID(characterID);
+	}
+
+	public GameCardsController getGameCardsController(){
+		return this.gameCardsController;
 	}
 }
 

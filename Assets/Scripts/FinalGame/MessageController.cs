@@ -7,7 +7,7 @@ public class MessageController : MonoBehaviour{
 		
 	}
 
-	public void display(bool b){
+	public void show(bool b){
 		gameObject.transform.GetComponent<SpriteRenderer>().enabled = b;
 		gameObject.transform.FindChild("DescriptionText").GetComponent<MeshRenderer>().enabled = b;
 		gameObject.transform.FindChild("TitleText").GetComponent<MeshRenderer>().enabled = b;

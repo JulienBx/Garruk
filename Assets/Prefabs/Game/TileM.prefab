@@ -85,7 +85,7 @@ Transform:
   m_GameObject: {fileID: 132282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 426162}
@@ -116,7 +116,10 @@ MonoBehaviour:
   backgroundSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: a59fd2d69c25e6648b06b190af51de80, type: 3}
-  foregroundSprites: []
+  foregroundSprites:
+  - {fileID: 0}
+  - {fileID: 21300024, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
+  - {fileID: 21300030, guid: c3e9c8df3ba8b0643939cabfc6128d92, type: 3}
 --- !u!212 &21220506
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -142,7 +145,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 20
+  m_SortingOrder: 15
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -172,7 +175,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -273193745
-  m_SortingOrder: 21
+  m_SortingOrder: 16
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

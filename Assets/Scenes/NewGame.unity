@@ -1223,3 +1223,4 @@ MonoBehaviour:
     type: 2}
   tileModel: {fileID: 100268, guid: bd3b94d4ec26eac4baf3a123f2d87ed3, type: 2}
   tutorialModel: {fileID: 163666, guid: 579b73967046ea84cacd5380c4f60a8f, type: 2}
+  cardModel: {fileID: 189530, guid: 30180e9f17b62804eab19094d58cff6b, type: 2}

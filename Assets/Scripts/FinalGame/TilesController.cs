@@ -74,6 +74,10 @@ public class TilesController
 		return this.tiles[x,y].GetComponent<TileController>();
 	}
 
+	public TileController getTileController(TileModel t){
+		return this.tiles[t.getX(),t.getY()].GetComponent<TileController>();
+	}
+
 	public void resize(float realWidth, int width, int height){
 		float scale = Mathf.Min(1f,realWidth/6.05f);
 		for (int x = 0; x < width; x++){
@@ -81,6 +85,46 @@ public class TilesController
 				this.getTileController(x,y).setPosition(new Vector3((-width/2f+0.5f)*scale+scale*x,(-height/2f+0.5f)*scale+scale*y,0));
 				this.getTileController(x,y).setScale(new Vector3(scale,scale,scale));
 				this.getTileController(x,y).show(true);
+			}
+		}
+	}
+
+	public TileModel getMouseTile(){
+		Vector3 vec = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		float scale = this.getTileController(0,0).getLocalScale().x;
+		TileModel tile = new TileModel();
+
+		if(NewGameController.instance.isFirstPlayer()){
+			tile.setX(Mathf.FloorToInt(vec.x/scale)+3);
+			tile.setY(Mathf.FloorToInt(vec.y/scale)+4);
+		}
+		else{
+			tile.setX(7-(Mathf.FloorToInt(vec.x/scale)+3));
+			tile.setY(7-(Mathf.FloorToInt(vec.y/scale)+4));
+		}
+
+		return tile;
+	}
+
+	public void loadPreGameDestinations(bool firstPlayer){
+		if(firstPlayer){
+			for(int x = 0 ; x < 6 ; x++){
+				if(!this.getTileController(x,0).isRock()){
+					this.getTileController(x,0).setDestination(0);
+				}
+				if(!this.getTileController(x,1).isRock()){
+					this.getTileController(x,1).setDestination(0);
+				}
+			}
+		}
+		else{
+			for(int x = 0 ; x < 6 ; x++){
+				if(!this.getTileController(x,7).isRock()){
+					this.getTileController(x,7).setDestination(0);
+				}
+				if(!this.getTileController(x,6).isRock()){
+					this.getTileController(x,6).setDestination(0);
+				}
 			}
 		}
 	}
