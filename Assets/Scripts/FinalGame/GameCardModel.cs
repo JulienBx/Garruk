@@ -6,12 +6,14 @@ public class GameCardModel
 {
 	int life;
 	int attack;
+	int move;
 	List<SkillModel> skills;
 
-	public GameCardModel (int l, int a, SkillModel s0, SkillModel s1, SkillModel s2, SkillModel s3)
+	public GameCardModel (int l, int a, int m, SkillModel s0, SkillModel s1, SkillModel s2, SkillModel s3)
 	{
 		this.life = l;
 		this.attack = a;
+		this.move = m;
 		this.skills = new List<SkillModel>();
 		this.skills.Add(s0);
 		if(s1.getID()==-1){
@@ -35,5 +37,9 @@ public class GameCardModel
 
 	public int getLife(){
 		return this.life;
+	}
+
+	public int getMove(){
+		return this.move;
 	}
 }

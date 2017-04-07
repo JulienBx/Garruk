@@ -3,14 +3,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class InterludeC : MonoBehaviour
+public class InterludeController : MonoBehaviour
 {
 	public Sprite[] bandSprites ;
 
 	float timer ;
 	float time = 0.50f;
 	bool displaying;
-	int type ;
 
 	Vector3 startPosition1, startPosition2, startPosition3;
 	Vector3 endPosition1, endPosition2, endPosition3;
@@ -24,12 +23,12 @@ public class InterludeC : MonoBehaviour
 		return this.displaying;
 	}
 
-	public void size(float realwidth){
+	public void resize(float realwidth){
 		Vector3 position = gameObject.transform.FindChild("Bar1").localPosition ;
 		position.x = -realwidth/2f-8f;
 		gameObject.transform.FindChild("Bar1").localPosition = position;
 		this.startPosition1 = new Vector3(position.x, position.y, position.z);
-		if(Game.instance.isMobile()){
+		if(realwidth<=6){
 			this.endPosition1 = new Vector3(-4.8f, position.y, position.z);
 		}
 		else{
@@ -40,7 +39,7 @@ public class InterludeC : MonoBehaviour
 		position.x = realwidth/2f+8f;
 		gameObject.transform.FindChild("Bar2").localPosition = position;
 		this.startPosition2 = new Vector3(position.x, position.y, position.z);
-		if(Game.instance.isMobile()){
+		if(realwidth<=6){
 			this.endPosition2 = new Vector3(4.8f, position.y, position.z);
 		}
 		else{
@@ -51,7 +50,7 @@ public class InterludeC : MonoBehaviour
 		position.x = -realwidth/2f-8f;
 		gameObject.transform.FindChild("Bar3").localPosition = position;
 		this.startPosition3 = new Vector3(position.x, position.y, position.z);
-		if(Game.instance.isMobile()){
+		if(realwidth<=6){
 			this.endPosition3 = new Vector3(-4.8f, position.y, position.z);
 		}
 		else{
@@ -59,56 +58,32 @@ public class InterludeC : MonoBehaviour
 		}
 	}
 
-	public void launchType(int i){
-		Game.instance.getStartButton().showText(false);
-		Game.instance.getTimer().stop();
-		this.type = i;
-		if(i==0){
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[2];
-			this.setText(WordingGame.getText(18));
-		}
-		else if(i==1){
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[3];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[4];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[5];
-			this.setText(WordingGame.getText(19));
-			Game.instance.getStartButton().setText(WordingGame.getText(19));
-			Game.instance.getStartButton().showText(true);
-		}
-		else if(i==2){
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[2];
-			this.setText(WordingGame.getText(79));
-		}
-		else if(i==3){
-			gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[3];
-			gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[4];
-			gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[5];
-			this.setText(WordingGame.getText(80));
-		}
+	public void setBlue(string s){
+		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[0];
+		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[1];
+		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[2];
+		this.setText(s);
+	}
+
+	public void setRed(string s){
+		gameObject.transform.FindChild("Bar1").GetComponent<SpriteRenderer>().sprite = this.bandSprites[3];
+		gameObject.transform.FindChild("Bar2").GetComponent<SpriteRenderer>().sprite = this.bandSprites[4];
+		gameObject.transform.FindChild("Bar3").GetComponent<SpriteRenderer>().sprite = this.bandSprites[5];
+		this.setText(s);
+	}
+
+	public void launch(){
 		this.displaying = true ;
 		this.timer = 0f;
+		NewGameController.instance.getTilesController().showAllColliders(false);
 		this.show(true);
 	}
 
 	public void addTime(float f){
 		this.timer += f ;
 		if(this.timer>4*this.time){
-			if(this.type>=2){
-				ApplicationModel.player.ShouldQuitGame=true;
-				PhotonNetwork.LeaveRoom ();
-				SceneManager.LoadScene("EndGame");
-			}
-			else{
-				this.show(false);
-				this.displaying = false ;
-				Game.instance.getMyHoveredCard().moveCharacterBackward();
-				Game.instance.getHisHoveredCard().moveCharacterBackward();
-				Game.instance.startActions();
-			}
+			this.displaying=false;
+			NewGameController.instance.handleEndInterlude();
 		}
 		else if(this.timer>3*this.time){
 			float rapport1 = Mathf.Min(1,Mathf.Max(0,this.timer-3f*this.time)/(this.time*0.5f));

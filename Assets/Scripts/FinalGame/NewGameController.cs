@@ -16,6 +16,11 @@ public class NewGameController : MonoBehaviour
 
 	GameObject Background ;
 	GameObject CentralMessage ;
+	GameObject StartButton ;
+	GameObject Interlude ;
+	GameObject Timer ;
+	GameObject TimerFront ;
+	GameObject OpponentStatus ;
 
 	GameCardsController gameCardsController;
 
@@ -28,8 +33,12 @@ public class NewGameController : MonoBehaviour
 	bool useRPC ;
 	bool objectsCreated ;
 	int draggingCardID;
+	bool haveIStarted;
+	bool hasHeStarted;
+	IntelligenceController intelligence;
 
 	TutorielsController tutorielsController ;
+	TileModel hoveredTile;
 
 	void Awake(){
 		instance = this;
@@ -37,10 +46,19 @@ public class NewGameController : MonoBehaviour
 		this.useTutorial = false ;
 		this.useRPC = false ;
 		this.objectsCreated = false ;
+		this.haveIStarted = false;
+		this.hasHeStarted = false;
+		this.intelligence = new IntelligenceController(1);
 		this.draggingCardID=-1;
+		this.hoveredTile = new TileModel(-1,-1);
 		this.Background = GameObject.Find("Background");
 
 		this.CentralMessage = GameObject.Find("CentralMessage");
+		this.StartButton = GameObject.Find("StartButton");
+		this.Interlude = GameObject.Find("Interlude");
+		this.Timer = GameObject.Find("Timer");
+		this.TimerFront = GameObject.Find("TimerFront");
+		this.OpponentStatus = GameObject.Find("OpponentStatus");
 		this.getCentralMessageController().setTexts(WordingGame.getText(139),WordingGame.getText(140));
 		this.getCentralMessageController().show(true);
 
@@ -81,7 +99,7 @@ public class NewGameController : MonoBehaviour
 			this.tutorielsController.launchNextTutorial();
 		}
 		else{
-			this.tilesController.loadPreGameDestinations(this.firstPlayer);
+			this.loadPreGameDestinations();
 		}
 
 		this.getCentralMessageController().show(false);
@@ -98,6 +116,31 @@ public class NewGameController : MonoBehaviour
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			mousePos.z = 0;
 			this.getGameCardsController().getCardController(this.draggingCardID).setPosition(mousePos);
+		}
+
+		if(this.Interlude.GetComponent<InterludeController>().isDisplaying()){
+			this.Interlude.GetComponent<InterludeController>().addTime(Time.deltaTime);
+		}
+
+		if(this.Timer.GetComponent<TimerController>().isCounting()){
+			this.Timer.GetComponent<TimerController>().addTime(Time.deltaTime);
+		}
+
+		if(this.TimerFront.GetComponent<TimerFrontController>().isCounting()){
+			this.TimerFront.GetComponent<TimerFrontController>().addTime(Time.deltaTime);
+		}
+
+		if(this.intelligence.isCounting()){
+			this.intelligence.addTime(Time.deltaTime);
+		}
+
+		for(int i = 0; i < 8 ; i++){
+			if(this.gameCardsController.getCardController(i).isMoving()){
+				this.gameCardsController.getCardController(i).addMoveTime(Time.deltaTime);
+			}
+			if(this.gameCardsController.getCardController(i).isBlinking()){
+				this.gameCardsController.getCardController(i).addBlinkTime(Time.deltaTime);
+			}
 		}
 	}
 
@@ -120,20 +163,26 @@ public class NewGameController : MonoBehaviour
 		this.screenDimensions.setDimensions(Screen.width, Screen.height);
 
 		float realwidth = this.screenDimensions.getRealWidth();
+		this.Interlude.GetComponent<InterludeController>().resize(realwidth);
 		this.boardController.resize(realwidth, this.boardWidth, this.boardHeight);
 		this.tilesController.resize(realwidth, this.boardWidth, this.boardHeight);
 		this.gameCardsController.resize();
+		this.Timer.GetComponent<TimerController>().resize(realwidth);
 	}
 
 	public GameBackgroundController getBackground(){
 		return this.Background.GetComponent<GameBackgroundController>();
 	}
 
+	public ScreenDimensions getScreenDimensions(){
+		return this.screenDimensions;
+	}
+
 	public void setDraggingCardID(int i){
 		this.draggingCardID = i;
 	}
 
-	public int getDraggingCardID(int i){
+	public int getDraggingCardID(){
 		return this.draggingCardID ;
 	}
 
@@ -167,12 +216,123 @@ public class NewGameController : MonoBehaviour
 	}
 
 	public void setCharacterToTile(int characterID, TileModel t){
+		if(this.gameCardsController.getCardController(characterID).getTileModel().getX()!=-1){
+			TileModel previousTile = this.gameCardsController.getCardController(characterID).getTileModel();
+			this.getTilesController().getTileController(previousTile).setCharacterID(-1);
+		}
 		this.gameCardsController.getCardController(characterID).setTileModel(t);
 		this.getTilesController().getTileController(t).setCharacterID(characterID);
+		this.updateDesti();
 	}
 
 	public GameCardsController getGameCardsController(){
 		return this.gameCardsController;
 	}
-}
 
+	public void loadPreGameDestinations(){
+		this.tilesController.loadPreGameDestinations(this.firstPlayer);
+
+		if(this.useTutorial){
+			this.tutorielsController.launchNextTutorial();
+		}
+		else{
+			this.showStartButton();
+		}
+	}
+
+	public void hitStartButton(){
+		this.StartButton.GetComponent<StartButtonController>().show(false);
+		if(!this.useRPC){
+			this.startGame(true);
+		}
+		else{
+
+		}
+	}
+
+	public void showStartButton(){
+		float scale = Mathf.Min(1f,NewGameController.instance.getScreenDimensions().getRealWidth()/6.05f);
+		this.StartButton.GetComponent<StartButtonController>().setTexts(WordingGame.getText(143),WordingGame.getText(144));
+		this.StartButton.GetComponent<StartButtonController>().setPosition(new Vector3(0f,-1*(4*scale+(5f-4f*scale)/2f)));
+		this.Timer.GetComponent<TimerController>().startTimer(15);
+		this.OpponentStatus.GetComponent<OpponentStatusController>().setText(WordingGame.getText(145),new Color(71f/255f,150f/255f,189f/255f, 1f));
+		this.OpponentStatus.GetComponent<OpponentStatusController>().show(true);
+		this.StartButton.GetComponent<StartButtonController>().show(true);
+
+		if(!this.useRPC){
+			this.intelligence.startTimer();
+		}
+	}
+
+	public void handleEndInterlude(){
+		this.gameCardsController.startBlinking();
+		this.gameCardsController.loadDestinations();
+		this.Interlude.GetComponent<InterludeController>().show(false);
+		this.getTilesController().showAllColliders(true);
+		this.updateDesti();
+	}
+
+	public void updateDesti(){
+		if(this.hoveredTile.getX()!=-1){
+			this.getTilesController().getTileController(this.hoveredTile).displayDestinations();
+		}
+		else{
+			this.getTilesController().getTileController(NewGameController.instance.getGameCardsController().getCurrentCard().getTileModel()).displayDestinations();
+		}
+	}
+
+	public void endTimer(){
+
+	}
+
+	public void displayTimerFront(int i, Color c){
+		this.TimerFront.GetComponent<TimerFrontController>().setTimer(i, c);
+	}
+
+	public void startGame(bool isFirstP){
+		if(isFirstP){
+			if(this.firstPlayer){
+				this.haveIStarted = true;
+			}
+			else{
+				this.hasHeStarted = true;
+				this.OpponentStatus.GetComponent<OpponentStatusController>().setText(WordingGame.getText(146),new Color(231f/255f, 0f, 66f/255f, 1f));
+			}
+		}
+		else{
+			if(!this.firstPlayer){
+				this.haveIStarted = true;
+			}
+			else{
+				this.hasHeStarted = true;
+				this.OpponentStatus.GetComponent<OpponentStatusController>().setText(WordingGame.getText(146),new Color(231f/255f, 0f, 66f/255f, 1f));
+			}
+		}
+
+		if(this.haveIStarted && this.hasHeStarted){
+			this.OpponentStatus.GetComponent<OpponentStatusController>().show(false);
+			this.Timer.GetComponent<TimerController>().stopTimer();
+			if(isFirstP){
+				if(this.firstPlayer){
+					this.gameCardsController.initOrder(false);
+				}
+				else{
+					this.gameCardsController.initOrder(true);
+				}
+			}
+			else{
+				if(!this.firstPlayer){
+					this.gameCardsController.initOrder(false);
+				}
+				else{
+					this.gameCardsController.initOrder(true);
+				}
+			}
+			this.gameCardsController.incrementIndex();
+		}
+	}
+
+	public InterludeController getInterludeController(){
+		return this.Interlude.GetComponent<InterludeController>();
+	}
+}

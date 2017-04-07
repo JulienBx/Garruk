@@ -81,8 +81,8 @@ public class WordingGame
 		texts.Add(new string[]{"Cristomaitre","Cristomaster"});
 		texts.Add(new string[]{"Bienvenue!","Welcome!"});
 		texts.Add(new string[]{"Dans l'arène, vos unités (bleues) et celles de votre adversaire (rouges) combattent jusqu'à ce qu'une équipe soit détruite ","The arena is a battlefield where your units (blue) and opponent units (red) fights until a team gets down"});
-		texts.Add(new string[]{"Voici vos 4 unités!. A droite les points de vie (PV) déterminent leur résistance. Une unité n'ayant plus de PV quitte le combat!","Here are your 4 units. To the right, health points (HP) determines the unit's strength. When HP reach 0, the unit quits the fight."});
-		texts.Add(new string[]{"Avant le début de la bataille, vous pouvez positionner vos unités sur les deux premières rangées du terrain. Déplacez une unité pour continuer!","Before the fight begins, you can move your units on the battlefield. Now move 1 of your units!"});
+		texts.Add(new string[]{"Préparation","Units positioning"});
+		texts.Add(new string[]{"Avant le combat, placez vos unités sur les deux premières rangées. Pensez à protéger vos unités les plus faibles !","Before the fight begins, you can move your units on the battlefield. Protect your weaker units!"});
 		texts.Add(new string[]{"Bravo ! Positionnez le reste de vos unités et démarrez le combat en cliquant sur le bouton sous le terrain.","Congratulations! Now you can move your other units and start the fight by clicking on the button below the battlefield."});
 
 		//50-59
@@ -197,5 +197,9 @@ public class WordingGame
 		texts.Add(new string[]{"Recherche d'un adversaire en cours...","Looking for an opponent..."});
 		texts.Add(new string[]{"Non connecté à Internet. IA en cours de chargement...","No internet connection. Loading AI..."});
 		texts.Add(new string[]{"Suivant","Next"});
+		texts.Add(new string[]{"Démarrer le combat!","Start the fight!"});
+		texts.Add(new string[]{"Le premier jouer à avoir placé ses troupes sera le premier à jouer","First player to set his units will the be the first to start the fight"});
+		texts.Add(new string[]{"Votre adversaire place ses unités...","Your opponent is moving his troops..."});
+		texts.Add(new string[]{"Votre adversaire est prêt à jouer !","Your opponent is ready for the fight!"});
 	}
 }

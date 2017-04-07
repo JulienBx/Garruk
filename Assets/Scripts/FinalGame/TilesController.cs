@@ -103,6 +103,9 @@ public class TilesController
 			tile.setY(7-(Mathf.FloorToInt(vec.y/scale)+4));
 		}
 
+		if(tile.getX()<0 || tile.getY()<0 || tile.getX()>5 || tile.getY()>7){
+			tile = new TileModel(-1,-1);
+		}
 		return tile;
 	}
 
@@ -127,5 +130,30 @@ public class TilesController
 				}
 			}
 		}
+	}
+
+	public void showAllColliders(bool b){
+		for (int x = 0; x < 6; x++){
+			for (int y = 0; y < 8; y++){
+				this.getTileController(x,y).showCollider(b);
+			}
+		}
+	}
+
+	public List<TileModel> getTileNeighbours(TileModel t){
+		List<TileModel> tiles = new List<TileModel>();
+		if(t.getX()>0){
+			tiles.Add(new TileModel(t.getX()-1,t.getY()));
+		}
+		if(t.getY()>0){
+			tiles.Add(new TileModel(t.getX(),t.getY()-1));
+		}
+		if(t.getX()<5){
+			tiles.Add(new TileModel(t.getX()+1,t.getY()));
+		}
+		if(t.getY()<7){
+			tiles.Add(new TileModel(t.getX(),t.getY()+1));
+		}
+		return tiles;
 	}
 }

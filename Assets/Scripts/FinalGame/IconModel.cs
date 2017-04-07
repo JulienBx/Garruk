@@ -17,4 +17,5 @@ public class IconModel
 		this.displayed=b;
 	}
 
+
 }
